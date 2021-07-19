@@ -28,6 +28,7 @@ jobs:
         restore-keys: |
           ${{ env.CACHE_EPOCH }}-${{ runner.os }}-pip-build-        
     - run: python -m pip install nox git+https://github.com/tonyfast/mee.git
+    - run: python -m mee.settings
     - run: python -m mee.configure gist
     - run: python -m mee.configure gist_submodule
     - run: python -m mee.configure jb readme
