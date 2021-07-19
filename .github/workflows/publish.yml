@@ -19,17 +19,10 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-python@v2
       with:
-        python-version: 3.9
-    - uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: |
-          ${{ env.CACHE_EPOCH }}-${{ runner.os }}-pip-build-${{ hashFiles('pyproject.toml') }}
-        restore-keys: |
-          ${{ env.CACHE_EPOCH }}-${{ runner.os }}-pip-build-        
+        python-version: 3.9  
     - run: python -m pip install nox git+https://github.com/tonyfast/mee.git
     - run: python -m mee.settings
-    - run: python -m mee.configure gist -n tonyfast
+    - run: python -m mee.configure gist
     - run: python -m mee.configure gist_submodule
     - run: python -m mee.configure jb readme
     - run: python -m mee.session -s "sphinx(mode='main')"
