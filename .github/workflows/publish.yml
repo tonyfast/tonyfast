@@ -20,12 +20,13 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.9  
-    - run: python -m pip install nox git+https://github.com/tonyfast/mee.git
+    - run: python -m pip install nox git+https://github.com/tonyfast/mee@nikola
     - run: python -m mee.settings
-    - run: python -m mee.configure gist
-    - run: python -m mee.configure gist_submodule
-    - run: python -m mee.configure jb readme
+    - run: python -m mee.configure
     - run: python -m mee.session -s sphinx
+    - run: python -m mee.configure clean
+    - run: python -m mee.session -s nikola
+    - run: mv output _build/html/nikola
     - name: Deploy
       uses: JamesIves/github-pages-deploy-action@4.1.0
       with:
