@@ -26,6 +26,8 @@ jobs:
     - run: python -m mee.session -s sphinx -- html
     - run: sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-xetex latexmk
     - run: python -m mee.session -s sphinx -- pdf
+    - run: python -m mee.compat.mkdocs
+    - run: python -m mee.session -s mkdocs
     - run: python -m mee.configure clean
     - run: python -m mee.compat.nikola
     - run: python -m mee.session -s nikola
