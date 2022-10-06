@@ -1,0 +1,75 @@
+# hatch is our build and development tool.
+
+[project]
+name = "tonyfast"
+description = "calligrams"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "cc-by-4.0"
+keywords = []
+authors = [{ name = "tonyfast", email = "tony.fast@gmail.com" }]
+classifiers = [
+  "Natural Language :: English",
+]
+dependencies = ["midgy", "jinja2", "htmlmin"] # no dependencies!
+dynamic = ["version"] # uses hatch-vcs
+
+[project.optional-dependencies]
+interactive = ["IPython"]
+docs = ["mkdocs-material", "mkdocs-jupyter", "ruamel.yaml", "pidgy", "IPython"]
+
+[project.urls]
+Documentation = "https://github.com/deathbeds/pidgy#readme"
+Issues = "https://github.com/deathbeds/pidgy/issues"
+Source = "https://github.com/deathbeds/pidgy"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "tonyfast/_version.py"
+
+# test matrix
+[tool.hatch.envs.test]
+dependencies = ["pytest", "pytest-cov", "nbval"]
+
+[tool.hatch.envs.test.scripts]
+cov = "pytest"
+
+[tool.pytest.ini_options]
+addopts = "-pno:warnings -p no:importnb --current-env --nbval --sanitize-with sanitize.cfg"
+
+# documentation
+[tool.hatch.envs.docs]
+features = ["docs"]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build"
+serve = "mkdocs serve"
+
+# formatting cause linting sucks
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line_length = 100
+
+[tool.hatch.envs.format]
+skip-install = true
+dependencies = ["black", "isort"]
+
+[tool.hatch.envs.format.scripts]
+code = """
+isort .
+black .
+"""
+
+[tool.hatch.build.targets.sdist]
+include = ["*.md"]
+
+[tool.hatch.build.targets.wheel]
+include = ["*.md", "*.ipynb"]
