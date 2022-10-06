@@ -9,6 +9,4 @@ tools.
 
 * if you would like to reach me please [open an issue](https://github.com/tonyfast/tonyfast/issues) on my profile. my calendar is open to underrepresented minority groups and neurodiverse people wanting learn more about open source and science.
 
-* former materials scientist. 🖕 academia.
-
 * he/they #adhd #actuallyautistic
