@@ -14,12 +14,15 @@ dynamic = ["version"]                                            # uses hatch-vc
 
 [project.optional-dependencies]
 interactive = ["IPython"]
-docs = ["mkdocs-material", "mkdocs-jupyter", "ruamel.yaml", "pidgy", "IPython"]
+docs = ["mkdocs-material", "mkdocs-jupyter", "mkdocs-macros-plugin", "ruamel.yaml", "pidgy", "IPython"]
 
 [project.urls]
 Documentation = "https://github.com/deathbeds/pidgy#readme"
 Issues = "https://github.com/deathbeds/pidgy/issues"
 Source = "https://github.com/deathbeds/pidgy"
+
+[project.entry-points."mkdocs.plugins"]
+lite = "tonyfast.mkdocs:HatchLite"
 
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
@@ -86,4 +89,4 @@ dependencies = [
 ]
 
 [tool.hatch.envs.lite.scripts]
-build = "jupyter lite build --contents tonyfast"
+build = "jupyter lite build --contents tonyfast --output-dir tonyfast/run"
