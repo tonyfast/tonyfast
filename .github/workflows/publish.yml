@@ -1,41 +1,19 @@
-name: ci
-
-on: 
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-  schedule:
-    - cron: '0 6 * * *'
-
-env:
-  CACHE_EPOCH: 1
-
+name: Build and Deploy
+on: [push]
+permissions:
+  contents: write
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-python@v2
-      with:
-        python-version: 3.9  
-    - run: python -m pip install nox git+https://github.com/tonyfast/mee@nikola
-    - run: python -m mee.settings
-    - run: python -m mee.configure
-    - run: python -m mee.session -s sphinx -- html
-    - run: sudo apt-get install texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended texlive-fonts-extra texlive-xetex latexmk
-    - run: python -m mee.session -s sphinx -- pdf
-    - run: python -m mee.compat.mkdocs
-    - run: python -m mee.session -s mkdocs
-    - run: python -m mee.configure clean
-    - run: python -m mee.compat.nikola
-    - run: python -m mee.session -s nikola
-    - run: mv output _build/html/nikola
-    - run: mv _build/latex/python.pdf _build/html
-    - name: Deploy
-      uses: JamesIves/github-pages-deploy-action@4.1.0
-      with:
-        branch: gh-pages
-        folder: _build/html
-        single-commit: Yes
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+      - name: install
+        run: pip install --upgrade pip hatch
+      - name: build
+        run: hatch run docs:build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: site # The folder the action should deploy.
