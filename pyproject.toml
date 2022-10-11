@@ -8,11 +8,9 @@ requires-python = ">=3.7"
 license = "cc-by-4.0"
 keywords = []
 authors = [{ name = "tonyfast", email = "tony.fast@gmail.com" }]
-classifiers = [
-  "Natural Language :: English",
-]
-dependencies = ["midgy", "jinja2", "htmlmin"] # no dependencies!
-dynamic = ["version"] # uses hatch-vcs
+classifiers = ["Natural Language :: English"]
+dependencies = ["midgy", "jinja2"]                               # no dependencies!
+dynamic = ["version"]                                            # uses hatch-vcs
 
 [project.optional-dependencies]
 interactive = ["IPython"]
@@ -73,3 +71,19 @@ include = ["*.md"]
 
 [tool.hatch.build.targets.wheel]
 include = ["*.md", "*.ipynb"]
+
+
+[tool.hatch.envs.lite]
+description = "the lite environment"
+dependencies = [
+  "jupyterlite",
+  "jupyterlab-webrtc-docprovider",
+  "jupyterlab-deck",
+  "jupyter-videochat",
+  "jupyterlab-fonts",
+  "jupyterlab-recents",
+  "retrolab",
+]
+
+[tool.hatch.envs.lite.scripts]
+build = "jupyter lite build --contents tonyfast"
