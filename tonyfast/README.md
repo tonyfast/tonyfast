@@ -1,3 +1,2 @@
---8<-- "README.md:1:"
+--8<-- "README.md"
 
-asdfadf
