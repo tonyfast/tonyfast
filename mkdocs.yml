@@ -11,15 +11,28 @@ theme:
   - navigation.tracking
   - navigation.expand  
   - toc.follow  
+  palette: 
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7 
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
 
 plugins:
   - search
   - mkdocs-jupyter
   - pidgy
   - lite
-  
+  - social
+  - tags
 nav:
   - "README.md"
+  - run in jupyterlite: "/run/index.html?path=README.md"
   - notes:
     - "2022-10-05-dask-search.ipynb"
 
@@ -29,6 +42,7 @@ markdown_extensions:
   - pymdownx.emoji
   - pymdownx.magiclink
   - footnotes
+  - pymdownx.tilde
   - pymdownx.snippets:
       check_paths: true
   - pymdownx.superfences
@@ -38,3 +52,9 @@ markdown_extensions:
   - pymdownx.emoji:
       emoji_index: !!python/name:materialx.emoji.twemoji
       emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.highlight:
+      use_pygments: true
+      anchor_linenums: true
+  - pymdownx.keys
+  - pymdownx.tasklist:
+      custom_checkbox: true
