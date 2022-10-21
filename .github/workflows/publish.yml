@@ -1,7 +1,6 @@
 name: Build and Deploy
 on: 
 - push 
-- pull_request
 permissions:
   contents: write
 jobs:
@@ -35,4 +34,4 @@ jobs:
           folder: site # The folder the action should deploy.
           single-commit: true
           target-folder: branch/${{ github.ref_name }}
-          force: false
+          force: true
