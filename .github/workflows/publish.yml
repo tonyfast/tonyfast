@@ -24,7 +24,6 @@ jobs:
         with:
           folder: site # The folder the action should deploy.
           single-commit: true
-          force: true
       - name: Deploy non-main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: ${{ github.ref_name != 'main' }}
@@ -32,4 +31,3 @@ jobs:
           folder: site # The folder the action should deploy.
           single-commit: true
           target-folder: branch/${{ github.ref_name }}
-          force: true
