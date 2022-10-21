@@ -1,5 +1,7 @@
 name: Build and Deploy
-on: [push]
+on: 
+- push 
+- pull_request
 permissions:
   contents: write
 jobs:
@@ -15,7 +17,18 @@ jobs:
         run: pip install --upgrade pip hatch
       - name: build
         run: hatch run docs:build
-      - name: Deploy 🚀
+      - name: Deploy main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
+        if: ${{ github.ref_name == "main" }}
         with:
           folder: site # The folder the action should deploy.
+          single-commit: true
+          force: false
+      - name: Deploy non-main 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        if: ${{ github.ref_name != "main" }}
+        with:
+          folder: site # The folder the action should deploy.
+          single-commit: true
+          target-folder: branch/${{ github.ref_name }}
+          force: false
