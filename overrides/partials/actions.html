@@ -1,0 +1,14 @@
+{% if page.edit_url %}
+  {% set edit = "https://github.com/tonyfast/tonyfast/edit" %}
+  {% set view = "https://raw.githubusercontent.com/tonyfast/tonyfast" %}
+  {% set lite = "/run/lab/index.html?path=" %}
+  <a href="{{ page.edit_url }}" title="{{ lang.t('edit.link.title') }}" class="md-content__button md-icon">
+    {% include ".icons/material/file-edit-outline.svg" %}
+  </a>
+  <a href="{{ page.edit_url | replace(edit, view) }}" title="View source of this page" class="md-content__button md-icon">
+    {% include ".icons/material/file-eye-outline.svg" %}
+  </a>
+  <a href="/run/lab/index.html?path={{page.file.src_uri}}" title="Run in jupyter lite" class="md-content__button md-icon">
+    {% include ".icons/material/file-code-outline.svg" %}
+  </a>
+{% endif %}
