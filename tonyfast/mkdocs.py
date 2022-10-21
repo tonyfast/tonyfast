@@ -7,4 +7,5 @@ from mkdocs.plugins import BasePlugin
 class HatchLite(BasePlugin):
     def on_post_build(self, config, **kwargs):
         target = Path(config["site_dir"]) / "run"
-        check_call(split( F"jupyter lite build --contents tonyfast --output-dir {target.as_posix()}"))
+        if "tmp" not in target.as_posix():
+            check_call(split( F"jupyter lite build --contents tonyfast --output-dir {target.as_posix()}"))
