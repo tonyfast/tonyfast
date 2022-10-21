@@ -19,14 +19,14 @@ jobs:
         run: hatch run docs:build
       - name: Deploy main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
-        if: ${{ github.ref_name == "main" }}
+        if: ${{ github.ref_name == 'main' }}
         with:
           folder: site # The folder the action should deploy.
           single-commit: true
           force: false
       - name: Deploy non-main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
-        if: ${{ github.ref_name != "main" }}
+        if: ${{ github.ref_name != 'main' }}
         with:
           folder: site # The folder the action should deploy.
           single-commit: true
