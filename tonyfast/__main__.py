@@ -5,6 +5,7 @@ from importlib import import_module
 
 commands = [
     "hello .xxii.2022-12-19-integrating-typer:main".split(),
+    "tasks .xxii.2022-12-19-integrating-typer:app".split(),
 ]
 
 app = Typer(
@@ -15,22 +16,14 @@ app = Typer(
 )
 
 
-@app.command(context_settings={"allow_extra_args": True, "ignore_unknown_options": True})
-def tasks(ctx: Context):
-    """run doit tasks"""
-    from doit.doit_cmd import DoitMain
-    from doit.cmd_base import ModuleTaskLoader
-    from . import dodo
-
-    return DoitMain(ModuleTaskLoader(dodo)).run(ctx.args)
-
-
 with Notebook():
     for name, ref in commands:
         module, _, ref = ref.rpartition(":")
         method = getattr(import_module(module, __package__), ref)
         if isinstance(method, FunctionType):
             app.command(name)(method)
+        elif isinstance(method, Typer):
+            app.registered_commands.extend(method.registered_commands)
 
 
 if __name__ == "__main__":
