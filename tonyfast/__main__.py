@@ -4,7 +4,7 @@ from importnb import Notebook
 from importlib import import_module
 
 commands = [
-    "hello .xxii.2022-12-18-integrating-typer:main".split(),
+    "hello .xxii.2022-12-19-integrating-typer:main".split(),
 ]
 
 app = Typer(
