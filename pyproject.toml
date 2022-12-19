@@ -65,12 +65,22 @@ cov = "pytest"
 [tool.pytest.ini_options]
 addopts = "-pno:warnings -p no:importnb --current-env --nbval --sanitize-with sanitize.cfg"
 
+[tool.hatch.envs.task]
+dependencies = ["doit", "importnb", "tomli"]
+
+[tool.hatch.envs.task.scripts]
+run = "doit --file tonyfast/dodo.py --dir . run"
+list = "doit --file tonyfast/dodo.py --dir . list"
+
+
 # documentation
 [tool.hatch.envs.docs]
+description = "the mkdocs documentation environment"
+template = "task"
 features = ["docs"]
 
 [tool.hatch.envs.docs.scripts]
-build = "mkdocs build"
+build = "doit --file tonyfast/dodo.py --dir . run mkdocs"
 serve = "mkdocs serve"
 
 # formatting cause linting sucks
