@@ -1,4 +1,4 @@
-from midgy.run import Markdown
+from midgy.loader import Markdown
 
 with Markdown():
     from . import *
