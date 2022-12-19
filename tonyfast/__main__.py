@@ -1,4 +1,4 @@
-from typer import Typer
+from typer import Typer, Context
 from types import FunctionType
 from importnb import Notebook
 from importlib import import_module
@@ -13,6 +13,17 @@ app = Typer(
     add_completion=False,
     no_args_is_help=True,
 )
+
+
+@app.command(context_settings={"allow_extra_args": True, "ignore_unknown_options": True})
+def tasks(ctx: Context):
+    """run doit tasks"""
+    from doit.doit_cmd import DoitMain
+    from doit.cmd_base import ModuleTaskLoader
+    from . import dodo
+
+    return DoitMain(ModuleTaskLoader(dodo)).run(ctx.args)
+
 
 with Notebook():
     for name, ref in commands:
