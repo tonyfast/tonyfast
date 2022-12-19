@@ -6,6 +6,7 @@ from importlib import import_module
 commands = [
     "hello .xxii.2022-12-19-integrating-typer:main".split(),
     "tasks .xxii.2022-12-19-integrating-typer:app".split(),
+    "pyscript .xxii.2022-12-20-pyscript-nbconvert:pyscript".split(),
 ]
 
 app = Typer(
