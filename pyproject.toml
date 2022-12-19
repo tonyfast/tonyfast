@@ -42,9 +42,6 @@ Documentation = "https://github.com/deathbeds/pidgy#readme"
 Issues = "https://github.com/deathbeds/pidgy/issues"
 Source = "https://github.com/deathbeds/pidgy"
 
-[project.entry-points."mkdocs.plugins"]
-lite = "tonyfast.mkdocs:HatchLite"
-
 [build-system]
 requires = ["hatchling", "hatch-vcs"]
 build-backend = "hatchling.build"
@@ -68,10 +65,13 @@ addopts = "-pno:warnings -p no:importnb --current-env --nbval --sanitize-with sa
 [tool.hatch.envs.task]
 dependencies = ["doit", "importnb", "tomli"]
 
-[tool.hatch.envs.task.scripts]
-run = "doit --file tonyfast/dodo.py --dir . run"
-list = "doit --file tonyfast/dodo.py --dir . list"
+[tool.doit]
+dodoFile = "tonyfast/dodo.py"
+cwdPath = "."
 
+[tool.hatch.envs.task.scripts]
+run = "doit run"
+list = "doit list"
 
 # documentation
 [tool.hatch.envs.docs]
@@ -80,7 +80,7 @@ template = "task"
 features = ["docs"]
 
 [tool.hatch.envs.docs.scripts]
-build = "doit --file tonyfast/dodo.py --dir . run mkdocs"
+build = "doit run mkdocs"
 serve = "mkdocs serve"
 
 # formatting cause linting sucks
@@ -109,6 +109,7 @@ include = ["*.md", "*.ipynb"]
 
 [tool.hatch.envs.lite]
 description = "the lite environment"
+template = "task"
 dependencies = [
   "jupyterlite",
   "jupyterlab-webrtc-docprovider",
@@ -120,4 +121,5 @@ dependencies = [
 ]
 
 [tool.hatch.envs.lite.scripts]
-build = "jupyter lite build --contents tonyfast --output site/run"
+build = "jupyter lite build --contents tonyfast --output-dir site/run"
+

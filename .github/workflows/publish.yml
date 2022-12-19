@@ -16,8 +16,10 @@ jobs:
           cache-dependency-path: pyproject.toml
       - name: install
         run: pip install --upgrade pip hatch
-      - name: build
+      - name: build mkdocs
         run: hatch run docs:build
+      - name: build jupyterlite
+        run: hatch run lite:build
       - name: Deploy main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: ${{ github.ref_name == 'main' }}

@@ -2,4 +2,4 @@
 
 import importnb
 with importnb.Notebook():
-    from xxii.__mkdocs_task import task_mkdocs
+    from xxii.__mkdocs_task import *
