@@ -62,6 +62,9 @@ cov = "pytest"
 [tool.pytest.ini_options]
 addopts = "-pno:warnings -p no:importnb --current-env --nbval --sanitize-with sanitize.cfg"
 
+[tool.doit]
+verbosity = 2
+
 [tool.hatch.envs.task]
 dependencies = ["doit", "importnb", "tomli"]
 
@@ -117,5 +120,5 @@ dependencies = [
 ]
 
 [tool.hatch.envs.lite.scripts]
-build = "jupyter lite build --contents tonyfast --output-dir site/run"
+  build = "doit run lite"
 
