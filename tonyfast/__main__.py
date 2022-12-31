@@ -2,12 +2,18 @@ from typer import Typer, Context
 from types import FunctionType
 from importnb import Notebook
 from importlib import import_module
+from pathlib import Path
 
-commands = [
-    "hello .xxii.2022-12-19-integrating-typer:main".split(),
-    "tasks .xxii.2022-12-19-integrating-typer:app".split(),
-    "pyscript .xxii.2022-12-20-pyscript-nbconvert:pyscript".split(),
-]
+HERE = Path(__file__).parent
+
+def get_commands():
+    for line in (HERE/ "commands.txt").read_text().splitlines():
+        right = line.lstrip()
+        if right:
+            if not right.startswith("#"):
+                yield right.rstrip().split(maxsplit=1)
+
+commands = list(get_commands())
 
 app = Typer(
     context_settings={"help_option_names": ["-h", "--help"]},
