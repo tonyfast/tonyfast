@@ -20,6 +20,7 @@ docs = [
   "mkdocs-macros-plugin",
   "mkdocs-rss-plugin",
   "ruamel.yaml",
+  "importnb @ file:///home/tbone/Documents/importnb",
   "pidgy",
   "IPython",
   "ipywidgets",
@@ -34,7 +35,7 @@ docs = [
   "ipympl",
   "cairosvg",
   "pillow",
-  "retrolab"
+  "retrolab",
 ]
 
 [project.urls]
@@ -69,6 +70,7 @@ addopts = "-pno:warnings -p no:importnb --current-env --nbval --sanitize-with sa
 [tool.doit]
 verbosity = 2
 
+
 [tool.hatch.envs.task]
 dependencies = ["IPython", "doit", "importnb", "tomli", "pyyaml"]
 
@@ -81,6 +83,9 @@ list = "doit list"
 description = "the mkdocs documentation environment"
 template = "task"
 features = ["docs"]
+
+[tool.hatch.envs.docs.env-vars]
+JUPYTER_PLATFORM_DIRS = "1"
 
 [tool.hatch.envs.docs.scripts]
 build = "doit run mkdocs"
@@ -123,7 +128,7 @@ dependencies = [
   "retrolab",
   "pyyaml",
   "depfinder",
-  "requests_cache"
+  "requests_cache",
 ]
 
 [tool.hatch.envs.lite.scripts]
