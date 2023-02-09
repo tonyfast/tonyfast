@@ -9,7 +9,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 ## current projects
 
-* [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks by collaborating with designers and compensated disabled testers.
+* [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
 * [project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]
 * writing experiments with literate programs and computational essays on [my blog][notebooks].
 * [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb]
