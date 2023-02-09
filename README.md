@@ -1,4 +1,4 @@
-# about tonyfast
+# ℹ️ about tonyfast
 
 tonyfast is a freelance developer, designer, and scientist with significant experience in open source and scientific software. he is a [distinguished project jupyter contributor][distinguished] advocating for computational literacy, equity, and digital accessibility in scientific technologies.
 
@@ -7,7 +7,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 * [💻 github][Github]
 * [💼 linkedin][Linkedin] 
 
-## current projects
+## 🛠️ current projects
 
 * [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
 * [project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]
@@ -16,9 +16,9 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 
 <details>
-<summary>past</summary>
+<summary>➕ more</summary>
 
-## events and media
+## 💿 events and media
 
 * [writers workshop]
 * [quirkshops]
@@ -32,7 +32,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 * [jupyter day triangle][jupyter triangle]
 * jupyter days atlanta [2016] [2018]
 
-## presentations
+## 📽️ presentations
 
 
 * [ten pounds of 💩][xlbs]
@@ -47,7 +47,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 [ten]: https://github.com/tonyfast/ten "ten things bout jupyter from 2018"
 [notebookism]: https://github.com/tonyfast/notebookism-chicago  "a relation between journaling, physical, and digital notebooks from 2016"
 
-## organizations
+## 👨‍🏭 organizations
 
 * Quansight, LLC
 * PyData Atlanta
@@ -65,7 +65,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 [deathbeds]: https://github.com/deathbeds
 [notebooks for all]: https://github.com/Iota-School/notebooks-for-all/
 [Space Telescope Science Institute]: https://www.stsci.edu/
-[importnb]: https://github.com/deathbeds/importnb "imports notebooks and other documents formats with python'
+[importnb]: https:****//github.com/deathbeds/importnb "imports notebooks and other documents formats with python'
 s import."
 [pidgy]: https://github.com/deathbeds/pidgy "weaves markdown to rich interactive jupyter displays"
 [midgy]: https://github.com/deathbeds/midgy "tangles markdown to python source code"
