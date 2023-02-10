@@ -15,7 +15,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 * [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb]
 
 
-<details>
+<details markdown>
 <summary>➕ more</summary>
 
 ## 💿 events and media
@@ -58,15 +58,45 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 </details>
 
+<details markdown>
+<summary>❓ about this repository</summary>
+
+## the `tonyfast` distribution
+
+this repository is one of github's special repositories for my personal profile.
+i wanted to do more with than just a readme so i'm using it as a place to package my
+computational essays or literate programs as a python distribution. 
+
+currently this project features:
+
+- [x] blogs, essays, notebooks and markdown re-used as python source code
+- [x] a python project called `tonyfast` that uses [`hatch`][hatch] for most development tasks (see [`pyproject.toml`](pyproject.toml))
+
+    ```
+    pip install -e. # for development mode
+    ```
+
+- [x] github actions to deploy my content on github pages. the documentation is made of:
+
+  - [x] [`mkdocs` documentation][notebooks] with my own notebook customizations. (see [`mkdocs.yml`](mkdocs.yml))
+  - [x] a no-install, in-the-browser [`jupyterlite` demo][lite] so myself and others can try out the code themselves
+
+- [ ] some things i'd like to do:
+  
+  - [ ] add cron for some posts
+  - [ ] add tests for some posts
+  - [ ] build a solid binder to run heavier demos that might not work in `jupyterlite`
+
+</details>
+
 [Linkedin]: https://www.linkedin.com/in/tonyfast/
 [Github]: https://github.com/tonyfast
 [Notebooks]: https://tonyfast.github.io/tonyfast/
 [distinguished]: https://jupyter.org/governance/distinguished_contributors.html
-[deathbeds]: https://github.com/deathbeds
+[deathbeds]: https://github.com/deathbeds "experimental interactive computing tools orbitting project jupyter"
 [notebooks for all]: https://github.com/Iota-School/notebooks-for-all/
 [Space Telescope Science Institute]: https://www.stsci.edu/
-[importnb]: https:****//github.com/deathbeds/importnb "imports notebooks and other documents formats with python'
-s import."
+[importnb]: https://github.com/deathbeds/importnb "imports notebooks and other documents formats with python's import."
 [pidgy]: https://github.com/deathbeds/pidgy "weaves markdown to rich interactive jupyter displays"
 [midgy]: https://github.com/deathbeds/midgy "tangles markdown to python source code"
 [project jupyter accessibility working group]: https://github.com/jupyter/accessibility
@@ -88,3 +118,5 @@ s import."
 [deathbeds blog]: https://nbviewer.org/github/deathbeds/deathbeds.github.io/tree/master/
 [writers workshop]: https://github.com/Quansight/writers-workshop/discussions "a cirriculum for learning to write literate programs in jupyter"
 [the materials data scientist]: https://www.slideshare.net/tonyfast1/the-materials-data-scientist
+[hatch]: https://hatch.pypa.io/
+[lite]: https://tonyfast.github.io/tonyfast/run/lab/
