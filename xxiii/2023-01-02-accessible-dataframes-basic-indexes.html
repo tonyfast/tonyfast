@@ -1,0 +1,1711 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>rendering dataframes for screen readers with pandas - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="rendering dataframes for screen readers with <pre>pandas</pre> - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiii/2023-01-02-accessible-dataframes-basic-indexes.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="rendering dataframes for screen readers with <pre>pandas</pre> - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiii/2023-01-02-accessible-dataframes-basic-indexes.png" >
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rendering-dataframes-for-screen-readers-with-pandas" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              rendering dataframes for screen readers with <pre>pandas</pre>
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(preferes-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        run in jupyterlite
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        pipes are common sugar
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-24-whoosh-search.html" class="md-nav__link">
+        use <pre>whoosh</pre> to search cells/articles on disk
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-24-lite-build.html" class="md-nav__link">
+        including development builds in jupyter lite
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        extracting a dependency graph from <pre>importlib_metadata</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        cleaner integration of <pre>pidgy</pre> &amp; <pre>voila</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-16-inspector-hack.html" class="md-nav__link">
+        customizing the <pre>IPython</pre> contextual help
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        where do all the good links go?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-12-giscus-comments.html" class="md-nav__link">
+        adding giscus comments to this blog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-12-tree-sitter.html" class="md-nav__link">
+        getting start with tree sitter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-11-extensible-metadata.html" class="md-nav__link">
+        extensible metadata in the notebook format
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-11-duckdb-search.html" class="md-nav__link">
+        full text search for notebooks and files using duckdb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-10-rara-gtfo.html" class="md-nav__link">
+        restart and run all or it didn't happen
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-09-notebooks-states.html" class="md-nav__link">
+        three states of python in a notebook
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-07-pidgy-voila.html" class="md-nav__link">
+        running <pre>pidgy</pre> in <pre>voila</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        using <pre>tfoot</pre> in dataframes for more information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-04-using-diagrams.html" class="md-nav__link">
+        diagrams in jupyter and mkdocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          rendering dataframes for screen readers with <pre>pandas</pre>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link md-nav__link--active">
+        rendering dataframes for screen readers with <pre>pandas</pre>
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#applying-best-practices-to-pandas" class="md-nav__link">
+    applying best practices  to pandas
+  </a>
+  
+    <nav class="md-nav" aria-label="applying best practices  to pandas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-title-of-data-table-is-inside-the-caption-element" class="md-nav__link">
+    1. Title of data table is inside the &lt;caption&gt; element.
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Title of data table is inside the &lt;caption&gt; element.">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pandasioformatsstylestyler" class="md-nav__link">
+    pandas.io.formats.style.Styler
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-column-headers-are-inside-th-scopecol-elements" class="md-nav__link">
+    2. Column headers are inside &lt;th scope="col"&gt; elements.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-row-headers-are-inside-th-scoperow-elements" class="md-nav__link">
+    3. Row headers are inside &lt;th scope="row"&gt; elements.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4-avoid-using-blank-header-cells" class="md-nav__link">
+    4. Avoid using blank header cells.
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value" class="md-nav__link">
+    5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inconsistencies-in-labelled-indexes" class="md-nav__link">
+    inconsistencies in labelled indexes
+  </a>
+  
+    <nav class="md-nav" aria-label="inconsistencies in labelled indexes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#column-and-index-names" class="md-nav__link">
+    column and index names
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#column-name-and-no-index-name" class="md-nav__link">
+    column name and no index name
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#conclusions" class="md-nav__link">
+    conclusions
+  </a>
+  
+    <nav class="md-nav" aria-label="conclusions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#final-frame" class="md-nav__link">
+    final frame
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#final-html-source" class="md-nav__link">
+    final html source
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#about-the-scope-attribute" class="md-nav__link">
+    about the scope attribute
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#links" class="md-nav__link">
+    links
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-01-strawberry-server.html" class="md-nav__link">
+        WIP: strawberry jupyter server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        a template for exporting markdownish notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        configuration files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
+        using <pre>typer</pre> in ipython magics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        <pre>mkdocs</pre> plugin for jupyter notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        analyzing <pre>pyproject.toml</pre> configurations of popular projects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
+        <pre>jupyterlite</pre> blog integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        rendering a notebook with <pre>pyscript</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
+        integrating <pre>typer</pre> into the blog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
+        <pre>doit</pre> integration - a <pre>mkdocs</pre> example
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        automating blog posts to work with jupyter-lite
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        retreiving my issue activity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-15-html-tags-study.html" class="md-nav__link">
+        all the tags i could be using
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-13-github-api-stats.html" class="md-nav__link">
+        extracting info from the github statistics api
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        exploring many <pre>pyproject.toml configs</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        formatting markdown it tokens as python <pre>doctests</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        making <pre>__main__</pre> a <pre>__package__</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
+        unravel directories of notebooks with <pre>dask</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        using assignment expressions to display and assign in <pre>IPython</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        using assignment expressions to display and assign in <pre>IPython</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        fumbling around with <pre>pluggy</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-async-import.html" class="md-nav__link">
+        asynchronous imports in python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        inferring linked data from <pre>IPython</pre> run times.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        invoking axe-core from python playwright
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        post processing html accessibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        literate computing - interactive literate programming
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        when markdown and python collide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        making meeting links
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        turn some text into a mobius surface
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-05-dask-search.html" class="md-nav__link">
+        searching notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxiii/2023-01-02-accessible-dataframes-basic-indexes.ipynb" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxiii/2023-01-02-accessible-dataframes-basic-indexes.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxiii/2023-01-02-accessible-dataframes-basic-indexes.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="rendering-dataframes-for-screen-readers-with-pandas">rendering dataframes for screen readers with <code>pandas</code><a class="headerlink" href="#rendering-dataframes-for-screen-readers-with-pandas" title="Permanent link">¤</a></h1>
+<p>in the document we'll explore what it takes to make <code>pandas.DataFrame</code>s accessible.
+we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for making <a href="https://pauljadam.com/demos/data-tables.html#heading1">Simple Data Tables</a>.</p>
+<div hidden>
+
+
+    %reload_ext pidgy
+    import pandas.io.formats.style, bs4, pytest
+    shell.weave.reactive = False
+    shell.weave.use_async = False
+    soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
+
+</div>
+
+<div class="output_html rendered_html output_subarea output_execute_result"><style type="text/css">
+</style>
+<table id="T_9bec1">
+  <caption>the basic dataframe <var>df</var> we use for explanation in this document. </caption>
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_9bec1_level0_col0" class="col_heading level0 col0" >A</th>
+      <th id="T_9bec1_level0_col1" class="col_heading level0 col1" >B</th>
+      <th id="T_9bec1_level0_col2" class="col_heading level0 col2" >C</th>
+    </tr>
+    <tr>
+      <th class="index_name level0" >index</th>
+      <th class="blank col0" >&nbsp;</th>
+      <th class="blank col1" >&nbsp;</th>
+      <th class="blank col2" >&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_9bec1_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_9bec1_row0_col0" class="data row0 col0" >nan</td>
+      <td id="T_9bec1_row0_col1" class="data row0 col1" >nan</td>
+      <td id="T_9bec1_row0_col2" class="data row0 col2" >nan</td>
+    </tr>
+    <tr>
+      <th id="T_9bec1_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_9bec1_row1_col0" class="data row1 col0" >nan</td>
+      <td id="T_9bec1_row1_col1" class="data row1 col1" >nan</td>
+      <td id="T_9bec1_row1_col2" class="data row1 col2" >nan</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<pre><code>(df := pandas.DataFrame(
+    columns=pandas.Index(list("ABC")), 
+    index=pandas.Index(range(2), name="index"))
+).style.set_caption("the basic dataframe &lt;var&gt;df&lt;/var&gt; we use for explanation in this document. ")
+</code></pre>
+<p><code>df</code> is a basic <code>pandas.DataFrame</code> because:    </p>
+<ul>
+<li>it has ONE row level </li>
+<li>it has ONE column level </li>
+</ul>
+<p>we do not need to consider the contents of the cells for the recommendations we are implementing.</p>
+<h2 id="applying-best-practices-to-pandas">applying best practices  to pandas<a class="headerlink" href="#applying-best-practices-to-pandas" title="Permanent link">¤</a></h2>
+<h3 id="1-title-of-data-table-is-inside-the-caption-element">1. Title of data table is inside the <code>&lt;caption&gt;</code> element.<a class="headerlink" href="#1-title-of-data-table-is-inside-the-caption-element" title="Permanent link">¤</a></h3>
+<p>the caption is dependent on the data and effects the visual appearance of the table. 
+it is context dependent up to the author to supply.</p>
+<pre><code>def assert_has_caption(object):
+    caption = soup(object).select_one("table caption")
+    assert caption and caption.string.strip(), "table is missing a &lt;caption&gt;"
+# with pytest.raises(AssertionError): assert_has_caption(df._repr_html_())
+</code></pre>
+<p>the caption can be set using the <code>pandas.DataFrame.style.set_caption</code> method.
+the result is a <code>pandas.io.formats.style.Styler</code> object that let's us modify how the
+instance is displayed.</p>
+<p><code>set_caption</code> user the <code>pandas.DataFrame.style</code> attribute to set a caption</p>
+<pre><code>def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
+    return df.style.set_caption(caption)
+</code></pre>
+<p>after we have a styler we are working with a subset of pandas operations.
+the styler should be the last stop for the data.</p>
+<p>the <code>&lt;table&gt;</code> below demonstrates how the <code>&lt;caption&gt;</code> appears on a <code>captioned</code> <code>pandas.DataFrame</code>.</p>
+<style type="text/css">
+</style>
+<table id="T_595b7">
+  <caption>a value-less dataframe with columns and row indexes</caption>
+  <thead>
+    <tr>
+      <th class="blank level0" >&nbsp;</th>
+      <th id="T_595b7_level0_col0" class="col_heading level0 col0" >A</th>
+      <th id="T_595b7_level0_col1" class="col_heading level0 col1" >B</th>
+      <th id="T_595b7_level0_col2" class="col_heading level0 col2" >C</th>
+    </tr>
+    <tr>
+      <th class="index_name level0" >index</th>
+      <th class="blank col0" >&nbsp;</th>
+      <th class="blank col1" >&nbsp;</th>
+      <th class="blank col2" >&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_595b7_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_595b7_row0_col0" class="data row0 col0" >nan</td>
+      <td id="T_595b7_row0_col1" class="data row0 col1" >nan</td>
+      <td id="T_595b7_row0_col2" class="data row0 col2" >nan</td>
+    </tr>
+    <tr>
+      <th id="T_595b7_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_595b7_row1_col0" class="data row1 col0" >nan</td>
+      <td id="T_595b7_row1_col1" class="data row1 col1" >nan</td>
+      <td id="T_595b7_row1_col2" class="data row1 col2" >nan</td>
+    </tr>
+  </tbody>
+</table>
+
+<pre><code>assert_has_caption(
+    captioned := set_caption(df, "a value-less dataframe with columns and row indexes")._repr_html_()
+);
+</code></pre>
+<h4 id="pandasioformatsstylestyler"><code>pandas.io.formats.style.Styler</code><a class="headerlink" href="#pandasioformatsstylestyler" title="Permanent link">¤</a></h4>
+<p><code>pandas.io.formats.style.Styler</code> gives a different html representation that <code>_repr_html_</code></p>
+<pre><code>assert df.style.to_html() != df.to_html()
+</code></pre>
+<h3 id="2-column-headers-are-inside-th-scopecol-elements">2. Column headers are inside <code>&lt;th scope="col"&gt;</code> elements.<a class="headerlink" href="#2-column-headers-are-inside-th-scopecol-elements" title="Permanent link">¤</a></h3>
+<p>the <code>scope</code> property improves navigation for screen readers when used properly.</p>
+<pre><code>def assert_has_col_scope(object, selector="thead tr th"):
+</code></pre>
+<p>for basic frames, all the <code>&lt;th&gt;</code> tags in <code>&lt;thead&gt;</code> should have <code>scope="col"</code></p>
+<pre><code>    assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
+# with pytest.raises(AssertionError): assert_has_col_scope(captioned)
+
+
+
+
+
+
+
+def set_col_scope(object, selector="thead tr th"):
+</code></pre>
+<p><code>set_col_scope</code> automatically remediates missing columns <code>scope</code>s</p>
+<pre><code>    for th in (object := soup(object)).select(selector):
+        th.attrs.setdefault("scope", "col")
+    return str(object)
+</code></pre>
+<p>these <code>scope</code> has no visual effect, however we can use <code>assert_has_col_scope</code> to verify the scope is correct.</p>
+<pre><code>assert_has_col_scope(col_scoped := set_col_scope(captioned));
+</code></pre>
+<h3 id="3-row-headers-are-inside-th-scoperow-elements">3. Row headers are inside <code>&lt;th scope="row"&gt;</code> elements.<a class="headerlink" href="#3-row-headers-are-inside-th-scoperow-elements" title="Permanent link">¤</a></h3>
+<p>similar to <code>scope="col"</code>, the <code>&lt;th&gt;</code> elements in the body require <code>scope="row"</code>;
+basically every <code>&lt;th&gt;</code> needs the scope property.</p>
+<pre><code>def assert_has_row_scope(object, selector="tbody tr th"):
+    assert all(th.attrs.get("scope") in {"row", "rowgroup"} for th in soup(object).select(selector)),\
+    "&lt;th&gt; is missing `scope='col'`"
+# with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)
+
+
+
+
+
+
+
+def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
+</code></pre>
+<p>like the columns, we can deterministically add <code>scope="row"</code></p>
+<pre><code>    for th in (object := soup(object)).select(selector):
+        th.attrs.setdefault("scope", "row")
+    return str(object)
+</code></pre>
+<p>we use <code>set_row_scope</code> to verify the <code>scope</code> because, again, there aren't any visual effects to these changes.</p>
+<pre><code>assert_has_row_scope(row_scoped := set_row_scope(col_scoped))
+</code></pre>
+<h3 id="4-avoid-using-blank-header-cells">4. Avoid using blank header cells.<a class="headerlink" href="#4-avoid-using-blank-header-cells" title="Permanent link">¤</a></h3>
+<p>this instruction to yield a best practice to <strong>name the dataframe index</strong>.
+without a name, the index <code>&lt;th&gt;</code> will always be empty.</p>
+<pre><code>def assert_no_blank_header(body):
+    assert all(th.string.strip() for th in soup(body).select("th")), "there is a blank &lt;th&gt;"
+
+
+
+
+
+
+
+# with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)
+</code></pre>
+<p><code>pandas</code> requires some upstream work to satisfy this instruction.</p>
+<pre><code>def set_squashed_th(body):
+</code></pre>
+<p><code>set_squashed_th</code> squashes the table column names. this method on works for the most basic dataframes.</p>
+<pre><code>    table = soup(body)
+    tr = bs4.Tag(name="tr")
+    col, row = table.select("thead tr")
+    for top, bottom in zip(col.select("th"), row.select("th")):
+        tr.append(top if top.string.strip() else bottom)
+    thead = bs4.Tag(name="thead"); thead.append(tr)
+    table.select_one("thead").replace_with(thead)
+    return str(table)
+</code></pre>
+<p>the frame below doesn't have empty <code>&lt;th&gt;</code> elements and is denser.</p>
+<style type="text/css">
+</style>
+<table id="T_595b7">
+<caption>a value-less dataframe with columns and row indexes</caption>
+<thead><tr><th class="index_name level0" scope="col">index</th><th class="col_heading level0 col0" id="T_595b7_level0_col0" scope="col">A</th><th class="col_heading level0 col1" id="T_595b7_level0_col1" scope="col">B</th><th class="col_heading level0 col2" id="T_595b7_level0_col2" scope="col">C</th></tr></thead>
+<tbody>
+<tr>
+<th class="row_heading level0 row0" id="T_595b7_level0_row0" scope="row">0</th>
+<td class="data row0 col0" id="T_595b7_row0_col0">nan</td>
+<td class="data row0 col1" id="T_595b7_row0_col1">nan</td>
+<td class="data row0 col2" id="T_595b7_row0_col2">nan</td>
+</tr>
+<tr>
+<th class="row_heading level0 row1" id="T_595b7_level0_row1" scope="row">1</th>
+<td class="data row1 col0" id="T_595b7_row1_col0">nan</td>
+<td class="data row1 col1" id="T_595b7_row1_col1">nan</td>
+<td class="data row1 col2" id="T_595b7_row1_col2">nan</td>
+</tr>
+</tbody>
+</table>
+
+<pre><code>assert_no_blank_header(squashed_th := set_squashed_th(row_scoped))
+</code></pre>
+<h3 id="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.<a class="headerlink" href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value" title="Permanent link">¤</a></h3>
+<p>the naming of columns is a context specific screen reader feature.
+authors would have to add this information themselves.</p>
+<pre><code>titles = dict(A="apple", B="banana", C="carrot")
+def set_header_titles(body, titles=titles):
+</code></pre>
+<p><code>set_header_titles</code> is a method that includes the name of the abbreviation in the <code>title</code>.</p>
+<pre><code>    for th in (body := soup(body)).select("thead tr th"):
+        name = th.string.strip()
+        if name in titles:
+            th.attrs["title"] = titles[name]
+    return str(body)
+</code></pre>
+<blockquote>
+<p>a real dataset would make more sense in this example.</p>
+</blockquote>
+<pre><code>titled = set_header_titles(squashed_th, titles)
+
+
+
+
+
+
+
+def strip_class_ids(body):
+</code></pre>
+<p><code>pandas</code> adds classes and ids to elements that for the sake of this discussion are superfluous.</p>
+<pre><code>    for e in (body := soup(body)).select("td, th"): 
+        e.attrs.pop("id", None)
+        e.attrs.pop("class", None)
+
+    return str(body)
+final = strip_class_ids(titled)
+</code></pre>
+<h2 id="inconsistencies-in-labelled-indexes">inconsistencies in labelled indexes<a class="headerlink" href="#inconsistencies-in-labelled-indexes" title="Permanent link">¤</a></h2>
+<p>everything goes to hell with <code>named_column</code> which as a column name.</p>
+<pre><code>named_column = df.copy()
+named_column.columns.name = "letters"
+</code></pre>
+<h3 id="column-and-index-names">column and index names<a class="headerlink" href="#column-and-index-names" title="Permanent link">¤</a></h3>
+<p>consider the case of <code>df2</code> where the <code>df2.columns</code> is named and <code>df2.index</code> is not. </p>
+<style type="text/css">
+</style>
+<table id="T_8b93e">
+  <caption><p>the <code>named_column</code> dataframe with a column name</p>
+</caption>
+  <thead>
+    <tr>
+      <th class="index_name level0" >letters</th>
+      <th id="T_8b93e_level0_col0" class="col_heading level0 col0" >A</th>
+      <th id="T_8b93e_level0_col1" class="col_heading level0 col1" >B</th>
+      <th id="T_8b93e_level0_col2" class="col_heading level0 col2" >C</th>
+    </tr>
+    <tr>
+      <th class="index_name level0" >index</th>
+      <th class="blank col0" >&nbsp;</th>
+      <th class="blank col1" >&nbsp;</th>
+      <th class="blank col2" >&nbsp;</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_8b93e_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_8b93e_row0_col0" class="data row0 col0" >nan</td>
+      <td id="T_8b93e_row0_col1" class="data row0 col1" >nan</td>
+      <td id="T_8b93e_row0_col2" class="data row0 col2" >nan</td>
+    </tr>
+    <tr>
+      <th id="T_8b93e_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_8b93e_row1_col0" class="data row1 col0" >nan</td>
+      <td id="T_8b93e_row1_col1" class="data row1 col1" >nan</td>
+      <td id="T_8b93e_row1_col2" class="data row1 col2" >nan</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>screenreader visitors may struggle to interpret the meaning of "letters" relative to the index.
+ensurely a proper experience for screen readers will require extra markup to group the `<th> with the columns. </p>
+<h3 id="column-name-and-no-index-name">column name and no index name<a class="headerlink" href="#column-name-and-no-index-name" title="Permanent link">¤</a></h3>
+<pre><code>named_column_no_index = named_column.copy()
+named_column_no_index.index.name = None
+</code></pre>
+<style type="text/css">
+</style>
+<table id="T_3d1a0">
+  <caption><p>the <code>named_column_no_index</code> dataframe with a column name and without an index name</p>
+</caption>
+  <thead>
+    <tr>
+      <th class="index_name level0" >letters</th>
+      <th id="T_3d1a0_level0_col0" class="col_heading level0 col0" >A</th>
+      <th id="T_3d1a0_level0_col1" class="col_heading level0 col1" >B</th>
+      <th id="T_3d1a0_level0_col2" class="col_heading level0 col2" >C</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th id="T_3d1a0_level0_row0" class="row_heading level0 row0" >0</th>
+      <td id="T_3d1a0_row0_col0" class="data row0 col0" >nan</td>
+      <td id="T_3d1a0_row0_col1" class="data row0 col1" >nan</td>
+      <td id="T_3d1a0_row0_col2" class="data row0 col2" >nan</td>
+    </tr>
+    <tr>
+      <th id="T_3d1a0_level0_row1" class="row_heading level0 row1" >1</th>
+      <td id="T_3d1a0_row1_col0" class="data row1 col0" >nan</td>
+      <td id="T_3d1a0_row1_col1" class="data row1 col1" >nan</td>
+      <td id="T_3d1a0_row1_col2" class="data row1 col2" >nan</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>in this conformation, it is possible for a screen reader to misinterpet <code>letters</code> as the name of the index column.
+when the column index is named, like <code>letters</code>, the entry should be <code>&lt;th scope="row"&gt;</code>. 
+it this example we can see how instructions in 2 and 3 differ.</p>
+<h2 id="conclusions">conclusions<a class="headerlink" href="#conclusions" title="Permanent link">¤</a></h2>
+<p>for basic dataframes, two practices can be enforced without knowledge of the data:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Column headers are inside <th scope="col"> elements.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Row headers are inside <th scope="row"> elements.</li>
+</ul>
+<p>the abbreviations and caption are context specific and require knowledge of the data:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Title of data table is inside the <caption> element.</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.</li>
+</ul>
+<p>with <code>pandas&lt;=1.4.2</code>, it is hard to avoid black header cells without some significant effort.</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Avoid using blank header cells.</li>
+</ul>
+<p>some conventions we can extract from this study is:</p>
+<ul>
+<li>treat the <code>df.index</code> as a column that needs to be named</li>
+<li>if an index is superfluous then remove it. this can be down with the styler <code>df.style.hide(axis=0)</code></li>
+</ul>
+<h3 id="final-frame">final frame<a class="headerlink" href="#final-frame" title="Permanent link">¤</a></h3>
+<p>our final dataframe has:</p>
+<ul class="task-list">
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;caption&gt;</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th scope="col"&gt;</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th scope="row"&gt;</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> no empty <code>&lt;th&gt;</code></li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th title&gt;</code> for abbreviations</li>
+</ul>
+<style type="text/css">
+</style>
+<table id="T_595b7">
+<caption>a value-less dataframe with columns and row indexes</caption>
+<thead><tr><th scope="col">index</th><th scope="col" title="apple">A</th><th scope="col" title="banana">B</th><th scope="col" title="carrot">C</th></tr></thead>
+<tbody>
+<tr>
+<th scope="row">0</th>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+</tr>
+<tr>
+<th scope="row">1</th>
+<td>nan</td>
+<td>nan</td>
+<td>nan</td>
+</tr>
+</tbody>
+</table>
+
+<h3 id="final-html-source">final html source<a class="headerlink" href="#final-html-source" title="Permanent link">¤</a></h3>
+<div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/css&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">table</span> <span class="na">id</span><span class="o">=</span><span class="s">&quot;T_595b7&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">caption</span><span class="p">&gt;</span>a value-less dataframe with columns and row indexes<span class="p">&lt;/</span><span class="nt">caption</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">thead</span><span class="p">&gt;&lt;</span><span class="nt">tr</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span><span class="p">&gt;</span>index<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;apple&quot;</span><span class="p">&gt;</span>A<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;banana&quot;</span><span class="p">&gt;</span>B<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;col&quot;</span> <span class="na">title</span><span class="o">=</span><span class="s">&quot;carrot&quot;</span><span class="p">&gt;</span>C<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;&lt;/</span><span class="nt">tr</span><span class="p">&gt;&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>0<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">th</span> <span class="na">scope</span><span class="o">=</span><span class="s">&quot;row&quot;</span><span class="p">&gt;</span>1<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">td</span><span class="p">&gt;</span>nan<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+</code></pre></div>
+<h3 id="about-the-scope-attribute">about the <code>scope</code> attribute<a class="headerlink" href="#about-the-scope-attribute" title="Permanent link">¤</a></h3>
+<p><q cite="https://www.w3schools.com/tags/att_scope.asp">The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.</q></p>
+<p><q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid">The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient. <q></p>
+<h3 id="links">links<a class="headerlink" href="#links" title="Permanent link">¤</a></h3>
+<ul>
+<li><a href="https://pandas.pydata.org/docs/user_guide/style.html">https://pandas.pydata.org/docs/user_guide/style.html</a></li>
+<li><a href="https://pauljadam.com/demos/data-tables.html">https://pauljadam.com/demos/data-tables.html</a></li>
+<li><a href="https://www.w3.org/WAI/tutorials/tables/">https://www.w3.org/WAI/tutorials/tables/</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced">https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced</a></li>
+</ul>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+</script>
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="2023-01-04-using-diagrams.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: diagrams in jupyter and mkdocs" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              diagrams in jupyter and mkdocs
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="2023-01-01-strawberry-server.html" class="md-footer__link md-footer__link--next" aria-label="Next: WIP: strawberry jupyter server" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              WIP: strawberry jupyter server
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
