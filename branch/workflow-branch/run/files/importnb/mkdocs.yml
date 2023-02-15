@@ -1,0 +1,37 @@
+site_name: importnb
+site_description: from notebooks to source code
+repo_name: deathbeds/importnb
+site_dir: site
+
+theme:
+  name: material
+  features:
+  # - navigation.tabs
+  - navigation.tracking
+  - navigation.expand  
+  - toc.follow  
+plugins:
+  - search
+  - mkdocs-jupyter
+  
+nav:
+  - importing notebooks: README.md
+  - tests:
+    - importnb test notebook: Untitled42.ipynb
+    - unit tests: test_importnb.py
+    - command line tests: test_cli.py
+
+markdown_extensions:
+  - admonition
+  - pymdownx.emoji
+  - pymdownx.magiclink
+  - footnotes
+  - pymdownx.snippets:
+      check_paths: true
+  - pymdownx.superfences
+  - toc:
+      permalink: "¤"
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
