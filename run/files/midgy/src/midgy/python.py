@@ -6,7 +6,9 @@ from functools import partial
 from .render import Renderer, escape, FENCE, SP, QUOTES
 from .lexers import MAGIC
 from typing import Tuple
+
 DEFAULT_FENCE_LANGS = "python", "ipython"
+
 
 @dataclass
 class Python(Renderer):
@@ -40,7 +42,7 @@ class Python(Renderer):
         if token.meta["is_doctest"]:
             block = self.get_block_sans_doctest(block)
         if self.is_magic(token):
-            block = self.code_block_magic(block, token.meta["min_indent"], env)
+            block = self.code_block_magic(block, self.get_computed_indent(env), env)
         yield from self.dedent_block(block, (not token.meta["is_magic"]) * env["min_indent"])
 
     def code_block_doctest(self, token, env):
@@ -63,7 +65,7 @@ class Python(Renderer):
         yield from ("get_ipython().run_cell_magic('", program, "', '")
         yield from (args, "',", line[len(left) :])
         if dedent:
-            block = self.dedent_block(block, indent)
+            block = self.dedent_block(block, indent + env.get("min_indent", 0))
         # quote the block of the cell body
         yield from self.get_wrapped_lines(block, lead=self.QUOTE, trail=self.QUOTE + ")")
 
@@ -82,26 +84,24 @@ class Python(Renderer):
             method = getattr(self, f"fence_{token.info}", None)
             if method:
                 return method(token, env)
-            
+
             if token.meta["is_magic_info"]:
                 return self._fence_info_magic(token, env)
-
-    # def _flush_magic(self):
 
     def _fence_info_magic(self, token, env):
         """return a modified code fence that identifies as code"""
 
         yield from self.non_code(env, token)
-        line = next(self.get_block(env, token.map[0]+1))
+        line = next(self.get_block(env, token.map[0] + 1))
         left = line.rstrip()
         right = left.lstrip()
         markup = right[0]
         program, _, args = right.lstrip("`~").lstrip("%").partition(" ")
         yield from ("get_ipython().run_cell_magic('", program, "', '")
-        yield from (args, "', # ", markup * 3 , line[len(left) :])
+        yield from (args, "', # ", markup * 3, line[len(left) :])
 
         block = self.get_block(env, token.map[1] - 1)
-        block = self.dedent_block(block, token.meta["min_indent"])       
+        block = self.dedent_block(block, token.meta["min_indent"])
         yield from self.get_wrapped_lines(block, lead=self.QUOTE, trail=self.QUOTE + ")")
 
         self.get_updated_env(token, env)

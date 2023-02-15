@@ -16,15 +16,14 @@ classifiers = [
   "Programming Language :: Python",
   "License :: OSI Approved :: BSD License",
 ]
-dependencies = ["midgy", "jinja2"]
+dependencies = ["midgy", "jinja2", "IPython", "importnb"]
 dynamic = ["version"] # uses hatch-vcs
 
 [project.optional-dependencies]
-interactive = ["IPython"]
-docs = ["mkdocs-material", "mkdocs-jupyter", "ruamel.yaml", "mkdocs-macros-plugin", "IPython"]
+docs = ["mkdocs-material", "mkdocs-jupyter", "ruamel.yaml", "mkdocs-macros-plugin"]
 
 [project.entry-points."mkdocs.plugins"]
-pidgy = "pidgy.ext.mkdocs:PidgyPlugin"
+pidgy = "pidgy.ext.mkdocs:Notebooks"
 
 [project.scripts]
 pidgy = "pidgy.__main__:main"
@@ -51,6 +50,7 @@ version-file = "src/pidgy/_version.py"
 
 # test matrix
 [tool.hatch.envs.test]
+description = "pidgy tests"
 dependencies = ["pytest", "pytest-cov", "nbval", "pandas", "ipywidgets", "matplotlib"]
 
 [tool.hatch.envs.test.scripts]
@@ -65,7 +65,6 @@ omit = ["docs/*"]
 [tool.coverage.html]
 directory = "docs/coverage"
 
-
 # documentation
 [tool.hatch.envs.docs]
 features = ["docs"]
@@ -73,6 +72,37 @@ features = ["docs"]
 [tool.hatch.envs.docs.scripts]
 build = "mkdocs build"
 serve = "mkdocs serve"
+
+[tool.hatch.envs.format.scripts]
+code = """
+isort .
+black .
+"""
+
+
+[tool.hatch.envs.lite]
+description = "build jupyterlite"
+dependencies = [
+  "jupyterlite",
+  "jupyterlab-webrtc-docprovider",
+  "jupyterlab-deck",
+  "jupyter-videochat",
+  "jupyterlab-fonts",
+  "jupyterlab_execute_time",
+  "retrolab",
+  "pyyaml",
+  "depfinder",
+  "requests_cache",
+  "ipywidgets",
+  "hatch",
+  "pkginfo"
+]
+
+[tool.hatch.envs.lite.scripts]
+build = """
+hatch build -t wheel pypi
+jupyter lite build --contents docs --output-dir site/lite
+"""
 
 # formatting cause linting sucks
 [tool.isort]
@@ -84,9 +114,3 @@ line_length = 100
 [tool.hatch.envs.format]
 skip-install = true
 dependencies = ["black", "isort"]
-
-[tool.hatch.envs.format.scripts]
-code = """
-isort .
-black .
-"""
