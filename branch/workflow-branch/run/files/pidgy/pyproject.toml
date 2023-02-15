@@ -1,0 +1,116 @@
+# hatch is our build and development tool.
+
+[project]
+name = "pidgy"
+description = "literate computing in python"
+readme = "README.md"
+requires-python = ">=3.7"
+license = "BSD-3-Clause"
+keywords = []
+authors = [{ name = "tonyfast", email = "tony.fast@gmail.com" }]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Natural Language :: English",
+  "Framework :: IPython",
+  "Framework :: Jupyter",
+  "Programming Language :: Python",
+  "License :: OSI Approved :: BSD License",
+]
+dependencies = ["midgy", "jinja2", "IPython", "importnb"]
+dynamic = ["version"] # uses hatch-vcs
+
+[project.optional-dependencies]
+docs = ["mkdocs-material", "mkdocs-jupyter", "ruamel.yaml", "mkdocs-macros-plugin"]
+
+[project.entry-points."mkdocs.plugins"]
+pidgy = "pidgy.ext.mkdocs:Notebooks"
+
+[project.scripts]
+pidgy = "pidgy.__main__:main"
+
+[project.urls]
+Documentation = "https://github.com/deathbeds/pidgy#readme"
+Issues = "https://github.com/deathbeds/pidgy/issues"
+Source = "https://github.com/deathbeds/pidgy"
+
+[build-system]
+requires = ["hatchling", "hatch-vcs"]
+build-backend = "hatchling.build"
+
+# install the kernelspec
+[tool.hatch.build.targets.wheel.shared-data]
+"src/kernelspec" = "share/jupyter/kernels/pidgy"
+
+# versioning
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/pidgy/_version.py"
+
+# test matrix
+[tool.hatch.envs.test]
+description = "pidgy tests"
+dependencies = ["pytest", "pytest-cov", "nbval", "pandas", "ipywidgets", "matplotlib"]
+
+[tool.hatch.envs.test.scripts]
+cov = "pytest"
+
+[tool.pytest.ini_options]
+addopts = "-pno:warnings -p no:importnb --ignore lite --cov pidgy --cov-report term --cov-report html --current-env --nbval --sanitize-with sanitize.cfg "
+
+[tool.coverage.report]
+omit = ["docs/*"]
+
+[tool.coverage.html]
+directory = "docs/coverage"
+
+# documentation
+[tool.hatch.envs.docs]
+features = ["docs"]
+
+[tool.hatch.envs.docs.scripts]
+build = "mkdocs build"
+serve = "mkdocs serve"
+
+[tool.hatch.envs.format.scripts]
+code = """
+isort .
+black .
+"""
+
+
+[tool.hatch.envs.lite]
+description = "build jupyterlite"
+dependencies = [
+  "jupyterlite",
+  "jupyterlab-webrtc-docprovider",
+  "jupyterlab-deck",
+  "jupyter-videochat",
+  "jupyterlab-fonts",
+  "jupyterlab_execute_time",
+  "retrolab",
+  "pyyaml",
+  "depfinder",
+  "requests_cache",
+  "ipywidgets",
+  "hatch",
+  "pkginfo"
+]
+
+[tool.hatch.envs.lite.scripts]
+build = """
+hatch build -t wheel pypi
+jupyter lite build --contents docs --output-dir site/lite
+"""
+
+# formatting cause linting sucks
+[tool.isort]
+profile = "black"
+
+[tool.black]
+line_length = 100
+
+[tool.hatch.envs.format]
+skip-install = true
+dependencies = ["black", "isort"]
