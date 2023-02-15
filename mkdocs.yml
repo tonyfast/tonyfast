@@ -13,21 +13,26 @@ theme:
   custom_dir: overrides  
   features:
   - navigation.tracking
+  - navigation.top
   - toc.integrate 
   - navigation.expand  
   - toc.follow  
   palette: 
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+      primary: black
     - media: "(prefers-color-scheme: light)"
       scheme: default
       toggle:
         icon: material/brightness-7 
         name: Switch to dark mode
-    - media: "(preferes-color-scheme: dark)"
-      scheme: slate
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+      primary: black
 use_directory_urls: false
+
 
 plugins:
   - search
@@ -36,6 +41,12 @@ plugins:
   - social
   - tags
   - rss
+  - mkdocstrings:
+      handlers:
+        python:
+          import: []
+      enable_inventory: true
+  
 
 markdown_extensions:
   - admonition
