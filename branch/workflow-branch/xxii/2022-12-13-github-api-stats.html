@@ -1,0 +1,2254 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxii/2022-12-13-github-api-stats.html">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>extracting info from the github statistics api - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="extracting info from the github statistics api - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxii/2022-12-13-github-api-stats.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxii/2022-12-13-github-api-stats.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="extracting info from the github statistics api - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxii/2022-12-13-github-api-stats.png" >
+      
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#extracting-info-from-the-github-statistics-api" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              extracting info from the github statistics api
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        run in jupyterlite
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          notes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="notes" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          notes
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-19-semantic.html" class="md-nav__link">
+        semantic notebook structure
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        pipes are common sugar
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        extracting a dependency graph from <pre>importlib_metadata</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-lite-build.html" class="md-nav__link">
+        including development builds in jupyter lite
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-whoosh-search.html" class="md-nav__link">
+        use <pre>whoosh</pre> to search cells/articles on disk
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        cleaner integration of <pre>pidgy</pre> &amp; <pre>voila</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-16-inspector-hack.html" class="md-nav__link">
+        customizing the <pre>IPython</pre> contextual help
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        where do all the good links go?
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-tree-sitter.html" class="md-nav__link">
+        getting start with tree sitter
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-giscus-comments.html" class="md-nav__link">
+        adding giscus comments to this blog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-extensible-metadata.html" class="md-nav__link">
+        extensible metadata in the notebook format
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-duckdb-search.html" class="md-nav__link">
+        full text search for notebooks and files using duckdb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-10-rara-gtfo.html" class="md-nav__link">
+        restart and run all or it didn't happen
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-09-notebooks-states.html" class="md-nav__link">
+        three states of python in a notebook
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-07-pidgy-voila.html" class="md-nav__link">
+        running <pre>pidgy</pre> in <pre>voila</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        using <pre>tfoot</pre> in dataframes for more information
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-using-diagrams.html" class="md-nav__link">
+        diagrams in jupyter and mkdocs
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
+        rendering dataframes for screen readers with <pre>pandas</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-01-strawberry-server.html" class="md-nav__link">
+        WIP: strawberry jupyter server
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        configuration files
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        a template for exporting markdownish notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-30-typer-magic.html" class="md-nav__link">
+        using <pre>typer</pre> in ipython magics
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        <pre>mkdocs</pre> plugin for jupyter notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        analyzing <pre>pyproject.toml</pre> configurations of popular projects
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-21-lite-build.html" class="md-nav__link">
+        <pre>jupyterlite</pre> blog integration
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        rendering a notebook with <pre>pyscript</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-19-integrating-typer.html" class="md-nav__link">
+        integrating <pre>typer</pre> into the blog
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-18-mkdocs-task.html" class="md-nav__link">
+        <pre>doit</pre> integration - a <pre>mkdocs</pre> example
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        automating blog posts to work with jupyter-lite
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        retreiving my issue activity
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-15-html-tags-study.html" class="md-nav__link">
+        all the tags i could be using
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          extracting info from the github statistics api
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2022-12-13-github-api-stats.html" class="md-nav__link md-nav__link--active">
+        extracting info from the github statistics api
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#retrieve-the-data-with-doit" class="md-nav__link">
+    retrieve the data with doit
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explore-the-data-in-dataframes" class="md-nav__link">
+    explore the data in dataframes
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        exploring many <pre>pyproject.toml configs</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        formatting markdown it tokens as python <pre>doctests</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        making <pre>__main__</pre> a <pre>__package__</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-11-23-better-dask-shape.html" class="md-nav__link">
+        unravel directories of notebooks with <pre>dask</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        using assignment expressions to display and assign in <pre>IPython</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        using assignment expressions to display and assign in <pre>IPython</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        fumbling around with <pre>pluggy</pre>
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2022-11-12-async-import.html" class="md-nav__link">
+        asynchronous imports in python
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        inferring linked data from <pre>IPython</pre> run times.
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        invoking axe-core from python playwright
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        post processing html accessibility
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        literate computing - interactive literate programming
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        when markdown and python collide
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        making meeting links
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        turn some text into a mobius surface
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/2022-10-05-dask-search.html" class="md-nav__link">
+        searching notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+  
+
+
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxii/2022-12-13-github-api-stats.ipynb" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxii/2022-12-13-github-api-stats.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxii/2022-12-13-github-api-stats.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="extracting-info-from-the-github-statistics-api">extracting info from the github statistics api<a class="headerlink" href="#extracting-info-from-the-github-statistics-api" title="Permanent link">¤</a></h1>
+<p>i've wanted to take looks at github repositories over time.
+what kind of trends are there revealed over the years of projects?
+what can we infer from past actions that might predicate success?</p>
+<p>this work is an extension of the <a href="2022-12-09-pyproject-analysis.html"><code>pyproject.toml</code> analysis</a>.
+we use the same list of respositories to generate their statistics.</p>
+<p><code>doit</code> is likely a suboptimal choice for this, so we'll probably want to try <code>dask</code> later.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">with</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;importnb&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">Notebook</span><span class="p">():</span>
+        <span class="kn">import</span> <span class="nn">__12_09_pyproject_analysis</span> <span class="k">as</span> <span class="nn">prior</span>
+    <span class="kn">import</span> <span class="nn">pandas</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">prior</span><span class="o">.</span><span class="n">tidy_responses</span><span class="p">(</span><span class="n">responses</span> <span class="o">:=</span> <span class="n">prior</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="n">prior</span><span class="o">.</span><span class="n">pyproject_query</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">projects</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="kn">from</span> <span class="nn">info</span> <span class="kn">import</span> <span class="n">header</span>
+    <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">requests_cache</span><span class="o">,</span> <span class="nn">uritemplate</span><span class="o">,</span> <span class="nn">toolz</span><span class="o">,</span> <span class="nn">operator</span><span class="o">,</span> <span class="nn">doit</span>
+    <span class="n">requests_cache</span><span class="o">.</span><span class="n">install_cache</span><span class="p">()</span>
+    <span class="kn">from</span> <span class="nn">info</span> <span class="kn">import</span> <span class="n">header</span>
+</code></pre></div>
+<p>the endpoints we retrieve the stats from</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">GH</span> <span class="o">=</span> <span class="s2">&quot;https://api.github.com&quot;</span>
+    <span class="n">STATS</span> <span class="o">=</span> <span class="s2">&quot;code_frequency commit_activity participation&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+    <span class="n">URI</span> <span class="o">=</span> <span class="n">uritemplate</span><span class="o">.</span><span class="n">URITemplate</span><span class="p">(</span><span class="n">GH</span> <span class="o">+</span> <span class="s2">&quot;/repos/</span><span class="si">{owner}</span><span class="s2">/</span><span class="si">{repo}</span><span class="s2">/stats/</span><span class="si">{stat}</span><span class="s2">&quot;</span><span class="p">)</span>    
+    <span class="n">RELEASES</span> <span class="o">=</span> <span class="n">uritemplate</span><span class="o">.</span><span class="n">URITemplate</span><span class="p">(</span><span class="n">GH</span> <span class="o">+</span> <span class="s2">&quot;/repos/</span><span class="si">{owner}</span><span class="s2">/</span><span class="si">{repo}</span><span class="s2">/releases&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p><code>get_stats</code> is a function that tries again when a <code>202</code> status is returned.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_stats</span><span class="p">(</span><span class="n">url</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="o">**</span><span class="n">header</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">response</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">202</span><span class="p">:</span>
+            <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">get_stats</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">response</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="nd">@doit</span><span class="o">.</span><span class="n">task_params</span><span class="p">([</span><span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">list</span><span class="p">,</span> <span class="n">long</span><span class="o">=</span><span class="s2">&quot;project&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[])])</span>
+    <span class="k">def</span> <span class="nf">task_collect_stats</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">projects</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">url</span><span class="p">,</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="ow">in</span> <span class="n">get_iterables</span><span class="p">(</span><span class="n">project</span><span class="p">):</span>
+            <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">stat</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">owner</span><span class="p">,</span> <span class="n">repo</span><span class="p">,</span> <span class="n">stat</span><span class="p">)),</span><span class="n">actions</span><span class="o">=</span><span class="p">[(</span><span class="n">toolz</span><span class="o">.</span><span class="n">curried</span><span class="o">.</span><span class="n">do</span><span class="p">(</span><span class="n">get_stats</span><span class="p">),</span> <span class="p">[</span><span class="n">url</span><span class="p">])])</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_iterables</span><span class="p">(</span><span class="n">projects</span><span class="o">=</span><span class="n">projects</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span> <span class="ow">in</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">projects</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">STATS</span><span class="p">:</span> <span class="k">yield</span> <span class="n">URI</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="nb">locals</span><span class="p">()),</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span>
+            <span class="k">yield</span> <span class="n">RELEASES</span><span class="o">.</span><span class="n">expand</span><span class="p">(</span><span class="nb">locals</span><span class="p">()),</span> <span class="n">owner</span><span class="p">,</span> <span class="n">repo</span>
+</code></pre></div>
+<h2 id="retrieve-the-data-with-doit">retrieve the data with <code>doit</code><a class="headerlink" href="#retrieve-the-data-with-doit" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">doit</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">projects_args</span> <span class="o">=</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">projects</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;--project </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">.</span><span class="fm">__mod__</span><span class="p">))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">doit</span> <span class="n">run</span> <span class="n">collect_stats</span> <span class="err">$</span><span class="n">projects_args</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>.  collect_stats:tensorflow-models-code_frequency
+.  collect_stats:tensorflow-models-commit_activity
+.  collect_stats:tensorflow-models-participation
+.  collect_stats:tensorflow-models-releases
+.  collect_stats:mongodb-mongo-python-driver-code_frequency
+.  collect_stats:mongodb-mongo-python-driver-commit_activity
+.  collect_stats:mongodb-mongo-python-driver-participation
+.  collect_stats:mongodb-mongo-python-driver-releases
+.  collect_stats:3b1b-manim-code_frequency
+.  collect_stats:3b1b-manim-commit_activity
+.  collect_stats:3b1b-manim-participation
+.  collect_stats:3b1b-manim-releases
+.  collect_stats:alievk-avatarify-python-code_frequency
+.  collect_stats:alievk-avatarify-python-commit_activity
+.  collect_stats:alievk-avatarify-python-participation
+.  collect_stats:alievk-avatarify-python-releases
+.  collect_stats:python-cpython-code_frequency
+.  collect_stats:python-cpython-commit_activity
+.  collect_stats:python-cpython-participation
+.  collect_stats:python-cpython-releases
+.  collect_stats:ehmatthes-pcc-code_frequency
+.  collect_stats:ehmatthes-pcc-commit_activity
+.  collect_stats:ehmatthes-pcc-participation
+.  collect_stats:ehmatthes-pcc-releases
+.  collect_stats:openai-gym-code_frequency
+.  collect_stats:openai-gym-commit_activity
+.  collect_stats:openai-gym-participation
+.  collect_stats:openai-gym-releases
+.  collect_stats:openai-DALL-E-code_frequency
+.  collect_stats:openai-DALL-E-commit_activity
+.  collect_stats:openai-DALL-E-participation
+.  collect_stats:openai-DALL-E-releases
+.  collect_stats:tweepy-tweepy-code_frequency
+.  collect_stats:tweepy-tweepy-commit_activity
+.  collect_stats:tweepy-tweepy-participation
+.  collect_stats:tweepy-tweepy-releases
+.  collect_stats:google-research-football-code_frequency
+.  collect_stats:google-research-football-commit_activity
+.  collect_stats:google-research-football-participation
+.  collect_stats:google-research-football-releases
+.  collect_stats:pandas-dev-pandas-code_frequency
+.  collect_stats:pandas-dev-pandas-commit_activity
+.  collect_stats:pandas-dev-pandas-participation
+.  collect_stats:pandas-dev-pandas-releases
+.  collect_stats:cupy-cupy-code_frequency
+.  collect_stats:cupy-cupy-commit_activity
+.  collect_stats:cupy-cupy-participation
+.  collect_stats:cupy-cupy-releases
+.  collect_stats:explosion-spaCy-code_frequency
+.  collect_stats:explosion-spaCy-commit_activity
+.  collect_stats:explosion-spaCy-participation
+.  collect_stats:explosion-spaCy-releases
+.  collect_stats:biopython-biopython-code_frequency
+.  collect_stats:biopython-biopython-commit_activity
+.  collect_stats:biopython-biopython-participation
+.  collect_stats:biopython-biopython-releases
+.  collect_stats:shengqiangzhang-examples-of-web-crawlers-code_frequency
+.  collect_stats:shengqiangzhang-examples-of-web-crawlers-commit_activity
+.  collect_stats:shengqiangzhang-examples-of-web-crawlers-participation
+.  collect_stats:shengqiangzhang-examples-of-web-crawlers-releases
+.  collect_stats:sshwsfc-xadmin-code_frequency
+.  collect_stats:sshwsfc-xadmin-commit_activity
+.  collect_stats:sshwsfc-xadmin-participation
+.  collect_stats:sshwsfc-xadmin-releases
+.  collect_stats:facebook-prophet-code_frequency
+.  collect_stats:facebook-prophet-commit_activity
+.  collect_stats:facebook-prophet-participation
+.  collect_stats:facebook-prophet-releases
+.  collect_stats:fogleman-Minecraft-code_frequency
+.  collect_stats:fogleman-Minecraft-commit_activity
+.  collect_stats:fogleman-Minecraft-participation
+.  collect_stats:fogleman-Minecraft-releases
+.  collect_stats:magenta-magenta-code_frequency
+.  collect_stats:magenta-magenta-commit_activity
+.  collect_stats:magenta-magenta-participation
+.  collect_stats:magenta-magenta-releases
+.  collect_stats:AUTOMATIC1111-stable-diffusion-webui-code_frequency
+.  collect_stats:AUTOMATIC1111-stable-diffusion-webui-commit_activity
+.  collect_stats:AUTOMATIC1111-stable-diffusion-webui-participation
+.  collect_stats:AUTOMATIC1111-stable-diffusion-webui-releases
+.  collect_stats:python-telegram-bot-python-telegram-bot-code_frequency
+.  collect_stats:python-telegram-bot-python-telegram-bot-commit_activity
+.  collect_stats:python-telegram-bot-python-telegram-bot-participation
+.  collect_stats:python-telegram-bot-python-telegram-bot-releases
+.  collect_stats:dbcli-mycli-code_frequency
+.  collect_stats:dbcli-mycli-commit_activity
+.  collect_stats:dbcli-mycli-participation
+.  collect_stats:dbcli-mycli-releases
+.  collect_stats:ageitgey-face_recognition-code_frequency
+.  collect_stats:ageitgey-face_recognition-commit_activity
+.  collect_stats:ageitgey-face_recognition-participation
+.  collect_stats:ageitgey-face_recognition-releases
+.  collect_stats:pydantic-pydantic-code_frequency
+.  collect_stats:pydantic-pydantic-commit_activity
+.  collect_stats:pydantic-pydantic-participation
+.  collect_stats:pydantic-pydantic-releases
+.  collect_stats:plotly-plotly.py-code_frequency
+.  collect_stats:plotly-plotly.py-commit_activity
+.  collect_stats:plotly-plotly.py-participation
+.  collect_stats:plotly-plotly.py-releases
+.  collect_stats:p2pool-p2pool-code_frequency
+.  collect_stats:p2pool-p2pool-commit_activity
+.  collect_stats:p2pool-p2pool-participation
+.  collect_stats:p2pool-p2pool-releases
+.  collect_stats:pypa-pipenv-code_frequency
+.  collect_stats:pypa-pipenv-commit_activity
+.  collect_stats:pypa-pipenv-participation
+.  collect_stats:pypa-pipenv-releases
+.  collect_stats:psf-requests-code_frequency
+.  collect_stats:psf-requests-commit_activity
+.  collect_stats:psf-requests-participation
+.  collect_stats:psf-requests-releases
+.  collect_stats:ipython-ipython-code_frequency
+.  collect_stats:ipython-ipython-commit_activity
+.  collect_stats:ipython-ipython-participation
+.  collect_stats:ipython-ipython-releases
+.  collect_stats:amdegroot-ssd.pytorch-code_frequency
+.  collect_stats:amdegroot-ssd.pytorch-commit_activity
+.  collect_stats:amdegroot-ssd.pytorch-participation
+.  collect_stats:amdegroot-ssd.pytorch-releases
+.  collect_stats:apachecn-ailearning-code_frequency
+.  collect_stats:apachecn-ailearning-commit_activity
+.  collect_stats:apachecn-ailearning-participation
+.  collect_stats:apachecn-ailearning-releases
+.  collect_stats:scikit-learn-scikit-learn-code_frequency
+.  collect_stats:scikit-learn-scikit-learn-commit_activity
+.  collect_stats:scikit-learn-scikit-learn-participation
+.  collect_stats:scikit-learn-scikit-learn-releases
+.  collect_stats:pytorch-vision-code_frequency
+.  collect_stats:pytorch-vision-commit_activity
+.  collect_stats:pytorch-vision-participation
+.  collect_stats:pytorch-vision-releases
+.  collect_stats:sympy-sympy-code_frequency
+.  collect_stats:sympy-sympy-commit_activity
+.  collect_stats:sympy-sympy-participation
+.  collect_stats:sympy-sympy-releases
+.  collect_stats:onnx-onnx-code_frequency
+.  collect_stats:onnx-onnx-commit_activity
+.  collect_stats:onnx-onnx-participation
+.  collect_stats:onnx-onnx-releases
+.  collect_stats:Netflix-metaflow-code_frequency
+.  collect_stats:Netflix-metaflow-commit_activity
+.  collect_stats:Netflix-metaflow-participation
+.  collect_stats:Netflix-metaflow-releases
+.  collect_stats:heartexlabs-labelImg-code_frequency
+.  collect_stats:heartexlabs-labelImg-commit_activity
+.  collect_stats:heartexlabs-labelImg-participation
+.  collect_stats:heartexlabs-labelImg-releases
+.  collect_stats:OctoPrint-OctoPrint-code_frequency
+.  collect_stats:OctoPrint-OctoPrint-commit_activity
+.  collect_stats:OctoPrint-OctoPrint-participation
+.  collect_stats:OctoPrint-OctoPrint-releases
+.  collect_stats:wkentaro-labelme-code_frequency
+.  collect_stats:wkentaro-labelme-commit_activity
+.  collect_stats:wkentaro-labelme-participation
+.  collect_stats:wkentaro-labelme-releases
+.  collect_stats:fail2ban-fail2ban-code_frequency
+.  collect_stats:fail2ban-fail2ban-commit_activity
+.  collect_stats:fail2ban-fail2ban-participation
+.  collect_stats:fail2ban-fail2ban-releases
+.  collect_stats:Rapptz-discord.py-code_frequency
+.  collect_stats:Rapptz-discord.py-commit_activity
+.  collect_stats:Rapptz-discord.py-participation
+.  collect_stats:Rapptz-discord.py-releases
+.  collect_stats:guohongze-adminset-code_frequency
+.  collect_stats:guohongze-adminset-commit_activity
+.  collect_stats:guohongze-adminset-participation
+.  collect_stats:guohongze-adminset-releases
+.  collect_stats:threat9-routersploit-code_frequency
+.  collect_stats:threat9-routersploit-commit_activity
+.  collect_stats:threat9-routersploit-participation
+.  collect_stats:threat9-routersploit-releases
+.  collect_stats:ddbourgin-numpy-ml-code_frequency
+.  collect_stats:ddbourgin-numpy-ml-commit_activity
+.  collect_stats:ddbourgin-numpy-ml-participation
+.  collect_stats:ddbourgin-numpy-ml-releases
+.  collect_stats:pallets-flask-code_frequency
+.  collect_stats:pallets-flask-commit_activity
+.  collect_stats:pallets-flask-participation
+.  collect_stats:pallets-flask-releases
+.  collect_stats:modin-project-modin-code_frequency
+.  collect_stats:modin-project-modin-commit_activity
+.  collect_stats:modin-project-modin-participation
+.  collect_stats:modin-project-modin-releases
+.  collect_stats:spesmilo-electrum-code_frequency
+.  collect_stats:spesmilo-electrum-commit_activity
+.  collect_stats:spesmilo-electrum-participation
+.  collect_stats:spesmilo-electrum-releases
+.  collect_stats:iterative-dvc-code_frequency
+.  collect_stats:iterative-dvc-commit_activity
+.  collect_stats:iterative-dvc-participation
+.  collect_stats:iterative-dvc-releases
+.  collect_stats:tgalal-yowsup-code_frequency
+.  collect_stats:tgalal-yowsup-commit_activity
+.  collect_stats:tgalal-yowsup-participation
+.  collect_stats:tgalal-yowsup-releases
+.  collect_stats:Azure-azure-cli-code_frequency
+.  collect_stats:Azure-azure-cli-commit_activity
+.  collect_stats:Azure-azure-cli-participation
+.  collect_stats:Azure-azure-cli-releases
+.  collect_stats:shadowsocksr-backup-shadowsocksr-code_frequency
+.  collect_stats:shadowsocksr-backup-shadowsocksr-commit_activity
+.  collect_stats:shadowsocksr-backup-shadowsocksr-participation
+.  collect_stats:shadowsocksr-backup-shadowsocksr-releases
+.  collect_stats:ranger-ranger-code_frequency
+.  collect_stats:ranger-ranger-commit_activity
+.  collect_stats:ranger-ranger-participation
+.  collect_stats:ranger-ranger-releases
+.  collect_stats:localstack-localstack-code_frequency
+.  collect_stats:localstack-localstack-commit_activity
+.  collect_stats:localstack-localstack-participation
+.  collect_stats:localstack-localstack-releases
+.  collect_stats:MatrixTM-MHDDoS-code_frequency
+.  collect_stats:MatrixTM-MHDDoS-commit_activity
+.  collect_stats:MatrixTM-MHDDoS-participation
+.  collect_stats:MatrixTM-MHDDoS-releases
+.  collect_stats:soimort-you-get-code_frequency
+.  collect_stats:soimort-you-get-commit_activity
+.  collect_stats:soimort-you-get-participation
+.  collect_stats:soimort-you-get-releases
+.  collect_stats:Gameye98-Lazymux-code_frequency
+.  collect_stats:Gameye98-Lazymux-commit_activity
+.  collect_stats:Gameye98-Lazymux-participation
+.  collect_stats:Gameye98-Lazymux-releases
+.  collect_stats:allenai-allennlp-code_frequency
+.  collect_stats:allenai-allennlp-commit_activity
+.  collect_stats:allenai-allennlp-participation
+.  collect_stats:allenai-allennlp-releases
+.  collect_stats:CorentinJ-Real-Time-Voice-Cloning-code_frequency
+.  collect_stats:CorentinJ-Real-Time-Voice-Cloning-commit_activity
+.  collect_stats:CorentinJ-Real-Time-Voice-Cloning-participation
+.  collect_stats:CorentinJ-Real-Time-Voice-Cloning-releases
+.  collect_stats:RasaHQ-rasa-code_frequency
+.  collect_stats:RasaHQ-rasa-commit_activity
+.  collect_stats:RasaHQ-rasa-participation
+.  collect_stats:RasaHQ-rasa-releases
+.  collect_stats:websocket-client-websocket-client-code_frequency
+.  collect_stats:websocket-client-websocket-client-commit_activity
+.  collect_stats:websocket-client-websocket-client-participation
+.  collect_stats:websocket-client-websocket-client-releases
+.  collect_stats:scrapy-scrapy-code_frequency
+.  collect_stats:scrapy-scrapy-commit_activity
+.  collect_stats:scrapy-scrapy-participation
+.  collect_stats:scrapy-scrapy-releases
+.  collect_stats:eriklindernoren-PyTorch-YOLOv3-code_frequency
+.  collect_stats:eriklindernoren-PyTorch-YOLOv3-commit_activity
+.  collect_stats:eriklindernoren-PyTorch-YOLOv3-participation
+.  collect_stats:eriklindernoren-PyTorch-YOLOv3-releases
+.  collect_stats:trustedsec-social-engineer-toolkit-code_frequency
+.  collect_stats:trustedsec-social-engineer-toolkit-commit_activity
+.  collect_stats:trustedsec-social-engineer-toolkit-participation
+.  collect_stats:trustedsec-social-engineer-toolkit-releases
+.  collect_stats:zalando-patroni-code_frequency
+.  collect_stats:zalando-patroni-commit_activity
+.  collect_stats:zalando-patroni-participation
+.  collect_stats:zalando-patroni-releases
+.  collect_stats:aboul3la-Sublist3r-code_frequency
+.  collect_stats:aboul3la-Sublist3r-commit_activity
+.  collect_stats:aboul3la-Sublist3r-participation
+.  collect_stats:aboul3la-Sublist3r-releases
+.  collect_stats:lra-mackup-code_frequency
+.  collect_stats:lra-mackup-commit_activity
+.  collect_stats:lra-mackup-participation
+.  collect_stats:lra-mackup-releases
+.  collect_stats:MrS0m30n3-youtube-dl-gui-code_frequency
+.  collect_stats:MrS0m30n3-youtube-dl-gui-commit_activity
+.  collect_stats:MrS0m30n3-youtube-dl-gui-participation
+.  collect_stats:MrS0m30n3-youtube-dl-gui-releases
+.  collect_stats:Bitwise-01-Instagram--code_frequency
+.  collect_stats:Bitwise-01-Instagram--commit_activity
+.  collect_stats:Bitwise-01-Instagram--participation
+.  collect_stats:Bitwise-01-Instagram--releases
+.  collect_stats:bokeh-bokeh-code_frequency
+.  collect_stats:bokeh-bokeh-commit_activity
+.  collect_stats:bokeh-bokeh-participation
+.  collect_stats:bokeh-bokeh-releases
+.  collect_stats:quantopian-zipline-code_frequency
+.  collect_stats:quantopian-zipline-commit_activity
+.  collect_stats:quantopian-zipline-participation
+.  collect_stats:quantopian-zipline-releases
+.  collect_stats:jupyter-jupyter-code_frequency
+.  collect_stats:jupyter-jupyter-commit_activity
+.  collect_stats:jupyter-jupyter-participation
+.  collect_stats:jupyter-jupyter-releases
+.  collect_stats:dbcli-pgcli-code_frequency
+.  collect_stats:dbcli-pgcli-commit_activity
+.  collect_stats:dbcli-pgcli-participation
+.  collect_stats:dbcli-pgcli-releases
+.  collect_stats:aws-aws-cli-code_frequency
+.  collect_stats:aws-aws-cli-commit_activity
+.  collect_stats:aws-aws-cli-participation
+.  collect_stats:aws-aws-cli-releases
+.  collect_stats:ocrmypdf-OCRmyPDF-code_frequency
+.  collect_stats:ocrmypdf-OCRmyPDF-commit_activity
+.  collect_stats:ocrmypdf-OCRmyPDF-participation
+.  collect_stats:ocrmypdf-OCRmyPDF-releases
+.  collect_stats:apache-airflow-code_frequency
+.  collect_stats:apache-airflow-commit_activity
+.  collect_stats:apache-airflow-participation
+.  collect_stats:apache-airflow-releases
+.  collect_stats:encode-uvicorn-code_frequency
+.  collect_stats:encode-uvicorn-commit_activity
+.  collect_stats:encode-uvicorn-participation
+.  collect_stats:encode-uvicorn-releases
+.  collect_stats:mwaskom-seaborn-code_frequency
+.  collect_stats:mwaskom-seaborn-commit_activity
+.  collect_stats:mwaskom-seaborn-participation
+.  collect_stats:mwaskom-seaborn-releases
+.  collect_stats:NVIDIA-apex-code_frequency
+.  collect_stats:NVIDIA-apex-commit_activity
+.  collect_stats:NVIDIA-apex-participation
+.  collect_stats:NVIDIA-apex-releases
+.  collect_stats:numenta-nupic-code_frequency
+.  collect_stats:numenta-nupic-commit_activity
+.  collect_stats:numenta-nupic-participation
+.  collect_stats:numenta-nupic-releases
+.  collect_stats:wiseodd-generative-models-code_frequency
+.  collect_stats:wiseodd-generative-models-commit_activity
+.  collect_stats:wiseodd-generative-models-participation
+.  collect_stats:wiseodd-generative-models-releases
+.  collect_stats:TeamUltroid-Ultroid-code_frequency
+.  collect_stats:TeamUltroid-Ultroid-commit_activity
+.  collect_stats:TeamUltroid-Ultroid-participation
+.  collect_stats:TeamUltroid-Ultroid-releases
+.  collect_stats:deeppavlov-DeepPavlov-code_frequency
+.  collect_stats:deeppavlov-DeepPavlov-commit_activity
+.  collect_stats:deeppavlov-DeepPavlov-participation
+.  collect_stats:deeppavlov-DeepPavlov-releases
+.  collect_stats:openai-baselines-code_frequency
+.  collect_stats:openai-baselines-commit_activity
+.  collect_stats:openai-baselines-participation
+.  collect_stats:openai-baselines-releases
+.  collect_stats:lyst-lightfm-code_frequency
+.  collect_stats:lyst-lightfm-commit_activity
+.  collect_stats:lyst-lightfm-participation
+.  collect_stats:lyst-lightfm-releases
+.  collect_stats:deezer-spleeter-code_frequency
+.  collect_stats:deezer-spleeter-commit_activity
+.  collect_stats:deezer-spleeter-participation
+.  collect_stats:deezer-spleeter-releases
+.  collect_stats:babysor-MockingBird-code_frequency
+.  collect_stats:babysor-MockingBird-commit_activity
+.  collect_stats:babysor-MockingBird-participation
+.  collect_stats:babysor-MockingBird-releases
+.  collect_stats:tensorlayer-TensorLayer-code_frequency
+.  collect_stats:tensorlayer-TensorLayer-commit_activity
+.  collect_stats:tensorlayer-TensorLayer-participation
+.  collect_stats:tensorlayer-TensorLayer-releases
+.  collect_stats:flask-admin-flask-admin-code_frequency
+.  collect_stats:flask-admin-flask-admin-commit_activity
+.  collect_stats:flask-admin-flask-admin-participation
+.  collect_stats:flask-admin-flask-admin-releases
+.  collect_stats:codelucas-newspaper-code_frequency
+.  collect_stats:codelucas-newspaper-commit_activity
+.  collect_stats:codelucas-newspaper-participation
+.  collect_stats:codelucas-newspaper-releases
+.  collect_stats:dmlc-gluon-nlp-code_frequency
+.  collect_stats:dmlc-gluon-nlp-commit_activity
+.  collect_stats:dmlc-gluon-nlp-participation
+.  collect_stats:dmlc-gluon-nlp-releases
+.  collect_stats:python-poetry-poetry-code_frequency
+.  collect_stats:python-poetry-poetry-commit_activity
+.  collect_stats:python-poetry-poetry-participation
+.  collect_stats:python-poetry-poetry-releases
+.  collect_stats:darknessomi-musicbox-code_frequency
+.  collect_stats:darknessomi-musicbox-commit_activity
+.  collect_stats:darknessomi-musicbox-participation
+.  collect_stats:darknessomi-musicbox-releases
+.  collect_stats:pyro-ppl-pyro-code_frequency
+.  collect_stats:pyro-ppl-pyro-commit_activity
+.  collect_stats:pyro-ppl-pyro-participation
+.  collect_stats:pyro-ppl-pyro-releases
+.  collect_stats:alexjc-neural-enhance-code_frequency
+.  collect_stats:alexjc-neural-enhance-commit_activity
+.  collect_stats:alexjc-neural-enhance-participation
+.  collect_stats:alexjc-neural-enhance-releases
+.  collect_stats:QuantEcon-QuantEcon.py-code_frequency
+.  collect_stats:QuantEcon-QuantEcon.py-commit_activity
+.  collect_stats:QuantEcon-QuantEcon.py-participation
+.  collect_stats:QuantEcon-QuantEcon.py-releases
+.  collect_stats:Gallopsled-pwntools-code_frequency
+.  collect_stats:Gallopsled-pwntools-commit_activity
+.  collect_stats:Gallopsled-pwntools-participation
+.  collect_stats:Gallopsled-pwntools-releases
+.  collect_stats:amueller-word_cloud-code_frequency
+.  collect_stats:amueller-word_cloud-commit_activity
+.  collect_stats:amueller-word_cloud-participation
+.  collect_stats:amueller-word_cloud-releases
+.  collect_stats:rasbt-mlxtend-code_frequency
+.  collect_stats:rasbt-mlxtend-commit_activity
+.  collect_stats:rasbt-mlxtend-participation
+.  collect_stats:rasbt-mlxtend-releases
+.  collect_stats:google-python-fire-code_frequency
+.  collect_stats:google-python-fire-commit_activity
+.  collect_stats:google-python-fire-participation
+.  collect_stats:google-python-fire-releases
+.  collect_stats:1adrianb-face-alignment-code_frequency
+.  collect_stats:1adrianb-face-alignment-commit_activity
+.  collect_stats:1adrianb-face-alignment-participation
+.  collect_stats:1adrianb-face-alignment-releases
+.  collect_stats:django-django-code_frequency
+.  collect_stats:django-django-commit_activity
+.  collect_stats:django-django-participation
+.  collect_stats:django-django-releases
+.  collect_stats:elebumm-RedditVideoMakerBot-code_frequency
+.  collect_stats:elebumm-RedditVideoMakerBot-commit_activity
+.  collect_stats:elebumm-RedditVideoMakerBot-participation
+.  collect_stats:elebumm-RedditVideoMakerBot-releases
+.  collect_stats:Jack-Cherish-python-spider-code_frequency
+.  collect_stats:Jack-Cherish-python-spider-commit_activity
+.  collect_stats:Jack-Cherish-python-spider-participation
+.  collect_stats:Jack-Cherish-python-spider-releases
+.  collect_stats:OpenBB-finance-OpenBBTerminal-code_frequency
+.  collect_stats:OpenBB-finance-OpenBBTerminal-commit_activity
+.  collect_stats:OpenBB-finance-OpenBBTerminal-participation
+.  collect_stats:OpenBB-finance-OpenBBTerminal-releases
+.  collect_stats:networkx-networkx-code_frequency
+.  collect_stats:networkx-networkx-commit_activity
+.  collect_stats:networkx-networkx-participation
+.  collect_stats:networkx-networkx-releases
+.  collect_stats:openshift-openshift-ansible-code_frequency
+.  collect_stats:openshift-openshift-ansible-commit_activity
+.  collect_stats:openshift-openshift-ansible-participation
+.  collect_stats:openshift-openshift-ansible-releases
+.  collect_stats:heartexlabs-label-studio-code_frequency
+.  collect_stats:heartexlabs-label-studio-commit_activity
+.  collect_stats:heartexlabs-label-studio-participation
+.  collect_stats:heartexlabs-label-studio-releases
+.  collect_stats:CTFd-CTFd-code_frequency
+.  collect_stats:CTFd-CTFd-commit_activity
+.  collect_stats:CTFd-CTFd-participation
+.  collect_stats:CTFd-CTFd-releases
+.  collect_stats:nvbn-thefuck-code_frequency
+.  collect_stats:nvbn-thefuck-commit_activity
+.  collect_stats:nvbn-thefuck-participation
+.  collect_stats:nvbn-thefuck-releases
+.  collect_stats:encode-django-rest-framework-code_frequency
+.  collect_stats:encode-django-rest-framework-commit_activity
+.  collect_stats:encode-django-rest-framework-participation
+.  collect_stats:encode-django-rest-framework-releases
+.  collect_stats:tflearn-tflearn-code_frequency
+.  collect_stats:tflearn-tflearn-commit_activity
+.  collect_stats:tflearn-tflearn-participation
+.  collect_stats:tflearn-tflearn-releases
+.  collect_stats:Theano-Theano-code_frequency
+.  collect_stats:Theano-Theano-commit_activity
+.  collect_stats:Theano-Theano-participation
+.  collect_stats:Theano-Theano-releases
+.  collect_stats:TheSpeedX-TBomb-code_frequency
+.  collect_stats:TheSpeedX-TBomb-commit_activity
+.  collect_stats:TheSpeedX-TBomb-participation
+.  collect_stats:TheSpeedX-TBomb-releases
+.  collect_stats:hyperopt-hyperopt-code_frequency
+.  collect_stats:hyperopt-hyperopt-commit_activity
+.  collect_stats:hyperopt-hyperopt-participation
+.  collect_stats:hyperopt-hyperopt-releases
+.  collect_stats:donnemartin-dev-setup-code_frequency
+.  collect_stats:donnemartin-dev-setup-commit_activity
+.  collect_stats:donnemartin-dev-setup-participation
+.  collect_stats:donnemartin-dev-setup-releases
+.  collect_stats:microsoft-qlib-code_frequency
+.  collect_stats:microsoft-qlib-commit_activity
+.  collect_stats:microsoft-qlib-participation
+.  collect_stats:microsoft-qlib-releases
+.  collect_stats:googleapis-google-api-python-client-code_frequency
+.  collect_stats:googleapis-google-api-python-client-commit_activity
+.  collect_stats:googleapis-google-api-python-client-participation
+.  collect_stats:googleapis-google-api-python-client-releases
+.  collect_stats:horovod-horovod-code_frequency
+.  collect_stats:horovod-horovod-commit_activity
+.  collect_stats:horovod-horovod-participation
+.  collect_stats:horovod-horovod-releases
+.  collect_stats:scikit-image-scikit-image-code_frequency
+.  collect_stats:scikit-image-scikit-image-commit_activity
+.  collect_stats:scikit-image-scikit-image-participation
+.  collect_stats:scikit-image-scikit-image-releases
+.  collect_stats:git-cola-git-cola-code_frequency
+.  collect_stats:git-cola-git-cola-commit_activity
+.  collect_stats:git-cola-git-cola-participation
+.  collect_stats:git-cola-git-cola-releases
+.  collect_stats:nicolargo-glances-code_frequency
+.  collect_stats:nicolargo-glances-commit_activity
+.  collect_stats:nicolargo-glances-participation
+.  collect_stats:nicolargo-glances-releases
+.  collect_stats:deepmind-pysc2-code_frequency
+.  collect_stats:deepmind-pysc2-commit_activity
+.  collect_stats:deepmind-pysc2-participation
+.  collect_stats:deepmind-pysc2-releases
+.  collect_stats:librosa-librosa-code_frequency
+.  collect_stats:librosa-librosa-commit_activity
+.  collect_stats:librosa-librosa-participation
+.  collect_stats:librosa-librosa-releases
+.  collect_stats:PyMySQL-mysqlclient-code_frequency
+.  collect_stats:PyMySQL-mysqlclient-commit_activity
+.  collect_stats:PyMySQL-mysqlclient-participation
+.  collect_stats:PyMySQL-mysqlclient-releases
+.  collect_stats:trustedsec-ptf-code_frequency
+.  collect_stats:trustedsec-ptf-commit_activity
+.  collect_stats:trustedsec-ptf-participation
+.  collect_stats:trustedsec-ptf-releases
+.  collect_stats:facebookresearch-fairseq-code_frequency
+.  collect_stats:facebookresearch-fairseq-commit_activity
+.  collect_stats:facebookresearch-fairseq-participation
+.  collect_stats:facebookresearch-fairseq-releases
+.  collect_stats:mingrammer-diagrams-code_frequency
+.  collect_stats:mingrammer-diagrams-commit_activity
+.  collect_stats:mingrammer-diagrams-participation
+.  collect_stats:mingrammer-diagrams-releases
+.  collect_stats:mkleehammer-pyodbc-code_frequency
+.  collect_stats:mkleehammer-pyodbc-commit_activity
+.  collect_stats:mkleehammer-pyodbc-participation
+.  collect_stats:mkleehammer-pyodbc-releases
+.  collect_stats:aaPanel-BaoTa-code_frequency
+.  collect_stats:aaPanel-BaoTa-commit_activity
+.  collect_stats:aaPanel-BaoTa-participation
+.  collect_stats:aaPanel-BaoTa-releases
+.  collect_stats:mlflow-mlflow-code_frequency
+.  collect_stats:mlflow-mlflow-commit_activity
+.  collect_stats:mlflow-mlflow-participation
+.  collect_stats:mlflow-mlflow-releases
+.  collect_stats:deepchem-deepchem-code_frequency
+.  collect_stats:deepchem-deepchem-commit_activity
+.  collect_stats:deepchem-deepchem-participation
+.  collect_stats:deepchem-deepchem-releases
+.  collect_stats:frappe-bench-code_frequency
+.  collect_stats:frappe-bench-commit_activity
+.  collect_stats:frappe-bench-participation
+.  collect_stats:frappe-bench-releases
+.  collect_stats:matplotlib-matplotlib-code_frequency
+.  collect_stats:matplotlib-matplotlib-commit_activity
+.  collect_stats:matplotlib-matplotlib-participation
+.  collect_stats:matplotlib-matplotlib-releases
+.  collect_stats:pydata-pandas-datareader-code_frequency
+.  collect_stats:pydata-pandas-datareader-commit_activity
+.  collect_stats:pydata-pandas-datareader-participation
+.  collect_stats:pydata-pandas-datareader-releases
+.  collect_stats:TencentARC-GFPGAN-code_frequency
+.  collect_stats:TencentARC-GFPGAN-commit_activity
+.  collect_stats:TencentARC-GFPGAN-participation
+.  collect_stats:TencentARC-GFPGAN-releases
+.  collect_stats:ThoughtfulDev-EagleEye-code_frequency
+.  collect_stats:ThoughtfulDev-EagleEye-commit_activity
+.  collect_stats:ThoughtfulDev-EagleEye-participation
+.  collect_stats:ThoughtfulDev-EagleEye-releases
+.  collect_stats:Uberi-speech_recognition-code_frequency
+.  collect_stats:Uberi-speech_recognition-commit_activity
+.  collect_stats:Uberi-speech_recognition-participation
+.  collect_stats:Uberi-speech_recognition-releases
+.  collect_stats:scikit-learn-contrib-imbalanced-learn-code_frequency
+.  collect_stats:scikit-learn-contrib-imbalanced-learn-commit_activity
+.  collect_stats:scikit-learn-contrib-imbalanced-learn-participation
+.  collect_stats:scikit-learn-contrib-imbalanced-learn-releases
+.  collect_stats:Lightning-AI-lightning-code_frequency
+.  collect_stats:Lightning-AI-lightning-commit_activity
+.  collect_stats:Lightning-AI-lightning-participation
+.  collect_stats:Lightning-AI-lightning-releases
+.  collect_stats:strawlab-python-pcl-code_frequency
+.  collect_stats:strawlab-python-pcl-commit_activity
+.  collect_stats:strawlab-python-pcl-participation
+.  collect_stats:strawlab-python-pcl-releases
+.  collect_stats:jopohl-urh-code_frequency
+.  collect_stats:jopohl-urh-commit_activity
+.  collect_stats:jopohl-urh-participation
+.  collect_stats:jopohl-urh-releases
+.  collect_stats:GreaterWMS-GreaterWMS-code_frequency
+.  collect_stats:GreaterWMS-GreaterWMS-commit_activity
+.  collect_stats:GreaterWMS-GreaterWMS-participation
+.  collect_stats:GreaterWMS-GreaterWMS-releases
+.  collect_stats:LionSec-katoolin-code_frequency
+.  collect_stats:LionSec-katoolin-commit_activity
+.  collect_stats:LionSec-katoolin-participation
+.  collect_stats:LionSec-katoolin-releases
+.  collect_stats:ManimCommunity-manim-code_frequency
+.  collect_stats:ManimCommunity-manim-commit_activity
+.  collect_stats:ManimCommunity-manim-participation
+.  collect_stats:ManimCommunity-manim-releases
+.  collect_stats:dmlc-gluon-cv-code_frequency
+.  collect_stats:dmlc-gluon-cv-commit_activity
+.  collect_stats:dmlc-gluon-cv-participation
+.  collect_stats:dmlc-gluon-cv-releases
+.  collect_stats:gorakhargosh-watchdog-code_frequency
+.  collect_stats:gorakhargosh-watchdog-commit_activity
+.  collect_stats:gorakhargosh-watchdog-participation
+.  collect_stats:gorakhargosh-watchdog-releases
+.  collect_stats:biolab-orange3-code_frequency
+.  collect_stats:biolab-orange3-commit_activity
+.  collect_stats:biolab-orange3-participation
+.  collect_stats:biolab-orange3-releases
+.  collect_stats:NullArray-AutoSploit-code_frequency
+.  collect_stats:NullArray-AutoSploit-commit_activity
+.  collect_stats:NullArray-AutoSploit-participation
+.  collect_stats:NullArray-AutoSploit-releases
+.  collect_stats:webpy-webpy-code_frequency
+.  collect_stats:webpy-webpy-commit_activity
+.  collect_stats:webpy-webpy-participation
+.  collect_stats:webpy-webpy-releases
+.  collect_stats:sherlock-project-sherlock-code_frequency
+.  collect_stats:sherlock-project-sherlock-commit_activity
+.  collect_stats:sherlock-project-sherlock-participation
+.  collect_stats:sherlock-project-sherlock-releases
+.  collect_stats:celery-celery-code_frequency
+.  collect_stats:celery-celery-commit_activity
+.  collect_stats:celery-celery-participation
+.  collect_stats:celery-celery-releases
+.  collect_stats:xinntao-Real-ESRGAN-code_frequency
+.  collect_stats:xinntao-Real-ESRGAN-commit_activity
+.  collect_stats:xinntao-Real-ESRGAN-participation
+.  collect_stats:xinntao-Real-ESRGAN-releases
+.  collect_stats:drivendata-cookiecutter-data-science-code_frequency
+.  collect_stats:drivendata-cookiecutter-data-science-commit_activity
+.  collect_stats:drivendata-cookiecutter-data-science-participation
+.  collect_stats:drivendata-cookiecutter-data-science-releases
+.  collect_stats:pgmpy-pgmpy-code_frequency
+.  collect_stats:pgmpy-pgmpy-commit_activity
+.  collect_stats:pgmpy-pgmpy-participation
+.  collect_stats:pgmpy-pgmpy-releases
+.  collect_stats:Chia-Network-chia-blockchain-code_frequency
+.  collect_stats:Chia-Network-chia-blockchain-commit_activity
+.  collect_stats:Chia-Network-chia-blockchain-participation
+.  collect_stats:Chia-Network-chia-blockchain-releases
+.  collect_stats:thunil-TecoGAN-code_frequency
+.  collect_stats:thunil-TecoGAN-commit_activity
+.  collect_stats:thunil-TecoGAN-participation
+.  collect_stats:thunil-TecoGAN-releases
+.  collect_stats:CouchPotato-CouchPotatoServer-code_frequency
+.  collect_stats:CouchPotato-CouchPotatoServer-commit_activity
+.  collect_stats:CouchPotato-CouchPotatoServer-participation
+.  collect_stats:CouchPotato-CouchPotatoServer-releases
+.  collect_stats:boto-boto3-code_frequency
+.  collect_stats:boto-boto3-commit_activity
+.  collect_stats:boto-boto3-participation
+.  collect_stats:boto-boto3-releases
+.  collect_stats:RaRe-Technologies-gensim-code_frequency
+.  collect_stats:RaRe-Technologies-gensim-commit_activity
+.  collect_stats:RaRe-Technologies-gensim-participation
+.  collect_stats:RaRe-Technologies-gensim-releases
+.  collect_stats:CharlesPikachu-Games-code_frequency
+.  collect_stats:CharlesPikachu-Games-commit_activity
+.  collect_stats:CharlesPikachu-Games-participation
+.  collect_stats:CharlesPikachu-Games-releases
+.  collect_stats:pytorch-tutorials-code_frequency
+.  collect_stats:pytorch-tutorials-commit_activity
+.  collect_stats:pytorch-tutorials-participation
+.  collect_stats:pytorch-tutorials-releases
+.  collect_stats:PyMySQL-PyMySQL-code_frequency
+.  collect_stats:PyMySQL-PyMySQL-commit_activity
+.  collect_stats:PyMySQL-PyMySQL-participation
+.  collect_stats:PyMySQL-PyMySQL-releases
+.  collect_stats:google-jax-code_frequency
+.  collect_stats:google-jax-commit_activity
+.  collect_stats:google-jax-participation
+.  collect_stats:google-jax-releases
+.  collect_stats:asweigart-pyautogui-code_frequency
+.  collect_stats:asweigart-pyautogui-commit_activity
+.  collect_stats:asweigart-pyautogui-participation
+.  collect_stats:asweigart-pyautogui-releases
+.  collect_stats:Hironsan-BossSensor-code_frequency
+.  collect_stats:Hironsan-BossSensor-commit_activity
+.  collect_stats:Hironsan-BossSensor-participation
+.  collect_stats:Hironsan-BossSensor-releases
+.  collect_stats:tensorflow-agents-code_frequency
+.  collect_stats:tensorflow-agents-commit_activity
+.  collect_stats:tensorflow-agents-participation
+.  collect_stats:tensorflow-agents-releases
+.  collect_stats:Zulko-moviepy-code_frequency
+.  collect_stats:Zulko-moviepy-commit_activity
+.  collect_stats:Zulko-moviepy-participation
+.  collect_stats:Zulko-moviepy-releases
+.  collect_stats:wting-autojump-code_frequency
+.  collect_stats:wting-autojump-commit_activity
+.  collect_stats:wting-autojump-participation
+.  collect_stats:wting-autojump-releases
+.  collect_stats:python-mypy-code_frequency
+.  collect_stats:python-mypy-commit_activity
+.  collect_stats:python-mypy-participation
+.  collect_stats:python-mypy-releases
+.  collect_stats:docker-docker-py-code_frequency
+.  collect_stats:docker-docker-py-commit_activity
+.  collect_stats:docker-docker-py-participation
+.  collect_stats:docker-docker-py-releases
+.  collect_stats:conda-conda-code_frequency
+.  collect_stats:conda-conda-commit_activity
+.  collect_stats:conda-conda-participation
+.  collect_stats:conda-conda-releases
+.  collect_stats:aristocratos-bpytop-code_frequency
+.  collect_stats:aristocratos-bpytop-commit_activity
+.  collect_stats:aristocratos-bpytop-participation
+.  collect_stats:aristocratos-bpytop-releases
+.  collect_stats:pypa-pip-code_frequency
+.  collect_stats:pypa-pip-commit_activity
+.  collect_stats:pypa-pip-participation
+.  collect_stats:pypa-pip-releases
+.  collect_stats:InstaPy-InstaPy-code_frequency
+.  collect_stats:InstaPy-InstaPy-commit_activity
+.  collect_stats:InstaPy-InstaPy-participation
+.  collect_stats:InstaPy-InstaPy-releases
+.  collect_stats:jupyterhub-jupyterhub-code_frequency
+.  collect_stats:jupyterhub-jupyterhub-commit_activity
+.  collect_stats:jupyterhub-jupyterhub-participation
+.  collect_stats:jupyterhub-jupyterhub-releases
+.  collect_stats:my8100-scrapydweb-code_frequency
+.  collect_stats:my8100-scrapydweb-commit_activity
+.  collect_stats:my8100-scrapydweb-participation
+.  collect_stats:my8100-scrapydweb-releases
+.  collect_stats:coursera-dl-coursera-dl-code_frequency
+.  collect_stats:coursera-dl-coursera-dl-commit_activity
+.  collect_stats:coursera-dl-coursera-dl-participation
+.  collect_stats:coursera-dl-coursera-dl-releases
+.  collect_stats:zeromq-pyzmq-code_frequency
+.  collect_stats:zeromq-pyzmq-commit_activity
+.  collect_stats:zeromq-pyzmq-participation
+.  collect_stats:zeromq-pyzmq-releases
+.  collect_stats:frappe-erpnext-code_frequency
+.  collect_stats:frappe-erpnext-commit_activity
+.  collect_stats:frappe-erpnext-participation
+.  collect_stats:frappe-erpnext-releases
+.  collect_stats:microsoft-pyright-code_frequency
+.  collect_stats:microsoft-pyright-commit_activity
+.  collect_stats:microsoft-pyright-participation
+.  collect_stats:microsoft-pyright-releases
+.  collect_stats:sightmachine-SimpleCV-code_frequency
+.  collect_stats:sightmachine-SimpleCV-commit_activity
+.  collect_stats:sightmachine-SimpleCV-participation
+.  collect_stats:sightmachine-SimpleCV-releases
+.  collect_stats:deepmind-graph_nets-code_frequency
+.  collect_stats:deepmind-graph_nets-commit_activity
+.  collect_stats:deepmind-graph_nets-participation
+.  collect_stats:deepmind-graph_nets-releases
+.  collect_stats:sshuttle-sshuttle-code_frequency
+.  collect_stats:sshuttle-sshuttle-commit_activity
+.  collect_stats:sshuttle-sshuttle-participation
+.  collect_stats:sshuttle-sshuttle-releases
+.  collect_stats:joestump-python-oauth2-code_frequency
+.  collect_stats:joestump-python-oauth2-commit_activity
+.  collect_stats:joestump-python-oauth2-participation
+.  collect_stats:joestump-python-oauth2-releases
+.  collect_stats:ycm-core-YouCompleteMe-code_frequency
+.  collect_stats:ycm-core-YouCompleteMe-commit_activity
+.  collect_stats:ycm-core-YouCompleteMe-participation
+.  collect_stats:ycm-core-YouCompleteMe-releases
+.  collect_stats:twisted-twisted-code_frequency
+.  collect_stats:twisted-twisted-commit_activity
+.  collect_stats:twisted-twisted-participation
+.  collect_stats:twisted-twisted-releases
+.  collect_stats:SecureAuthCorp-impacket-code_frequency
+.  collect_stats:SecureAuthCorp-impacket-commit_activity
+.  collect_stats:SecureAuthCorp-impacket-participation
+.  collect_stats:SecureAuthCorp-impacket-releases
+.  collect_stats:encode-starlette-code_frequency
+.  collect_stats:encode-starlette-commit_activity
+.  collect_stats:encode-starlette-participation
+.  collect_stats:encode-starlette-releases
+.  collect_stats:nodejs-node-gyp-code_frequency
+.  collect_stats:nodejs-node-gyp-commit_activity
+.  collect_stats:nodejs-node-gyp-participation
+.  collect_stats:nodejs-node-gyp-releases
+.  collect_stats:pyserial-pyserial-code_frequency
+.  collect_stats:pyserial-pyserial-commit_activity
+.  collect_stats:pyserial-pyserial-participation
+.  collect_stats:pyserial-pyserial-releases
+.  collect_stats:keras-rl-keras-rl-code_frequency
+.  collect_stats:keras-rl-keras-rl-commit_activity
+.  collect_stats:keras-rl-keras-rl-participation
+.  collect_stats:keras-rl-keras-rl-releases
+.  collect_stats:onionshare-onionshare-code_frequency
+.  collect_stats:onionshare-onionshare-commit_activity
+.  collect_stats:onionshare-onionshare-participation
+.  collect_stats:onionshare-onionshare-releases
+.  collect_stats:mesonbuild-meson-code_frequency
+.  collect_stats:mesonbuild-meson-commit_activity
+.  collect_stats:mesonbuild-meson-participation
+.  collect_stats:mesonbuild-meson-releases
+.  collect_stats:MTG-sms-tools-code_frequency
+.  collect_stats:MTG-sms-tools-commit_activity
+.  collect_stats:MTG-sms-tools-participation
+.  collect_stats:MTG-sms-tools-releases
+.  collect_stats:mps-youtube-mps-youtube-code_frequency
+.  collect_stats:mps-youtube-mps-youtube-commit_activity
+.  collect_stats:mps-youtube-mps-youtube-participation
+.  collect_stats:mps-youtube-mps-youtube-releases
+.  collect_stats:MongoEngine-mongoengine-code_frequency
+.  collect_stats:MongoEngine-mongoengine-commit_activity
+.  collect_stats:MongoEngine-mongoengine-participation
+.  collect_stats:MongoEngine-mongoengine-releases
+.  collect_stats:deepset-ai-haystack-code_frequency
+.  collect_stats:deepset-ai-haystack-commit_activity
+.  collect_stats:deepset-ai-haystack-participation
+.  collect_stats:deepset-ai-haystack-releases
+.  collect_stats:sourabhv-FlapPyBird-code_frequency
+.  collect_stats:sourabhv-FlapPyBird-commit_activity
+.  collect_stats:sourabhv-FlapPyBird-participation
+.  collect_stats:sourabhv-FlapPyBird-releases
+.  collect_stats:open-mmlab-mmcv-code_frequency
+.  collect_stats:open-mmlab-mmcv-commit_activity
+.  collect_stats:open-mmlab-mmcv-participation
+.  collect_stats:open-mmlab-mmcv-releases
+.  collect_stats:faucetsdn-ryu-code_frequency
+.  collect_stats:faucetsdn-ryu-commit_activity
+.  collect_stats:faucetsdn-ryu-participation
+.  collect_stats:faucetsdn-ryu-releases
+</pre>
+</div>
+
+<h2 id="explore-the-data-in-dataframes">explore the data in dataframes<a class="headerlink" href="#explore-the-data-in-dataframes" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code>     <span class="kn">import</span> <span class="nn">pandas</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">get_iterables</span><span class="p">(),</span> <span class="n">columns</span><span class="o">=</span><span class="s2">&quot;url project repo&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">())</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;url&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;stat&quot;</span><span class="p">),</span><span class="n">append</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reorder_levels</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">releases</span> <span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;releases&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">get_stats</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>/tmp/ipykernel_70909/139248023.py:1: FutureWarning: The default dtype for empty Series will be &#39;object&#39; instead of &#39;float64&#39; in a future version. Specify a dtype explicitly to silence this warning.
+  releases =df.loc[&#34;releases&#34;].index.to_series().map(get_stats).apply(pandas.Series).stack().apply(pandas.Series)
+</pre>
+</div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">releases</span><span class="p">[[</span><span class="s2">&quot;tag_name&quot;</span><span class="p">,</span> <span class="s2">&quot;published_at&quot;</span><span class="p">]]</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>tag_name</th>
+      <th>published_at</th>
+    </tr>
+    <tr>
+      <th>url</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th rowspan="5" valign="top">https://api.github.com/repos/tensorflow/models/releases</th>
+      <th>0</th>
+      <td>v2.11.0</td>
+      <td>2022-11-23T00:09:34Z</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>v2.10.1</td>
+      <td>2022-11-17T05:15:35Z</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>v2.10.0</td>
+      <td>2022-09-19T21:45:22Z</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>v2.7.2</td>
+      <td>2022-07-08T06:48:39Z</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>v2.9.2</td>
+      <td>2022-05-20T04:55:27Z</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th rowspan="5" valign="top">https://api.github.com/repos/open-mmlab/mmcv/releases</th>
+      <th>25</th>
+      <td>v1.3.13</td>
+      <td>2021-09-10T03:43:36Z</td>
+    </tr>
+    <tr>
+      <th>26</th>
+      <td>v1.3.12</td>
+      <td>2021-08-24T14:17:49Z</td>
+    </tr>
+    <tr>
+      <th>27</th>
+      <td>v1.3.11</td>
+      <td>2021-08-12T09:20:52Z</td>
+    </tr>
+    <tr>
+      <th>28</th>
+      <td>v1.3.10</td>
+      <td>2021-07-24T12:40:10Z</td>
+    </tr>
+    <tr>
+      <th>29</th>
+      <td>v1.3.9</td>
+      <td>2021-07-10T03:07:15Z</td>
+    </tr>
+  </tbody>
+</table>
+<p>2808 rows × 2 columns</p>
+</div></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">freq</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;code_frequency&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="n">get_stats</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+    <span class="n">freq</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="s2">&quot;w+-&quot;</span><span class="p">)</span>    
+    <span class="n">freq</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">freq</span><span class="o">.</span><span class="n">w</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+    <span class="n">freq</span> <span class="o">=</span> <span class="n">freq</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">freq</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">GH</span><span class="p">)</span> <span class="o">+</span> <span class="mi">7</span><span class="p">,</span> <span class="o">-</span><span class="nb">len</span><span class="p">(</span><span class="s2">&quot;/stats/code_frequency&quot;</span><span class="p">)))))</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">hvplot.pandas</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea "><style>.bk-root, .bk-root .bk:before, .bk-root .bk:after {
+  font-family: var(--jp-ui-font-size1);
+  font-size: var(--jp-ui-font-size1);
+  color: var(--jp-ui-font-color1);
+}
+</style></div>
+
+<div class="output_html rendered_html output_subarea "></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">b</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="nb">list</span><span class="p">(</span><span class="s2">&quot;+-&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">abs</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">freq</span><span class="p">[</span><span class="n">b</span><span class="p">][</span><span class="nb">list</span><span class="p">(</span><span class="s2">&quot;+-&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>+</th>
+      <th>-</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5.267500e+04</td>
+      <td>5.267500e+04</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>5.047921e+03</td>
+      <td>-4.063599e+03</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>8.565557e+04</td>
+      <td>9.036993e+04</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>0.000000e+00</td>
+      <td>-1.494524e+07</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>4.000000e+01</td>
+      <td>-6.400000e+02</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>2.940000e+02</td>
+      <td>-1.100000e+02</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>1.367500e+03</td>
+      <td>-1.300000e+01</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>1.461846e+07</td>
+      <td>0.000000e+00</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+
+</script>
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="2022-12-15-html-tags-study.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: all the tags i could be using" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              all the tags i could be using
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="2022-12-09-pyproject-analysis.html" class="md-footer__link md-footer__link--next" aria-label="Next: exploring many &lt;pre&gt;pyproject.toml configs&lt;/pre&gt;" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              exploring many <pre>pyproject.toml configs</pre>
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+    
+    
+  </body>
+</html>
