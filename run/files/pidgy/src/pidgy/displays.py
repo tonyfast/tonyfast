@@ -1,4 +1,8 @@
 """Reactive IPython/IPywidgets templates
+
+these displays combine IPython displays with jinja2 environments.
+we export multiple displays to use in different contexts.
+for example, voila prefers HTML ipywidgets based displays to gain interactivity.
 """
 # in this module we try to shield the library imports to make
 # dependencies optional. we always have markdown it and ipython.
@@ -41,6 +45,12 @@ class TemplateDisplay:
             self.display_handle.display(self.display_object(self.body))
             ensure_future(self.aupdate())
         else:
+            try:
+                import nest_asyncio
+
+                nest_asyncio.apply()
+            except ModuleNotFoundError:
+                raise ImportError("nest_asyncio is needed to use synchronous rendering.")
             self.display_handle.display(self.display_object(self.render()))
 
     def _is_list_urls(self, x):
@@ -55,8 +65,14 @@ class TemplateDisplay:
         """async template rendering"""
         output = StringIO()
 
-        async for part in self.template.generate_async():
-            output.write(part)
+        try:
+            async for part in self.template.generate_async():
+                output.write(part)
+        except BaseException as e:
+            import traceback
+
+            msg = "".join(traceback.format_exception(type(e), e, e.__traceback__))
+            return f"""`````````pytb\n{msg}\n`````````"""
         return output.getvalue()
 
     def render(self):
@@ -64,9 +80,6 @@ class TemplateDisplay:
         return self.template.render()
 
     def display_object(self, object, **kwargs):
-        # metadata = self.get_markdown_metadata()
-        # if metadata:
-        #     kwargs.setdefault("metadata", {"@graph": metadata})
         return self.display_cls(object, **kwargs)
 
     async def aupdate(self):
@@ -151,14 +164,4 @@ def is_widget(object):
         from ipywidgets import Widget
 
         return isinstance(object, Widget)
-    return False
-
-
-def is_widget_type(object):
-    from sys import modules
-
-    if "ipywidgets" in modules:
-        from ipywidgets import Widget
-
-        return issubclass(object, Widget)
     return False
