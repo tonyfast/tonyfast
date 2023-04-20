@@ -19,7 +19,7 @@
         <link rel="next" href="2023-01-14-links-in-markdown-tokens.html">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.3">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-9.1.6">
     
     
       
@@ -27,7 +27,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.c4a75a56.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ded33207.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.a0c5b2b5.min.css">
@@ -59,7 +59,7 @@
       
         <meta  property="og:type"  content="website" >
       
-        <meta  property="og:title"  content="customizing the <pre>IPython</pre> contextual help - tonyfast" >
+        <meta  property="og:title"  content="customizing the <code>IPython</code> contextual help - tonyfast" >
       
         <meta  property="og:description"  content="tonyfast's stuff" >
       
@@ -75,7 +75,7 @@
       
         <meta  name="twitter:card"  content="summary_large_image" >
       
-        <meta  name="twitter:title"  content="customizing the <pre>IPython</pre> contextual help - tonyfast" >
+        <meta  name="twitter:title"  content="customizing the <code>IPython</code> contextual help - tonyfast" >
       
         <meta  name="twitter:description"  content="tonyfast's stuff" >
       
@@ -83,7 +83,36 @@
       
     
     
-  </head>
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script></head>
   
   
     
@@ -140,7 +169,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              customizing the <pre>IPython</pre> contextual help
+              customizing the <code>IPython</code> contextual help
             
           </span>
         </div>
@@ -207,7 +236,7 @@
         <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     tonyfast/tonyfast
@@ -254,7 +283,7 @@
       <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     tonyfast/tonyfast
@@ -360,7 +389,7 @@
   
     <li class="md-nav__item">
       <a href="2023-02-28-community-demo.html" class="md-nav__link">
-        2023 02 28 community demo
+        <code>pidgy</code> literate computing
       </a>
     </li>
   
@@ -402,7 +431,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-24-system-dependency-graphs.html" class="md-nav__link">
-        extracting a dependency graph from <pre>importlib_metadata</pre>
+        extracting a dependency graph from <code>importlib_metadata</code>
       </a>
     </li>
   
@@ -416,7 +445,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-24-whoosh-search.html" class="md-nav__link">
-        use <pre>whoosh</pre> to search cells/articles on disk
+        use <code>whoosh</code> to search cells/articles on disk
       </a>
     </li>
   
@@ -444,7 +473,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
-        cleaner integration of <pre>pidgy</pre> &amp; <pre>voila</pre>
+        cleaner integration of <code>pidgy</code> &amp; <code>voila</code>
       </a>
     </li>
   
@@ -467,12 +496,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          customizing the <pre>IPython</pre> contextual help
+          customizing the <code>IPython</code> contextual help
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="2023-01-16-inspector-hack.html" class="md-nav__link md-nav__link--active">
-        customizing the <pre>IPython</pre> contextual help
+        customizing the <code>IPython</code> contextual help
       </a>
       
         
@@ -554,20 +583,6 @@
   
   
     <li class="md-nav__item">
-      <a href="2023-01-12-tree-sitter.html" class="md-nav__link">
-        getting start with tree sitter
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="2023-01-12-giscus-comments.html" class="md-nav__link">
         adding giscus comments to this blog
       </a>
@@ -582,8 +597,8 @@
   
   
     <li class="md-nav__item">
-      <a href="2023-01-11-duckdb-search.html" class="md-nav__link">
-        full text search for notebooks and files using duckdb
+      <a href="2023-01-12-tree-sitter.html" class="md-nav__link">
+        getting start with tree sitter
       </a>
     </li>
   
@@ -598,6 +613,20 @@
     <li class="md-nav__item">
       <a href="2023-01-11-extensible-metadata.html" class="md-nav__link">
         extensible metadata in the notebook format
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2023-01-11-duckdb-search.html" class="md-nav__link">
+        full text search for notebooks and files using duckdb
       </a>
     </li>
   
@@ -639,7 +668,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-07-pidgy-voila.html" class="md-nav__link">
-        running <pre>pidgy</pre> in <pre>voila</pre>
+        running <code>pidgy</code> in <code>voila</code>
       </a>
     </li>
   
@@ -667,7 +696,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-04-tfoot-dataframe.html" class="md-nav__link">
-        using <pre>tfoot</pre> in dataframes for more information
+        using <code>tfoot</code> in dataframes for more information
       </a>
     </li>
   
@@ -681,7 +710,7 @@
   
     <li class="md-nav__item">
       <a href="2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
-        rendering dataframes for screen readers with <pre>pandas</pre>
+        rendering dataframes for screen readers with <code>pandas</code>
       </a>
     </li>
   
@@ -708,20 +737,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
-        a template for exporting markdownish notebooks
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
         configuration files
       </a>
@@ -736,8 +751,22 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        a template for exporting markdownish notebooks
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
-        using <pre>typer</pre> in ipython magics
+        using <code>typer</code> in ipython magics
       </a>
     </li>
   
@@ -751,7 +780,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
-        <pre>mkdocs</pre> plugin for jupyter notebooks
+        <code>mkdocs</code> plugin for jupyter notebooks
       </a>
     </li>
   
@@ -765,7 +794,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
-        analyzing <pre>pyproject.toml</pre> configurations of popular projects
+        analyzing <code>pyproject.toml</code> configurations of popular projects
       </a>
     </li>
   
@@ -779,7 +808,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
-        <pre>jupyterlite</pre> blog integration
+        <code>jupyterlite</code> blog integration
       </a>
     </li>
   
@@ -793,7 +822,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
-        rendering a notebook with <pre>pyscript</pre>
+        rendering a notebook with <code>pyscript</code>
       </a>
     </li>
   
@@ -807,7 +836,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
-        integrating <pre>typer</pre> into the blog
+        integrating <code>typer</code> into the blog
       </a>
     </li>
   
@@ -821,7 +850,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
-        <pre>doit</pre> integration - a <pre>mkdocs</pre> example
+        <code>doit</code> integration - a <code>mkdocs</code> example
       </a>
     </li>
   
@@ -891,7 +920,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
-        exploring many <pre>pyproject.toml configs</pre>
+        exploring many <code>pyproject.toml configs</code>
       </a>
     </li>
   
@@ -905,7 +934,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
-        formatting markdown it tokens as python <pre>doctests</pre>
+        formatting markdown it tokens as python <code>doctests</code>
       </a>
     </li>
   
@@ -919,7 +948,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
-        making <pre>__main__</pre> a <pre>__package__</pre>
+        making <code>__main__</code> a <code>__package__</code>
       </a>
     </li>
   
@@ -933,7 +962,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
-        unravel directories of notebooks with <pre>dask</pre>
+        unravel directories of notebooks with <code>dask</code>
       </a>
     </li>
   
@@ -947,7 +976,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
-        using assignment expressions to display and assign in <pre>IPython</pre>
+        using assignment expressions to display and assign in <code>IPython</code>
       </a>
     </li>
   
@@ -961,7 +990,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
-        using assignment expressions to display and assign in <pre>IPython</pre>
+        using assignment expressions to display and assign in <code>IPython</code>
       </a>
     </li>
   
@@ -989,7 +1018,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
-        fumbling around with <pre>pluggy</pre>
+        fumbling around with <code>pluggy</code>
       </a>
     </li>
   
@@ -1003,7 +1032,7 @@
   
     <li class="md-nav__item">
       <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
-        inferring linked data from <pre>IPython</pre> run times.
+        inferring linked data from <code>IPython</code> run times.
       </a>
     </li>
   
@@ -1044,8 +1073,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
-        when markdown and python collide
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        literate computing - interactive literate programming
       </a>
     </li>
   
@@ -1058,8 +1087,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
-        literate computing - interactive literate programming
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        when markdown and python collide
       </a>
     </li>
   
@@ -1172,6 +1201,18 @@
 we can send html and markdown to the contextual help.</p>
 <p>we create an ipython extension that modifies the <code>IPython</code> contextual help using rich displays.
 we are going to create a wsyiwyg for </p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
+        <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;nest_asyncio&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span> <span class="c1"># just in case</span>
+        <span class="n">shell</span><span class="o">.</span><span class="n">enable_html_pager</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">do_inspect</span><span class="p">,</span> <span class="n">shell</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
+    <span class="kn">import</span> <span class="nn">pandas</span>
+</code></pre></div>
+</div>
 <div hidden>
 
 
@@ -1181,15 +1222,33 @@ we are going to create a wsyiwyg for </p>
 </div>
 
 <p>for any of this to work need to enable the html pager <a href="https://ipython.readthedocs.io/en/stable/config/options/kernel.html#configtrait-ZMQInteractiveShell.enable_html_pager"><code>shell.enable_html_pager</code></a></p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="n">shell</span><span class="o">.</span><span class="n">enable_html_pager</span> <span class="o">=</span> <span class="kc">True</span>
+</code></pre></div>
+</div>
 <pre><code>shell.enable_html_pager = True
 </code></pre>
 <p><code>do_inspect</code> will be our new contextual help completer. it provides completion when:</p>
 <ul>
 <li>there is no content to inspect</li>
 <li>there was no result found</li>
-<li>
-<p>you found <a href="#the-bangs">the bangs</a></p>
-<p>def do_inspect(self, cell, cursor_pos, detail_level=1, omit_sections=(), *, cache={}):
+<li>you found <a href="#the-bangs">the bangs</a></li>
+</ul>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_inspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">,</span> <span class="n">detail_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omit_sections</span><span class="o">=</span><span class="p">(),</span> <span class="o">*</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">post_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">get_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_do_inspect</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">detail_level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">omit_sections</span><span class="o">=</span><span class="p">())</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span><span class="o">=</span> <span class="n">post</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;found&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">_do_inspect</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">,</span> <span class="n">detail_level</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">omit_sections</span><span class="o">=</span><span class="p">())</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;found&quot;</span><span class="p">]:</span>
+                <span class="n">data</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">inspect_weave</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">data</span>    
+</code></pre></div>
+</div>
+<pre><code>def do_inspect(self, cell, cursor_pos, detail_level=1, omit_sections=(), *, cache={}):
     post = post_bangs(cell, get_bangs(cell, cursor_pos))
     if post:
         data = _do_inspect("", 0, detail_level=0, omit_sections=())
@@ -1199,35 +1258,78 @@ we are going to create a wsyiwyg for </p>
         data = _do_inspect(cell, cursor_pos, detail_level=0, omit_sections=())
         if not data["found"]:
             data.update(inspect_weave(cell, cursor_pos))
-    return data    </p>
-<p>def inspect_weave(code, cursor_pos, cache={}):
+    return data
+</code></pre>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">inspect_weave</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="p">{}):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">found</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">code</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span> 
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="n">help</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">tokens</span> <span class="o">=</span> <span class="n">cache</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+            <span class="n">line</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span> <span class="n">lineno_at_cursor</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">tokens</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>               
+                <span class="n">cache</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+                <span class="n">tokens</span> <span class="o">=</span> <span class="n">cache</span><span class="p">[</span><span class="n">code</span><span class="p">]</span> <span class="o">=</span> <span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">code</span><span class="p">)</span>
+            <span class="n">where</span> <span class="o">=</span> <span class="n">get_md_pointer</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">offset</span><span class="p">)</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="sa">F</span><span class="s2">&quot;&quot;&quot;`</span><span class="si">{</span><span class="s2">&quot;/&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">where</span><span class="p">)</span><span class="si">}</span><span class="s2">`</span><span class="se">\n\n</span><span class="si">{</span><span class="n">code</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">data</span>
+</code></pre></div>
+</div>
+<pre><code>def inspect_weave(code, cursor_pos, cache={}):
     data = dict(found=True)
     if not code.strip(): 
         data["data"] = {"text/markdown": help}
     else:
         tokens = cache.get(code)
         line, offset= lineno_at_cursor(code, cursor_pos)
-        if tokens is None:             <br />
+        if tokens is None:               
             cache.clear()
             tokens = cache[code] = shell.tangle.parse(code)
         where = get_md_pointer(tokens, line, offset)
-        data["data"] = {"text/markdown": F"""<code>{"/".join(where)}</code>\n\n{code}"""}
-    return data</p>
-</li>
-</ul>
+        data["data"] = {"text/markdown": F"""`{"/".join(where)}`\n\n{code}"""}
+    return data
+</code></pre>
 <p>this is a hack! we'll hold the original inspect function and monkey patch it.</p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;_do_inspect&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="output_text output_subarea output_execute_result">
+<pre>&lt;bound method IPythonKernel.do_inspect of &lt;ipykernel.ipkernel.IPythonKernel object at 0x7fd8eb2b0fa0&gt;&gt;</pre>
+</div>
+
 <pre><code>locals().setdefault("_do_inspect", shell.kernel.do_inspect)
-
-
-
-
-
-
-
-if I := ("__file__" not in locals()): load_ipython_extension(shell)
+</code></pre>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">I</span> <span class="o">:=</span> <span class="p">(</span><span class="s2">&quot;__file__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()):</span> <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<pre><code>if I := ("__file__" not in locals()): load_ipython_extension(shell)
 </code></pre>
 <h3 id="line-positions-and-tokenization">line positions and tokenization<a class="headerlink" href="#line-positions-and-tokenization" title="Permanent link">¤</a></h3>
 <p>it seemed important to have line and column numbers that align exactly with the code mirror line numbers and the line/column number in the bottom inspector ribbon. for extra confidence when writing pidgy we include the markdown block token the cursor is within.</p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">lineno_at_cursor</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">)):</span>
+            <span class="n">next_offset</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span> <span class="n">next_offset</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">next_offset</span> <span class="o">&gt;</span> <span class="n">cursor_pos</span><span class="p">:</span>  <span class="k">break</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">next_offset</span>
+        <span class="n">col</span> <span class="o">=</span> <span class="n">cursor_pos</span><span class="o">-</span><span class="n">offset</span>
+        <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span>
+
+    <span class="k">def</span> <span class="nf">get_md_pointer</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">offset</span><span class="p">):</span>
+        <span class="n">where</span> <span class="o">=</span> <span class="p">[</span><span class="sa">F</span><span class="s2">&quot;L</span><span class="si">{</span><span class="n">line</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">offset</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="k">continue</span>
+            <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">line</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">line</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">where</span>
+</code></pre></div>
+</div>
 <pre><code>def lineno_at_cursor(cell, cursor_pos=0):
     offset = 0
     for i, line in enumerate(cell.splitlines(True)):
@@ -1249,19 +1351,35 @@ def get_md_pointer(tokens, line, offset):
 </code></pre>
 <h2 id="the-bangs">the bangs<a class="headerlink" href="#the-bangs" title="Permanent link">¤</a></h2>
 <p>the bangs give extra interactivity. when inspecting code a group of exclamation <code>!!!</code> points with template the woven source, or with enough emphasism <code>!!!!!!</code> we'll actually run code. consider these easter eggs cause i want them.</p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">cell</span><span class="p">[</span><span class="n">cursor_pos</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;!&quot;</span><span class="p">:</span>
+            <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">cell</span><span class="p">[:</span><span class="n">cursor_pos</span><span class="p">],</span> <span class="n">cell</span><span class="p">[</span><span class="n">cursor_pos</span><span class="p">:]</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;!&quot;</span><span class="p">))</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;!&quot;</span><span class="p">))</span>
+        <span class="k">return</span> <span class="mi">0</span>
+</code></pre></div>
+</div>
 <pre><code>def get_bangs(cell, cursor_pos):
     if cell[cursor_pos-1] == "!":
         l, r = cell[:cursor_pos], cell[cursor_pos:]
         return len(l) - len(l.rstrip("!")) + len(r) - len(r.strip("!"))
     return 0
-
-
-
-
-
-
-
-def post_bangs(cell, bangs):
+</code></pre>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">post_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">bangs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">bangs</span><span class="o">&gt;=</span><span class="mi">6</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">store_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">error</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">error_before_exec</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">error_in_exec</span>
+            <span class="k">if</span> <span class="n">error</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="sa">F</span><span class="s2">&quot;&quot;&quot;```pycon</span><span class="se">\n</span><span class="si">{</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="w">                    </span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">error</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
+<span class="w">                </span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">```&quot;&quot;&quot;</span><span class="p">}</span>
+            <span class="k">else</span><span class="p">:</span> <span class="n">shell</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">bangs</span> <span class="o">&gt;=</span><span class="mi">3</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">shell</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">IPythonTemplate</span><span class="p">)</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">render</span><span class="p">()}</span>
+</code></pre></div>
+</div>
+<pre><code>def post_bangs(cell, bangs):
     if bangs&gt;=6:
         result = shell.run_cell(cell, store_history=False, silent=True)
         error = result.error_before_exec or result.error_in_exec
@@ -1275,6 +1393,19 @@ def post_bangs(cell, bangs):
 </code></pre>
 <h2 id="the-opportunity-in-the-misses">the opportunity in the misses<a class="headerlink" href="#the-opportunity-in-the-misses" title="Permanent link">¤</a></h2>
 <p>the contextual help renders on keypress when a result is found.</p>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">help_hits</span> <span class="o">=</span> <span class="n">inspection</span><span class="o">.</span><span class="n">found</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">%</span><span class="p">}</span>
+
+<span class="n">when</span> <span class="n">we</span> <span class="n">use</span> <span class="n">the</span> <span class="n">normal</span> <span class="n">inspection</span><span class="o">.</span> <span class="n">we</span> <span class="n">find</span> <span class="n">that</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">lot</span> <span class="n">of</span> <span class="n">time</span> <span class="n">where</span> <span class="n">the</span> <span class="n">contextual</span> <span class="n">help</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span>
+<span class="k">for</span> <span class="n">example</span><span class="p">,</span> <span class="n">when</span> <span class="n">we</span> <span class="n">process</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">code</span> <span class="n">inputs</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">document</span> <span class="n">the</span> <span class="n">inspector</span> <span class="n">finds</span> <span class="n">information</span> <span class="p">{{</span><span class="n">help_hits</span><span class="p">}}</span><span class="o">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">time</span><span class="p">,</span>
+<span class="n">meaning</span> <span class="p">{{</span><span class="mi">100</span><span class="o">-</span><span class="n">help_hits</span><span class="p">}}</span><span class="o">%</span> <span class="n">opportunity</span><span class="err">!!!</span>
+
+    <span class="k">def</span> <span class="nf">measure</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> <span class="k">yield from</span> <span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+    <span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span> <span class="o">=</span> <span class="n">_do_inspect</span>
+    <span class="n">inspection</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">In</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">measure</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
+    <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
+</code></pre></div>
+</div>
 <p>when we use the normal inspection. we find that there is a lot of time where the contextual help is not found.
 for example, when we process all the code inputs in this document the inspector finds information 36.0% of the time,
 meaning 64.0% opportunity!!</p>
@@ -1283,6 +1414,22 @@ shell.kernel.do_inspect = _do_inspect
 inspection = pandas.Series(In).apply(measure).apply(list).explode().dropna().apply(pandas.Series)
 load_ipython_extension(shell)
 </code></pre>
+<div class="cell source" hidden="hidden">
+<div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="n">use</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">blank</span> <span class="n">screen</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">help</span> <span class="n">interface</span> <span class="k">for</span> <span class="n">people</span> <span class="n">to</span> <span class="n">learn</span> <span class="n">our</span> <span class="n">new</span> <span class="n">tool</span><span class="o">.</span>
+<span class="k">with</span> <span class="n">links</span> <span class="n">to</span> <span class="n">good</span> <span class="n">docs</span><span class="o">.</span>
+
+    <span class="n">help</span> <span class="o">=</span>\
+<span class="err">`</span><span class="n">pidgy</span><span class="err">`</span> <span class="ow">is</span> <span class="n">markdown</span><span class="o">/</span><span class="n">python</span> <span class="n">literate</span> <span class="n">programming</span> <span class="n">language</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="n">indented</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">fenced</span> <span class="n">code</span> <span class="n">are</span> <span class="n">executed</span>
+
+<span class="c1">## documentation </span>
+
+<span class="o">*</span> <span class="n">jinja2</span> <span class="n">documentation</span>
+<span class="o">*</span> <span class="n">markdown</span> <span class="n">documentation</span>
+<span class="o">*</span> <span class="n">python</span> <span class="n">documentation</span>
+</code></pre></div>
+</div>
 <p>a use is the blank screen is to provide a help interface for people to learn our new tool.
 with links to good docs.</p>
 <pre><code>help =\
@@ -1302,8 +1449,6 @@ with links to good docs.</p>
 <p>an accidental outcome is this <em>hack</em> adds contextual help to markdown cells. its good.</p>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
-</script>
-
 </script>
 
 
@@ -1365,7 +1510,7 @@ with links to good docs.</p>
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.efa0ade1.min.js"></script>
+      <script src="../assets/javascripts/bundle.51198bba.min.js"></script>
       
     
   </body>
