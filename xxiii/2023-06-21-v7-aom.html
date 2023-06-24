@@ -19,7 +19,7 @@
         <link rel="next" href="2023-03-18-pycascades-ally-talk.html">
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.16">
+      <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.17">
     
     
       
@@ -373,6 +373,13 @@
         <li class="md-nav__item">
   <a href="#fixing-document-level-landmarks" class="md-nav__link">
     fixing document level landmarks
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-main-landmark-containing-a-single-notebook" class="md-nav__link">
+    the main landmark containing a single notebook
   </a>
   
 </li>
@@ -1189,13 +1196,37 @@
 <p>this document massages the annotation object model of a running jupyter classic notebook. the goal is to get to near to an idealized representation devised in the notebooks for all project.</p>
 <p>in this representation, we add landmarks and start to codify the semantics of a cell area.</p>
 <p>click "trust notebook" in the File Menu to execute this code yourself.</p>
+<p>out of scope: 
+* the split panel handler has an <a href="https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/">APG Window Splitter Pattern</a> that should be implemented.
+* tab traps are bad. tab in cell mode should not enter edit mode automatically.
+* can't mess with the native find experience, and if you do it better be good.
+  * so i'm real worried about .jp-DocumentSearch-overlay</p>
 <h2 id="fixing-document-level-landmarks">fixing document level landmarks<a class="headerlink" href="#fixing-document-level-landmarks" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Menu&quot;</span><span class="p">);});</span>
+    <span class="o">//</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">going</span> <span class="n">to</span> <span class="n">make</span> <span class="n">no</span> <span class="n">sense</span> <span class="n">to</span> <span class="n">anyone</span> <span class="n">that</span> <span class="n">the</span> <span class="n">jupyter</span> <span class="n">label</span> <span class="n">sends</span> <span class="n">you</span> <span class="n">to</span> <span class="nb">open</span> <span class="n">files</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel #jp-NotebookLogo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;Open File Browser in a New Tab&quot;</span><span class="p">);</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;alt&quot;</span><span class="p">,</span> <span class="s2">&quot;Open File Browser in a New Tab&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel #jp-title h1&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">children</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+        <span class="o">//</span> <span class="n">we</span> <span class="n">can</span><span class="s1">&#39;t set our own h1 as that will mess up custom content.</span>
+        <span class="o">//</span> <span class="n">the</span> <span class="n">css</span> <span class="n">depends</span> <span class="n">on</span> <span class="n">the</span> <span class="n">h1</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">won</span><span class="s1">&#39;t find it this way.</span>
+        <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;presentation&quot;</span><span class="p">);</span>
+    <span class="p">});</span>
+
+    <span class="o">//</span> <span class="n">a</span> <span class="n">user</span> <span class="n">should</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">trigger</span> <span class="n">the</span> <span class="n">logo</span> <span class="n">dialog</span> <span class="n">by</span> <span class="n">clicking</span> <span class="n">on</span> <span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">NotebookKernelLogo</span>
+    <span class="o">//</span> <span class="n">the</span> <span class="n">trusted</span> <span class="n">status</span> <span class="n">button</span> <span class="n">needs</span> <span class="n">alt</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">clearer</span> <span class="n">title</span> <span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">NotebookTrustedStatus</span>
+    <span class="o">//</span> <span class="n">the</span> <span class="n">button</span><span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">Notebook</span><span class="o">-</span><span class="n">footer</span> <span class="n">semantics</span> <span class="n">are</span> <span class="n">wrong</span><span class="o">.</span> <span class="n">the</span> <span class="n">button</span> <span class="n">should</span> <span class="n">be</span> <span class="n">inside</span> <span class="n">a</span> <span class="n">footer</span><span class="p">,</span> <span class="ow">or</span> <span class="n">role</span><span class="o">=</span><span class="n">contentinfo</span>
+
     <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#main-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-labelledby&quot;</span><span class="p">,</span> <span class="s2">&quot;jp-title&quot;</span><span class="p">);});</span>
     <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#menu-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;banner&quot;</span><span class="p">);</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Menu&quot;</span><span class="p">);</span>
     <span class="p">});</span>
+</code></pre></div>
+<h2 id="the-main-landmark-containing-a-single-notebook">the main landmark containing a single notebook<a class="headerlink" href="#the-main-landmark-containing-a-single-notebook" title="Permanent link">¤</a></h2>
+<p>this analysis is done for the less complicated notebook v7. in our primary main landmark we have only ONE edittable notebook.</p>
+<div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#spacer-widget-top&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;separator&quot;</span><span class="p">);});</span>
     <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Notebook&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Cells&quot;</span><span class="p">);});</span>
     <span class="o">//</span> <span class="n">role</span> <span class="n">navigation</span> <span class="o">-&gt;</span> <span class="n">banner</span><span class="p">,</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">landmark</span> <span class="n">inside</span> <span class="n">of</span> <span class="n">main</span>
@@ -1203,14 +1234,9 @@
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;banner&quot;</span><span class="p">);</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Actions&quot;</span><span class="p">);</span>
     <span class="p">});</span>    
 </code></pre></div>
-<div id="f3ff6d77-f05d-41a4-9eae-d2899a0970bf" class="output_subarea output_javascript ">
+<div id="a84b2212-488e-4eab-87b6-c0ac5f5176dc" class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#f3ff6d77-f05d-41a4-9eae-d2899a0970bf');
-document.querySelectorAll("#top-panel").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Menu");});
-document.querySelectorAll("#main-panel").forEach((x,i) =>{x.setAttribute("aria-labelledby", "jp-title");});
-document.querySelectorAll("#menu-panel").forEach((x,i) =>{
-    x.setAttribute("role", "banner"); x.setAttribute("aria-label", "Notebook Menu");
-});
+var element = $('#a84b2212-488e-4eab-87b6-c0ac5f5176dc');
 document.querySelectorAll("#spacer-widget-top").forEach((x,i) =>{x.setAttribute("role", "separator");});
 document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Cells");});
 // role navigation -> banner, this is a landmark inside of main
@@ -1250,9 +1276,9 @@ document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{
         <span class="o">//</span> <span class="n">STILL</span> <span class="n">NEED</span> <span class="n">TO</span> <span class="n">ADD</span> <span class="n">A</span> <span class="n">LANDMARK</span> <span class="n">FOR</span> <span class="n">THE</span> <span class="n">CELL</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="e11844bd-9cdd-47d4-8ee8-2cb9d139136b" class="output_subarea output_javascript ">
+<div id="b0df7714-e404-4847-b8fe-b36b378bb859" class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#e11844bd-9cdd-47d4-8ee8-2cb9d139136b');
+var element = $('#b0df7714-e404-4847-b8fe-b36b378bb859');
 document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{
     x.setAttribute("role", "feed"); x.setAttribute("aria-label", "Cells");
 });
@@ -1276,6 +1302,8 @@ cells.forEach((x,i) =>{
     // we do have a visible label so this should satisfy the visible label
     prompt = x.querySelectorAll(".jp-InputPrompt")[0];
     prompt.setAttribute("aria-hidden", "true");
+
+    // STILL NEED TO ADD A LANDMARK FOR THE CELL
 });
 
 </script>
@@ -1317,9 +1345,9 @@ cells.forEach((x,i) =>{
         <span class="p">)</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="626e60c6-6c22-4d38-a258-d4ea9f60b2a2" class="output_subarea output_javascript ">
+<div id="3d9e65fa-e413-47c5-a70b-5f51afa23652" class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#626e60c6-6c22-4d38-a258-d4ea9f60b2a2');
+var element = $('#3d9e65fa-e413-47c5-a70b-5f51afa23652');
 var cells = document.querySelectorAll(".jp-Cell");
 cells.forEach((x,i) =>{
     var MD = x.className.includes("jp-MarkdownCell");
@@ -1358,6 +1386,8 @@ cells.forEach((x,i) =>{
 </div>
 
 <h3 id="output-area-fixes">output area fixes<a class="headerlink" href="#output-area-fixes" title="Permanent link">¤</a></h3>
+<p>i am very not confident about the output semantics. my efforts were to understand the rendered cell's landmarks. the output semantics are pure presentation in reading mode, but editting mode is several HCI PhDs.</p>
+<p>right now, i'm only comfortable calling the outputs a group, this means they may be announced by a screen reader to provide some relative position. on disk, in the notebook format, outputs are a list of structures, as are cells, and it might make the most sense to employ a nested feed pattern. when you start to thinking about async updates then ordering is out the window.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">var</span> <span class="n">cells</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell&quot;</span><span class="p">);</span>
     <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
@@ -1375,7 +1405,6 @@ cells.forEach((x,i) =>{
                 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                     <span class="o">//</span> <span class="n">no</span> <span class="n">need</span> <span class="n">to</span> <span class="n">worry</span> <span class="n">about</span> <span class="n">the</span> <span class="n">output</span> <span class="n">label</span> <span class="n">when</span> <span class="n">there</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">execution</span>
                     <span class="o">//</span> <span class="n">aria</span> <span class="n">hidden</span> <span class="n">might</span> <span class="n">be</span> <span class="n">appropriate</span> <span class="n">without</span> <span class="n">testing</span> <span class="n">on</span> <span class="n">a</span> <span class="n">screen</span> <span class="n">reader</span><span class="o">.</span>
-                    <span class="n">y</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-hidden&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">);</span>
                 <span class="p">};</span>
             <span class="p">}</span>
         <span class="p">);</span>
@@ -1387,9 +1416,9 @@ cells.forEach((x,i) =>{
         <span class="p">)</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="3193f2bc-ecd2-466d-aab8-94063510bb3d" class="output_subarea output_javascript ">
+<div id="4f1f90d6-34cf-4fb6-93d9-af9308bc7008" class="output_subarea output_javascript ">
 <script type="text/javascript">
-var element = $('#3193f2bc-ecd2-466d-aab8-94063510bb3d');
+var element = $('#4f1f90d6-34cf-4fb6-93d9-af9308bc7008');
 var cells = document.querySelectorAll(".jp-Cell");
 cells.forEach((x,i) =>{
     x.querySelectorAll(".jp-Cell-outputWrapper").forEach(
@@ -1406,7 +1435,6 @@ cells.forEach((x,i) =>{
             } else {
                 // no need to worry about the output label when there is not execution
                 // aria hidden might be appropriate without testing on a screen reader.
-                y.setAttribute("aria-hidden", "true");
             };
         }
     );
@@ -1424,8 +1452,10 @@ cells.forEach((x,i) =>{
 <h2 id="conclusion">conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¤</a></h2>
 <ul>
 <li>the notebook and cell menu bars are probably fixed at the same time.</li>
-<li>the output area is where the research stops. it is less though out than the others.</li>
+<li>the output area is where the research stops. it is less though out than the others. announcements are part of the equation too for the proper assistive experience.</li>
 </ul>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 
 
 
@@ -1486,7 +1516,7 @@ cells.forEach((x,i) =>{
     <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.a51614de.min.js"></script>
+      <script src="../assets/javascripts/bundle.b425cdc4.min.js"></script>
       
     
   </body>
