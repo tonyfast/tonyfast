@@ -2,7 +2,7 @@ from enum import Enum
 from re import compile
 
 __all__ = ("load",)
-SHEBANG = compile("^#!(?P<interpreter>\S+)\s+(?P<command>\S*)")
+SHEBANG = compile("^#!\s*(?P<interpreter>\S+)\s*(?P<command>.*)")
 
 
 FM = Enum("FM", {"yaml": "-", "toml": "+"})
