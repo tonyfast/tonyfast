@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1282,18 +1296,19 @@ for python programs, this condition is the last stop for our program,
 but in notebooks it is just the beginning.
 i like to thing we development programs and applications in reverse in notebooks.</p>
 <p>with experience, it is possible to author notebooks that operate as programs/scripts. this document demonstrates some advanced usage patterns to apply to get the most out of future notebooks.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
 </code></pre></div>
 </div>
-<div hidden>
+<div hidden="">
 
 
     %reload_ext pidgy
 
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="n">the</span> <span class="n">three</span> <span class="n">python</span> <span class="n">compilation</span> <span class="n">states</span> <span class="n">of</span> <span class="n">notebooks</span><span class="p">:</span>
 
 <span class="o">*</span> <span class="n">an</span> <span class="n">__interactive__</span> <span class="n">state</span> <span class="n">when</span> <span class="n">we</span> <span class="n">are</span> <span class="n">authoring</span> <span class="n">notebooks</span><span class="o">.</span>
@@ -1310,6 +1325,7 @@ i like to thing we development programs and applications in reverse in notebooks
 <span class="o">|</span><span class="n">script</span><span class="o">|</span> <span class="err">`</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="err">`</span> <span class="o">|</span> <span class="err">`</span><span class="s2">&quot;__file__&quot;</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span><span class="err">`</span> <span class="o">|</span>
 </code></pre></div>
 </div>
+
 <p>the three python compilation states of notebooks:</p>
 <ul>
 <li>an <strong>interactive</strong> state when we are authoring notebooks.</li>
@@ -1344,7 +1360,8 @@ module's runtime to know which state we are in.</p>
 </tr>
 </tbody>
 </table>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## python state logic</span>
 
 <span class="n">the</span> <span class="n">three</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">expressed</span> <span class="ow">in</span> <span class="n">python</span> <span class="n">code</span> <span class="n">below</span>
@@ -1359,6 +1376,7 @@ module's runtime to know which state we are in.</p>
 <span class="ow">and</span> <span class="n">sharing</span> <span class="n">the</span> <span class="n">benefits</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">of</span> <span class="n">them</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h2 id="python-state-logic">python state logic<a class="headerlink" href="#python-state-logic" title="Permanent link">¤</a></h2>
 <p>the three conditions are expressed in python code below</p>
 <pre><code>MAIN, FILE = __name__ == "__main__", "__file__" in locals()
@@ -1369,33 +1387,38 @@ MODULE = FILE and not MAIN
 <p>these states let us write multi purpose documents that can be used in multiple contexts
 and sharing the benefits of all of them.</p>
 <h2 id="applying-the-condition">applying the condition<a class="headerlink" href="#applying-the-condition" title="Permanent link">¤</a></h2>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">a_bad_ass_function</span><span class="p">(</span><span class="n">who</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;you&quot;</span><span class="p">):</span>
 <span class="n">tells</span> <span class="n">you</span> <span class="n">who</span> <span class="n">the</span> <span class="n">bad</span> <span class="n">ass</span> <span class="ow">is</span><span class="o">.</span>
 
-        <span class="o">&gt;&gt;&gt;</span> <span class="n">a_bad_ass_function</span><span class="p">()</span>
+        <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">a_bad_ass_function</span><span class="p">()</span>
         <span class="n">you</span> <span class="n">are</span> <span class="n">bad</span> <span class="n">ass</span><span class="o">.</span>
 
         <span class="nb">print</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">who</span><span class="si">}</span><span class="s2"> are bad ass.&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def a_bad_ass_function(who: str = "you"):
 </code></pre>
 <p>tells you who the bad ass is.</p>
-<pre><code>    &gt;&gt;&gt; a_bad_ass_function()
+<pre><code>    &amp;gt;&amp;gt;&amp;gt; a_bad_ass_function()
     you are bad ass.
 
     print(F"{who} are bad ass.")
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### the `MAIN` conditions</span>
 
 <span class="err">`</span><span class="n">INTERACTIVE</span><span class="err">`</span> <span class="n">notebooks</span> <span class="ow">and</span> <span class="err">`</span><span class="n">SCRIPT</span><span class="err">`</span><span class="n">s</span> <span class="n">both</span> <span class="n">have</span> <span class="err">`</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="err">`</span>
 </code></pre></div>
 </div>
+
 <h3 id="the-main-conditions">the <code>MAIN</code> conditions<a class="headerlink" href="#the-main-conditions" title="Permanent link">¤</a></h3>
 <p><code>INTERACTIVE</code> notebooks and <code>SCRIPT</code>s both have <code>__name__ == "__main__"</code></p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">#### the `SCRIPT` conditin</span>
 
     <span class="k">if</span> <span class="n">SCRIPT</span><span class="p">:</span>
@@ -1415,6 +1438,7 @@ and sharing the benefits of all of them.</p>
             <span class="err">!</span><span class="n">midgy</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="n">notebooks</span><span class="o">-</span><span class="n">states</span><span class="o">.</span><span class="n">ipynb</span> <span class="o">--</span><span class="n">who</span> <span class="s2">&quot;y&#39;alls&quot;</span>
 </code></pre></div>
 </div>
+
 <h4 id="the-script-conditin">the <code>SCRIPT</code> conditin<a class="headerlink" href="#the-script-conditin" title="Permanent link">¤</a></h4>
 <pre><code>if SCRIPT:
 </code></pre>
@@ -1431,17 +1455,20 @@ and sharing the benefits of all of them.</p>
         !midgy 2023-01-09-notebooks-states.ipynb --who "y'alls"
 </code></pre>
 <h3 id="the-module-condition">the <code>MODULE</code> condition<a class="headerlink" href="#the-module-condition" title="Permanent link">¤</a></h3>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">MODULE</span><span class="p">:</span>
 <span class="n">we</span> <span class="kn">import</span> <span class="nn">the</span> <span class="n">notebook</span> <span class="ow">and</span> <span class="n">avoid</span> <span class="n">running</span> <span class="n">an</span> <span class="n">command</span> <span class="n">line</span> <span class="n">programs</span><span class="o">.</span>
 <span class="n">often</span> <span class="n">notebooks</span> <span class="k">as</span> <span class="n">tests</span> <span class="n">are</span> <span class="n">loaded</span> <span class="n">under</span> <span class="n">this</span> <span class="n">condition</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <pre><code>if MODULE:
 </code></pre>
 <p>we import the notebook and avoid running an command line programs.
 often notebooks as tests are loaded under this condition.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">INTERACTIVE</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">midgy.loader</span>
         <span class="k">with</span> <span class="n">midgy</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;.ipynb&quot;</span><span class="p">]):</span>
@@ -1450,8 +1477,8 @@ often notebooks as tests are loaded under this condition.</p>
         <span class="n">display</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">__notebooks_states</span><span class="p">))</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>&#34;&lt;module &#39;2023-01-09-notebooks-states&#39; from &#39;/home/tbone/Documents/tonyfast/tonyfast/xxiii/2023-01-09-notebooks-states.ipynb&#39;&gt;&#34;</pre>
+<div class="output_text output_subarea">
+<pre>"&lt;module '2023-01-09-notebooks-states' from '/home/tbone/Documents/tonyfast/tonyfast/xxiii/2023-01-09-notebooks-states.ipynb'&gt;"</pre>
 </div>
 
 <pre><code>if INTERACTIVE:
@@ -1461,7 +1488,8 @@ often notebooks as tests are loaded under this condition.</p>
 
     display(repr(__notebooks_states))
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## the benefits of knowing the state</span>
 
 <span class="n">knowing</span> <span class="n">the</span> <span class="n">state</span> <span class="ow">or</span> <span class="n">context</span> <span class="n">of</span> <span class="n">a</span> <span class="n">notebook</span><span class="s1">&#39;s execution allows us to write logic that makes notebooks a swiss army knife.</span>
@@ -1471,15 +1499,19 @@ often notebooks as tests are loaded under this condition.</p>
 <span class="p">[</span><span class="n">writing</span> <span class="n">command</span> <span class="n">line</span> <span class="n">scripts</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">tonyfast</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">tonyfast</span><span class="o">/</span><span class="n">xxii</span><span class="o">/</span><span class="mi">2022</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">19</span><span class="o">-</span><span class="n">integrating</span><span class="o">-</span><span class="n">typer</span><span class="o">.</span><span class="n">html</span>
 </code></pre></div>
 </div>
+
 <h2 id="the-benefits-of-knowing-the-state">the benefits of knowing the state<a class="headerlink" href="#the-benefits-of-knowing-the-state" title="Permanent link">¤</a></h2>
 <p>knowing the state or context of a notebook's execution allows us to write logic that makes notebooks a swiss army knife.
 some advanced patterns are include <a href="https://nbviewer.org/gist/tonyfast/b617e4f87337a50e1361ab043b53c2c7">testing notebooks</a> or <a href="https://tonyfast.github.io/tonyfast/xxii/2022-12-19-integrating-typer.html">writing command line scripts</a>.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### applying `doctest`s</span>
 </code></pre></div>
 </div>
+
 <h3 id="applying-doctests">applying <code>doctest</code>s<a class="headerlink" href="#applying-doctests" title="Permanent link">¤</a></h3>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">`</span><span class="n">a_bad_ass_function</span><span class="err">`</span> <span class="n">has</span> <span class="n">a</span> <span class="n">doctest</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">docstring</span><span class="o">.</span> 
 <span class="n">when</span> <span class="n">working</span> <span class="n">interactively</span> <span class="n">we</span> <span class="n">might</span> <span class="n">want</span> <span class="n">to</span> <span class="n">run</span> <span class="n">these</span> <span class="n">tests</span> <span class="n">to</span> <span class="n">verify</span>
 <span class="n">our</span> <span class="n">idea</span> <span class="n">works</span><span class="o">.</span>
@@ -1491,7 +1523,7 @@ some advanced patterns are include <a href="https://nbviewer.org/gist/tonyfast/b
         <span class="n">display</span><span class="p">(</span><span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">())</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea">
 <pre>TestResults(failed=0, attempted=1)</pre>
 </div>
 

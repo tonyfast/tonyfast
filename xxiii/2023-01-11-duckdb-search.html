@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1257,7 +1271,7 @@ i know <code>pandas</code> so we are going to use <code>pandas</code> to load in
 </code></pre></div>
 <h3 id="search-is-our-database-goal"><code>search</code> is our database goal<a class="headerlink" href="#search-is-our-database-goal" title="Permanent link">¤</a></h3>
 <p>the use of the <code>search</code> is demonstrated at the end of the document</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span><span class="n">q</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;&quot;&quot;</span>
 <span class="s2">        SELECT * FROM</span>
 <span class="s2">        (</span>
@@ -1269,7 +1283,7 @@ i know <code>pandas</code> so we are going to use <code>pandas</code> to load in
 </code></pre></div>
 <p><a href="https://duckdb.org/docs/extensions/full_text_search">https://duckdb.org/docs/extensions/full_text_search</a></p>
 <div class="highlight"><pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span> <span class="c1"># this makes our function a singleton</span>
-    <span class="k">def</span> <span class="nf">get_db</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">DuckDBPyConnection</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_db</span><span class="p">()</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">DuckDBPyConnection</span><span class="p">:</span>
         <span class="n">con</span> <span class="o">=</span> <span class="n">duckdb</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
         <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;CREATE TABLE cells AS SELECT * FROM sources&quot;</span><span class="p">)</span>
         <span class="n">con</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;INSERT INTO cells SELECT * FROM sources&quot;</span><span class="p">)</span>
@@ -1296,7 +1310,7 @@ i know <code>pandas</code> so we are going to use <code>pandas</code> to load in
         <span class="p">)</span>
 </code></pre></div>
 <p><code>get_files</code> creates our first dataframes</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="n">files</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">iter_files</span><span class="p">(</span><span class="nb">dir</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;file&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">files</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">suffix</span><span class="o">=</span><span class="n">files</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;suffix&quot;</span><span class="p">)))</span>
 </code></pre></div>
@@ -1305,7 +1319,7 @@ i know <code>pandas</code> so we are going to use <code>pandas</code> to load in
         <span class="kn">import</span> <span class="nn">nbformat</span>
         <span class="k">return</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">new_notebook</span><span class="p">(</span><span class="n">cells</span><span class="o">=</span><span class="p">[</span><span class="n">nbformat</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">new_markdown_cell</span><span class="p">(</span><span class="n">md</span><span class="p">)])</span>    
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_docs</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_docs</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="n">files</span> <span class="o">=</span> <span class="n">files</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">text</span><span class="o">=</span><span class="n">files</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="o">.</span><span class="n">read_text</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
             <span class="n">files</span><span class="p">[</span><span class="n">files</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">&quot;.ipynb&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">compose_left</span><span class="p">(</span><span class="n">orjson</span><span class="o">.</span><span class="n">loads</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)),</span>
@@ -1341,8 +1355,8 @@ sometimes include/exclude logic can be confusing. the <code>.gitignore</code> co
         <span class="n">sources</span> <span class="o">=</span> <span class="n">get_fts_sources</span><span class="p">(</span><span class="n">get_cells_frame</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">))</span>
         <span class="n">display</span><span class="p">(</span><span class="n">get_db</span><span class="p">()</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;DESCRIBE cells&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">df</span><span class="p">())</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1356,72 +1370,72 @@ sometimes include/exclude logic can be confusing. the <code>.gitignore</code> co
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>column_name</th>
-      <th>column_type</th>
-      <th>null</th>
-      <th>key</th>
-      <th>default</th>
-      <th>extra</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>path</td>
-      <td>VARCHAR</td>
-      <td>YES</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>cell_type</td>
-      <td>VARCHAR</td>
-      <td>YES</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>id</td>
-      <td>VARCHAR</td>
-      <td>YES</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>source</td>
-      <td>VARCHAR</td>
-      <td>YES</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>execution_count</td>
-      <td>DOUBLE</td>
-      <td>YES</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>column_name</th>
+<th>column_type</th>
+<th>null</th>
+<th>key</th>
+<th>default</th>
+<th>extra</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>path</td>
+<td>VARCHAR</td>
+<td>YES</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>cell_type</td>
+<td>VARCHAR</td>
+<td>YES</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>2</th>
+<td>id</td>
+<td>VARCHAR</td>
+<td>YES</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>3</th>
+<td>source</td>
+<td>VARCHAR</td>
+<td>YES</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>4</th>
+<td>execution_count</td>
+<td>DOUBLE</td>
+<td>YES</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 
 <h3 id="sample-searches">sample searches<a class="headerlink" href="#sample-searches" title="Permanent link">¤</a></h3>
 <div class="highlight"><pre><span></span><code>    <span class="n">I</span> <span class="ow">and</span> <span class="n">display</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;pandas&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1435,71 +1449,71 @@ sometimes include/exclude logic can be confusing. the <code>.gitignore</code> co
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>path</th>
-      <th>cell_type</th>
-      <th>id</th>
-      <th>source</th>
-      <th>execution_count</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>../xxii/oct/2022-10-29-metadata-formatter.ipyn...</td>
-      <td>code</td>
-      <td>e3a8b43e-aaeb-4b7a-9ccb-4485ae0689a0</td>
-      <td>if ACTIVE:\n        import pandas\n       ...</td>
-      <td>8.0</td>
-      <td>1.718594</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>../xxii/oct/2022-10-29-metadata-formatter.ipyn...</td>
-      <td>code</td>
-      <td>e3a8b43e-aaeb-4b7a-9ccb-4485ae0689a0</td>
-      <td>if ACTIVE:\n        import pandas\n       ...</td>
-      <td>8.0</td>
-      <td>1.718594</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>../xxiii/2023-01-02-accessible-dataframes-basi...</td>
-      <td>code</td>
-      <td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
-      <td>(df := pandas.DataFrame(\n        columns=...</td>
-      <td>2.0</td>
-      <td>1.679535</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>../xxiii/2023-01-11-accessible-dataframes-comp...</td>
-      <td>code</td>
-      <td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
-      <td>(df := pandas.DataFrame(\n        columns=...</td>
-      <td>2.0</td>
-      <td>1.679535</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>../xxiii/2023-01-02-accessible-dataframes-basi...</td>
-      <td>code</td>
-      <td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
-      <td>(df := pandas.DataFrame(\n        columns=...</td>
-      <td>2.0</td>
-      <td>1.679535</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>path</th>
+<th>cell_type</th>
+<th>id</th>
+<th>source</th>
+<th>execution_count</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>../xxii/oct/2022-10-29-metadata-formatter.ipyn...</td>
+<td>code</td>
+<td>e3a8b43e-aaeb-4b7a-9ccb-4485ae0689a0</td>
+<td>if ACTIVE:\n        import pandas\n       ...</td>
+<td>8.0</td>
+<td>1.718594</td>
+</tr>
+<tr>
+<th>1</th>
+<td>../xxii/oct/2022-10-29-metadata-formatter.ipyn...</td>
+<td>code</td>
+<td>e3a8b43e-aaeb-4b7a-9ccb-4485ae0689a0</td>
+<td>if ACTIVE:\n        import pandas\n       ...</td>
+<td>8.0</td>
+<td>1.718594</td>
+</tr>
+<tr>
+<th>2</th>
+<td>../xxiii/2023-01-02-accessible-dataframes-basi...</td>
+<td>code</td>
+<td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
+<td>(df := pandas.DataFrame(\n        columns=...</td>
+<td>2.0</td>
+<td>1.679535</td>
+</tr>
+<tr>
+<th>3</th>
+<td>../xxiii/2023-01-11-accessible-dataframes-comp...</td>
+<td>code</td>
+<td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
+<td>(df := pandas.DataFrame(\n        columns=...</td>
+<td>2.0</td>
+<td>1.679535</td>
+</tr>
+<tr>
+<th>4</th>
+<td>../xxiii/2023-01-02-accessible-dataframes-basi...</td>
+<td>code</td>
+<td>401913ff-534f-4659-aec5-0784b1f1f34c</td>
+<td>(df := pandas.DataFrame(\n        columns=...</td>
+<td>2.0</td>
+<td>1.679535</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 
 <div class="highlight"><pre><span></span><code>    <span class="n">I</span> <span class="ow">and</span> <span class="n">display</span><span class="p">(</span><span class="n">search</span><span class="p">(</span><span class="s2">&quot;toolz&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">4</span><span class="p">))</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1513,58 +1527,57 @@ sometimes include/exclude logic can be confusing. the <code>.gitignore</code> co
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>path</th>
-      <th>cell_type</th>
-      <th>id</th>
-      <th>source</th>
-      <th>execution_count</th>
-      <th>score</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>../xxii/oct/colormap-dataframes/2021-10-11-col...</td>
-      <td>code</td>
-      <td>391cab50-209e-4843-8bea-0405f6734e6f</td>
-      <td>import pandas, numpy, toolz.curried as toolz</td>
-      <td>1.0</td>
-      <td>3.776350</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>../xxii/oct/colormap-dataframes/2021-10-11-col...</td>
-      <td>code</td>
-      <td>391cab50-209e-4843-8bea-0405f6734e6f</td>
-      <td>import pandas, numpy, toolz.curried as toolz</td>
-      <td>1.0</td>
-      <td>3.776350</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>../xxiii/2023-01-11-duckdb-search.ipynb#/cells/20</td>
-      <td>code</td>
-      <td>d3a6ca2a-7b1d-4f0a-a86c-9345913468c0</td>
-      <td>import pathspec, dataclasses, orjson, path...</td>
-      <td>-1.0</td>
-      <td>3.340617</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>../xxiii/2023-01-11-duckdb-search.ipynb#/cells/26</td>
-      <td>code</td>
-      <td>589d3fb6-a4bb-434f-a06e-05d57fe57f09</td>
-      <td>I and display(search("toolz").head(4))</td>
-      <td>-1.0</td>
-      <td>3.340617</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>path</th>
+<th>cell_type</th>
+<th>id</th>
+<th>source</th>
+<th>execution_count</th>
+<th>score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>../xxii/oct/colormap-dataframes/2021-10-11-col...</td>
+<td>code</td>
+<td>391cab50-209e-4843-8bea-0405f6734e6f</td>
+<td>import pandas, numpy, toolz.curried as toolz</td>
+<td>1.0</td>
+<td>3.776350</td>
+</tr>
+<tr>
+<th>1</th>
+<td>../xxii/oct/colormap-dataframes/2021-10-11-col...</td>
+<td>code</td>
+<td>391cab50-209e-4843-8bea-0405f6734e6f</td>
+<td>import pandas, numpy, toolz.curried as toolz</td>
+<td>1.0</td>
+<td>3.776350</td>
+</tr>
+<tr>
+<th>2</th>
+<td>../xxiii/2023-01-11-duckdb-search.ipynb#/cells/20</td>
+<td>code</td>
+<td>d3a6ca2a-7b1d-4f0a-a86c-9345913468c0</td>
+<td>import pathspec, dataclasses, orjson, path...</td>
+<td>-1.0</td>
+<td>3.340617</td>
+</tr>
+<tr>
+<th>3</th>
+<td>../xxiii/2023-01-11-duckdb-search.ipynb#/cells/26</td>
+<td>code</td>
+<td>589d3fb6-a4bb-434f-a06e-05d57fe57f09</td>
+<td>I and display(search("toolz").head(4))</td>
+<td>-1.0</td>
+<td>3.340617</td>
+</tr>
+</tbody>
 </table>
 </div></div>
-
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>

@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1298,13 +1312,15 @@ we can use it in three places relative to this content:</p>
 <li><a href="https://github.blog/2022-02-14-include-diagrams-markdown-files-mermaid/" title="announcement that github renders mermaid.js">mermaid can be used in <code>jupyterlab</code> with <code>jupyterlab-markup</code></a></li>
 <li><a href="https://squidfunk.github.io/mkdocs-material/reference/diagrams/#configuration" title="mkdocs configuration for mermaid">mermaid can be used with <code>mkdocs-material</code></a></li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">requests_cache</span><span class="o">,</span> <span class="nn">bs4</span>
     <span class="n">requests_cache</span><span class="o">.</span><span class="n">install_cache</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;filesystem&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">the</span> <span class="err">`</span><span class="n">root</span><span class="err">`</span> <span class="n">page</span><span class="p">,</span> <span class="n">using</span> <span class="err">`</span><span class="n">beautifulsoup4</span><span class="err">`</span> <span class="k">as</span> <span class="n">an</span> <span class="n">intermediary</span><span class="p">,</span> <span class="n">we</span> <span class="n">can</span> <span class="n">discover</span> <span class="n">that</span> <span class="n">mermaid</span>
 <span class="n">supports</span> <span class="p">{{</span><span class="nb">len</span><span class="p">(</span><span class="n">kinds</span><span class="p">)}}</span> <span class="n">chart</span> <span class="n">syntaxes</span><span class="o">.</span>
 
@@ -1314,13 +1330,15 @@ we can use it in three places relative to this content:</p>
 <span class="err">```</span>
 </code></pre></div>
 </div>
+
 <p>from the <code>root</code> page, using <code>beautifulsoup4</code> as an intermediary, we can discover that mermaid
 supports 13 chart syntaxes.</p>
 <div class="highlight"><pre><span></span><code><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">((</span><span class="n">root</span> <span class="o">:=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://mermaid.js.org/syntax/classDiagram.html&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
 <span class="n">kinds</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;href&quot;</span><span class="p">]</span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;a&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;href&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;/syntax&quot;</span><span class="p">,)))</span>
 </code></pre></div>
 <p>extracting the syntaxes to build one master chart.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">```</span><span class="n">python</span>
 <span class="n">baseurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">syntaxes</span> <span class="o">=</span> <span class="p">{</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">}</span>
@@ -1328,11 +1346,13 @@ supports 13 chart syntaxes.</p>
 <span class="err">```</span>
 </code></pre></div>
 </div>
+
 <div class="highlight"><pre><span></span><code><span class="n">baseurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">syntaxes</span> <span class="o">=</span> <span class="p">{</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">}</span>
 <span class="n">responses</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">syntaxes</span><span class="p">}</span>
 </code></pre></div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">```</span><span class="n">python</span>
 <span class="k">def</span> <span class="nf">strip_front_matter</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">fence</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;---&#39;</span><span class="p">,)</span>
@@ -1350,6 +1370,7 @@ supports 13 chart syntaxes.</p>
 <span class="err">```</span>
 </code></pre></div>
 </div>
+
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">strip_front_matter</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">fence</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;---&#39;</span><span class="p">,)</span>
     <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">fence</span><span class="p">):</span>
@@ -1363,7 +1384,8 @@ supports 13 chart syntaxes.</p>
         <span class="k">return</span> <span class="n">y</span>             
     <span class="k">return</span> <span class="n">x</span>
 </code></pre></div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## all the diagram styles collection programmatically</span>
 
 <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">syntax</span> <span class="ow">in</span> <span class="n">syntaxes</span> <span class="o">%</span><span class="p">}</span>
@@ -1377,6 +1399,7 @@ supports 13 chart syntaxes.</p>
 <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
 </code></pre></div>
 </div>
+
 <h2 id="all-the-diagram-styles-collection-programmatically">all the diagram styles collection programmatically<a class="headerlink" href="#all-the-diagram-styles-collection-programmatically" title="Permanent link">¤</a></h2>
 <h3 id="mindmap">Mindmap<a class="headerlink" href="#mindmap" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>mindmap
@@ -1462,8 +1485,8 @@ supports 13 chart syntaxes.</p>
 </code></pre>
 <h3 id="sequence-diagrams">Sequence diagrams<a class="headerlink" href="#sequence-diagrams" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>sequenceDiagram
-    Alice-&gt;&gt;John: Hello John, how are you?
-    John--&gt;&gt;Alice: Great!
+    Alice-&amp;gt;&amp;gt;John: Hello John, how are you?
+    John--&amp;gt;&amp;gt;Alice: Great!
     Alice-)John: See you later!
 </code></pre>
 <h3 id="requirement-diagram">Requirement Diagram<a class="headerlink" href="#requirement-diagram" title="Permanent link">¤</a></h3>
@@ -1480,7 +1503,7 @@ element test_entity {
 type: simulation
 }
 
-test_entity - satisfies -&gt; test_req
+test_entity - satisfies -&amp;gt; test_req
 </code></pre>
 <h3 id="flowcharts-basic-syntax">Flowcharts - Basic Syntax<a class="headerlink" href="#flowcharts-basic-syntax" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>flowchart LR
@@ -1500,13 +1523,13 @@ test_entity - satisfies -&gt; test_req
 </code></pre>
 <h3 id="state-diagrams">State diagrams<a class="headerlink" href="#state-diagrams" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>stateDiagram-v2
-    [*] --&gt; Still
-    Still --&gt; [*]
+    [*] --&amp;gt; Still
+    Still --&amp;gt; [*]
 
-    Still --&gt; Moving
-    Moving --&gt; Still
-    Moving --&gt; Crash
-    Crash --&gt; [*]
+    Still --&amp;gt; Moving
+    Moving --&amp;gt; Still
+    Moving --&amp;gt; Crash
+    Crash --&amp;gt; [*]
 </code></pre>
 <h3 id="gitgraph-diagrams">Gitgraph Diagrams<a class="headerlink" href="#gitgraph-diagrams" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>gitGraph
@@ -1524,10 +1547,10 @@ test_entity - satisfies -&gt; test_req
 <h3 id="class-diagrams">Class diagrams<a class="headerlink" href="#class-diagrams" title="Permanent link">¤</a></h3>
 <pre class="mermaid"><code>classDiagram
     note "From Duck till Zebra"
-    Animal &lt;|-- Duck
+    Animal &amp;lt;|-- Duck
     note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
-    Animal &lt;|-- Fish
-    Animal &lt;|-- Zebra
+    Animal &amp;lt;|-- Fish
+    Animal &amp;lt;|-- Zebra
     Animal : +int age
     Animal : +String gender
     Animal: +isMammal()
@@ -1557,7 +1580,8 @@ test_entity - satisfies -&gt; test_req
     Task in sec      :2014-01-12  , 12d
     another task      : 24d
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">the</span> <span class="n">following</span> <span class="n">demos</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">working</span><span class="p">,</span> <span class="n">but</span> <span class="p">{{</span><span class="nb">len</span><span class="p">(</span><span class="n">syntaxes</span><span class="p">)</span><span class="o">-</span><span class="mi">3</span><span class="p">}}</span><span class="o">/</span><span class="p">{{</span><span class="nb">len</span><span class="p">(</span><span class="n">syntaxes</span><span class="p">)}}</span> <span class="n">demos</span> <span class="ow">in</span> <span class="n">one</span> <span class="n">place</span> <span class="n">ain</span><span class="s1">&#39;t bad.</span>
 
 <span class="o">-</span> <span class="p">[</span> <span class="p">]</span> <span class="n">C4</span> <span class="n">Diagrams</span>
@@ -1565,16 +1589,18 @@ test_entity - satisfies -&gt; test_req
 <span class="o">-</span> <span class="p">[</span> <span class="p">]</span> <span class="n">Mindmap</span>
 </code></pre></div>
 </div>
+
 <p>the following demos are not working, but 10/13 demos in one place ain't bad.</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> C4 Diagrams</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Class diagrams (these work the mkdocs version)</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Mindmap</li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## why did mermaid win?</span>
 
-<span class="n">i</span> <span class="o">&lt;</span><span class="mi">3</span> <span class="err">`</span><span class="n">graphviz</span><span class="err">`</span> <span class="ow">and</span> <span class="n">i</span><span class="s1">&#39;m curius why mermaid one.</span>
+<span class="n">i</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="mi">3</span> <span class="err">`</span><span class="n">graphviz</span><span class="err">`</span> <span class="ow">and</span> <span class="n">i</span><span class="s1">&#39;m curius why mermaid one.</span>
 <span class="n">graphviz</span> <span class="ow">is</span> <span class="n">over</span> <span class="mi">30</span> <span class="n">years</span> <span class="n">old</span> <span class="ow">and</span> <span class="n">written</span> <span class="ow">in</span> <span class="n">c</span><span class="p">,</span> <span class="n">but</span> <span class="n">maybe</span> <span class="n">the</span> <span class="n">javascript</span> <span class="n">was</span> <span class="n">enough</span> <span class="n">to</span> <span class="n">win</span><span class="o">.</span>
 <span class="n">does</span> <span class="n">wasm</span> <span class="n">change</span> <span class="n">the</span> <span class="n">game</span><span class="err">?</span>
 
@@ -1583,21 +1609,22 @@ test_entity - satisfies -&gt; test_req
 <span class="p">[</span><span class="n">mermaid</span><span class="o">-</span><span class="n">dot</span><span class="o">-</span><span class="n">author</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">forum</span><span class="o">.</span><span class="n">graphviz</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">t</span><span class="o">/</span><span class="n">github</span><span class="o">-</span><span class="n">adding</span><span class="o">-</span><span class="n">support</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">mermaid</span><span class="o">-</span><span class="n">diagrams</span><span class="o">/</span><span class="mi">998</span>
 </code></pre></div>
 </div>
+
 <h2 id="why-did-mermaid-win">why did mermaid win?<a class="headerlink" href="#why-did-mermaid-win" title="Permanent link">¤</a></h2>
 <p>i &lt;3 <code>graphviz</code> and i'm curius why mermaid one.
 graphviz is over 30 years old and written in c, but maybe the javascript was enough to win.
 does wasm change the game?</p>
 <p>i hope to explore this question further when i read the <a href="https://forum.graphviz.org/t/github-adding-support-for-mermaid-diagrams/998">graphviz authors take</a>.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## appendix</span>
 
-<span class="o">&gt;</span> <span class="n">weird</span> <span class="n">thing</span><span class="p">:</span> <span class="n">i</span> <span class="n">was</span> <span class="n">only</span> <span class="n">able</span> <span class="n">to</span> <span class="n">get</span> <span class="n">mermaid</span> <span class="n">to</span> <span class="n">work</span> <span class="n">when</span> <span class="n">the</span> <span class="n">title</span> <span class="k">for</span> <span class="n">the</span> <span class="n">document</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">have</span> <span class="n">mermaid</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span>
+<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">weird</span> <span class="n">thing</span><span class="p">:</span> <span class="n">i</span> <span class="n">was</span> <span class="n">only</span> <span class="n">able</span> <span class="n">to</span> <span class="n">get</span> <span class="n">mermaid</span> <span class="n">to</span> <span class="n">work</span> <span class="n">when</span> <span class="n">the</span> <span class="n">title</span> <span class="k">for</span> <span class="n">the</span> <span class="n">document</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">have</span> <span class="n">mermaid</span> <span class="ow">in</span> <span class="n">it</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h2 id="appendix">appendix<a class="headerlink" href="#appendix" title="Permanent link">¤</a></h2>
-<blockquote>
-<p>weird thing: i was only able to get mermaid to work when the title for the document did not have mermaid in it.</p>
-</blockquote>
+<p>&gt; weird thing: i was only able to get mermaid to work when the title for the document did not have mermaid in it.</p>
 
 
 

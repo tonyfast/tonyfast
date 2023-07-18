@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1304,24 +1318,21 @@
     end
 </code></pre>
 -->
-
-<form id="controls">    
-    <label for="run">🏃</label><button id="run" data-commandlinker-command="notebook:run-all-cells">run all</button>
-    <label for="doc">🖹</label><button id="doc" data-commandlinker-command="application:toggle-mode">document mode</button>
-    <label for="prez">📽</label><button id="prez" data-commandlinker-command="application:toggle-presentation-mode">presentation mode</button>
-    <label for="collapse">⊟</label><button id="collapse" data-commandlinker-command="notebook:hide-all-cell-code">collapse all the code</button>
-    <br/>
-    <label for="expand">⊞</label><button id="expand" data-commandlinker-command="notebook:show-all-cell-code">expand all the code</button>
-    <button data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button>
-    <button data-commandlinker-command="notebook:render-with-voila"><code>voila</code></button>
-    <label for="inspectoropen">🔍</label><button id="inspectoropen" data-commandlinker-command="inspector:open">inspector</button>
-    <label title="open side by side view" for="right">👯</label><button id="right" data-commandlinker-command="notebook:toggle-render-side-by-side-current">side-by-side</button>
+<form id="controls">
+<label for="run">🏃</label><button data-commandlinker-command="notebook:run-all-cells" id="run">run all</button>
+<label for="doc">🖹</label><button data-commandlinker-command="application:toggle-mode" id="doc">document mode</button>
+<label for="prez">📽</label><button data-commandlinker-command="application:toggle-presentation-mode" id="prez">presentation mode</button>
+<label for="collapse">⊟</label><button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse">collapse all the code</button>
+<br/>
+<label for="expand">⊞</label><button data-commandlinker-command="notebook:show-all-cell-code" id="expand">expand all the code</button>
+<button data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button>
+<button data-commandlinker-command="notebook:render-with-voila"><code>voila</code></button>
+<label for="inspectoropen">🔍</label><button data-commandlinker-command="inspector:open" id="inspectoropen">inspector</button>
+<label for="right" title="open side by side view">👯</label><button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right">side-by-side</button>
 </form>
 
-<blockquote>
-<p>this presentation is written for the <a href="https://hackmd.io/dcbps9AESEuP0N3j4mMOqw" title="hackmd for the jupyter community call">february 2023 jupyter community call</a>.<sup id="fnref:calls"><a class="footnote-ref" href="#fn:calls">2</a></sup></p>
-</blockquote>
-<p><button id="rara" data-commandlinker-command="runmenu:restart-and-run-all">restart and run all</button><label for="rara">or it didn't happen</label></p>
+<p>&gt; this presentation is written for the <a href="https://hackmd.io/dcbps9AESEuP0N3j4mMOqw" title="hackmd for the jupyter community call">february 2023 jupyter community call</a>.<sup id="fnref:calls"><a class="footnote-ref" href="#fn:calls">2</a></sup></p>
+<p><button data-commandlinker-command="runmenu:restart-and-run-all" id="rara">restart and run all</button><label for="rara">or it didn't happen</label></p>
 <div class="highlight"><pre><span></span><code>    <span class="c1"># my pidgy practices always have me indenting cells.</span>
     <span class="c1"># this habit means code will be rendered as code in markdown.</span>
     <span class="c1"># https://nbviewer.org/github/deathbeds/deathbeds.github.io/blob/master/deathbeds/2018-08-03-A-case-for-indented-code.ipynb</span>
@@ -1364,17 +1375,17 @@ literate computing is when we do this interactively, and weave live computing in
 <span class="o">&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
 
 <span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">repl</span> <span class="o">%</span><span class="p">}</span>
-    <span class="nb">input</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span><span class="o">--</span><span class="n">tangle</span>\<span class="n">nread</span><span class="o">--&gt;</span><span class="n">IPython</span>
-    <span class="n">IPython</span><span class="o">--</span><span class="nb">eval</span><span class="o">/</span><span class="n">template</span><span class="o">--&gt;</span><span class="n">jinja</span>
-    <span class="n">jinja</span><span class="o">--</span><span class="n">weave</span>\<span class="n">nprint</span><span class="o">--&gt;</span><span class="n">output</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span>
-    <span class="n">output</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span><span class="o">-.</span><span class="n">loop</span><span class="o">-.-&gt;</span><span class="nb">input</span>
-    <span class="n">html</span> <span class="o">---&gt;</span> <span class="nb">input</span><span class="p">;</span> <span class="n">css</span> <span class="o">---&gt;</span> <span class="nb">input</span><span class="p">;</span> <span class="n">javascript</span> <span class="o">---&gt;</span> <span class="nb">input</span>
-    <span class="n">julia</span> <span class="o">---&gt;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">r</span><span class="o">---&gt;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">fortran</span> <span class="o">---&gt;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">magics</span> <span class="o">---&gt;</span> <span class="n">IPython</span>
+    <span class="nb">input</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span><span class="o">--</span><span class="n">tangle</span>\<span class="n">nread</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">IPython</span>
+    <span class="n">IPython</span><span class="o">--</span><span class="nb">eval</span><span class="o">/</span><span class="n">template</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">jinja</span>
+    <span class="n">jinja</span><span class="o">--</span><span class="n">weave</span>\<span class="n">nprint</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">output</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span>
+    <span class="n">output</span><span class="p">[</span><span class="n">markdown</span><span class="p">]</span><span class="o">-.</span><span class="n">loop</span><span class="o">-.-&amp;</span><span class="n">gt</span><span class="p">;</span><span class="nb">input</span>
+    <span class="n">html</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">input</span><span class="p">;</span> <span class="n">css</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">input</span><span class="p">;</span> <span class="n">javascript</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">input</span>
+    <span class="n">julia</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">r</span><span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">fortran</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">magics</span><span class="p">;</span> <span class="n">magics</span> <span class="o">---&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">IPython</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">endset</span> <span class="o">%</span><span class="p">}</span>
 <span class="err">```</span><span class="n">mermaid</span>
 <span class="n">flowchart</span> <span class="n">LR</span>
 <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">repl</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span> <span class="o">%</span><span class="p">}</span>
-<span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">extra</span><span class="o">.</span><span class="n">value</span> <span class="o">%</span><span class="p">}</span><span class="o">%%</span><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}{{</span><span class="n">line</span><span class="p">}}</span>
+<span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">extra</span><span class="o">.</span><span class="n">value</span> <span class="o">%</span><span class="p">}</span><span class="o">%%</span><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}{{</span><span class="n">line</span><span class="p">}}</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
 <span class="err">```</span>
 <span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span><span class="n">mermaid</span> <span class="n">graph</span> <span class="n">syntax</span> <span class="n">uses</span> <span class="n">extended</span> <span class="n">markdown</span> <span class="n">syntax</span> <span class="n">provided</span> <span class="n">by</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">markup</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
@@ -1389,15 +1400,14 @@ literate computing is when we do this interactively, and weave live computing in
 
 <span class="p">[</span><span class="n">fperez</span> <span class="n">lc</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">web</span><span class="o">.</span><span class="n">archive</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">web</span><span class="o">/</span><span class="mi">20220510083647</span><span class="o">/</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">blog</span><span class="o">.</span><span class="n">fperez</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">2013</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="n">literate</span><span class="o">-</span><span class="n">computing</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">computational</span><span class="o">.</span><span class="n">html</span>
 </code></pre></div>
-<div id="27a5a735-f5ee-48bd-85cf-3fa6172dc327" class="output_subarea output_widget_view ">
+<div class="output_subarea output_widget_view" id="1193ac9f-b33b-4604-b33a-f473a3e696e7">
 <script type="text/javascript">
-var element = $('#27a5a735-f5ee-48bd-85cf-3fa6172dc327');
+var element = $('#1193ac9f-b33b-4604-b33a-f473a3e696e7');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "c6e3eac55d054bc1807e06185dacd8ef", "version_major": 2, "version_minor": 0}
 </script>
 </div>
-
 <figure>
 <figcaption>
 
@@ -1410,17 +1420,17 @@ the REPL overlayed with a [literate computing] workflow of tangle and weave.
 
 
 
-    input[markdown]--tangle\nread--&gt;IPython
+    input[markdown]--tangle\nread--&amp;gt;IPython
 
-    IPython--eval/template--&gt;jinja
+    IPython--eval/template--&amp;gt;jinja
 
-    jinja--weave\nprint--&gt;output[markdown]
+    jinja--weave\nprint--&amp;gt;output[markdown]
 
-    output[markdown]-.loop-.-&gt;input
+    output[markdown]-.loop-.-&amp;gt;input
 
-    html ---&gt; input; css ---&gt; input; javascript ---&gt; input
+    html ---&amp;gt; input; css ---&amp;gt; input; javascript ---&amp;gt; input
 
-    julia ---&gt; magics; r---&gt; magics; fortran ---&gt; magics; magics ---&gt; IPython
+    julia ---&amp;gt; magics; r---&amp;gt; magics; fortran ---&amp;gt; magics; magics ---&amp;gt; IPython
 </code></pre>
 <figcaption>mermaid graph syntax uses extended markdown syntax provided by <code>jupyterlab-markup</code></figcaption>
 </figure>
@@ -1430,8 +1440,8 @@ the REPL overlayed with a [literate computing] workflow of tangle and weave.
 <p><code>pidgy</code> is interested in exploring the interfaces of languages in computational essays. each language provides extra syntax for telling your story. with markdown we can include html, css, and javascript; code blocks can include more languages like mermaid. <a href="https://gist.github.com/fperez/5b49246af4e340c37549265a90894ce6" title="fperez's polyglot juypyter demo">IPython is our polyglot glue language</a>. </p>
 <h2 id="inspecting-and-doing-more-with-a-keypress">inspecting and doing more with a keypress<a class="headerlink" href="#inspecting-and-doing-more-with-a-keypress" title="Permanent link">¤</a></h2>
 <p><label for="butt-inspector"><kbd>Ctrl + I</kbd></label>
-<button id="butt-inspector" data-commandlinker-command="inspector:open">open inspector</button>
-<label for="deck">⛔</label><button id="deck" data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button></p>
+<button data-commandlinker-command="inspector:open" id="butt-inspector">open inspector</button>
+<label for="deck">⛔</label><button data-commandlinker-command="deck:toggle" id="deck"><code>jupyterlab-deck</code></button></p>
 <h3 id="translating-markdown-to-python">translating markdown to python<a class="headerlink" href="#translating-markdown-to-python" title="Permanent link">¤</a></h3>
 <p>the <code>%%tangle</code> magic tangles markdown to python code for previewing and debugging. this magic will help you learn <code>pidgy</code>s indenting <a href="https://deathbeds.github.io/midgy/language/basics/">heuristics and language features provided by <code>midgy</code></a>.</p>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">tangle</span>
@@ -1525,22 +1535,22 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 .output_html .vg { color: #19177C } /* Name.Variable.Global */
 .output_html .vi { color: #19177C } /* Name.Variable.Instance */
 .output_html .vm { color: #19177C } /* Name.Variable.Magic */
-.output_html .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;we use the `%%tangle` magic interactively translate the document into code.</span>
+.output_html .il { color: #666666 } /* Literal.Number.Integer.Long */</style><div class="highlight"><pre><span></span><span class="sd">"""we use the `%%tangle` magic interactively translate the document into code.</span>
 
 <span class="sd">some `pidgy` features are shown below like:</span>
 <span class="sd">    </span>
-<span class="sd">* markdown docstrings&quot;&quot;&quot;</span>
+<span class="sd">* markdown docstrings"""</span>
 
 <span class="k">def</span> <span class="nf">my_function</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;functions with markdown docstrings&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""functions with markdown docstrings"""</span>
 
     <span class="o">...</span>
 <span class="o">...</span>
 <span class="w">        </span>
-<span class="sd">&quot;&quot;&quot;* defining blocks of markdown as variables&quot;&quot;&quot;</span>
+<span class="sd">"""* defining blocks of markdown as variables"""</span>
 
 <span class="n">my_url</span> <span class="o">=</span>\
-<span class="sd">&quot;&quot;&quot;https://api.github.com&quot;&quot;&quot;</span><span class="p">;</span>
+<span class="sd">"""https://api.github.com"""</span><span class="p">;</span>
 </pre></div>
 </div>
 
@@ -1555,15 +1565,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
 
 <span class="err">```</span><span class="n">mermaid</span>
 <span class="n">flowchart</span> <span class="n">LR</span>
-    <span class="n">WEB</span><span class="o">--</span><span class="n">WEAVE</span><span class="o">--&gt;</span><span class="n">TEX</span><span class="o">--</span><span class="n">TeX</span><span class="o">--&gt;</span><span class="n">DVI</span>
-    <span class="n">WEB</span><span class="o">--</span><span class="n">TANGLE</span><span class="o">--&gt;</span><span class="n">PAS</span><span class="o">--</span><span class="n">PASCAL</span><span class="o">--&gt;</span><span class="n">REL</span>
+    <span class="n">WEB</span><span class="o">--</span><span class="n">WEAVE</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">TEX</span><span class="o">--</span><span class="n">TeX</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">DVI</span>
+    <span class="n">WEB</span><span class="o">--</span><span class="n">TANGLE</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">PAS</span><span class="o">--</span><span class="n">PASCAL</span><span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span><span class="n">REL</span>
 <span class="err">```</span>
 <span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
-
-<span class="o">&lt;</span><span class="n">figure</span> <span class="n">markdown</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">figure</span> <span class="n">markdown</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span><span class="n">knuth</span><span class="s1">&#39;s rational for choosing Pascal; the same motivation applies to python.&lt;/figcaption&gt;</span>
 
-<span class="o">&gt;</span> <span class="n">I</span> <span class="n">chose</span> <span class="n">PASCAL</span> <span class="k">as</span> <span class="n">the</span> <span class="n">programming</span> <span class="n">language</span> <span class="n">because</span> <span class="n">it</span> <span class="n">has</span>
+<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">I</span> <span class="n">chose</span> <span class="n">PASCAL</span> <span class="k">as</span> <span class="n">the</span> <span class="n">programming</span> <span class="n">language</span> <span class="n">because</span> <span class="n">it</span> <span class="n">has</span>
 <span class="n">received</span> <span class="n">such</span> <span class="n">widespread</span> <span class="n">support</span> <span class="kn">from</span> <span class="nn">educational</span>  <span class="ow">in</span><span class="o">-</span>
 <span class="n">stitutions</span> <span class="nb">all</span> <span class="n">over</span> <span class="n">the</span> <span class="n">world</span><span class="p">;</span> <span class="n">it</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">my</span> <span class="n">favorite</span> <span class="n">language</span> <span class="k">for</span> <span class="n">system</span> <span class="n">programming</span><span class="p">,</span> <span class="n">but</span> <span class="n">it</span> <span class="n">has</span> <span class="n">become</span> <span class="n">a</span>
 <span class="s2">&quot;second language&quot;</span> <span class="k">for</span> <span class="n">so</span> <span class="n">many</span> <span class="n">programmers</span> <span class="n">that</span> <span class="n">it</span>
@@ -1578,24 +1587,23 @@ a mermaid homage to the dual usage of the WEB file format being translated to a 
 </figcaption> 
 
 <pre class="mermaid"><code>flowchart LR
-    WEB--WEAVE--&gt;TEX--TeX--&gt;DVI
-    WEB--TANGLE--&gt;PAS--PASCAL--&gt;REL</code></pre>
+    WEB--WEAVE--&amp;gt;TEX--TeX--&amp;gt;DVI
+    WEB--TANGLE--&amp;gt;PAS--PASCAL--&amp;gt;REL</code></pre>
 </figure>
-
-<figure>
+<figure markdown="">
 <figcaption>knuth's rational for choosing Pascal; the same motivation applies to python.</figcaption>
-<blockquote>
-<p>I chose PASCAL as the programming language because it has
+
+&gt; I chose PASCAL as the programming language because it has
 received such widespread support from educational  in-
 stitutions all over the world; it is not my favorite language for system programming, but it has become a
 "second language" for so many programmers that it
-provides an exceptionally effective medium of communication.</p>
-</blockquote>
+provides an exceptionally effective medium of communication.
 </figure>
+
 <div class="highlight"><pre><span></span><code><span class="c1">## reactive `jinja2` templates</span>
 
 <span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;deck&quot;</span><span class="o">&gt;</span><span class="nb">open</span><span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">button</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deck&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;deck:toggle&quot;</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">deck</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">button</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;deck:toggle&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;deck&quot;</span><span class="o">&gt;&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">jupyterlab</span><span class="o">-</span><span class="n">deck</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
 
 <span class="err">`</span><span class="n">pidgy</span><span class="err">`</span> <span class="n">relies</span> <span class="n">on</span> <span class="n">a</span> <span class="err">`</span><span class="n">midgy</span><span class="err">`</span> <span class="n">to</span> <span class="n">tangle</span> <span class="n">markdown</span> <span class="n">to</span> <span class="n">code</span><span class="p">,</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">doing</span> <span class="nb">any</span> <span class="n">work</span> <span class="n">on</span> <span class="n">displaying</span> <span class="n">the</span> <span class="nb">input</span> <span class="n">markdown</span><span class="o">.</span> <span class="n">including</span> <span class="n">the</span> <span class="n">templating</span> <span class="n">language</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">innovation</span> <span class="n">of</span> <span class="err">`</span><span class="n">pidgy</span><span class="err">`</span> <span class="n">that</span> <span class="n">inlines</span> <span class="n">live</span> <span class="n">computation</span><span class="o">.</span>
 
@@ -1604,19 +1612,17 @@ provides an exceptionally effective medium of communication.</p>
 </code></pre></div>
 <h2 id="reactive-jinja2-templates">reactive <code>jinja2</code> templates<a class="headerlink" href="#reactive-jinja2-templates" title="Permanent link">¤</a></h2>
 <p><label for="deck">open</label>
-<button id="deck" data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button></p>
+<button data-commandlinker-command="deck:toggle" id="deck"><code>jupyterlab-deck</code></button></p>
 <p><code>pidgy</code> relies on a <code>midgy</code> to tangle markdown to code, it does not doing any work on displaying the input markdown. including the templating language is the innovation of <code>pidgy</code> that inlines live computation.</p>
 <p><code>pidgy</code> templates are asynchronous reactive display objects that place live computation directly into the narrative.</p>
 <div class="highlight"><pre><span></span><code><span class="c1">### worrydream&#39;s cookies demo[^inventing]</span>
 
 <span class="o">&lt;</span><span class="err">!</span><span class="o">---</span><span class="err">!</span><span class="p">[](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">media3</span><span class="o">.</span><span class="n">giphy</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">BsUORZkF3gBqg</span><span class="o">/</span><span class="n">giphy</span><span class="o">.</span><span class="n">gif</span> <span class="s2">&quot;cookie monster happy as fuck eating cookies&quot;</span><span class="p">)</span><span class="o">---&gt;</span>
-
 <span class="o">&lt;</span><span class="n">blockquote</span> <span class="n">cite</span><span class="o">=</span><span class="s2">&quot;https://worrydream.com/Tangle/&quot;</span><span class="o">&gt;</span>
 
 <span class="p">[</span><span class="n">Tangle</span><span class="p">]</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">JavaScript</span> <span class="n">library</span> <span class="k">for</span> <span class="n">creating</span> <span class="n">reactive</span> <span class="n">documents</span><span class="o">.</span> <span class="n">Your</span> <span class="n">readers</span> <span class="n">can</span> <span class="n">interactively</span> <span class="n">explore</span> <span class="n">possibilities</span><span class="p">,</span> <span class="n">play</span> <span class="k">with</span> <span class="n">parameters</span><span class="p">,</span> <span class="ow">and</span> <span class="n">see</span> <span class="n">the</span> <span class="n">document</span> <span class="n">update</span> <span class="n">immediately</span><span class="o">.</span> <span class="n">Tangle</span> <span class="ow">is</span> <span class="nb">super</span><span class="o">-</span><span class="n">simple</span> <span class="ow">and</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">learn</span><span class="o">.</span>
 
 <span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
-
 <span class="o">&lt;</span><span class="n">figure</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span>
 
@@ -1625,7 +1631,7 @@ provides an exceptionally effective medium of communication.</p>
 <span class="o">&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
 
 <span class="err">```</span><span class="n">html</span>
-<span class="n">When</span> <span class="n">you</span> <span class="n">eat</span> <span class="o">&lt;</span><span class="n">span</span> <span class="n">data</span><span class="o">-</span><span class="n">var</span><span class="o">=</span><span class="s2">&quot;cookies&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;TKAdjustableNumber&quot;</span><span class="o">&gt;</span> <span class="n">cookies</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="n">When</span> <span class="n">you</span> <span class="n">eat</span> <span class="o">&lt;</span><span class="n">span</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;TKAdjustableNumber&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">var</span><span class="o">=</span><span class="s2">&quot;cookies&quot;</span><span class="o">&gt;</span> <span class="n">cookies</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;</span><span class="p">,</span>
 <span class="n">you</span> <span class="n">consume</span> <span class="o">&lt;</span><span class="n">span</span> <span class="n">data</span><span class="o">-</span><span class="n">var</span><span class="o">=</span><span class="s2">&quot;calories&quot;</span><span class="o">&gt;</span> <span class="n">calories</span><span class="o">&lt;/</span><span class="n">span</span><span class="o">&gt;.</span> 
 <span class="err">```</span>
 
@@ -1644,13 +1650,11 @@ provides an exceptionally effective medium of communication.</p>
 </code></pre></div>
 <h3 id="worrydreams-cookies-demo3">worrydream's cookies demo<sup id="fnref:inventing"><a class="footnote-ref" href="#fn:inventing">3</a></sup><a class="headerlink" href="#worrydreams-cookies-demo3" title="Permanent link">¤</a></h3>
 <!---![](https://media3.giphy.com/media/BsUORZkF3gBqg/giphy.gif "cookie monster happy as fuck eating cookies")--->
-
 <blockquote cite="https://worrydream.com/Tangle/">
 
 [Tangle] is a JavaScript library for creating reactive documents. Your readers can interactively explore possibilities, play with parameters, and see the document update immediately. Tangle is super-simple and easy to learn.
 
 </blockquote>
-
 <figure>
 <figcaption>
 
@@ -1658,7 +1662,7 @@ the source code for the first [TangleJs][tangle] demo
 
 </figcaption>
 
-<div class="highlight"><pre><span></span><code>When you eat <span class="p">&lt;</span><span class="nt">span</span> <span class="na">data-var</span><span class="o">=</span><span class="s">&quot;cookies&quot;</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;TKAdjustableNumber&quot;</span><span class="p">&gt;</span> cookies<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>,
+<div class="highlight"><pre><span></span><code>When you eat <span class="p">&lt;</span><span class="nt">span</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;TKAdjustableNumber&quot;</span> <span class="na">data-var</span><span class="o">=</span><span class="s">&quot;cookies&quot;</span><span class="p">&gt;</span> cookies<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>,
 you consume <span class="p">&lt;</span><span class="nt">span</span> <span class="na">data-var</span><span class="o">=</span><span class="s">&quot;calories&quot;</span><span class="p">&gt;</span> calories<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span>. 
 </code></pre></div>
 
@@ -1673,7 +1677,7 @@ you consume <span class="p">&lt;</span><span class="nt">span</span> <span class=
 <span class="n">When</span> <span class="n">you</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">cookies</span><span class="p">,</span>
 <span class="n">you</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">calories</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span> 
 
-<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">indented</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">python</span><span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">indented</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">python</span><span class="o">--&gt;</span>
 
         <span class="n">display</span><span class="p">(</span><span class="n">cookies</span> <span class="o">:=</span> <span class="n">IntSlider</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;🍪&quot;</span><span class="p">))</span>
 <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
@@ -1694,7 +1698,7 @@ you consume <span class="p">&lt;</span><span class="nt">span</span> <span class=
 <span class="n">When</span> <span class="n">you</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">cookies</span><span class="p">,</span>
 <span class="n">you</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="n">calories</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span> 
 
-<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">indented</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">python</span><span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;&lt;</span><span class="err">!</span><span class="o">--</span><span class="n">indented</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">python</span><span class="o">--&gt;</span>
 
         <span class="n">display</span><span class="p">(</span><span class="n">cookies</span> <span class="o">:=</span> <span class="n">IntSlider</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;🍪&quot;</span><span class="p">))</span>
 <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
@@ -1705,19 +1709,18 @@ you consume <span class="p">&lt;</span><span class="nt">span</span> <span class=
 
 <span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
 </code></pre></div>
-<div id="e707b726-8649-4e0e-892e-581e8a75c95d" class="output_subarea output_widget_view ">
+<div class="output_subarea output_widget_view" id="05f46673-4db7-4a1c-a473-888bb87f92d2">
 <script type="text/javascript">
-var element = $('#e707b726-8649-4e0e-892e-581e8a75c95d');
+var element = $('#05f46673-4db7-4a1c-a473-888bb87f92d2');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "6067e814cf3b48a9a6ef5914b8296461", "version_major": 2, "version_minor": 0}
 </script>
 </div>
-
 <!--- we can shield variables from the global scope -->
 <p>When you eat 3 cookies,
 you consume 150 calories. </p>
-<div hidden><!--indented code is python-->
+<div hidden=""><!--indented code is python-->
 
         display(cookies := IntSlider(3, description="🍪"))
 </div>
@@ -1734,7 +1737,7 @@ you consume 150 calories. </p>
 When you eat {{cookies.value}} cookies,
 you consume {{cookies.value * calories}} calories. 
 
-&lt;div hidden&gt;&lt;!--indented code is python--&gt;
+&lt;div hidden=&quot;&quot;&gt;&lt;!--indented code is python--&gt;
 
         display(cookies := IntSlider(3, description=&quot;🍪&quot;))
 &lt;/div&gt;
@@ -1746,7 +1749,7 @@ you consume {{cookies.value * calories}} calories.
 
 <div class="highlight"><pre><span></span><code><span class="c1">### live data in your document</span>
 
-<span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="n">imports</span> <span class="k">for</span> <span class="n">the</span> <span class="n">pandas</span> <span class="n">matplotlib</span> <span class="n">demo</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
 
     <span class="kn">import</span> <span class="nn">pandas</span>
@@ -1754,8 +1757,7 @@ you consume {{cookies.value * calories}} calories.
     <span class="o">%</span><span class="n">matplotlib</span> <span class="n">agg</span>
 
 <span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
-
-<span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span> <span class="nb">open</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="n">supporting</span> <span class="n">methods</span> <span class="k">for</span> <span class="n">the</span> <span class="n">interactive</span> <span class="n">demo</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span><span class="err">`</span>
 
     <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
@@ -1775,29 +1777,33 @@ you consume {{cookies.value * calories}} calories.
 <span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </code></pre></div>
 <h3 id="live-data-in-your-document">live data in your document<a class="headerlink" href="#live-data-in-your-document" title="Permanent link">¤</a></h3>
-<details>
+<details markdown="">
 <summary>imports for the pandas matplotlib demo</summary>
-<pre><code>import pandas
-from pidgy import get_cell_id
-%matplotlib agg
-</code></pre>
-</details>
-<details open="open">
-<summary>supporting methods for the interactive demo</summary>
-<p>`</p>
-<pre><code>@functools.lru_cache
-def get_gist(x, max=100):
-</code></pre>
-<p><a href="https://docs.github.com/en/rest/gists?apiVersion=2022-11-28">gather gist from the github api</a>.</p>
-<pre><code>    return pandas.read_json(F"https://api.github.com/users/{x}/gists?per_page={max}")
 
-def tidy_gist(x):
-</code></pre>
-<p>explode the gist repsonse into a dataframe of gist files</p>
-<pre><code>    gists = get_gist(x).set_index("id")
-    return gists.files.apply(compose_left(dict.values, list)).explode().apply(pandas.Series).join(gists)
-</code></pre>
+    import pandas
+    from pidgy import get_cell_id
+    %matplotlib agg
+
 </details>
+<details markdown="" open="">
+<summary>supporting methods for the interactive demo</summary>`
+
+    @functools.lru_cache
+    def get_gist(x, max=100):
+[gather gist from the github api][gist].
+
+        return pandas.read_json(F"https://api.github.com/users/{x}/gists?per_page={max}")
+
+[gist]: https://docs.github.com/en/rest/gists?apiVersion=2022-11-28
+
+    def tidy_gist(x):
+explode the gist repsonse into a dataframe of gist files
+
+        gists = get_gist(x).set_index("id")
+        return gists.files.apply(compose_left(dict.values, list)).explode().apply(pandas.Series).join(gists)
+
+</details>
+
 <div class="highlight"><pre><span></span><code><span class="c1">#### an application in a cell.</span>
 
 <span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">gists</span> <span class="o">=</span> <span class="n">tidy_gist</span><span class="p">(</span><span class="n">_github_user</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">%</span><span class="p">}</span>
@@ -1813,18 +1819,17 @@ def tidy_gist(x):
     <span class="n">button</span><span class="o">.</span><span class="n">on_click</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">get_cell_id</span><span class="p">():</span> <span class="nb">print</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="ow">or</span> <span class="n">shell</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">displays</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">())</span>
 <span class="p">{{</span><span class="n">lang</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;ct&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">}}</span>
 </code></pre></div>
-<div id="c2b504e8-c99a-4228-adbb-4496395f2d18" class="output_subarea output_widget_view ">
+<div class="output_subarea output_widget_view" id="b5febdac-bdd4-4191-b661-dad15e3e7fd5">
 <script type="text/javascript">
-var element = $('#c2b504e8-c99a-4228-adbb-4496395f2d18');
+var element = $('#b5febdac-bdd4-4191-b661-dad15e3e7fd5');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "346f75e828204a6a99793697fce30407", "version_major": 2, "version_minor": 0}
 </script>
 </div>
-
-<div id="51cd49f8-3d02-484c-a72e-4621d4efe34f" class="output_subarea output_widget_view ">
+<div class="output_subarea output_widget_view" id="7af7266d-f927-4edf-bff0-b7e1e40ba24e">
 <script type="text/javascript">
-var element = $('#51cd49f8-3d02-484c-a72e-4621d4efe34f');
+var element = $('#7af7266d-f927-4edf-bff0-b7e1e40ba24e');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "878cd30fc71541cc95e9c28c59b42e17", "version_major": 2, "version_minor": 0}
@@ -1835,7 +1840,7 @@ var element = $('#51cd49f8-3d02-484c-a72e-4621d4efe34f');
 <p>we've found information on 100 github gists, and 121 files, for @tonyfast.
 in this collection, there are 6 different languages included. their most common language is Jupyter Notebook.</p>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1849,106 +1854,106 @@ in this collection, there are 6 different languages included. their most common 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>filename</th>
-      <th>type</th>
-      <th>language</th>
-      <th>raw_url</th>
-      <th>size</th>
-      <th>url</th>
-      <th>forks_url</th>
-      <th>commits_url</th>
-      <th>node_id</th>
-      <th>git_pull_url</th>
-      <th>...</th>
-      <th>files</th>
-      <th>public</th>
-      <th>created_at</th>
-      <th>updated_at</th>
-      <th>description</th>
-      <th>comments</th>
-      <th>user</th>
-      <th>comments_url</th>
-      <th>owner</th>
-      <th>truncated</th>
-    </tr>
-    <tr>
-      <th>id</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>3181cb04cad6e16a2add26c646893db7</th>
-      <td>moi.ipynb</td>
-      <td>text/plain</td>
-      <td>Jupyter Notebook</td>
-      <td>https://gist.githubusercontent.com/tonyfast/31...</td>
-      <td>4814</td>
-      <td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
-      <td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
-      <td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
-      <td>MDQ6R2lzdDMxODFjYjA0Y2FkNmUxNmEyYWRkMjZjNjQ2OD...</td>
-      <td>https://gist.github.com/3181cb04cad6e16a2add26...</td>
-      <td>...</td>
-      <td>{'moi.ipynb': {'filename': 'moi.ipynb', 'type'...</td>
-      <td>True</td>
-      <td>2021-05-05 16:06:56+00:00</td>
-      <td>2021-05-05 16:07:29+00:00</td>
-      <td></td>
-      <td>0</td>
-      <td>NaN</td>
-      <td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
-      <td>{'login': 'tonyfast', 'id': 4236275, 'node_id'...</td>
-      <td>False</td>
-    </tr>
-    <tr>
-      <th>82e8b9744c139a63febb1a3280e91cec</th>
-      <td>pluck-attachments.ipynb</td>
-      <td>text/plain</td>
-      <td>Jupyter Notebook</td>
-      <td>https://gist.githubusercontent.com/tonyfast/82...</td>
-      <td>4843</td>
-      <td>https://api.github.com/gists/82e8b9744c139a63f...</td>
-      <td>https://api.github.com/gists/82e8b9744c139a63f...</td>
-      <td>https://api.github.com/gists/82e8b9744c139a63f...</td>
-      <td>MDQ6R2lzdDgyZThiOTc0NGMxMzlhNjNmZWJiMWEzMjgwZT...</td>
-      <td>https://gist.github.com/82e8b9744c139a63febb1a...</td>
-      <td>...</td>
-      <td>{'collection-ouputs.ipynb': {'filename': 'coll...</td>
-      <td>True</td>
-      <td>2021-07-02 17:01:42+00:00</td>
-      <td>2021-07-05 17:52:46+00:00</td>
-      <td></td>
-      <td>0</td>
-      <td>NaN</td>
-      <td>https://api.github.com/gists/82e8b9744c139a63f...</td>
-      <td>{'login': 'tonyfast', 'id': 4236275, 'node_id'...</td>
-      <td>False</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>filename</th>
+<th>type</th>
+<th>language</th>
+<th>raw_url</th>
+<th>size</th>
+<th>url</th>
+<th>forks_url</th>
+<th>commits_url</th>
+<th>node_id</th>
+<th>git_pull_url</th>
+<th>...</th>
+<th>files</th>
+<th>public</th>
+<th>created_at</th>
+<th>updated_at</th>
+<th>description</th>
+<th>comments</th>
+<th>user</th>
+<th>comments_url</th>
+<th>owner</th>
+<th>truncated</th>
+</tr>
+<tr>
+<th>id</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>3181cb04cad6e16a2add26c646893db7</th>
+<td>moi.ipynb</td>
+<td>text/plain</td>
+<td>Jupyter Notebook</td>
+<td>https://gist.githubusercontent.com/tonyfast/31...</td>
+<td>4814</td>
+<td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
+<td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
+<td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
+<td>MDQ6R2lzdDMxODFjYjA0Y2FkNmUxNmEyYWRkMjZjNjQ2OD...</td>
+<td>https://gist.github.com/3181cb04cad6e16a2add26...</td>
+<td>...</td>
+<td>{'moi.ipynb': {'filename': 'moi.ipynb', 'type'...</td>
+<td>True</td>
+<td>2021-05-05 16:06:56+00:00</td>
+<td>2021-05-05 16:07:29+00:00</td>
+<td></td>
+<td>0</td>
+<td>NaN</td>
+<td>https://api.github.com/gists/3181cb04cad6e16a2...</td>
+<td>{'login': 'tonyfast', 'id': 4236275, 'node_id'...</td>
+<td>False</td>
+</tr>
+<tr>
+<th>82e8b9744c139a63febb1a3280e91cec</th>
+<td>pluck-attachments.ipynb</td>
+<td>text/plain</td>
+<td>Jupyter Notebook</td>
+<td>https://gist.githubusercontent.com/tonyfast/82...</td>
+<td>4843</td>
+<td>https://api.github.com/gists/82e8b9744c139a63f...</td>
+<td>https://api.github.com/gists/82e8b9744c139a63f...</td>
+<td>https://api.github.com/gists/82e8b9744c139a63f...</td>
+<td>MDQ6R2lzdDgyZThiOTc0NGMxMzlhNjNmZWJiMWEzMjgwZT...</td>
+<td>https://gist.github.com/82e8b9744c139a63febb1a...</td>
+<td>...</td>
+<td>{'collection-ouputs.ipynb': {'filename': 'coll...</td>
+<td>True</td>
+<td>2021-07-02 17:01:42+00:00</td>
+<td>2021-07-05 17:52:46+00:00</td>
+<td></td>
+<td>0</td>
+<td>NaN</td>
+<td>https://api.github.com/gists/82e8b9744c139a63f...</td>
+<td>{'login': 'tonyfast', 'id': 4236275, 'node_id'...</td>
+<td>False</td>
+</tr>
+</tbody>
 </table>
 <p>2 rows × 22 columns</p>
 </div>
@@ -1958,7 +1963,7 @@ in this collection, there are 6 different languages included. their most common 
 button.on_click(lambda x, id=get_cell_id(): print(id) or shell.weave.displays[id].update())
 </code></pre>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1972,41 +1977,41 @@ button.on_click(lambda x, id=get_cell_id(): print(id) or shell.weave.displays[id
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>language</th>
-      <th>Jupyter Notebook</th>
-      <th>Python</th>
-      <th>Text</th>
-      <th>Markdown</th>
-      <th>HTML</th>
-      <th>JSON</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>ct</th>
-      <td>84</td>
-      <td>15</td>
-      <td>9</td>
-      <td>8</td>
-      <td>2</td>
-      <td>1</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>language</th>
+<th>Jupyter Notebook</th>
+<th>Python</th>
+<th>Text</th>
+<th>Markdown</th>
+<th>HTML</th>
+<th>JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>ct</th>
+<td>84</td>
+<td>15</td>
+<td>9</td>
+<td>8</td>
+<td>2</td>
+<td>1</td>
+</tr>
+</tbody>
 </table>
 </div>
 
 <div class="highlight"><pre><span></span><code><span class="c1">### et `voila`</span>
 
 <span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">LITE</span> <span class="o">%</span><span class="p">}</span>
-<span class="o">&gt;</span> <span class="err">😞</span> <span class="n">unforntunately</span><span class="p">,</span> <span class="n">this</span> <span class="n">part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">demo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">available</span> <span class="n">on</span> <span class="n">jupyter</span> <span class="n">lite</span><span class="o">.</span>
+<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="err">😞</span> <span class="n">unforntunately</span><span class="p">,</span> <span class="n">this</span> <span class="n">part</span> <span class="n">of</span> <span class="n">the</span> <span class="n">demo</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">available</span> <span class="n">on</span> <span class="n">jupyter</span> <span class="n">lite</span><span class="o">.</span>
 <span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span>
 
-<span class="o">&lt;</span><span class="n">button</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;notebook:render-with-voila&quot;</span> <span class="p">{</span><span class="o">%</span> <span class="k">if</span>  <span class="n">LITE</span> <span class="o">%</span><span class="p">}</span><span class="n">disabled</span><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span><span class="o">&gt;</span><span class="n">et</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">voila</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">button</span> <span class="o">%</span><span class="p">}</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="o">%</span><span class="p">}</span><span class="n">disabled</span><span class="p">{</span><span class="o">%=</span><span class="s2">&quot;&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;notebook:render-with-voila&quot;</span> <span class="n">endif</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="k">if</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="n">lite</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="p">{</span><span class="o">%=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="n">et</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">voila</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;&lt;/</span><span class="n">button</span><span class="o">&gt;</span>
 </code></pre></div>
 <h3 id="et-voila">et <code>voila</code><a class="headerlink" href="#et-voila" title="Permanent link">¤</a></h3>
-<p><button data-commandlinker-command="notebook:render-with-voila" >et <code>voila</code></button></p>
+<p><button data-commandlinker-command="notebook:render-with-voila">et <code>voila</code></button></p>
 <div class="highlight"><pre><span></span><code><span class="c1">## wrap up</span>
 
 <span class="o">*</span> <span class="n">this</span> <span class="n">presentation</span> <span class="n">had</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">incidental</span> <span class="n">demos</span><span class="o">.</span>
@@ -2025,7 +2030,7 @@ button.on_click(lambda x, id=get_cell_id(): print(id) or shell.weave.displays[id
 <span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">sz</span> <span class="o">=</span> <span class="mi">3</span> <span class="o">%</span><span class="p">}</span>
 <span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">%</span><span class="p">}</span>
 <span class="o">&lt;</span><span class="n">form</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;font-size: {{sz}}rem; line-height: {{h}}%;&quot;</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span><span class="o">&gt;</span><span class="err">🎗🎗🎗🎗🎗🎗🎗🎗</span><span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;&lt;</span><span class="n">button</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;runmenu:restart-and-run-all&quot;</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;font-size: {{sz}}rem; line-height: {{h}}%;&quot;</span><span class="o">&gt;</span><span class="n">restart</span> <span class="ow">and</span> <span class="n">run</span> <span class="nb">all</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span><span class="o">&gt;</span><span class="ow">or</span> <span class="n">it</span> <span class="n">didn</span><span class="s1">&#39;t happen&lt;/label&gt;</span>
+<span class="o">&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span><span class="o">&gt;</span><span class="err">🎗🎗🎗🎗🎗🎗🎗🎗</span><span class="o">&lt;/</span><span class="n">label</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;&lt;</span><span class="n">button</span> <span class="n">data</span><span class="o">-</span><span class="n">commandlinker</span><span class="o">-</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;runmenu:restart-and-run-all&quot;</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;font-size: {{sz}}rem; line-height: {{h}}%;&quot;</span><span class="o">&gt;</span><span class="n">restart</span> <span class="ow">and</span> <span class="n">run</span> <span class="nb">all</span><span class="o">&lt;/</span><span class="n">button</span><span class="o">&gt;&lt;</span><span class="n">br</span><span class="o">/&gt;&lt;</span><span class="n">label</span> <span class="k">for</span><span class="o">=</span><span class="s2">&quot;rara&quot;</span><span class="o">&gt;</span><span class="ow">or</span> <span class="n">it</span> <span class="n">didn</span><span class="s1">&#39;t happen&lt;/label&gt;</span>
 <span class="o">&lt;/</span><span class="n">form</span><span class="o">&gt;</span>
 </code></pre></div>
 <h2 id="wrap-up">wrap up<a class="headerlink" href="#wrap-up" title="Permanent link">¤</a></h2>
@@ -2048,7 +2053,7 @@ button.on_click(lambda x, id=get_cell_id(): print(id) or shell.weave.displays[id
 jinja2 template implementations vary. markdown renderers implementation vary. python keeps adding language features. </li>
 </ul>
 <form style="font-size: 3rem; line-height: 60%;">
-<label for="rara">🎗🎗🎗🎗🎗🎗🎗🎗</label><br/><button id="rara" data-commandlinker-command="runmenu:restart-and-run-all" style="font-size: 3rem; line-height: 60%;">restart and run all</button><br/><label for="rara">or it didn't happen</label>
+<label for="rara">🎗🎗🎗🎗🎗🎗🎗🎗</label><br/><button data-commandlinker-command="runmenu:restart-and-run-all" id="rara" style="font-size: 3rem; line-height: 60%;">restart and run all</button><br/><label for="rara">or it didn't happen</label>
 </form>
 
 <p><a href="https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf">https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf</a>

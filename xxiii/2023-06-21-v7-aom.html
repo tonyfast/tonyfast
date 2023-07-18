@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1234,10 +1248,9 @@
 
 
 <h1 id="jupyter-notebook-v7-remediations">jupyter notebook v7 remediations<a class="headerlink" href="#jupyter-notebook-v7-remediations" title="Permanent link">¤</a></h1>
-<p>this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that <q>an accessible reference implementation of the rendered notebook will extend to an assistive interactive experience.</q> </p>
-<blockquote>
-<p>i think this remediation is 4 primary tasks</p>
-</blockquote>
+<p>this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that <q>an accessible reference implementation of the rendered notebook will extend to an assistive interactive experience.</q> 
+&gt;
+i think this remediation is 4 primary tasks</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> improved notebook level semantics for landmarks and initial APG recommendations</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> introduce landmark semantics for the cells<ul class="task-list">
@@ -1259,16 +1272,16 @@
 <h2 id="application-level-semantics">application level semantics<a class="headerlink" href="#application-level-semantics" title="Permanent link">¤</a></h2>
 <p>ARIA modifications to the first landmarks we encounter.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Menu&quot;</span><span class="p">);});</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#main-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-labelledby&quot;</span><span class="p">,</span> <span class="s2">&quot;jp-title&quot;</span><span class="p">);});</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#menu-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Menu&quot;</span><span class="p">);});</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#main-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-labelledby&quot;</span><span class="p">,</span> <span class="s2">&quot;jp-title&quot;</span><span class="p">);});</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#menu-panel&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;banner&quot;</span><span class="p">);</span> 
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Menu&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="74da874d-b2f0-4ed2-8630-cb7c985b5bd0" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="5e4a3d5f-bda8-4b06-ab35-fc729e3230be">
 <script type="text/javascript">
-var element = $('#74da874d-b2f0-4ed2-8630-cb7c985b5bd0');
+var element = $('#5e4a3d5f-bda8-4b06-ab35-fc729e3230be');
 document.querySelectorAll("#top-panel").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Menu");});
 document.querySelectorAll("#main-panel").forEach((x,i) =>{x.setAttribute("aria-labelledby", "jp-title");});
 document.querySelectorAll("#menu-panel").forEach((x,i) =>{
@@ -1287,9 +1300,9 @@ document.querySelectorAll("#menu-panel").forEach((x,i) =>{
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;presentation&quot;</span><span class="p">);</span>
     <span class="p">};</span>
 </code></pre></div>
-<div id="ae2d9dec-9921-4037-a9eb-def01c5da63b" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="9f94bb6c-96ed-4a68-bc61-1143c8e562dd">
 <script type="text/javascript">
-var element = $('#ae2d9dec-9921-4037-a9eb-def01c5da63b');
+var element = $('#9f94bb6c-96ed-4a68-bc61-1143c8e562dd');
 for (x in document.querySelectorAll("#top-panel #jp-title h1").children){
     // we can't set our own h1 as that will mess up custom content.
     // the css depends on the h1, but the screen reader won't find it this way.
@@ -1305,9 +1318,9 @@ for (x in document.querySelectorAll("#top-panel #jp-title h1").children){
     <span class="o">//</span> <span class="n">the</span> <span class="n">trusted</span> <span class="n">status</span> <span class="n">button</span> <span class="n">needs</span> <span class="n">alt</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">clearer</span> <span class="n">title</span> <span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">NotebookTrustedStatus</span>
     <span class="o">//</span> <span class="n">the</span> <span class="n">button</span><span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">Notebook</span><span class="o">-</span><span class="n">footer</span> <span class="n">semantics</span> <span class="n">are</span> <span class="n">wrong</span><span class="o">.</span> <span class="n">the</span> <span class="n">button</span> <span class="n">should</span> <span class="n">be</span> <span class="n">inside</span> <span class="n">a</span> <span class="n">footer</span><span class="p">,</span> <span class="ow">or</span> <span class="n">role</span><span class="o">=</span><span class="n">contentinfo</span>
 </code></pre></div>
-<div id="d088fe19-f7e2-4d0c-919b-44e1adbb55ff" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="d942956b-1466-4391-aa82-8d1fd3d13877">
 <script type="text/javascript">
-var element = $('#d088fe19-f7e2-4d0c-919b-44e1adbb55ff');
+var element = $('#d942956b-1466-4391-aa82-8d1fd3d13877');
 // a user should be able to trigger the logo dialog by clicking on .jp-NotebookKernelLogo
 // the trusted status button needs alt and a clearer title .jp-NotebookTrustedStatus
 // the button.jp-Notebook-footer semantics are wrong. the button should be inside a footer, or role=contentinfo
@@ -1315,20 +1328,18 @@ var element = $('#d088fe19-f7e2-4d0c-919b-44e1adbb55ff');
 </script>
 </div>
 
-<blockquote>
-<p>i'm surprised everytime the jupyter logo sends me to the file tree. right now, the first thing you tab to tries to send you to another page. feels weird.</p>
-</blockquote>
+<p>&gt; i'm surprised everytime the jupyter logo sends me to the file tree. right now, the first thing you tab to tries to send you to another page. feels weird.</p>
 <p>the changes below communicate the current semantics, but the feel of this experience should be reconsidered.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="o">//</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">going</span> <span class="n">to</span> <span class="n">make</span> <span class="n">no</span> <span class="n">sense</span> <span class="n">to</span> <span class="n">anyone</span> <span class="n">that</span> <span class="n">the</span> <span class="n">jupyter</span> <span class="n">label</span> <span class="n">sends</span> <span class="n">you</span> <span class="n">to</span> <span class="nb">open</span> <span class="n">files</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel #jp-NotebookLogo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#top-panel #jp-NotebookLogo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;Open File Browser in a New Tab&quot;</span><span class="p">);</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;alt&quot;</span><span class="p">,</span> <span class="s2">&quot;Open File Browser in a New Tab&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="7a68816a-9e14-442e-8a53-f954693bbc63" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="c603ea69-d437-4708-acfe-c14291fa255b">
 <script type="text/javascript">
-var element = $('#7a68816a-9e14-442e-8a53-f954693bbc63');
+var element = $('#c603ea69-d437-4708-acfe-c14291fa255b');
 // it is going to make no sense to anyone that the jupyter label sends you to open files
 document.querySelectorAll("#top-panel #jp-NotebookLogo").forEach((x,i) =>{
     x.setAttribute("title", "Open File Browser in a New Tab");
@@ -1340,12 +1351,12 @@ document.querySelectorAll("#top-panel #jp-NotebookLogo").forEach((x,i) =>{
 
 <p>label the main notebook area.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#spacer-widget-top&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;presentation&quot;</span><span class="p">);});</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Notebook&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Cells&quot;</span><span class="p">);});</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;#spacer-widget-top&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;presentation&quot;</span><span class="p">);});</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Notebook&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span><span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Cells&quot;</span><span class="p">);});</span>
 </code></pre></div>
-<div id="23b1bafe-ed3c-4dab-af8d-4ecfbc81ac51" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="007d4bc6-81e2-45b8-9330-5a5ece1471f7">
 <script type="text/javascript">
-var element = $('#23b1bafe-ed3c-4dab-af8d-4ecfbc81ac51');
+var element = $('#007d4bc6-81e2-45b8-9330-5a5ece1471f7');
 document.querySelectorAll("#spacer-widget-top").forEach((x,i) =>{x.setAttribute("role", "presentation");});
 document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Cells");});
 
@@ -1354,14 +1365,14 @@ document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-
 
 <p>the toolbar is banner, not navigation.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
-    <span class="o">//</span> <span class="n">role</span> <span class="n">navigation</span> <span class="o">-&gt;</span> <span class="n">banner</span><span class="p">,</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">landmark</span> <span class="n">inside</span> <span class="n">of</span> <span class="n">main</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Toolbar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="o">//</span> <span class="n">role</span> <span class="n">navigation</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">banner</span><span class="p">,</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">landmark</span> <span class="n">inside</span> <span class="n">of</span> <span class="n">main</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Toolbar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;banner&quot;</span><span class="p">);</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Notebook Actions&quot;</span><span class="p">);</span>
     <span class="p">});</span>    
 </code></pre></div>
-<div id="dba2f574-0641-4b13-b6bc-d6ad11745eea" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="6040d6de-8b8c-4a08-a95a-ec6b7d671fe9">
 <script type="text/javascript">
-var element = $('#dba2f574-0641-4b13-b6bc-d6ad11745eea');
+var element = $('#6040d6de-8b8c-4a08-a95a-ec6b7d671fe9');
 // role navigation -> banner, this is a landmark inside of main
 document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{
     x.setAttribute("role", "banner"); x.setAttribute("aria-label", "Notebook Actions");
@@ -1374,27 +1385,26 @@ document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{
 <p>it was found, in a single notebook mode, that some assistive tech users liked finding cells as landmarks especially in long notebooks. we can add more complicated semantics later, the feed pattern makes more sense in reading html notebooks.</p>
 <p><del>the feed pattern is read mode pattern for identifying units of content is a potentially infinite scrolling element. we use this pattern because it introduces the minimal aria semantics to add order.</del></p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
-    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-WindowedPanel-window&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-WindowedPanel-window&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;feed&quot;</span><span class="p">);</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="s2">&quot;Cells&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="798b1ffb-4315-4db0-8175-153c4101a0cb" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="f2a496a6-fb57-4f05-9da7-52efe49dc7c1">
 <script type="text/javascript">
-var element = $('#798b1ffb-4315-4db0-8175-153c4101a0cb');
+var element = $('#f2a496a6-fb57-4f05-9da7-52efe49dc7c1');
 document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{
     x.setAttribute("role", "feed"); x.setAttribute("aria-label", "Cells");
 });
 
 </script>
 </div>
-
 <!-- for each of the cells, we give them an article role. each cell is labelled by their name with information about the cell type.
 
 >> some assistive tech can quickly nagivate articles. -->
 
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">var</span> <span class="n">cells</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell&quot;</span><span class="p">);</span>
-    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="o">//</span> <span class="n">lets</span> <span class="n">punt</span> <span class="n">on</span> <span class="n">the</span> <span class="n">feed</span> <span class="n">pattern</span> <span class="n">to</span> <span class="n">start</span>
         <span class="o">//</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;article&quot;</span><span class="p">);</span> 
         <span class="o">//</span> <span class="n">x</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-posinset&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> 
@@ -1420,9 +1430,9 @@ document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{
         <span class="n">prompt</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-hidden&quot;</span><span class="p">,</span> <span class="s2">&quot;true&quot;</span><span class="p">);</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="cabc265d-9aae-49ec-81d0-7652e705b97d" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="442e20bf-2d73-41b3-8f26-b55bfbfd7f9d">
 <script type="text/javascript">
-var element = $('#cabc265d-9aae-49ec-81d0-7652e705b97d');
+var element = $('#442e20bf-2d73-41b3-8f26-b55bfbfd7f9d');
 var cells = document.querySelectorAll(".jp-Cell");
 cells.forEach((x,i) =>{
     // lets punt on the feed pattern to start
@@ -1458,13 +1468,13 @@ cells.forEach((x,i) =>{
 <h3 id="input-area-fixes">input area fixes<a class="headerlink" href="#input-area-fixes" title="Permanent link">¤</a></h3>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">var</span> <span class="n">cells</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell&quot;</span><span class="p">);</span>
-    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">var</span> <span class="n">MD</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">className</span><span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="s2">&quot;jp-MarkdownCell&quot;</span><span class="p">);</span>
         <span class="n">var</span> <span class="n">CODE</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">className</span><span class="o">.</span><span class="n">includes</span><span class="p">(</span><span class="s2">&quot;jp-CodeCell&quot;</span><span class="p">);</span>
 
         <span class="o">//</span> <span class="n">code</span><span class="p">,</span> <span class="n">markdown</span><span class="p">,</span> <span class="n">raw</span> <span class="n">cells</span> <span class="n">need</span> <span class="n">different</span> <span class="n">groupings</span><span class="o">.</span>
         <span class="n">x</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell-inputWrapper&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
                 <span class="n">y</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;group&quot;</span><span class="p">);</span>
                 <span class="n">var</span> <span class="n">label</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">textContent</span><span class="o">.</span><span class="n">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">trim</span><span class="p">();</span>
                 <span class="k">if</span> <span class="p">(</span><span class="n">CODE</span><span class="p">){</span>
@@ -1482,7 +1492,7 @@ cells.forEach((x,i) =>{
         <span class="p">);</span>
         <span class="o">//</span> <span class="n">make</span> <span class="n">the</span> <span class="n">cell</span> <span class="n">toolbar</span> <span class="n">an</span> <span class="n">APG</span> <span class="n">styled</span> <span class="n">toolbar</span><span class="o">.</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">most</span> <span class="n">cursory</span> <span class="n">modification</span><span class="o">.</span>
         <span class="n">x</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-cell-toolbar&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
                 <span class="o">//</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">ARIA</span><span class="o">/</span><span class="n">apg</span><span class="o">/</span><span class="n">patterns</span><span class="o">/</span><span class="n">toolbar</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">toolbar</span><span class="o">/</span>
                 <span class="n">y</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;role&quot;</span><span class="p">,</span> <span class="s2">&quot;toolbar&quot;</span><span class="p">);</span>
                 <span class="n">y</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="s2">&quot;aria-label&quot;</span><span class="p">,</span> <span class="err">`</span><span class="n">Cell</span> <span class="err">$</span><span class="p">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">}</span> <span class="n">Toolbar</span><span class="err">`</span><span class="p">);</span>
@@ -1491,9 +1501,9 @@ cells.forEach((x,i) =>{
         <span class="p">)</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="0a8d7f15-c986-44d7-b272-b08894de4b6f" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="e746515a-3dc3-4f7c-82c9-9510a87d7cb5">
 <script type="text/javascript">
-var element = $('#0a8d7f15-c986-44d7-b272-b08894de4b6f');
+var element = $('#e746515a-3dc3-4f7c-82c9-9510a87d7cb5');
 var cells = document.querySelectorAll(".jp-Cell");
 cells.forEach((x,i) =>{
     var MD = x.className.includes("jp-MarkdownCell");
@@ -1536,9 +1546,9 @@ cells.forEach((x,i) =>{
 <p>right now, i'm only comfortable calling the outputs a group, this means they may be announced by a screen reader to provide some relative position. on disk, in the notebook format, outputs are a list of structures, as are cells, and it might make the most sense to employ a nested feed pattern. when you start to thinking about async updates then ordering is out the window.</p>
 <div class="highlight"><pre><span></span><code>    <span class="o">%%</span><span class="n">javascript</span>
     <span class="n">var</span> <span class="n">cells</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell&quot;</span><span class="p">);</span>
-    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&gt;</span><span class="p">{</span>
+    <span class="n">cells</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">x</span><span class="p">,</span><span class="n">i</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
         <span class="n">x</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-Cell-outputWrapper&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
                 <span class="o">//</span> <span class="n">this</span> <span class="n">will</span> <span class="n">only</span> <span class="n">be</span> <span class="n">encountered</span> <span class="n">on</span> <span class="n">code</span> <span class="n">cells</span><span class="o">.</span>
                 <span class="o">//</span> <span class="n">i</span> <span class="n">have</span> <span class="n">no</span> <span class="n">invested</span> <span class="n">significant</span> <span class="n">time</span> <span class="n">into</span> <span class="n">the</span> <span class="n">semantics</span> <span class="n">of</span> <span class="n">the</span> <span class="n">outputs</span>
                 <span class="o">//</span> <span class="n">group</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">fine</span> <span class="n">semantic</span><span class="p">,</span> <span class="n">but</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">non</span> <span class="n">specific</span><span class="o">.</span>
@@ -1555,16 +1565,16 @@ cells.forEach((x,i) =>{
             <span class="p">}</span>
         <span class="p">);</span>
         <span class="n">x</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="s2">&quot;.jp-OutputCollapser&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&gt;</span><span class="p">{</span>
+            <span class="p">(</span><span class="n">y</span><span class="p">)</span><span class="o">=&amp;</span><span class="n">gt</span><span class="p">;{</span>
                 <span class="o">//</span> <span class="n">the</span> <span class="n">collapser</span> <span class="n">button</span> <span class="n">has</span> <span class="n">no</span> <span class="n">semantics</span> <span class="ow">or</span> <span class="n">visible</span> <span class="n">label</span><span class="o">.</span>
                 <span class="o">//</span> <span class="n">this</span> <span class="n">feature</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">accessible</span><span class="p">,</span> <span class="n">but</span> <span class="n">should</span> <span class="n">because</span> <span class="k">for</span> <span class="n">folks</span> <span class="n">using</span> <span class="n">screen</span> <span class="n">magnification</span><span class="o">.</span>
             <span class="p">}</span>
         <span class="p">)</span>
     <span class="p">});</span>
 </code></pre></div>
-<div id="ed1903a0-10ca-4efc-bbd3-c91c6689e36f" class="output_subarea output_javascript ">
+<div class="output_subarea output_javascript" id="dbfab77f-83f7-419c-9fb9-fce9ab04bdd8">
 <script type="text/javascript">
-var element = $('#ed1903a0-10ca-4efc-bbd3-c91c6689e36f');
+var element = $('#dbfab77f-83f7-419c-9fb9-fce9ab04bdd8');
 var cells = document.querySelectorAll(".jp-Cell");
 cells.forEach((x,i) =>{
     x.querySelectorAll(".jp-Cell-outputWrapper").forEach(

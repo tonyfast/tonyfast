@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1181,12 +1195,13 @@
 <p>this document is the minimum schema to make metadata extensible.
 it makes clearer distinctions between the notebook, cell and display metadata.</p>
 <p>new metadata schema are combined using the <code>allOf</code> key that references schema from other places.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">from</span> <span class="nn">midgy.utils</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">import</span> <span class="nn">tomli</span>
 </code></pre></div>
 </div>
-<div hidden>
+<div hidden="">
 
 
     %reload_ext pidgy
@@ -1195,7 +1210,8 @@ it makes clearer distinctions between the notebook, cell and display metadata.</
 </div>
 
 <p>the extended schema is written below in toml.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">schema</span> <span class="o">=</span> <span class="n">strip_fence</span> <span class="o">|</span> <span class="n">tomli</span><span class="o">.</span><span class="n">loads</span> <span class="o">|</span> \
 <span class="err">```</span><span class="n">toml</span>
 <span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;extensible metadata for the notebook schema.&quot;</span>
@@ -1236,6 +1252,7 @@ it makes clearer distinctions between the notebook, cell and display metadata.</
 <span class="err">```</span>
 </code></pre></div>
 </div>
+
 <pre><code>schema = strip_fence | tomli.loads | \
 </code></pre>
 <p><code>toml
@@ -1273,29 +1290,29 @@ metadata."$ref" = "#notebook-meta"
 [properties.cells.items.properties.outputs.items.properties.metadata]
 outputs.items.properties.metadata."$ref" = "#display-meta"</code></p>
 <p>it is shown in json below.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">pprint</span><span class="o">.</span><span class="n">pprint</span><span class="p">(</span><span class="n">schema</span><span class="p">)</span>
     <span class="n">JSON</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">expanded</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 </div>
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>{&#39;$defs&#39;: {&#39;code-meta&#39;: {&#39;$anchor&#39;: &#39;code-meta&#39;,
-                         &#39;allOf&#39;: [{&#39;$ref&#39;: &#39;#slides&#39;}]},
-           &#39;display-meta&#39;: {&#39;$anchor&#39;: &#39;display-meta&#39;,
-                            &#39;allOf&#39;: [{&#39;$ref&#39;: &#39;#images&#39;}, {&#39;$ref&#39;: &#39;#json&#39;}]},
-           &#39;notebook-meta&#39;: {&#39;$anchor&#39;: &#39;notebook-meta&#39;,
-                             &#39;allOf&#39;: [{&#39;$ref&#39;: &#39;kernelspec.json&#39;}]},
-           &#39;slides&#39;: {&#39;$anchor&#39;: &#39;slides&#39;,
-                      &#39;properties&#39;: {&#39;slides&#39;: {&#39;enum&#39;: [&#39;slide&#39;,
-                                                         &#39;subslide&#39;,
-                                                         &#39;fragment&#39;]}}}},
- &#39;description&#39;: &#39;extensible metadata for the notebook schema.&#39;,
- &#39;properties&#39;: {&#39;cells&#39;: {&#39;items&#39;: {&#39;properties&#39;: {&#39;metadata&#39;: {&#39;$ref&#39;: &#39;#cell-meta&#39;},
-                                                   &#39;outputs&#39;: {&#39;items&#39;: {&#39;properties&#39;: {&#39;metadata&#39;: {&#39;outputs&#39;: {&#39;items&#39;: {&#39;properties&#39;: {&#39;metadata&#39;: {&#39;$ref&#39;: &#39;#display-meta&#39;}}}}}}}}}}},
-                &#39;metadata&#39;: {&#39;$ref&#39;: &#39;#notebook-meta&#39;}}}
+<pre>{'$defs': {'code-meta': {'$anchor': 'code-meta',
+                         'allOf': [{'$ref': '#slides'}]},
+           'display-meta': {'$anchor': 'display-meta',
+                            'allOf': [{'$ref': '#images'}, {'$ref': '#json'}]},
+           'notebook-meta': {'$anchor': 'notebook-meta',
+                             'allOf': [{'$ref': 'kernelspec.json'}]},
+           'slides': {'$anchor': 'slides',
+                      'properties': {'slides': {'enum': ['slide',
+                                                         'subslide',
+                                                         'fragment']}}}},
+ 'description': 'extensible metadata for the notebook schema.',
+ 'properties': {'cells': {'items': {'properties': {'metadata': {'$ref': '#cell-meta'},
+                                                   'outputs': {'items': {'properties': {'metadata': {'outputs': {'items': {'properties': {'metadata': {'$ref': '#display-meta'}}}}}}}}}}},
+                'metadata': {'$ref': '#notebook-meta'}}}
 </pre>
 </div>
-
 <div class="output_text output_subarea output_execute_result">
 <pre>&lt;IPython.core.display.JSON object&gt;</pre>
 </div>
@@ -1303,7 +1320,8 @@ outputs.items.properties.metadata."$ref" = "#display-meta"</code></p>
 <pre><code>pprint.pprint(schema)
 JSON(schema, expanded=False)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
 </div>

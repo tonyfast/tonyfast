@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1252,7 +1266,7 @@ could invoke axe through python by copying a little bit.</p>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">injectReadability</span><span class="p">(</span><span class="n">page</span><span class="p">):</span> 
     <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;https://raw.githubusercontent.com/mozilla/readability/master/Readability.js&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
-    <span class="n">status</span> <span class="o">=</span> <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;async () =&gt; {</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="k">await</span> <span class="n">page</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;async () =&amp;gt; {</span>
 <span class="s2">      const readability = await import(&#39;https://cdn.skypack.dev/@mozilla/readability&#39;);</span>
 <span class="s2">      return (new readability.Readability(document)).parse();</span>
 <span class="s2">    }&quot;&quot;&quot;</span><span class="p">)</span>
@@ -1264,25 +1278,25 @@ could invoke axe through python by copying a little bit.</p>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
 Cell <span class="ansi-green-fg">In [15], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> audit(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">better.html</span><span style="color: rgb(175,0,0)">&#34;</span>)
+<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> audit(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">better.html</span><span style="color: rgb(175,0,0)">"</span>)
 
 Cell <span class="ansi-green-fg">In [11], line 7</span>, in <span class="ansi-cyan-fg">audit</span><span class="ansi-blue-fg">(file, **config)</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> page<span style="color: rgb(98,98,98)">.</span>goto(Path(file)<span style="color: rgb(98,98,98)">.</span>absolute()<span style="color: rgb(98,98,98)">.</span>as_uri())
-<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> <span style="color: rgb(0,135,0)">__import__</span>(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">asyncio</span><span style="color: rgb(175,0,0)">&#34;</span>)<span style="color: rgb(98,98,98)">.</span>sleep(<span style="color: rgb(98,98,98)">3</span>)
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> <span style="color: rgb(0,135,0)">__import__</span>(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">asyncio</span><span style="color: rgb(175,0,0)">"</span>)<span style="color: rgb(98,98,98)">.</span>sleep(<span style="color: rgb(98,98,98)">3</span>)
 <span class="ansi-green-fg">----&gt; 7</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> injectReadability(page)
 <span class="ansi-green-intense-fg ansi-bold">      8</span> <span style="color: rgb(95,135,135)"># await injectAxe(page)</span>
 <span class="ansi-green-intense-fg ansi-bold">      9</span> <span style="color: rgb(95,135,135)"># data = await get_audit_data(page, **config)</span>
-<span class="ansi-green-intense-fg ansi-bold">     10</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> <span style="color: rgb(0,135,0)">__import__</span>(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">asyncio</span><span style="color: rgb(175,0,0)">&#34;</span>)<span style="color: rgb(98,98,98)">.</span>sleep(<span style="color: rgb(98,98,98)">30</span>)
+<span class="ansi-green-intense-fg ansi-bold">     10</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> <span style="color: rgb(0,135,0)">__import__</span>(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">asyncio</span><span style="color: rgb(175,0,0)">"</span>)<span style="color: rgb(98,98,98)">.</span>sleep(<span style="color: rgb(98,98,98)">30</span>)
 
 Cell <span class="ansi-green-fg">In [12], line 2</span>, in <span class="ansi-cyan-fg">injectReadability</span><span class="ansi-blue-fg">(page)</span>
 <span class="ansi-green-intense-fg ansi-bold">      1</span> <span class="ansi-bold" style="color: rgb(0,135,0)">async</span> <span class="ansi-bold" style="color: rgb(0,135,0)">def</span> <span style="color: rgb(0,0,255)">injectReadability</span>(page): 
-<span class="ansi-green-fg">----&gt; 2</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> page<span style="color: rgb(98,98,98)">.</span>evaluate(<span class="ansi-yellow-bg">requests</span><span style="color: rgb(98,98,98)">.</span>get(<span style="color: rgb(175,0,0)">&#34;</span><span style="color: rgb(175,0,0)">https://raw.githubusercontent.com/mozilla/readability/master/Readability.js</span><span style="color: rgb(175,0,0)">&#34;</span>)<span style="color: rgb(98,98,98)">.</span>text)
-<span class="ansi-green-intense-fg ansi-bold">      3</span>     status <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> page<span style="color: rgb(98,98,98)">.</span>evaluate(<span style="color: rgb(175,0,0)">&#34;&#34;&#34;</span><span style="color: rgb(175,0,0)">async () =&gt; </span><span style="color: rgb(175,0,0)">{</span>
-<span class="ansi-green-intense-fg ansi-bold">      4</span> <span style="color: rgb(175,0,0)">      const readability = await import(</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">https://cdn.skypack.dev/@mozilla/readability</span><span style="color: rgb(175,0,0)">&#39;</span><span style="color: rgb(175,0,0)">);</span>
+<span class="ansi-green-fg">----&gt; 2</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> page<span style="color: rgb(98,98,98)">.</span>evaluate(<span class="ansi-yellow-bg">requests</span><span style="color: rgb(98,98,98)">.</span>get(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">https://raw.githubusercontent.com/mozilla/readability/master/Readability.js</span><span style="color: rgb(175,0,0)">"</span>)<span style="color: rgb(98,98,98)">.</span>text)
+<span class="ansi-green-intense-fg ansi-bold">      3</span>     status <span style="color: rgb(98,98,98)">=</span> <span class="ansi-bold" style="color: rgb(0,135,0)">await</span> page<span style="color: rgb(98,98,98)">.</span>evaluate(<span style="color: rgb(175,0,0)">"""</span><span style="color: rgb(175,0,0)">async () =&gt; </span><span style="color: rgb(175,0,0)">{</span>
+<span class="ansi-green-intense-fg ansi-bold">      4</span> <span style="color: rgb(175,0,0)">      const readability = await import(</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">https://cdn.skypack.dev/@mozilla/readability</span><span style="color: rgb(175,0,0)">'</span><span style="color: rgb(175,0,0)">);</span>
 <span class="ansi-green-intense-fg ansi-bold">      5</span> <span style="color: rgb(175,0,0)">      return (new readability.Readability(document)).parse();</span>
-<span class="ansi-green-intense-fg ansi-bold">      6</span> <span style="color: rgb(175,0,0)">    }</span><span style="color: rgb(175,0,0)">&#34;&#34;&#34;</span>)
+<span class="ansi-green-intense-fg ansi-bold">      6</span> <span style="color: rgb(175,0,0)">    }</span><span style="color: rgb(175,0,0)">"""</span>)
 
-<span class="ansi-red-fg">NameError</span>: name &#39;requests&#39; is not defined</pre>
+<span class="ansi-red-fg">NameError</span>: name 'requests' is not defined</pre>
 </div>
 
 <div class="highlight"><pre><span></span><code><span class="k">async</span> <span class="k">def</span> <span class="nf">get_browser_page</span><span class="p">(</span><span class="n">play</span><span class="p">,</span> <span class="o">**</span><span class="n">options</span><span class="p">):</span>
@@ -1331,7 +1345,7 @@ we used a cached requests object vendored from unpkg</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">axe</span><span class="o">.</span><span class="n">violations</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1345,40 +1359,40 @@ we used a cached requests object vendored from unpkg</p>
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>id</th>
-      <th>impact</th>
-      <th>tags</th>
-      <th>description</th>
-      <th>help</th>
-      <th>helpUrl</th>
-      <th>nodes</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>landmark-one-main</td>
-      <td>moderate</td>
-      <td>[cat.semantics, best-practice]</td>
-      <td>Ensures the document has a main landmark</td>
-      <td>Document should have one main landmark</td>
-      <td>https://dequeuniversity.com/rules/axe/4.5/land...</td>
-      <td>[{'any': [], 'all': [{'id': 'page-has-main', '...</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>region</td>
-      <td>moderate</td>
-      <td>[cat.keyboard, best-practice]</td>
-      <td>Ensures all page content is contained by landm...</td>
-      <td>All page content should be contained by landmarks</td>
-      <td>https://dequeuniversity.com/rules/axe/4.5/regi...</td>
-      <td>[{'any': [{'id': 'region', 'data': {'isIframe'...</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>id</th>
+<th>impact</th>
+<th>tags</th>
+<th>description</th>
+<th>help</th>
+<th>helpUrl</th>
+<th>nodes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>landmark-one-main</td>
+<td>moderate</td>
+<td>[cat.semantics, best-practice]</td>
+<td>Ensures the document has a main landmark</td>
+<td>Document should have one main landmark</td>
+<td>https://dequeuniversity.com/rules/axe/4.5/land...</td>
+<td>[{'any': [], 'all': [{'id': 'page-has-main', '...</td>
+</tr>
+<tr>
+<th>1</th>
+<td>region</td>
+<td>moderate</td>
+<td>[cat.keyboard, best-practice]</td>
+<td>Ensures all page content is contained by landm...</td>
+<td>All page content should be contained by landmarks</td>
+<td>https://dequeuniversity.com/rules/axe/4.5/regi...</td>
+<td>[{'any': [{'id': 'region', 'data': {'isIframe'...</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 
@@ -1386,7 +1400,7 @@ we used a cached requests object vendored from unpkg</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">tree</span><span class="o">.</span><span class="n">children</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1400,82 +1414,82 @@ we used a cached requests object vendored from unpkg</p>
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>role</th>
-      <th>name</th>
-      <th>level</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>text</td>
-      <td>Loading [MathJax]/jax/output/CommonHTML/fonts/...</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>heading</td>
-      <td>invoking axe-core from python playwright</td>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>text</td>
-      <td>javascript is not my jam. id rather write pyth...</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>text</td>
-      <td>in my accessibility, i often need to test the ...</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>text</td>
-      <td>i couldn't find an evident way to do that. ins...</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>275</th>
-      <td>text</td>
-      <td>.</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>276</th>
-      <td>text</td>
-      <td>children</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>277</th>
-      <td>text</td>
-      <td>)</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>278</th>
-      <td>heading</td>
-      <td>conclusion</td>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>279</th>
-      <td>text</td>
-      <td>we can run axe in python playwright and analyz...</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>role</th>
+<th>name</th>
+<th>level</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>text</td>
+<td>Loading [MathJax]/jax/output/CommonHTML/fonts/...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>heading</td>
+<td>invoking axe-core from python playwright</td>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2</th>
+<td>text</td>
+<td>javascript is not my jam. id rather write pyth...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>3</th>
+<td>text</td>
+<td>in my accessibility, i often need to test the ...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>4</th>
+<td>text</td>
+<td>i couldn't find an evident way to do that. ins...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>275</th>
+<td>text</td>
+<td>.</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>276</th>
+<td>text</td>
+<td>children</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>277</th>
+<td>text</td>
+<td>)</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>278</th>
+<td>heading</td>
+<td>conclusion</td>
+<td>2.0</td>
+</tr>
+<tr>
+<th>279</th>
+<td>text</td>
+<td>we can run axe in python playwright and analyz...</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
 <p>280 rows × 3 columns</p>
 </div></div>

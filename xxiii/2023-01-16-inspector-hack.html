@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1249,19 +1263,21 @@
 we can send html and markdown to the contextual help.</p>
 <p>we create an ipython extension that modifies the <code>IPython</code> contextual help using rich displays.
 we are going to create a wsyiwyg for </p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
         <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;nest_asyncio&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">()</span> <span class="c1"># just in case</span>
         <span class="n">shell</span><span class="o">.</span><span class="n">enable_html_pager</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span> <span class="o">=</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">(</span><span class="n">do_inspect</span><span class="p">,</span> <span class="n">shell</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">import</span> <span class="nn">pandas</span>
 </code></pre></div>
 </div>
-<div hidden>
+<div hidden="">
 
 
     %reload_ext pidgy
@@ -1270,10 +1286,12 @@ we are going to create a wsyiwyg for </p>
 </div>
 
 <p>for any of this to work need to enable the html pager <a href="https://ipython.readthedocs.io/en/stable/config/options/kernel.html#configtrait-ZMQInteractiveShell.enable_html_pager"><code>shell.enable_html_pager</code></a></p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">shell</span><span class="o">.</span><span class="n">enable_html_pager</span> <span class="o">=</span> <span class="kc">True</span>
 </code></pre></div>
 </div>
+
 <pre><code>shell.enable_html_pager = True
 </code></pre>
 <p><code>do_inspect</code> will be our new contextual help completer. it provides completion when:</p>
@@ -1282,7 +1300,8 @@ we are going to create a wsyiwyg for </p>
 <li>there was no result found</li>
 <li>you found <a href="#the-bangs">the bangs</a></li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">do_inspect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">,</span> <span class="n">detail_level</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">omit_sections</span><span class="o">=</span><span class="p">(),</span> <span class="o">*</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="p">{}):</span>
         <span class="n">post</span> <span class="o">=</span> <span class="n">post_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">get_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
@@ -1296,6 +1315,7 @@ we are going to create a wsyiwyg for </p>
         <span class="k">return</span> <span class="n">data</span>    
 </code></pre></div>
 </div>
+
 <pre><code>def do_inspect(self, cell, cursor_pos, detail_level=1, omit_sections=(), *, cache={}):
     post = post_bangs(cell, get_bangs(cell, cursor_pos))
     if post:
@@ -1308,7 +1328,8 @@ we are going to create a wsyiwyg for </p>
             data.update(inspect_weave(cell, cursor_pos))
     return data
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">inspect_weave</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">,</span> <span class="n">cache</span><span class="o">=</span><span class="p">{}):</span>
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">found</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">code</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span> 
@@ -1324,6 +1345,7 @@ we are going to create a wsyiwyg for </p>
         <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
 </div>
+
 <pre><code>def inspect_weave(code, cursor_pos, cache={}):
     data = dict(found=True)
     if not code.strip(): 
@@ -1339,7 +1361,8 @@ we are going to create a wsyiwyg for </p>
     return data
 </code></pre>
 <p>this is a hack! we'll hold the original inspect function and monkey patch it.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;_do_inspect&quot;</span><span class="p">,</span> <span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_inspect</span><span class="p">)</span>
 </code></pre></div>
 </div>
@@ -1349,21 +1372,24 @@ we are going to create a wsyiwyg for </p>
 
 <pre><code>locals().setdefault("_do_inspect", shell.kernel.do_inspect)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">I</span> <span class="o">:=</span> <span class="p">(</span><span class="s2">&quot;__file__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()):</span> <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>if I := ("__file__" not in locals()): load_ipython_extension(shell)
 </code></pre>
 <h3 id="line-positions-and-tokenization">line positions and tokenization<a class="headerlink" href="#line-positions-and-tokenization" title="Permanent link">¤</a></h3>
 <p>it seemed important to have line and column numbers that align exactly with the code mirror line numbers and the line/column number in the bottom inspector ribbon. for extra confidence when writing pidgy we include the markdown block token the cursor is within.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">lineno_at_cursor</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">splitlines</span><span class="p">(</span><span class="kc">True</span><span class="p">)):</span>
             <span class="n">next_offset</span> <span class="o">=</span> <span class="n">offset</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">line</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">):</span> <span class="n">next_offset</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">next_offset</span> <span class="o">&gt;</span> <span class="n">cursor_pos</span><span class="p">:</span>  <span class="k">break</span>
+            <span class="k">if</span> <span class="n">next_offset</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">cursor_pos</span><span class="p">:</span>  <span class="k">break</span>
             <span class="n">offset</span> <span class="o">=</span> <span class="n">next_offset</span>
         <span class="n">col</span> <span class="o">=</span> <span class="n">cursor_pos</span><span class="o">-</span><span class="n">offset</span>
         <span class="k">return</span> <span class="n">i</span><span class="p">,</span> <span class="n">col</span>
@@ -1373,17 +1399,18 @@ we are going to create a wsyiwyg for </p>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;root&quot;</span><span class="p">:</span> <span class="k">continue</span>
             <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">line</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="k">break</span>
-                <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">line</span> <span class="o">&lt;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">line</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span> <span class="k">break</span>
+                <span class="k">elif</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span> <span class="n">line</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">node</span><span class="o">.</span><span class="n">map</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="n">where</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">where</span>
 </code></pre></div>
 </div>
+
 <pre><code>def lineno_at_cursor(cell, cursor_pos=0):
     offset = 0
     for i, line in enumerate(cell.splitlines(True)):
         next_offset = offset + len(line)
         if not line.endswith('\n'): next_offset += 1
-        if next_offset &gt; cursor_pos:  break
+        if next_offset &amp;gt; cursor_pos:  break
         offset = next_offset
     col = cursor_pos-offset
     return i, col
@@ -1393,13 +1420,14 @@ def get_md_pointer(tokens, line, offset):
     for node in tokens:
         if node.type == "root": continue
         if node.map:
-            if line &lt; node.map[0]: break
-            elif node.map[0] &lt;= line &lt; node.map[1]: where.append(node.type)
+            if line &amp;lt; node.map[0]: break
+            elif node.map[0] &amp;lt;= line &amp;lt; node.map[1]: where.append(node.type)
     return where
 </code></pre>
 <h2 id="the-bangs">the bangs<a class="headerlink" href="#the-bangs" title="Permanent link">¤</a></h2>
 <p>the bangs give extra interactivity. when inspecting code a group of exclamation <code>!!!</code> points with template the woven source, or with enough emphasism <code>!!!!!!</code> we'll actually run code. consider these easter eggs cause i want them.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">cursor_pos</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">cell</span><span class="p">[</span><span class="n">cursor_pos</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;!&quot;</span><span class="p">:</span>
             <span class="n">l</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">cell</span><span class="p">[:</span><span class="n">cursor_pos</span><span class="p">],</span> <span class="n">cell</span><span class="p">[</span><span class="n">cursor_pos</span><span class="p">:]</span>
@@ -1407,41 +1435,45 @@ def get_md_pointer(tokens, line, offset):
         <span class="k">return</span> <span class="mi">0</span>
 </code></pre></div>
 </div>
+
 <pre><code>def get_bangs(cell, cursor_pos):
     if cell[cursor_pos-1] == "!":
         l, r = cell[:cursor_pos], cell[cursor_pos:]
         return len(l) - len(l.rstrip("!")) + len(r) - len(r.strip("!"))
     return 0
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">post_bangs</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">bangs</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">bangs</span><span class="o">&gt;=</span><span class="mi">6</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bangs</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="mi">6</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">store_history</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
             <span class="n">error</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">error_before_exec</span> <span class="ow">or</span> <span class="n">result</span><span class="o">.</span><span class="n">error_in_exec</span>
             <span class="k">if</span> <span class="n">error</span><span class="p">:</span> <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="sa">F</span><span class="s2">&quot;&quot;&quot;```pycon</span><span class="se">\n</span><span class="si">{</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
 <span class="w">                    </span><span class="n">traceback</span><span class="o">.</span><span class="n">format_exception</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">error</span><span class="p">),</span><span class="w"> </span><span class="n">error</span><span class="p">,</span><span class="w"> </span><span class="n">error</span><span class="o">.</span><span class="n">__traceback__</span><span class="p">)</span>
 <span class="w">                </span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">```&quot;&quot;&quot;</span><span class="p">}</span>
             <span class="k">else</span><span class="p">:</span> <span class="n">shell</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">update</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">bangs</span> <span class="o">&gt;=</span><span class="mi">3</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">bangs</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">=</span><span class="mi">3</span><span class="p">:</span>
             <span class="n">result</span> <span class="o">=</span> <span class="n">shell</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">from_string</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">environment</span><span class="o">.</span><span class="n">IPythonTemplate</span><span class="p">)</span>
             <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;text/markdown&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">render</span><span class="p">()}</span>
 </code></pre></div>
 </div>
+
 <pre><code>def post_bangs(cell, bangs):
-    if bangs&gt;=6:
+    if bangs&amp;gt;=6:
         result = shell.run_cell(cell, store_history=False, silent=True)
         error = result.error_before_exec or result.error_in_exec
         if error: return {"text/markdown": F"""```pycon\n{"".join(
                 traceback.format_exception(type(error), error, error.__traceback__)
             )}\n```"""}
         else: shell.weave.update()
-    if bangs &gt;=3:
+    if bangs &amp;gt;=3:
         result = shell.environment.from_string(cell, None, pidgy.environment.IPythonTemplate)
         return {"text/markdown": result.render()}
 </code></pre>
 <h2 id="the-opportunity-in-the-misses">the opportunity in the misses<a class="headerlink" href="#the-opportunity-in-the-misses" title="Permanent link">¤</a></h2>
 <p>the contextual help renders on keypress when a result is found.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">help_hits</span> <span class="o">=</span> <span class="n">inspection</span><span class="o">.</span><span class="n">found</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="o">%</span><span class="p">}</span>
 
 <span class="n">when</span> <span class="n">we</span> <span class="n">use</span> <span class="n">the</span> <span class="n">normal</span> <span class="n">inspection</span><span class="o">.</span> <span class="n">we</span> <span class="n">find</span> <span class="n">that</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">lot</span> <span class="n">of</span> <span class="n">time</span> <span class="n">where</span> <span class="n">the</span> <span class="n">contextual</span> <span class="n">help</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">found</span><span class="o">.</span>
@@ -1454,6 +1486,7 @@ def get_md_pointer(tokens, line, offset):
     <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <p>when we use the normal inspection. we find that there is a lot of time where the contextual help is not found.
 for example, when we process all the code inputs in this document the inspector finds information 36.0% of the time,
 meaning 64.0% opportunity!!</p>
@@ -1462,7 +1495,8 @@ shell.kernel.do_inspect = _do_inspect
 inspection = pandas.Series(In).apply(measure).apply(list).explode().dropna().apply(pandas.Series)
 load_ipython_extension(shell)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">a</span> <span class="n">use</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">blank</span> <span class="n">screen</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">provide</span> <span class="n">a</span> <span class="n">help</span> <span class="n">interface</span> <span class="k">for</span> <span class="n">people</span> <span class="n">to</span> <span class="n">learn</span> <span class="n">our</span> <span class="n">new</span> <span class="n">tool</span><span class="o">.</span>
 <span class="k">with</span> <span class="n">links</span> <span class="n">to</span> <span class="n">good</span> <span class="n">docs</span><span class="o">.</span>
 
@@ -1478,6 +1512,7 @@ load_ipython_extension(shell)
 <span class="o">*</span> <span class="n">python</span> <span class="n">documentation</span>
 </code></pre></div>
 </div>
+
 <p>a use is the blank screen is to provide a help interface for people to learn our new tool.
 with links to good docs.</p>
 <pre><code>help =\

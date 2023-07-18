@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1223,30 +1237,35 @@ however, if we detect that <code>voila</code> is driving our notebook then we sh
 <ul>
 <li>activate <code>pidgy</code></li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
 </code></pre></div>
 </div>
+
 <pre><code>%reload_ext pidgy
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## the cookies demo</span>
 
 <span class="n">the</span> <span class="n">cookies</span> <span class="n">demo</span> <span class="ow">is</span> <span class="n">inspired</span> <span class="n">by</span> <span class="n">the</span> <span class="n">original</span> <span class="p">[</span><span class="n">tanglejs</span><span class="p">](</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">worrydream</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Tangle</span><span class="o">/</span><span class="p">)</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h2 id="the-cookies-demo">the cookies demo<a class="headerlink" href="#the-cookies-demo" title="Permanent link">¤</a></h2>
 <p>the cookies demo is inspired by the original <a href="http://worrydream.com/Tangle/">tanglejs</a>.</p>
 <ul>
 <li>run the demo</li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code> <span class="o">---</span>
 
 <span class="n">when</span> <span class="n">you</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">cookies</span> <span class="n">you</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span> <span class="o">*</span> <span class="mi">75</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span>
 
 
-<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">hidden</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span>
 
         <span class="n">display</span><span class="p">(</span><span class="n">cookies</span><span class="o">:=</span><span class="n">IntSlider</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;cookies&quot;</span><span class="p">))</span>
 <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
@@ -1254,9 +1273,9 @@ however, if we detect that <code>voila</code> is driving our notebook then we sh
  <span class="o">---</span>
 </code></pre></div>
 </div>
-<div id="0a20c3b0-9cbc-4054-bcfb-19aa3349ed36" class="output_subarea output_widget_view ">
+<div class="output_subarea output_widget_view" id="b65891da-b1bb-4706-8868-ba11eb6d55ad">
 <script type="text/javascript">
-var element = $('#0a20c3b0-9cbc-4054-bcfb-19aa3349ed36');
+var element = $('#b65891da-b1bb-4706-8868-ba11eb6d55ad');
 </script>
 <script type="application/vnd.jupyter.widget-view+json">
 {"model_id": "71a814a3ccf14578bf9f988b9a194bf0", "version_major": 2, "version_minor": 0}
@@ -1265,25 +1284,28 @@ var element = $('#0a20c3b0-9cbc-4054-bcfb-19aa3349ed36');
 
 <hr />
 <p>when you eat 3 cookies you consume 225 calories.</p>
-<div hidden>
+<div hidden="">
 
         display(cookies:=IntSlider(3, description="cookies"))
 </div>
 
 <hr />
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## state information</span>
 
 <span class="n">the</span> <span class="n">display</span> <span class="k">class</span> <span class="nc">in</span> <span class="n">this</span> <span class="n">verison</span> <span class="ow">is</span> <span class="p">{{</span><span class="n">shell</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">template_cls</span><span class="p">}}</span>
 <span class="n">because</span> <span class="n">voila</span> <span class="ow">is</span><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">is_voila</span><span class="p">()</span> <span class="o">%</span><span class="p">}</span> <span class="ow">not</span><span class="p">{</span><span class="o">%</span> <span class="n">endif</span> <span class="o">%</span><span class="p">}</span> <span class="n">running</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h2 id="state-information">state information<a class="headerlink" href="#state-information" title="Permanent link">¤</a></h2>
-<p>the display class in this verison is <class 'pidgy.displays.IPythonMarkdown'>
+<p>the display class in this verison is <class 'pidgy.displays.ipythonmarkdown'="">
 because voila is not running.</p>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {"71a814a3ccf14578bf9f988b9a194bf0": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "IntSliderModel", "state": {"behavior": "drag-tap", "description": "cookies", "layout": "IPY_MODEL_bd5ea24fcfbf4ff8bf25ccf5d94a4a5c", "style": "IPY_MODEL_e8fa9d41856d496d8a3f8178c2129e1e", "value": 3}}, "bd5ea24fcfbf4ff8bf25ccf5d94a4a5c": {"model_module": "@jupyter-widgets/base", "model_module_version": "2.0.0", "model_name": "LayoutModel", "state": {}}, "e8fa9d41856d496d8a3f8178c2129e1e": {"model_module": "@jupyter-widgets/controls", "model_module_version": "2.0.0", "model_name": "SliderStyleModel", "state": {"description_width": ""}}}, "version_major": 2, "version_minor": 0}
 </script>
+<p></class></p>
 
 
 

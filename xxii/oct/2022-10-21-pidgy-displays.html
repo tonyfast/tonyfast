@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1195,25 +1209,26 @@ we'll explore the displays and meaning with two demos:
 <h2 id="cookies-demo">cookies demo<a class="headerlink" href="#cookies-demo" title="Permanent link">¤</a></h2>
 <p>the cookies demo is mainstay in the deathbeds repertoire.
 inspired by bret viktors tanglejs we explore the cookie demo in <code>pidgy</code>.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">import</span> <span class="nn">pidgy</span>
     <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPyWidgetsHtml</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;pre&gt;&lt;code&gt;%reload_ext pidgy\nimport pidgy\nshell.displays_manager.template_cls = pidgy.weave.IPyW…</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;pre&gt;&lt;code&gt;%reload_ext pidgy\nimport pidgy\nshell.displays_manager.template_cls = pidgy.weave.IPyW…</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code>    <span class="n">cookies</span> <span class="o">=</span> <span class="n">IntSlider</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;pre&gt;&lt;code&gt;cookies = IntSlider(3)&lt;/code&gt;&lt;/pre&gt;\n&#39;)</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;pre&gt;&lt;code&gt;cookies = IntSlider(3)&lt;/code&gt;&lt;/pre&gt;\n')</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
 <span class="c1">#hunger {</span>
     <span class="n">opacity</span><span class="p">:</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="o">/</span><span class="mi">20</span><span class="p">}};</span>
@@ -1224,115 +1239,123 @@ inspired by bret viktors tanglejs we explore the cookie demo in <code>pidgy</cod
 <span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;style&gt;\n#hunger {\n    opacity: 0.15;\n    font-size: 0.15rem;\n    background-image: url(&#34;https:…</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;style&gt;\n#hunger {\n    opacity: 0.15;\n    font-size: 0.15rem;\n    background-image: url("https:…</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">div</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;hunger&quot;</span><span class="o">&gt;</span><span class="n">cookies</span><span class="err">!</span>
 <span class="n">cookies</span><span class="err">!</span>
 <span class="n">cookies</span><span class="err">!</span>
 <span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;div id=&#34;hunger&#34;&gt;cookies!\ncookies!\ncookies!\n&lt;/div&gt;&#39;)</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;div id="hunger"&gt;cookies!\ncookies!\ncookies!\n&lt;/div&gt;')</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">i</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">then</span> <span class="n">i</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mi">50</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span>
 
     <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPyWidgetsHtml</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;p&gt;if i eat 3 then i consume 150 calories.&lt;/p&gt;\n&lt;pre&gt;&lt;code&gt;shell.displays_manager.template_cls = p…</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;p&gt;if i eat 3 then i consume 150 calories.&lt;/p&gt;\n&lt;pre&gt;&lt;code&gt;shell.displays_manager.template_cls = p…</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">i</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">then</span> <span class="n">i</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mi">50</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span>
 
     <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonHtml</span>
 </code></pre></div>
 </div>
-<div class="output_html rendered_html output_subarea "><p>if i eat 3 then i consume 150 calories.</p>
+<div class="output_html rendered_html output_subarea"><p>if i eat 3 then i consume 150 calories.</p>
 <pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonHtml</code></pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="n">i</span> <span class="n">eat</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="p">}}</span> <span class="n">then</span> <span class="n">i</span> <span class="n">consume</span> <span class="p">{{</span><span class="n">cookies</span><span class="o">.</span><span class="n">value</span><span class="o">*</span><span class="mi">50</span><span class="p">}}</span> <span class="n">calories</span><span class="o">.</span>
 
     <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonMarkdown</span>
 </code></pre></div>
 </div>
+
 <p>if i eat 3 then i consume 150 calories.</p>
 <pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonMarkdown
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">cookies</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea">
 <pre>IntSlider(value=3)</pre>
 </div>
 
 <pre><code>cookies
 </code></pre>
 <h2 id="dataframes">Dataframes<a class="headerlink" href="#dataframes" title="Permanent link">¤</a></h2>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="kn">from</span> <span class="nn">ipywidgets</span> <span class="kn">import</span> <span class="n">interact_manual</span>
 </code></pre></div>
 </div>
+
 <pre><code>from ipywidgets import interact_manual
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">pandas</span>
     <span class="n">who</span> <span class="o">=</span> <span class="n">Text</span><span class="p">(</span><span class="s2">&quot;tonyfast&quot;</span><span class="p">)</span>   
 </code></pre></div>
 </div>
+
 <pre><code>import pandas
 who = Text("tonyfast")
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPyWidgetsHtml</span>
 <span class="p">{{</span><span class="n">g</span><span class="o">.</span><span class="n">T</span><span class="p">}}</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>HTML(value=&#39;&lt;pre&gt;&lt;code&gt;shell.displays_manager.template_cls = pidgy.weave.IPyWidgetsHtml\n&lt;/code&gt;&lt;/pre&gt;\n&lt;p&gt;&lt;co…</pre>
+<div class="output_text output_subarea">
+<pre>HTML(value='&lt;pre&gt;&lt;code&gt;shell.displays_manager.template_cls = pidgy.weave.IPyWidgetsHtml\n&lt;/code&gt;&lt;/pre&gt;\n&lt;p&gt;&lt;co…</pre>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code>    <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonHtml</span>
 <span class="p">{{</span><span class="n">g</span><span class="o">.</span><span class="n">T</span><span class="p">}}</span>
 </code></pre></div>
 </div>
-<div class="output_html rendered_html output_subarea "><pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonHtml
+<div class="output_html rendered_html output_subarea"><pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonHtml
 </code></pre>
 <p><code>g is undefined</code></p>
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code>    <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonMarkdown</span>
 <span class="p">{{</span><span class="n">g</span><span class="o">.</span><span class="n">T</span><span class="p">}}</span>
 </code></pre></div>
 </div>
+
 <pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonMarkdown
 </code></pre>
 <p><code>g is undefined</code></p>
 <pre><code>g = df.iloc[:5, :5]
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="n">who</span><span class="p">):</span>
         <span class="k">global</span> <span class="n">df</span><span class="p">,</span> <span class="n">g</span>
         <span class="n">g</span> <span class="o">=</span> <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_json</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;https://api.github.com/users/</span><span class="si">{</span><span class="n">who</span><span class="si">}</span><span class="s2">/gists&quot;</span><span class="p">)</span>
     <span class="n">interact_manual</span><span class="p">(</span><span class="n">update</span><span class="p">,</span> <span class="n">who</span><span class="o">=</span><span class="n">who</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div class="output_text output_subarea ">
-<pre>interactive(children=(Text(value=&#39;tonyfast&#39;, description=&#39;who&#39;), Button(description=&#39;Run Interact&#39;, style=Butt…</pre>
+<div class="output_text output_subarea">
+<pre>interactive(children=(Text(value='tonyfast', description='who'), Button(description='Run Interact', style=Butt…</pre>
 </div>
-
 <div class="output_text output_subarea output_execute_result">
 <pre>&lt;function __main__.update(who)&gt;</pre>
 </div>
@@ -1342,7 +1365,8 @@ who = Text("tonyfast")
     g = df = pandas.read_json(F"https://api.github.com/users/{who}/gists")
 interact_manual(update, who=who)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
 </div>

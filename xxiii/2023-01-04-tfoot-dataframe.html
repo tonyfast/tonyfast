@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1210,12 +1224,14 @@
 <p>while exploring techniques that make dataframes better for screen readers.
 i found resources on the <code>tfoot</code> element. i rarely see it used it with dataframes.
 this work explores what a footer description might look like.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="n">INTERACTIVE</span> <span class="o">=</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span>
 </code></pre></div>
 </div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">functions</span> <span class="n">that</span> <span class="n">make</span> <span class="n">dataframes</span> <span class="n">more</span> <span class="n">useful</span> <span class="n">on</span> <span class="n">screen</span> <span class="n">readers</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
 <span class="p">{</span><span class="o">%</span> <span class="nb">filter</span> <span class="n">md</span> <span class="o">%</span><span class="p">}</span> 
@@ -1233,7 +1249,7 @@ this work explores what a footer description might look like.</p>
 </div>
 <details>
 <summary>import functions that make dataframes more useful on screen readers</summary>
-<pre><code>with __import__('midgy.loader').loader.Markdown(extensions=[&quot;.ipynb&quot;]):
+<pre><code>with __import__('midgy.loader').loader.Markdown(extensions=[".ipynb"]):
     from tonyfast.xxiii.__accessible_dataframes_basic_indexes import (
         df, soup, set_caption, 
         set_col_scope, set_row_scope, set_squashed_th,
@@ -1241,7 +1257,8 @@ this work explores what a footer description might look like.</p>
     )
 </code></pre>
 </details>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## set `tfoot`</span>
 
 <span class="err">`</span><span class="o">&lt;</span><span class="n">tfoot</span><span class="o">&gt;</span><span class="err">`</span> <span class="ow">is</span> <span class="n">meant</span> <span class="n">to</span> <span class="n">contain</span> <span class="n">supplementary</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">information</span><span class="o">.</span>
@@ -1255,7 +1272,8 @@ this work explores what a footer description might look like.</p>
         <span class="n">with_footer</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tfoot</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">with_footer</span><span class="p">)</span>
 </code></pre></div>
-</div>
+</table></tfoot></div>
+
 <h2 id="set-tfoot">set <code>tfoot</code><a class="headerlink" href="#set-tfoot" title="Permanent link">¤</a></h2>
 <p><code>&lt;tfoot&gt;</code> is meant to contain supplementary <code>&lt;table&gt;</code> information.</p>
 <pre><code>def set_tfoot(df, caption=None):
@@ -1268,20 +1286,23 @@ this work explores what a footer description might look like.</p>
     return str(with_footer)
 </code></pre>
 <h2 id="formatting-the-final-dataframe">formatting the final dataframe<a class="headerlink" href="#formatting-the-final-dataframe" title="Permanent link">¤</a></h2>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">format_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">strip_class_ids</span><span class="p">(</span><span class="n">set_header_titles</span><span class="p">(</span><span class="n">set_squashed_th</span><span class="p">(</span>
             <span class="n">set_row_scope</span><span class="p">(</span><span class="n">set_col_scope</span><span class="p">(</span><span class="n">set_tfoot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="n">caption</span><span class="p">))))))</span>
     <span class="n">final_table</span> <span class="o">=</span> <span class="n">format_df</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;a value-less dataframe with thead, tbody and tfoot defined. tfoot are statistical descriptions of the data.&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def format_df(df, caption=None):
     return strip_class_ids(set_header_titles(set_squashed_th(
         set_row_scope(set_col_scope(set_tfoot(df, caption=caption))))))
 final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot defined. tfoot are statistical descriptions of the data.")
 </code></pre>
-<div class="cell source" hidden="hidden">
-<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">details</span> <span class="o">&gt;</span>
+<div class="cell source" hidden="" markdown="">
+
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">details</span><span class="o">&gt;</span>
 <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="kn">import</span> <span class="nn">tests</span> <span class="kn">from</span> <span class="nn">another</span> <span class="n">work</span><span class="o">.&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
 <span class="p">{</span><span class="o">%</span> <span class="nb">filter</span> <span class="n">md</span> <span class="o">%</span><span class="p">}</span> 
 
@@ -1294,18 +1315,18 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
 <span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </code></pre></div>
 </div>
-<details >
+<details>
 <summary>import tests from another work.</summary>
-<pre><code>with __import__('midgy.loader').loader.Markdown(extensions=[&quot;.ipynb&quot;]):
+<pre><code>with __import__('midgy.loader').loader.Markdown(extensions=[".ipynb"]):
     from tonyfast.xxiii.__accessible_dataframes_basic_indexes import (
      assert_has_col_scope, assert_has_row_scope, assert_no_blank_header, assert_has_caption
     )
 </code></pre>
-
 </details>
 
 <h3 id="verifying-that-we-pass-our-tests">verifying that we pass our tests<a class="headerlink" href="#verifying-that-we-pass-our-tests" title="Permanent link">¤</a></h3>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">test_basic_table_accessibility</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
 <span class="n">test</span> <span class="k">for</span> <span class="n">a</span> <span class="n">caption</span><span class="p">,</span> <span class="n">scope</span> <span class="n">attributes</span><span class="p">,</span> <span class="ow">and</span> <span class="n">populated</span> <span class="n">headers</span>
 
@@ -1315,6 +1336,7 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
         <span class="n">assert_no_blank_header</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def test_basic_table_accessibility(html):
 </code></pre>
 <p>test for a caption, scope attributes, and populated headers</p>
@@ -1324,7 +1346,8 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
     assert_no_blank_header(html)
 </code></pre>
 <h3 id="the-final_table">the <code>final_table</code><a class="headerlink" href="#the-final_table" title="Permanent link">¤</a></h3>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">INTERACTIVE</span> <span class="ow">and</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;this message means our table abides. woo!&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
@@ -1335,7 +1358,8 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
 
 <pre><code>INTERACTIVE and print("this message means our table abides. woo!")
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="p">{{</span><span class="n">final_table</span><span class="p">}}</span>
 
 <span class="n">remediated</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span>
@@ -1438,6 +1462,7 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
 <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">tfoot</span><span class="p">&gt;&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
 </code></pre></div>
+<p></table></tfoot></p>
 
 
 

@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1224,13 +1238,16 @@
 <p>there is a rare occasion that i write notebooks completely in lite.
 most often i write in a conventional environment then need to ammend the content
 to work when we are in jupyterlite.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
 </code></pre></div>
 </div>
+
 <pre><code>%reload_ext pidgy
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## what do we need to do to make a post work in lite?</span>
 
 <span class="o">*</span> <span class="n">explicitly</span> <span class="n">defined</span> <span class="n">dependencies</span><span class="o">.</span>
@@ -1251,6 +1268,7 @@ to work when we are in jupyterlite.</p>
     <span class="n">we</span> <span class="n">can</span> <span class="n">infer</span> <span class="n">this</span> <span class="n">information</span> <span class="ow">or</span> <span class="n">provide</span> <span class="n">it</span> <span class="n">explicitly</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">metadata</span>
 </code></pre></div>
 </div>
+
 <h2 id="what-do-we-need-to-do-to-make-a-post-work-in-lite">what do we need to do to make a post work in lite?<a class="headerlink" href="#what-do-we-need-to-do-to-make-a-post-work-in-lite" title="Permanent link">¤</a></h2>
 <ul>
 <li>
@@ -1271,39 +1289,48 @@ but independent of a real file system - in the browser - we need to install pack
 <p>we can infer this information or provide it explicitly in the metadata</p>
 </li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">sometimes</span> <span class="n">i</span> <span class="n">forget</span> <span class="n">imports</span>
 </code></pre></div>
 </div>
+
 <p>sometimes i forget imports</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## [`depfinder`](https://github.com/ericdill/depfinder) to find packages in a notebook for python</span>
 
 <span class="n">some</span> <span class="n">of</span> <span class="n">my</span> <span class="n">personal</span> <span class="n">style</span> <span class="n">choices</span> <span class="n">might</span> <span class="n">fail</span> <span class="n">like</span> <span class="n">when</span> <span class="n">i</span> <span class="n">use</span> <span class="err">`</span><span class="nb">__import__</span><span class="err">`</span><span class="p">,</span> <span class="n">maybe</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">way</span> <span class="n">to</span> <span class="n">cut</span> <span class="n">dependencies</span> <span class="kn">from</span> <span class="nn">the</span> <span class="nb">list</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h2 id="depfinder-to-find-packages-in-a-notebook-for-python"><a href="https://github.com/ericdill/depfinder"><code>depfinder</code></a> to find packages in a notebook for python<a class="headerlink" href="#depfinder-to-find-packages-in-a-notebook-for-python" title="Permanent link">¤</a></h2>
 <p>some of my personal style choices might fail like when i use <code>__import__</code>, maybe this is a way to cut dependencies from the list.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
     <span class="kn">import</span> <span class="nn">depfinder</span><span class="o">,</span> <span class="nn">pandas</span>
     <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;requests_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">install_cache</span><span class="p">()</span>
 </code></pre></div>
 </div>
+
 <pre><code>from pathlib import Path
 import depfinder, pandas
 __import__("requests_cache").install_cache()
 </code></pre>
-<div class="cell source" hidden="hidden">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">glob</span><span class="o">=</span><span class="s2">&quot;*.ipynb&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">:</span>
+<div class="cell source" hidden="" markdown="">
+
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_files</span><span class="p">(</span><span class="nb">dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">glob</span><span class="o">=</span><span class="s2">&quot;*.ipynb&quot;</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="n">glob</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;files&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<pre><code>def get_files(dir="", glob="*.ipynb") -&gt; pandas.Index:
+
+<pre><code>def get_files(dir="", glob="*.ipynb") -&amp;gt; pandas.Index:
     return pandas.Index(Path(dir).rglob(glob)).rename("files")
 </code></pre>
-<div class="cell source" hidden="hidden">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_cells</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<div class="cell source" hidden="" markdown="">
+
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_cells</span><span class="p">(</span><span class="n">files</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
         <span class="n">df</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">files</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">read_text</span><span class="p">)</span>
             <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
@@ -1312,7 +1339,8 @@ __import__("requests_cache").install_cache()
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_has_pidgy</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
 </code></pre></div>
 </div>
-<pre><code>def get_cells(files: pandas.Index) -&gt; pandas.DataFrame:
+
+<pre><code>def get_cells(files: pandas.Index) -&amp;gt; pandas.DataFrame:
     df = (
         files.to_series().apply(Path.read_text)
         .apply(json.loads).apply(pandas.Series)
@@ -1323,27 +1351,32 @@ __import__("requests_cache").install_cache()
 <h3 id="can-haz-pidgy">can haz pidgy?<a class="headerlink" href="#can-haz-pidgy" title="Permanent link">¤</a></h3>
 <p>some of these posts are in <code>pidgy</code>, i'll use <code>%reload_ext pidgy</code> when that is the situation.
 peek in the <code>cells</code> to find <code>pidgy</code> notebooks.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_has_pidgy</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
         <span class="k">return</span> <span class="n">cells</span><span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">cell_type</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span>
             <span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">df</span><span class="p">:</span> <span class="n">df</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;%[re]*load_ext pidgy&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">())</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;pidgy&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def get_has_pidgy(cells):
     return cells[cells.cell_type.eq("code")].source.apply("".join).groupby(
         pandas.Grouper(level=0)
     ).apply(lambda df: df.str.contains("%[re]*load_ext pidgy").any()).rename("pidgy")
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">cells</span> <span class="o">=</span> <span class="n">get_cells</span><span class="p">(</span><span class="n">get_files</span><span class="p">())</span>
 </code></pre></div>
 </div>
+
 <pre><code>cells = get_cells(get_files())
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### get the imports</span>
-    <span class="k">def</span> <span class="nf">get_import</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_import</span><span class="p">(</span><span class="n">row</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="err">`</span><span class="n">get_import</span><span class="err">`</span> <span class="n">normalizes</span> <span class="n">the</span> <span class="n">cell</span> <span class="n">source</span> <span class="n">code</span> <span class="k">for</span> <span class="n">analysis</span> <span class="n">by</span> <span class="err">`</span><span class="n">depfinder</span><span class="err">`</span><span class="o">.</span>
 <span class="n">this</span> <span class="n">method</span> <span class="n">catches</span> <span class="n">those</span> <span class="n">situations</span> <span class="ow">or</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">attributes</span> <span class="n">of</span> <span class="err">`</span><span class="n">depfinder</span><span class="o">.</span><span class="n">inspection</span><span class="o">.</span><span class="n">ImportFinder</span><span class="err">`</span>
 
@@ -1356,8 +1389,9 @@ peek in the <code>cells</code> to find <code>pidgy</code> notebooks.</p>
             <span class="k">return</span> <span class="kc">None</span>
 </code></pre></div>
 </div>
+
 <h3 id="get-the-imports">get the imports<a class="headerlink" href="#get-the-imports" title="Permanent link">¤</a></h3>
-<pre><code>def get_import(row: pandas.Series) -&gt; dict:
+<pre><code>def get_import(row: pandas.Series) -&amp;gt; dict:
 </code></pre>
 <p><code>get_import</code> normalizes the cell source code for analysis by <code>depfinder</code>.
 this method catches those situations or returns the attributes of <code>depfinder.inspection.ImportFinder</code></p>
@@ -1370,17 +1404,20 @@ this method catches those situations or returns the attributes of <code>depfinde
         return None
 </code></pre>
 <h3 id="evaluate-the-sources">evaluate the sources<a class="headerlink" href="#evaluate-the-sources" title="Permanent link">¤</a></h3>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">depfinder</span><span class="o">,</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">midgy</span>
     <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;requests_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">install_cache</span><span class="p">()</span>
     <span class="n">Ø</span> <span class="o">=</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span> <span class="ow">and</span> <span class="s2">&quot;__file__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span>
 </code></pre></div>
 </div>
+
 <pre><code>import depfinder, pandas, midgy
 __import__("requests_cache").install_cache()
 Ø = __name__ == "__main__" and "__file__" not in locals()
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_modules</span><span class="p">(</span><span class="n">cells</span><span class="p">):</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="p">(</span>
@@ -1391,6 +1428,7 @@ __import__("requests_cache").install_cache()
         <span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def get_modules(cells):
     return (
         (
@@ -1401,7 +1439,8 @@ __import__("requests_cache").install_cache()
     )
 </code></pre>
 <p>a snapshot of the modules import within the content</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">Ø</span><span class="p">:</span>
         <span class="p">(</span><span class="n">cells</span> <span class="o">:=</span> <span class="n">get_cells</span><span class="p">(</span><span class="n">get_files</span><span class="p">()))</span>
         <span class="p">(</span><span class="n">cells</span> <span class="o">:=</span> <span class="n">cells</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_modules</span><span class="p">(</span><span class="n">cells</span><span class="p">)))</span>
@@ -1410,195 +1449,195 @@ __import__("requests_cache").install_cache()
         <span class="k">return</span> <span class="n">HTML</span><span class="p">(</span><span class="n">modules</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_frame</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">to_html</span><span class="p">())</span>
 </code></pre></div>
 </div>
-<div class="output_html rendered_html output_subarea "><table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>pandas</th>
-      <th>pathlib</th>
-      <th>requests</th>
-      <th>tonyfast</th>
-      <th>IPython</th>
-      <th>json</th>
-      <th>midgy</th>
-      <th>functools</th>
-      <th>toolz</th>
-      <th>re</th>
-      <th>depfinder</th>
-      <th>shlex</th>
-      <th>importnb</th>
-      <th>dataclasses</th>
-      <th>typer</th>
-      <th>pidgy</th>
-      <th>nbconvert</th>
-      <th>ipywidgets</th>
-      <th>info</th>
-      <th>textwrap</th>
-      <th>typing</th>
-      <th>traitlets</th>
-      <th>doit</th>
-      <th>dask</th>
-      <th>pluggy</th>
-      <th>sys</th>
-      <th>requests_cache</th>
-      <th>jsonref</th>
-      <th>playwright</th>
-      <th>nbformat</th>
-      <th>inspect</th>
-      <th>types</th>
-      <th>ast</th>
-      <th>uritemplate</th>
-      <th>__</th>
-      <th>jinja2</th>
-      <th>numpy</th>
-      <th>io</th>
-      <th>gc</th>
-      <th>pyld</th>
-      <th>orjson</th>
-      <th>jsonpointer</th>
-      <th>urllib.parse</th>
-      <th>linecache</th>
-      <th>operator</th>
-      <th>poser</th>
-      <th>matplotlib</th>
-      <th>rich</th>
-      <th>mpl_toolkits</th>
-      <th>importlib</th>
-      <th>anyio</th>
-      <th>unittest.mock</th>
-      <th>__static_notebook_tags</th>
-      <th>nbconvert_html5</th>
-      <th>bs4</th>
-      <th>mkdocs</th>
-      <th>icalendar</th>
-      <th>yaml</th>
-      <th>hvplot</th>
-      <th>jupyter_core</th>
-      <th>shutil</th>
-      <th>arrow</th>
-      <th>__11_12_async_import</th>
-      <th>doctest</th>
-      <th>unittest</th>
-      <th>__09_pyproject_analysis</th>
-      <th>html</th>
-      <th>tomli</th>
-      <th>pytest</th>
-      <th>__12_09_pyproject_analysis</th>
-      <th>warnings</th>
-      <th>_022_10_21_markdown_future</th>
-      <th>a_little_markdown_program</th>
-      <th>click</th>
-      <th>markdown</th>
-      <th>sympy</th>
-      <th>__better_dask_shape</th>
-      <th>asyncio</th>
-      <th>dis</th>
-      <th>traceback</th>
-      <th>micropip</th>
-      <th>__pycache__</th>
-      <th>ibis</th>
-      <th>duckdb</th>
-      <th>pyarrow</th>
-      <th>nest_asyncio</th>
-      <th>collections</th>
-      <th>abc</th>
-      <th>tqdm</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>41</td>
-      <td>30</td>
-      <td>14</td>
-      <td>14</td>
-      <td>14</td>
-      <td>13</td>
-      <td>12</td>
-      <td>12</td>
-      <td>11</td>
-      <td>10</td>
-      <td>10</td>
-      <td>7</td>
-      <td>7</td>
-      <td>7</td>
-      <td>7</td>
-      <td>6</td>
-      <td>6</td>
-      <td>6</td>
-      <td>6</td>
-      <td>6</td>
-      <td>6</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>5</td>
-      <td>4</td>
-      <td>4</td>
-      <td>4</td>
-      <td>4</td>
-      <td>4</td>
-      <td>4</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>3</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>2</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-      <td>1</td>
-    </tr>
-  </tbody>
+<div class="output_html rendered_html output_subarea"><table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>pandas</th>
+<th>pathlib</th>
+<th>requests</th>
+<th>tonyfast</th>
+<th>IPython</th>
+<th>json</th>
+<th>midgy</th>
+<th>functools</th>
+<th>toolz</th>
+<th>re</th>
+<th>depfinder</th>
+<th>shlex</th>
+<th>importnb</th>
+<th>dataclasses</th>
+<th>typer</th>
+<th>pidgy</th>
+<th>nbconvert</th>
+<th>ipywidgets</th>
+<th>info</th>
+<th>textwrap</th>
+<th>typing</th>
+<th>traitlets</th>
+<th>doit</th>
+<th>dask</th>
+<th>pluggy</th>
+<th>sys</th>
+<th>requests_cache</th>
+<th>jsonref</th>
+<th>playwright</th>
+<th>nbformat</th>
+<th>inspect</th>
+<th>types</th>
+<th>ast</th>
+<th>uritemplate</th>
+<th>__</th>
+<th>jinja2</th>
+<th>numpy</th>
+<th>io</th>
+<th>gc</th>
+<th>pyld</th>
+<th>orjson</th>
+<th>jsonpointer</th>
+<th>urllib.parse</th>
+<th>linecache</th>
+<th>operator</th>
+<th>poser</th>
+<th>matplotlib</th>
+<th>rich</th>
+<th>mpl_toolkits</th>
+<th>importlib</th>
+<th>anyio</th>
+<th>unittest.mock</th>
+<th>__static_notebook_tags</th>
+<th>nbconvert_html5</th>
+<th>bs4</th>
+<th>mkdocs</th>
+<th>icalendar</th>
+<th>yaml</th>
+<th>hvplot</th>
+<th>jupyter_core</th>
+<th>shutil</th>
+<th>arrow</th>
+<th>__11_12_async_import</th>
+<th>doctest</th>
+<th>unittest</th>
+<th>__09_pyproject_analysis</th>
+<th>html</th>
+<th>tomli</th>
+<th>pytest</th>
+<th>__12_09_pyproject_analysis</th>
+<th>warnings</th>
+<th>_022_10_21_markdown_future</th>
+<th>a_little_markdown_program</th>
+<th>click</th>
+<th>markdown</th>
+<th>sympy</th>
+<th>__better_dask_shape</th>
+<th>asyncio</th>
+<th>dis</th>
+<th>traceback</th>
+<th>micropip</th>
+<th>__pycache__</th>
+<th>ibis</th>
+<th>duckdb</th>
+<th>pyarrow</th>
+<th>nest_asyncio</th>
+<th>collections</th>
+<th>abc</th>
+<th>tqdm</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>41</td>
+<td>30</td>
+<td>14</td>
+<td>14</td>
+<td>14</td>
+<td>13</td>
+<td>12</td>
+<td>12</td>
+<td>11</td>
+<td>10</td>
+<td>10</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>7</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>6</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>5</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>4</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>3</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>2</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
 </table></div>
 
 <pre><code>if Ø:

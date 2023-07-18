@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1163,10 +1177,10 @@ considered in the core python language.</p>
 <p>write some sample doctests to parse</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">a_testable_function</span><span class="p">():</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        &gt;&gt;&gt; range(1)</span>
+<span class="sd">        &amp;gt;&amp;gt;&amp;gt; range(1)</span>
 <span class="sd">        range(0, 1)</span>
 
-<span class="sd">        &gt;&gt;&gt; assert False</span>
+<span class="sd">        &amp;gt;&amp;gt;&amp;gt; assert False</span>
 <span class="sd">        Traceback (most recent call last):</span>
 <span class="sd">        ...</span>
 <span class="sd">        AssertionError</span>
@@ -1183,12 +1197,12 @@ considered in the core python language.</p>
 <div class="highlight"><pre><span></span><code>    <span class="p">(</span><span class="n">tokens</span> <span class="o">:=</span> <span class="p">(</span><span class="n">parser</span> <span class="o">:=</span> <span class="n">midgy</span><span class="o">.</span><span class="n">Python</span><span class="p">())</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">a_testable_function</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">))</span>
 </code></pre></div>
 <div class="output_text output_subarea output_execute_result">
-<pre>[Token(type=&#39;code_block&#39;, tag=&#39;code&#39;, nesting=0, attrs={}, map=[1, 3], level=0, children=None, content=&#39;    &gt;&gt;&gt; range(1)\n    range(0, 1)\n&#39;, markup=&#39;&#39;, info=&#39;&#39;, meta={&#39;first_indent&#39;: 4, &#39;last_indent&#39;: 4, &#39;min_indent&#39;: 4, &#39;is_magic&#39;: False, &#39;is_doctest&#39;: True, &#39;input&#39;: [1, 2], &#39;output&#39;: [2, 3]}, block=True, hidden=False),
- Token(type=&#39;code_block&#39;, tag=&#39;code&#39;, nesting=0, attrs={}, map=[4, 8], level=0, children=None, content=&#39;    &gt;&gt;&gt; assert False\n    Traceback (most recent call last):\n    ...\n    AssertionError\n&#39;, markup=&#39;&#39;, info=&#39;&#39;, meta={&#39;first_indent&#39;: 4, &#39;last_indent&#39;: 4, &#39;min_indent&#39;: 4, &#39;is_magic&#39;: False, &#39;is_doctest&#39;: True, &#39;input&#39;: [4, 5], &#39;output&#39;: [5, 8]}, block=True, hidden=False)]</pre>
+<pre>[Token(type='code_block', tag='code', nesting=0, attrs={}, map=[1, 3], level=0, children=None, content='    &gt;&gt;&gt; range(1)\n    range(0, 1)\n', markup='', info='', meta={'first_indent': 4, 'last_indent': 4, 'min_indent': 4, 'is_magic': False, 'is_doctest': True, 'input': [1, 2], 'output': [2, 3]}, block=True, hidden=False),
+ Token(type='code_block', tag='code', nesting=0, attrs={}, map=[4, 8], level=0, children=None, content='    &gt;&gt;&gt; assert False\n    Traceback (most recent call last):\n    ...\n    AssertionError\n', markup='', info='', meta={'first_indent': 4, 'last_indent': 4, 'min_indent': 4, 'is_magic': False, 'is_doctest': True, 'input': [4, 5], 'output': [5, 8]}, block=True, hidden=False)]</pre>
 </div>
 
 <p><code>get_example_from_token</code> translates a markdown token to a <code>doctest</code></p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_example_from_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">doctest</span><span class="o">.</span><span class="n">Example</span><span class="p">]:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_example_from_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">doctest</span><span class="o">.</span><span class="n">Example</span><span class="p">]:</span>
         <span class="n">m</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">DocTestParser</span><span class="o">.</span><span class="n">_EXAMPLE_RE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
         <span class="n">want</span> <span class="o">=</span> <span class="n">dedent</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="s2">&quot;want&quot;</span><span class="p">))</span>
         <span class="n">exc</span> <span class="o">=</span> <span class="n">doctest</span><span class="o">.</span><span class="n">DocTestParser</span><span class="o">.</span><span class="n">_EXCEPTION_RE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">want</span><span class="p">)</span>
@@ -1199,13 +1213,13 @@ considered in the core python language.</p>
         <span class="p">)</span>
 </code></pre></div>
 <p><code>get_examples_from_tokens</code> aggregates the <code>doctest.Example</code>s</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_examples_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">doctest</span><span class="o">.</span><span class="n">Example</span><span class="p">]:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_examples_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">doctest</span><span class="o">.</span><span class="n">Example</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">token</span> <span class="ow">in</span> <span class="n">tokens</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">token</span><span class="o">.</span><span class="n">meta</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;is_doctest&quot;</span><span class="p">):</span>
                 <span class="k">yield from</span> <span class="n">get_example_from_token</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 </code></pre></div>
 <p>finally we generate a <code>unittest.TestSuite</code></p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_suite_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_suite_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">:</span>
         <span class="n">suite</span> <span class="o">=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestSuite</span><span class="p">()</span>            
         <span class="k">for</span> <span class="n">example</span> <span class="ow">in</span> <span class="n">get_examples_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">):</span>
             <span class="n">suite</span><span class="o">.</span><span class="n">addTest</span><span class="p">(</span><span class="n">doctest</span><span class="o">.</span><span class="n">DocTestCase</span><span class="p">(</span>
@@ -1214,7 +1228,7 @@ considered in the core python language.</p>
             <span class="p">))</span>
         <span class="k">return</span> <span class="n">suite</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">run_suite</span><span class="p">(</span><span class="n">suite</span><span class="o">=</span><span class="p">(</span><span class="n">suite</span><span class="o">:=</span><span class="n">get_suite_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)))</span> <span class="o">-&gt;</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestResult</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">run_suite</span><span class="p">(</span><span class="n">suite</span><span class="o">=</span><span class="p">(</span><span class="n">suite</span><span class="o">:=</span><span class="n">get_suite_from_tokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)))</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestResult</span><span class="p">:</span>
         <span class="n">suite</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="o">:=</span> <span class="n">unittest</span><span class="o">.</span><span class="n">TestResult</span><span class="p">())</span>
         <span class="k">return</span> <span class="n">result</span>
 </code></pre></div>

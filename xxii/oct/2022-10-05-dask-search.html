@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1239,7 +1253,7 @@ sources and outputs.</p>
     <span class="sa">F</span><span class="s2">&quot;the expected cell keys are </span><span class="si">{</span><span class="n">CELLS</span><span class="si">}</span><span class="s2">&quot;</span>
 </code></pre></div>
 <div class="output_text output_subarea output_execute_result">
-<pre>&#34;the expected cell keys are [&#39;attachments&#39;, &#39;cell_type&#39;, &#39;execution_count&#39;, &#39;id&#39;, &#39;metadata&#39;, &#39;nid&#39;, &#39;outputs&#39;, &#39;source&#39;]&#34;</pre>
+<pre>"the expected cell keys are ['attachments', 'cell_type', 'execution_count', 'id', 'metadata', 'nid', 'outputs', 'source']"</pre>
 </div>
 
 <h2 id="loading-our-notebook-data">loading our notebook data.<a class="headerlink" href="#loading-our-notebook-data" title="Permanent link">¤</a></h2>
@@ -1295,9 +1309,9 @@ each file is passed through <code>get_cell</code> to return a <code>pandas.DataF
 <pre>True
 </pre>
 </div>
-<div class="output_html rendered_html output_subarea "><div><strong>Dask DataFrame Structure:</strong></div>
+<div class="output_html rendered_html output_subarea"><div><strong>Dask DataFrame Structure:</strong></div>
 <div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1311,73 +1325,73 @@ each file is passed through <code>get_cell</code> to return a <code>pandas.DataF
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>attachments</th>
-      <th>cell_type</th>
-      <th>execution_count</th>
-      <th>id</th>
-      <th>nid</th>
-      <th>source</th>
-    </tr>
-    <tr>
-      <th>npartitions=8</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th></th>
-      <td>object</td>
-      <td>object</td>
-      <td>object</td>
-      <td>object</td>
-      <td>object</td>
-      <td>object</td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th></th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>attachments</th>
+<th>cell_type</th>
+<th>execution_count</th>
+<th>id</th>
+<th>nid</th>
+<th>source</th>
+</tr>
+<tr>
+<th>npartitions=8</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th></th>
+<td>object</td>
+<td>object</td>
+<td>object</td>
+<td>object</td>
+<td>object</td>
+<td>object</td>
+</tr>
+<tr>
+<th></th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th></th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th></th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
 </table>
 </div>
 <div>Dask Name: drop_by_shallow_copy, 32 tasks</div></div>
@@ -1385,8 +1399,8 @@ each file is passed through <code>get_cell</code> to return a <code>pandas.DataF
 <p>find cells with imports in them</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">L</span><span class="p">:</span> <span class="n">cells</span><span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;\s*import\s+.*&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1400,67 +1414,67 @@ each file is passed through <code>get_cell</code> to return a <code>pandas.DataF
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>path</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-06-24-.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>attachments</th>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-      <td>None</td>
-    </tr>
-    <tr>
-      <th>cell_type</th>
-      <td>code</td>
-      <td>code</td>
-      <td>code</td>
-      <td>code</td>
-    </tr>
-    <tr>
-      <th>execution_count</th>
-      <td>9.0</td>
-      <td>2.0</td>
-      <td>7.0</td>
-      <td>6.0</td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td>c744325a-8f73-4428-b381-c1f4ee5fdb06</td>
-      <td>ba46c5ef-78e6-48b2-bee3-cd6be3606fe5</td>
-      <td>ab6ff11f-a7d1-4e59-9fdd-cac7313a7cf4</td>
-      <td>5d3d2316-b2b0-4f47-ad0d-9b677b1f7e6a</td>
-    </tr>
-    <tr>
-      <th>nid</th>
-      <td>6</td>
-      <td>1</td>
-      <td>52</td>
-      <td>126</td>
-    </tr>
-    <tr>
-      <th>source</th>
-      <td>\n    import graphviz\n    hommage = graph...</td>
-      <td>import functools, abc</td>
-      <td>import sys</td>
-      <td>import urllib</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>path</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-06-24-.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>attachments</th>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr>
+<th>cell_type</th>
+<td>code</td>
+<td>code</td>
+<td>code</td>
+<td>code</td>
+</tr>
+<tr>
+<th>execution_count</th>
+<td>9.0</td>
+<td>2.0</td>
+<td>7.0</td>
+<td>6.0</td>
+</tr>
+<tr>
+<th>id</th>
+<td>c744325a-8f73-4428-b381-c1f4ee5fdb06</td>
+<td>ba46c5ef-78e6-48b2-bee3-cd6be3606fe5</td>
+<td>ab6ff11f-a7d1-4e59-9fdd-cac7313a7cf4</td>
+<td>5d3d2316-b2b0-4f47-ad0d-9b677b1f7e6a</td>
+</tr>
+<tr>
+<th>nid</th>
+<td>6</td>
+<td>1</td>
+<td>52</td>
+<td>126</td>
+</tr>
+<tr>
+<th>source</th>
+<td>\n    import graphviz\n    hommage = graph...</td>
+<td>import functools, abc</td>
+<td>import sys</td>
+<td>import urllib</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 
 <p>find some urls?</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">if</span> <span class="n">L</span><span class="p">:</span> <span class="n">cells</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s2">&quot;(http[s]://\S+)&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1474,40 +1488,40 @@ each file is passed through <code>get_cell</code> to return a <code>pandas.DataF
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th>path</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-06-28-.ipynb</th>
-      <th>../../2022-04-12-.ipynb</th>
-      <th>../../2022-04-12-.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-      <th>../../2022-03-06-schemata-scratch.ipynb</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>https://raw.githubusercontent.com/SchemaStore/...</td>
-      <td>https://joss.theoj.org/papers/in/Jupyter%20Not...</td>
-      <td>https://raw.githubusercontent.com/SchemaStore/...</td>
-      <td>https://raw.githubusercontent.com/jupyter/nbfo...</td>
-      <td>https://c.tenor.com/JHjG5vxW9zIAAAAd/missy-ell...</td>
-      <td>https://github.com/jupyterlab/lumino",</td>
-      <td>https://github.com/jupyterlab/jupyterlab@master",</td>
-      <td>https://json-schema.org/draft/next/meta/valida...</td>
-      <td>https://json-schema.org/draft/2020-12/schema']</td>
-      <td>https://json-schema.org/draft/2020-12/schema"]</td>
-      <td>https://test.json-schema.org/dynamic-resolutio...</td>
-      <td>https://avatars.githubusercontent.com/u/423627...</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th>path</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-06-28-.ipynb</th>
+<th>../../2022-04-12-.ipynb</th>
+<th>../../2022-04-12-.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+<th>../../2022-03-06-schemata-scratch.ipynb</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>https://raw.githubusercontent.com/SchemaStore/...</td>
+<td>https://joss.theoj.org/papers/in/Jupyter%20Not...</td>
+<td>https://raw.githubusercontent.com/SchemaStore/...</td>
+<td>https://raw.githubusercontent.com/jupyter/nbfo...</td>
+<td>https://c.tenor.com/JHjG5vxW9zIAAAAd/missy-ell...</td>
+<td>https://github.com/jupyterlab/lumino",</td>
+<td>https://github.com/jupyterlab/jupyterlab@master",</td>
+<td>https://json-schema.org/draft/next/meta/valida...</td>
+<td>https://json-schema.org/draft/2020-12/schema']</td>
+<td>https://json-schema.org/draft/2020-12/schema"]</td>
+<td>https://test.json-schema.org/dynamic-resolutio...</td>
+<td>https://avatars.githubusercontent.com/u/423627...</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 

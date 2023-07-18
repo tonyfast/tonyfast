@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1256,11 +1270,11 @@ the inferred dependencies are then inserted in to the first line of the first co
 <p><code>set_files_imports</code> iterates through a directory and amends notebooks to work in <code>jupyterlite</code></p>
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_files_imports</span><span class="p">(</span><span class="n">FILES</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterable</span><span class="p">[</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">]</span><span class="o">=</span><span class="p">(</span>
         <span class="n">FILES</span> <span class="o">:=</span> <span class="p">(</span><span class="n">WHERE</span> <span class="o">:=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">tonyfast</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;site/run/files&quot;</span>
-    <span class="p">))</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">))</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">FILES</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.ipynb&quot;</span><span class="p">):</span>  <span class="n">set_file_imports</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </code></pre></div>
 <p><code>get_imports</code> finds the imports in each cell</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_imports</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">pidgy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_imports</span><span class="p">(</span><span class="n">cell</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">pidgy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">set</span><span class="p">:</span>
         <span class="kn">import</span> <span class="nn">depfinder</span>
         <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;requests_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">install_cache</span><span class="p">()</span>
         <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cell</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">])</span>
@@ -1276,7 +1290,7 @@ the inferred dependencies are then inserted in to the first line of the first co
 <p><code>get_deps</code> transforms inputs to dependencies.</p>
 <p>some dependencies may require extra features to work in <code>jupyterlite</code> and they are appended here.</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bs4</span><span class="o">=</span><span class="s2">&quot;beautifulsoup4&quot;</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">get_deps</span><span class="p">(</span><span class="n">deps</span><span class="p">:</span> <span class="nb">set</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_deps</span><span class="p">(</span><span class="n">deps</span><span class="p">:</span> <span class="nb">set</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="nb">set</span><span class="p">:</span>
         <span class="k">if</span> <span class="s2">&quot;requests&quot;</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span> <span class="n">deps</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;pyodide-http&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="s2">&quot;pandas&quot;</span> <span class="ow">in</span> <span class="n">deps</span><span class="p">:</span> <span class="n">deps</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;jinja2&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">{</span>
@@ -1297,7 +1311,7 @@ the inferred dependencies are then inserted in to the first line of the first co
 <h3 id="updating-the-jupyterlite-notebooks">updating the <code>jupyterlite</code> notebooks<a class="headerlink" href="#updating-the-jupyterlite-notebooks" title="Permanent link">¤</a></h3>
 <p>these methods are meant to operate on the contents of a <code>jupyterlite</code> not the raw notebooks.</p>
 <p><code>set_file_imports</code> operates in one file discovers dependencies and writes code back to the source.</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_file_imports</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_file_imports</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
         <span class="n">deps</span><span class="p">,</span> <span class="n">first</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(),</span> <span class="kc">None</span>
         <span class="n">pidgy</span> <span class="o">=</span> <span class="n">has_pidgy</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
@@ -1336,7 +1350,7 @@ the inferred dependencies are then inserted in to the first line of the first co
             <span class="n">set_file_imports</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 </code></pre></div>
 <p><code>iter_code_cells</code> iterates through just the code cells.</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">iter_code_cells</span><span class="p">(</span><span class="n">nb</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">iter_code_cells</span><span class="p">(</span><span class="n">nb</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">typing</span><span class="o">.</span><span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nb</span><span class="p">[</span><span class="s2">&quot;cells&quot;</span><span class="p">]):</span>
             <span class="k">if</span> <span class="n">cell</span><span class="p">[</span><span class="s2">&quot;cell_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;code&quot;</span><span class="p">:</span>
                 <span class="k">yield</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span>

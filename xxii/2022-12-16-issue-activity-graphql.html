@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1181,16 +1195,19 @@
 
 <h1 id="retreiving-my-issue-activity">retreiving my issue activity<a class="headerlink" href="#retreiving-my-issue-activity" title="Permanent link">¤</a></h1>
 <p>retreive my activity with the github graphql api.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">import</span> <span class="nn">requests</span><span class="o">,</span> <span class="nn">pandas</span>
     <span class="kn">from</span> <span class="nn">info</span> <span class="kn">import</span> <span class="n">header</span>
     <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;requests_cache&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">install_cache</span><span class="p">(</span><span class="n">allowable_methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">])</span>
 </code></pre></div>
 </div>
+
 <h2 id="construct-the-query-from-parameters">construct the query from parameters<a class="headerlink" href="#construct-the-query-from-parameters" title="Permanent link">¤</a></h2>
 <p>we use <code>%</code> string formatting because of the braces in graphql syntaxes.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_stamps</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s2">&quot;tonyfast&quot;</span><span class="p">,</span> <span class="n">repo</span><span class="o">=</span><span class="s2">&quot;iota-school/notebooks-for-all&quot;</span><span class="p">):</span>
         <span class="k">return</span> \
 <span class="n">query</span> <span class="p">{</span> 
@@ -1214,6 +1231,7 @@
             <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">repo</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def get_stamps(user="tonyfast", repo="iota-school/notebooks-for-all"):
     return \
 </code></pre>
@@ -1236,9 +1254,10 @@
 }\</p>
 <pre><code>        % (user, repo)
 </code></pre>
-<div class="cell source" hidden="hidden">
-<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">details</span> <span class="nb">open</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span>
+<div class="cell source" hidden="" markdown="">
+
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="n">details</span> <span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span>
 <span class="n">a</span> <span class="n">graphql</span> <span class="n">query</span> <span class="n">the</span> <span class="n">find</span> <span class="n">the</span> <span class="n">dates</span> <span class="n">a</span> <span class="n">user</span> <span class="n">made</span> <span class="n">comments</span> <span class="n">on</span> <span class="n">issues</span> <span class="ow">or</span> <span class="n">pull</span> <span class="n">requests</span><span class="o">.</span>
     <span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
 
@@ -1250,8 +1269,8 @@
 <span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </code></pre></div>
 </div>
-<details open>
-    <summary>
+<details open="">
+<summary>
 a graphql query the find the dates a user made comments on issues or pull requests.
     </summary>
 
@@ -1276,33 +1295,37 @@ a graphql query the find the dates a user made comments on issues or pull reques
 </code></pre></div>
 
 </details>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span>
         <span class="n">response</span> <span class="o">:=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">&quot;https://api.github.com/graphql&quot;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">get_stamps</span><span class="p">()),</span> <span class="o">**</span><span class="n">header</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">json</span><span class="p">()[</span><span class="s2">&quot;data&quot;</span><span class="p">][</span><span class="s2">&quot;search&quot;</span><span class="p">][</span><span class="s2">&quot;edges&quot;</span><span class="p">])[</span><span class="s2">&quot;node&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">publishedAt</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">publishedAt</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>df = pandas.DataFrame((
     response := requests.post("https://api.github.com/graphql", json=dict(query=get_stamps()), **header)
 ).json()["data"]["search"]["edges"])["node"].apply(pandas.Series)
 df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">freq</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">&quot;1D&quot;</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;publishedAt&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </code></pre></div>
 </div>
+
 <pre><code>freq = df.groupby(pandas.Grouper(freq="1D", key="publishedAt")).count()
 </code></pre>
 <p>what days where these comments made at?</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">days</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
     <span class="n">days</span>
 </code></pre></div>
 </div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1316,62 +1339,62 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>url</th>
-    </tr>
-    <tr>
-      <th>publishedAt</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2015-08-07 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-02 00:00:00+00:00</th>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-03 00:00:00+00:00</th>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-11 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-23 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2022-11-08 00:00:00+00:00</th>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-16 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-21 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-22 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-12-14 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>url</th>
+</tr>
+<tr>
+<th>publishedAt</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2015-08-07 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2016-01-02 00:00:00+00:00</th>
+<td>2.0</td>
+</tr>
+<tr>
+<th>2016-01-03 00:00:00+00:00</th>
+<td>3.0</td>
+</tr>
+<tr>
+<th>2016-01-11 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2016-01-23 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+</tr>
+<tr>
+<th>2022-11-08 00:00:00+00:00</th>
+<td>2.0</td>
+</tr>
+<tr>
+<th>2022-11-16 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-11-21 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-11-22 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-12-14 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+</tbody>
 </table>
 <p>64 rows × 1 columns</p>
 </div></div>
@@ -1379,12 +1402,13 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
 <pre><code>days = freq[freq.astype(bool)].dropna()
 days
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">days</span>
 </code></pre></div>
 </div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1398,69 +1422,70 @@ days
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>url</th>
-    </tr>
-    <tr>
-      <th>publishedAt</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>2015-08-07 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-02 00:00:00+00:00</th>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-03 00:00:00+00:00</th>
-      <td>3.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-11 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2016-01-23 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>2022-11-08 00:00:00+00:00</th>
-      <td>2.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-16 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-21 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-11-22 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-    <tr>
-      <th>2022-12-14 00:00:00+00:00</th>
-      <td>1.0</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>url</th>
+</tr>
+<tr>
+<th>publishedAt</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>2015-08-07 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2016-01-02 00:00:00+00:00</th>
+<td>2.0</td>
+</tr>
+<tr>
+<th>2016-01-03 00:00:00+00:00</th>
+<td>3.0</td>
+</tr>
+<tr>
+<th>2016-01-11 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2016-01-23 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+</tr>
+<tr>
+<th>2022-11-08 00:00:00+00:00</th>
+<td>2.0</td>
+</tr>
+<tr>
+<th>2022-11-16 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-11-21 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-11-22 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+<tr>
+<th>2022-12-14 00:00:00+00:00</th>
+<td>1.0</td>
+</tr>
+</tbody>
 </table>
 <p>64 rows × 1 columns</p>
 </div></div>
 
 <pre><code>days
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
 </div>

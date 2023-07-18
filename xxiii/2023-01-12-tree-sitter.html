@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1278,7 +1292,7 @@
 </code></pre></div>
 <div class="output_subarea output_stream output_stderr output_text">
 <pre>/tmp/ipykernel_994317/2050936253.py:3: UserWarning: This pattern is interpreted as a regular expression, and has match groups. To actually get the groups, use str.extract.
-  cells = cells.source.str.contains(&#34;%(re)?load_ext\s+(pidgy)&#34;).groupby(&#34;file&#34;).any().rename(&#34;pidgy&#34;).pipe(cells.join)
+  cells = cells.source.str.contains("%(re)?load_ext\s+(pidgy)").groupby("file").any().rename("pidgy").pipe(cells.join)
 </pre>
 </div>
 
@@ -1289,7 +1303,7 @@
         <span class="n">parser</span><span class="o">.</span><span class="n">set_language</span><span class="p">(</span><span class="n">language</span> <span class="o">:=</span> <span class="n">tree_sitter</span><span class="o">.</span><span class="n">Language</span><span class="p">(</span><span class="s2">&quot;build/my-languages.so&quot;</span><span class="p">,</span> <span class="s2">&quot;python&quot;</span><span class="p">))</span>
         <span class="n">display</span><span class="p">(</span><span class="n">parser</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_text output_subarea ">
+<div class="output_text output_subarea">
 <pre>&lt;tree_sitter.Parser at 0x7f5d2b29cc70&gt;</pre>
 </div>
 
@@ -1299,8 +1313,8 @@
         <span class="n">sexp</span> <span class="o">=</span> <span class="n">sitter</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">compose_left</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;root_node&quot;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">methodcaller</span><span class="p">(</span><span class="s2">&quot;sexp&quot;</span><span class="p">)))</span>
         <span class="n">display</span><span class="p">(</span><span class="n">sexp</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;s-expression&quot;</span><span class="p">))</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1314,74 +1328,73 @@
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th></th>
-      <th>s-expression</th>
-    </tr>
-    <tr>
-      <th>file</th>
-      <th>cell_ct</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th rowspan="5" valign="top">../regexs.ipynb</th>
-      <th>0</th>
-      <td>(module (comment))</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>(module (import_statement name: (dotted_name (...</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>(module (comment) (expression_statement (compa...</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>(module (expression_statement (assignment left...</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>(module)</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <th>...</th>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th rowspan="2" valign="top">../xxii/2022-12-23-mkdocs-plugin.ipynb</th>
-      <th>8</th>
-      <td>(module (ERROR (identifier) (identifier) (stri...</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>(module (expression_statement (augmented_assig...</td>
-    </tr>
-    <tr>
-      <th>../xxiii/vendor/tree-sitter-python/README.md</th>
-      <th>0</th>
-      <td>(module (expression_statement (binary_operator...</td>
-    </tr>
-    <tr>
-      <th>../xxiii/vendor/tree-sitter-python/bindings/rust/README.md</th>
-      <th>0</th>
-      <td>(module (comment) (ERROR (identifier) (identif...</td>
-    </tr>
-    <tr>
-      <th>../README.md</th>
-      <th>0</th>
-      <td>(module (ERROR (UNEXPECTED '-')) (expression_s...</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th></th>
+<th>s-expression</th>
+</tr>
+<tr>
+<th>file</th>
+<th>cell_ct</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th rowspan="5" valign="top">../regexs.ipynb</th>
+<th>0</th>
+<td>(module (comment))</td>
+</tr>
+<tr>
+<th>1</th>
+<td>(module (import_statement name: (dotted_name (...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>(module (comment) (expression_statement (compa...</td>
+</tr>
+<tr>
+<th>3</th>
+<td>(module (expression_statement (assignment left...</td>
+</tr>
+<tr>
+<th>4</th>
+<td>(module)</td>
+</tr>
+<tr>
+<th>...</th>
+<th>...</th>
+<td>...</td>
+</tr>
+<tr>
+<th rowspan="2" valign="top">../xxii/2022-12-23-mkdocs-plugin.ipynb</th>
+<th>8</th>
+<td>(module (ERROR (identifier) (identifier) (stri...</td>
+</tr>
+<tr>
+<th>9</th>
+<td>(module (expression_statement (augmented_assig...</td>
+</tr>
+<tr>
+<th>../xxiii/vendor/tree-sitter-python/README.md</th>
+<th>0</th>
+<td>(module (expression_statement (binary_operator...</td>
+</tr>
+<tr>
+<th>../xxiii/vendor/tree-sitter-python/bindings/rust/README.md</th>
+<th>0</th>
+<td>(module (comment) (ERROR (identifier) (identif...</td>
+</tr>
+<tr>
+<th>../README.md</th>
+<th>0</th>
+<td>(module (ERROR (UNEXPECTED '-')) (expression_s...</td>
+</tr>
+</tbody>
 </table>
 <p>866 rows × 1 columns</p>
 </div></div>
-
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>

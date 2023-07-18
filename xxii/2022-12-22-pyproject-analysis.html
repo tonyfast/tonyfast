@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1197,7 +1211,7 @@
 <p><code>get_pyproject_config_data</code> loads a dataframe created in a <a href="2022-12-09-pyproject-analysis.html">previous post</a>.
 it contains the results of a <var>graphql</var> query to posted to the github api
 that returnsthe pyproject files for some of the most popular python projects on github.</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_pyproject_config_data</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="s2">&quot;pandas.DataFrame&quot;</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_pyproject_config_data</span><span class="p">()</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="s2">&quot;pandas.DataFrame&quot;</span><span class="p">:</span>
         <span class="k">with</span> <span class="n">importnb</span><span class="o">.</span><span class="n">Notebook</span><span class="p">():</span> <span class="kn">from</span> <span class="nn">__09_pyproject_analysis</span> <span class="kn">import</span> <span class="n">tidy_configs</span><span class="p">,</span> <span class="n">tidy_responses</span><span class="p">,</span> <span class="n">gather</span><span class="p">,</span> <span class="n">pyproject_query</span> 
         <span class="k">return</span> <span class="n">tidy_configs</span><span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">tidy_responses</span><span class="p">(</span><span class="n">responses</span> <span class="o">:=</span> <span class="n">gather</span><span class="p">(</span><span class="n">pyproject_query</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mi">15</span><span class="p">)))</span>
 </code></pre></div>
@@ -1210,8 +1224,8 @@ that returnsthe pyproject files for some of the most popular python projects on 
     <span class="n">display</span><span class="p">((</span><span class="n">df</span> <span class="o">:=</span> <span class="n">get_pyproject_config_data</span><span class="p">())</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
     <span class="sa">F</span><span class="s2">&quot;there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> `pyproject.toml` files in the dataset.&quot;</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea "><div>
-<style scoped>
+<div class="output_html rendered_html output_subarea"><div>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1225,28 +1239,28 @@ that returnsthe pyproject files for some of the most popular python projects on 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>tool</th>
-      <th>build-system</th>
-      <th>project</th>
-      <th>mypy</th>
-      <th>flake8</th>
-    </tr>
-    <tr>
-      <th>url</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>https://github.com/open-telemetry/opentelemetry-python</th>
-      <td>{'black': {'line-length': 79, 'exclude': '(
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>tool</th>
+<th>build-system</th>
+<th>project</th>
+<th>mypy</th>
+<th>flake8</th>
+</tr>
+<tr>
+<th>url</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>https://github.com/open-telemetry/opentelemetry-python</th>
+<td>{'black': {'line-length': 79, 'exclude': '(
   /(  # generated files
     .tox|
     venv|
@@ -1259,33 +1273,32 @@ that returnsthe pyproject files for some of the most popular python projects on 
   )/
 )
 '}, 'pytest': {'ini_options': {'addopts': '-rs -v', 'log_cli': True, 'log_cli_level': 'warning'}}}</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/freemocap/freemocap</th>
-      <td>{'taskipy': {'tasks': {'setup': 'pre-commit install', 'test': 'python -m unittest src/tests/**/test_*', 'installer': './bin/installer.sh', 'format': 'black src/'}}}</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/3b1b/manim</th>
-      <td>NaN</td>
-      <td>{'requires': ['setuptools', 'wheel']}</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/freemocap/freemocap</th>
+<td>{'taskipy': {'tasks': {'setup': 'pre-commit install', 'test': 'python -m unittest src/tests/**/test_*', 'installer': './bin/installer.sh', 'format': 'black src/'}}}</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/3b1b/manim</th>
+<td>NaN</td>
+<td>{'requires': ['setuptools', 'wheel']}</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
 </div></div>
-
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;there are 234 `pyproject.toml` files in the dataset.&#39;</pre>
+<pre>'there are 234 `pyproject.toml` files in the dataset.'</pre>
 </div>
 
 <h3 id="what-tools-are-used-most">what tools are used most?<a class="headerlink" href="#what-tools-are-used-most" title="Permanent link">¤</a></h3>
@@ -1294,7 +1307,7 @@ that returnsthe pyproject files for some of the most popular python projects on 
 <div class="highlight"><pre><span></span><code>    <span class="p">(</span><span class="n">tools</span> <span class="o">:=</span> <span class="n">df</span><span class="o">.</span><span class="n">tool</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">))</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1308,60 +1321,60 @@ that returnsthe pyproject files for some of the most popular python projects on 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>black</th>
-      <th>pytest</th>
-      <th>taskipy</th>
-      <th>pyright</th>
-      <th>hatch</th>
-      <th>isort</th>
-      <th>mutmut</th>
-      <th>check-wheel-contents</th>
-      <th>flit</th>
-      <th>coverage</th>
-      <th>...</th>
-      <th>jupyter-releaser</th>
-      <th>check-manifest</th>
-      <th>vendoring</th>
-      <th>commitizen</th>
-      <th>scriv</th>
-      <th>autoflake</th>
-      <th>tbump</th>
-      <th>autopub</th>
-      <th>poetry-version-plugin</th>
-      <th>typeshed</th>
-    </tr>
-    <tr>
-      <th>url</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>https://github.com/open-telemetry/opentelemetry-python</th>
-      <td>{'line-length': 79, 'exclude': '(
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>black</th>
+<th>pytest</th>
+<th>taskipy</th>
+<th>pyright</th>
+<th>hatch</th>
+<th>isort</th>
+<th>mutmut</th>
+<th>check-wheel-contents</th>
+<th>flit</th>
+<th>coverage</th>
+<th>...</th>
+<th>jupyter-releaser</th>
+<th>check-manifest</th>
+<th>vendoring</th>
+<th>commitizen</th>
+<th>scriv</th>
+<th>autoflake</th>
+<th>tbump</th>
+<th>autopub</th>
+<th>poetry-version-plugin</th>
+<th>typeshed</th>
+</tr>
+<tr>
+<th>url</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>https://github.com/open-telemetry/opentelemetry-python</th>
+<td>{'line-length': 79, 'exclude': '(
   /(  # generated files
     .tox|
     venv|
@@ -1374,76 +1387,76 @@ that returnsthe pyproject files for some of the most popular python projects on 
   )/
 )
 '}</td>
-      <td>{'ini_options': {'addopts': '-rs -v', 'log_cli': True, 'log_cli_level': 'warning'}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>...</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>https://github.com/freemocap/freemocap</th>
-      <td></td>
-      <td></td>
-      <td>{'tasks': {'setup': 'pre-commit install', 'test': 'python -m unittest src/tests/**/test_*', 'installer': './bin/installer.sh', 'format': 'black src/'}}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>...</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-    <tr>
-      <th>https://github.com/openai/gym</th>
-      <td></td>
-      <td>{'ini_options': {'filterwarnings': ['ignore:.*step API.*:DeprecationWarning']}}</td>
-      <td></td>
-      <td>{'include': ['gym/**', 'tests/**'], 'exclude': ['**/node_modules', '**/__pycache__'], 'strict': [], 'typeCheckingMode': 'basic', 'pythonVersion': '3.6', 'pythonPlatform': 'All', 'typeshedPath': 'typeshed', 'enableTypeIgnoreComments': True, 'reportMissingImports': 'none', 'reportMissingTypeStubs': False, 'reportInvalidTypeVarUse': 'none', 'reportGeneralTypeIssues': 'none', 'reportUntypedFunctionDecorator': 'none', 'reportPrivateUsage': 'warning', 'reportUnboundVariable': 'warning'}</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>...</td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td></td>
-    </tr>
-  </tbody>
+<td>{'ini_options': {'addopts': '-rs -v', 'log_cli': True, 'log_cli_level': 'warning'}}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>https://github.com/freemocap/freemocap</th>
+<td></td>
+<td></td>
+<td>{'tasks': {'setup': 'pre-commit install', 'test': 'python -m unittest src/tests/**/test_*', 'installer': './bin/installer.sh', 'format': 'black src/'}}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<th>https://github.com/openai/gym</th>
+<td></td>
+<td>{'ini_options': {'filterwarnings': ['ignore:.*step API.*:DeprecationWarning']}}</td>
+<td></td>
+<td>{'include': ['gym/**', 'tests/**'], 'exclude': ['**/node_modules', '**/__pycache__'], 'strict': [], 'typeCheckingMode': 'basic', 'pythonVersion': '3.6', 'pythonPlatform': 'All', 'typeshedPath': 'typeshed', 'enableTypeIgnoreComments': True, 'reportMissingImports': 'none', 'reportMissingTypeStubs': False, 'reportInvalidTypeVarUse': 'none', 'reportGeneralTypeIssues': 'none', 'reportUntypedFunctionDecorator': 'none', 'reportPrivateUsage': 'warning', 'reportUnboundVariable': 'warning'}</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td>...</td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
 </table>
 <p>3 rows × 54 columns</p>
 </div></div>
@@ -1451,7 +1464,7 @@ that returnsthe pyproject files for some of the most popular python projects on 
 <div class="highlight"><pre><span></span><code>    <span class="sa">F</span><span class="s2">&quot;there are </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">tools</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="si">}</span><span class="s2"> tools used in the </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2"> pyproject.toml files.&quot;</span> 
 </code></pre></div>
 <div class="output_text output_subarea output_execute_result">
-<pre>&#39;there are 54 tools used in the 234 pyproject.toml files.&#39;</pre>
+<pre>'there are 54 tools used in the 234 pyproject.toml files.'</pre>
 </div>
 
 <p>the <code>top12</code> most frequently defined tools in the <code>pyproject.toml</code>s are </p>
@@ -1459,7 +1472,7 @@ that returnsthe pyproject files for some of the most popular python projects on 
     <span class="p">(</span><span class="n">top12</span> <span class="o">:=</span> <span class="n">tool_counts</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">12</span><span class="p">])</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;counts&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1473,40 +1486,40 @@ that returnsthe pyproject files for some of the most popular python projects on 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>black</th>
-      <th>isort</th>
-      <th>pytest</th>
-      <th>mypy</th>
-      <th>coverage</th>
-      <th>poetry</th>
-      <th>setuptools_scm</th>
-      <th>hatch</th>
-      <th>setuptools</th>
-      <th>pylint</th>
-      <th>towncrier</th>
-      <th>pyright</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>counts</th>
-      <td>123</td>
-      <td>85</td>
-      <td>67</td>
-      <td>42</td>
-      <td>34</td>
-      <td>32</td>
-      <td>21</td>
-      <td>15</td>
-      <td>14</td>
-      <td>14</td>
-      <td>11</td>
-      <td>10</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>black</th>
+<th>isort</th>
+<th>pytest</th>
+<th>mypy</th>
+<th>coverage</th>
+<th>poetry</th>
+<th>setuptools_scm</th>
+<th>hatch</th>
+<th>setuptools</th>
+<th>pylint</th>
+<th>towncrier</th>
+<th>pyright</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>counts</th>
+<td>123</td>
+<td>85</td>
+<td>67</td>
+<td>42</td>
+<td>34</td>
+<td>32</td>
+<td>21</td>
+<td>15</td>
+<td>14</td>
+<td>14</td>
+<td>11</td>
+<td>10</td>
+</tr>
+</tbody>
 </table>
 </div></div>
 
@@ -1526,7 +1539,7 @@ that returnsthe pyproject files for some of the most popular python projects on 
 <div class="highlight"><pre><span></span><code>    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;build-system&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1540,88 +1553,88 @@ that returnsthe pyproject files for some of the most popular python projects on 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>requires</th>
-      <th>build-backend</th>
-      <th>dependencies</th>
-    </tr>
-    <tr>
-      <th>url</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>https://github.com/3b1b/manim</th>
-      <td>[setuptools, wheel]</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/deepmind/hanabi-learning-environment</th>
-      <td>[setuptools, wheel, scikit-build, cmake, ninja]</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/miguelgrinberg/Flask-SocketIO</th>
-      <td>[setuptools&gt;=42, wheel]</td>
-      <td>setuptools.build_meta</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/pypa/pipx</th>
-      <td>[hatchling&gt;=0.15.0]</td>
-      <td>hatchling.build</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/py-pdf/PyPDF2</th>
-      <td>[flit_core &gt;=3.2,&lt;4]</td>
-      <td>flit_core.buildapi</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>https://github.com/deepset-ai/haystack</th>
-      <td>[hatchling&gt;=1.8.0]</td>
-      <td>hatchling.build</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/dedupeio/dedupe</th>
-      <td>[setuptools==63, wheel, cython]</td>
-      <td>setuptools.build_meta</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/sktime/sktime</th>
-      <td>[setuptools&gt;61, wheel, toml, build]</td>
-      <td>setuptools.build_meta</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/enthought/mayavi</th>
-      <td>[oldest-supported-numpy, setuptools, vtk, wheel]</td>
-      <td>NaN</td>
-      <td>NaN</td>
-    </tr>
-    <tr>
-      <th>https://github.com/holoviz/datashader</th>
-      <td>[param, pyct, setuptools]</td>
-      <td>setuptools.build_meta</td>
-      <td>NaN</td>
-    </tr>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>requires</th>
+<th>build-backend</th>
+<th>dependencies</th>
+</tr>
+<tr>
+<th>url</th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>https://github.com/3b1b/manim</th>
+<td>[setuptools, wheel]</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/deepmind/hanabi-learning-environment</th>
+<td>[setuptools, wheel, scikit-build, cmake, ninja]</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/miguelgrinberg/Flask-SocketIO</th>
+<td>[setuptools&gt;=42, wheel]</td>
+<td>setuptools.build_meta</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/pypa/pipx</th>
+<td>[hatchling&gt;=0.15.0]</td>
+<td>hatchling.build</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/py-pdf/PyPDF2</th>
+<td>[flit_core &gt;=3.2,&lt;4]</td>
+<td>flit_core.buildapi</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>https://github.com/deepset-ai/haystack</th>
+<td>[hatchling&gt;=1.8.0]</td>
+<td>hatchling.build</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/dedupeio/dedupe</th>
+<td>[setuptools==63, wheel, cython]</td>
+<td>setuptools.build_meta</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/sktime/sktime</th>
+<td>[setuptools&gt;61, wheel, toml, build]</td>
+<td>setuptools.build_meta</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/enthought/mayavi</th>
+<td>[oldest-supported-numpy, setuptools, vtk, wheel]</td>
+<td>NaN</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>https://github.com/holoviz/datashader</th>
+<td>[param, pyct, setuptools]</td>
+<td>setuptools.build_meta</td>
+<td>NaN</td>
+</tr>
+</tbody>
 </table>
 <p>173 rows × 3 columns</p>
 </div></div>
@@ -1630,7 +1643,7 @@ that returnsthe pyproject files for some of the most popular python projects on 
 <div class="highlight"><pre><span></span><code>    <span class="n">df</span><span class="o">.</span><span class="n">project</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
-<style scoped>
+<style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
@@ -1644,50 +1657,50 @@ that returnsthe pyproject files for some of the most popular python projects on 
     }
 </style>
 <table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>name</th>
-      <th>description</th>
-      <th>readme</th>
-      <th>license</th>
-      <th>requires-python</th>
-      <th>keywords</th>
-      <th>authors</th>
-      <th>classifiers</th>
-      <th>dependencies</th>
-      <th>dynamic</th>
-      <th>urls</th>
-      <th>scripts</th>
-      <th>maintainers</th>
-      <th>optional-dependencies</th>
-      <th>entry-points</th>
-      <th>gui-scripts</th>
-      <th>version</th>
-    </tr>
-    <tr>
-      <th>url</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>name</th>
+<th>description</th>
+<th>readme</th>
+<th>license</th>
+<th>requires-python</th>
+<th>keywords</th>
+<th>authors</th>
+<th>classifiers</th>
+<th>dependencies</th>
+<th>dynamic</th>
+<th>urls</th>
+<th>scripts</th>
+<th>maintainers</th>
+<th>optional-dependencies</th>
+<th>entry-points</th>
+<th>gui-scripts</th>
+<th>version</th>
+</tr>
+<tr>
+<th>url</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+</tbody>
 </table>
 </div></div>
 

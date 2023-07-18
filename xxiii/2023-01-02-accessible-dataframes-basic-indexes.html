@@ -366,6 +366,20 @@
   
   
     <li class="md-nav__item">
+      <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        the string is a samp
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
         a semantic dataframe
       </a>
@@ -1333,7 +1347,8 @@
 <h1 id="rendering-dataframes-for-screen-readers-with-pandas">rendering dataframes for screen readers with <code>pandas</code><a class="headerlink" href="#rendering-dataframes-for-screen-readers-with-pandas" title="Permanent link">¤</a></h1>
 <p>in the document we'll explore what it takes to make <code>pandas.DataFrame</code>s accessible.
 we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for making <a href="https://pauljadam.com/demos/data-tables.html#heading1">Simple Data Tables</a>.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
     <span class="kn">import</span> <span class="nn">pandas.io.formats.style</span><span class="o">,</span> <span class="nn">bs4</span><span class="o">,</span> <span class="nn">pytest</span>
     <span class="n">shell</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">reactive</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1341,7 +1356,7 @@ we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for 
     <span class="n">soup</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;html.parser&quot;</span><span class="p">)</span>
 </code></pre></div>
 </div>
-<div hidden>
+<div hidden="">
 
 
     %reload_ext pidgy
@@ -1351,8 +1366,8 @@ we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for 
     soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
 
 </div>
+<div class="cell source" hidden="" markdown="">
 
-<div class="cell source" hidden="hidden">
 <div class="highlight"><pre><span></span><code>    <span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">&quot;ABC&quot;</span><span class="p">)),</span> 
         <span class="n">index</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
@@ -1362,35 +1377,35 @@ we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for 
 <div class="output_html rendered_html output_subarea output_execute_result"><style type="text/css">
 </style>
 <table id="T_9bec1">
-  <caption>the basic dataframe <var>df</var> we use for explanation in this document. </caption>
-  <thead>
-    <tr>
-      <th class="blank level0" >&nbsp;</th>
-      <th id="T_9bec1_level0_col0" class="col_heading level0 col0" >A</th>
-      <th id="T_9bec1_level0_col1" class="col_heading level0 col1" >B</th>
-      <th id="T_9bec1_level0_col2" class="col_heading level0 col2" >C</th>
-    </tr>
-    <tr>
-      <th class="index_name level0" >index</th>
-      <th class="blank col0" >&nbsp;</th>
-      <th class="blank col1" >&nbsp;</th>
-      <th class="blank col2" >&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_9bec1_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_9bec1_row0_col0" class="data row0 col0" >nan</td>
-      <td id="T_9bec1_row0_col1" class="data row0 col1" >nan</td>
-      <td id="T_9bec1_row0_col2" class="data row0 col2" >nan</td>
-    </tr>
-    <tr>
-      <th id="T_9bec1_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_9bec1_row1_col0" class="data row1 col0" >nan</td>
-      <td id="T_9bec1_row1_col1" class="data row1 col1" >nan</td>
-      <td id="T_9bec1_row1_col2" class="data row1 col2" >nan</td>
-    </tr>
-  </tbody>
+<caption>the basic dataframe <var>df</var> we use for explanation in this document. </caption>
+<thead>
+<tr>
+<th class="blank level0"> </th>
+<th class="col_heading level0 col0" id="T_9bec1_level0_col0">A</th>
+<th class="col_heading level0 col1" id="T_9bec1_level0_col1">B</th>
+<th class="col_heading level0 col2" id="T_9bec1_level0_col2">C</th>
+</tr>
+<tr>
+<th class="index_name level0">index</th>
+<th class="blank col0"> </th>
+<th class="blank col1"> </th>
+<th class="blank col2"> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="row_heading level0 row0" id="T_9bec1_level0_row0">0</th>
+<td class="data row0 col0" id="T_9bec1_row0_col0">nan</td>
+<td class="data row0 col1" id="T_9bec1_row0_col1">nan</td>
+<td class="data row0 col2" id="T_9bec1_row0_col2">nan</td>
+</tr>
+<tr>
+<th class="row_heading level0 row1" id="T_9bec1_level0_row1">1</th>
+<td class="data row1 col0" id="T_9bec1_row1_col0">nan</td>
+<td class="data row1 col1" id="T_9bec1_row1_col1">nan</td>
+<td class="data row1 col2" id="T_9bec1_row1_col2">nan</td>
+</tr>
+</tbody>
 </table>
 </div>
 
@@ -1399,7 +1414,8 @@ we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for 
     index=pandas.Index(range(2), name="index"))
 ).style.set_caption("the basic dataframe &lt;var&gt;df&lt;/var&gt; we use for explanation in this document. ")
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">`</span><span class="n">df</span><span class="err">`</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">basic</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span> <span class="n">because</span><span class="p">:</span>    
 
 <span class="o">*</span> <span class="n">it</span> <span class="n">has</span> <span class="n">ONE</span> <span class="n">row</span> <span class="n">level</span> 
@@ -1408,34 +1424,41 @@ we'll follow <a href="https://pauljadam.com">Paul J Adam's</a> instructions for 
 <span class="n">we</span> <span class="n">do</span> <span class="ow">not</span> <span class="n">need</span> <span class="n">to</span> <span class="n">consider</span> <span class="n">the</span> <span class="n">contents</span> <span class="n">of</span> <span class="n">the</span> <span class="n">cells</span> <span class="k">for</span> <span class="n">the</span> <span class="n">recommendations</span> <span class="n">we</span> <span class="n">are</span> <span class="n">implementing</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <p><code>df</code> is a basic <code>pandas.DataFrame</code> because:    </p>
 <ul>
 <li>it has ONE row level </li>
 <li>it has ONE column level </li>
 </ul>
 <p>we do not need to consider the contents of the cells for the recommendations we are implementing.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## applying best practices  to pandas</span>
 </code></pre></div>
 </div>
+
 <h2 id="applying-best-practices-to-pandas">applying best practices  to pandas<a class="headerlink" href="#applying-best-practices-to-pandas" title="Permanent link">¤</a></h2>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### 1. Title of data table is inside the `&lt;caption&gt;` element.</span>
 
 <span class="n">the</span> <span class="n">caption</span> <span class="ow">is</span> <span class="n">dependent</span> <span class="n">on</span> <span class="n">the</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">effects</span> <span class="n">the</span> <span class="n">visual</span> <span class="n">appearance</span> <span class="n">of</span> <span class="n">the</span> <span class="n">table</span><span class="o">.</span> 
 <span class="n">it</span> <span class="ow">is</span> <span class="n">context</span> <span class="n">dependent</span> <span class="n">up</span> <span class="n">to</span> <span class="n">the</span> <span class="n">author</span> <span class="n">to</span> <span class="n">supply</span><span class="o">.</span>
 </code></pre></div>
-</div>
+</caption></div>
+
 <h3 id="1-title-of-data-table-is-inside-the-caption-element">1. Title of data table is inside the <code>&lt;caption&gt;</code> element.<a class="headerlink" href="#1-title-of-data-table-is-inside-the-caption-element" title="Permanent link">¤</a></h3>
 <p>the caption is dependent on the data and effects the visual appearance of the table. 
 it is context dependent up to the author to supply.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_caption</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         <span class="n">caption</span> <span class="o">=</span> <span class="n">soup</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;table caption&quot;</span><span class="p">)</span>
         <span class="k">assert</span> <span class="n">caption</span> <span class="ow">and</span> <span class="n">caption</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">(),</span> <span class="s2">&quot;table is missing a &lt;caption&gt;&quot;</span>
     <span class="c1"># with pytest.raises(AssertionError): assert_has_caption(df._repr_html_())</span>
 </code></pre></div>
-</div>
+</caption></div>
+
 <pre><code>def assert_has_caption(object):
     caption = soup(object).select_one("table caption")
     assert caption and caption.string.strip(), "table is missing a &lt;caption&gt;"
@@ -1444,25 +1467,30 @@ it is context dependent up to the author to supply.</p>
 <p>the caption can be set using the <code>pandas.DataFrame.style.set_caption</code> method.
 the result is a <code>pandas.io.formats.style.Styler</code> object that let's us modify how the
 instance is displayed.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">`</span><span class="n">set_caption</span><span class="err">`</span> <span class="n">user</span> <span class="n">the</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">style</span><span class="err">`</span> <span class="n">attribute</span> <span class="n">to</span> <span class="nb">set</span> <span class="n">a</span> <span class="n">caption</span>
 </code></pre></div>
 </div>
+
 <p><code>set_caption</code> user the <code>pandas.DataFrame.style</code> attribute to set a caption</p>
-<div class="cell source" hidden="hidden">
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_caption</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">Styler</span><span class="p">:</span>
+<div class="cell source" hidden="" markdown="">
+
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_caption</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">Styler</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span>
 
 <span class="n">after</span> <span class="n">we</span> <span class="n">have</span> <span class="n">a</span> <span class="n">styler</span> <span class="n">we</span> <span class="n">are</span> <span class="n">working</span> <span class="k">with</span> <span class="n">a</span> <span class="n">subset</span> <span class="n">of</span> <span class="n">pandas</span> <span class="n">operations</span><span class="o">.</span>
 <span class="n">the</span> <span class="n">styler</span> <span class="n">should</span> <span class="n">be</span> <span class="n">the</span> <span class="n">last</span> <span class="n">stop</span> <span class="k">for</span> <span class="n">the</span> <span class="n">data</span><span class="o">.</span>
 </code></pre></div>
 </div>
-<pre><code>def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
+
+<pre><code>def set_caption(df, caption) -&amp;gt; pandas.io.formats.style.Styler:
     return df.style.set_caption(caption)
 </code></pre>
 <p>after we have a styler we are working with a subset of pandas operations.
 the styler should be the last stop for the data.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">below</span> <span class="n">demonstrates</span> <span class="n">how</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">caption</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">appears</span> <span class="n">on</span> <span class="n">a</span> <span class="err">`</span><span class="n">captioned</span><span class="err">`</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span><span class="o">.</span>
 
 <span class="p">{{</span><span class="n">captioned</span><span class="p">}}</span>
@@ -1471,47 +1499,49 @@ the styler should be the last stop for the data.</p>
         <span class="n">captioned</span> <span class="o">:=</span> <span class="n">set_caption</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="s2">&quot;a value-less dataframe with columns and row indexes&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">_repr_html_</span><span class="p">()</span>
     <span class="p">);</span>
 </code></pre></div>
-</div>
+</caption></table></div>
+
 <p>the <code>&lt;table&gt;</code> below demonstrates how the <code>&lt;caption&gt;</code> appears on a <code>captioned</code> <code>pandas.DataFrame</code>.</p>
 <style type="text/css">
 </style>
 <table id="T_595b7">
-  <caption>a value-less dataframe with columns and row indexes</caption>
-  <thead>
-    <tr>
-      <th class="blank level0" >&nbsp;</th>
-      <th id="T_595b7_level0_col0" class="col_heading level0 col0" >A</th>
-      <th id="T_595b7_level0_col1" class="col_heading level0 col1" >B</th>
-      <th id="T_595b7_level0_col2" class="col_heading level0 col2" >C</th>
-    </tr>
-    <tr>
-      <th class="index_name level0" >index</th>
-      <th class="blank col0" >&nbsp;</th>
-      <th class="blank col1" >&nbsp;</th>
-      <th class="blank col2" >&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_595b7_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_595b7_row0_col0" class="data row0 col0" >nan</td>
-      <td id="T_595b7_row0_col1" class="data row0 col1" >nan</td>
-      <td id="T_595b7_row0_col2" class="data row0 col2" >nan</td>
-    </tr>
-    <tr>
-      <th id="T_595b7_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_595b7_row1_col0" class="data row1 col0" >nan</td>
-      <td id="T_595b7_row1_col1" class="data row1 col1" >nan</td>
-      <td id="T_595b7_row1_col2" class="data row1 col2" >nan</td>
-    </tr>
-  </tbody>
+<caption>a value-less dataframe with columns and row indexes</caption>
+<thead>
+<tr>
+<th class="blank level0"> </th>
+<th class="col_heading level0 col0" id="T_595b7_level0_col0">A</th>
+<th class="col_heading level0 col1" id="T_595b7_level0_col1">B</th>
+<th class="col_heading level0 col2" id="T_595b7_level0_col2">C</th>
+</tr>
+<tr>
+<th class="index_name level0">index</th>
+<th class="blank col0"> </th>
+<th class="blank col1"> </th>
+<th class="blank col2"> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="row_heading level0 row0" id="T_595b7_level0_row0">0</th>
+<td class="data row0 col0" id="T_595b7_row0_col0">nan</td>
+<td class="data row0 col1" id="T_595b7_row0_col1">nan</td>
+<td class="data row0 col2" id="T_595b7_row0_col2">nan</td>
+</tr>
+<tr>
+<th class="row_heading level0 row1" id="T_595b7_level0_row1">1</th>
+<td class="data row1 col0" id="T_595b7_row1_col0">nan</td>
+<td class="data row1 col1" id="T_595b7_row1_col1">nan</td>
+<td class="data row1 col2" id="T_595b7_row1_col2">nan</td>
+</tr>
+</tbody>
 </table>
 
 <pre><code>assert_has_caption(
     captioned := set_caption(df, "a value-less dataframe with columns and row indexes")._repr_html_()
 );
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">#### `pandas.io.formats.style.Styler`</span>
 
 <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">Styler</span><span class="err">`</span> <span class="n">gives</span> <span class="n">a</span> <span class="n">different</span> <span class="n">html</span> <span class="n">representation</span> <span class="n">that</span> <span class="err">`</span><span class="n">_repr_html_</span><span class="err">`</span>
@@ -1519,33 +1549,39 @@ the styler should be the last stop for the data.</p>
     <span class="k">assert</span> <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span> <span class="o">!=</span> <span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">()</span>
 </code></pre></div>
 </div>
+
 <h4 id="pandasioformatsstylestyler"><code>pandas.io.formats.style.Styler</code><a class="headerlink" href="#pandasioformatsstylestyler" title="Permanent link">¤</a></h4>
 <p><code>pandas.io.formats.style.Styler</code> gives a different html representation that <code>_repr_html_</code></p>
 <pre><code>assert df.style.to_html() != df.to_html()
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### 2. Column headers are inside `&lt;th scope=&quot;col&quot;&gt;` elements.</span>
 
 <span class="n">the</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span> <span class="nb">property</span> <span class="n">improves</span> <span class="n">navigation</span> <span class="k">for</span> <span class="n">screen</span> <span class="n">readers</span> <span class="n">when</span> <span class="n">used</span> <span class="n">properly</span><span class="o">.</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <h3 id="2-column-headers-are-inside-th-scopecol-elements">2. Column headers are inside <code>&lt;th scope="col"&gt;</code> elements.<a class="headerlink" href="#2-column-headers-are-inside-th-scopecol-elements" title="Permanent link">¤</a></h3>
 <p>the <code>scope</code> property improves navigation for screen readers when used properly.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_col_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">&quot;thead tr th&quot;</span><span class="p">):</span>
 <span class="k">for</span> <span class="n">basic</span> <span class="n">frames</span><span class="p">,</span> <span class="nb">all</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">tags</span> <span class="ow">in</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">thead</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">should</span> <span class="n">have</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="err">`</span>
 
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">th</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scope&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="s2">&quot;colgroup&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selector</span><span class="p">)),</span> <span class="s2">&quot;&lt;th&gt; is missing `scope=&#39;col&#39;`&quot;</span>
     <span class="c1"># with pytest.raises(AssertionError): assert_has_col_scope(captioned)</span>
 </code></pre></div>
-</div>
+</th></thead></th></div>
+
 <pre><code>def assert_has_col_scope(object, selector="thead tr th"):
 </code></pre>
 <p>for basic frames, all the <code>&lt;th&gt;</code> tags in <code>&lt;thead&gt;</code> should have <code>scope="col"</code></p>
 <pre><code>    assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
 # with pytest.raises(AssertionError): assert_has_col_scope(captioned)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_col_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">&quot;thead tr th&quot;</span><span class="p">):</span>
 <span class="err">`</span><span class="n">set_col_scope</span><span class="err">`</span> <span class="n">automatically</span> <span class="n">remediates</span> <span class="n">missing</span> <span class="n">columns</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span><span class="n">s</span>
 
@@ -1554,6 +1590,7 @@ the styler should be the last stop for the data.</p>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def set_col_scope(object, selector="thead tr th"):
 </code></pre>
 <p><code>set_col_scope</code> automatically remediates missing columns <code>scope</code>s</p>
@@ -1561,38 +1598,45 @@ the styler should be the last stop for the data.</p>
         th.attrs.setdefault("scope", "col")
     return str(object)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">these</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">visual</span> <span class="n">effect</span><span class="p">,</span> <span class="n">however</span> <span class="n">we</span> <span class="n">can</span> <span class="n">use</span> <span class="err">`</span><span class="n">assert_has_col_scope</span><span class="err">`</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">the</span> <span class="n">scope</span> <span class="ow">is</span> <span class="n">correct</span><span class="o">.</span>
 
     <span class="n">assert_has_col_scope</span><span class="p">(</span><span class="n">col_scoped</span> <span class="o">:=</span> <span class="n">set_col_scope</span><span class="p">(</span><span class="n">captioned</span><span class="p">));</span>
 </code></pre></div>
 </div>
+
 <p>these <code>scope</code> has no visual effect, however we can use <code>assert_has_col_scope</code> to verify the scope is correct.</p>
 <pre><code>assert_has_col_scope(col_scoped := set_col_scope(captioned));
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### 3. Row headers are inside `&lt;th scope=&quot;row&quot;&gt;` elements.</span>
 
 <span class="n">similar</span> <span class="n">to</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="err">`</span><span class="p">,</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">elements</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">body</span> <span class="n">require</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="err">`</span><span class="p">;</span>
 <span class="n">basically</span> <span class="n">every</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">needs</span> <span class="n">the</span> <span class="n">scope</span> <span class="nb">property</span><span class="o">.</span>
 </code></pre></div>
-</div>
+</th></th></th></div>
+
 <h3 id="3-row-headers-are-inside-th-scoperow-elements">3. Row headers are inside <code>&lt;th scope="row"&gt;</code> elements.<a class="headerlink" href="#3-row-headers-are-inside-th-scoperow-elements" title="Permanent link">¤</a></h3>
 <p>similar to <code>scope="col"</code>, the <code>&lt;th&gt;</code> elements in the body require <code>scope="row"</code>;
 basically every <code>&lt;th&gt;</code> needs the scope property.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_row_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">&quot;tbody tr th&quot;</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">th</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;scope&quot;</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;row&quot;</span><span class="p">,</span> <span class="s2">&quot;rowgroup&quot;</span><span class="p">}</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selector</span><span class="p">)),</span>\
         <span class="s2">&quot;&lt;th&gt; is missing `scope=&#39;col&#39;`&quot;</span>
     <span class="c1"># with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <pre><code>def assert_has_row_scope(object, selector="tbody tr th"):
     assert all(th.attrs.get("scope") in {"row", "rowgroup"} for th in soup(object).select(selector)),\
     "&lt;th&gt; is missing `scope='col'`"
 # with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_row_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">&quot;tbody tr th, tfoot tr th&quot;</span><span class="p">):</span>
 <span class="n">like</span> <span class="n">the</span> <span class="n">columns</span><span class="p">,</span> <span class="n">we</span> <span class="n">can</span> <span class="n">deterministically</span> <span class="n">add</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="err">`</span>
 
@@ -1601,6 +1645,7 @@ basically every <code>&lt;th&gt;</code> needs the scope property.</p>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
 </code></pre>
 <p>like the columns, we can deterministically add <code>scope="row"</code></p>
@@ -1608,45 +1653,56 @@ basically every <code>&lt;th&gt;</code> needs the scope property.</p>
         th.attrs.setdefault("scope", "row")
     return str(object)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">we</span> <span class="n">use</span> <span class="err">`</span><span class="n">set_row_scope</span><span class="err">`</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">the</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span> <span class="n">because</span><span class="p">,</span> <span class="n">again</span><span class="p">,</span> <span class="n">there</span> <span class="n">aren</span><span class="s1">&#39;t any visual effects to these changes.</span>
 
     <span class="n">assert_has_row_scope</span><span class="p">(</span><span class="n">row_scoped</span> <span class="o">:=</span> <span class="n">set_row_scope</span><span class="p">(</span><span class="n">col_scoped</span><span class="p">))</span>
 </code></pre></div>
 </div>
+
 <p>we use <code>set_row_scope</code> to verify the <code>scope</code> because, again, there aren't any visual effects to these changes.</p>
 <pre><code>assert_has_row_scope(row_scoped := set_row_scope(col_scoped))
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### 4. Avoid using blank header cells.</span>
 
 <span class="n">this</span> <span class="n">instruction</span> <span class="n">to</span> <span class="k">yield</span> <span class="n">a</span> <span class="n">best</span> <span class="n">practice</span> <span class="n">to</span> <span class="n">__name</span> <span class="n">the</span> <span class="n">dataframe</span> <span class="n">index__</span><span class="o">.</span>
 <span class="n">without</span> <span class="n">a</span> <span class="n">name</span><span class="p">,</span> <span class="n">the</span> <span class="n">index</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">will</span> <span class="n">always</span> <span class="n">be</span> <span class="n">empty</span><span class="o">.</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <h3 id="4-avoid-using-blank-header-cells">4. Avoid using blank header cells.<a class="headerlink" href="#4-avoid-using-blank-header-cells" title="Permanent link">¤</a></h3>
 <p>this instruction to yield a best practice to <strong>name the dataframe index</strong>.
 without a name, the index <code>&lt;th&gt;</code> will always be empty.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_no_blank_header</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">th</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">(</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;th&quot;</span><span class="p">)),</span> <span class="s2">&quot;there is a blank &lt;th&gt;&quot;</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <pre><code>def assert_no_blank_header(body):
     assert all(th.string.strip() for th in soup(body).select("th")), "there is a blank &lt;th&gt;"
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="c1"># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</span>
 </code></pre></div>
 </div>
+
 <pre><code># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">requires</span> <span class="n">some</span> <span class="n">upstream</span> <span class="n">work</span> <span class="n">to</span> <span class="n">satisfy</span> <span class="n">this</span> <span class="n">instruction</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <p><code>pandas</code> requires some upstream work to satisfy this instruction.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">set_squashed_th</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
 <span class="err">`</span><span class="n">set_squashed_th</span><span class="err">`</span> <span class="n">squashes</span> <span class="n">the</span> <span class="n">table</span> <span class="n">column</span> <span class="n">names</span><span class="o">.</span> <span class="n">this</span> <span class="n">method</span> <span class="n">on</span> <span class="n">works</span> <span class="k">for</span> <span class="n">the</span> <span class="n">most</span> <span class="n">basic</span> <span class="n">dataframes</span><span class="o">.</span>
 
@@ -1660,6 +1716,7 @@ without a name, the index <code>&lt;th&gt;</code> will always be empty.</p>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def set_squashed_th(body):
 </code></pre>
 <p><code>set_squashed_th</code> squashes the table column names. this method on works for the most basic dataframes.</p>
@@ -1672,14 +1729,16 @@ without a name, the index <code>&lt;th&gt;</code> will always be empty.</p>
     table.select_one("thead").replace_with(thead)
     return str(table)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="n">the</span> <span class="n">frame</span> <span class="n">below</span> <span class="n">doesn</span><span class="s1">&#39;t have empty `&lt;th&gt;` elements and is denser.</span>
 
 <span class="p">{{</span><span class="n">squashed_th</span><span class="p">}}</span>
 
     <span class="n">assert_no_blank_header</span><span class="p">(</span><span class="n">squashed_th</span> <span class="o">:=</span> <span class="n">set_squashed_th</span><span class="p">(</span><span class="n">row_scoped</span><span class="p">))</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <p>the frame below doesn't have empty <code>&lt;th&gt;</code> elements and is denser.</p>
 <style type="text/css">
 </style>
@@ -1704,17 +1763,20 @@ without a name, the index <code>&lt;th&gt;</code> will always be empty.</p>
 
 <pre><code>assert_no_blank_header(squashed_th := set_squashed_th(row_scoped))
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.</span>
 
 <span class="n">the</span> <span class="n">naming</span> <span class="n">of</span> <span class="n">columns</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">context</span> <span class="n">specific</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">feature</span><span class="o">.</span>
 <span class="n">authors</span> <span class="n">would</span> <span class="n">have</span> <span class="n">to</span> <span class="n">add</span> <span class="n">this</span> <span class="n">information</span> <span class="n">themselves</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <h3 id="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.<a class="headerlink" href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value" title="Permanent link">¤</a></h3>
 <p>the naming of columns is a context specific screen reader feature.
 authors would have to add this information themselves.</p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">titles</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="s2">&quot;apple&quot;</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="s2">&quot;banana&quot;</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">&quot;carrot&quot;</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_header_titles</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">titles</span><span class="o">=</span><span class="n">titles</span><span class="p">):</span>
 <span class="err">`</span><span class="n">set_header_titles</span><span class="err">`</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">method</span> <span class="n">that</span> <span class="n">includes</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">abbreviation</span> <span class="ow">in</span> <span class="n">the</span> <span class="err">`</span><span class="n">title</span><span class="err">`</span><span class="o">.</span>
@@ -1725,9 +1787,10 @@ authors would have to add this information themselves.</p>
                 <span class="n">th</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">titles</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
         <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">body</span><span class="p">)</span>
 
-<span class="o">&gt;</span> <span class="n">a</span> <span class="n">real</span> <span class="n">dataset</span> <span class="n">would</span> <span class="n">make</span> <span class="n">more</span> <span class="n">sense</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">example</span><span class="o">.</span>
+<span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">a</span> <span class="n">real</span> <span class="n">dataset</span> <span class="n">would</span> <span class="n">make</span> <span class="n">more</span> <span class="n">sense</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">example</span><span class="o">.</span>
 </code></pre></div>
 </div>
+
 <pre><code>titles = dict(A="apple", B="banana", C="carrot")
 def set_header_titles(body, titles=titles):
 </code></pre>
@@ -1738,16 +1801,17 @@ def set_header_titles(body, titles=titles):
             th.attrs["title"] = titles[name]
     return str(body)
 </code></pre>
-<blockquote>
-<p>a real dataset would make more sense in this example.</p>
-</blockquote>
-<div class="cell source" hidden="hidden">
+<p>&gt; a real dataset would make more sense in this example.</p>
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="n">titled</span> <span class="o">=</span> <span class="n">set_header_titles</span><span class="p">(</span><span class="n">squashed_th</span><span class="p">,</span> <span class="n">titles</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>titled = set_header_titles(squashed_th, titles)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">strip_class_ids</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
 <span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">adds</span> <span class="n">classes</span> <span class="ow">and</span> <span class="n">ids</span> <span class="n">to</span> <span class="n">elements</span> <span class="n">that</span> <span class="k">for</span> <span class="n">the</span> <span class="n">sake</span> <span class="n">of</span> <span class="n">this</span> <span class="n">discussion</span> <span class="n">are</span> <span class="n">superfluous</span><span class="o">.</span>
 
@@ -1759,6 +1823,7 @@ def set_header_titles(body, titles=titles):
     <span class="n">final</span> <span class="o">=</span> <span class="n">strip_class_ids</span><span class="p">(</span><span class="n">titled</span><span class="p">)</span>
 </code></pre></div>
 </div>
+
 <pre><code>def strip_class_ids(body):
 </code></pre>
 <p><code>pandas</code> adds classes and ids to elements that for the sake of this discussion are superfluous.</p>
@@ -1769,7 +1834,8 @@ def set_header_titles(body, titles=titles):
     return str(body)
 final = strip_class_ids(titled)
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">## inconsistencies in labelled indexes</span>
 
 <span class="n">everything</span> <span class="n">goes</span> <span class="n">to</span> <span class="n">hell</span> <span class="k">with</span> <span class="err">`</span><span class="n">named_column</span><span class="err">`</span> <span class="n">which</span> <span class="k">as</span> <span class="n">a</span> <span class="n">column</span> <span class="n">name</span><span class="o">.</span>
@@ -1778,12 +1844,14 @@ final = strip_class_ids(titled)
     <span class="n">named_column</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;letters&quot;</span>
 </code></pre></div>
 </div>
+
 <h2 id="inconsistencies-in-labelled-indexes">inconsistencies in labelled indexes<a class="headerlink" href="#inconsistencies-in-labelled-indexes" title="Permanent link">¤</a></h2>
 <p>everything goes to hell with <code>named_column</code> which as a column name.</p>
 <pre><code>named_column = df.copy()
 named_column.columns.name = "letters"
 </code></pre>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### column and index names</span>
 
 <span class="n">consider</span> <span class="n">the</span> <span class="n">case</span> <span class="n">of</span> <span class="err">`</span><span class="n">df2</span><span class="err">`</span> <span class="n">where</span> <span class="n">the</span> <span class="err">`</span><span class="n">df2</span><span class="o">.</span><span class="n">columns</span><span class="err">`</span> <span class="ow">is</span> <span class="n">named</span> <span class="ow">and</span> <span class="err">`</span><span class="n">df2</span><span class="o">.</span><span class="n">index</span><span class="err">`</span> <span class="ow">is</span> <span class="ow">not</span><span class="o">.</span> 
@@ -1794,47 +1862,49 @@ named_column.columns.name = "letters"
 <span class="n">screenreader</span> <span class="n">visitors</span> <span class="n">may</span> <span class="n">struggle</span> <span class="n">to</span> <span class="n">interpret</span> <span class="n">the</span> <span class="n">meaning</span> <span class="n">of</span> <span class="s2">&quot;letters&quot;</span> <span class="n">relative</span> <span class="n">to</span> <span class="n">the</span> <span class="n">index</span><span class="o">.</span>
 <span class="n">ensurely</span> <span class="n">a</span> <span class="n">proper</span> <span class="n">experience</span> <span class="k">for</span> <span class="n">screen</span> <span class="n">readers</span> <span class="n">will</span> <span class="n">require</span> <span class="n">extra</span> <span class="n">markup</span> <span class="n">to</span> <span class="n">group</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span> <span class="k">with</span> <span class="n">the</span> <span class="n">columns</span><span class="o">.</span> 
 </code></pre></div>
-</div>
+</th></div>
+
 <h3 id="column-and-index-names">column and index names<a class="headerlink" href="#column-and-index-names" title="Permanent link">¤</a></h3>
 <p>consider the case of <code>df2</code> where the <code>df2.columns</code> is named and <code>df2.index</code> is not. </p>
 <style type="text/css">
 </style>
 <table id="T_8b93e">
-  <caption><p>the <code>named_column</code> dataframe with a column name</p>
+<caption><p>the <code>named_column</code> dataframe with a column name</p>
 </caption>
-  <thead>
-    <tr>
-      <th class="index_name level0" >letters</th>
-      <th id="T_8b93e_level0_col0" class="col_heading level0 col0" >A</th>
-      <th id="T_8b93e_level0_col1" class="col_heading level0 col1" >B</th>
-      <th id="T_8b93e_level0_col2" class="col_heading level0 col2" >C</th>
-    </tr>
-    <tr>
-      <th class="index_name level0" >index</th>
-      <th class="blank col0" >&nbsp;</th>
-      <th class="blank col1" >&nbsp;</th>
-      <th class="blank col2" >&nbsp;</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_8b93e_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_8b93e_row0_col0" class="data row0 col0" >nan</td>
-      <td id="T_8b93e_row0_col1" class="data row0 col1" >nan</td>
-      <td id="T_8b93e_row0_col2" class="data row0 col2" >nan</td>
-    </tr>
-    <tr>
-      <th id="T_8b93e_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_8b93e_row1_col0" class="data row1 col0" >nan</td>
-      <td id="T_8b93e_row1_col1" class="data row1 col1" >nan</td>
-      <td id="T_8b93e_row1_col2" class="data row1 col2" >nan</td>
-    </tr>
-  </tbody>
+<thead>
+<tr>
+<th class="index_name level0">letters</th>
+<th class="col_heading level0 col0" id="T_8b93e_level0_col0">A</th>
+<th class="col_heading level0 col1" id="T_8b93e_level0_col1">B</th>
+<th class="col_heading level0 col2" id="T_8b93e_level0_col2">C</th>
+</tr>
+<tr>
+<th class="index_name level0">index</th>
+<th class="blank col0"> </th>
+<th class="blank col1"> </th>
+<th class="blank col2"> </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="row_heading level0 row0" id="T_8b93e_level0_row0">0</th>
+<td class="data row0 col0" id="T_8b93e_row0_col0">nan</td>
+<td class="data row0 col1" id="T_8b93e_row0_col1">nan</td>
+<td class="data row0 col2" id="T_8b93e_row0_col2">nan</td>
+</tr>
+<tr>
+<th class="row_heading level0 row1" id="T_8b93e_level0_row1">1</th>
+<td class="data row1 col0" id="T_8b93e_row1_col0">nan</td>
+<td class="data row1 col1" id="T_8b93e_row1_col1">nan</td>
+<td class="data row1 col2" id="T_8b93e_row1_col2">nan</td>
+</tr>
+</tbody>
 </table>
 
 <p>screenreader visitors may struggle to interpret the meaning of "letters" relative to the index.
 ensurely a proper experience for screen readers will require extra markup to group the `<th> with the columns. </p>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### column name and no index name</span>
 
     <span class="n">named_column_no_index</span> <span class="o">=</span> <span class="n">named_column</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -1847,7 +1917,8 @@ ensurely a proper experience for screen readers will require extra markup to gro
 <span class="n">when</span> <span class="n">the</span> <span class="n">column</span> <span class="n">index</span> <span class="ow">is</span> <span class="n">named</span><span class="p">,</span> <span class="n">like</span> <span class="err">`</span><span class="n">letters</span><span class="err">`</span><span class="p">,</span> <span class="n">the</span> <span class="n">entry</span> <span class="n">should</span> <span class="n">be</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span><span class="err">`</span><span class="o">.</span> 
 <span class="n">it</span> <span class="n">this</span> <span class="n">example</span> <span class="n">we</span> <span class="n">can</span> <span class="n">see</span> <span class="n">how</span> <span class="n">instructions</span> <span class="ow">in</span> <span class="mi">2</span> <span class="ow">and</span> <span class="mi">3</span> <span class="n">differ</span><span class="o">.</span>
 </code></pre></div>
-</div>
+</th></div>
+
 <h3 id="column-name-and-no-index-name">column name and no index name<a class="headerlink" href="#column-name-and-no-index-name" title="Permanent link">¤</a></h3>
 <pre><code>named_column_no_index = named_column.copy()
 named_column_no_index.index.name = None
@@ -1855,37 +1926,38 @@ named_column_no_index.index.name = None
 <style type="text/css">
 </style>
 <table id="T_3d1a0">
-  <caption><p>the <code>named_column_no_index</code> dataframe with a column name and without an index name</p>
+<caption><p>the <code>named_column_no_index</code> dataframe with a column name and without an index name</p>
 </caption>
-  <thead>
-    <tr>
-      <th class="index_name level0" >letters</th>
-      <th id="T_3d1a0_level0_col0" class="col_heading level0 col0" >A</th>
-      <th id="T_3d1a0_level0_col1" class="col_heading level0 col1" >B</th>
-      <th id="T_3d1a0_level0_col2" class="col_heading level0 col2" >C</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th id="T_3d1a0_level0_row0" class="row_heading level0 row0" >0</th>
-      <td id="T_3d1a0_row0_col0" class="data row0 col0" >nan</td>
-      <td id="T_3d1a0_row0_col1" class="data row0 col1" >nan</td>
-      <td id="T_3d1a0_row0_col2" class="data row0 col2" >nan</td>
-    </tr>
-    <tr>
-      <th id="T_3d1a0_level0_row1" class="row_heading level0 row1" >1</th>
-      <td id="T_3d1a0_row1_col0" class="data row1 col0" >nan</td>
-      <td id="T_3d1a0_row1_col1" class="data row1 col1" >nan</td>
-      <td id="T_3d1a0_row1_col2" class="data row1 col2" >nan</td>
-    </tr>
-  </tbody>
+<thead>
+<tr>
+<th class="index_name level0">letters</th>
+<th class="col_heading level0 col0" id="T_3d1a0_level0_col0">A</th>
+<th class="col_heading level0 col1" id="T_3d1a0_level0_col1">B</th>
+<th class="col_heading level0 col2" id="T_3d1a0_level0_col2">C</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th class="row_heading level0 row0" id="T_3d1a0_level0_row0">0</th>
+<td class="data row0 col0" id="T_3d1a0_row0_col0">nan</td>
+<td class="data row0 col1" id="T_3d1a0_row0_col1">nan</td>
+<td class="data row0 col2" id="T_3d1a0_row0_col2">nan</td>
+</tr>
+<tr>
+<th class="row_heading level0 row1" id="T_3d1a0_level0_row1">1</th>
+<td class="data row1 col0" id="T_3d1a0_row1_col0">nan</td>
+<td class="data row1 col1" id="T_3d1a0_row1_col1">nan</td>
+<td class="data row1 col2" id="T_3d1a0_row1_col2">nan</td>
+</tr>
+</tbody>
 </table>
 
 <p>in this conformation, it is possible for a screen reader to misinterpet <code>letters</code> as the name of the index column.
 when the column index is named, like <code>letters</code>, the entry should be <code>&lt;th scope="row"&gt;</code>. 
 it this example we can see how instructions in 2 and 3 differ.</p>
 <h2 id="conclusions">conclusions<a class="headerlink" href="#conclusions" title="Permanent link">¤</a></h2>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="n">basic</span> <span class="n">dataframes</span><span class="p">,</span> <span class="n">two</span> <span class="n">practices</span> <span class="n">can</span> <span class="n">be</span> <span class="n">enforced</span> <span class="n">without</span> <span class="n">knowledge</span> <span class="n">of</span> <span class="n">the</span> <span class="n">data</span><span class="p">:</span>
 
 <span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">Column</span> <span class="n">headers</span> <span class="n">are</span> <span class="n">inside</span> <span class="o">&lt;</span><span class="n">th</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="o">&gt;</span> <span class="n">elements</span><span class="o">.</span>
@@ -1897,7 +1969,7 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <span class="o">-</span> <span class="p">[</span> <span class="p">]</span> <span class="n">Title</span> <span class="n">of</span> <span class="n">data</span> <span class="n">table</span> <span class="ow">is</span> <span class="n">inside</span> <span class="n">the</span> <span class="o">&lt;</span><span class="n">caption</span><span class="o">&gt;</span> <span class="n">element</span><span class="o">.</span>
 <span class="o">-</span> <span class="p">[</span> <span class="p">]</span> <span class="n">Header</span> <span class="n">cells</span> <span class="k">with</span> <span class="n">text</span> <span class="n">abbreviations</span> <span class="n">that</span> <span class="n">need</span> <span class="n">expansion</span> <span class="n">use</span> <span class="n">the</span> <span class="n">title</span> <span class="n">attribute</span> <span class="k">with</span> <span class="n">the</span> <span class="n">expanded</span> <span class="n">text</span> <span class="nb">set</span> <span class="k">as</span> <span class="n">the</span> <span class="n">value</span><span class="o">.</span>
 
-<span class="k">with</span> <span class="err">`</span><span class="n">pandas</span><span class="o">&lt;=</span><span class="p">{{</span><span class="n">pandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">}}</span><span class="err">`</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">hard</span> <span class="n">to</span> <span class="n">avoid</span> <span class="n">black</span> <span class="n">header</span> <span class="n">cells</span> <span class="n">without</span> <span class="n">some</span> <span class="n">significant</span> <span class="n">effort</span><span class="o">.</span>
+<span class="k">with</span> <span class="err">`</span><span class="n">pandas</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">=</span><span class="p">{{</span><span class="n">pandas</span><span class="o">.</span><span class="n">__version__</span><span class="p">}}</span><span class="err">`</span><span class="p">,</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">hard</span> <span class="n">to</span> <span class="n">avoid</span> <span class="n">black</span> <span class="n">header</span> <span class="n">cells</span> <span class="n">without</span> <span class="n">some</span> <span class="n">significant</span> <span class="n">effort</span><span class="o">.</span>
 
 
 <span class="o">-</span> <span class="p">[</span> <span class="p">]</span> <span class="n">Avoid</span> <span class="n">using</span> <span class="n">blank</span> <span class="n">header</span> <span class="n">cells</span><span class="o">.</span>
@@ -1908,7 +1980,8 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <span class="o">*</span> <span class="n">treat</span> <span class="n">the</span> <span class="err">`</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="err">`</span> <span class="k">as</span> <span class="n">a</span> <span class="n">column</span> <span class="n">that</span> <span class="n">needs</span> <span class="n">to</span> <span class="n">be</span> <span class="n">named</span>
 <span class="o">*</span> <span class="k">if</span> <span class="n">an</span> <span class="n">index</span> <span class="ow">is</span> <span class="n">superfluous</span> <span class="n">then</span> <span class="n">remove</span> <span class="n">it</span><span class="o">.</span> <span class="n">this</span> <span class="n">can</span> <span class="n">be</span> <span class="n">down</span> <span class="k">with</span> <span class="n">the</span> <span class="n">styler</span> <span class="err">`</span><span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="err">`</span>
 </code></pre></div>
-</div>
+</caption></th></th></div>
+
 <p>for basic dataframes, two practices can be enforced without knowledge of the data:</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> Column headers are inside <th scope="col"> elements.</li>
@@ -1919,7 +1992,7 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Title of data table is inside the <caption> element.</li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.</li>
 </ul>
-<p>with <code>pandas&lt;=1.4.2</code>, it is hard to avoid black header cells without some significant effort.</p>
+<p>with <code>pandas&amp;lt;=1.4.2</code>, it is hard to avoid black header cells without some significant effort.</p>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled/><span class="task-list-indicator"></span></label> Avoid using blank header cells.</li>
 </ul>
@@ -1928,7 +2001,8 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <li>treat the <code>df.index</code> as a column that needs to be named</li>
 <li>if an index is superfluous then remove it. this can be down with the styler <code>df.style.hide(axis=0)</code></li>
 </ul>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### final frame</span>
 
 <span class="n">our</span> <span class="n">final</span> <span class="n">dataframe</span> <span class="n">has</span><span class="p">:</span>
@@ -1937,7 +2011,7 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="o">&gt;</span><span class="err">`</span>
 <span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="o">&gt;</span><span class="err">`</span>
 <span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="n">no</span> <span class="n">empty</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span>
-<span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span> <span class="n">title</span><span class="o">&gt;</span><span class="err">`</span> <span class="k">for</span> <span class="n">abbreviations</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">&gt;</span><span class="err">`</span> <span class="k">for</span> <span class="n">abbreviations</span>
 
 <span class="p">{{</span><span class="n">final</span><span class="p">}}</span>
 
@@ -1948,7 +2022,8 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <span class="p">{{</span><span class="n">final</span><span class="p">}}</span>
 <span class="err">```</span>
 </code></pre></div>
-</div>
+</th></th></th></th></caption></div>
+
 <h3 id="final-frame">final frame<a class="headerlink" href="#final-frame" title="Permanent link">¤</a></h3>
 <p>our final dataframe has:</p>
 <ul class="task-list">
@@ -1956,7 +2031,7 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th scope="col"&gt;</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th scope="row"&gt;</code></li>
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> no empty <code>&lt;th&gt;</code></li>
-<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th title&gt;</code> for abbreviations</li>
+<li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> <code>&lt;th title=""&gt;</code> for abbreviations</li>
 </ul>
 <style type="text/css">
 </style>
@@ -2001,17 +2076,18 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
 </code></pre></div>
-<div class="cell source" hidden="hidden">
+<div class="cell source" hidden="" markdown="">
+
 <div class="highlight"><pre><span></span><code><span class="c1">### about the `scope` attribute</span>
 
 <span class="o">&lt;</span><span class="n">q</span> <span class="n">cite</span><span class="o">=</span><span class="s2">&quot;https://www.w3schools.com/tags/att_scope.asp&quot;</span><span class="o">&gt;</span><span class="n">The</span> <span class="n">scope</span> <span class="n">attribute</span> <span class="n">specifies</span> <span class="n">whether</span> <span class="n">a</span> <span class="n">header</span> <span class="n">cell</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">header</span> <span class="k">for</span> <span class="n">a</span> <span class="n">column</span><span class="p">,</span> <span class="n">row</span><span class="p">,</span> <span class="ow">or</span> <span class="n">group</span> <span class="n">of</span> <span class="n">columns</span> <span class="ow">or</span> <span class="n">rows</span><span class="o">.&lt;/</span><span class="n">q</span><span class="o">&gt;</span>
-
 <span class="o">&lt;</span><span class="n">q</span> <span class="n">cite</span><span class="o">=</span><span class="s2">&quot;https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid&quot;</span><span class="o">&gt;</span><span class="n">The</span> <span class="n">scope</span> <span class="n">attribute</span> <span class="n">makes</span> <span class="n">table</span> <span class="n">navigation</span> <span class="n">much</span> <span class="n">easier</span> <span class="k">for</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">users</span><span class="p">,</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">used</span> <span class="n">correctly</span><span class="o">.</span> <span class="n">Incorrectly</span> <span class="n">used</span><span class="p">,</span> <span class="n">scope</span> <span class="n">can</span> <span class="n">make</span> <span class="n">table</span> <span class="n">navigation</span> <span class="n">much</span> <span class="n">harder</span> <span class="ow">and</span> <span class="n">less</span> <span class="n">efficient</span><span class="o">.</span> <span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span>
 </code></pre></div>
-</div>
+</q></q></div>
+
 <h3 id="about-the-scope-attribute">about the <code>scope</code> attribute<a class="headerlink" href="#about-the-scope-attribute" title="Permanent link">¤</a></h3>
-<p><q cite="https://www.w3schools.com/tags/att_scope.asp">The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.</q></p>
-<p><q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid">The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient. <q></p>
+<p><q cite="https://www.w3schools.com/tags/att_scope.asp">The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.</q>
+<q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid">The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient. <q></p>
 <h3 id="links">links<a class="headerlink" href="#links" title="Permanent link">¤</a></h3>
 <ul>
 <li><a href="https://pandas.pydata.org/docs/user_guide/style.html">https://pandas.pydata.org/docs/user_guide/style.html</a></li>
@@ -2022,6 +2098,7 @@ it this example we can see how instructions in 2 and 3 differ.</p>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
+<p></q></q></th></th></th></th></caption></caption></th></th></th></th></th></th></th></th></th></th></th></th></thead></th></th></caption></table></caption></caption></p>
 
 
 
