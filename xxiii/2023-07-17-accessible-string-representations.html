@@ -375,9 +375,61 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          the string is a samp
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="2023-07-17-accessible-string-representations.html" class="md-nav__link md-nav__link--active">
         the string is a samp
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#string-displays" class="md-nav__link">
+    string displays
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-solution" class="md-nav__link">
+    best solution
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#string-representations-in-code" class="md-nav__link">
+    string representations in code.
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wraps" class="md-nav__link">
+    wraps
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1193,6 +1245,7 @@
 
 <h1 id="the-string-is-a-samp">the string is a samp<a class="headerlink" href="#the-string-is-a-samp" title="Permanent link">¤</a></h1>
 <p>the semantics of a string output are ambiguous to other outputs. we suggest that strings should be represented with the <code>samp</code> tag.</p>
+<h2 id="string-displays">string displays<a class="headerlink" href="#string-displays" title="Permanent link">¤</a></h2>
 <p>the standard python display wraps a string in single questions.</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">example</span> <span class="o">=</span> <span class="s2">&quot;this is the example&quot;</span>
     <span class="n">example</span>
@@ -1208,6 +1261,19 @@
 <div class="output_html rendered_html output_subarea output_execute_result"><samp>this is the example</samp></div>
 
 <p>the <code>samp</code> provides double quotes by default with monospace text. it almost exactly mimics the standard display if you are specific about your quotes. </p>
+<h2 id="best-solution">best solution<a class="headerlink" href="#best-solution" title="Permanent link">¤</a></h2>
+<p>the best solution would associate the string with the variable. the quickest semantic solution i can think of would look close to.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">HTML</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;&quot;&quot;&lt;figure&gt;</span>
+<span class="s2">&lt;samp&gt;</span><span class="si">{</span><span class="n">example</span><span class="si">}</span><span class="s2">&lt;/samp&gt;</span>
+<span class="s2">&lt;figcaption&gt;&lt;var&gt;example&lt;/var&gt;&lt;/figcaption&gt;</span>
+<span class="s2">&lt;/figure&gt;&quot;&quot;&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><figure>
+<samp>this is the example</samp>
+<figcaption><var>example</var></figcaption>
+</figure></div>
+
+<h2 id="string-representations-in-code">string representations in code.<a class="headerlink" href="#string-representations-in-code" title="Permanent link">¤</a></h2>
 <p>if we are display code containing a string then the story is different. consider the first snippet of python code.</p>
 <div class="highlight"><pre><span></span><code><span class="n">example</span> <span class="o">=</span> <span class="s2">&quot;this is the example&quot;</span>
 <span class="n">example</span>
@@ -1227,7 +1293,11 @@
 </code></pre>
 </div>
 
-<p>we explored a few confomrations of the <code>samp</code> tag. it seems to hold up as a good semantic for input and output strings.</p>
+<h2 id="wraps">wraps<a class="headerlink" href="#wraps" title="Permanent link">¤</a></h2>
+<ul>
+<li>we explored a few confomrations of the <code>samp</code> tag. it seems to hold up as a good semantic for input and output strings.</li>
+<li>a consistent use of the <code>var</code> tag in code representations and outputs would allow more complex relationships to be inferred from the document.</li>
+</ul>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
