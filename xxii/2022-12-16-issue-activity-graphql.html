@@ -337,6 +337,20 @@
   
   
     <li class="md-nav__item">
+      <a href="../xxiii/2023-08-10-semantic-code-blocks.html" class="md-nav__link">
+        accessibile semantics for python code
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../xxiii/2023-08-03-pandas-accessors.html" class="md-nav__link">
         <code>pandas</code> accessors
       </a>
@@ -1289,23 +1303,23 @@ a graphql query the find the dates a user made comments on issues or pull reques
     </summary>
 
 
-<div class="highlight"><pre><span></span><code>query { 
-  search(type:ISSUE, query: &quot;user:tonyfast repo:iota-school/notebooks-for-all&quot;, first: 100) {
-    edges {
-      node {
-      ... on Issue {
-        url
-      }
-       ... on PullRequest {
-        url
-      }
-      ... on Comment {
-        publishedAt
-      }
-      }
-    }
-  }
-}
+<div class="highlight"><pre><span></span><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w"> </span>
+<span class="w">  </span><span class="n">search</span><span class="p">(</span><span class="n">type</span><span class="p">:</span><span class="no">ISSUE</span><span class="p">,</span><span class="w"> </span><span class="n">query</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;user:tonyfast repo:iota-school/notebooks-for-all&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">first</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">edges</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">node</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="nc">Issue</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">url</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">       </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="nc">PullRequest</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">url</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="p">...</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="nc">Comment</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">publishedAt</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">      </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 
 </details>
