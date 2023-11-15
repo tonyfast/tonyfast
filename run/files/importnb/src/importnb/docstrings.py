@@ -1,4 +1,3 @@
-# coding: utf-8
 """# Special handling of markdown cells as docstrings.
 
 Modify the Python `ast` to assign docstrings to functions when they are preceded by a Markdown cell.
@@ -14,7 +13,7 @@ import ast
 
 create_test = ast.parse("""__test__ = globals().get('__test__', {})""", mode="single").body[0]
 test_update = ast.parse("""__test__.update""", mode="single").body[0].value
-str_nodes = (ast.Str,)
+str_nodes = (ast.Constant,)
 
 """`TestStrings` is an `ast.NodeTransformer` that captures `str_nodes` in the `TestStrings.strings` object.
 
@@ -26,7 +25,6 @@ str_nodes = (ast.Str,)
 
 
 class TestStrings(ast.NodeTransformer):
-
     strings = None
 
     def visit_Module(self, module):
@@ -44,12 +42,12 @@ class TestStrings(ast.NodeTransformer):
                             func=test_update,
                             args=[
                                 ast.Dict(
-                                    keys=[ast.Str("string-{}".format(node.lineno))],
+                                    keys=[ast.Constant(f"string-{node.lineno}")],
                                     values=[node],
-                                )
+                                ),
                             ],
                             keywords=[],
-                        )
+                        ),
                     ),
                     node,
                 )
@@ -62,7 +60,6 @@ class TestStrings(ast.NodeTransformer):
 
     def visit_body(self, node):
         """`TestStrings.visit_body` visits nodes with a `"body"` attibute and extracts potential string tests."""
-
         body = []
         if (
             node.body
@@ -78,10 +75,9 @@ class TestStrings(ast.NodeTransformer):
 
     def visit_Expr(self, node):
         """`TestStrings.visit_Expr` append the `str_nodes` to `TestStrings.strings` to append to the `ast.Module`."""
-
         if isinstance(node.value, str_nodes):
             self.strings.append(
-                ast.copy_location(ast.Str(node.value.s.replace("\n```", "\n")), node)
+                ast.copy_location(ast.Constant(node.value.value.replace("\n```", "\n")), node),
             )
         return node
 
@@ -112,4 +108,4 @@ def markdown_docstring(nodes, node):
 
 
 def str_expr(node):
-    return isinstance(node, ast.Expr) and isinstance(node.value, ast.Str)
+    return isinstance(node, ast.Expr) and isinstance(node.value, ast.Constant)
