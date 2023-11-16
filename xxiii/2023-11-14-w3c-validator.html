@@ -460,6 +460,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#throwing-exceptions" class="md-nav__link">
+    throwing exceptions
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1724,7 +1731,8 @@ dependencies:
 <p><code>npm install -g vnu-jar</code></p>
 <h2 id="running-the-validator">running the validator<a class="headerlink" href="#running-the-validator" title="Permanent link">¤</a></h2>
 <p>get the path to the jar from the node binary</p>
-<div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">shlex</span>
+<div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">operator</span><span class="o">,</span> <span class="nn">functools</span><span class="o">,</span> <span class="nn">collections</span><span class="o">,</span> <span class="nn">exceptiongroup</span><span class="o">,</span> <span class="nn">re</span>
+    <span class="kn">import</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">json</span><span class="o">,</span> <span class="nn">subprocess</span><span class="o">,</span> <span class="nn">shlex</span>
     <span class="n">VNU_JAR</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span>
         <span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span>
             <span class="s2">&quot;npm root vnu-jar&quot;</span>
@@ -1741,7 +1749,8 @@ dependencies:
         <span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">())</span>
 </code></pre></div>
 <h2 id="explore-the-data-as-a-pandasdataframe">explore the data as a <code>pandas.Dataframe</code><a class="headerlink" href="#explore-the-data-as-a-pandasdataframe" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">validate_html</span><span class="p">(</span><span class="n">HTML</span><span class="p">))</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">HTML</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="s2">&quot;../../../notebooks-for-all/tests/exports/html/lorenz-executed.html&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">validate_html</span><span class="p">(</span><span class="n">HTML</span><span class="p">))</span><span class="o">.</span><span class="n">messages</span><span class="p">)</span>
     <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;url&quot;</span><span class="p">]</span>
     <span class="n">df</span>
 </code></pre></div>
@@ -1923,6 +1932,185 @@ dependencies:
 </table>
 <p>178 rows × 10 columns</p>
 </div></div>
+
+<h2 id="throwing-exceptions">throwing exceptions<a class="headerlink" href="#throwing-exceptions" title="Permanent link">¤</a></h2>
+<p>we need to collect these results and raise exceptions.</p>
+<p>we need to organize the <code>results</code> into something that can be reported. </p>
+<div class="highlight"><pre><span></span><code>    <span class="n">results</span> <span class="o">=</span> <span class="n">validate_html</span><span class="p">(</span><span class="n">HTML</span><span class="p">)</span>
+</code></pre></div>
+<p>group the <code>results</code> the nu error messages and the severity.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">organize_validator_results</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+        <span class="n">collect</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">,</span> <span class="nb">list</span><span class="p">))</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">msg</span><span class="p">),</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">itertools</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;messages&quot;</span><span class="p">],</span> <span class="n">key</span><span class="o">=</span><span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;message&quot;</span><span class="p">)):</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+                <span class="n">collect</span><span class="p">[</span><span class="n">error</span><span class="p">][</span><span class="n">msg</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">collect</span>
+</code></pre></div>
+<p>the page we are testing overrides <code>table</code> roles where the validator throws errors. this is a known issue so we already have to ignore some results.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">EXCLUDE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;or with a “role” attribute whose value is “table”, “grid”, or “treegrid”.$&quot;&quot;&quot;</span>
+        <span class="c1"># https://github.com/validator/validator/issues/1125</span>
+    <span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">raise_if_errors</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="n">EXCLUDE</span><span class="p">):</span>
+        <span class="n">collect</span> <span class="o">=</span> <span class="n">organize_validator_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+        <span class="n">exceptions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">msg</span> <span class="ow">in</span> <span class="n">collect</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">]:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">exclude</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">exclude</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span>
+                <span class="n">exceptions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">exceptiongroup</span><span class="o">.</span><span class="n">ExceptionGroup</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="p">[</span><span class="ne">Exception</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="s2">&quot;extract&quot;</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">collect</span><span class="p">[</span><span class="s2">&quot;error&quot;</span><span class="p">][</span><span class="n">msg</span><span class="p">]]))</span>
+        <span class="k">if</span> <span class="n">exceptions</span><span class="p">:</span>
+             <span class="k">raise</span> <span class="n">exceptiongroup</span><span class="o">.</span><span class="n">ExceptionGroup</span><span class="p">(</span><span class="s2">&quot;nu validator errors&quot;</span><span class="p">,</span> <span class="n">exceptions</span><span class="p">)</span>
+</code></pre></div>
+<p>since, i've been hand validating, my page doesn't raise any errors except for the excluded ones. i'm really proud of that.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">raise_if_errors</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+</code></pre></div>
+<p>if we include all the validator errors then we raise an exception group</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">raise_if_errors</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>  + Exception Group Traceback (most recent call last):
+  |   File "/home/tbone/mambaforge/envs/test-nbconvert-a11y/lib/python3.11/site-packages/IPython/core/interactiveshell.py", line 3548, in run_code
+  |     exec(code_obj, self.user_global_ns, self.user_ns)
+  |   File "/tmp/ipykernel_394727/1257168619.py", line 1, in &lt;module&gt;
+  |     raise_if_errors(results, None)
+  |   File "/tmp/ipykernel_394727/522998515.py", line 8, in raise_if_errors
+  |     raise exceptiongroup.ExceptionGroup("nu validator errors", exceptions)
+  | ExceptionGroup: nu validator errors (2 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | ExceptionGroup: The “role” attribute must not be used on a “tr” element which has a “table” ancestor with no “role” attribute, or with a “role” attribute whose value is “table”, “grid”, or “treegrid”. (16 sub-exceptions)
+    +-+---------------- 1 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 2 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 3 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="2" role="listitem"&gt;
+      |      
+      +---------------- 4 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="11" role="listitem"&gt;
+      |      
+      +---------------- 5 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="3" role="listitem"&gt;
+      |      
+      +---------------- 6 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell markdown" data-index="6" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 7 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell markdown" data-index="7" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 8 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 9 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 10 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 11 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 12 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 13 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell markdown" data-index="13" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 14 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="1" role="listitem"&gt;
+      |      
+      +---------------- 15 ----------------
+      | Exception:      &lt;/tr&gt;
+      |      &lt;tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell code" data-index="15" data-loc="2" role="listitem"&gt;
+      |      
+      +---------------- ... ----------------
+      | and 1 more exception
+      +------------------------------------
+    +---------------- 2 ----------------
+    | ExceptionGroup: The “role” attribute must not be used on a “td” element which has a “table” ancestor with no “role” attribute, or with a “role” attribute whose value is “table”, “grid”, or “treegrid”. (160 sub-exceptions)
+    +-+---------------- 1 ----------------
+      | Exception: listitem"&gt;
+      |       &lt;td class="nb-anchor" role="none"&gt;
+      |      
+      +---------------- 2 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-execution_count" role="none"&gt;
+      |      
+      +---------------- 3 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-cell_type" role="none"&gt;
+      |      
+      +---------------- 4 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-toolbar" role="none"&gt;
+      |      
+      +---------------- 5 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-start" id="cell-1-start" role="none"&gt;
+      |      
+      +---------------- 6 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-end" id="cell-1-end" role="none"&gt;
+      |      
+      +---------------- 7 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-source" role="none"&gt;
+      |  
+      +---------------- 8 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-metadata" role="none"&gt;
+      |      
+      +---------------- 9 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-loc" id="cell-1-loc" role="none"&gt;
+      |      
+      +---------------- 10 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-outputs" role="none"&gt;
+      |      
+      +---------------- 11 ----------------
+      | Exception: listitem"&gt;
+      |       &lt;td class="nb-anchor" role="none"&gt;
+      |      
+      +---------------- 12 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-execution_count" role="none"&gt;
+      |      
+      +---------------- 13 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-cell_type" role="none"&gt;
+      |      
+      +---------------- 14 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-toolbar" role="none"&gt;
+      |      
+      +---------------- 15 ----------------
+      | Exception:      &lt;/td&gt;
+      |       &lt;td class="nb-start" id="cell-2-start" role="none"&gt;
+      |      
+      +---------------- ... ----------------
+      | and 145 more exceptions
+      +------------------------------------
+</pre>
+</div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
