@@ -1982,19 +1982,12 @@ it can eventually be exported as notebooks.</p>
 we want to avoid redundant work. spending &lt;1 week to feature engineer
 existing content into structured notebooks is a reasonable time line.
 developers become familiar with the content through this data engineering activity.: typing.Sequence[docx.Type]</p>
-<div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">docx</span><span class="o">,</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">pandas</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">toolz.curried</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">docx</span><span class="o">,</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">shutil</span><span class="o">,</span> <span class="nn">typing</span><span class="o">,</span> <span class="nn">asyncio</span><span class="o">,</span> <span class="nn">subprocess</span>
+    <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">toolz.curried</span> <span class="kn">import</span> <span class="o">*</span>
     <span class="n">g</span> <span class="o">=</span> <span class="n">compose_left</span>
     <span class="n">PANDOC</span> <span class="o">=</span> <span class="n">shutil</span><span class="o">.</span><span class="n">which</span><span class="p">(</span><span class="s2">&quot;pandoc&quot;</span><span class="p">)</span>
 </code></pre></div>
-<pre><code>import docx, itertools, pandas; from toolz.curried import *
-g = compose_left
-PANDOC = shutil.which("pandoc")
-</code></pre>
 <div class="highlight"><pre><span></span><code>    <span class="n">document</span> <span class="o">=</span> <span class="n">docx</span><span class="o">.</span><span class="n">Document</span><span class="p">(</span><span class="s2">&quot;/home/tbone/Downloads/2015-07-15-Textbook-Cambridge-U-P.docx&quot;</span><span class="p">)</span>
-</code></pre></div>
-<pre><code>document = docx.Document("/home/tbone/Downloads/2015-07-15-Textbook-Cambridge-U-P.docx")
-</code></pre>
-<div class="highlight"><pre><span></span><code><span class="n">the</span> <span class="n">snippet</span> <span class="n">discovers</span> <span class="n">the</span> <span class="n">style</span> <span class="nb">id</span><span class="s1">&#39;s of each paragraph. this means we could remediate the the headings here and make them formal headings</span>
 </code></pre></div>
 <p>the snippet discovers the style id's of each paragraph. this means we could remediate the the headings here and make them formal headings</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">paragraphs</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">iter_inner_content</span><span class="p">())</span>
@@ -2003,78 +1996,10 @@ PANDOC = shutil.which("pandoc")
             <span class="n">g</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">),</span> <span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;style_id&quot;</span><span class="p">))</span>
         <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;style_id&quot;</span><span class="p">)</span>
     <span class="p">)</span>
-
-<span class="p">{{</span><span class="n">df</span><span class="o">.</span><span class="n">style_id</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;word defined style ids&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">}}</span>
-
-    <span class="n">end_of_toc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">style_id</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^TOC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="n">end_of_toc</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">style_id</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^TOC&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="n">x</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span>
     <span class="n">toc</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">refs</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="n">end_of_toc</span><span class="p">],</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">end_of_toc</span><span class="p">:],</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
 </code></pre></div>
-<pre><code>paragraphs = pandas.Series(document.iter_inner_content())
-df = paragraphs.to_frame("p").join(
-    paragraphs.apply(
-        g(operator.attrgetter("style"), operator.attrgetter("style_id"))
-    ).rename("style_id")
-)
-</code></pre>
-<div>
-<style scoped="">
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-<thead>
-<tr style="text-align: right;">
-<th>style_id</th>
-<th>Normal</th>
-<th>Caption</th>
-<th>Left</th>
-<th>Heading3</th>
-<th>test</th>
-<th>Heading2</th>
-<th>BodyTextIndent</th>
-<th>ListParagraph</th>
-<th>Heading1</th>
-<th>NormalWeb</th>
-<th>TableNormal</th>
-<th>TableGrid</th>
-<th>BodyTextIndent3</th>
-<th>Heading4</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<th>word defined style ids</th>
-<td>2202</td>
-<td>438</td>
-<td>343</td>
-<td>47</td>
-<td>47</td>
-<td>38</td>
-<td>35</td>
-<td>21</td>
-<td>10</td>
-<td>6</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-<td>1</td>
-</tr>
-</tbody>
-</table>
-</div>
-
-<pre><code>end_of_toc = df.style_id.str.match("^TOC").pipe(lambda x: x[x]).index[-1] + 1
-toc, df, refs = df.iloc[:end_of_toc], df.iloc[end_of_toc:], df.iloc[-1:]
-</code></pre>
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_docx_subset</span><span class="p">(</span><span class="n">elements</span><span class="p">:</span> <span class="n">typing</span><span class="o">.</span><span class="n">Sequence</span><span class="p">[</span><span class="n">docx</span><span class="o">.</span><span class="n">Type</span><span class="p">])</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">docx</span><span class="o">.</span><span class="n">document</span><span class="o">.</span><span class="n">Document</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;create a new docx object with a subset of elements from an original&quot;&quot;&quot;</span>
         <span class="p">(</span><span class="n">new</span> <span class="o">:=</span> <span class="n">docx</span><span class="o">.</span><span class="n">Document</span><span class="p">())</span><span class="o">.</span><span class="n">_body</span><span class="o">.</span><span class="n">_element</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">_element</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">elements</span><span class="p">)</span>
@@ -2086,17 +2011,6 @@ toc, df, refs = df.iloc[:end_of_toc], df.iloc[end_of_toc:], df.iloc[-1:]
         <span class="n">get_docx_subset</span><span class="p">(</span><span class="n">elements</span><span class="p">)</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">([</span><span class="n">PANDOC</span><span class="p">,</span> <span class="s2">&quot;--to&quot;</span><span class="p">,</span> <span class="s2">&quot;gfm&quot;</span><span class="p">,</span> <span class="s2">&quot;--from&quot;</span><span class="p">,</span> <span class="s2">&quot;docx&quot;</span><span class="p">,</span> <span class="n">tmp</span><span class="o">.</span><span class="n">name</span><span class="p">])</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 </code></pre></div>
-<pre><code>def get_docx_subset(elements: typing.Sequence[docx.Type]) -&amp;gt; docx.document.Document:
-    """create a new docx object with a subset of elements from an original"""
-    (new := docx.Document())._body._element.extend(x._element for x in elements)
-    return new
-
-async def get_docx_subset_markdown(elements: typing.Sequence[docx.Type]) -&amp;gt; str:
-    """shell out to pandoc to convert the docx elements to markdown"""
-    tmp = tempfile.NamedTemporaryFile(suffix=".docx")
-    get_docx_subset(elements).save(tmp.name)
-    return subprocess.check_output([PANDOC, "--to", "gfm", "--from", "docx", tmp.name]).decode()
-</code></pre>
 <p>define chapters by the 10 h1s we found and the nearest heading to identify notebooks.</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">notebooks</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
         <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">style_id</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^Heading1&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;chapter&quot;</span><span class="p">)</span>
@@ -2104,12 +2018,6 @@ async def get_docx_subset_markdown(elements: typing.Sequence[docx.Type]) -&amp;g
         <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">style_id</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">&quot;^Heading&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">p</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;text&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;notebook&quot;</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">ffill</span><span class="p">()</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s2">&quot;chapter&quot;</span><span class="p">,</span> <span class="s2">&quot;notebook&quot;</span><span class="p">])</span>
 </code></pre></div>
-<pre><code>notebooks = df.join(
-    df[df.style_id.str.match("^Heading1")].p.apply(operator.attrgetter("text")).rename("chapter")
-).join(
-    df[df.style_id.str.match("^Heading")].p.apply(operator.attrgetter("text")).rename("notebook")
-).ffill().fillna("empty").groupby(["chapter", "notebook"])
-</code></pre>
 <p>turned the grouped notebooks to markdown</p>
 <div class="highlight"><pre><span></span><code>    <span class="p">(</span><span class="n">md</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span>
         <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">gather</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">get_docx_subset_markdown</span><span class="p">(</span><span class="n">notebooks</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">notebooks</span><span class="o">.</span><span class="n">groups</span><span class="p">)),</span>
@@ -2193,11 +2101,6 @@ async def get_docx_subset_markdown(elements: typing.Sequence[docx.Type]) -&amp;g
 <p>97 rows × 1 columns</p>
 </div></div>
 
-<pre><code>(md := pandas.Series(
-    await asyncio.gather(*(get_docx_subset_markdown(notebooks.get_group(x).p) for x in notebooks.groups)),
-    notebooks.groups
-).to_frame("markdown"))
-</code></pre>
 <p>below we see that most of this transformation renders pretty ok on notebooks</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">display</span><span class="p">(</span><span class="o">*</span><span class="n">md</span><span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">markdown</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">&quot;\$&quot;</span><span class="p">)]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">markdown</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">Markdown</span><span class="p">))</span>
 </code></pre></div>
@@ -3134,8 +3037,6 @@ Gibbs energies of both cells are the same, i.e.</p>
 <p>It is shown that $\mathrm{\Delta}_{ }^{0}G$ values are independent of
 half-cell reactions and depend only on the net reaction because the net
 reaction is neutral in electron and balanced in mass.</p>
-<pre><code>display(*md[md.markdown.str.contains("\$")].iloc[:10].markdown.apply(Markdown))
-</code></pre>
 <ol>
 <li>extra toc. this should be generated from our content. if we do our job then the two should match.</li>
 <li>split the rest on headings</li>
