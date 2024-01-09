@@ -1,6 +1,6 @@
 # ℹ️ about tonyfast
 
-tonyfast is a freelance developer, designer, and scientist with significant experience in open source and scientific software. he is a [distinguished project jupyter contributor][distinguished] advocating for computational literacy, equity, and digital accessibility in scientific technologies.
+tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. he is a [distinguished project jupyter contributor][distinguished] advocating for computational literacy, equity, and digital accessibility in scientific technologies.
 
 * [📓 notebooks][Notebooks]
 * [💀 deathbeds][deathbeds]
@@ -9,10 +9,11 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 ## 🛠️ current projects
 
-* [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
+* [materialsgenomefoundation] strategic planning lead for an open materials science economy
+* [nbconvert-a11y] né [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
 * [project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]
 * writing experiments with literate programs and computational essays on [my blog][notebooks].
-* [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb]
+* [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb] literate computing tools.
 
 
 <details markdown>
@@ -37,6 +38,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 * [ten pounds of 💩][xlbs]
 * [reincarnation of the notebook][reincarnation]
+* [calligrams]
 * [powers often][powersoften]
 * [ten things 'bout jupyter][ten]
 * [notebookism]
@@ -49,6 +51,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 ## 👨‍🏭 organizations
 
+* Materials Genome Foundation
 * Quansight, LLC
 * PyData Atlanta
 * Bastille Networks
@@ -120,3 +123,5 @@ currently this project features:
 [the materials data scientist]: https://www.slideshare.net/tonyfast1/the-materials-data-scientist
 [hatch]: https://hatch.pypa.io/
 [lite]: https://tonyfast.github.io/tonyfast/run/lab/
+[calligrams]: https://nbviewer.org/gist/tonyfast/a1c50b9e2ff6385492245859ca34b053 "a presentation on the text and form of data presentations"
+[nbconvert-a11y]: https://github.com/deathbeds/nbconvert-a11y "accessibility templates, tests, and documentation about computational notebooks"
