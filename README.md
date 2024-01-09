@@ -1,6 +1,6 @@
 # ℹ️ about tonyfast
 
-tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. he is a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
+tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. they are a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
 
 * [📓 notebooks][Notebooks]
 * [💀 deathbeds][deathbeds]
@@ -115,6 +115,7 @@ currently this project features:
 [jupyter triage]: #
 [2016]: https://jupyterday-atlanta-2016.github.io/
 [2018]: https://atl-jugheads.github.io/jupyter-day-atlanta-ii/
+[materialsgenomefoundation]: https://github.com/materialsgenomefoundation
 [jupyter triangle]: https://renci.org/event/jupyter-day-in-the-triangle/
 [pydata atlanta]: https://www.meetup.com/pydata-atlanta/?_cookie-check=St-JjKn1qVhJsUZ4
 [atlanta jupyter user group]: https://twitter.com/jupyteratlanta
