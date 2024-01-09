@@ -1,6 +1,6 @@
 # ℹ️ about tonyfast
 
-tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. he is a [distinguished project jupyter contributor][distinguished] advocating for computational literacy, equity, and digital accessibility in scientific technologies.
+tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. he is a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
 
 * [📓 notebooks][Notebooks]
 * [💀 deathbeds][deathbeds]
