@@ -11,7 +11,7 @@ tonyfast is a freelance developer, designer, and scientist with significant expe
 
 * [materialsgenomefoundation] strategic planning lead for an open materials science economy
 * [nbconvert-a11y] né [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
-* [project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]
+* <span alt="i have to defer this work until i am properly resourced">~~[project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]~~</span>
 * writing experiments with literate programs and computational essays on [my blog][notebooks].
 * [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb] literate computing tools.
 
