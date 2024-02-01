@@ -85,6 +85,9 @@ description = "the mkdocs documentation environment"
 template = "task"
 features = ["docs"]
 
+[tool.hatch.envs.test.overrides]
+env.CI.dependencies = [{ if = ["1"], value = "pidgy @ git+https://github.com/deathbeds/pidgy" }]
+
 [tool.hatch.envs.docs.env-vars]
 JUPYTER_PLATFORM_DIRS = "1"
 
@@ -122,13 +125,13 @@ template = "task"
 dependencies = [
   "build",
   "jupyterlite",
-  "jupyterlab-webrtc-docprovider",
+  # "jupyterlab-webrtc-docprovider",
   "jupyterlab-deck",
   "jupyter-videochat",
   "jupyterlab-fonts",
   "jupyterlab-recents",
-  "jupyterlab_execute_time",
-  "retrolab",
+  # "jupyterlab_execute_time",
+  # "retrolab",
   "pyyaml",
   "depfinder",
   "requests_cache",
