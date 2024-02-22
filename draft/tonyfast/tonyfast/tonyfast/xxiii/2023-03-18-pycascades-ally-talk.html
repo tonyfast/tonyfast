@@ -1,0 +1,4415 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   A Crash Course in Digital Accessibility
+  </title>
+  <meta content="light" name="color-scheme">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   /* # accessible css configurations
+
+we define these high level variables to allow for configuration during use and testing.
+we are not sure what the preferred default values are for these any accessible notebooks features.
+the variables specify critical degrees of freedom in the notebook style.
+
+## notebook interface specific css variables
+
+*/
+
+:root {
+    --nb-focus-width: 3px;
+    --nb-accent-color: auto;
+    --nb-background-color-dark: #2b2a33;
+    --nb-background-color-light: #FFFFFF;
+    --nb-margin: 5%;
+    --nb-font-size: 16px;
+    --nb-font-family: serif;
+    --nb-line-height: 1.5;
+    --nb-scrolled-height: 600px;
+}
+
+/* map css variables to css properties on the `body` elements.
+this mapping turns out css variables into user interfaces. */
+
+body {
+    font-size: var(--nb-font-size);
+    font-family: var(--nb-font-family);
+    accent-color: var(--nb-accent-color);
+    margin-left: var(--nb-margin);
+    margin-right: var(--nb-margin);
+    line-height: var(--nb-line-height);
+    width: calc(100% - 2*var(--nb-margin));
+}
+
+/* ## notebook settings
+
+the notebook settings interface connects configurable css features to the user.
+we use dialog elements to represents an element that should be hidden by default.
+it turns out there are two ways to layout `dialog` elements. 
+they can be used as modals or block elements.
+we extract this dual purpose to provide both configurations to the user.
+
+*/
+
+dialog form>* {
+    display: block;
+}
+
+
+/* ## wcag accessibility guidelines as a feature
+
+flexibility is the future of assistive interfaces.
+it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
+it is the fucking priority.
+
+in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
+one configurable feature is the accessibility priority. 
+experienced developers may need less assistive features as they spend more time with an interface.
+
+### buttons sizes
+
+WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
+
+/* satisfy AAA 2.5.5 */
+
+.wcag-aaa button,
+.wcag-aaa input[type=checkbox] {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.wcag-aaa a {
+    font-size: max(44px, var(--nb-font-size));
+}
+
+/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+/* satisfy AA 2.5.8 minimum target requirement */
+.wcag-aa button,
+.wcag-aa input[type=checkbox] {
+    min-height: 24px;
+    min-width: 24px;
+}
+
+.wcag-aa a {
+    font-size: max(24px, var(--nb-font-size));
+}
+
+/* ### native textareas for AAA priority.
+
+our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
+the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
+
+*/
+
+.markdown textarea[name=source]+[role=group],
+.wcag-a textarea[name=source],
+.wcag-aa textarea[name=source],
+.wcag-aaa .markdown textarea[name=source],
+/* this group selector is very ambiguous */
+.wcag-aaa textarea[name=source]+[role=group] {
+    display: none;
+}
+
+/* line height cant change pre elements based on browser presets */
+pre {
+    line-height: unset;
+}
+
+/* this is only needed for the lsit template variant */
+ol#cells {
+    margin: unset;
+    padding: unset;
+}
+
+li.cell {
+    list-style-type: none;
+}
+
+/* ## notebook components layout */
+
+td[role="none"]:not([hidden]),
+th[role="none"]:not([hidden]) {
+    display: unset;
+    text-align: unset;
+}
+
+table {
+    border-spacing: unset;
+}
+
+#cells,
+#cells .cell,
+#cells>tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+ol[reversed]#cells,
+[reversed]#cells tbody {
+    flex-direction: column-reverse;
+}
+
+/* hide the visual output area when there are no outputs. 
+assistive technologies will recieve an audible notification that there are not outputs. */
+
+fieldset[data-outputs="0"] {
+    display: none;
+}
+
+/* ## modifications to html defaults 
+
+### focus 
+
+there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
+
+*/
+
+
+
+.cell:focus-within,
+:focus-visible {
+    outline: max(var(--nb-focus-width), 1px) solid;
+    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+}
+
+
+/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+textarea[name=source] {
+    min-width: 0;
+}
+
+.nb-outputs,
+.nb-source {
+    overflow-x:  auto;
+}
+
+#nb-settings li::marker,
+summary[inert]::marker {
+    content: "";
+}
+
+/* ### inheriting styles */
+
+input,
+select,
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: inherit;
+    line-height: inherit;
+    overflow: auto;
+    color: unset;
+}
+
+textarea[name=source] {
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+}
+
+
+/* align checkboxes with buttons */
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+/* ## custom class selectors */
+
+#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
+/* legend:not(:focus-within):not(:active), */
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.nb-outputs.nb-scrolled {
+    max-height: var(--nb-scrolled-height);
+    overflow: auto;
+}
+
+.nb-outputs.nb-collapsed {
+    display: none;
+}
+  </style>
+  <style id="nb-light-theme" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-theme" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="../xxiv/2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-03-pandas-accessors.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-28-community-demo.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-whoosh-search.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-system-dependency-graphs.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-18-voila-pidgy-integration.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-16-inspector-hack.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-07-pidgy-voila.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-04-tfoot-dataframe.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-02-accessible-dataframes-basic-indexes.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        None
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       A Crash Course in Digital Accessibility
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       this document is full of links for you to visit later, and learn at your own pace.
+this is a 5 minute link dump about my special interest.
+with a surprise demo!
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       14 total
+      </dd>
+      <dd id="nb-ct-code">
+       7 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       language
+      </dt>
+      <dd id="nb-lang">
+       python
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       176
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       7
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#a-crash-course-in-digital-accessibility">
+         A Crash Course in Digital Accessibility
+        </a>
+       </li>
+       <li>
+        <ol>
+         <li>
+          <a href="#history">
+           history
+          </a>
+         </li>
+         <li>
+          <a href="#who-global-disability-stats">
+           WHO global disability stats
+          </a>
+         </li>
+         <li>
+          <a href="#forms-of-disability">
+           forms of disability
+          </a>
+         </li>
+         <li>
+          <ol>
+           <li>
+            <a href="#None">
+             practical wuh-cag guidelines
+            </a>
+           </li>
+          </ol>
+         </li>
+         <li>
+          <a href="#alphabet-soup-of-accessibility-web-standards">
+           alphabet soup of accessibility web standards
+          </a>
+         </li>
+        </ol>
+       </li>
+       <li>
+        <a href="#auditting-accessibility">
+         auditting accessibility
+        </a>
+       </li>
+      </ol>
+     </nav>
+     <li>
+      <a href="#accessible-notebook-interfaces">
+       accessible notebook interfaces
+      </a>
+     </li>
+     <li>
+      <a href="#None">
+       compliance &ne; assistive
+      </a>
+     </li>
+     <li>
+      <a href="#manually-reviewing-accessibility">
+       manually reviewing accessibility
+      </a>
+     </li>
+     <li>
+      <a href="#other-useful-sources-sources">
+       other useful sources sources
+      </a>
+     </li>
+     <li>
+      <a href="#conclusion">
+       conclusion
+      </a>
+     </li>
+     <li>
+      <a href="#whats-the-deal-with-the-demo">
+       whats the deal with the demo??
+      </a>
+     </li>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:root]", "language": "python", "name": "conda-root-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.10.9"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "A Crash Course in Digital Accessibility", "description": "this document is full of links for you to visit later, and learn at your own pace.\nthis is a 5 minute link dump about my special interest.\nwith a surprise demo!"}
+    </form>
+   </dialog>
+  </header>
+  <main aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label">
+   <table id="cells" role="none">
+    <colgroup>
+     <col class="nb-index">
+     <col class="nb-execution_count">
+     <col class="nb-cell_type">
+     <col class="nb-toolbar">
+     <col class="nb-started_at">
+     <col class="nb-completed_at">
+     <col class="nb-source">
+     <col class="nb-loc">
+     <col class="nb-metadata">
+     <col class="nb-outputs">
+    </colgroup>
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="38" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-1-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-source-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+       <time datetime="2023-03-18T21:39:19.582+00:00">
+        2023-03-18T21:39:19.582697+00:00
+       </time>
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+       <time datetime="2023-03-18T21:39:19.586+00:00">
+        2023-03-18T21:39:19.586509+00:00
+       </time>
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="38"># A Crash Course in Digital Accessibility
+
+this document is full of links for you to visit later, and learn at your own pace.
+this is a 5 minute link dump about my special interest.
+with a surprise demo!
+
+* w3c accessibility standards
+* accessibility auditing tools and practices
+* language used in the accessibility circles
+* how disability impacts us all.
+
+&lt;figure markdown=""&gt;
+    
+![image.png](attachment:4d2af2cf-f339-4de6-9f04-a447f96fb5e6.png "qrcode to tonyfast.github.io")
+
+&lt;figcaption markdown=""&gt;
+
+## history 
+
+* [original content developed for pycascades 2023 lightning talks](https://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.htmlhttps://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.html)
+* [updated for bellingham codes on 7/6](https://www.meetup.com/bellinghamcodes/events/294458693/)
+
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;form id="controls"&gt;    
+    &lt;label for="run"&gt;🏃&lt;/label&gt;&lt;button data-commandlinker-command="notebook:run-all-cells" id="run"&gt;run all&lt;/button&gt;
+    &lt;label for="doc"&gt;🖹&lt;/label&gt;&lt;button data-commandlinker-command="application:toggle-mode" id="doc"&gt;document mode&lt;/button&gt;
+    &lt;label for="prez"&gt;📽&lt;/label&gt;&lt;button data-commandlinker-command="application:toggle-presentation-mode" id="prez"&gt;presentation mode&lt;/button&gt;
+    &lt;label for="collapse"&gt;&minusb;&lt;/label&gt;&lt;button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse"&gt;collapse all the code&lt;/button&gt;
+    &lt;br/&gt;
+    &lt;label for="expand"&gt;&plusb;&lt;/label&gt;&lt;button data-commandlinker-command="notebook:show-all-cell-code" id="expand"&gt;expand all the code&lt;/button&gt;
+    &lt;button data-commandlinker-command="deck:toggle"&gt;&lt;code&gt;jupyterlab-deck&lt;/code&gt;&lt;/button&gt;
+    &lt;button data-commandlinker-command="notebook:render-with-voila"&gt;&lt;code&gt;voila&lt;/code&gt;&lt;/button&gt;
+    &lt;label for="inspectoropen"&gt;🔍&lt;/label&gt;&lt;button data-commandlinker-command="inspector:open" id="inspectoropen"&gt;inspector&lt;/button&gt;
+    &lt;label for="right" title="open side by side view"&gt;👯&lt;/label&gt;&lt;button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right"&gt;side-by-side&lt;/button&gt;
+&lt;/form&gt;
+</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># A Crash Course in Digital Accessibility</span>
+
+this document is full of links for you to visit later, and learn at your own pace.
+this is a 5 minute link dump about my special interest.
+with a surprise demo!
+
+<span class="k">*</span><span class="w"> </span>w3c accessibility standards
+<span class="k">*</span><span class="w"> </span>accessibility auditing tools and practices
+<span class="k">*</span><span class="w"> </span>language used in the accessibility circles
+<span class="k">*</span><span class="w"> </span>how disability impacts us all.
+
+&lt;figure markdown&gt;
+    
+![<span class="nt">image.png</span>](<span class="na">attachment:4d2af2cf-f339-4de6-9f04-a447f96fb5e6.png "qrcode to tonyfast.github.io"</span>)
+
+&lt;figcaption markdown&gt;
+
+<span class="gu">## history </span>
+
+<span class="k">*</span><span class="w"> </span>[<span class="nt">original content developed for pycascades 2023 lightning talks</span>](<span class="na">https://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.htmlhttps://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.html</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">updated for bellingham codes on 7/6</span>](<span class="na">https://www.meetup.com/bellinghamcodes/events/294458693/</span>)
+
+&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+
+&lt;form id="controls"&gt;    
+    &lt;label for="run"&gt;🏃&lt;/label&gt;&lt;button id="run" data-commandlinker-command="notebook:run-all-cells"&gt;run all&lt;/button&gt;
+    &lt;label for="doc"&gt;🖹&lt;/label&gt;&lt;button id="doc" data-commandlinker-command="application:toggle-mode"&gt;document mode&lt;/button&gt;
+    &lt;label for="prez"&gt;📽&lt;/label&gt;&lt;button id="prez" data-commandlinker-command="application:toggle-presentation-mode"&gt;presentation mode&lt;/button&gt;
+    &lt;label for="collapse"&gt;&minusb;&lt;/label&gt;&lt;button id="collapse" data-commandlinker-command="notebook:hide-all-cell-code"&gt;collapse all the code&lt;/button&gt;
+    &lt;br/&gt;
+    &lt;label for="expand"&gt;&plusb;&lt;/label&gt;&lt;button id="expand" data-commandlinker-command="notebook:show-all-cell-code"&gt;expand all the code&lt;/button&gt;
+    &lt;button data-commandlinker-command="deck:toggle"&gt;&lt;code&gt;jupyterlab-deck&lt;/code&gt;&lt;/button&gt;
+    &lt;button data-commandlinker-command="notebook:render-with-voila"&gt;&lt;code&gt;voila&lt;/code&gt;&lt;/button&gt;
+    &lt;label for="inspectoropen"&gt;🔍&lt;/label&gt;&lt;button id="inspectoropen" data-commandlinker-command="inspector:open"&gt;inspector&lt;/button&gt;
+    &lt;label title="open side by side view" for="right"&gt;👯&lt;/label&gt;&lt;button id="right" data-commandlinker-command="notebook:toggle-render-side-by-side-current"&gt;side-by-side&lt;/button&gt;
+&lt;/form&gt;
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'execution': {'iopub.execute_input': '2023-03-18T21:39:19.582697Z', 'iopub.status.busy': '2023-03-18T21:39:19.582528Z', 'iopub.status.idle': '2023-03-18T21:39:19.587234Z', 'shell.execute_reply': '2023-03-18T21:39:19.586509Z', 'shell.execute_reply.started': '2023-03-18T21:39:19.582684Z'}, 'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h1 id="a-crash-course-in-digital-accessibility"><a href="#a-crash-course-in-digital-accessibility">A Crash Course in Digital Accessibility</a></h1>\n<p>this document is full of links for you to visit later, and learn at your own pace.\nthis is a 5 minute link dump about my special interest.\nwith a surprise demo!</p>\n<ul>\n<li>w3c accessibility standards</li>\n<li>accessibility auditing tools and practices</li>\n<li>language used in the accessibility circles</li>\n<li>how disability impacts us all.</li>\n</ul>\n<figure markdown>\n<p><img alt="image.png" src="attachment:4d2af2cf-f339-4de6-9f04-a447f96fb5e6.png" title="qrcode to tonyfast.github.io"></p>\n<figcaption markdown>\n<h2 id="history"><a href="#history">history</a></h2>\n<ul>\n<li><a href="https://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.htmlhttps://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.html">original content developed for pycascades 2023 lightning talks</a></li>\n<li><a href="https://www.meetup.com/bellinghamcodes/events/294458693/">updated for bellingham codes on 7/6</a></li>\n</ul>\n</figcaption>\n</figure>\n    \n    <label for="run">🏃</label><button data-commandlinker-command="notebook:run-all-cells" id="run">run all</button>\n    <label for="doc">🖹</label><button data-commandlinker-command="application:toggle-mode" id="doc">document mode</button>\n    <label for="prez">📽</label><button data-commandlinker-command="application:toggle-presentation-mode" id="prez">presentation mode</button>\n    <label for="collapse">&minusb;</label><button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse">collapse all the code</button>\n    <br>\n    <label for="expand">&plusb;</label><button data-commandlinker-command="notebook:show-all-cell-code" id="expand">expand all the code</button>\n    <button data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button>\n    <button data-commandlinker-command="notebook:render-with-voila"><code>voila</code></button>\n    <label for="inspectoropen">🔍</label><button data-commandlinker-command="inspector:open" id="inspectoropen">inspector</button>\n    <label for="right" title="open side by side view">👯</label><button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right">side-by-side</button>\n\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       38
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="a-crash-course-in-digital-accessibility">
+        <a href="#a-crash-course-in-digital-accessibility">
+         A Crash Course in Digital Accessibility
+        </a>
+       </h1>
+       <p>
+        this document is full of links for you to visit later, and learn at your own pace.
+this is a 5 minute link dump about my special interest.
+with a surprise demo!
+       </p>
+       <ul>
+        <li>
+         w3c accessibility standards
+        </li>
+        <li>
+         accessibility auditing tools and practices
+        </li>
+        <li>
+         language used in the accessibility circles
+        </li>
+        <li>
+         how disability impacts us all.
+        </li>
+       </ul>
+       <figure markdown>
+        <p>
+         <img alt="image.png" src="attachment:4d2af2cf-f339-4de6-9f04-a447f96fb5e6.png" title="qrcode to tonyfast.github.io">
+        </p>
+        <figcaption markdown>
+         <h2 id="history">
+          <a href="#history">
+           history
+          </a>
+         </h2>
+         <ul>
+          <li>
+           <a href="https://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.htmlhttps://tonyfast.github.io/tonyfast/xxiii/2023-03-18-pycascades-ally-talk.html">
+            original content developed for pycascades 2023 lightning talks
+           </a>
+          </li>
+          <li>
+           <a href="https://www.meetup.com/bellinghamcodes/events/294458693/">
+            updated for bellingham codes on 7/6
+           </a>
+          </li>
+         </ul>
+        </figcaption>
+       </figure>
+       <form id="controls">
+        <label for="run">
+         🏃
+        </label>
+        <button data-commandlinker-command="notebook:run-all-cells" id="run">
+         run all
+        </button>
+        <label for="doc">
+         🖹
+        </label>
+        <button data-commandlinker-command="application:toggle-mode" id="doc">
+         document mode
+        </button>
+        <label for="prez">
+         📽
+        </label>
+        <button data-commandlinker-command="application:toggle-presentation-mode" id="prez">
+         presentation mode
+        </button>
+        <label for="collapse">
+         &minusb;
+        </label>
+        <button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse">
+         collapse all the code
+        </button>
+        <br>
+        <label for="expand">
+         &plusb;
+        </label>
+        <button data-commandlinker-command="notebook:show-all-cell-code" id="expand">
+         expand all the code
+        </button>
+        <button data-commandlinker-command="deck:toggle">
+         <code>
+          jupyterlab-deck
+         </code>
+        </button>
+        <button data-commandlinker-command="notebook:render-with-voila">
+         <code>
+          voila
+         </code>
+        </button>
+        <label for="inspectoropen">
+         🔍
+        </label>
+        <button data-commandlinker-command="inspector:open" id="inspectoropen">
+         inspector
+        </button>
+        <label for="right" title="open side by side view">
+         👯
+        </label>
+        <button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right">
+         side-by-side
+        </button>
+       </form>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="2" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="nb-code-label nb-cell-label cell-2-loc nb-loc-label
+    cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-2-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-source-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    
+    %reload_ext pidgy</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    
+    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'skip'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       2
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div hidden>
+         <pre><code>%reload_ext pidgy
+</code></pre>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="12" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="nb-code-label nb-cell-label cell-3-loc nb-loc-label
+    cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-3-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-source-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="12">## WHO global disability stats
+
+&lt;blockquote cite="https://www.who.int/news-room/fact-sheets/detail/disability-and-health" markdown=""&gt;
+
+* An estimated 1.3 billion people experience significant disability. This represents 16% of the world&rsquo;s population, or 1 in 6 of us.
+* Some persons with disabilities die up to 20 years earlier than those without disabilities.
+* Persons with disabilities have twice the risk of developing conditions such as depression, asthma, diabetes, stroke, obesity or poor oral health.
+* Persons with disabilities face many health inequities.
+* Persons with disabilities find inaccessible and unaffordable transportation 15 times more difficult than for those without disabilities.
+* Health inequities arise from unfair conditions faced by persons with disabilities, including stigma, discrimination, poverty, exclusion from education and employment, and barriers faced in the health system itself.
+
+&lt;/blockquote&gt;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## WHO global disability stats</span>
+
+<span class="o">&lt;</span><span class="n">blockquote</span> <span class="n">markdown</span> <span class="n">cite</span><span class="o">=</span><span class="s2">"https://www.who.int/news-room/fact-sheets/detail/disability-and-health"</span><span class="o">&gt;</span>
+
+<span class="o">*</span> <span class="n">An</span> <span class="n">estimated</span> <span class="mf">1.3</span> <span class="n">billion</span> <span class="n">people</span> <span class="n">experience</span> <span class="n">significant</span> <span class="n">disability</span><span class="o">.</span> <span class="n">This</span> <span class="n">represents</span> <span class="mi">16</span><span class="o">%</span> <span class="n">of</span> <span class="n">the</span> <span class="n">world</span><span class="err">&rsquo;</span><span class="n">s</span> <span class="n">population</span><span class="p">,</span> <span class="ow">or</span> <span class="mi">1</span> <span class="ow">in</span> <span class="mi">6</span> <span class="n">of</span> <span class="n">us</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Some</span> <span class="n">persons</span> <span class="k">with</span> <span class="n">disabilities</span> <span class="n">die</span> <span class="n">up</span> <span class="n">to</span> <span class="mi">20</span> <span class="n">years</span> <span class="n">earlier</span> <span class="n">than</span> <span class="n">those</span> <span class="n">without</span> <span class="n">disabilities</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Persons</span> <span class="k">with</span> <span class="n">disabilities</span> <span class="n">have</span> <span class="n">twice</span> <span class="n">the</span> <span class="n">risk</span> <span class="n">of</span> <span class="n">developing</span> <span class="n">conditions</span> <span class="n">such</span> <span class="k">as</span> <span class="n">depression</span><span class="p">,</span> <span class="n">asthma</span><span class="p">,</span> <span class="n">diabetes</span><span class="p">,</span> <span class="n">stroke</span><span class="p">,</span> <span class="n">obesity</span> <span class="ow">or</span> <span class="n">poor</span> <span class="n">oral</span> <span class="n">health</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Persons</span> <span class="k">with</span> <span class="n">disabilities</span> <span class="n">face</span> <span class="n">many</span> <span class="n">health</span> <span class="n">inequities</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Persons</span> <span class="k">with</span> <span class="n">disabilities</span> <span class="n">find</span> <span class="n">inaccessible</span> <span class="ow">and</span> <span class="n">unaffordable</span> <span class="n">transportation</span> <span class="mi">15</span> <span class="n">times</span> <span class="n">more</span> <span class="n">difficult</span> <span class="n">than</span> <span class="k">for</span> <span class="n">those</span> <span class="n">without</span> <span class="n">disabilities</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Health</span> <span class="n">inequities</span> <span class="n">arise</span> <span class="kn">from</span> <span class="nn">unfair</span> <span class="n">conditions</span> <span class="n">faced</span> <span class="n">by</span> <span class="n">persons</span> <span class="k">with</span> <span class="n">disabilities</span><span class="p">,</span> <span class="n">including</span> <span class="n">stigma</span><span class="p">,</span> <span class="n">discrimination</span><span class="p">,</span> <span class="n">poverty</span><span class="p">,</span> <span class="n">exclusion</span> <span class="kn">from</span> <span class="nn">education</span> <span class="ow">and</span> <span class="n">employment</span><span class="p">,</span> <span class="ow">and</span> <span class="n">barriers</span> <span class="n">faced</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">health</span> <span class="n">system</span> <span class="n">itself</span><span class="o">.</span>
+
+<span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       12
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-3-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="who-global-disability-stats">
+         <a href="#who-global-disability-stats">
+          WHO global disability stats
+         </a>
+        </h2>
+        <blockquote cite="https://www.who.int/news-room/fact-sheets/detail/disability-and-health" markdown>
+         <ul>
+          <li>
+           An estimated 1.3 billion people experience significant disability. This represents 16% of the world&rsquo;s population, or 1 in 6 of us.
+          </li>
+          <li>
+           Some persons with disabilities die up to 20 years earlier than those without disabilities.
+          </li>
+          <li>
+           Persons with disabilities have twice the risk of developing conditions such as depression, asthma, diabetes, stroke, obesity or poor oral health.
+          </li>
+          <li>
+           Persons with disabilities face many health inequities.
+          </li>
+          <li>
+           Persons with disabilities find inaccessible and unaffordable transportation 15 times more difficult than for those without disabilities.
+          </li>
+          <li>
+           Health inequities arise from unfair conditions faced by persons with disabilities, including stigma, discrimination, poverty, exclusion from education and employment, and barriers faced in the health system itself.
+          </li>
+         </ul>
+        </blockquote>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="7" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-4-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-source-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="7">## forms of disability
+
+
+
+![](https://trailheadtechnology.com/wp-content/uploads/2021/02/BlogImage1.png "an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)")
+
+from [microsoft inclusive design](https://inclusive.microsoft.design/)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## forms of disability</span>
+
+
+
+![](https://trailheadtechnology.com/wp-content/uploads/2021/02/BlogImage1.png "an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)")
+
+from [<span class="nt">microsoft inclusive design</span>](<span class="na">https://inclusive.microsoft.design/</span>)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="forms-of-disability"><a href="#forms-of-disability">forms of disability</a></h2>\n<p><img alt src="https://trailheadtechnology.com/wp-content/uploads/2021/02/BlogImage1.png" title="an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)"></p>\n<p>from <a href="https://inclusive.microsoft.design/">microsoft inclusive design</a></p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       7
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="forms-of-disability">
+        <a href="#forms-of-disability">
+         forms of disability
+        </a>
+       </h2>
+       <p>
+        <img alt src="https://trailheadtechnology.com/wp-content/uploads/2021/02/BlogImage1.png" title="an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)an illustration about the physical axes of disability (ie touch see hear speak) and the temporal axes(ie permanent temporary sitational)">
+       </p>
+       <p>
+        from
+        <a href="https://inclusive.microsoft.design/">
+         microsoft inclusive design
+        </a>
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="41" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="nb-code-label nb-cell-label cell-5-loc nb-loc-label
+    cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-5-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         3
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-source-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="41">
+### wcag __principles__ and _guidelines_
+
+&lt;figure markdown=""&gt;
+
+&lt;figcaption&gt;
+
+&lt;abbr title="percievable operable understandable robust"&gt;POUR&lt;/abbr&gt; principles and guidelines for accessible applications
+
+&lt;/figcaption&gt;
+
+* Operable
+  * _Keyboard Accessible_
+  * _Enough Time_
+  * _Seizures_
+  * _Navigable_
+  * _Input Modalities_
+* Perceivable
+  * _Text Alternatives_
+  * _Time-based Media_
+  * _Adaptable_
+  * _Distinguishable_
+* Robust
+  * _Compatible_
+* Understandable
+  * _Readable_
+  * _Predictable_
+  * _Input Assistance_
+
+&lt;/figure&gt;
+
+&lt;details markdown=""&gt;
+
+&lt;summary&gt;Compromising, Assistive, Flexible&lt;/summary&gt;
+
+* Compromising: Information flows must provide transparency, tolerance, and consideration for different ways that users with assistive technologies and disabilities will prefer to consume different information.
+* Assistive: Interface must be intelligent and multi-sensory in a way that reduces the cognitive and functional labor required for use.
+* Flexible: Design must respect user settings from user agents (browsers, operating systems, applications) and provide presentation and operation control.                                                                                                                              
+
+[POUR-CAF Principles](https://github.com/Chartability/POUR-CAF) for data experiences.
+&lt;/details&gt;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### wcag __principles__ and _guidelines_</span>
+
+<span class="o">&lt;</span><span class="n">figure</span> <span class="n">markdown</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"percievable operable understandable robust"</span><span class="o">&gt;</span><span class="n">POUR</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="n">principles</span> <span class="ow">and</span> <span class="n">guidelines</span> <span class="k">for</span> <span class="n">accessible</span> <span class="n">applications</span>
+
+<span class="o">&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
+
+<span class="o">*</span> <span class="n">Operable</span>
+  <span class="o">*</span> <span class="n">_Keyboard</span> <span class="n">Accessible_</span>
+  <span class="o">*</span> <span class="n">_Enough</span> <span class="n">Time_</span>
+  <span class="o">*</span> <span class="n">_Seizures_</span>
+  <span class="o">*</span> <span class="n">_Navigable_</span>
+  <span class="o">*</span> <span class="n">_Input</span> <span class="n">Modalities_</span>
+<span class="o">*</span> <span class="n">Perceivable</span>
+  <span class="o">*</span> <span class="n">_Text</span> <span class="n">Alternatives_</span>
+  <span class="o">*</span> <span class="n">_Time</span><span class="o">-</span><span class="n">based</span> <span class="n">Media_</span>
+  <span class="o">*</span> <span class="n">_Adaptable_</span>
+  <span class="o">*</span> <span class="n">_Distinguishable_</span>
+<span class="o">*</span> <span class="n">Robust</span>
+  <span class="o">*</span> <span class="n">_Compatible_</span>
+<span class="o">*</span> <span class="n">Understandable</span>
+  <span class="o">*</span> <span class="n">_Readable_</span>
+  <span class="o">*</span> <span class="n">_Predictable_</span>
+  <span class="o">*</span> <span class="n">_Input</span> <span class="n">Assistance_</span>
+
+<span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">details</span> <span class="n">markdown</span><span class="o">&gt;</span>
+
+<span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="n">Compromising</span><span class="p">,</span> <span class="n">Assistive</span><span class="p">,</span> <span class="n">Flexible</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
+
+<span class="o">*</span> <span class="n">Compromising</span><span class="p">:</span> <span class="n">Information</span> <span class="n">flows</span> <span class="n">must</span> <span class="n">provide</span> <span class="n">transparency</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="ow">and</span> <span class="n">consideration</span> <span class="k">for</span> <span class="n">different</span> <span class="n">ways</span> <span class="n">that</span> <span class="n">users</span> <span class="k">with</span> <span class="n">assistive</span> <span class="n">technologies</span> <span class="ow">and</span> <span class="n">disabilities</span> <span class="n">will</span> <span class="n">prefer</span> <span class="n">to</span> <span class="n">consume</span> <span class="n">different</span> <span class="n">information</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Assistive</span><span class="p">:</span> <span class="n">Interface</span> <span class="n">must</span> <span class="n">be</span> <span class="n">intelligent</span> <span class="ow">and</span> <span class="n">multi</span><span class="o">-</span><span class="n">sensory</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">way</span> <span class="n">that</span> <span class="n">reduces</span> <span class="n">the</span> <span class="n">cognitive</span> <span class="ow">and</span> <span class="n">functional</span> <span class="n">labor</span> <span class="n">required</span> <span class="k">for</span> <span class="n">use</span><span class="o">.</span>
+<span class="o">*</span> <span class="n">Flexible</span><span class="p">:</span> <span class="n">Design</span> <span class="n">must</span> <span class="n">respect</span> <span class="n">user</span> <span class="n">settings</span> <span class="kn">from</span> <span class="nn">user</span> <span class="n">agents</span> <span class="p">(</span><span class="n">browsers</span><span class="p">,</span> <span class="n">operating</span> <span class="n">systems</span><span class="p">,</span> <span class="n">applications</span><span class="p">)</span> <span class="ow">and</span> <span class="n">provide</span> <span class="n">presentation</span> <span class="ow">and</span> <span class="n">operation</span> <span class="n">control</span><span class="o">.</span>                                                                                                                              
+
+<span class="p">[</span><span class="n">POUR</span><span class="o">-</span><span class="n">CAF</span> <span class="n">Principles</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">Chartability</span><span class="o">/</span><span class="n">POUR</span><span class="o">-</span><span class="n">CAF</span><span class="p">)</span> <span class="k">for</span> <span class="n">data</span> <span class="n">experiences</span><span class="o">.</span>
+<span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       41
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          3
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div hidden>
+         <h3>
+          <a href="#wcag-principles-and-guidelines">
+           wcag principles and guidelines
+          </a>
+         </h3>
+         <figure markdown>
+          <figcaption>
+           <p>
+            <abbr title="percievable operable understandable robust">
+             POUR
+            </abbr>
+            principles and guidelines for accessible applications
+           </p>
+          </figcaption>
+          <ul>
+           <li>
+            Operable
+            <ul>
+             <li>
+              <em>
+               Keyboard Accessible
+              </em>
+             </li>
+             <li>
+              <em>
+               Enough Time
+              </em>
+             </li>
+             <li>
+              <em>
+               Seizures
+              </em>
+             </li>
+             <li>
+              <em>
+               Navigable
+              </em>
+             </li>
+             <li>
+              <em>
+               Input Modalities
+              </em>
+             </li>
+            </ul>
+           </li>
+           <li>
+            Perceivable
+            <ul>
+             <li>
+              <em>
+               Text Alternatives
+              </em>
+             </li>
+             <li>
+              <em>
+               Time-based Media
+              </em>
+             </li>
+             <li>
+              <em>
+               Adaptable
+              </em>
+             </li>
+             <li>
+              <em>
+               Distinguishable
+              </em>
+             </li>
+            </ul>
+           </li>
+           <li>
+            Robust
+            <ul>
+             <li>
+              <em>
+               Compatible
+              </em>
+             </li>
+            </ul>
+           </li>
+           <li>
+            Understandable
+            <ul>
+             <li>
+              <em>
+               Readable
+              </em>
+             </li>
+             <li>
+              <em>
+               Predictable
+              </em>
+             </li>
+             <li>
+              <em>
+               Input Assistance
+              </em>
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </figure>
+         <details markdown>
+          <summary>
+           Compromising, Assistive, Flexible
+          </summary>
+          <ul>
+           <li>
+            Compromising: Information flows must provide transparency, tolerance, and consideration for different ways that users with assistive technologies and disabilities will prefer to consume different information.
+           </li>
+           <li>
+            Assistive: Interface must be intelligent and multi-sensory in a way that reduces the cognitive and functional labor required for use.
+           </li>
+           <li>
+            Flexible: Design must respect user settings from user agents (browsers, operating systems, applications) and provide presentation and operation control.
+           </li>
+          </ul>
+          <p>
+           <a href="https://github.com/Chartability/POUR-CAF">
+            POUR-CAF Principles
+           </a>
+           for data experiences.
+          </p>
+         </details>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="26" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
+    cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-6-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         4
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-source-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="26">### practical wuh-cag guidelines
+
+&lt;figure markdown=""&gt;
+&lt;figcaption markdown=""&gt;
+
+summarized guidelines on the [wcag wikipedia](https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines)
+
+&lt;/figcaption&gt;
+&lt;blockquote cite="https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines" markdown=""&gt;
+
+* Guideline 1: Provide equivalent alternatives to auditory and visual content
+* Guideline 2: Don't rely on colour alone
+* Guideline 3: Use markup and style sheets, and do so properly
+* Guideline 4: Clarify natural language usage
+* Guideline 5: Create tables that transform gracefully
+* Guideline 6: Ensure that pages featuring new technologies transform gracefully
+* Guideline 7: Ensure user control of time sensitive content changes
+* Guideline 8: Ensure direct accessibility of embedded user interfaces
+* Guideline 9: Design for device independence
+* Guideline 10: User interim solutions
+* Guideline 11: Use W3C technologies and guidelines
+* Guideline 12: Provide context and orientation information
+* Guideline 13: Provide clear navigation mechanisms
+* Guideline 14: Ensure that documents are clear and simple
+
+&lt;/blockquote&gt;&lt;/figure&gt;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### practical wuh-cag guidelines</span>
+
+<span class="o">&lt;</span><span class="n">figure</span> <span class="n">markdown</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">figcaption</span> <span class="n">markdown</span><span class="o">&gt;</span>
+
+<span class="n">summarized</span> <span class="n">guidelines</span> <span class="n">on</span> <span class="n">the</span> <span class="p">[</span><span class="n">wcag</span> <span class="n">wikipedia</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">Web_Content_Accessibility_Guidelines</span><span class="p">)</span>
+
+<span class="o">&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">blockquote</span> <span class="n">markdown</span> <span class="n">cite</span><span class="o">=</span><span class="s2">"https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines"</span><span class="o">&gt;</span>
+
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">1</span><span class="p">:</span> <span class="n">Provide</span> <span class="n">equivalent</span> <span class="n">alternatives</span> <span class="n">to</span> <span class="n">auditory</span> <span class="ow">and</span> <span class="n">visual</span> <span class="n">content</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">2</span><span class="p">:</span> <span class="n">Don</span><span class="s1">'t rely on colour alone</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">3</span><span class="p">:</span> <span class="n">Use</span> <span class="n">markup</span> <span class="ow">and</span> <span class="n">style</span> <span class="n">sheets</span><span class="p">,</span> <span class="ow">and</span> <span class="n">do</span> <span class="n">so</span> <span class="n">properly</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">4</span><span class="p">:</span> <span class="n">Clarify</span> <span class="n">natural</span> <span class="n">language</span> <span class="n">usage</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">5</span><span class="p">:</span> <span class="n">Create</span> <span class="n">tables</span> <span class="n">that</span> <span class="n">transform</span> <span class="n">gracefully</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">6</span><span class="p">:</span> <span class="n">Ensure</span> <span class="n">that</span> <span class="n">pages</span> <span class="n">featuring</span> <span class="n">new</span> <span class="n">technologies</span> <span class="n">transform</span> <span class="n">gracefully</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">7</span><span class="p">:</span> <span class="n">Ensure</span> <span class="n">user</span> <span class="n">control</span> <span class="n">of</span> <span class="n">time</span> <span class="n">sensitive</span> <span class="n">content</span> <span class="n">changes</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">8</span><span class="p">:</span> <span class="n">Ensure</span> <span class="n">direct</span> <span class="n">accessibility</span> <span class="n">of</span> <span class="n">embedded</span> <span class="n">user</span> <span class="n">interfaces</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">9</span><span class="p">:</span> <span class="n">Design</span> <span class="k">for</span> <span class="n">device</span> <span class="n">independence</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">10</span><span class="p">:</span> <span class="n">User</span> <span class="n">interim</span> <span class="n">solutions</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">11</span><span class="p">:</span> <span class="n">Use</span> <span class="n">W3C</span> <span class="n">technologies</span> <span class="ow">and</span> <span class="n">guidelines</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">12</span><span class="p">:</span> <span class="n">Provide</span> <span class="n">context</span> <span class="ow">and</span> <span class="n">orientation</span> <span class="n">information</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">13</span><span class="p">:</span> <span class="n">Provide</span> <span class="n">clear</span> <span class="n">navigation</span> <span class="n">mechanisms</span>
+<span class="o">*</span> <span class="n">Guideline</span> <span class="mi">14</span><span class="p">:</span> <span class="n">Ensure</span> <span class="n">that</span> <span class="n">documents</span> <span class="n">are</span> <span class="n">clear</span> <span class="ow">and</span> <span class="n">simple</span>
+
+<span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       26
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-6-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          4
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#practical-wuh-cag-guidelines">
+          practical wuh-cag guidelines
+         </a>
+        </h3>
+        <figure markdown>
+         <figcaption markdown>
+          <p>
+           summarized guidelines on the
+           <a href="https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines">
+            wcag wikipedia
+           </a>
+          </p>
+         </figcaption>
+         <blockquote cite="https://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines" markdown>
+          <ul>
+           <li>
+            Guideline 1: Provide equivalent alternatives to auditory and visual content
+           </li>
+           <li>
+            Guideline 2: Don't rely on colour alone
+           </li>
+           <li>
+            Guideline 3: Use markup and style sheets, and do so properly
+           </li>
+           <li>
+            Guideline 4: Clarify natural language usage
+           </li>
+           <li>
+            Guideline 5: Create tables that transform gracefully
+           </li>
+           <li>
+            Guideline 6: Ensure that pages featuring new technologies transform gracefully
+           </li>
+           <li>
+            Guideline 7: Ensure user control of time sensitive content changes
+           </li>
+           <li>
+            Guideline 8: Ensure direct accessibility of embedded user interfaces
+           </li>
+           <li>
+            Guideline 9: Design for device independence
+           </li>
+           <li>
+            Guideline 10: User interim solutions
+           </li>
+           <li>
+            Guideline 11: Use W3C technologies and guidelines
+           </li>
+           <li>
+            Guideline 12: Provide context and orientation information
+           </li>
+           <li>
+            Guideline 13: Provide clear navigation mechanisms
+           </li>
+           <li>
+            Guideline 14: Ensure that documents are clear and simple
+           </li>
+          </ul>
+         </blockquote>
+        </figure>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="16" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="7" aria-describedby="nb-code-label nb-cell-label cell-7-loc nb-loc-label
+    cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+        7
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-7-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         5
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-7-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-7-source-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-7-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-7-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="16">## alphabet soup of accessibility web standards
+
+documentation! web apps! reports! anything in the browser! [video games!](https://gameaccessibilityguidelines.com/)
+
+* &lt;abbr title="web accessibility initiative"&gt;WAI&lt;/abbr&gt; [web accessibility initiative](https://www.w3.org/WAI/)
+* &lt;abbr title="web content accessibility guidelines"&gt;WCAG&lt;/abbr&gt; [web content accessibility guidelines](https://www.w3.org/WAI/standards-guidelines/)
+* &lt;abbr title="accessible rich internet applications"&gt;ARIA&lt;/abbr&gt; [accessible rich internet applications](https://www.w3.org/WAI/standards-guidelines/aria/)
+
+  &gt; [no aria is better than bad aria.](https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/)
+
+* &lt;abbr title="ARIA Authoring Practices Guide"&gt;APG&lt;/abbr&gt; [aria authoring practices guide](https://www.w3.org/WAI/ARIA/apg/patterns/)
+* &lt;abbr title="accessibility conformance testing"&gt;ACT&lt;/abbr&gt; [accessibility conformance testing](https://www.w3.org/WAI/standards-guidelines/act/rules/)
+* &lt;abbr title="accessibility object model"&gt;AOM&lt;/abbr&gt; [accessibility object model](https://wicg.github.io/aom/spec/)
+* &lt;abbr title="Authoring Tool Accessibility Guidelines"&gt;ATAG&lt;/abbr&gt; [authoring tool accessibility guidelines](https://www.w3.org/WAI/standards-guidelines/atag/)
+* 🆕 [Cognitive Accessibility at W3C](https://www.w3.org/WAI/cognitive/)
+
+</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## alphabet soup of accessibility web standards</span>
+
+<span class="n">documentation</span><span class="err">!</span> <span class="n">web</span> <span class="n">apps</span><span class="err">!</span> <span class="n">reports</span><span class="err">!</span> <span class="n">anything</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">browser</span><span class="err">!</span> <span class="p">[</span><span class="n">video</span> <span class="n">games</span><span class="err">!</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gameaccessibilityguidelines</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="p">)</span>
+
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"web accessibility initiative"</span><span class="o">&gt;</span><span class="n">WAI</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">web</span> <span class="n">accessibility</span> <span class="n">initiative</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"web content accessibility guidelines"</span><span class="o">&gt;</span><span class="n">WCAG</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">web</span> <span class="n">content</span> <span class="n">accessibility</span> <span class="n">guidelines</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">standards</span><span class="o">-</span><span class="n">guidelines</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"accessible rich internet applications"</span><span class="o">&gt;</span><span class="n">ARIA</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">accessible</span> <span class="n">rich</span> <span class="n">internet</span> <span class="n">applications</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">standards</span><span class="o">-</span><span class="n">guidelines</span><span class="o">/</span><span class="n">aria</span><span class="o">/</span><span class="p">)</span>
+
+  <span class="o">&gt;</span> <span class="p">[</span><span class="n">no</span> <span class="n">aria</span> <span class="ow">is</span> <span class="n">better</span> <span class="n">than</span> <span class="n">bad</span> <span class="n">aria</span><span class="o">.</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">ARIA</span><span class="o">/</span><span class="n">apg</span><span class="o">/</span><span class="n">practices</span><span class="o">/</span><span class="n">read</span><span class="o">-</span><span class="n">me</span><span class="o">-</span><span class="n">first</span><span class="o">/</span><span class="p">)</span>
+
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"ARIA Authoring Practices Guide"</span><span class="o">&gt;</span><span class="n">APG</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">aria</span> <span class="n">authoring</span> <span class="n">practices</span> <span class="n">guide</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">ARIA</span><span class="o">/</span><span class="n">apg</span><span class="o">/</span><span class="n">patterns</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"accessibility conformance testing"</span><span class="o">&gt;</span><span class="n">ACT</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">accessibility</span> <span class="n">conformance</span> <span class="n">testing</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">standards</span><span class="o">-</span><span class="n">guidelines</span><span class="o">/</span><span class="n">act</span><span class="o">/</span><span class="n">rules</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"accessibility object model"</span><span class="o">&gt;</span><span class="n">AOM</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">accessibility</span> <span class="nb">object</span> <span class="n">model</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">wicg</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">aom</span><span class="o">/</span><span class="n">spec</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"Authoring Tool Accessibility Guidelines"</span><span class="o">&gt;</span><span class="n">ATAG</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">authoring</span> <span class="n">tool</span> <span class="n">accessibility</span> <span class="n">guidelines</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">standards</span><span class="o">-</span><span class="n">guidelines</span><span class="o">/</span><span class="n">atag</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="err">🆕</span> <span class="p">[</span><span class="n">Cognitive</span> <span class="n">Accessibility</span> <span class="n">at</span> <span class="n">W3C</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">WAI</span><span class="o">/</span><span class="n">cognitive</span><span class="o">/</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-7-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-7-loc" role="none">
+       16
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-7-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          5
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="alphabet-soup-of-accessibility-web-standards">
+         <a href="#alphabet-soup-of-accessibility-web-standards">
+          alphabet soup of accessibility web standards
+         </a>
+        </h2>
+        <p>
+         documentation! web apps! reports! anything in the browser!
+         <a href="https://gameaccessibilityguidelines.com/">
+          video games!
+         </a>
+        </p>
+        <ul>
+         <li>
+          <p>
+           <abbr title="web accessibility initiative">
+            WAI
+           </abbr>
+           <a href="https://www.w3.org/WAI/">
+            web accessibility initiative
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           <abbr title="web content accessibility guidelines">
+            WCAG
+           </abbr>
+           <a href="https://www.w3.org/WAI/standards-guidelines/">
+            web content accessibility guidelines
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           <abbr title="accessible rich internet applications">
+            ARIA
+           </abbr>
+           <a href="https://www.w3.org/WAI/standards-guidelines/aria/">
+            accessible rich internet applications
+           </a>
+          </p>
+          <blockquote>
+           <p>
+            <a href="https://www.w3.org/WAI/ARIA/apg/practices/read-me-first/">
+             no aria is better than bad aria.
+            </a>
+           </p>
+          </blockquote>
+         </li>
+         <li>
+          <p>
+           <abbr title="ARIA Authoring Practices Guide">
+            APG
+           </abbr>
+           <a href="https://www.w3.org/WAI/ARIA/apg/patterns/">
+            aria authoring practices guide
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           <abbr title="accessibility conformance testing">
+            ACT
+           </abbr>
+           <a href="https://www.w3.org/WAI/standards-guidelines/act/rules/">
+            accessibility conformance testing
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           <abbr title="accessibility object model">
+            AOM
+           </abbr>
+           <a href="https://wicg.github.io/aom/spec/">
+            accessibility object model
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           <abbr title="Authoring Tool Accessibility Guidelines">
+            ATAG
+           </abbr>
+           <a href="https://www.w3.org/WAI/standards-guidelines/atag/">
+            authoring tool accessibility guidelines
+           </a>
+          </p>
+         </li>
+         <li>
+          <p>
+           🆕
+           <a href="https://www.w3.org/WAI/cognitive/">
+            Cognitive Accessibility at W3C
+           </a>
+          </p>
+         </li>
+        </ul>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="8" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="8" aria-describedby="nb-code-label nb-cell-label cell-8-loc nb-loc-label
+    cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+        8
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-8-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         6
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-8-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-8-source-label" class="nb-toolbar" hidden id="cell-8" name="cell-8">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-8-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-8-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="8">## auditting accessibility
+
+where applicable, build the accessibility floor by using these in ci.
+
+* 👋 [Deque Labs Axe](https://github.com/dequelabs/axe-core)
+* 👋 [IBM Equal Access](https://github.com/IBMa/equal-access/tree/master)
+* 👋 [WAVE accessibility evaluator](https://wave.webaim.org/extension/)
+* [W3C markup validator](https://validator.w3.org/)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## auditting accessibility</span>
+
+<span class="n">where</span> <span class="n">applicable</span><span class="p">,</span> <span class="n">build</span> <span class="n">the</span> <span class="n">accessibility</span> <span class="n">floor</span> <span class="n">by</span> <span class="n">using</span> <span class="n">these</span> <span class="ow">in</span> <span class="n">ci</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="err">👋</span> <span class="p">[</span><span class="n">Deque</span> <span class="n">Labs</span> <span class="n">Axe</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">dequelabs</span><span class="o">/</span><span class="n">axe</span><span class="o">-</span><span class="n">core</span><span class="p">)</span>
+<span class="o">*</span> <span class="err">👋</span> <span class="p">[</span><span class="n">IBM</span> <span class="n">Equal</span> <span class="n">Access</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">IBMa</span><span class="o">/</span><span class="n">equal</span><span class="o">-</span><span class="n">access</span><span class="o">/</span><span class="n">tree</span><span class="o">/</span><span class="n">master</span><span class="p">)</span>
+<span class="o">*</span> <span class="err">👋</span> <span class="p">[</span><span class="n">WAVE</span> <span class="n">accessibility</span> <span class="n">evaluator</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">wave</span><span class="o">.</span><span class="n">webaim</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">extension</span><span class="o">/</span><span class="p">)</span>
+<span class="o">*</span> <span class="p">[</span><span class="n">W3C</span> <span class="n">markup</span> <span class="n">validator</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">validator</span><span class="o">.</span><span class="n">w3</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-8-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-8" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-8-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-8-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-8-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-8-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          6
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="auditting-accessibility">
+         <a href="#auditting-accessibility">
+          auditting accessibility
+         </a>
+        </h2>
+        <p>
+         where applicable, build the accessibility floor by using these in ci.
+        </p>
+        <ul>
+         <li>
+          👋
+          <a href="https://github.com/dequelabs/axe-core">
+           Deque Labs Axe
+          </a>
+         </li>
+         <li>
+          👋
+          <a href="https://github.com/IBMa/equal-access/tree/master">
+           IBM Equal Access
+          </a>
+         </li>
+         <li>
+          👋
+          <a href="https://wave.webaim.org/extension/">
+           WAVE accessibility evaluator
+          </a>
+         </li>
+         <li>
+          <a href="https://validator.w3.org/">
+           W3C markup validator
+          </a>
+         </li>
+        </ul>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="14" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
+        9
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-9-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-9-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-9-source-label" class="nb-toolbar" hidden id="cell-9" name="cell-9">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-9-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-9-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="14">## accessible notebook interfaces
+&lt;figure markdown=""&gt;
+&lt;figcaption markdown=""&gt;
+    
+recently, Jupyter developers were able to remove accessibility violations caught be axe. read the [blog post]. 
+    
+&lt;/figcaption&gt;
+    
+![image.png](attachment:da0e9339-76c6-4ddf-8695-4c804430a227.png "axe auditting results comparing the vioations before remediation and afterwards.")
+&lt;/figure&gt;
+
+&lt;h1 role="presentation"&gt;compliance &ne; assistive&lt;/h1&gt;
+
+[blog post]: https://blog.jupyter.org/improving-the-accessibility-of-jupyter-6c695db518d3</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## accessible notebook interfaces</span>
+&lt;figure markdown&gt;
+&lt;figcaption markdown&gt;
+    
+recently, Jupyter developers were able to remove accessibility violations caught be axe. read the [blog post]. 
+    
+&lt;/figcaption&gt;
+    
+![<span class="nt">image.png</span>](<span class="na">attachment:da0e9339-76c6-4ddf-8695-4c804430a227.png "axe auditting results comparing the vioations before remediation and afterwards."</span>)
+&lt;/figure&gt;
+
+&lt;h1 role=presentation&gt;compliance &ne; assistive&lt;/h1&gt;
+
+[<span class="nl">blog post</span>]: <span class="na">https://blog.jupyter.org/improving-the-accessibility-of-jupyter-6c695db518d3</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-9-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-9" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-9-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="accessible-notebook-interfaces"><a href="#accessible-notebook-interfaces">accessible notebook interfaces</a></h2>\n<figure markdown>\n<figcaption markdown>\n<p>recently, Jupyter developers were able to remove accessibility violations caught be axe. read the <a href="https://blog.jupyter.org/improving-the-accessibility-of-jupyter-6c695db518d3">blog post</a>.</p>\n</figcaption>\n<p><img alt="image.png" src="attachment:da0e9339-76c6-4ddf-8695-4c804430a227.png" title="axe auditting results comparing the vioations before remediation and afterwards."></p>\n</figure>\n<h1 role="presentation">compliance &ne; assistive</h1>\n&lt; /&gt;\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-9-loc" role="none">
+       14
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="accessible-notebook-interfaces">
+        <a href="#accessible-notebook-interfaces">
+         accessible notebook interfaces
+        </a>
+       </h2>
+       <figure markdown>
+        <figcaption markdown>
+         <p>
+          recently, Jupyter developers were able to remove accessibility violations caught be axe. read the
+          <a href="https://blog.jupyter.org/improving-the-accessibility-of-jupyter-6c695db518d3">
+           blog post
+          </a>
+          .
+         </p>
+        </figcaption>
+        <p>
+         <img alt="image.png" src="attachment:da0e9339-76c6-4ddf-8695-4c804430a227.png" title="axe auditting results comparing the vioations before remediation and afterwards.">
+        </p>
+       </figure>
+       <h1 role="presentation">
+        compliance &ne; assistive
+       </h1>
+       &lt; /&gt;
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="25" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
+        10
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-10-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-10-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-10-source-label" class="nb-toolbar" hidden id="cell-10" name="cell-10">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-10-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-10-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="25">&lt;details markdown=""&gt;
+&lt;summary&gt;Notebooks for All&lt;/summary&gt;
+&lt;blockquote cite="https://github.com/Iota-School/notebooks-for-all" markdown=""&gt;
+
+Jupyter Notebooks play a central role in modern data science workflows. Despite their importance, these notebooks are inaccessible to people with disabilities, especially those who rely on assistive technology. Impacted users must find extreme workarounds or [give up using them entirely.](https://www.freelists.org/post/program-l/Accessability-of-Jupyter-notebooks) Students with disabilities have [reported leaving their field](https://github.com/jupyterlab/jupyterlab/issues/9399#issuecomment-740524422) once they learn their chosen career&rsquo;s foundational tools are inaccessible to them. 
+
+This is a challenging problem to solve. The Notebooks for All project is taking the first steps, initially focusing on static notebooks: 
+- Running usability feedback sessions with impacted users who rely on a variety of assistive technology
+- Capturing what makes notebooks inaccessible with assistive technology, and compiling documents that describe the issues and feedback
+- Editing notebooks based on the feedback
+- Organizing events to spread awareness in the scientific community about this issue
+- 
+&lt;/blockquote&gt;
+
+| when | example |
+|---|-------|
+|before|https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz%20Differential%20Equations.ipynb|
+|after|https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html|
+
+&gt; we designed notebooks based on their semantics to improve the quality of the annotation object model, and assistive tech experience.
+
+
+&lt;/details&gt;
+
+[notebooks for all]: https://github.com/Iota-School/notebooks-for-all</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>&lt;details markdown&gt;
+&lt;summary&gt;Notebooks for All&lt;/summary&gt;
+&lt;blockquote cite="https://github.com/Iota-School/notebooks-for-all" markdown&gt;
+
+Jupyter Notebooks play a central role in modern data science workflows. Despite their importance, these notebooks are inaccessible to people with disabilities, especially those who rely on assistive technology. Impacted users must find extreme workarounds or [<span class="nt">give up using them entirely.</span>](<span class="na">https://www.freelists.org/post/program-l/Accessability-of-Jupyter-notebooks</span>) Students with disabilities have [<span class="nt">reported leaving their field</span>](<span class="na">https://github.com/jupyterlab/jupyterlab/issues/9399#issuecomment-740524422</span>) once they learn their chosen career&rsquo;s foundational tools are inaccessible to them. 
+
+This is a challenging problem to solve. The Notebooks for All project is taking the first steps, initially focusing on static notebooks: 
+<span class="k">-</span><span class="w"> </span>Running usability feedback sessions with impacted users who rely on a variety of assistive technology
+<span class="k">-</span><span class="w"> </span>Capturing what makes notebooks inaccessible with assistive technology, and compiling documents that describe the issues and feedback
+<span class="k">-</span><span class="w"> </span>Editing notebooks based on the feedback
+<span class="k">-</span><span class="w"> </span>Organizing events to spread awareness in the scientific community about this issue
+- 
+&lt;/blockquote&gt;
+
+| when | example |
+|---|-------|
+|before|https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz%20Differential%20Equations.ipynb|
+|after|https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html|
+
+<span class="k">&gt; </span><span class="ge">we designed notebooks based on their semantics to improve the quality of the annotation object model, and assistive tech experience.</span>
+
+
+&lt;/details&gt;
+
+[<span class="nl">notebooks for all</span>]: <span class="na">https://github.com/Iota-School/notebooks-for-all</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-10-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<details markdown>\n<summary>Notebooks for All</summary>\n<blockquote cite="https://github.com/Iota-School/notebooks-for-all" markdown>\n<p>Jupyter Notebooks play a central role in modern data science workflows. Despite their importance, these notebooks are inaccessible to people with disabilities, especially those who rely on assistive technology. Impacted users must find extreme workarounds or <a href="https://www.freelists.org/post/program-l/Accessability-of-Jupyter-notebooks">give up using them entirely.</a> Students with disabilities have <a href="https://github.com/jupyterlab/jupyterlab/issues/9399#issuecomment-740524422">reported leaving their field</a> once they learn their chosen career&rsquo;s foundational tools are inaccessible to them.</p>\n<p>This is a challenging problem to solve. The Notebooks for All project is taking the first steps, initially focusing on static notebooks:</p>\n<ul>\n<li>Running usability feedback sessions with impacted users who rely on a variety of assistive technology</li>\n<li>Capturing what makes notebooks inaccessible with assistive technology, and compiling documents that describe the issues and feedback</li>\n<li>Editing notebooks based on the feedback</li>\n<li>Organizing events to spread awareness in the scientific community about this issue</li>\n<li></li>\n</ul>\n</blockquote>\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n<table><thead><tr><th>when</th><th>example</th></tr></thead><tbody><tr><td>before</td><td><a href="https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz%20Differential%20Equations.ipynb">https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz Differential Equations.ipynb</a></td></tr><tr><td>after</td><td><a href="https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html">https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html</a></td></tr></tbody></table>\n<blockquote>\n<p>we designed notebooks based on their semantics to improve the quality of the annotation object model, and assistive tech experience.</p>\n</blockquote>\n</details>\n&lt; /&gt;\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-10-loc" role="none">
+       25
+      </td>
+      <td class="nb-outputs" role="none">
+       <details markdown>
+        <summary>
+         Notebooks for All
+        </summary>
+        <blockquote cite="https://github.com/Iota-School/notebooks-for-all" markdown>
+         <p>
+          Jupyter Notebooks play a central role in modern data science workflows. Despite their importance, these notebooks are inaccessible to people with disabilities, especially those who rely on assistive technology. Impacted users must find extreme workarounds or
+          <a href="https://www.freelists.org/post/program-l/Accessability-of-Jupyter-notebooks">
+           give up using them entirely.
+          </a>
+          Students with disabilities have
+          <a href="https://github.com/jupyterlab/jupyterlab/issues/9399#issuecomment-740524422">
+           reported leaving their field
+          </a>
+          once they learn their chosen career&rsquo;s foundational tools are inaccessible to them.
+         </p>
+         <p>
+          This is a challenging problem to solve. The Notebooks for All project is taking the first steps, initially focusing on static notebooks:
+         </p>
+         <ul>
+          <li>
+           Running usability feedback sessions with impacted users who rely on a variety of assistive technology
+          </li>
+          <li>
+           Capturing what makes notebooks inaccessible with assistive technology, and compiling documents that describe the issues and feedback
+          </li>
+          <li>
+           Editing notebooks based on the feedback
+          </li>
+          <li>
+           Organizing events to spread awareness in the scientific community about this issue
+          </li>
+          <li>
+          </li>
+         </ul>
+        </blockquote>
+        <table>
+         <thead>
+          <tr>
+           <th>
+            when
+           </th>
+           <th>
+            example
+           </th>
+          </tr>
+         </thead>
+         <tbody>
+          <tr>
+           <td>
+            before
+           </td>
+           <td>
+            <a href="https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz%20Differential%20Equations.ipynb">
+             https://nbviewer.org/github/jupyter-widgets/ipywidgets/blob/main/docs/source/examples/Lorenz Differential Equations.ipynb
+            </a>
+           </td>
+          </tr>
+          <tr>
+           <td>
+            after
+           </td>
+           <td>
+            <a href="https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html">
+             https://iota-school.github.io/notebooks-for-all/exports/html/lorenz-executed-smol.html
+            </a>
+           </td>
+          </tr>
+         </tbody>
+        </table>
+        <blockquote>
+         <p>
+          we designed notebooks based on their semantics to improve the quality of the annotation object model, and assistive tech experience.
+         </p>
+        </blockquote>
+       </details>
+       &lt; /&gt;
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell markdown" data-index="11" data-loc="26" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
+        11
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-11-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-11-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-11-source-label" class="nb-toolbar" hidden id="cell-11" name="cell-11">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-11-start" role="none">
+       <time datetime="2023-03-19T02:35:45.194+00:00">
+        2023-03-19T02:35:45.194647+00:00
+       </time>
+      </td>
+      <td class="nb-end" hidden id="cell-11-end" role="none">
+       <time datetime="2023-03-19T02:35:45.200+00:00">
+        2023-03-19T02:35:45.200620+00:00
+       </time>
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="26">## manually reviewing accessibility
+
+there are a lot of dimensions to digital accessibility. here are some things i thought worth noting.
+
+* [reviewing accessible design principles](https://adhoc.team/2023/02/22/the-importance-of-adding-accessibility-design-reviews-to-the-design-process/)
+    * Consider focus order
+       ![image.png](attachment:6fc33e67-287c-4346-80ba-18435302868f.png)
+      
+    * Examine copy
+    * Pay attention to colors
+    * Look at page context and components
+    * Annotate the designs
+* [The A11Y Project](https://www.a11yproject.com/) is an open source community about accessibility with tons of resources
+  
+  ![image.png](attachment:07102a1b-9748-4ac5-ba32-a62a2638bbd0.png)
+  
+  * [no mouse days](https://www.a11yproject.com/posts/no-mouse-days/)
+* [technica11y](https://www.technica11y.org/) produces first hand accounts of disabled develops
+* [community events](https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text)
+    * [collaborative alt text documentation events](https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text)
+    
+      ![image.png](attachment:faf3db7e-98a6-4cfd-85b1-9b16afef905b.png)
+    
+    * [keyboard navigation events](https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/keyboard-navigation)
+    
+* [meet your screen reader](https://en.wikipedia.org/wiki/List_of_screen_readers)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## manually reviewing accessibility</span>
+
+there are a lot of dimensions to digital accessibility. here are some things i thought worth noting.
+
+<span class="k">*</span><span class="w"> </span>[<span class="nt">reviewing accessible design principles</span>](<span class="na">https://adhoc.team/2023/02/22/the-importance-of-adding-accessibility-design-reviews-to-the-design-process/</span>)
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>Consider focus order
+       ![<span class="nt">image.png</span>](<span class="na">attachment:6fc33e67-287c-4346-80ba-18435302868f.png</span>)
+<span class="w">      </span>
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>Examine copy
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>Pay attention to colors
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>Look at page context and components
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>Annotate the designs
+<span class="k">*</span><span class="w"> </span>[<span class="nt">The A11Y Project</span>](<span class="na">https://www.a11yproject.com/</span>) is an open source community about accessibility with tons of resources
+  
+  ![<span class="nt">image.png</span>](<span class="na">attachment:07102a1b-9748-4ac5-ba32-a62a2638bbd0.png</span>)
+<span class="w">  </span>
+<span class="w">  </span><span class="k">*</span><span class="w"> </span>[<span class="nt">no mouse days</span>](<span class="na">https://www.a11yproject.com/posts/no-mouse-days/</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">technica11y</span>](<span class="na">https://www.technica11y.org/</span>) produces first hand accounts of disabled develops
+<span class="k">*</span><span class="w"> </span>[<span class="nt">community events</span>](<span class="na">https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text</span>)
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>[<span class="nt">collaborative alt text documentation events</span>](<span class="na">https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text</span>)
+    
+      ![<span class="nt">image.png</span>](<span class="na">attachment:faf3db7e-98a6-4cfd-85b1-9b16afef905b.png</span>)
+<span class="w">    </span>
+<span class="w">    </span><span class="k">*</span><span class="w"> </span>[<span class="nt">keyboard navigation events</span>](<span class="na">https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/keyboard-navigation</span>)
+<span class="w">    </span>
+<span class="k">*</span><span class="w"> </span>[<span class="nt">meet your screen reader</span>](<span class="na">https://en.wikipedia.org/wiki/List_of_screen_readers</span>)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-11-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-11" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-11-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'execution': {'iopub.execute_input': '2023-03-19T02:35:45.194647Z', 'iopub.status.busy': '2023-03-19T02:35:45.194471Z', 'iopub.status.idle': '2023-03-19T02:35:45.201039Z', 'shell.execute_reply': '2023-03-19T02:35:45.200620Z', 'shell.execute_reply.started': '2023-03-19T02:35:45.194634Z'}, 'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="manually-reviewing-accessibility"><a href="#manually-reviewing-accessibility">manually reviewing accessibility</a></h2>\n<p>there are a lot of dimensions to digital accessibility. here are some things i thought worth noting.</p>\n<ul>\n<li>\n<p><a href="https://adhoc.team/2023/02/22/the-importance-of-adding-accessibility-design-reviews-to-the-design-process/">reviewing accessible design principles</a></p>\n<ul>\n<li>\n<p>Consider focus order\n<img alt="image.png" src="attachment:6fc33e67-287c-4346-80ba-18435302868f.png"></p>\n</li>\n<li>\n<p>Examine copy</p>\n</li>\n<li>\n<p>Pay attention to colors</p>\n</li>\n<li>\n<p>Look at page context and components</p>\n</li>\n<li>\n<p>Annotate the designs</p>\n</li>\n</ul>\n</li>\n<li>\n<p><a href="https://www.a11yproject.com/">The A11Y Project</a> is an open source community about accessibility with tons of resources</p>\n<p><img alt="image.png" src="attachment:07102a1b-9748-4ac5-ba32-a62a2638bbd0.png"></p>\n<ul>\n<li><a href="https://www.a11yproject.com/posts/no-mouse-days/">no mouse days</a></li>\n</ul>\n</li>\n<li>\n<p><a href="https://www.technica11y.org/">technica11y</a> produces first hand accounts of disabled develops</p>\n</li>\n<li>\n<p><a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text">community events</a></p>\n<ul>\n<li>\n<p><a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text">collaborative alt text documentation events</a></p>\n<p><img alt="image.png" src="attachment:faf3db7e-98a6-4cfd-85b1-9b16afef905b.png"></p>\n</li>\n<li>\n<p><a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/keyboard-navigation">keyboard navigation events</a></p>\n</li>\n</ul>\n</li>\n<li>\n<p><a href="https://en.wikipedia.org/wiki/List_of_screen_readers">meet your screen reader</a></p>\n</li>\n</ul>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-11-loc" role="none">
+       26
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="manually-reviewing-accessibility">
+        <a href="#manually-reviewing-accessibility">
+         manually reviewing accessibility
+        </a>
+       </h2>
+       <p>
+        there are a lot of dimensions to digital accessibility. here are some things i thought worth noting.
+       </p>
+       <ul>
+        <li>
+         <p>
+          <a href="https://adhoc.team/2023/02/22/the-importance-of-adding-accessibility-design-reviews-to-the-design-process/">
+           reviewing accessible design principles
+          </a>
+         </p>
+         <ul>
+          <li>
+           <p>
+            Consider focus order
+            <img alt="image.png" src="attachment:6fc33e67-287c-4346-80ba-18435302868f.png">
+           </p>
+          </li>
+          <li>
+           <p>
+            Examine copy
+           </p>
+          </li>
+          <li>
+           <p>
+            Pay attention to colors
+           </p>
+          </li>
+          <li>
+           <p>
+            Look at page context and components
+           </p>
+          </li>
+          <li>
+           <p>
+            Annotate the designs
+           </p>
+          </li>
+         </ul>
+        </li>
+        <li>
+         <p>
+          <a href="https://www.a11yproject.com/">
+           The A11Y Project
+          </a>
+          is an open source community about accessibility with tons of resources
+         </p>
+         <p>
+          <img alt="image.png" src="attachment:07102a1b-9748-4ac5-ba32-a62a2638bbd0.png">
+         </p>
+         <ul>
+          <li>
+           <a href="https://www.a11yproject.com/posts/no-mouse-days/">
+            no mouse days
+           </a>
+          </li>
+         </ul>
+        </li>
+        <li>
+         <p>
+          <a href="https://www.technica11y.org/">
+           technica11y
+          </a>
+          produces first hand accounts of disabled develops
+         </p>
+        </li>
+        <li>
+         <p>
+          <a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text">
+           community events
+          </a>
+         </p>
+         <ul>
+          <li>
+           <p>
+            <a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/alt-text">
+             collaborative alt text documentation events
+            </a>
+           </p>
+           <p>
+            <img alt="image.png" src="attachment:faf3db7e-98a6-4cfd-85b1-9b16afef905b.png">
+           </p>
+          </li>
+          <li>
+           <p>
+            <a href="https://github.com/isabela-pf/a11y-events/tree/main/workshop-resources/keyboard-navigation">
+             keyboard navigation events
+            </a>
+           </p>
+          </li>
+         </ul>
+        </li>
+        <li>
+         <p>
+          <a href="https://en.wikipedia.org/wiki/List_of_screen_readers">
+           meet your screen reader
+          </a>
+         </p>
+        </li>
+       </ul>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="8" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
+        12
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-12-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-12-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-12-source-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-12-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-12-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="8">## other useful sources sources
+
+* [chartability](https://chartability.fizz.studio/https://chartability.fizz.studio/)
+* [wai patterns](https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/)
+* [diagram center general guidelines](http://diagramcenter.org/general-guidelines-final-draft.html)
+* Frameworks? [Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm ](https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/)
+* [Do No Harm Guide: Applying Equity Awareness in Data Visualization](https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization)
+* [accessible pygments themes for code](https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## other useful sources sources</span>
+
+<span class="k">*</span><span class="w"> </span>[<span class="nt">chartability</span>](<span class="na">https://chartability.fizz.studio/https://chartability.fizz.studio/</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">wai patterns</span>](<span class="na">https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">diagram center general guidelines</span>](<span class="na">http://diagramcenter.org/general-guidelines-final-draft.html</span>)
+<span class="k">*</span><span class="w"> </span>Frameworks? [<span class="nt">Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm </span>](<span class="na">https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">Do No Harm Guide: Applying Equity Awareness in Data Visualization</span>](<span class="na">https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization</span>)
+<span class="k">*</span><span class="w"> </span>[<span class="nt">accessible pygments themes for code</span>](<span class="na">https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments</span>)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-12-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="other-useful-sources-sources"><a href="#other-useful-sources-sources">other useful sources sources</a></h2>\n<ul>\n<li><a href="https://chartability.fizz.studio/https://chartability.fizz.studio/">chartability</a></li>\n<li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/">wai patterns</a></li>\n<li><a href="http://diagramcenter.org/general-guidelines-final-draft.html">diagram center general guidelines</a></li>\n<li>Frameworks? <a href="https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/">Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm </a></li>\n<li><a href="https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization">Do No Harm Guide: Applying Equity Awareness in Data Visualization</a></li>\n<li><a href="https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments">accessible pygments themes for code</a></li>\n</ul>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-12-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="other-useful-sources-sources">
+        <a href="#other-useful-sources-sources">
+         other useful sources sources
+        </a>
+       </h2>
+       <ul>
+        <li>
+         <a href="https://chartability.fizz.studio/https://chartability.fizz.studio/">
+          chartability
+         </a>
+        </li>
+        <li>
+         <a href="https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/">
+          wai patterns
+         </a>
+        </li>
+        <li>
+         <a href="http://diagramcenter.org/general-guidelines-final-draft.html">
+          diagram center general guidelines
+         </a>
+        </li>
+        <li>
+         Frameworks?
+         <a href="https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/">
+          Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm
+         </a>
+        </li>
+        <li>
+         <a href="https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization">
+          Do No Harm Guide: Applying Equity Awareness in Data Visualization
+         </a>
+        </li>
+        <li>
+         <a href="https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments">
+          accessible pygments themes for code
+         </a>
+        </li>
+       </ul>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="6" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-13-loc nb-loc-label
+    cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
+        13
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-13-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         7
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-13-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-13-source-label" class="nb-toolbar" hidden id="cell-13" name="cell-13">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-13-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-13-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="6">## conclusion
+
+* diversity of thought and experience
+* [inclusive design](https://en.wikipedia.org/wiki/Inclusive_design) practices and accessible principles are beacons for design
+* include (and pay) disabled people - [nothing about us without us](https://en.wikipedia.org/wiki/Nothing_about_us_without_us)
+    * [Why Underemployment Plagues People With Disabilities Even In A Strong Economy](https://www.forbes.com/sites/denisebrodey/2019/10/26/why-underemployment-plagues-people-with-disabilities-even-in-a-strong-economy/?sh=44006eeb693d)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## conclusion</span>
+
+<span class="o">*</span> <span class="n">diversity</span> <span class="n">of</span> <span class="n">thought</span> <span class="ow">and</span> <span class="n">experience</span>
+<span class="o">*</span> <span class="p">[</span><span class="n">inclusive</span> <span class="n">design</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">Inclusive_design</span><span class="p">)</span> <span class="n">practices</span> <span class="ow">and</span> <span class="n">accessible</span> <span class="n">principles</span> <span class="n">are</span> <span class="n">beacons</span> <span class="k">for</span> <span class="n">design</span>
+<span class="o">*</span> <span class="n">include</span> <span class="p">(</span><span class="ow">and</span> <span class="n">pay</span><span class="p">)</span> <span class="n">disabled</span> <span class="n">people</span> <span class="o">-</span> <span class="p">[</span><span class="n">nothing</span> <span class="n">about</span> <span class="n">us</span> <span class="n">without</span> <span class="n">us</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">Nothing_about_us_without_us</span><span class="p">)</span>
+    <span class="o">*</span> <span class="p">[</span><span class="n">Why</span> <span class="n">Underemployment</span> <span class="n">Plagues</span> <span class="n">People</span> <span class="n">With</span> <span class="n">Disabilities</span> <span class="n">Even</span> <span class="n">In</span> <span class="n">A</span> <span class="n">Strong</span> <span class="n">Economy</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">forbes</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">sites</span><span class="o">/</span><span class="n">denisebrodey</span><span class="o">/</span><span class="mi">2019</span><span class="o">/</span><span class="mi">10</span><span class="o">/</span><span class="mi">26</span><span class="o">/</span><span class="n">why</span><span class="o">-</span><span class="n">underemployment</span><span class="o">-</span><span class="n">plagues</span><span class="o">-</span><span class="n">people</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">disabilities</span><span class="o">-</span><span class="n">even</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">strong</span><span class="o">-</span><span class="n">economy</span><span class="o">/</span><span class="err">?</span><span class="n">sh</span><span class="o">=</span><span class="mi">44006</span><span class="n">eeb693d</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-13-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-13" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-13-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}, 'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-13-loc" role="none">
+       6
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-13-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-13-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          7
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="conclusion">
+         <a href="#conclusion">
+          conclusion
+         </a>
+        </h2>
+        <ul>
+         <li>
+          diversity of thought and experience
+         </li>
+         <li>
+          <a href="https://en.wikipedia.org/wiki/Inclusive_design">
+           inclusive design
+          </a>
+          practices and accessible principles are beacons for design
+         </li>
+         <li>
+          include (and pay) disabled people -
+          <a href="https://en.wikipedia.org/wiki/Nothing_about_us_without_us">
+           nothing about us without us
+          </a>
+          <ul>
+           <li>
+            <a href="https://www.forbes.com/sites/denisebrodey/2019/10/26/why-underemployment-plagues-people-with-disabilities-even-in-a-strong-economy/?sh=44006eeb693d">
+             Why Underemployment Plagues People With Disabilities Even In A Strong Economy
+            </a>
+           </li>
+          </ul>
+         </li>
+        </ul>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell markdown" data-index="14" data-loc="17" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
+        14
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-14-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-14-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-14-source-label" class="nb-toolbar" hidden id="cell-14" name="cell-14">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-14-start" role="none">
+       <time datetime="2023-03-19T02:45:11.413+00:00">
+        2023-03-19T02:45:11.413446+00:00
+       </time>
+      </td>
+      <td class="nb-end" hidden id="cell-14-end" role="none">
+       <time datetime="2023-03-19T02:45:11.417+00:00">
+        2023-03-19T02:45:11.417473+00:00
+       </time>
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="17">## whats the deal with the demo??
+
+* running the browser with jupyterlite
+
+ [![image.png](attachment:edfd159c-9d27-4253-83ea-e754baf704b8.png "jupyterlite is jupyter in the browser")][jupyterlite]
+
+* programmined in markdown with [pidgy]
+
+  [![](https://github.com/deathbeds/pidgy/raw/main/pidgy.png "pidgy is literate programming in markdown and notebooks")][pidgy]
+
+* presented with [jupyterlab-deck]
+
+  [![image.png](attachment:db7ba277-b72a-488b-897c-9f3f8b26437d.png "jupyter deck is a lightweight presentation for jupyterlab")][jupyterlab-deck]
+
+[jupyterlite]: https://jupyterlite.readthedocs.io/
+[jupyterlab-deck]: https://github.com/deathbeds/jupyterlab-deck
+[pidgy]: https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## whats the deal with the demo??</span>
+
+<span class="k">*</span><span class="w"> </span>running the browser with jupyterlite
+
+ [<span class="nt">![image.png</span>](<span class="na">attachment:edfd159c-9d27-4253-83ea-e754baf704b8.png "jupyterlite is jupyter in the browser"</span>)][jupyterlite]
+
+<span class="k">*</span><span class="w"> </span>programmined in markdown with [pidgy]
+
+  [<span class="nt">![</span>](<span class="na">https://github.com/deathbeds/pidgy/raw/main/pidgy.png "pidgy is literate programming in markdown and notebooks"</span>)][pidgy]
+
+<span class="k">*</span><span class="w"> </span>presented with [jupyterlab-deck]
+
+  [<span class="nt">![image.png</span>](<span class="na">attachment:db7ba277-b72a-488b-897c-9f3f8b26437d.png "jupyter deck is a lightweight presentation for jupyterlab"</span>)][jupyterlab-deck]
+
+[<span class="nl">jupyterlite</span>]: <span class="na">https://jupyterlite.readthedocs.io/</span>
+[<span class="nl">jupyterlab-deck</span>]: <span class="na">https://github.com/deathbeds/jupyterlab-deck</span>
+[<span class="nl">pidgy</span>]: <span class="na">https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-14-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-14" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-14-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'execution': {'iopub.execute_input': '2023-03-19T02:45:11.413446Z', 'iopub.status.busy': '2023-03-19T02:45:11.413249Z', 'iopub.status.idle': '2023-03-19T02:45:11.417802Z', 'shell.execute_reply': '2023-03-19T02:45:11.417473Z', 'shell.execute_reply.started': '2023-03-19T02:45:11.413431Z'}, 'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="whats-the-deal-with-the-demo"><a href="#whats-the-deal-with-the-demo">whats the deal with the demo??</a></h2>\n<ul>\n<li>running the browser with jupyterlite</li>\n</ul>\n<p><a href="https://jupyterlite.readthedocs.io/"><img alt="image.png" src="attachment:edfd159c-9d27-4253-83ea-e754baf704b8.png" title="jupyterlite is jupyter in the browser"></a></p>\n<ul>\n<li>\n<p>programmined in markdown with <a href="https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy">pidgy</a></p>\n<p><a href="https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy"><img alt src="https://github.com/deathbeds/pidgy/raw/main/pidgy.png" title="pidgy is literate programming in markdown and notebooks"></a></p>\n</li>\n<li>\n<p>presented with <a href="https://github.com/deathbeds/jupyterlab-deck">jupyterlab-deck</a></p>\n<p><a href="https://github.com/deathbeds/jupyterlab-deck"><img alt="image.png" src="attachment:db7ba277-b72a-488b-897c-9f3f8b26437d.png" title="jupyter deck is a lightweight presentation for jupyterlab"></a></p>\n</li>\n</ul>\n&lt; /&gt;\n&lt; /&gt;\n&lt; /&gt;\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-14-loc" role="none">
+       17
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="whats-the-deal-with-the-demo">
+        <a href="#whats-the-deal-with-the-demo">
+         whats the deal with the demo??
+        </a>
+       </h2>
+       <ul>
+        <li>
+         running the browser with jupyterlite
+        </li>
+       </ul>
+       <p>
+        <a href="https://jupyterlite.readthedocs.io/">
+         <img alt="image.png" src="attachment:edfd159c-9d27-4253-83ea-e754baf704b8.png" title="jupyterlite is jupyter in the browser">
+        </a>
+       </p>
+       <ul>
+        <li>
+         <p>
+          programmined in markdown with
+          <a href="https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy">
+           pidgy
+          </a>
+         </p>
+         <p>
+          <a href="https://github.com/deathbeds/pidgyhttps://github.com/deathbeds/pidgy">
+           <img alt src="https://github.com/deathbeds/pidgy/raw/main/pidgy.png" title="pidgy is literate programming in markdown and notebooks">
+          </a>
+         </p>
+        </li>
+        <li>
+         <p>
+          presented with
+          <a href="https://github.com/deathbeds/jupyterlab-deck">
+           jupyterlab-deck
+          </a>
+         </p>
+         <p>
+          <a href="https://github.com/deathbeds/jupyterlab-deck">
+           <img alt="image.png" src="attachment:db7ba277-b72a-488b-897c-9f3f8b26437d.png" title="jupyter deck is a lightweight presentation for jupyterlab">
+          </a>
+         </p>
+        </li>
+       </ul>
+       &lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2023-03-18-ally-talk.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;A Crash Course in Digital Accessibility
+   </a>
+   <br>
+   <a href="2023-03-04-computational-notebooks-history.html" rel="next">
+    a sprint through history toward computional notebooks
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      <a href="#nb-accessibility-settings-label">
+       accessibility settings
+      </a>
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        <a href="#nb-notebook-layout-label">
+         notebook layout
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        <a href="#nb-font-settings-label">
+         font settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="large">
+            large
+           </option>
+           <option value="x-large">
+            x-large
+           </option>
+           <option value="xx-large">
+            xx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        <a href="#nb-sound-settings-label">
+         sound settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     <a href="#notebook-help">
+      notebook help
+     </a>
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      <a href="#nb-defs-label">
+       definitions
+      </a>
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme() {
+    let value = document.forms.settings.elements["color-scheme"].value;
+    let opposite = value == "dark" ? "light" : "dark";
+    document.getElementById(`nb-${value}-theme`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-theme`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+    setStyle("change font size");
+});
+document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+    activityLog("speech on")
+});
+document.forms.settings.elements.margin.addEventListener("change", (x) => {
+    setStyle("margin changed");
+});
+document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+    setStyle("line height changed");
+});
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+    function toggleActive() {
+    if (document.forms.notebook.elements.edit.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+
+
+document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+document.forms.visibility['visually-hide'].addEventListener("change",
+    (x) => {
+        document.querySelector("main").classList.toggle("visually-hide");
+        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+    });
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>

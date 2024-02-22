@@ -1,0 +1,3881 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   restart and run all or it didn't happen
+  </title>
+  <meta content="light" name="color-scheme">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   /* # accessible css configurations
+
+we define these high level variables to allow for configuration during use and testing.
+we are not sure what the preferred default values are for these any accessible notebooks features.
+the variables specify critical degrees of freedom in the notebook style.
+
+## notebook interface specific css variables
+
+*/
+
+:root {
+    --nb-focus-width: 3px;
+    --nb-accent-color: auto;
+    --nb-background-color-dark: #2b2a33;
+    --nb-background-color-light: #FFFFFF;
+    --nb-margin: 5%;
+    --nb-font-size: 16px;
+    --nb-font-family: serif;
+    --nb-line-height: 1.5;
+    --nb-scrolled-height: 600px;
+}
+
+/* map css variables to css properties on the `body` elements.
+this mapping turns out css variables into user interfaces. */
+
+body {
+    font-size: var(--nb-font-size);
+    font-family: var(--nb-font-family);
+    accent-color: var(--nb-accent-color);
+    margin-left: var(--nb-margin);
+    margin-right: var(--nb-margin);
+    line-height: var(--nb-line-height);
+    width: calc(100% - 2*var(--nb-margin));
+}
+
+/* ## notebook settings
+
+the notebook settings interface connects configurable css features to the user.
+we use dialog elements to represents an element that should be hidden by default.
+it turns out there are two ways to layout `dialog` elements. 
+they can be used as modals or block elements.
+we extract this dual purpose to provide both configurations to the user.
+
+*/
+
+dialog form>* {
+    display: block;
+}
+
+
+/* ## wcag accessibility guidelines as a feature
+
+flexibility is the future of assistive interfaces.
+it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
+it is the fucking priority.
+
+in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
+one configurable feature is the accessibility priority. 
+experienced developers may need less assistive features as they spend more time with an interface.
+
+### buttons sizes
+
+WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
+
+/* satisfy AAA 2.5.5 */
+
+.wcag-aaa button,
+.wcag-aaa input[type=checkbox] {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.wcag-aaa a {
+    font-size: max(44px, var(--nb-font-size));
+}
+
+/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+/* satisfy AA 2.5.8 minimum target requirement */
+.wcag-aa button,
+.wcag-aa input[type=checkbox] {
+    min-height: 24px;
+    min-width: 24px;
+}
+
+.wcag-aa a {
+    font-size: max(24px, var(--nb-font-size));
+}
+
+/* ### native textareas for AAA priority.
+
+our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
+the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
+
+*/
+
+.markdown textarea[name=source]+[role=group],
+.wcag-a textarea[name=source],
+.wcag-aa textarea[name=source],
+.wcag-aaa .markdown textarea[name=source],
+/* this group selector is very ambiguous */
+.wcag-aaa textarea[name=source]+[role=group] {
+    display: none;
+}
+
+/* line height cant change pre elements based on browser presets */
+pre {
+    line-height: unset;
+}
+
+/* this is only needed for the lsit template variant */
+ol#cells {
+    margin: unset;
+    padding: unset;
+}
+
+li.cell {
+    list-style-type: none;
+}
+
+/* ## notebook components layout */
+
+td[role="none"]:not([hidden]),
+th[role="none"]:not([hidden]) {
+    display: unset;
+    text-align: unset;
+}
+
+table {
+    border-spacing: unset;
+}
+
+#cells,
+#cells .cell,
+#cells>tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+ol[reversed]#cells,
+[reversed]#cells tbody {
+    flex-direction: column-reverse;
+}
+
+/* hide the visual output area when there are no outputs. 
+assistive technologies will recieve an audible notification that there are not outputs. */
+
+fieldset[data-outputs="0"] {
+    display: none;
+}
+
+/* ## modifications to html defaults 
+
+### focus 
+
+there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
+
+*/
+
+
+
+.cell:focus-within,
+:focus-visible {
+    outline: max(var(--nb-focus-width), 1px) solid;
+    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+}
+
+
+/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+textarea[name=source] {
+    min-width: 0;
+}
+
+.nb-outputs,
+.nb-source {
+    overflow-x:  auto;
+}
+
+#nb-settings li::marker,
+summary[inert]::marker {
+    content: "";
+}
+
+/* ### inheriting styles */
+
+input,
+select,
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: inherit;
+    line-height: inherit;
+    overflow: auto;
+    color: unset;
+}
+
+textarea[name=source] {
+    box-sizing: border-box;
+    width: 100%;
+    resize: vertical;
+}
+
+
+/* align checkboxes with buttons */
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+/* ## custom class selectors */
+
+#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
+/* legend:not(:focus-within):not(:active), */
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.nb-outputs.nb-scrolled {
+    max-height: var(--nb-scrolled-height);
+    overflow: auto;
+}
+
+.nb-outputs.nb-collapsed {
+    display: none;
+}
+  </style>
+  <style id="nb-light-theme" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-theme" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="../xxiv/2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="2023-08-03-pandas-accessors.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-28-community-demo.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-whoosh-search.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-24-system-dependency-graphs.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-18-voila-pidgy-integration.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-16-inspector-hack.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-07-pidgy-voila.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-04-tfoot-dataframe.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-02-accessible-dataframes-basic-indexes.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        None
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       restart and run all or it didn't happen
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       my golden rule for notebooks is Restart and run all or it didn't happen. RARA||GTFO for short.
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       11 total
+      </dd>
+      <dd id="nb-ct-code">
+       10 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed out of order
+      </dd>
+      <dt>
+       language
+      </dt>
+      <dd id="nb-lang">
+       python
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       141
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       10
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#restart-and-run-all-or-it-didnt-happen">
+         restart and run all or it didn't happen
+        </a>
+       </li>
+       <li>
+        <ol>
+         <li>
+          <ol>
+           <li>
+            <a href="#None">
+             executed code in computational notebooks
+            </a>
+           </li>
+           <li>
+            <ol>
+             <li>
+              <a href="#None">
+               unexecuted cells
+              </a>
+             </li>
+             <li>
+              <a href="#None">
+               out of order execution
+              </a>
+             </li>
+            </ol>
+           </li>
+           <li>
+            <a href="#None">
+             extra preservatives
+            </a>
+           </li>
+           <li>
+            <a href="#None">
+             too many ideas
+            </a>
+           </li>
+           <li>
+            <a href="#None">
+             compute intensive operations
+            </a>
+           </li>
+          </ol>
+         </li>
+        </ol>
+       </li>
+       <li>
+        <a href="#-write-notebooks-that-endure">
+         📣 write notebooks that endure
+        </a>
+       </li>
+      </ol>
+     </nav>
+     <li>
+      <a href="#devils--share">
+       devils 😈 share
+      </a>
+     </li>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:root] *", "language": "python", "name": "conda-root-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.9.13"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "restart and run all or it didn't happen", "description": "my golden rule for notebooks is Restart and run all or it didn't happen. RARA||GTFO for short."}
+    </form>
+   </dialog>
+  </header>
+  <main aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label">
+   <table id="cells" role="none">
+    <colgroup>
+     <col class="nb-index">
+     <col class="nb-execution_count">
+     <col class="nb-cell_type">
+     <col class="nb-toolbar">
+     <col class="nb-started_at">
+     <col class="nb-completed_at">
+     <col class="nb-source">
+     <col class="nb-loc">
+     <col class="nb-metadata">
+     <col class="nb-outputs">
+    </colgroup>
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="10" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-1-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-source-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="10"># restart and run all or it didn't happen
+    
+my golden rule for notebooks is &lt;q&gt;&lt;b&gt;Restart and run all&lt;/b&gt; or &lt;i&gt;it didn't happen&lt;/i&gt;&lt;/q&gt;. &lt;abbr title="Restart and run all"&gt;RARA&lt;/abbr&gt;||&lt;abbr title="Get The Fart Out"&gt;GTFO&lt;/abbr&gt; for short.
+
+the &lt;abbr&gt;RARA&lt;/abbr&gt; criteria is satisfied when:
+
+1. all of the cells are executed. conversely, there are not any unexecuted cells.
+2. all of the cells prompt numbers increase monotonically. out-of-order prompts means out-of-order execution and the possibility of hidden state.
+
+![a text based figure displaying RARA GTFO RARA GTFO laid out as four square on a checkerboard](attachment:7fab95cb-30d3-4b4b-80cd-e32d1bc4b9b0.png)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># restart and run all or it didn't happen</span>
+    
+my golden rule for notebooks is &lt;q&gt;&lt;b&gt;Restart and run all&lt;/b&gt; or &lt;i&gt;it didn't happen&lt;/i&gt;&lt;/q&gt;. &lt;abbr title="Restart and run all"&gt;RARA&lt;/abbr&gt;||&lt;abbr title="Get The Fart Out"&gt;GTFO&lt;/abbr&gt; for short.
+
+the &lt;abbr&gt;RARA&lt;/abbr&gt; criteria is satisfied when:
+
+<span class="k">1.</span> all of the cells are executed. conversely, there are not any unexecuted cells.
+<span class="k">2.</span> all of the cells prompt numbers increase monotonically. out-of-order prompts means out-of-order execution and the possibility of hidden state.
+
+![<span class="nt">a text based figure displaying RARA GTFO RARA GTFO laid out as four square on a checkerboard</span>](<span class="na">attachment:7fab95cb-30d3-4b4b-80cd-e32d1bc4b9b0.png</span>)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h1 id="restart-and-run-all-or-it-didnt-happen"><a href="#restart-and-run-all-or-it-didnt-happen">restart and run all or it didn\'t happen</a></h1>\n<p>my golden rule for notebooks is <q><b>Restart and run all</b> or <i>it didn\'t happen</i></q>. <abbr title="Restart and run all">RARA</abbr>||<abbr title="Get The Fart Out">GTFO</abbr> for short.</p>\n<p>the <abbr>RARA</abbr> criteria is satisfied when:</p>\n<ol>\n<li>all of the cells are executed. conversely, there are not any unexecuted cells.</li>\n<li>all of the cells prompt numbers increase monotonically. out-of-order prompts means out-of-order execution and the possibility of hidden state.</li>\n</ol>\n<p><img alt="a text based figure displaying RARA GTFO RARA GTFO laid out as four square on a checkerboard" src="attachment:7fab95cb-30d3-4b4b-80cd-e32d1bc4b9b0.png"></p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       10
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="restart-and-run-all-or-it-didnt-happen">
+        <a href="#restart-and-run-all-or-it-didnt-happen">
+         restart and run all or it didn't happen
+        </a>
+       </h1>
+       <p>
+        my golden rule for notebooks is
+        <q>
+         <b>
+          Restart and run all
+         </b>
+         or
+         <i>
+          it didn't happen
+         </i>
+        </q>
+        .
+        <abbr title="Restart and run all">
+         RARA
+        </abbr>
+        ||
+        <abbr title="Get The Fart Out">
+         GTFO
+        </abbr>
+        for short.
+       </p>
+       <p>
+        the
+        <abbr>
+         RARA
+        </abbr>
+        criteria is satisfied when:
+       </p>
+       <ol>
+        <li>
+         all of the cells are executed. conversely, there are not any unexecuted cells.
+        </li>
+        <li>
+         all of the cells prompt numbers increase monotonically. out-of-order prompts means out-of-order execution and the possibility of hidden state.
+        </li>
+       </ol>
+       <p>
+        <img alt="a text based figure displaying RARA GTFO RARA GTFO laid out as four square on a checkerboard" src="attachment:7fab95cb-30d3-4b4b-80cd-e32d1bc4b9b0.png">
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="3" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="nb-code-label nb-cell-label cell-2-loc nb-loc-label
+    cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-2-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-source-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="3">    
+    %reload_ext pidgy
+    rara = F"&lt;abbr&gt;RARA&lt;/abbr&gt;"</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    
+    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
+    <span class="n">rara</span> <span class="o">=</span> <span class="sa">F</span><span class="s2">"&lt;abbr&gt;RARA&lt;/abbr&gt;"</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       3
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div hidden>
+         <pre><code>%reload_ext pidgy
+rara = F"&lt;abbr&gt;RARA&lt;/abbr&gt;"
+</code></pre>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="1" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="nb-code-label nb-cell-label cell-3-loc nb-loc-label
+    cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-3-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-source-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="1">    RARA = "__Restart and run all__"</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="n">RARA</span> <span class="o">=</span> <span class="s2">"__Restart and run all__"</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-3-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre><code>RARA = "__Restart and run all__"
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="37" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="nb-code-label nb-cell-label cell-4-loc nb-loc-label
+    cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-4-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         12
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-source-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="37">## benefits of &lt;abbr _")}}"="" title="{{RARA.strip("&gt;RARA&lt;/abbr&gt;||&lt;abbr title="Get The Fart Out"&gt;GTFO&lt;/abbr&gt;
+
+a computational notebook is a [literate program] that composites narrative and code;
+it simultaneously has the qualities of __literature__ and a __program__.
+literate programs introduce a computational qualities to documents,
+and the compute implied the authoring system had [state].
+
+[a common complaint is that literate notebook programs contain hidden states][complaint].
+hidden state is happens when code cells are executed out-of-order,
+or not executed at all.
+executing code cells ensures that code can be read by at least one machine; the code input worked at some point.
+ordered execution is an objective measure of non-hidden state [^tamper].
+
+in the literature, [Exploration and Explanation in Computational Notebooks], a large scale analysis of notebooks,
+they distinguish between linear notebooks and non-linear notebooks.
+non-linear notebooks are most likely to have [hidden state](https://ploomber.io/blog/nbs-myths/#hidden-state).
+at scale, {{RARA.lower()}} is a distinguishing quality of computational notebooks.
+
+&gt; [The most prevalent expression of literate computing right now is the computational notebook.][landscape]
+
+[fernando perez] - co-founder of [Project Jupyter] - acknowledged that notebooks are literate programs with something extra.
+he describes notebook authoring as [literate computing] where live computation is woven into the document.
+the notebook document is stateful, statefulness is a quality of this new media.
+
+the {{RARA.lower()}} criteria verifies that code inputs work and there is not hidden state.
+                                                            
+[^tamper]: it is possible that inputs were tampered with, but let us assume the best intentions.
+
+[literate computing]: https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html
+[landscape]: https://www.ppig.org/files/2019-PPIG-30th-fog.pdf
+[complaint]: https://towardsdatascience.com/the-case-against-the-jupyter-notebook-d4da17e97243
+[story in notebook]: https://marybethkery.com/projects/Verdant/Kery-The-Story-in-the-Notebook-Exploratory-Data-Science-using-a-Literate-Programming-Tool.pdf
+[literate program]: https://en.wikipedia.org/wiki/Literate_programming
+[fernando perez]: https://en.wikipedia.org/wiki/Fernando_P%C3%A9rez_(software_developer)
+[Project Jupyter]: https://jupyter.org/
+[Exploration and Explanation in Computational Notebooks]: https://adamrule.com/files/papers/chi_2018_computational_notebooks_camera_ready.pdf
+[state]: https://en.wikipedia.org/wiki/State_(computer_science)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## benefits of &lt;abbr title="{{RARA.strip("_")}}"&gt;RARA&lt;/abbr&gt;||&lt;abbr title="Get The Fart Out"&gt;GTFO&lt;/abbr&gt;</span>
+
+<span class="n">a</span> <span class="n">computational</span> <span class="n">notebook</span> <span class="ow">is</span> <span class="n">a</span> <span class="p">[</span><span class="n">literate</span> <span class="n">program</span><span class="p">]</span> <span class="n">that</span> <span class="n">composites</span> <span class="n">narrative</span> <span class="ow">and</span> <span class="n">code</span><span class="p">;</span>
+<span class="n">it</span> <span class="n">simultaneously</span> <span class="n">has</span> <span class="n">the</span> <span class="n">qualities</span> <span class="n">of</span> <span class="n">__literature__</span> <span class="ow">and</span> <span class="n">a</span> <span class="n">__program__</span><span class="o">.</span>
+<span class="n">literate</span> <span class="n">programs</span> <span class="n">introduce</span> <span class="n">a</span> <span class="n">computational</span> <span class="n">qualities</span> <span class="n">to</span> <span class="n">documents</span><span class="p">,</span>
+<span class="ow">and</span> <span class="n">the</span> <span class="n">compute</span> <span class="n">implied</span> <span class="n">the</span> <span class="n">authoring</span> <span class="n">system</span> <span class="n">had</span> <span class="p">[</span><span class="n">state</span><span class="p">]</span><span class="o">.</span>
+
+<span class="p">[</span><span class="n">a</span> <span class="n">common</span> <span class="n">complaint</span> <span class="ow">is</span> <span class="n">that</span> <span class="n">literate</span> <span class="n">notebook</span> <span class="n">programs</span> <span class="n">contain</span> <span class="n">hidden</span> <span class="n">states</span><span class="p">][</span><span class="n">complaint</span><span class="p">]</span><span class="o">.</span>
+<span class="n">hidden</span> <span class="n">state</span> <span class="ow">is</span> <span class="n">happens</span> <span class="n">when</span> <span class="n">code</span> <span class="n">cells</span> <span class="n">are</span> <span class="n">executed</span> <span class="n">out</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">order</span><span class="p">,</span>
+<span class="ow">or</span> <span class="ow">not</span> <span class="n">executed</span> <span class="n">at</span> <span class="nb">all</span><span class="o">.</span>
+<span class="n">executing</span> <span class="n">code</span> <span class="n">cells</span> <span class="n">ensures</span> <span class="n">that</span> <span class="n">code</span> <span class="n">can</span> <span class="n">be</span> <span class="n">read</span> <span class="n">by</span> <span class="n">at</span> <span class="n">least</span> <span class="n">one</span> <span class="n">machine</span><span class="p">;</span> <span class="n">the</span> <span class="n">code</span> <span class="nb">input</span> <span class="n">worked</span> <span class="n">at</span> <span class="n">some</span> <span class="n">point</span><span class="o">.</span>
+<span class="n">ordered</span> <span class="n">execution</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">objective</span> <span class="n">measure</span> <span class="n">of</span> <span class="n">non</span><span class="o">-</span><span class="n">hidden</span> <span class="n">state</span> <span class="p">[</span><span class="o">^</span><span class="n">tamper</span><span class="p">]</span><span class="o">.</span>
+
+<span class="ow">in</span> <span class="n">the</span> <span class="n">literature</span><span class="p">,</span> <span class="p">[</span><span class="n">Exploration</span> <span class="ow">and</span> <span class="n">Explanation</span> <span class="ow">in</span> <span class="n">Computational</span> <span class="n">Notebooks</span><span class="p">],</span> <span class="n">a</span> <span class="n">large</span> <span class="n">scale</span> <span class="n">analysis</span> <span class="n">of</span> <span class="n">notebooks</span><span class="p">,</span>
+<span class="n">they</span> <span class="n">distinguish</span> <span class="n">between</span> <span class="n">linear</span> <span class="n">notebooks</span> <span class="ow">and</span> <span class="n">non</span><span class="o">-</span><span class="n">linear</span> <span class="n">notebooks</span><span class="o">.</span>
+<span class="n">non</span><span class="o">-</span><span class="n">linear</span> <span class="n">notebooks</span> <span class="n">are</span> <span class="n">most</span> <span class="n">likely</span> <span class="n">to</span> <span class="n">have</span> <span class="p">[</span><span class="n">hidden</span> <span class="n">state</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">ploomber</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">nbs</span><span class="o">-</span><span class="n">myths</span><span class="o">/</span><span class="c1">#hidden-state).</span>
+<span class="n">at</span> <span class="n">scale</span><span class="p">,</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">distinguishing</span> <span class="n">quality</span> <span class="n">of</span> <span class="n">computational</span> <span class="n">notebooks</span><span class="o">.</span>
+
+<span class="o">&gt;</span> <span class="p">[</span><span class="n">The</span> <span class="n">most</span> <span class="n">prevalent</span> <span class="n">expression</span> <span class="n">of</span> <span class="n">literate</span> <span class="n">computing</span> <span class="n">right</span> <span class="n">now</span> <span class="ow">is</span> <span class="n">the</span> <span class="n">computational</span> <span class="n">notebook</span><span class="o">.</span><span class="p">][</span><span class="n">landscape</span><span class="p">]</span>
+
+<span class="p">[</span><span class="n">fernando</span> <span class="n">perez</span><span class="p">]</span> <span class="o">-</span> <span class="n">co</span><span class="o">-</span><span class="n">founder</span> <span class="n">of</span> <span class="p">[</span><span class="n">Project</span> <span class="n">Jupyter</span><span class="p">]</span> <span class="o">-</span> <span class="n">acknowledged</span> <span class="n">that</span> <span class="n">notebooks</span> <span class="n">are</span> <span class="n">literate</span> <span class="n">programs</span> <span class="k">with</span> <span class="n">something</span> <span class="n">extra</span><span class="o">.</span>
+<span class="n">he</span> <span class="n">describes</span> <span class="n">notebook</span> <span class="n">authoring</span> <span class="k">as</span> <span class="p">[</span><span class="n">literate</span> <span class="n">computing</span><span class="p">]</span> <span class="n">where</span> <span class="n">live</span> <span class="n">computation</span> <span class="ow">is</span> <span class="n">woven</span> <span class="n">into</span> <span class="n">the</span> <span class="n">document</span><span class="o">.</span>
+<span class="n">the</span> <span class="n">notebook</span> <span class="n">document</span> <span class="ow">is</span> <span class="n">stateful</span><span class="p">,</span> <span class="n">statefulness</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">quality</span> <span class="n">of</span> <span class="n">this</span> <span class="n">new</span> <span class="n">media</span><span class="o">.</span>
+
+<span class="n">the</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="n">criteria</span> <span class="n">verifies</span> <span class="n">that</span> <span class="n">code</span> <span class="n">inputs</span> <span class="n">work</span> <span class="ow">and</span> <span class="n">there</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">hidden</span> <span class="n">state</span><span class="o">.</span>
+                                                            
+<span class="p">[</span><span class="o">^</span><span class="n">tamper</span><span class="p">]:</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">possible</span> <span class="n">that</span> <span class="n">inputs</span> <span class="n">were</span> <span class="n">tampered</span> <span class="k">with</span><span class="p">,</span> <span class="n">but</span> <span class="n">let</span> <span class="n">us</span> <span class="n">assume</span> <span class="n">the</span> <span class="n">best</span> <span class="n">intentions</span><span class="o">.</span>
+
+<span class="p">[</span><span class="n">literate</span> <span class="n">computing</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">web</span><span class="o">.</span><span class="n">archive</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">web</span><span class="o">/</span><span class="mi">20220510083647</span><span class="o">/</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">blog</span><span class="o">.</span><span class="n">fperez</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="mi">2013</span><span class="o">/</span><span class="mi">04</span><span class="o">/</span><span class="n">literate</span><span class="o">-</span><span class="n">computing</span><span class="o">-</span><span class="ow">and</span><span class="o">-</span><span class="n">computational</span><span class="o">.</span><span class="n">html</span>
+<span class="p">[</span><span class="n">landscape</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">ppig</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="mi">2019</span><span class="o">-</span><span class="n">PPIG</span><span class="o">-</span><span class="mi">30</span><span class="n">th</span><span class="o">-</span><span class="n">fog</span><span class="o">.</span><span class="n">pdf</span>
+<span class="p">[</span><span class="n">complaint</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">towardsdatascience</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">the</span><span class="o">-</span><span class="n">case</span><span class="o">-</span><span class="n">against</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">jupyter</span><span class="o">-</span><span class="n">notebook</span><span class="o">-</span><span class="n">d4da17e97243</span>
+<span class="p">[</span><span class="n">story</span> <span class="ow">in</span> <span class="n">notebook</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">marybethkery</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">projects</span><span class="o">/</span><span class="n">Verdant</span><span class="o">/</span><span class="n">Kery</span><span class="o">-</span><span class="n">The</span><span class="o">-</span><span class="n">Story</span><span class="o">-</span><span class="ow">in</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">Notebook</span><span class="o">-</span><span class="n">Exploratory</span><span class="o">-</span><span class="n">Data</span><span class="o">-</span><span class="n">Science</span><span class="o">-</span><span class="n">using</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">Literate</span><span class="o">-</span><span class="n">Programming</span><span class="o">-</span><span class="n">Tool</span><span class="o">.</span><span class="n">pdf</span>
+<span class="p">[</span><span class="n">literate</span> <span class="n">program</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">Literate_programming</span>
+<span class="p">[</span><span class="n">fernando</span> <span class="n">perez</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">Fernando_P</span><span class="o">%</span><span class="n">C3</span><span class="o">%</span><span class="n">A9rez_</span><span class="p">(</span><span class="n">software_developer</span><span class="p">)</span>
+<span class="p">[</span><span class="n">Project</span> <span class="n">Jupyter</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">jupyter</span><span class="o">.</span><span class="n">org</span><span class="o">/</span>
+<span class="p">[</span><span class="n">Exploration</span> <span class="ow">and</span> <span class="n">Explanation</span> <span class="ow">in</span> <span class="n">Computational</span> <span class="n">Notebooks</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">adamrule</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">files</span><span class="o">/</span><span class="n">papers</span><span class="o">/</span><span class="n">chi_2018_computational_notebooks_camera_ready</span><span class="o">.</span><span class="n">pdf</span>
+<span class="p">[</span><span class="n">state</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">en</span><span class="o">.</span><span class="n">wikipedia</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">wiki</span><span class="o">/</span><span class="n">State_</span><span class="p">(</span><span class="n">computer_science</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       37
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          12
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="benefits-of-raragtfo">
+         <a href="#benefits-of-raragtfo">
+          benefits of RARA||GTFO
+         </a>
+        </h2>
+        <p>
+         a computational notebook is a
+         <a href="https://en.wikipedia.org/wiki/Literate_programming">
+          literate program
+         </a>
+         that composites narrative and code;
+it simultaneously has the qualities of
+         <strong>
+          literature
+         </strong>
+         and a
+         <strong>
+          program
+         </strong>
+         .
+literate programs introduce a computational qualities to documents,
+and the compute implied the authoring system had
+         <a href="https://en.wikipedia.org/wiki/State_(computer_science)">
+          state
+         </a>
+         .
+        </p>
+        <p>
+         <a href="https://towardsdatascience.com/the-case-against-the-jupyter-notebook-d4da17e97243">
+          a common complaint is that literate notebook programs contain hidden states
+         </a>
+         .
+hidden state is happens when code cells are executed out-of-order,
+or not executed at all.
+executing code cells ensures that code can be read by at least one machine; the code input worked at some point.
+ordered execution is an objective measure of non-hidden state [^tamper].
+        </p>
+        <p>
+         in the literature,
+         <a href="https://adamrule.com/files/papers/chi_2018_computational_notebooks_camera_ready.pdf">
+          Exploration and Explanation in Computational Notebooks
+         </a>
+         , a large scale analysis of notebooks,
+they distinguish between linear notebooks and non-linear notebooks.
+non-linear notebooks are most likely to have
+         <a href="https://ploomber.io/blog/nbs-myths/#hidden-state">
+          hidden state
+         </a>
+         .
+at scale,
+         <strong>
+          restart and run all
+         </strong>
+         is a distinguishing quality of computational notebooks.
+        </p>
+        <blockquote>
+         <p>
+          <a href="https://www.ppig.org/files/2019-PPIG-30th-fog.pdf">
+           The most prevalent expression of literate computing right now is the computational notebook.
+          </a>
+         </p>
+        </blockquote>
+        <p>
+         <a href="https://en.wikipedia.org/wiki/Fernando_P%C3%A9rez_(software_developer)">
+          fernando perez
+         </a>
+         - co-founder of
+         <a href="https://jupyter.org/">
+          Project Jupyter
+         </a>
+         - acknowledged that notebooks are literate programs with something extra.
+he describes notebook authoring as
+         <a href="https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html">
+          literate computing
+         </a>
+         where live computation is woven into the document.
+the notebook document is stateful, statefulness is a quality of this new media.
+        </p>
+        <p>
+         the
+         <strong>
+          restart and run all
+         </strong>
+         criteria verifies that code inputs work and there is not hidden state.
+        </p>
+        <p>
+         [^tamper]: it is possible that inputs were tampered with, but let us assume the best intentions.
+        </p>
+        &lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="22" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="nb-code-label nb-cell-label cell-5-loc nb-loc-label
+    cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-5-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         19
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-source-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="22">### executed code in computational notebooks
+
+when notebooks are observed as documents,
+code objects are literary devices actively participating in the narrative.
+these code objects have two distinct states:
+
+1. NOT executed code
+
+    un-executed reverses back into normal language. it is [arbitrary symbol] propping up the narrative.
+    
+2. executed code
+
+    executed code encapsulates a form of pre-formatted input code and corresponding output respresentations.
+    the input and outputs cooperate - through text and form - to bring meaning to the coded object.
+    
+
+NOT executed code has arbitrary meaning, trust it like you would code returned from [chatgpt](https://openai.com/blog/chatgpt/).
+on the other hand, executed code has inputs, outputs and prompts.
+when the prompts are populated we know a cell has been executed.
+when all the cells execute in order we satisfy the {{RARA.lower()}} criteria.
+
+[arbitrary symbol]: https://psychologydictionary.org/arbitrary-symbol/</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### executed code in computational notebooks</span>
+
+<span class="n">when</span> <span class="n">notebooks</span> <span class="n">are</span> <span class="n">observed</span> <span class="k">as</span> <span class="n">documents</span><span class="p">,</span>
+<span class="n">code</span> <span class="n">objects</span> <span class="n">are</span> <span class="n">literary</span> <span class="n">devices</span> <span class="n">actively</span> <span class="n">participating</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">narrative</span><span class="o">.</span>
+<span class="n">these</span> <span class="n">code</span> <span class="n">objects</span> <span class="n">have</span> <span class="n">two</span> <span class="n">distinct</span> <span class="n">states</span><span class="p">:</span>
+
+<span class="mf">1.</span> <span class="n">NOT</span> <span class="n">executed</span> <span class="n">code</span>
+
+    <span class="n">un</span><span class="o">-</span><span class="n">executed</span> <span class="n">reverses</span> <span class="n">back</span> <span class="n">into</span> <span class="n">normal</span> <span class="n">language</span><span class="o">.</span> <span class="n">it</span> <span class="ow">is</span> <span class="p">[</span><span class="n">arbitrary</span> <span class="n">symbol</span><span class="p">]</span> <span class="n">propping</span> <span class="n">up</span> <span class="n">the</span> <span class="n">narrative</span><span class="o">.</span>
+    
+<span class="mf">2.</span> <span class="n">executed</span> <span class="n">code</span>
+
+    <span class="n">executed</span> <span class="n">code</span> <span class="n">encapsulates</span> <span class="n">a</span> <span class="n">form</span> <span class="n">of</span> <span class="n">pre</span><span class="o">-</span><span class="n">formatted</span> <span class="nb">input</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">corresponding</span> <span class="n">output</span> <span class="n">respresentations</span><span class="o">.</span>
+    <span class="n">the</span> <span class="nb">input</span> <span class="ow">and</span> <span class="n">outputs</span> <span class="n">cooperate</span> <span class="o">-</span> <span class="n">through</span> <span class="n">text</span> <span class="ow">and</span> <span class="n">form</span> <span class="o">-</span> <span class="n">to</span> <span class="n">bring</span> <span class="n">meaning</span> <span class="n">to</span> <span class="n">the</span> <span class="n">coded</span> <span class="nb">object</span><span class="o">.</span>
+    
+
+<span class="n">NOT</span> <span class="n">executed</span> <span class="n">code</span> <span class="n">has</span> <span class="n">arbitrary</span> <span class="n">meaning</span><span class="p">,</span> <span class="n">trust</span> <span class="n">it</span> <span class="n">like</span> <span class="n">you</span> <span class="n">would</span> <span class="n">code</span> <span class="n">returned</span> <span class="kn">from</span> <span class="p">[</span><span class="n">chatgpt</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">openai</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">chatgpt</span><span class="o">/</span><span class="p">)</span><span class="o">.</span>
+<span class="n">on</span> <span class="n">the</span> <span class="n">other</span> <span class="n">hand</span><span class="p">,</span> <span class="n">executed</span> <span class="n">code</span> <span class="n">has</span> <span class="n">inputs</span><span class="p">,</span> <span class="n">outputs</span> <span class="ow">and</span> <span class="n">prompts</span><span class="o">.</span>
+<span class="n">when</span> <span class="n">the</span> <span class="n">prompts</span> <span class="n">are</span> <span class="n">populated</span> <span class="n">we</span> <span class="n">know</span> <span class="n">a</span> <span class="n">cell</span> <span class="n">has</span> <span class="n">been</span> <span class="n">executed</span><span class="o">.</span>
+<span class="n">when</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">cells</span> <span class="n">execute</span> <span class="ow">in</span> <span class="n">order</span> <span class="n">we</span> <span class="n">satisfy</span> <span class="n">the</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="n">criteria</span><span class="o">.</span>
+
+<span class="p">[</span><span class="n">arbitrary</span> <span class="n">symbol</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">psychologydictionary</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">arbitrary</span><span class="o">-</span><span class="n">symbol</span><span class="o">/</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       22
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          19
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#executed-code-in-computational-notebooks">
+          executed code in computational notebooks
+         </a>
+        </h3>
+        <p>
+         when notebooks are observed as documents,
+code objects are literary devices actively participating in the narrative.
+these code objects have two distinct states:
+        </p>
+        <ol>
+         <li>
+          <p>
+           NOT executed code
+          </p>
+          <p>
+           un-executed reverses back into normal language. it is
+           <a href="https://psychologydictionary.org/arbitrary-symbol/">
+            arbitrary symbol
+           </a>
+           propping up the narrative.
+          </p>
+         </li>
+         <li>
+          <p>
+           executed code
+          </p>
+          <p>
+           executed code encapsulates a form of pre-formatted input code and corresponding output respresentations.
+the input and outputs cooperate - through text and form - to bring meaning to the coded object.
+          </p>
+         </li>
+        </ol>
+        <p>
+         NOT executed code has arbitrary meaning, trust it like you would code returned from
+         <a href="https://openai.com/blog/chatgpt/">
+          chatgpt
+         </a>
+         .
+on the other hand, executed code has inputs, outputs and prompts.
+when the prompts are populated we know a cell has been executed.
+when all the cells execute in order we satisfy the
+         <strong>
+          restart and run all
+         </strong>
+         criteria.
+        </p>
+        &lt; /&gt;
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="20" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
+    cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-6-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         20
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-source-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="20">## {{RARA}} criteria implementation
+
+    def restart_and_run_all(file, code_cell_count=0):
+`restart_and_run_all` is violated when we iterate through the the notebook cells
+
+        for i, cell in enumerate((notebook := read_file(file)).cells):
+            if cell["cell_type"] == "code":
+to discover a code cell:
+
+                code_cell_count += 1
+                try:
+* that has not been executed because the prompt is not an integer
+            
+                    current_count = int(cell.execution_count)
+                except ValueError: raise UnexecutedCell(F"cell {i} not executed")
+                if code_cell_count != current_count:
+* has cell prompts that do not align with current cell count
+                    
+                    raise OutOfOrderExecution(F"cell {i} is executed out of order")
+                    </textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## {{RARA}} criteria implementation</span>
+
+    <span class="k">def</span> <span class="nf">restart_and_run_all</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">code_cell_count</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+<span class="err">`</span><span class="n">restart_and_run_all</span><span class="err">`</span> <span class="ow">is</span> <span class="n">violated</span> <span class="n">when</span> <span class="n">we</span> <span class="n">iterate</span> <span class="n">through</span> <span class="n">the</span> <span class="n">the</span> <span class="n">notebook</span> <span class="n">cells</span>
+
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">cell</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">((</span><span class="n">notebook</span> <span class="o">:=</span> <span class="n">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">))</span><span class="o">.</span><span class="n">cells</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">cell</span><span class="p">[</span><span class="s2">"cell_type"</span><span class="p">]</span> <span class="o">==</span> <span class="s2">"code"</span><span class="p">:</span>
+<span class="n">to</span> <span class="n">discover</span> <span class="n">a</span> <span class="n">code</span> <span class="n">cell</span><span class="p">:</span>
+
+                <span class="n">code_cell_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">try</span><span class="p">:</span>
+<span class="o">*</span> <span class="n">that</span> <span class="n">has</span> <span class="ow">not</span> <span class="n">been</span> <span class="n">executed</span> <span class="n">because</span> <span class="n">the</span> <span class="n">prompt</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">an</span> <span class="n">integer</span>
+            
+                    <span class="n">current_count</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">execution_count</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span> <span class="k">raise</span> <span class="n">UnexecutedCell</span><span class="p">(</span><span class="sa">F</span><span class="s2">"cell </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> not executed"</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">code_cell_count</span> <span class="o">!=</span> <span class="n">current_count</span><span class="p">:</span>
+<span class="o">*</span> <span class="n">has</span> <span class="n">cell</span> <span class="n">prompts</span> <span class="n">that</span> <span class="n">do</span> <span class="ow">not</span> <span class="n">align</span> <span class="k">with</span> <span class="n">current</span> <span class="n">cell</span> <span class="n">count</span>
+                    
+                    <span class="k">raise</span> <span class="n">OutOfOrderExecution</span><span class="p">(</span><span class="sa">F</span><span class="s2">"cell </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> is executed out of order"</span><span class="p">)</span>
+                    
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       20
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-6-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          20
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="restart-and-run-all-criteria-implementation">
+         <a href="#restart-and-run-all-criteria-implementation">
+          Restart and run all criteria implementation
+         </a>
+        </h2>
+        <pre><code>def restart_and_run_all(file, code_cell_count=0):
+</code></pre>
+        <p>
+         <code>
+          restart_and_run_all
+         </code>
+         is violated when we iterate through the the notebook cells
+        </p>
+        <pre><code>    for i, cell in enumerate((notebook := read_file(file)).cells):
+        if cell["cell_type"] == "code":
+</code></pre>
+        <p>
+         to discover a code cell:
+        </p>
+        <pre><code>            code_cell_count += 1
+            try:
+</code></pre>
+        <ul>
+         <li>
+          <p>
+           that has not been executed because the prompt is not an integer
+          </p>
+          <pre><code>              current_count = int(cell.execution_count)
+          except ValueError: raise UnexecutedCell(F"cell {i} not executed")
+          if code_cell_count != current_count:
+</code></pre>
+         </li>
+         <li>
+          <p>
+           has cell prompts that do not align with current cell count
+          </p>
+          <pre><code>              raise OutOfOrderExecution(F"cell {i} is executed out of order")
+</code></pre>
+         </li>
+        </ul>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="41" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="7" aria-describedby="nb-code-label nb-cell-label cell-7-loc nb-loc-label
+    cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+        7
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-7-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         21
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-7-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-7-source-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-7-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-7-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="41">### {{RARA}} exceptions
+
+we assign two formal `BaseException`s for `restart_and_run_all`: `OutOfOrderExection` and `UnexecutedCell`
+
+#### unexecuted cells
+
+unexecuted cells are representations only by the preformatted text input.
+they lack an outputs or prompt number. 
+without these features the code stands on its own.
+it reverts back to pseudocode.
+                    
+    class UnexecutedCell(BaseException):
+`UnexecutedCell`s raises when the code cell execution counts is a non-integer.
+
+
+#### out of order execution
+
+there are some tools that are designed to be reactive or executed out of order.
+the RARA criterion does not dismiss these cases rather it could be a starting state.
+we may suspect hidden state
+
+    class OutOfOrderExection:
+`OutOfOrderExection` raises when code cell execution counts are not monotonically increasing.
+
+    def read_file(file):
+        if not isinstance(file, str): file = file.__file__
+        with open(file) as f: return nbformat.v4.reads(f.read())
+        
+### extra preservatives
+
+notebooks are swiss army knives documents; they have application as tests, modules, scripts and documents.
+the {{RARA.lower()}} criteria combined with the [different cell execution states][states]: `INTERACTIVE`, `SCRIPT`, or `MODULE`.
+
+
+    assert restart_and_run_all("2023-01-09-notebooks-states.ipynb") is None,\
+errors are raised when failing, and i don't want to demostrate failure here
+
+when we assert that a previous notebook will {{RARA.lower()}}
+we become slightly more confident about the code in that document.
+
+[state]: 2023-01-09-notebooks-states.ipynb</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### {{RARA}} exceptions</span>
+
+<span class="n">we</span> <span class="n">assign</span> <span class="n">two</span> <span class="n">formal</span> <span class="err">`</span><span class="ne">BaseException</span><span class="err">`</span><span class="n">s</span> <span class="k">for</span> <span class="err">`</span><span class="n">restart_and_run_all</span><span class="err">`</span><span class="p">:</span> <span class="err">`</span><span class="n">OutOfOrderExection</span><span class="err">`</span> <span class="ow">and</span> <span class="err">`</span><span class="n">UnexecutedCell</span><span class="err">`</span>
+
+<span class="c1">#### unexecuted cells</span>
+
+<span class="n">unexecuted</span> <span class="n">cells</span> <span class="n">are</span> <span class="n">representations</span> <span class="n">only</span> <span class="n">by</span> <span class="n">the</span> <span class="n">preformatted</span> <span class="n">text</span> <span class="nb">input</span><span class="o">.</span>
+<span class="n">they</span> <span class="n">lack</span> <span class="n">an</span> <span class="n">outputs</span> <span class="ow">or</span> <span class="n">prompt</span> <span class="n">number</span><span class="o">.</span> 
+<span class="n">without</span> <span class="n">these</span> <span class="n">features</span> <span class="n">the</span> <span class="n">code</span> <span class="n">stands</span> <span class="n">on</span> <span class="n">its</span> <span class="n">own</span><span class="o">.</span>
+<span class="n">it</span> <span class="n">reverts</span> <span class="n">back</span> <span class="n">to</span> <span class="n">pseudocode</span><span class="o">.</span>
+                    
+    <span class="k">class</span> <span class="nc">UnexecutedCell</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">):</span>
+<span class="err">`</span><span class="n">UnexecutedCell</span><span class="err">`</span><span class="n">s</span> <span class="n">raises</span> <span class="n">when</span> <span class="n">the</span> <span class="n">code</span> <span class="n">cell</span> <span class="n">execution</span> <span class="n">counts</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">non</span><span class="o">-</span><span class="n">integer</span><span class="o">.</span>
+
+
+<span class="c1">#### out of order execution</span>
+
+<span class="n">there</span> <span class="n">are</span> <span class="n">some</span> <span class="n">tools</span> <span class="n">that</span> <span class="n">are</span> <span class="n">designed</span> <span class="n">to</span> <span class="n">be</span> <span class="n">reactive</span> <span class="ow">or</span> <span class="n">executed</span> <span class="n">out</span> <span class="n">of</span> <span class="n">order</span><span class="o">.</span>
+<span class="n">the</span> <span class="n">RARA</span> <span class="n">criterion</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">dismiss</span> <span class="n">these</span> <span class="n">cases</span> <span class="n">rather</span> <span class="n">it</span> <span class="n">could</span> <span class="n">be</span> <span class="n">a</span> <span class="n">starting</span> <span class="n">state</span><span class="o">.</span>
+<span class="n">we</span> <span class="n">may</span> <span class="n">suspect</span> <span class="n">hidden</span> <span class="n">state</span>
+
+    <span class="k">class</span> <span class="nc">OutOfOrderExection</span><span class="p">:</span>
+<span class="err">`</span><span class="n">OutOfOrderExection</span><span class="err">`</span> <span class="n">raises</span> <span class="n">when</span> <span class="n">code</span> <span class="n">cell</span> <span class="n">execution</span> <span class="n">counts</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">monotonically</span> <span class="n">increasing</span><span class="o">.</span>
+
+    <span class="k">def</span> <span class="nf">read_file</span><span class="p">(</span><span class="n">file</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span> <span class="n">file</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="vm">__file__</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span> <span class="k">return</span> <span class="n">nbformat</span><span class="o">.</span><span class="n">v4</span><span class="o">.</span><span class="n">reads</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+        
+<span class="c1">### extra preservatives</span>
+
+<span class="n">notebooks</span> <span class="n">are</span> <span class="n">swiss</span> <span class="n">army</span> <span class="n">knives</span> <span class="n">documents</span><span class="p">;</span> <span class="n">they</span> <span class="n">have</span> <span class="n">application</span> <span class="k">as</span> <span class="n">tests</span><span class="p">,</span> <span class="n">modules</span><span class="p">,</span> <span class="n">scripts</span> <span class="ow">and</span> <span class="n">documents</span><span class="o">.</span>
+<span class="n">the</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="n">criteria</span> <span class="n">combined</span> <span class="k">with</span> <span class="n">the</span> <span class="p">[</span><span class="n">different</span> <span class="n">cell</span> <span class="n">execution</span> <span class="n">states</span><span class="p">][</span><span class="n">states</span><span class="p">]:</span> <span class="err">`</span><span class="n">INTERACTIVE</span><span class="err">`</span><span class="p">,</span> <span class="err">`</span><span class="n">SCRIPT</span><span class="err">`</span><span class="p">,</span> <span class="ow">or</span> <span class="err">`</span><span class="n">MODULE</span><span class="err">`</span><span class="o">.</span>
+
+
+    <span class="k">assert</span> <span class="n">restart_and_run_all</span><span class="p">(</span><span class="s2">"2023-01-09-notebooks-states.ipynb"</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">,</span>\
+<span class="n">errors</span> <span class="n">are</span> <span class="n">raised</span> <span class="n">when</span> <span class="n">failing</span><span class="p">,</span> <span class="ow">and</span> <span class="n">i</span> <span class="n">don</span><span class="s1">'t want to demostrate failure here</span>
+
+<span class="n">when</span> <span class="n">we</span> <span class="k">assert</span> <span class="n">that</span> <span class="n">a</span> <span class="n">previous</span> <span class="n">notebook</span> <span class="n">will</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span>
+<span class="n">we</span> <span class="n">become</span> <span class="n">slightly</span> <span class="n">more</span> <span class="n">confident</span> <span class="n">about</span> <span class="n">the</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">that</span> <span class="n">document</span><span class="o">.</span>
+
+<span class="p">[</span><span class="n">state</span><span class="p">]:</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="n">notebooks</span><span class="o">-</span><span class="n">states</span><span class="o">.</span><span class="n">ipynb</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-7-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-7-loc" role="none">
+       41
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-7-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          21
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#restart-and-run-all-exceptions">
+          Restart and run all exceptions
+         </a>
+        </h3>
+        <p>
+         we assign two formal
+         <code>
+          BaseException
+         </code>
+         s for
+         <code>
+          restart_and_run_all
+         </code>
+         :
+         <code>
+          OutOfOrderExection
+         </code>
+         and
+         <code>
+          UnexecutedCell
+         </code>
+        </p>
+        <h4>
+         <a href="#unexecuted-cells">
+          unexecuted cells
+         </a>
+        </h4>
+        <p>
+         unexecuted cells are representations only by the preformatted text input.
+they lack an outputs or prompt number.
+without these features the code stands on its own.
+it reverts back to pseudocode.
+        </p>
+        <pre><code>class UnexecutedCell(BaseException):
+</code></pre>
+        <p>
+         <code>
+          UnexecutedCell
+         </code>
+         s raises when the code cell execution counts is a non-integer.
+        </p>
+        <h4>
+         <a href="#out-of-order-execution">
+          out of order execution
+         </a>
+        </h4>
+        <p>
+         there are some tools that are designed to be reactive or executed out of order.
+the RARA criterion does not dismiss these cases rather it could be a starting state.
+we may suspect hidden state
+        </p>
+        <pre><code>class OutOfOrderExection:
+</code></pre>
+        <p>
+         <code>
+          OutOfOrderExection
+         </code>
+         raises when code cell execution counts are not monotonically increasing.
+        </p>
+        <pre><code>def read_file(file):
+    if not isinstance(file, str): file = file.__file__
+    with open(file) as f: return nbformat.v4.reads(f.read())
+</code></pre>
+        <h3>
+         <a href="#extra-preservatives">
+          extra preservatives
+         </a>
+        </h3>
+        <p>
+         notebooks are swiss army knives documents; they have application as tests, modules, scripts and documents.
+the
+         <strong>
+          restart and run all
+         </strong>
+         criteria combined with the [different cell execution states][states]:
+         <code>
+          INTERACTIVE
+         </code>
+         ,
+         <code>
+          SCRIPT
+         </code>
+         , or
+         <code>
+          MODULE
+         </code>
+         .
+        </p>
+        <pre><code>assert restart_and_run_all("2023-01-09-notebooks-states.ipynb") is None,\
+</code></pre>
+        <p>
+         errors are raised when failing, and i don't want to demostrate failure here
+        </p>
+        <p>
+         when we assert that a previous notebook will
+         <strong>
+          restart and run all
+         </strong>
+         we become slightly more confident about the code in that document.
+        </p>
+        &lt; /&gt;
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="11" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="8" aria-describedby="nb-code-label nb-cell-label cell-8-loc nb-loc-label
+    cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+        8
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-8-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         22
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-8-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-8-source-label" class="nb-toolbar" hidden id="cell-8" name="cell-8">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-8-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-8-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="11">## impacts of {{RARA}}-ability
+
+### {{RARA}} and reusability
+
+restart and run all is critical to reusing python notebooks as [modules, tests or scripts].
+there are a few ways of [testing notebooks], and none of these methods suceed without notebooks that restart and run all.
+
+{{RARA.lower()}} as a practice will encourage you to write notebooks you'll be able to return to.
+
+[modules, tests or scripts]: 2023-01-09-notebooks-states.ipynb
+[testing notebooks]: https://nbviewer.org/gist/tonyfast/e7dd7ff3d808d57b77e9765626a73a91</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## impacts of {{RARA}}-ability</span>
+
+<span class="c1">### {{RARA}} and reusability</span>
+
+<span class="n">restart</span> <span class="ow">and</span> <span class="n">run</span> <span class="nb">all</span> <span class="ow">is</span> <span class="n">critical</span> <span class="n">to</span> <span class="n">reusing</span> <span class="n">python</span> <span class="n">notebooks</span> <span class="k">as</span> <span class="p">[</span><span class="n">modules</span><span class="p">,</span> <span class="n">tests</span> <span class="ow">or</span> <span class="n">scripts</span><span class="p">]</span><span class="o">.</span>
+<span class="n">there</span> <span class="n">are</span> <span class="n">a</span> <span class="n">few</span> <span class="n">ways</span> <span class="n">of</span> <span class="p">[</span><span class="n">testing</span> <span class="n">notebooks</span><span class="p">],</span> <span class="ow">and</span> <span class="n">none</span> <span class="n">of</span> <span class="n">these</span> <span class="n">methods</span> <span class="n">suceed</span> <span class="n">without</span> <span class="n">notebooks</span> <span class="n">that</span> <span class="n">restart</span> <span class="ow">and</span> <span class="n">run</span> <span class="nb">all</span><span class="o">.</span>
+
+<span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="k">as</span> <span class="n">a</span> <span class="n">practice</span> <span class="n">will</span> <span class="n">encourage</span> <span class="n">you</span> <span class="n">to</span> <span class="n">write</span> <span class="n">notebooks</span> <span class="n">you</span><span class="s1">'ll be able to return to.</span>
+
+<span class="p">[</span><span class="n">modules</span><span class="p">,</span> <span class="n">tests</span> <span class="ow">or</span> <span class="n">scripts</span><span class="p">]:</span> <span class="mi">2023</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="n">notebooks</span><span class="o">-</span><span class="n">states</span><span class="o">.</span><span class="n">ipynb</span>
+<span class="p">[</span><span class="n">testing</span> <span class="n">notebooks</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">nbviewer</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">gist</span><span class="o">/</span><span class="n">tonyfast</span><span class="o">/</span><span class="n">e7dd7ff3d808d57b77e9765626a73a91</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-8-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-8" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-8-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-8-loc" role="none">
+       11
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-8-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-8-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          22
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="impacts-of-restart-and-run-all-ability">
+         <a href="#impacts-of-restart-and-run-all-ability">
+          impacts of Restart and run all-ability
+         </a>
+        </h2>
+        <h3>
+         <a href="#restart-and-run-all-and-reusability">
+          Restart and run all and reusability
+         </a>
+        </h3>
+        <p>
+         restart and run all is critical to reusing python notebooks as
+         <a href="2023-01-09-notebooks-states.ipynb">
+          modules, tests or scripts
+         </a>
+         .
+there are a few ways of
+         <a href="https://nbviewer.org/gist/tonyfast/e7dd7ff3d808d57b77e9765626a73a91">
+          testing notebooks
+         </a>
+         , and none of these methods suceed without notebooks that restart and run all.
+        </p>
+        <p>
+         <strong>
+          restart and run all
+         </strong>
+         as a practice will encourage you to write notebooks you'll be able to return to.
+        </p>
+        &lt; /&gt;
+&lt; /&gt;
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="16" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="9" aria-describedby="nb-code-label nb-cell-label cell-9-loc nb-loc-label
+    cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
+        9
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-9-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         23
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-9-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-9-source-label" class="nb-toolbar" hidden id="cell-9" name="cell-9">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-9-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-9-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="16">### &lt;abbr&gt;RARA&lt;/abbr&gt; conflicts
+
+#### too many ideas
+
+it is easy to put [too many units of thought into a notebook](#Restart-and-run-all-roots). 
+this struggle can be striking when sticking to the restart and run all principle.
+when we write documents about single units of thought we are treading in formal testing territory.
+
+
+#### compute intensive operations
+
+a push against {{RARA.lower()}} is having large datasets or other compute intensive operations.
+we apply the &lt;abbr title="cache rules everything around me"&gt;CREAM&lt;/abbr&gt; principle and cache our 
+compute intensive tasks. 
+in these situations, authors will benefit data engineering there work to avoid
+costly repetitive tasks; you'll save your future self time.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### &lt;abbr&gt;RARA&lt;/abbr&gt; conflicts</span>
+
+<span class="c1">#### too many ideas</span>
+
+<span class="n">it</span> <span class="ow">is</span> <span class="n">easy</span> <span class="n">to</span> <span class="n">put</span> <span class="p">[</span><span class="n">too</span> <span class="n">many</span> <span class="n">units</span> <span class="n">of</span> <span class="n">thought</span> <span class="n">into</span> <span class="n">a</span> <span class="n">notebook</span><span class="p">](</span><span class="c1">#Restart-and-run-all-roots). </span>
+<span class="n">this</span> <span class="n">struggle</span> <span class="n">can</span> <span class="n">be</span> <span class="n">striking</span> <span class="n">when</span> <span class="n">sticking</span> <span class="n">to</span> <span class="n">the</span> <span class="n">restart</span> <span class="ow">and</span> <span class="n">run</span> <span class="nb">all</span> <span class="n">principle</span><span class="o">.</span>
+<span class="n">when</span> <span class="n">we</span> <span class="n">write</span> <span class="n">documents</span> <span class="n">about</span> <span class="n">single</span> <span class="n">units</span> <span class="n">of</span> <span class="n">thought</span> <span class="n">we</span> <span class="n">are</span> <span class="n">treading</span> <span class="ow">in</span> <span class="n">formal</span> <span class="n">testing</span> <span class="n">territory</span><span class="o">.</span>
+
+
+<span class="c1">#### compute intensive operations</span>
+
+<span class="n">a</span> <span class="n">push</span> <span class="n">against</span> <span class="p">{{</span><span class="n">RARA</span><span class="o">.</span><span class="n">lower</span><span class="p">()}}</span> <span class="ow">is</span> <span class="n">having</span> <span class="n">large</span> <span class="n">datasets</span> <span class="ow">or</span> <span class="n">other</span> <span class="n">compute</span> <span class="n">intensive</span> <span class="n">operations</span><span class="o">.</span>
+<span class="n">we</span> <span class="n">apply</span> <span class="n">the</span> <span class="o">&lt;</span><span class="n">abbr</span> <span class="n">title</span><span class="o">=</span><span class="s2">"cache rules everything around me"</span><span class="o">&gt;</span><span class="n">CREAM</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="n">principle</span> <span class="ow">and</span> <span class="n">cache</span> <span class="n">our</span> 
+<span class="n">compute</span> <span class="n">intensive</span> <span class="n">tasks</span><span class="o">.</span> 
+<span class="ow">in</span> <span class="n">these</span> <span class="n">situations</span><span class="p">,</span> <span class="n">authors</span> <span class="n">will</span> <span class="n">benefit</span> <span class="n">data</span> <span class="n">engineering</span> <span class="n">there</span> <span class="n">work</span> <span class="n">to</span> <span class="n">avoid</span>
+<span class="n">costly</span> <span class="n">repetitive</span> <span class="n">tasks</span><span class="p">;</span> <span class="n">you</span><span class="s1">'ll save your future self time.</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-9-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-9" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-9-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-9-loc" role="none">
+       16
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-9-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-9-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          23
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#rara-conflicts">
+          RARA conflicts
+         </a>
+        </h3>
+        <h4>
+         <a href="#too-many-ideas">
+          too many ideas
+         </a>
+        </h4>
+        <p>
+         it is easy to put
+         <a href="#Restart-and-run-all-roots">
+          too many units of thought into a notebook
+         </a>
+         .
+this struggle can be striking when sticking to the restart and run all principle.
+when we write documents about single units of thought we are treading in formal testing territory.
+        </p>
+        <h4>
+         <a href="#compute-intensive-operations">
+          compute intensive operations
+         </a>
+        </h4>
+        <p>
+         a push against
+         <strong>
+          restart and run all
+         </strong>
+         is having large datasets or other compute intensive operations.
+we apply the
+         <abbr title="cache rules everything around me">
+          CREAM
+         </abbr>
+         principle and cache our
+compute intensive tasks.
+in these situations, authors will benefit data engineering there work to avoid
+costly repetitive tasks; you'll save your future self time.
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="7" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-10-loc nb-loc-label
+    cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
+        10
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-10-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         24
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-10-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-10-source-label" class="nb-toolbar" hidden id="cell-10" name="cell-10">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-10-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-10-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="7">## 📣 write notebooks that endure
+
+{{rara}} || &lt;abbr&gt;GTFO&lt;/abbr&gt; helps us trust our's and other's notebooks more.
+we can be slightly more confident in future uses of that work.
+
+{{rara}}. i'm cheering for y'all. i see y'all beating the snot out of every line of code.
+let's make these efforts endure. remember to tell you friends &lt;q&gt;{{RARA.strip("_")}} or &lt;abbr&gt;GTFO&lt;/abbr&gt;.&lt;/q&gt;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## 📣 write notebooks that endure</span>
+
+<span class="p">{{</span><span class="n">rara</span><span class="p">}}</span> <span class="o">||</span> <span class="o">&lt;</span><span class="n">abbr</span><span class="o">&gt;</span><span class="n">GTFO</span><span class="o">&lt;/</span><span class="n">abbr</span><span class="o">&gt;</span> <span class="n">helps</span> <span class="n">us</span> <span class="n">trust</span> <span class="n">our</span><span class="s1">'s and other'</span><span class="n">s</span> <span class="n">notebooks</span> <span class="n">more</span><span class="o">.</span>
+<span class="n">we</span> <span class="n">can</span> <span class="n">be</span> <span class="n">slightly</span> <span class="n">more</span> <span class="n">confident</span> <span class="ow">in</span> <span class="n">future</span> <span class="n">uses</span> <span class="n">of</span> <span class="n">that</span> <span class="n">work</span><span class="o">.</span>
+
+<span class="p">{{</span><span class="n">rara</span><span class="p">}}</span><span class="o">.</span> <span class="n">i</span><span class="s1">'m cheering for y'</span><span class="nb">all</span><span class="o">.</span> <span class="n">i</span> <span class="n">see</span> <span class="n">y</span><span class="s1">'all beating the snot out of every line of code.</span>
+<span class="n">let</span><span class="s1">'s make these efforts endure. remember to tell you friends &lt;q&gt;{{RARA.strip("_")}} or &lt;abbr&gt;GTFO&lt;/abbr&gt;.&lt;/q&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-10-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-10-loc" role="none">
+       7
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-10-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          24
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="-write-notebooks-that-endure">
+         <a href="#-write-notebooks-that-endure">
+          📣 write notebooks that endure
+         </a>
+        </h2>
+        <p>
+         <abbr>
+          RARA
+         </abbr>
+         ||
+         <abbr>
+          GTFO
+         </abbr>
+         helps us trust our's and other's notebooks more.
+we can be slightly more confident in future uses of that work.
+        </p>
+        <p>
+         <abbr>
+          RARA
+         </abbr>
+         . i'm cheering for y'all. i see y'all beating the snot out of every line of code.
+let's make these efforts endure. remember to tell you friends
+         <q>
+          Restart and run all or
+          <abbr>
+           GTFO
+          </abbr>
+          .
+         </q>
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="31" role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-11-loc nb-loc-label
+    cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
+        11
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-11-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         25
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-11-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-11-source-label" class="nb-toolbar" hidden id="cell-11" name="cell-11">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-11-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-11-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="31">## devils 😈 share
+### {{RARA}} roots
+
+paco nathan was the first person i heard this concept from.
+at [Jupyter Day 2016], at the time, he was using notebooks as medium
+for immersive professional publications. these oriole notebooks
+were educational tools that embedded the teacher and the runtime together.
+there were some beautiful videos produced with some big names like:...
+
+[paco] presented what his team learned when [producing teaching videos with notebooks][oriole].
+
+&gt; 1. focus on a concise "unit of thought"
+&gt; 1. invest the time and editorial effort to create a good introduction
+&gt; 1. keep your narrative simple and reasonably linear
+&gt; 1. "chunk" both the text and the code into understandable parts
+&gt; 1. alternate between text, code, output, further links, etc.
+&gt; 1. leverage markdown by providing interesting links for background, deep-dive, etc.
+&gt; 1. code cells should not be long, &lt; 10 lines
+&gt; 1. code cells must show that they've run, producing at least some output
+&gt; 1. load data from the container, not the network
+&gt; 1. __clear all output then "Run All" -- or it didn't happen__
+&gt; 1. video narratives: there's text, and there's subtext...
+&gt; 1. pause after each "beat" -- smile, breathe, allow people to follow you
+
+and there, clear as day, in the tenth bullet, we find __clear all output then "Run All" -- or it didn't happen__.
+i love that this pattern was discovered when producing video content.
+it means that {{RARA}} is critical to communicating our ideas with notebooks as the substrate.
+
+[oriole]: https://github.com/ceteri/oriole_jupyterday_atl/blob/master/oriole_talk.ipynb
+[paco]: https://github.com/ceteri
+[Jupyter Day 2016]: https://jupyterday-atlanta-2016.github.io/#paconathan</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## devils 😈 share</span>
+<span class="c1">### {{RARA}} roots</span>
+
+<span class="n">paco</span> <span class="n">nathan</span> <span class="n">was</span> <span class="n">the</span> <span class="n">first</span> <span class="n">person</span> <span class="n">i</span> <span class="n">heard</span> <span class="n">this</span> <span class="n">concept</span> <span class="n">from</span><span class="o">.</span>
+<span class="n">at</span> <span class="p">[</span><span class="n">Jupyter</span> <span class="n">Day</span> <span class="mi">2016</span><span class="p">],</span> <span class="n">at</span> <span class="n">the</span> <span class="n">time</span><span class="p">,</span> <span class="n">he</span> <span class="n">was</span> <span class="n">using</span> <span class="n">notebooks</span> <span class="k">as</span> <span class="n">medium</span>
+<span class="k">for</span> <span class="n">immersive</span> <span class="n">professional</span> <span class="n">publications</span><span class="o">.</span> <span class="n">these</span> <span class="n">oriole</span> <span class="n">notebooks</span>
+<span class="n">were</span> <span class="n">educational</span> <span class="n">tools</span> <span class="n">that</span> <span class="n">embedded</span> <span class="n">the</span> <span class="n">teacher</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">runtime</span> <span class="n">together</span><span class="o">.</span>
+<span class="n">there</span> <span class="n">were</span> <span class="n">some</span> <span class="n">beautiful</span> <span class="n">videos</span> <span class="n">produced</span> <span class="k">with</span> <span class="n">some</span> <span class="n">big</span> <span class="n">names</span> <span class="n">like</span><span class="p">:</span><span class="o">...</span>
+
+<span class="p">[</span><span class="n">paco</span><span class="p">]</span> <span class="n">presented</span> <span class="n">what</span> <span class="n">his</span> <span class="n">team</span> <span class="n">learned</span> <span class="n">when</span> <span class="p">[</span><span class="n">producing</span> <span class="n">teaching</span> <span class="n">videos</span> <span class="k">with</span> <span class="n">notebooks</span><span class="p">][</span><span class="n">oriole</span><span class="p">]</span><span class="o">.</span>
+
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">focus</span> <span class="n">on</span> <span class="n">a</span> <span class="n">concise</span> <span class="s2">"unit of thought"</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">invest</span> <span class="n">the</span> <span class="n">time</span> <span class="ow">and</span> <span class="n">editorial</span> <span class="n">effort</span> <span class="n">to</span> <span class="n">create</span> <span class="n">a</span> <span class="n">good</span> <span class="n">introduction</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">keep</span> <span class="n">your</span> <span class="n">narrative</span> <span class="n">simple</span> <span class="ow">and</span> <span class="n">reasonably</span> <span class="n">linear</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="s2">"chunk"</span> <span class="n">both</span> <span class="n">the</span> <span class="n">text</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">code</span> <span class="n">into</span> <span class="n">understandable</span> <span class="n">parts</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">alternate</span> <span class="n">between</span> <span class="n">text</span><span class="p">,</span> <span class="n">code</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">further</span> <span class="n">links</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">leverage</span> <span class="n">markdown</span> <span class="n">by</span> <span class="n">providing</span> <span class="n">interesting</span> <span class="n">links</span> <span class="k">for</span> <span class="n">background</span><span class="p">,</span> <span class="n">deep</span><span class="o">-</span><span class="n">dive</span><span class="p">,</span> <span class="n">etc</span><span class="o">.</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">code</span> <span class="n">cells</span> <span class="n">should</span> <span class="ow">not</span> <span class="n">be</span> <span class="n">long</span><span class="p">,</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="n">lines</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">code</span> <span class="n">cells</span> <span class="n">must</span> <span class="n">show</span> <span class="n">that</span> <span class="n">they</span><span class="s1">'ve run, producing at least some output</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">load</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">the</span> <span class="n">container</span><span class="p">,</span> <span class="ow">not</span> <span class="n">the</span> <span class="n">network</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">__clear</span> <span class="nb">all</span> <span class="n">output</span> <span class="n">then</span> <span class="s2">"Run All"</span> <span class="o">--</span> <span class="ow">or</span> <span class="n">it</span> <span class="n">didn</span><span class="s1">'t happen__</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">video</span> <span class="n">narratives</span><span class="p">:</span> <span class="n">there</span><span class="s1">'s text, and there'</span><span class="n">s</span> <span class="n">subtext</span><span class="o">...</span>
+<span class="o">&gt;</span> <span class="mf">1.</span> <span class="n">pause</span> <span class="n">after</span> <span class="n">each</span> <span class="s2">"beat"</span> <span class="o">--</span> <span class="n">smile</span><span class="p">,</span> <span class="n">breathe</span><span class="p">,</span> <span class="n">allow</span> <span class="n">people</span> <span class="n">to</span> <span class="n">follow</span> <span class="n">you</span>
+
+<span class="ow">and</span> <span class="n">there</span><span class="p">,</span> <span class="n">clear</span> <span class="k">as</span> <span class="n">day</span><span class="p">,</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">tenth</span> <span class="n">bullet</span><span class="p">,</span> <span class="n">we</span> <span class="n">find</span> <span class="n">__clear</span> <span class="nb">all</span> <span class="n">output</span> <span class="n">then</span> <span class="s2">"Run All"</span> <span class="o">--</span> <span class="ow">or</span> <span class="n">it</span> <span class="n">didn</span><span class="s1">'t happen__.</span>
+<span class="n">i</span> <span class="n">love</span> <span class="n">that</span> <span class="n">this</span> <span class="n">pattern</span> <span class="n">was</span> <span class="n">discovered</span> <span class="n">when</span> <span class="n">producing</span> <span class="n">video</span> <span class="n">content</span><span class="o">.</span>
+<span class="n">it</span> <span class="n">means</span> <span class="n">that</span> <span class="p">{{</span><span class="n">RARA</span><span class="p">}}</span> <span class="ow">is</span> <span class="n">critical</span> <span class="n">to</span> <span class="n">communicating</span> <span class="n">our</span> <span class="n">ideas</span> <span class="k">with</span> <span class="n">notebooks</span> <span class="k">as</span> <span class="n">the</span> <span class="n">substrate</span><span class="o">.</span>
+
+<span class="p">[</span><span class="n">oriole</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ceteri</span><span class="o">/</span><span class="n">oriole_jupyterday_atl</span><span class="o">/</span><span class="n">blob</span><span class="o">/</span><span class="n">master</span><span class="o">/</span><span class="n">oriole_talk</span><span class="o">.</span><span class="n">ipynb</span>
+<span class="p">[</span><span class="n">paco</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">ceteri</span>
+<span class="p">[</span><span class="n">Jupyter</span> <span class="n">Day</span> <span class="mi">2016</span><span class="p">]:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">jupyterday</span><span class="o">-</span><span class="n">atlanta</span><span class="o">-</span><span class="mf">2016.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="c1">#paconathan</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-11-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-11" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-11-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-11-loc" role="none">
+       31
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          25
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="devils--share">
+         <a href="#devils--share">
+          devils 😈 share
+         </a>
+        </h2>
+        <h3>
+         <a href="#restart-and-run-all-roots">
+          Restart and run all roots
+         </a>
+        </h3>
+        <p>
+         paco nathan was the first person i heard this concept from.
+at
+         <a href="https://jupyterday-atlanta-2016.github.io/#paconathan">
+          Jupyter Day 2016
+         </a>
+         , at the time, he was using notebooks as medium
+for immersive professional publications. these oriole notebooks
+were educational tools that embedded the teacher and the runtime together.
+there were some beautiful videos produced with some big names like:...
+        </p>
+        <p>
+         <a href="https://github.com/ceteri">
+          paco
+         </a>
+         presented what his team learned when
+         <a href="https://github.com/ceteri/oriole_jupyterday_atl/blob/master/oriole_talk.ipynb">
+          producing teaching videos with notebooks
+         </a>
+         .
+        </p>
+        <blockquote>
+         <ol>
+          <li>
+           focus on a concise "unit of thought"
+          </li>
+          <li>
+           invest the time and editorial effort to create a good introduction
+          </li>
+          <li>
+           keep your narrative simple and reasonably linear
+          </li>
+          <li>
+           "chunk" both the text and the code into understandable parts
+          </li>
+          <li>
+           alternate between text, code, output, further links, etc.
+          </li>
+          <li>
+           leverage markdown by providing interesting links for background, deep-dive, etc.
+          </li>
+          <li>
+           code cells should not be long, &lt; 10 lines
+          </li>
+          <li>
+           code cells must show that they've run, producing at least some output
+          </li>
+          <li>
+           load data from the container, not the network
+          </li>
+          <li>
+           <strong>
+            clear all output then "Run All" -- or it didn't happen
+           </strong>
+          </li>
+          <li>
+           video narratives: there's text, and there's subtext...
+          </li>
+          <li>
+           pause after each "beat" -- smile, breathe, allow people to follow you
+          </li>
+         </ol>
+        </blockquote>
+        <p>
+         and there, clear as day, in the tenth bullet, we find
+         <strong>
+          clear all output then "Run All" -- or it didn't happen
+         </strong>
+         .
+i love that this pattern was discovered when producing video content.
+it means that
+         <strong>
+          Restart and run all
+         </strong>
+         is critical to communicating our ideas with notebooks as the substrate.
+        </p>
+        &lt; /&gt;
+&lt; /&gt;
+&lt; /&gt;
+       </fieldset>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2023-01-11-duckdb-search.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;full text search for notebooks and files using duckdb
+   </a>
+   <br>
+   <a href="2023-01-09-notebooks-states.html" rel="next">
+    three states of python in a notebook
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      <a href="#nb-accessibility-settings-label">
+       accessibility settings
+      </a>
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        <a href="#nb-notebook-layout-label">
+         notebook layout
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        <a href="#nb-font-settings-label">
+         font settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="large">
+            large
+           </option>
+           <option value="x-large">
+            x-large
+           </option>
+           <option value="xx-large">
+            xx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        <a href="#nb-sound-settings-label">
+         sound settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     <a href="#notebook-help">
+      notebook help
+     </a>
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      <a href="#nb-defs-label">
+       definitions
+      </a>
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme() {
+    let value = document.forms.settings.elements["color-scheme"].value;
+    let opposite = value == "dark" ? "light" : "dark";
+    document.getElementById(`nb-${value}-theme`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-theme`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+    setStyle("change font size");
+});
+document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+    activityLog("speech on")
+});
+document.forms.settings.elements.margin.addEventListener("change", (x) => {
+    setStyle("margin changed");
+});
+document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+    setStyle("line height changed");
+});
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+    function toggleActive() {
+    if (document.forms.notebook.elements.edit.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+
+
+document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+document.forms.visibility['visually-hide'].addEventListener("change",
+    (x) => {
+        document.querySelector("main").classList.toggle("visually-hide");
+        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+    });
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>
