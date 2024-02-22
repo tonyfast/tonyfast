@@ -14,12 +14,12 @@ jobs:
           python-version: '3.9'
           cache: pip
           cache-dependency-path: pyproject.toml
-      - name: install
-        run: pip install --upgrade pip hatch
-      - name: build mkdocs
-        run: hatch run docs:build
-      - name: build jupyterlite
-        run: hatch run lite:build
+      # - name: install
+      #   run: pip install --upgrade pip hatch
+      # - name: build mkdocs
+      #   run: hatch run docs:build
+      # - name: build jupyterlite
+      #   run: hatch run lite:build
       - name: build future
         run: |
           pip install -e. importnb pandas anyio jinja2 pygments pathspec python-slugify beautifulsoup4 nbconvert nbformat git+https://github.com/deathbeds/nbconvert-a11y.git@bulk-improve --upgrade
