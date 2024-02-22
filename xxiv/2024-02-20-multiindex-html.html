@@ -426,6 +426,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    proper html tables with multiple indexes
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="2024-02-20-multiindex-html.html" class="md-nav__link md-nav__link--active">
         
   
@@ -435,6 +446,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#accessibility-html-recommendations" class="md-nav__link">
+    <span class="md-ellipsis">
+      accessibility html recommendations
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#testing-an-actual-dataframe" class="md-nav__link">
+    <span class="md-ellipsis">
+      testing an actual dataframe
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="testing an actual dataframe">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#more-accessible-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      more accessible tables
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="more accessible tables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#accessible-table-do-and-dont" class="md-nav__link">
+    <span class="md-ellipsis">
+      Accessible table do and don't
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#better-tables" class="md-nav__link">
+    <span class="md-ellipsis">
+      better tables
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#single-index-names" class="md-nav__link">
+    <span class="md-ellipsis">
+      single index names
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-than-one-named-index" class="md-nav__link">
+    <span class="md-ellipsis">
+      more than one named index
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visual-and-nonvisual-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      visual and nonvisual shape
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1972,9 +2086,10 @@
 empty cells diminish the experience for assistive technology users.
 through this study we'll design some accessible options we could generically use to represent dataframes.</p>
 <div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">bs4</span><span class="o">,</span> <span class="nn">enum</span><span class="o">,</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">midgy</span>
+    <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s2">&quot;text/html&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">,</span> <span class="nb">str</span><span class="p">);</span>
 </code></pre></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/tmp/ipykernel_21586/4203597224.py:1: DeprecationWarning: 
+<pre>/tmp/ipykernel_36609/2026141445.py:1: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.
@@ -1998,11 +2113,14 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 }
 </style>
 
-<p>sample dataframe</p>
+<p>create a sample dataframe to work with that has multiple indexes on both axes.
+this facilitates our study because it is easier to remove axes than add them later. the code snippet below provides our expected outcome.</p>
 <div class="highlight"><pre><span></span><code>    <span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">([</span>
         <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="s2">&quot;JKL&quot;</span><span class="p">])</span>
     <span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+    <span class="n">single</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">df</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><div>
 <style scoped="">
@@ -2202,9 +2320,218 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 </table>
 </div></div>
 
+<h2 id="accessibility-html-recommendations">accessibility html recommendations<a class="headerlink" href="#accessibility-html-recommendations" title="Permanent link">¤</a></h2>
+<p>there is a long <a href="http://www.tiernok.com/posts/history-of-html-table-layouts.html">history of html table layouts</a>, they have existed since <a href="http://www.w3.org/TR/REC-html32">html 3.2 in january 1997</a>, these standards precede a lot of the history of mass data literacy.
+<code>table</code>s are introduced to present 2-D data structures </p>
+<p>&gt; <a href="https://en.wikipedia.org/wiki/VisiCalc">VISICALC</a> represented a new idea of a way to use a computer and a new way of thinking about the world. Where conventional programming was thought of as a sequence of steps, this new thing was no longer sequential in effect: When you made a change in one place, all other things changed instantly and automatically.
+&gt;&gt; Ted Nelson[13]</p>
+<p>considering the accessibility of <code>table</code>s means we need extend the visual representation to the tactile and audible experiences.</p>
+<p>let's start with some popular advice from <a href="https://racheleditullio.com">rachele ditullio</a> about <a href="https://racheleditullio.com/blog/2020/03/5-ways-to-improve-table-accessibility/">5 ways to improve table accessibility</a></p>
+<ol>
+<li>Caption that table</li>
+<li>Include header text for every column</li>
+<li>Use alt attributes meaningfully</li>
+<li>Have data in every table cell</li>
+<li>Check your (con)text</li>
+</ol>
+<p>this is where we start because these recommendations represent users needs before needs.
+accessibility requires us to center a user's visual, audible, and tactile experience when working with data.</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span> <span class="o">-</span><span class="n">u</span>
+<span class="c1">## testing an actual dataframe</span>
+
+<span class="n">based</span> <span class="n">off</span> <span class="n">these</span> <span class="n">suggestions</span> <span class="n">we</span> <span class="n">can</span> <span class="n">connect</span> <span class="n">dataframe</span> <span class="n">parlance</span> <span class="n">to</span> <span class="n">the</span> <span class="n">consistent</span> <span class="n">standards</span> <span class="n">of</span> <span class="n">html</span><span class="o">.</span>
+<span class="n">what</span> <span class="n">follows</span> <span class="n">are</span> <span class="n">comments</span> <span class="n">on</span> <span class="n">how</span> <span class="n">each</span> <span class="nb">all</span> <span class="mi">5</span> <span class="n">of</span> <span class="n">the</span> <span class="n">suggestions</span> <span class="n">apply</span> <span class="n">to</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span> <span class="n">objects</span><span class="o">.</span>
+
+<span class="mf">1.</span> <span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">tables</span> <span class="n">typically</span> <span class="n">lack</span> <span class="n">a</span> <span class="err">`</span><span class="n">caption</span><span class="err">`</span> <span class="n">unless</span> <span class="n">the</span> <span class="n">code</span> <span class="n">author</span> <span class="ow">is</span> <span class="n">aware</span> <span class="n">of</span> <span class="err">`</span><span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="err">`</span><span class="o">.</span>
+<span class="n">the</span> <span class="err">`</span><span class="n">caption</span><span class="err">`</span> <span class="n">element</span> <span class="n">provides</span> <span class="n">an</span> <span class="n">aria</span> <span class="n">label</span> <span class="n">that</span><span class="err">`</span>  <span class="n">gives</span> <span class="n">assistive</span> <span class="n">technology</span> <span class="n">users</span> <span class="n">more</span> <span class="n">context</span> <span class="k">as</span> <span class="n">they</span> <span class="n">navigate</span> <span class="n">information</span><span class="o">.</span>
+
+            <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">&quot;the public api for adding a caption to a dataframe.&quot;</span><span class="p">)</span>
+
+<span class="mf">2.</span> <span class="k">as</span> <span class="n">of</span> <span class="n">v2</span><span class="mf">.2</span><span class="p">,</span> <span class="n">there</span> <span class="n">are</span> <span class="n">conformations</span> <span class="n">pandas</span> <span class="n">columns</span> <span class="ow">and</span> <span class="n">indexes</span> <span class="n">that</span> <span class="n">generate</span> <span class="n">representations</span> <span class="n">containing</span> <span class="n">empty</span> <span class="n">headers</span><span class="o">.</span>
+    <span class="n">an</span> <span class="n">accessible</span><span class="p">,</span> <span class="n">assistive</span> <span class="n">experience</span> <span class="n">will</span> <span class="n">avoid</span> <span class="n">empty</span> <span class="n">cells</span><span class="p">,</span> <span class="n">especially</span> <span class="n">header</span> <span class="n">cells</span><span class="o">.</span>
+    <span class="n">the</span> <span class="n">first</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">table</span> <span class="ow">is</span> <span class="n">empty</span> <span class="k">for</span> <span class="n">the</span> <span class="n">cases</span> <span class="n">where</span> <span class="err">`</span><span class="n">count_empty_cell</span><span class="err">`</span> <span class="n">reveals</span> <span class="n">non</span><span class="o">-</span><span class="n">zero</span> <span class="n">results</span><span class="o">.</span>
+    <span class="n">this</span> <span class="n">means</span> <span class="n">that</span> <span class="n">assistive</span> <span class="n">technology</span> <span class="n">users</span> <span class="n">will</span> <span class="n">find</span> <span class="n">empty</span> <span class="n">cells</span> <span class="ow">in</span> <span class="n">most</span> <span class="n">of</span> <span class="n">the</span> <span class="n">pandas</span> <span class="n">dataframe</span>
+    <span class="n">representations</span> <span class="n">available</span> <span class="n">online</span><span class="o">.</span> <span class="n">this</span> <span class="n">oversight</span> <span class="ow">is</span> <span class="n">costly</span> <span class="n">because</span> <span class="n">technologies</span> <span class="n">like</span> <span class="n">screen</span> <span class="n">readers</span> 
+    <span class="ow">and</span> <span class="n">braille</span> <span class="n">displays</span> <span class="n">require</span> <span class="n">parsing</span> <span class="n">information</span> <span class="n">serially</span> <span class="n">rather</span> <span class="n">than</span> <span class="n">our</span> <span class="n">parallel</span> <span class="n">vision</span> <span class="n">experience</span><span class="o">.</span>
+
+            <span class="k">def</span> <span class="nf">count_empty_cell</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+    <span class="err">`</span><span class="n">count_empty_cell</span><span class="err">`</span> <span class="n">will</span> <span class="n">count</span> <span class="n">the</span> <span class="n">empty</span> <span class="err">`</span><span class="n">th</span><span class="err">`</span> <span class="ow">and</span> <span class="err">`</span><span class="n">td</span><span class="err">`</span> <span class="n">elements</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">rendered</span> <span class="n">dataframe</span><span class="o">.</span>
+    <span class="n">it</span> <span class="n">was</span> <span class="n">created</span> <span class="n">to</span> <span class="n">demonstrate</span> <span class="n">the</span> <span class="n">different</span> <span class="n">conditions</span> <span class="n">on</span> <span class="n">dataframe</span> <span class="n">indexes</span> <span class="ow">and</span> <span class="n">columns</span>
+    <span class="n">that</span> <span class="n">influence</span> <span class="n">the</span> <span class="n">current</span> <span class="n">visual</span> <span class="n">form</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataframe</span><span class="o">.</span>
+
+    <span class="o">*</span> <span class="n">our</span> <span class="n">test</span> <span class="n">dataframe</span> <span class="n">has</span> <span class="n">empty</span> <span class="n">cells</span> <span class="n">because</span> <span class="n">the</span> <span class="n">index</span> <span class="ow">and</span> <span class="n">columns</span> <span class="n">are</span> <span class="n">unnamed</span><span class="o">.</span>
+
+            <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="k">assert</span> <span class="n">count_empty_cell</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span> 
+
+    <span class="o">*</span> <span class="n">a</span> <span class="n">dataframe</span> <span class="k">with</span> <span class="n">a</span> <span class="n">named</span> <span class="n">column</span> <span class="n">index</span> <span class="n">has</span> <span class="n">no</span> <span class="n">empty</span> <span class="n">cells</span><span class="o">.</span>
+
+            <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="k">assert</span> <span class="n">count_empty_cell</span><span class="p">(</span><span class="n">single</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;upper&quot;</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="o">*</span> <span class="n">there</span> <span class="n">are</span> <span class="n">empty</span> <span class="n">cells</span> <span class="n">when</span> <span class="n">the</span> <span class="n">index</span> <span class="ow">is</span> <span class="n">named</span> <span class="n">because</span> <span class="n">the</span> <span class="n">index</span> <span class="n">name</span> <span class="ow">is</span> <span class="n">given</span> <span class="n">its</span> <span class="n">own</span> <span class="n">row</span><span class="o">.</span>
+
+            <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="k">assert</span> <span class="n">count_empty_cell</span><span class="p">(</span><span class="n">single</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;lower&quot;</span><span class="p">))</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">0</span>
+
+                <span class="n">table_cells</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">to_html</span><span class="p">(),</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;th,td&quot;</span><span class="p">))</span>
+                <span class="k">return</span> <span class="n">table_cells</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">any</span><span class="p">)</span><span class="o">.</span><span class="fm">__invert__</span><span class="p">()</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="mf">4.</span> <span class="n">adding</span> <span class="n">alt</span> <span class="n">text</span> <span class="n">to</span> <span class="n">images</span> <span class="ow">is</span> <span class="n">out</span> <span class="n">of</span> <span class="n">scope</span> <span class="k">for</span> <span class="n">this</span> <span class="n">investigation</span><span class="o">.</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">very</span> <span class="n">valid</span><span class="o">.</span> <span class="n">pandas</span> <span class="n">dataframes</span> 
+    <span class="n">may</span> <span class="n">contain</span> <span class="n">various</span> <span class="n">mimetypes</span> <span class="n">of</span> <span class="n">content</span> <span class="ow">and</span> <span class="n">their</span> <span class="n">representations</span> <span class="n">should</span> <span class="n">be</span> <span class="n">assistive</span><span class="o">.</span> 
+    <span class="n">however</span><span class="p">,</span> <span class="k">for</span> <span class="n">this</span> <span class="n">study</span><span class="p">,</span> <span class="n">the</span> <span class="n">index</span> <span class="ow">and</span> <span class="n">columns</span> <span class="n">are</span> <span class="n">the</span> <span class="n">primary</span> <span class="n">axes</span> <span class="k">for</span> <span class="n">building</span> <span class="n">an</span> <span class="n">accessible</span> <span class="n">table</span> <span class="n">substrate</span><span class="o">.</span>
+
+<span class="mf">5.</span> <span class="err">`</span><span class="n">null</span><span class="err">`</span> <span class="ow">and</span> <span class="err">`</span><span class="n">Nan</span><span class="err">`</span> <span class="n">need</span> <span class="n">semantically</span> <span class="n">meaningful</span> <span class="n">representations</span><span class="o">.</span>
+    <span class="n">the</span> <span class="n">programming</span> <span class="n">collquialisms</span> <span class="k">for</span> <span class="n">empty</span> <span class="n">content</span> <span class="n">may</span> <span class="ow">not</span> <span class="n">translate</span> <span class="n">to</span> <span class="n">assistive</span> <span class="n">technology</span><span class="o">.</span>
+    <span class="n">_what</span> <span class="n">about</span> <span class="n">braille_</span><span class="err">?</span>
+    <span class="n">it</span> <span class="ow">is</span> <span class="n">unlikely</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">best</span> <span class="n">placeholder</span> <span class="k">for</span> <span class="n">this</span> <span class="n">values</span> <span class="n">so</span> <span class="n">this</span> <span class="n">value</span> <span class="n">should</span> <span class="n">be</span> <span class="n">configurable</span><span class="o">.</span>
+
+            <span class="n">placeholder</span> <span class="o">=</span> <span class="s2">&quot;not a number&quot;</span>
+            <span class="n">df</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;&lt;span class=&quot;</span><span class="n">sro</span><span class="s2">&quot;&gt;</span><span class="si">{placeholder}</span><span class="s2">&lt;/span&gt;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">style</span>
+
+<span class="mf">6.</span> <span class="n">yes</span> <span class="n">abbreviations</span> <span class="ow">and</span> <span class="n">punctuation</span> <span class="n">should</span> <span class="n">be</span> <span class="n">considered</span><span class="p">,</span> 
+    <span class="n">but</span> <span class="n">this</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">advanced</span> <span class="n">technique</span> <span class="n">that</span> <span class="n">requires</span> <span class="n">manually</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">testing</span> <span class="n">literacies</span><span class="o">.</span>
+
+<span class="n">the</span> <span class="n">comparison</span> <span class="n">between</span> <span class="n">rachel</span><span class="s1">&#39;s advice and `pandas` dataframes is just a start down the rabbit hole.</span>
+<span class="n">we</span><span class="s1">&#39;ll begin to bring in other articles, standards, and specifications to design ARIA first rule implementations</span>
+<span class="n">of</span> <span class="n">pandas</span> <span class="n">tidy</span> <span class="n">frames</span><span class="o">.</span>
+</code></pre></div>
+<h2 id="testing-an-actual-dataframe">testing an actual dataframe<a class="headerlink" href="#testing-an-actual-dataframe" title="Permanent link">¤</a></h2>
+<p>based off these suggestions we can connect dataframe parlance to the consistent standards of html.
+what follows are comments on how each all 5 of the suggestions apply to <code>pandas.DataFrame</code> objects.</p>
+<ol>
+<li>
+<p><code>pandas</code> tables typically lack a <code>caption</code> unless the code author is aware of <code>df.style.set_caption</code>.
+the <code>caption</code> element provides an aria label that`  gives assistive technology users more context as they navigate information.</p>
+<pre><code>    df.style.set_caption("the public api for adding a caption to a dataframe.")
+</code></pre>
+</li>
+<li>
+<p>as of v2.2, there are conformations pandas columns and indexes that generate representations containing empty headers.
+    an accessible, assistive experience will avoid empty cells, especially header cells.
+    the first cell in the table is empty for the cases where <code>count_empty_cell</code> reveals non-zero results.
+    this means that assistive technology users will find empty cells in most of the pandas dataframe
+    representations available online. this oversight is costly because technologies like screen readers 
+    and braille displays require parsing information serially rather than our parallel vision experience.</p>
+<pre><code>    def count_empty_cell(df):
+</code></pre>
+<p><code>count_empty_cell</code> will count the empty <code>th</code> and <code>td</code> elements in a rendered dataframe.
+it was created to demonstrate the different conditions on dataframe indexes and columns
+that influence the current visual form of the dataframe.</p>
+<ul>
+<li>
+<p>our test dataframe has empty cells because the index and columns are unnamed.</p>
+<pre><code>&amp;gt;&amp;gt;&amp;gt; assert count_empty_cell(df) &amp;gt; 0
+</code></pre>
+</li>
+<li>
+<p>a dataframe with a named column index has no empty cells.</p>
+<pre><code>&amp;gt;&amp;gt;&amp;gt; assert count_empty_cell(single.rename_axis(columns="upper")) == 0
+</code></pre>
+</li>
+<li>
+<p>there are empty cells when the index is named because the index name is given its own row.</p>
+<pre><code>&amp;gt;&amp;gt;&amp;gt; assert count_empty_cell(single.rename_axis(index="lower")) &amp;gt; 0
+
+    table_cells = pandas.Series(bs4.BeautifulSoup(df.to_html(), features="lxml").select("th,td"))
+    return table_cells.apply(any).__invert__().sum()
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>adding alt text to images is out of scope for this investigation. it is very valid. pandas dataframes 
+    may contain various mimetypes of content and their representations should be assistive. 
+    however, for this study, the index and columns are the primary axes for building an accessible table substrate.</p>
+</li>
+<li>
+<p><code>null</code> and <code>Nan</code> need semantically meaningful representations.
+    the programming collquialisms for empty content may not translate to assistive technology.
+    <em>what about braille</em>?
+    it is unlikely there is a best placeholder for this values so this value should be configurable.</p>
+<pre><code>    placeholder = "not a number"
+    df.fillna(F"&lt;span class="sro"&gt;{placeholder}&lt;/span&gt;").style
+</code></pre>
+</li>
+<li>
+<p>yes abbreviations and punctuation should be considered, 
+    but this is an advanced technique that requires manually screen reader testing literacies.</p>
+</li>
+</ol>
+<p>the comparison between rachel's advice and <code>pandas</code> dataframes is just a start down the rabbit hole.
+we'll begin to bring in other articles, standards, and specifications to design ARIA first rule implementations
+of pandas tidy frames.</p>
+<h3 id="more-accessible-tables">more accessible tables<a class="headerlink" href="#more-accessible-tables" title="Permanent link">¤</a></h3>
+<p>our next resource provides more dos and don'ts that correspond to accessible table experiences.</p>
+<ul>
+<li>
+<p>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</p>
+<p><code>pandas</code> dataframes should be represented with a named index or column.</p>
+</li>
+<li>
+<p>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</p>
+</li>
+<li>
+<p>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</p>
+<p>our primary task is to remove empty cells from the <code>thead</code> porition of the dataframe representation.
+currently, it is very common for screen reader users to find empty first cells in a table.
+imagine how much it sucks.</p>
+</li>
+<li>
+<p>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</p>
+</li>
+<li>
+<p>❌ Don't merge cells.</p>
+<p>merging cells creates ambiguities. <code>td</code>s in dataframes will NEVER be spanned.</p>
+</li>
+</ul>
+<h4 id="accessible-table-do-and-dont">Accessible table do and don't<a class="headerlink" href="#accessible-table-do-and-dont" title="Permanent link">¤</a></h4>
+<p><a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables</a></p>
+<details><summary>Use Tables to Display Data</summary>
+
+* ✅ Use tables to present information in a grid, or matrix, with columns or rows that show the meaning of the information.
+- ❌ Don't use tables to make your webpage look a particular way. Layout tables on webpages do not pose inherent accessibility issues, but it is more difficult to make sure screen reader software reads the cells in the proper order.
+- ❌ Never use tables as a means of laying out a page in a Google or Microsoft Word document. While these tables can be hidden from visual users by simply eliminating the borders between cells, they cannot be hidden from screen readers.
+
+</details>
+<details><summary>Designate Row and/or Column Headers</summary>
+
+* ✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software. 
+* ✅ Use the `<th>` element to mark up table headers in HTML.
+- ❌ Don't create tables without table headers.
+- ❌ Don't just change the visual formatting of the text, such as the font size or color, to visually indicate table header rows and/or columns. Screen readers will not be able to associate the headers with the correct cells.
+- ❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.
+
+</th></details>
+<details><summary>Avoid or Simplify Complex Tables</summary>
+
+* ✅ Include a maximum of one header row and one header column.
+* ✅ Spell out abbreviations or acronyms, or use the `<abbr>` or `<acronym>` tags in HTML to ensure accessibility.
+* ✅ If your table has multiple header rows, merged cells, or another table embedded in it, split it into two or more simple tables. 
+* ✅ If you do create a complex data table on a webpage, use the `<scope>` tag to programmatically associate the data cells with the appropriate headers.
+- ❌ Don't merge cells.
+- ❌ Don't include a table within another table.
+
+</scope></acronym></abbr></details>
+<details><summary>Provide Contextual Information</summary>
+
+* ✅ Associate descriptive text about a table with its respective table by including a `<caption>` element in HTML or alt text in Microsoft Word. Captions are not necessary for each table, but can helpful for screen reader users. The caption can be visually formatted and positioned above or below the table as needed, but on webpages, the `<caption>` element must be the first one after the opening `<table>` tag.
+* ✅ You may use `<thead>`, `<tfoot>`, and `<tbody>` tags in HTML tables so that the head and/or foot rows repeat at the top or bottom of the table when it is printed, but these do not provide any additional accessibility benefits. 
+- ❌ Don't repeat the same text in the caption that appears in a heading preceding the table.
+- ❌ You may provide a summary of the structure of the data table (not of the content) using the `<summary>` attribute, but screen reader support for it varies, and it is not part of the HTML5 specification, so WebAim does not recommend it.
+- ❌ If both a caption and summary are provided for one table, the summary should not duplicate information present in the caption.
+
+</summary></tbody></tfoot></thead></table></caption></caption></details>
+<details><summary>Include Content in All Cells</summary>
+
+* ✅ Include text such as "not applicable," "none," etc. to indicate that there is no data in empty cells.
+- ❌ Don't leave any table cells empty.
+
+</details>
+
+<h2 id="better-tables">better tables<a class="headerlink" href="#better-tables" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
     <span class="k">def</span> <span class="nf">index_span</span><span class="p">(</span><span class="n">index</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span> 
-<span class="n">analyze</span> <span class="n">an</span> <span class="n">index</span> <span class="n">to</span> <span class="n">determine</span> <span class="n">how</span> <span class="n">different</span> <span class="n">indexes</span> <span class="n">span</span> <span class="n">rows</span> <span class="ow">or</span> <span class="n">columns</span><span class="o">.</span>
+<span class="n">we</span> <span class="n">need</span> <span class="n">to</span> <span class="n">tidy</span> <span class="n">our</span> <span class="n">indexes</span> <span class="n">that</span> <span class="n">may</span> <span class="n">have</span> <span class="n">grouped</span> <span class="n">indexes</span><span class="o">.</span> 
+<span class="err">`</span><span class="n">index_span</span><span class="err">`</span> <span class="n">defines</span> <span class="n">the</span> <span class="n">logic</span> <span class="k">for</span> <span class="n">diffing</span> <span class="ow">and</span> <span class="n">labelling</span> <span class="n">the</span> <span class="n">index</span> <span class="n">to</span> <span class="n">measure</span> <span class="n">the</span> <span class="n">column</span>
+<span class="ow">and</span> <span class="n">row</span> <span class="n">spans</span> <span class="k">for</span> <span class="n">an</span> <span class="n">index</span><span class="o">.</span>
 
         <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
             <span class="nb">dict</span><span class="p">(</span>
@@ -2217,6 +2544,8 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
         <span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">({</span><span class="n">numpy</span><span class="o">.</span><span class="n">nan</span><span class="p">:</span> <span class="kc">None</span><span class="p">})</span>
 
     <span class="k">def</span> <span class="nf">diff_shift</span><span class="p">(</span><span class="n">df</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+<span class="n">shift</span> <span class="n">a</span> <span class="n">data</span> <span class="n">by</span> <span class="n">a</span> <span class="n">row</span> <span class="n">to</span> <span class="n">determine</span> <span class="n">the</span> <span class="n">nearest</span> <span class="n">change</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">index</span> <span class="n">when</span> <span class="n">determining</span> <span class="n">spanning</span> <span class="n">metrics</span><span class="o">.</span>
+
         <span class="k">return</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
             <span class="n">numpy</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">numpy</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="kc">True</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="n">df</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="mi">0</span><span class="p">),</span> 
             <span class="n">columns</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span>
@@ -2224,7 +2553,9 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 </code></pre></div>
 <pre><code>def index_span(index: pandas.Index) -&amp;gt; pandas.DataFrame:
 </code></pre>
-<p>analyze an index to determine how different indexes span rows or columns.</p>
+<p>we need to tidy our indexes that may have grouped indexes. 
+<code>index_span</code> defines the logic for diffing and labelling the index to measure the column
+and row spans for an index.</p>
 <pre><code>    return pandas.concat(
         dict(
             diff=(diff := index.to_frame().pipe(diff_shift)),
@@ -2236,7 +2567,9 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
     ).replace({numpy.nan: None})
 
 def diff_shift(df: pandas.DataFrame) -&amp;gt; pandas.DataFrame:
-    return pandas.DataFrame(
+</code></pre>
+<p>shift a data by a row to determine the nearest change in the index when determining spanning metrics.</p>
+<pre><code>    return pandas.DataFrame(
         numpy.concatenate((numpy.array([[True]*df.shape[1]]), df.values[:-1] != df.values[1:]), 0), 
         columns=df.columns
     )
@@ -2395,6 +2728,10 @@ td.append(str(value))
         <span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
         <span class="n">soup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span> <span class="o">:=</span> <span class="n">soup</span><span class="o">.</span><span class="n">new_tag</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">))</span>
 
+        <span class="k">if</span> <span class="n">caption</span><span class="p">:</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cap</span> <span class="o">:=</span> <span class="n">soup</span><span class="o">.</span><span class="n">new_tag</span><span class="p">(</span><span class="s2">&quot;caption&quot;</span><span class="p">))</span>
+            <span class="n">cap</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span>
+
         <span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">),</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
 <span class="mf">1.</span> <span class="n">precompute</span> <span class="n">the</span> <span class="n">row</span> <span class="ow">and</span> <span class="n">column</span> <span class="n">index</span> <span class="n">spans</span>
 
@@ -2465,6 +2802,10 @@ td.append(str(value))
 <p>a <code>row_major</code> representation that presents the row index names first.</p>
 <pre><code>    soup = bs4.BeautifulSoup(features="lxml")
     soup.append(table := soup.new_tag("table"))
+
+    if caption:
+        table.append(cap := soup.new_tag("caption"))
+        cap.append(caption)
 
     ROWS, COLS = any(df.index.names), any(df.columns.names)
 </code></pre>
@@ -2541,22 +2882,31 @@ td.append(str(value))
 </ol>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code><span class="o">%%</span>
-<span class="n">replace</span> <span class="n">the</span> <span class="err">`</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="err">`</span> <span class="n">representation</span> <span class="k">with</span> <span class="n">an</span> <span class="n">html</span> <span class="n">representation</span>
-
-    <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s2">&quot;text/html&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
-</code></pre></div>
-<p>replace the <code>bs4.BeautifulSoup</code> representation with an html representation</p>
-<pre><code>get_ipython().display_formatter.formatters["text/html"].for_type(bs4.BeautifulSoup, str)
-</code></pre>
+<h2 id="single-index-names">single index names<a class="headerlink" href="#single-index-names" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code>    <span class="n">row_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
              <span class="s2">&quot;a single index row major&quot;</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><table><tr><th scope="col">L</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>a single index row major</caption><tr><th scope="col">L</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
 
+<div class="highlight"><pre><span></span><code>    <span class="n">column_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="s2">&quot;a single index column major&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>a single index column major</caption><tr><th scope="row">1000</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">row_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+             <span class="s2">&quot;a multi index row major&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>a multi index row major</caption><tr><th rowspan="2" scope="col">L</th><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th></tr><tr><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="n">row_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span>
+             <span class="s2">&quot;a multi index column major&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>a multi index column major</caption><tr><th colspan="2" scope="row">1000</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th rowspan="3" scope="row">M</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th rowspan="2" scope="row">N</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+
+<h2 id="more-than-one-named-index">more than one named index<a class="headerlink" href="#more-than-one-named-index" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code>    <span class="n">row_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;spanning multiple index row major&quot;</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><table><tr><th rowspan="3" scope="col">J</th><th rowspan="3" scope="col">K</th><th rowspan="3" scope="col">L</th><th colspan="9" scope="col">A</th><th colspan="9" scope="col">Z</th></tr><tr><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th></tr><tr><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th rowspan="5" scope="row">A</th><th rowspan="3" scope="row">M</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th rowspan="2" scope="row">N</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>spanning multiple index row major</caption><tr><th rowspan="3" scope="col">J</th><th rowspan="3" scope="col">K</th><th rowspan="3" scope="col">L</th><th colspan="9" scope="col">A</th><th colspan="9" scope="col">Z</th></tr><tr><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th><th colspan="3" scope="col">M</th><th colspan="3" scope="col">N</th><th colspan="3" scope="col">O</th></tr><tr><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th rowspan="5" scope="row">A</th><th rowspan="3" scope="row">M</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th rowspan="2" scope="row">N</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
 
 <div class="highlight"><pre><span></span><code>    <span class="n">column_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="s2">&quot;spanning multiple index column major&quot;</span><span class="p">)</span>
 </code></pre></div>
@@ -2564,14 +2914,45 @@ td.append(str(value))
 
 <div class="highlight"><pre><span></span><code>    <span class="n">row_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s2">&quot;non-spanning multiple indexes row major&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><table><tr><th rowspan="3" scope="col">J</th><th rowspan="3" scope="col">K</th><th rowspan="3" scope="col">L</th><th scope="row">10</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th></tr><tr><th scope="row">100</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th></tr><tr><th scope="row">1000</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">1</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">2</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">3</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">1</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">2</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table><caption>non-spanning multiple indexes row major</caption><tr><th rowspan="3" scope="col">J</th><th rowspan="3" scope="col">K</th><th rowspan="3" scope="col">L</th><th scope="row">10</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th></tr><tr><th scope="row">100</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th></tr><tr><th scope="row">1000</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">1</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">2</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">3</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">1</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">2</th><td></td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
 
 <div class="highlight"><pre><span></span><code>    <span class="n">column_major</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">(),</span> <span class="s2">&quot;non-spanning multiple index column major&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><table><caption>non-spanning multiple index column major</caption><tr><th colspan="3" scope="row">10</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">A</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th><th scope="col">Z</th></tr><tr><th colspan="3" scope="row">100</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th><th scope="col">M</th><th scope="col">M</th><th scope="col">M</th><th scope="col">N</th><th scope="col">N</th><th scope="col">N</th><th scope="col">O</th><th scope="col">O</th><th scope="col">O</th></tr><tr><th colspan="3" scope="row">1000</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th><th scope="col">1</th><th scope="col">2</th><th scope="col">3</th></tr><tr><th scope="col">J</th><th scope="col">K</th><th scope="col">L</th><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">M</th><th scope="row">3</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">1</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr><tr><th scope="row">A</th><th scope="row">N</th><th scope="row">2</th><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td><td>nan</td></tr></table></div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="c1">## visual and nonvisual shape</span>
+
+<span class="n">rows</span> <span class="ow">and</span> <span class="n">columns</span> <span class="n">references</span> <span class="ow">in</span> <span class="n">a</span> <span class="err">`</span><span class="n">table</span><span class="err">`</span> <span class="n">are</span> <span class="n">the</span> <span class="ow">not</span> <span class="n">the</span> <span class="n">same</span> <span class="k">as</span> <span class="n">a</span> <span class="n">dataframe</span><span class="o">.</span>
+<span class="n">convention</span> <span class="n">holds</span> <span class="n">that</span> <span class="n">dataframes</span> <span class="n">show</span> <span class="n">their</span> <span class="n">shape</span><span class="p">,</span> <span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">data</span><span class="o">.</span>
+<span class="n">the</span> <span class="n">nominal</span> <span class="n">references</span> <span class="n">we</span> <span class="n">use</span> <span class="k">for</span> <span class="n">dataframes</span> <span class="n">are</span> <span class="n">shifted</span> <span class="n">ordinal</span> <span class="n">references</span>
+<span class="n">when</span> <span class="n">the</span> <span class="n">shape</span> <span class="ow">is</span> <span class="n">shared</span> <span class="n">along</span> <span class="n">side</span> <span class="n">a</span> <span class="n">screen</span> <span class="n">reader</span><span class="o">.</span>
+<span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">table</span> <span class="n">to</span> <span class="n">the</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">inclused</span> <span class="n">the</span> <span class="n">rows</span> <span class="ow">and</span> <span class="n">columns</span><span class="o">.</span>
+<span class="n">to</span> <span class="n">assistive</span> <span class="n">technology</span><span class="p">,</span> <span class="n">the</span> <span class="n">shape</span> <span class="n">of</span> <span class="n">the</span> <span class="n">dataframe</span> <span class="ow">is</span> <span class="n">computed</span> <span class="n">by</span> <span class="p">[</span><span class="o">^</span><span class="n">note</span><span class="p">]:</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span>
+
+<span class="n">this</span> <span class="n">naive</span> <span class="n">heuristic</span> <span class="ow">is</span> <span class="n">only</span> <span class="n">true</span> <span class="k">for</span> <span class="n">certain</span> <span class="n">combinations</span> <span class="n">of</span> <span class="n">multi</span> <span class="n">indexes</span><span class="o">.</span> <span class="n">a</span> <span class="n">more</span> <span class="n">rigorous</span> <span class="n">implementation</span> <span class="n">would</span> <span class="n">handle</span> <span class="n">these</span> <span class="n">edge</span> <span class="n">cases</span><span class="o">.</span>
+
+<span class="n">these</span> <span class="n">inconsistencies</span> <span class="n">mean</span> <span class="n">that</span> <span class="n">screen</span> <span class="n">reader</span> <span class="n">users</span> <span class="n">may</span> <span class="n">be</span> <span class="n">referencing</span> <span class="n">an</span> <span class="n">different</span> <span class="n">indexing</span> <span class="n">system</span> <span class="n">than</span> <span class="n">sighted</span> <span class="n">users</span><span class="o">.</span><span class="n">s</span>
+</code></pre></div>
+<h2 id="visual-and-nonvisual-shape">visual and nonvisual shape<a class="headerlink" href="#visual-and-nonvisual-shape" title="Permanent link">¤</a></h2>
+<p>rows and columns references in a <code>table</code> are the not the same as a dataframe.
+convention holds that dataframes show their shape, the shape of the data.
+the nominal references we use for dataframes are shifted ordinal references
+when the shape is shared along side a screen reader.
+the shape of the table to the screen reader inclused the rows and columns.
+to assistive technology, the shape of the dataframe is computed by [^note]:</p>
+<pre><code>df.shape[0] + df.columns.nlevels, df.shape[1] + df.index.nlevels
+</code></pre>
+<p>this naive heuristic is only true for certain combinations of multi indexes. a more rigorous implementation would handle these edge cases.</p>
+<p>these inconsistencies mean that screen reader users may be referencing an different indexing system than sighted users.s</p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
+<p></scope></th></p>
 
 
 
