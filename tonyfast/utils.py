@@ -11,7 +11,6 @@ from configparser import ConfigParser
 from functools import lru_cache, partial, partialmethod, singledispatch
 from mimetypes import MimeTypes
 from operator import attrgetter
-from re import S
 from textwrap import dedent, indent
 from typing import AsyncGenerator, AsyncIterable, AsyncIterator, Coroutine
 from numpy import nan
@@ -200,14 +199,11 @@ class _enumerate(Accessor, types=SERIES, name="enumerate"):
             )
         )
         if isinstance(object.index, pandas.MultiIndex):
-            index = (
-                DataFrame(
-                    index=pandas.MultiIndex.from_tuples(
-                        out.index.get_level_values(0), names=object.index.names
-                    )
+            index = DataFrame(
+                index=pandas.MultiIndex.from_tuples(
+                    out.index.get_level_values(0), names=object.index.names
                 )
-                .set_index(out.index.get_level_values(1), append=True)
-            )
+            ).set_index(out.index.get_level_values(1), append=True)
             return Series(out.values, index=index.index)
         return out
 
@@ -338,16 +334,23 @@ class _Jinja2(Accessor, types=SERIES | FRAME | INDEX, name="template"):
         return self.render_template(self.environment.from_string(template), **kwargs)
 
 
-async def get__file_index(path=None, include="", exclude=None, recursive=False) -> pandas.DataFrame:
+async def get__file_index(
+    path=None, include="", exclude=None, recursive=False, root=None
+) -> pandas.DataFrame:
+    path = await path.absolute()
+    if root is None:
+        root = path
     if not isinstance(recursive, bool):
         recursive -= 1
+    parent = path
     return [
-        path async for path in get__file_index_iter(anyio.Path(path), include, exclude, recursive)
+        (await path.absolute())
+        async for path in get__file_index_iter(parent, include, exclude, recursive, root=root)
     ]
 
 
 async def get__file_index_iter(
-    path=None, include=[".ipynb", ".py", ".md"], exclude=None, recursive=False
+    path=None, include=[".ipynb", ".py", ".md"], exclude=None, recursive=False, root=None
 ) -> AsyncGenerator[anyio.Path, None]:
     if isinstance(exclude, str):
         import pathspec
@@ -355,14 +358,16 @@ async def get__file_index_iter(
         exclude = pathspec.PathSpec.from_lines(
             pathspec.patterns.GitWildMatchPattern, exclude.splitlines()
         )
-    if await path.is_dir():
+    if await (original := path).is_dir():
         async for path in path.iterdir():
             if await path.is_file():
                 if path.suffix in include:
                     if (not exclude) or not exclude.match_file(path):
-                        yield path
+                        yield original / path
             elif recursive:
-                async for path in get__file_index_iter(path, include, exclude, recursive):
+                async for path in get__file_index_iter(
+                    original / path, include, exclude, recursive, root
+                ):
                     yield path
 
 
@@ -496,6 +501,15 @@ class APath(anyio.Path):
         return get_mimetype(self)
 
     iglob = aget_parent_glob
+
+
+class _Glob(Method, types=INDEX | SERIES, name="glob"):
+    def __call__(self, pattern, **kwargs):
+        from glob import glob
+
+        return pandas.concat([
+            dir / Series(patterns := glob(pattern, root_dir=dir, **kwargs), index=[dir]*len(patterns), name="file") for dir in self.object
+        ]).rename_axis([self.object.name], axis=0)
 
 
 class _Path(Method, method=Path, types=INDEX | SERIES, name="path"):
@@ -644,4 +658,3 @@ class _display(Method, types=INDEX | SERIES, name="display", method=IPython.disp
                 f"""<iframe srcdoc="{escape(x)}" height="{height}" width={width}/>"""
             )
         )
-
