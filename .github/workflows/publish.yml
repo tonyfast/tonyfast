@@ -20,6 +20,10 @@ jobs:
         run: hatch run docs:build
       - name: build jupyterlite
         run: hatch run lite:build
+      - name: build future
+        run: |
+          pip install importnb pandas anyio jinja2 pygments pathspec python-slugify beautifulsoup4 nbconvert nbformat git+https://github.com/deathbeds/nbconvert-a11y.git@bulk-improve --upgade
+          importnb tonyfast/xxiv/2024-02-21-build-docs-pd.ipynb
       - name: Deploy main 🚀
         uses: JamesIves/github-pages-deploy-action@v4
         if: ${{ github.ref_name == 'main' }}
