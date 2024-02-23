@@ -218,9 +218,18 @@ textarea[name=source] {
     min-width: 0;
 }
 
-.nb-outputs,
-.nb-source {
+td.nb-outputs,
+td.nb-source {
     overflow-x: auto;
+}
+
+.no-overflow td.nb-source {
+    overflow-x: visible;
+}
+
+.no-overflow td.nb-outputs {
+    min-width: 100%;
+    width: max-content;
 }
 
 #nb-settings li::marker,
@@ -249,6 +258,7 @@ textarea[name=source] {
     box-sizing: border-box;
     width: 100%;
     resize: vertical;
+    white-space: pre;
 }
 
 
@@ -275,7 +285,7 @@ details.log:not([open])+table,
 
 .nb-outputs.nb-scrolled {
     max-height: var(--nb-scrolled-height);
-    overflow: auto;
+    overflow-y: auto;
 }
 
 .nb-outputs.nb-collapsed {
@@ -1184,8 +1194,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
     </form>
    </dialog>
   </header>
-  <main aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
-nb-ct-outputs nb-outputs-label">
+  <main>
    <table id="cells" role="none">
     <colgroup>
      <col class="nb-index">
@@ -3236,6 +3245,12 @@ it means that
          </label>
         </li>
         <li>
+         <label>
+          <input checked name="scroll-overflow" type="checkbox">
+          scroll overflow
+         </label>
+        </li>
+        <li>
          <label id="nb-accessibility-priority-select">
           accessibility priority
           <select name="accessibility-priority">
@@ -3860,6 +3875,11 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     (x) => {
         document.querySelector("main").classList.toggle("visually-hide");
         activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+    });
+document.forms.settings['scroll-overflow'].addEventListener("change",
+    (x) => {
+        document.querySelector("main").classList.toggle("no-overflow");
+        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
 setStyle("initialize saved settings.")
