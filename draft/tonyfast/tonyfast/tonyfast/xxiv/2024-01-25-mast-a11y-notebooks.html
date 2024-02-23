@@ -40387,6 +40387,9 @@ we'll need templates to handle myst admonitions
      Run
     </button>
    </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
    <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
     help
    </button>
@@ -40593,6 +40596,226 @@ we'll need templates to handle myst admonitions
       </tbody>
      </table>
     </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
    </dialog>
    <dialog id="nb-help">
     <h1>
