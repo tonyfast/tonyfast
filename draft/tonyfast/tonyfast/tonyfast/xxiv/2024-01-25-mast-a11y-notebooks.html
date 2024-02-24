@@ -48,18 +48,18 @@ the variables specify critical degrees of freedom in the notebook style.
 ## notebook interface specific css variables
 
 */
-
 :root {
     --nb-focus-width: 3px;
     --nb-accent-color: auto;
-    --nb-background-color-dark: #2b2a33;
-    --nb-background-color-light: #FFFFFF;
     --nb-margin: 5%;
     --nb-font-size: 16px;
     --nb-font-family: serif;
     --nb-line-height: 1.5;
     --nb-scrolled-height: 600px;
+    --color-light: #FFFFFF;
+    --color-dark: #2b2a33;
 }
+
 
 /* map css variables to css properties on the `body` elements.
 this mapping turns out css variables into user interfaces. */
@@ -72,6 +72,22 @@ body {
     margin-right: var(--nb-margin);
     line-height: var(--nb-line-height);
     width: calc(100% - 2*var(--nb-margin));
+    color: var(--color-dark);
+    background-color: var(--color-light);
+}
+
+body.dark {
+    color: var(--color-light);
+    background-color: var(--color-dark);
+}
+
+main:fullscreen {
+    overflow: auto;
+    background: var(--color-light);
+}
+
+.dark main:fullscreen {
+    background: var(--color-dark);
 }
 
 /* ## notebook settings
@@ -223,13 +239,19 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.no-overflow td.nb-source {
+.horiz-overflow td.nb-outputs, 
+.horiz-overflow header,
+.horiz-overflow footer
+{
+    width: max-content;
+}
+
+.horiz-overflow td.nb-source {
     overflow-x: visible;
 }
 
-.no-overflow td.nb-outputs {
+.horiz-overflow td.nb-outputs {
     min-width: 100%;
-    width: max-content;
 }
 
 #nb-settings li::marker,
@@ -40470,8 +40492,8 @@ we'll need templates to handle myst admonitions
         </li>
         <li>
          <label>
-          <input checked name="scroll-overflow" type="checkbox">
-          scroll overflow
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
          </label>
         </li>
         <li>
@@ -41322,9 +41344,9 @@ document.forms.visibility['visually-hide'].addEventListener("change",
         document.querySelector("main").classList.toggle("visually-hide");
         activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
     });
-document.forms.settings['scroll-overflow'].addEventListener("change",
+document.forms.settings['horizontal-scrolling'].addEventListener("change",
     (x) => {
-        document.querySelector("main").classList.toggle("no-overflow");
+        BODY.classList.toggle("horiz-overflow", event.target.checked);
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
