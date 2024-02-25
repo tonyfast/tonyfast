@@ -138,12 +138,14 @@ the design decisions are focused native elements so that the assistive technolog
 }
 
 /* line height cant change pre elements based on browser presets */
-pre {
+pre,
+textarea {
     line-height: unset;
     white-space: pre-wrap;
 }
 
-.horiz-overflow pre {
+.horiz-overflow pre,
+.horiz-overflow textarea {
     white-space: pre;
 }
 
@@ -216,10 +218,9 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs, 
+.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
-.horiz-overflow footer
-{
+.horiz-overflow footer {
     width: max-content;
 }
 
@@ -257,7 +258,6 @@ textarea[name=source] {
     box-sizing: border-box;
     width: 100%;
     resize: vertical;
-    white-space: pre;
 }
 
 
@@ -678,7 +678,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
     settings
    </button>
-   <button onclick="fullScreen()">
+   <button id="nb-fullscreen" onclick="fullScreen()">
     fullscreen
    </button>
    <details>
@@ -1229,7 +1229,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1306,7 +1306,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </h1>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="8" role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1404,7 +1404,7 @@ could invoke axe through python by copying a little bit.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="7" role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1510,7 +1510,7 @@ could invoke axe through python by copying a little bit.
        </ol>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-code-label nb-cell-label cell-4-loc nb-loc-label
     cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
@@ -1603,7 +1603,7 @@ could invoke axe through python by copying a little bit.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="12" role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="12" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="nb-code-label nb-cell-label cell-5-loc nb-loc-label
     cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
@@ -1719,7 +1719,7 @@ could invoke axe through python by copying a little bit.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="6" role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
     cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
@@ -1822,7 +1822,7 @@ could invoke axe through python by copying a little bit.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="nb-code-label nb-cell-label cell-7-loc nb-loc-label
     cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
@@ -1938,7 +1938,7 @@ Cell <span class="ansi-green-fg">In [12], line 2</span>, in <span class="ansi-cy
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="6" role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-code-label nb-cell-label cell-8-loc nb-loc-label
     cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
@@ -2041,7 +2041,7 @@ Cell <span class="ansi-green-fg">In [12], line 2</span>, in <span class="ansi-cy
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="2" role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2126,7 +2126,7 @@ we used a cached requests object vendored from unpkg
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="2" role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-10-loc nb-loc-label
     cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
@@ -2221,7 +2221,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-11-loc nb-loc-label
     cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
@@ -2318,7 +2318,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -2396,7 +2396,7 @@ we used a cached requests object vendored from unpkg
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-13-loc nb-loc-label
     cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
@@ -2497,7 +2497,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell markdown" data-index="14" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell markdown" data-index="14" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
@@ -2574,7 +2574,7 @@ we used a cached requests object vendored from unpkg
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell markdown" data-index="15" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell markdown" data-index="15" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -2652,7 +2652,7 @@ we used a cached requests object vendored from unpkg
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-16-loc nb-loc-label
     cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
@@ -2759,7 +2759,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell markdown" data-index="17" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell markdown" data-index="17" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
@@ -2836,7 +2836,7 @@ we used a cached requests object vendored from unpkg
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell markdown" data-index="18" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell markdown" data-index="18" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
         18
@@ -2918,7 +2918,7 @@ we used a cached requests object vendored from unpkg
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell code" data-index="19" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell code" data-index="19" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-19-loc nb-loc-label
     cell-19-outputs-len" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
@@ -3011,7 +3011,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell markdown" data-index="20" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell markdown" data-index="20" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
         20
@@ -3088,7 +3088,7 @@ we used a cached requests object vendored from unpkg
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell code" data-index="21" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell code" data-index="21" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-21-loc nb-loc-label
     cell-21-outputs-len" aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
@@ -3279,7 +3279,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell markdown" data-index="22" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell markdown" data-index="22" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
         22
@@ -3356,7 +3356,7 @@ we used a cached requests object vendored from unpkg
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell code" data-index="23" data-loc="2" role="listitem">
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell code" data-index="23" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-23-loc nb-loc-label
     cell-23-outputs-len" aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
@@ -3641,7 +3641,7 @@ we used a cached requests object vendored from unpkg
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell markdown" data-index="24" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell markdown" data-index="24" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 24" class="nb-anchor visually-hidden" href="#24" id="24">
         24
@@ -4676,14 +4676,26 @@ function openDialogs() {
     );
     event.target.focus();
 }
+
 document.forms.visibility['visually-hide'].addEventListener("change",
     (x) => {
         document.querySelector("main").classList.toggle("visually-hide");
         activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
     });
+
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
     (x) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
+        if (!event.target.checked) {
+            document.querySelectorAll("textarea").forEach(
+                (x) => {
+                    x.style.width = "";
+                    x.style.height = "";
+                    // rerender after resetting width
+                    textareaMaxHeight(x);
+                }
+            )
+        };
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
@@ -4694,6 +4706,53 @@ function fullScreen() {
     } else {
         document.exitFullscreen();
     }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        el.style.width = `${width + left + right}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${height + top + bottom}px`;
+    }
+
+}
+let observer = new ResizeObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+        });
+    }
+);
+
+document.querySelectorAll("textarea").forEach(
+    (x) => {
+        observer.observe(x);
+    }
+);
+
+if (!document.fullscreenEnabled) {
+    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
 }
 
 setStyle("initialize saved settings.")

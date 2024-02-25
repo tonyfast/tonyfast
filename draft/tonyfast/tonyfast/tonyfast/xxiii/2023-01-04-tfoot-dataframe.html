@@ -140,12 +140,14 @@ the design decisions are focused native elements so that the assistive technolog
 }
 
 /* line height cant change pre elements based on browser presets */
-pre {
+pre,
+textarea {
     line-height: unset;
     white-space: pre-wrap;
 }
 
-.horiz-overflow pre {
+.horiz-overflow pre,
+.horiz-overflow textarea {
     white-space: pre;
 }
 
@@ -218,10 +220,9 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs, 
+.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
-.horiz-overflow footer
-{
+.horiz-overflow footer {
     width: max-content;
 }
 
@@ -259,7 +260,6 @@ textarea[name=source] {
     box-sizing: border-box;
     width: 100%;
     resize: vertical;
-    white-space: pre;
 }
 
 
@@ -680,7 +680,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
     settings
    </button>
-   <button onclick="fullScreen()">
+   <button id="nb-fullscreen" onclick="fullScreen()">
     fullscreen
    </button>
    <details>
@@ -1202,7 +1202,7 @@ this work explores what a footer description might look like.
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1296,7 +1296,7 @@ this work explores what a footer description might look like.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="nb-code-label nb-cell-label cell-2-loc nb-loc-label
     cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
@@ -1393,7 +1393,7 @@ this work explores what a footer description might look like.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="13" role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="13" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="nb-code-label nb-cell-label cell-3-loc nb-loc-label
     cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
@@ -1522,7 +1522,7 @@ this work explores what a footer description might look like.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="12" role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="12" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-code-label nb-cell-label cell-4-loc nb-loc-label
     cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
@@ -1669,7 +1669,7 @@ this work explores what a footer description might look like.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -1746,7 +1746,7 @@ this work explores what a footer description might look like.
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
     cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
@@ -1852,7 +1852,7 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="11" role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="11" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="nb-code-label nb-cell-label cell-7-loc nb-loc-label
     cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
@@ -1975,7 +1975,7 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -2052,7 +2052,7 @@ final_table = format_df(df, "a value-less dataframe with thead, tbody and tfoot 
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="7" role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="nb-code-label nb-cell-label cell-9-loc nb-loc-label
     cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
@@ -2167,7 +2167,7 @@ test for a caption, scope attributes, and populated headers
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2244,7 +2244,7 @@ test for a caption, scope attributes, and populated headers
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-11-loc nb-loc-label
     cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
@@ -2343,7 +2343,7 @@ test for a caption, scope attributes, and populated headers
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="7" role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-12-loc nb-loc-label
     cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
@@ -3563,14 +3563,26 @@ function openDialogs() {
     );
     event.target.focus();
 }
+
 document.forms.visibility['visually-hide'].addEventListener("change",
     (x) => {
         document.querySelector("main").classList.toggle("visually-hide");
         activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
     });
+
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
     (x) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
+        if (!event.target.checked) {
+            document.querySelectorAll("textarea").forEach(
+                (x) => {
+                    x.style.width = "";
+                    x.style.height = "";
+                    // rerender after resetting width
+                    textareaMaxHeight(x);
+                }
+            )
+        };
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
@@ -3581,6 +3593,53 @@ function fullScreen() {
     } else {
         document.exitFullscreen();
     }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        el.style.width = `${width + left + right}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${height + top + bottom}px`;
+    }
+
+}
+let observer = new ResizeObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+        });
+    }
+);
+
+document.querySelectorAll("textarea").forEach(
+    (x) => {
+        observer.observe(x);
+    }
+);
+
+if (!document.fullscreenEnabled) {
+    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
 }
 
 setStyle("initialize saved settings.")

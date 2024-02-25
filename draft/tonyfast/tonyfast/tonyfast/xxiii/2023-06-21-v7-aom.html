@@ -138,12 +138,14 @@ the design decisions are focused native elements so that the assistive technolog
 }
 
 /* line height cant change pre elements based on browser presets */
-pre {
+pre,
+textarea {
     line-height: unset;
     white-space: pre-wrap;
 }
 
-.horiz-overflow pre {
+.horiz-overflow pre,
+.horiz-overflow textarea {
     white-space: pre;
 }
 
@@ -216,10 +218,9 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs, 
+.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
-.horiz-overflow footer
-{
+.horiz-overflow footer {
     width: max-content;
 }
 
@@ -257,7 +258,6 @@ textarea[name=source] {
     box-sizing: border-box;
     width: 100%;
     resize: vertical;
-    white-space: pre;
 }
 
 
@@ -678,7 +678,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
     settings
    </button>
-   <button onclick="fullScreen()">
+   <button id="nb-fullscreen" onclick="fullScreen()">
     fullscreen
    </button>
    <details>
@@ -1234,7 +1234,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="14" role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1370,7 +1370,7 @@ Note: all labels will need to be internationalized.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="7" role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1485,7 +1485,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1560,7 +1560,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1637,7 +1637,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -1712,7 +1712,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="7" role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
     cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
@@ -1814,16 +1814,16 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="1f85679b-b327-4334-b216-6b841a89b673">
+        <div class="output_subarea output_javascript" id="fed7c9e5-bfce-4302-a8dd-ca35a936412f">
          <script type="text/javascript">
-          var element = $('#1f85679b-b327-4334-b216-6b841a89b673');
+          var element = $('#fed7c9e5-bfce-4302-a8dd-ca35a936412f');
         ['document.querySelectorAll("#top-panel").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Menu");});\n', 'document.querySelectorAll("#main-panel").forEach((x,i) =>{x.setAttribute("aria-labelledby", "jp-title");});\n', 'document.querySelectorAll("#menu-panel").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); \n', '    x.setAttribute("aria-label", "Notebook Menu");\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell markdown" data-index="7" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell markdown" data-index="7" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -1906,7 +1906,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="6" role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-code-label nb-cell-label cell-8-loc nb-loc-label
     cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
@@ -2007,16 +2007,16 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="a2c8c2b1-afb4-4215-8def-874ceff0f18d">
+        <div class="output_subarea output_javascript" id="4911469d-2fbe-44ae-820f-90bad3291ea7">
          <script type="text/javascript">
-          var element = $('#a2c8c2b1-afb4-4215-8def-874ceff0f18d');
+          var element = $('#4911469d-2fbe-44ae-820f-90bad3291ea7');
         ['for (x in document.querySelectorAll("#top-panel #jp-title h1").children){\n', "    // we can't set our own h1 as that will mess up custom content.\n", "    // the css depends on the h1, but the screen reader won't find it this way.\n", '    x.setAttribute("role", "presentation");\n', '};\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2093,7 +2093,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="4" role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-10-loc nb-loc-label
     cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
@@ -2189,16 +2189,16 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="11b7e68f-3d10-44e0-bdc5-2832f2d9069a">
+        <div class="output_subarea output_javascript" id="7e3b4d4b-90e1-40c2-ba15-2c8fecd96458">
          <script type="text/javascript">
-          var element = $('#11b7e68f-3d10-44e0-bdc5-2832f2d9069a');
+          var element = $('#7e3b4d4b-90e1-40c2-ba15-2c8fecd96458');
         ['// a user should be able to trigger the logo dialog by clicking on .jp-NotebookKernelLogo\n', '// the trusted status button needs alt and a clearer title .jp-NotebookTrustedStatus\n', '// the button.jp-Notebook-footer semantics are wrong. the button should be inside a footer, or role=contentinfo\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell markdown" data-index="11" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell markdown" data-index="11" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -2282,7 +2282,7 @@ the changes below communicate the current semantics, but the feel of this experi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="6" role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-12-loc nb-loc-label
     cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
@@ -2382,16 +2382,16 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="fba9b9a1-33d3-4c97-87d5-17d393220cff">
+        <div class="output_subarea output_javascript" id="b011b223-8496-4aed-b855-7318506e0d47">
          <script type="text/javascript">
-          var element = $('#fba9b9a1-33d3-4c97-87d5-17d393220cff');
+          var element = $('#b011b223-8496-4aed-b855-7318506e0d47');
         ['// it is going to make no sense to anyone that the jupyter label sends you to open files\n', 'document.querySelectorAll("#top-panel #jp-NotebookLogo").forEach((x,i) =>{\n', '    x.setAttribute("title", "Open File Browser in a New Tab");\n', '    x.setAttribute("alt", "Open File Browser in a New Tab");\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell markdown" data-index="13" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell markdown" data-index="13" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -2466,7 +2466,7 @@ the changes below communicate the current semantics, but the feel of this experi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-14-loc nb-loc-label
     cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
@@ -2560,16 +2560,16 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="72823627-2c75-4ad2-bd99-2615e5108c74">
+        <div class="output_subarea output_javascript" id="12074d0d-8808-4375-bc96-03fc8d32b351">
          <script type="text/javascript">
-          var element = $('#72823627-2c75-4ad2-bd99-2615e5108c74');
+          var element = $('#12074d0d-8808-4375-bc96-03fc8d32b351');
         ['document.querySelectorAll("#spacer-widget-top").forEach((x,i) =>{x.setAttribute("role", "presentation");});\n', 'document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Cells");});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell markdown" data-index="15" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell markdown" data-index="15" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -2644,7 +2644,7 @@ the changes below communicate the current semantics, but the feel of this experi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-16-loc nb-loc-label
     cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
@@ -2742,16 +2742,16 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="b39f037a-2cd4-4659-ba57-937251b623bd">
+        <div class="output_subarea output_javascript" id="f6b2bb40-1793-4280-a46d-8e7c8b31b40c">
          <script type="text/javascript">
-          var element = $('#b39f037a-2cd4-4659-ba57-937251b623bd');
+          var element = $('#f6b2bb40-1793-4280-a46d-8e7c8b31b40c');
         ['// role navigation -> banner, this is a landmark inside of main\n', 'document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); x.setAttribute("aria-label", "Notebook Actions");\n', '});    \n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell markdown" data-index="17" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell markdown" data-index="17" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
@@ -2844,7 +2844,7 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell code" data-index="18" data-loc="4" role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell code" data-index="18" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-18-loc nb-loc-label
     cell-18-outputs-len" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
@@ -2940,16 +2940,16 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="1dbf48f3-7e6b-44e9-bd53-cad4de805af6">
+        <div class="output_subarea output_javascript" id="06719365-4f6d-4e01-a60f-2e8d3b39db1c">
          <script type="text/javascript">
-          var element = $('#1dbf48f3-7e6b-44e9-bd53-cad4de805af6');
+          var element = $('#06719365-4f6d-4e01-a60f-2e8d3b39db1c');
         ['document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{\n', '    x.setAttribute("role", "feed"); x.setAttribute("aria-label", "Cells");\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell markdown" data-index="19" data-loc="3" role="listitem">
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell markdown" data-index="19" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
         19
@@ -3028,7 +3028,7 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
 >> some assistive tech can quickly nagivate articles. -->
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell code" data-index="20" data-loc="27" role="listitem">
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell code" data-index="20" data-loc="27" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-20-loc nb-loc-label
     cell-20-outputs-len" aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
@@ -3170,16 +3170,16 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="d8ca2b52-61f7-445a-a724-1ccd4a3cfae8">
+        <div class="output_subarea output_javascript" id="dfb51d50-cd18-4d53-88e5-5f285590e234">
          <script type="text/javascript">
-          var element = $('#d8ca2b52-61f7-445a-a724-1ccd4a3cfae8');
+          var element = $('#dfb51d50-cd18-4d53-88e5-5f285590e234');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    // lets punt on the feed pattern to start\n', '    // x.setAttribute("role", "article"); \n', '    // x.setAttribute("aria-posinset", i+1); \n', '    // x.setAttribute("aria-setsize", cells.length); \n', '\n', '    // use a raw region to make sure the cells show as landmarks\n', '    x.setAttribute("role", "region"); \n', '    \n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '    if (CODE){\n', '        x.setAttribute("aria-label", `Code Cell ${i+1}`);\n', '    } else if (MD){\n', '        x.setAttribute("aria-label", `Markdown Cell ${i+1}`);\n', '    } else {\n', '        x.setAttribute("aria-label", `Cell ${i+1}`);\n', '    };\n', '\n', '    // i cant directly know the input number. semantically it is some kind of label.\n', '    // this effort is concerned with the AOM, not WCAG. \n', '    // we do have a visible label so this should satisfy the visible label\n', '    prompt = x.querySelectorAll(".jp-InputPrompt")[0];\n', '    prompt.setAttribute("aria-hidden", "true");\n', '\n', '    // STILL NEED TO ADD A LANDMARK FOR THE CELL\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell markdown" data-index="21" data-loc="1" role="listitem">
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell markdown" data-index="21" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
         21
@@ -3256,7 +3256,7 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell code" data-index="22" data-loc="34" role="listitem">
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell code" data-index="22" data-loc="34" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-22-loc nb-loc-label
     cell-22-outputs-len" aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
@@ -3412,16 +3412,16 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="7d118d53-adf5-4a23-9749-f082f2ddebc1">
+        <div class="output_subarea output_javascript" id="165d742c-96bc-4dd4-923b-c1f2edfe919a">
          <script type="text/javascript">
-          var element = $('#7d118d53-adf5-4a23-9749-f082f2ddebc1');
+          var element = $('#165d742c-96bc-4dd4-923b-c1f2edfe919a');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '\n', '    // code, markdown, raw cells need different groupings.\n', '    x.querySelectorAll(".jp-Cell-inputWrapper").forEach(\n', '        (y)=>{\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (CODE){\n', '                if (label.length){\n', '                    y.setAttribute("aria-label", `In ${label}`);\n', '                } else {\n', '                    y.setAttribute("aria-label", `New Code Input`);\n', '                }\n', '            } else if (MD){\n', '                y.setAttribute("aria-label", `Markdown Input`);\n', '            } else {\n', '                y.setAttribute("aria-label", `Input`);\n', '            }\n', '        }\n', '    );\n', '    // make the cell toolbar an APG styled toolbar. this is the most cursory modification.\n', '    x.querySelectorAll(".jp-cell-toolbar").forEach(\n', '        (y)=>{\n', '            // https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/examples/toolbar/\n', '            y.setAttribute("role", "toolbar");\n', '            y.setAttribute("aria-label", `Cell ${i+1} Toolbar`);\n', '            y.setAttribute("aria-controls", `cell-input-${i}`);\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell markdown" data-index="23" data-loc="5" role="listitem">
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell markdown" data-index="23" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
         23
@@ -3512,7 +3512,7 @@ right now, i'm only comfortable calling the outputs a group, this means they may
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell code" data-index="24" data-loc="27" role="listitem">
+     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell code" data-index="24" data-loc="27" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-24-loc nb-loc-label
     cell-24-outputs-len" aria-labelledby="nb-cell-label 24" class="nb-anchor visually-hidden" href="#24" id="24">
@@ -3654,16 +3654,16 @@ right now, i'm only comfortable calling the outputs a group, this means they may
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="d4714821-c1a1-4912-b4da-6717bb45bd1e">
+        <div class="output_subarea output_javascript" id="42bbd94a-a0d4-491e-9e55-ee187aa88053">
          <script type="text/javascript">
-          var element = $('#d4714821-c1a1-4912-b4da-6717bb45bd1e');
+          var element = $('#42bbd94a-a0d4-491e-9e55-ee187aa88053');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    x.querySelectorAll(".jp-Cell-outputWrapper").forEach(\n', '        (y)=>{\n', '            // this will only be encountered on code cells.\n', '            // i have no invested significant time into the semantics of the outputs\n', '            // group is a fine semantic, but it is non specific.\n', '            // increasingly i feel like the output is nested feed because it \n', '            // would allow outputs to be indexed. need more testing.\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (label.length){\n', '                y.setAttribute("aria-label", `Output ${label}`);\n', '            } else {\n', '                // no need to worry about the output label when there is not execution\n', '                // aria hidden might be appropriate without testing on a screen reader.\n', '            };\n', '        }\n', '    );\n', '    x.querySelectorAll(".jp-OutputCollapser").forEach(\n', '        (y)=>{\n', '            // the collapser button has no semantics or visible label.\n', '            // this feature is not accessible, but should because for folks using screen magnification.\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" class="cell markdown" data-index="25" data-loc="4" role="listitem">
+     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" class="cell markdown" data-index="25" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 25" class="nb-anchor visually-hidden" href="#25" id="25">
         25
@@ -4705,14 +4705,26 @@ function openDialogs() {
     );
     event.target.focus();
 }
+
 document.forms.visibility['visually-hide'].addEventListener("change",
     (x) => {
         document.querySelector("main").classList.toggle("visually-hide");
         activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
     });
+
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
     (x) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
+        if (!event.target.checked) {
+            document.querySelectorAll("textarea").forEach(
+                (x) => {
+                    x.style.width = "";
+                    x.style.height = "";
+                    // rerender after resetting width
+                    textareaMaxHeight(x);
+                }
+            )
+        };
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
@@ -4723,6 +4735,53 @@ function fullScreen() {
     } else {
         document.exitFullscreen();
     }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        el.style.width = `${width + left + right}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${height + top + bottom}px`;
+    }
+
+}
+let observer = new ResizeObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+        });
+    }
+);
+
+document.querySelectorAll("textarea").forEach(
+    (x) => {
+        observer.observe(x);
+    }
+);
+
+if (!document.fullscreenEnabled) {
+    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
 }
 
 setStyle("initialize saved settings.")
