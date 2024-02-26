@@ -260,6 +260,10 @@ td.nb-source {
     min-width: 100%;
 }
 
+.horiz-overflow .cell {
+    width: fit-content;
+}
+
 #nb-settings li::marker,
 summary[inert]::marker {
     content: "";
@@ -285,7 +289,7 @@ textarea {
 textarea[name=source] {
     box-sizing: border-box;
     width: 100%;
-    resize: vertical;
+    resize: none;
 }
 
 
@@ -3021,9 +3025,8 @@ itemid itemprop itemref itemscope itemtype
         </li>
         <li>
          <label>
-          margin
-          <input max="40" min="0" name="margin" step="5" type="number" value="5">
-          %
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
          </label>
         </li>
         <li>
@@ -3061,12 +3064,6 @@ itemid itemprop itemref itemscope itemtype
          </label>
         </li>
         <li>
-         <label>
-          <input name="horizontal-scrolling" type="checkbox">
-          horizontal scrolling
-         </label>
-        </li>
-        <li>
          <label id="nb-accessibility-priority-select">
           accessibility priority
           <select name="accessibility-priority">
@@ -3080,6 +3077,13 @@ itemid itemprop itemref itemscope itemtype
             Single A
            </option>
           </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
          </label>
         </li>
         <li>
@@ -3747,8 +3751,8 @@ itemid itemprop itemref itemscope itemtype
     }
 };
 
-function toggleColorScheme() {
-    let value = document.forms.settings.elements["color-scheme"].value;
+function toggleColorScheme(value = null) {
+    value = value === null ? document.forms.settings.elements["color-scheme"].value : value;
     let DARK = value == "dark";
     let opposite = DARK ? "light" : "dark";
     document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
@@ -3924,8 +3928,6 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
                 (x) => {
                     x.style.width = "";
                     x.style.height = "";
-                    // rerender after resetting width
-                    textareaMaxHeight(x);
                 }
             )
         };
@@ -3947,11 +3949,12 @@ function fullScreen() {
 function setTextareaWidth(entry, set = null) {
     if (set === null) { return }
     if (set) {
+        entry.target.style.width = "";
         let props = getComputedStyle(entry.target);
         let width = entry.target.scrollWidth,
             left = Number(props.borderLeftWidth.slice(0, -2)),
             right = Number(props.borderRightWidth.slice(0, -2));
-        entry.target.style.width = `${width + left + right}px`
+        entry.target.style.width = `${Math.ceil(width) + Math.ceil(left) + Math.ceil(right) + 1}px`
         setTextareaHeight(entry, true);
     }
 }
@@ -3966,7 +3969,7 @@ function setTextareaHeight(entry, reset = null) {
         let height = entry.target.scrollHeight;
         let top = Number(props.borderTopWidth.slice(0, -2));
         let bottom = Number(props.borderBottomWidth.slice(0, -2));
-        entry.target.style.height = `${height + top + bottom}px`;
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
     }
 
 }
