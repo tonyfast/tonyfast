@@ -1,0 +1,5268 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   when markdown and python collide
+  </title>
+  <meta content="a story about literacy written in the literate programming style of pidgy" name="description">
+  <meta content="light" name="color-scheme">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <style type="text/css">
+   /* # accessible css configurations
+
+we define these high level variables to allow for configuration during use and testing.
+we are not sure what the preferred default values are for these any accessible notebooks features.
+the variables specify critical degrees of freedom in the notebook style.
+
+## notebook interface specific css variables
+
+*/
+:root {
+    --nb-focus-width: 3px;
+    --nb-accent-color: auto;
+    --nb-margin: 5%;
+    --nb-font-size: 16px;
+    --nb-font-family: serif;
+    --nb-line-height: 1.5;
+    --nb-scrolled-height: 600px;
+    --color-light: #FFFFFF;
+    --color-dark: #2b2a33;
+}
+
+
+/* map css variables to css properties on the `body` elements.
+this mapping turns out css variables into user interfaces. */
+
+body {
+    font-size: var(--nb-font-size);
+    font-family: var(--nb-font-family);
+    accent-color: var(--nb-accent-color);
+    margin-left: var(--nb-margin);
+    margin-right: var(--nb-margin);
+    line-height: var(--nb-line-height);
+    width: calc(100% - 2*var(--nb-margin));
+    color: var(--color-dark);
+    background-color: var(--color-light);
+}
+
+body.dark {
+    color: var(--color-light);
+    background-color: var(--color-dark);
+}
+
+main:fullscreen {
+    overflow: auto;
+    background: var(--color-light);
+}
+
+.dark main:fullscreen {
+    background: var(--color-dark);
+}
+
+/* ## notebook settings
+
+the notebook settings interface connects configurable css features to the user.
+we use dialog elements to represents an element that should be hidden by default.
+it turns out there are two ways to layout `dialog` elements. 
+they can be used as modals or block elements.
+we extract this dual purpose to provide both configurations to the user.
+
+*/
+
+dialog form>* {
+    display: block;
+}
+
+
+/* ## wcag accessibility guidelines as a feature
+
+flexibility is the future of assistive interfaces.
+it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
+it is the fucking priority.
+
+in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
+one configurable feature is the accessibility priority. 
+experienced developers may need less assistive features as they spend more time with an interface.
+
+### buttons sizes
+
+WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
+
+/* satisfy AAA 2.5.5 */
+
+.wcag-aaa button,
+.wcag-aaa input[type=checkbox] {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+.wcag-aaa a {
+    font-size: max(44px, var(--nb-font-size));
+}
+
+/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+/* satisfy AA 2.5.8 minimum target requirement */
+.wcag-aa button,
+.wcag-aa input[type=checkbox] {
+    min-height: 24px;
+    min-width: 24px;
+}
+
+.wcag-aa a {
+    font-size: max(24px, var(--nb-font-size));
+}
+
+/* remove the color styling for AAA */
+.wcag-aaa .highlight pre code span[class] {
+    color: unset;
+}
+
+/* ### native textareas for AAA priority.
+
+
+our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
+the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
+
+*/
+
+.markdown textarea[name=source]+[role=group],
+.wcag-a textarea[name=source],
+.wcag-aa textarea[name=source],
+.wcag-aaa .markdown textarea[name=source],
+/* this group selector is very ambiguous */
+.wcag-aaa textarea[name=source]+[role=group] {
+    display: none;
+}
+
+/* line height cant change pre elements based on browser presets */
+pre,
+textarea {
+    line-height: unset;
+    white-space: pre-wrap;
+}
+
+.horiz-overflow pre,
+.horiz-overflow textarea {
+    white-space: pre;
+}
+
+/* this is only needed for the lsit template variant */
+ol#cells {
+    margin: unset;
+    padding: unset;
+}
+
+li.cell {
+    list-style-type: none;
+}
+
+/* ## notebook components layout */
+
+td[role="none"]:not([hidden]),
+th[role="none"]:not([hidden]) {
+    display: block;
+    text-align: unset;
+}
+
+table {
+    border-spacing: unset;
+}
+
+#cells,
+#cells .cell,
+#cells>tbody {
+    display: flex;
+    flex-direction: column;
+}
+
+ol[reversed]#cells,
+[reversed]#cells tbody {
+    flex-direction: column-reverse;
+}
+
+/* hide the visual output area when there are no outputs. 
+assistive technologies will recieve an audible notification that there are not outputs. */
+
+fieldset[data-outputs="0"] {
+    display: none;
+}
+
+/* ## modifications to html defaults 
+
+### focus 
+
+there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
+
+*/
+
+
+
+.cell:focus-within,
+:focus-visible {
+    outline: max(var(--nb-focus-width), 1px) solid;
+    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+}
+
+
+/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+textarea[name=source] {
+    min-width: 0;
+}
+
+td.nb-outputs,
+td.nb-source {
+    overflow-x: auto;
+}
+
+.horiz-overflow td.nb-outputs,
+.horiz-overflow header,
+.horiz-overflow footer {
+    width: max-content;
+}
+
+.horiz-overflow td.nb-source {
+    overflow-x: visible;
+}
+
+.horiz-overflow td.nb-outputs {
+    min-width: 100%;
+}
+
+.horiz-overflow .cell {
+    width: fit-content;
+}
+
+#nb-settings li::marker,
+summary[inert]::marker {
+    content: "";
+}
+
+/* ### inheriting styles */
+
+input,
+select,
+button {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+textarea {
+    font-family: monospace;
+    font-size: inherit;
+    line-height: inherit;
+    overflow: auto;
+    color: unset;
+}
+
+textarea[name=source] {
+    box-sizing: border-box;
+    width: 100%;
+    resize: none;
+}
+
+
+/* align checkboxes with buttons */
+input[type="checkbox"] {
+    vertical-align: middle;
+}
+
+/* ## custom class selectors */
+
+#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
+/* legend:not(:focus-within):not(:active), */
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+
+.nb-outputs.nb-scrolled {
+    max-height: var(--nb-scrolled-height);
+    overflow-y: auto;
+}
+
+.nb-outputs.nb-collapsed {
+    display: none;
+}
+  </style>
+  <style id="nb-light-highlight" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-highlight" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <br>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button id="nb-fullscreen" onclick="fullScreen()">
+    fullscreen
+   </button>
+   <p>
+    <a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank">
+     @tonyfast
+    </a>
+    s notebooks
+   </p>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="../xxiv/2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="../xxiv/2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-03-pandas-accessors.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-28-community-demo.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-18-voila-pidgy-integration.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-16-inspector-hack.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-07-pidgy-voila.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-tfoot-dataframe.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-30-typer-magic.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-23-mkdocs-plugin.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-22-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-21-lite-build.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-20-pyscript-nbconvert.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-19-integrating-typer.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-18-mkdocs-task.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-09-pyproject-analysis.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-12-05-markdown-to-doctest.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-26-package-mimic-and-rel-imports.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-23-better-dask-shape.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-17-assignment-expression-display.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-12-pluggy-experiments.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-29-metadata-formatter.html">
+        None
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../colormap-dataframes/2021-10-11-colorizing.html">
+        None
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       when markdown and python collide
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       a story about literacy written in the literate programming style of pidgy
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       24 total
+      </dd>
+      <dd id="nb-ct-code">
+       19 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       language
+      </dt>
+      <dd id="nb-lang">
+       python
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       171
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       26
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#when-markdown-and-python-collide">
+         when markdown and python collide
+        </a>
+       </li>
+       <li>
+        <ol>
+         <li>
+          <a href="#literate-computing-with-literary-machines-using-literate-programming-for-mass-computational-literacy">
+           literate computing with literary machines using literate programming for mass computational literacy
+          </a>
+         </li>
+         <li>
+          <a href="#donald-knuths-diagram-for-literate-programming">
+           donald knuth's diagram for literate programming
+          </a>
+         </li>
+         <li>
+          <a href="#tangle-code-and-weave-display">
+           tangle (code) and weave (display)
+          </a>
+         </li>
+         <li>
+          <a href="#reusing-and-importing-notebooks">
+           reusing and importing notebooks
+          </a>
+         </li>
+         <li>
+          <ol>
+           <li>
+            <a href="#None">
+             what about reusing that diagram
+            </a>
+           </li>
+           <li>
+            <a href="#None">
+             an inclusive future for code
+            </a>
+           </li>
+          </ol>
+         </li>
+         <li>
+          <a href="#the-power-of-markdown">
+           the power of markdown
+          </a>
+         </li>
+        </ol>
+       </li>
+       <li>
+        <a href="#what-if-the-code-was-just-the-start-something">
+         what if the code was just the start something?
+        </a>
+       </li>
+      </ol>
+     </nav>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:root] *", "language": "python", "name": "conda-root-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.9.10"}, "title": "when markdown and python collide", "description": "a story about literacy written in the literate programming style of pidgy"}
+    </form>
+   </dialog>
+  </header>
+  <main>
+   <table id="cells" role="none">
+    <colgroup>
+     <col class="nb-index">
+     <col class="nb-execution_count">
+     <col class="nb-cell_type">
+     <col class="nb-toolbar">
+     <col class="nb-started_at">
+     <col class="nb-completed_at">
+     <col class="nb-source">
+     <col class="nb-loc">
+     <col class="nb-metadata">
+     <col class="nb-outputs">
+    </colgroup>
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="8" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-1-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-source-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="8"># when markdown and python collide
+
+a story about literacy written in the literate programming style of `pidgy`
+
+![](https://pbs.twimg.com/media/FfmxiqjacAAXETj?format=jpg&amp;name=large)
+
+notebooks commonly communicate with two languages: markdown &amp; python.
+what happen when we dissolve the boundaries between markdown &amp; python or language &amp; code entirely.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># when markdown and python collide</span>
+
+a story about literacy written in the literate programming style of <span class="sb">`pidgy`</span>
+
+![](https://pbs.twimg.com/media/FfmxiqjacAAXETj?format=jpg&amp;name=large)
+
+notebooks commonly communicate with two languages: markdown &amp; python.
+what happen when we dissolve the boundaries between markdown &amp; python or language &amp; code entirely.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h1 id="when-markdown-and-python-collide"><a href="#when-markdown-and-python-collide">when markdown and python collide</a></h1>\n<p>a story about literacy written in the literate programming style of <code>pidgy</code></p>\n<p><img alt src="https://pbs.twimg.com/media/FfmxiqjacAAXETj?format=jpg&amp;name=large"></p>\n<p>notebooks commonly communicate with two languages: markdown &amp; python.\nwhat happen when we dissolve the boundaries between markdown &amp; python or language &amp; code entirely.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="when-markdown-and-python-collide">
+        <a href="#when-markdown-and-python-collide">
+         when markdown and python collide
+        </a>
+       </h1>
+       <p>
+        a story about literacy written in the literate programming style of
+        <code>
+         pidgy
+        </code>
+       </p>
+       <p>
+        <img alt src="https://pbs.twimg.com/media/FfmxiqjacAAXETj?format=jpg&amp;name=large">
+       </p>
+       <p>
+        notebooks commonly communicate with two languages: markdown &amp; python.
+what happen when we dissolve the boundaries between markdown &amp; python or language &amp; code entirely.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="6" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="nb-code-label nb-cell-label cell-2-loc nb-loc-label
+    cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-2-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-source-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="6">    
+    class STATE:
+        NB = "__file__" not in globals() and __name__ == "__main__"
+        SCRIPT = "__file__" in globals() and __name__ != "__main__"
+        MAIN = "__file__" in globals() and __name__ == "__main__"
+        LITE = __import__("sys").platform == "emscripten"</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    
+    <span class="k">class</span> <span class="nc">STATE</span><span class="p">:</span>
+        <span class="n">NB</span> <span class="o">=</span> <span class="s2">"__file__"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">and</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span>
+        <span class="n">SCRIPT</span> <span class="o">=</span> <span class="s2">"__file__"</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">and</span> <span class="vm">__name__</span> <span class="o">!=</span> <span class="s2">"__main__"</span>
+        <span class="n">MAIN</span> <span class="o">=</span> <span class="s2">"__file__"</span> <span class="ow">in</span> <span class="nb">globals</span><span class="p">()</span> <span class="ow">and</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span>
+        <span class="n">LITE</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">"sys"</span><span class="p">)</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">"emscripten"</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       6
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="9" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-3-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-source-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="9">
+
+    # execute this code in lite.
+    if STATE.LITE:
+        try:
+            %reload_ext pidgy
+        except ModuleNotFoundError:
+            import micropip
+            await micropip.install("pidgy importnb qrcode midgy ipywidgets".split(), pre=True)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    # execute this code in lite.
+    if STATE.LITE:
+        try:
+            %reload_ext pidgy
+        except ModuleNotFoundError:
+            import micropip
+            await micropip.install("pidgy importnb qrcode midgy ipywidgets".split(), pre=True)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'skip'}, 'data': {'text/html': '<pre><code># execute this code in lite.\nif STATE.LITE:\n    try:\n        %reload_ext pidgy\n    except ModuleNotFoundError:\n        import micropip\n        await micropip.install("pidgy importnb qrcode midgy ipywidgets".split(), pre=True)\n</code></pre>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       9
+      </td>
+      <td class="nb-outputs" role="none">
+       <pre><code># execute this code in lite.
+if STATE.LITE:
+    try:
+        %reload_ext pidgy
+    except ModuleNotFoundError:
+        import micropip
+        await micropip.install("pidgy importnb qrcode midgy ipywidgets".split(), pre=True)
+</code></pre>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="5" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="nb-code-label nb-cell-label cell-4-loc nb-loc-label
+    cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-4-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-source-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="5">    import pidgy, pathlib, IPython
+    shell = IPython.get_ipython()
+    if STATE.NB:
+        %reload_ext pidgy
+        shell.displays_manager.template_cls = pidgy.weave.IPythonHtml</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="kn">import</span> <span class="nn">pidgy</span><span class="o">,</span> <span class="nn">pathlib</span><span class="o">,</span> <span class="nn">IPython</span>
+    <span class="n">shell</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">get_ipython</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">STATE</span><span class="o">.</span><span class="n">NB</span><span class="p">:</span>
+        <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
+        <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonHtml</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'skip'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       5
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre><code>import pidgy, pathlib, IPython
+shell = IPython.get_ipython()
+if STATE.NB:
+    %reload_ext pidgy
+    shell.displays_manager.template_cls = pidgy.weave.IPythonHtml</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="10" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="nb-code-label nb-cell-label cell-5-loc nb-loc-label
+    cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-5-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         3
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-source-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="10">&lt;style&gt;
+img {
+    height: 500px !important;
+}
+.jupyter-wrapper .jp-Cell-inputWrapper {
+    display: none;
+}
+&lt;/style&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"&gt;&lt;/script&gt;
+&lt;script&gt;mermaid.initialize({startOnLoad:true, securityLevel: "loose"}, ".mermaid");&lt;/script&gt;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="n">img</span> <span class="p">{</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">500</span><span class="n">px</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="n">jupyter</span><span class="o">-</span><span class="n">wrapper</span> <span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">Cell</span><span class="o">-</span><span class="n">inputWrapper</span> <span class="p">{</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span> <span class="n">src</span><span class="o">=</span><span class="s2">"https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"</span><span class="o">&gt;&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">script</span><span class="o">&gt;</span><span class="n">mermaid</span><span class="o">.</span><span class="n">initialize</span><span class="p">({</span><span class="n">startOnLoad</span><span class="p">:</span><span class="n">true</span><span class="p">,</span> <span class="n">securityLevel</span><span class="p">:</span> <span class="s2">"loose"</span><span class="p">},</span> <span class="s2">".mermaid"</span><span class="p">);</span><span class="o">&lt;/</span><span class="n">script</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'skip'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       10
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          3
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <style>
+         img {
+    height: 500px !important;
+}
+.jupyter-wrapper .jp-Cell-inputWrapper {
+    display: none;
+}
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js">
+        </script>
+        <script>
+         mermaid.initialize({startOnLoad:true, securityLevel: "loose"}, ".mermaid");
+        </script>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="46" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="nb-code-label nb-cell-label cell-6-loc nb-loc-label
+    cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-6-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         4
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-source-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="46">## literate computing with literary machines using literate programming for mass computational literacy
+
+literacy rings through the history of computer science.
+in Annette Vee's [Understanding Computer Programming as a Literacy] we get
+a high level view of literacy through history and in the our little microcosm of computer programming.
+
+&gt; We compare mass ability to read and write software with mass literacy, and predict equally pervasive changes to society.
+
+    history =\
+```mermaid
+gantt 
+title Literacy in computer programming
+dateFormat YYYY
+axisFormat %Y
+
+section moderninity
+understanding media :mcluhan, 1964, 2022
+mother of all demos :englebert, 1968, 2022
+section post moderninity
+literate programming :knuth, 1984, 2022
+literary machines :nelson, 1987, 2022
+www :tbl, 1989, 2022
+
+section post web
+computer programming for everybody :cp4e, 1999, 2022
+ipython :fperez, 2001, 2022
+markdown :gruber, 2004, 2022
+ipython notebooks :ipynb, 2011, 2022
+anaconda :ana, 2012, 2022
+literate computing :lc, 2013, 2022
+understanding computer programming as a literacy :vee, 2013, 2022
+the birth &amp; death of javascript: js, 2014, 2022
+big split :split, 2015, 2022
+jupyterlab :lab, 2018, 2022
+jupyterlite :lab, 2021, 2022
+
+click vee href "https://licsjournal.org/index.php/LiCS/article/view/794/608"
+click knuth href "http://www.literateprogramming.com/knuthweb.pdf"
+click nelson href "https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf"
+click lc href "https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html"
+click cp4e href "https://www.python.org/doc/essays/cp4e/"
+
+
+```
+
+    shell.displays_manager.template_cls = pidgy.weave.IPythonMarkdown</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## literate computing with literary machines using literate programming for mass computational literacy</span>
+
+<span class="n">literacy</span> <span class="n">rings</span> <span class="n">through</span> <span class="n">the</span> <span class="n">history</span> <span class="n">of</span> <span class="n">computer</span> <span class="n">science</span><span class="o">.</span>
+<span class="ow">in</span> <span class="n">Annette</span> <span class="n">Vee</span><span class="s1">'s [Understanding Computer Programming as a Literacy] we get</span>
+<span class="n">a</span> <span class="n">high</span> <span class="n">level</span> <span class="n">view</span> <span class="n">of</span> <span class="n">literacy</span> <span class="n">through</span> <span class="n">history</span> <span class="ow">and</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">our</span> <span class="n">little</span> <span class="n">microcosm</span> <span class="n">of</span> <span class="n">computer</span> <span class="n">programming</span><span class="o">.</span>
+
+<span class="o">&gt;</span> <span class="n">We</span> <span class="n">compare</span> <span class="n">mass</span> <span class="n">ability</span> <span class="n">to</span> <span class="n">read</span> <span class="ow">and</span> <span class="n">write</span> <span class="n">software</span> <span class="k">with</span> <span class="n">mass</span> <span class="n">literacy</span><span class="p">,</span> <span class="ow">and</span> <span class="n">predict</span> <span class="n">equally</span> <span class="n">pervasive</span> <span class="n">changes</span> <span class="n">to</span> <span class="n">society</span><span class="o">.</span>
+
+    <span class="n">history</span> <span class="o">=</span>\
+<span class="err">```</span><span class="n">mermaid</span>
+<span class="n">gantt</span> 
+<span class="n">title</span> <span class="n">Literacy</span> <span class="ow">in</span> <span class="n">computer</span> <span class="n">programming</span>
+<span class="n">dateFormat</span> <span class="n">YYYY</span>
+<span class="n">axisFormat</span> <span class="o">%</span><span class="n">Y</span>
+
+<span class="n">section</span> <span class="n">moderninity</span>
+<span class="n">understanding</span> <span class="n">media</span> <span class="p">:</span><span class="n">mcluhan</span><span class="p">,</span> <span class="mi">1964</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">mother</span> <span class="n">of</span> <span class="nb">all</span> <span class="n">demos</span> <span class="p">:</span><span class="n">englebert</span><span class="p">,</span> <span class="mi">1968</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">section</span> <span class="n">post</span> <span class="n">moderninity</span>
+<span class="n">literate</span> <span class="n">programming</span> <span class="p">:</span><span class="n">knuth</span><span class="p">,</span> <span class="mi">1984</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">literary</span> <span class="n">machines</span> <span class="p">:</span><span class="n">nelson</span><span class="p">,</span> <span class="mi">1987</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">www</span> <span class="p">:</span><span class="n">tbl</span><span class="p">,</span> <span class="mi">1989</span><span class="p">,</span> <span class="mi">2022</span>
+
+<span class="n">section</span> <span class="n">post</span> <span class="n">web</span>
+<span class="n">computer</span> <span class="n">programming</span> <span class="k">for</span> <span class="n">everybody</span> <span class="p">:</span><span class="n">cp4e</span><span class="p">,</span> <span class="mi">1999</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">ipython</span> <span class="p">:</span><span class="n">fperez</span><span class="p">,</span> <span class="mi">2001</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">markdown</span> <span class="p">:</span><span class="n">gruber</span><span class="p">,</span> <span class="mi">2004</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">ipython</span> <span class="n">notebooks</span> <span class="p">:</span><span class="n">ipynb</span><span class="p">,</span> <span class="mi">2011</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">anaconda</span> <span class="p">:</span><span class="n">ana</span><span class="p">,</span> <span class="mi">2012</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">literate</span> <span class="n">computing</span> <span class="p">:</span><span class="n">lc</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">understanding</span> <span class="n">computer</span> <span class="n">programming</span> <span class="k">as</span> <span class="n">a</span> <span class="n">literacy</span> <span class="p">:</span><span class="n">vee</span><span class="p">,</span> <span class="mi">2013</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">the</span> <span class="n">birth</span> <span class="o">&amp;</span> <span class="n">death</span> <span class="n">of</span> <span class="n">javascript</span><span class="p">:</span> <span class="n">js</span><span class="p">,</span> <span class="mi">2014</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">big</span> <span class="n">split</span> <span class="p">:</span><span class="n">split</span><span class="p">,</span> <span class="mi">2015</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">jupyterlab</span> <span class="p">:</span><span class="n">lab</span><span class="p">,</span> <span class="mi">2018</span><span class="p">,</span> <span class="mi">2022</span>
+<span class="n">jupyterlite</span> <span class="p">:</span><span class="n">lab</span><span class="p">,</span> <span class="mi">2021</span><span class="p">,</span> <span class="mi">2022</span>
+
+<span class="n">click</span> <span class="n">vee</span> <span class="n">href</span> <span class="s2">"https://licsjournal.org/index.php/LiCS/article/view/794/608"</span>
+<span class="n">click</span> <span class="n">knuth</span> <span class="n">href</span> <span class="s2">"http://www.literateprogramming.com/knuthweb.pdf"</span>
+<span class="n">click</span> <span class="n">nelson</span> <span class="n">href</span> <span class="s2">"https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf"</span>
+<span class="n">click</span> <span class="n">lc</span> <span class="n">href</span> <span class="s2">"https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html"</span>
+<span class="n">click</span> <span class="n">cp4e</span> <span class="n">href</span> <span class="s2">"https://www.python.org/doc/essays/cp4e/"</span>
+
+
+<span class="err">```</span>
+
+    <span class="n">shell</span><span class="o">.</span><span class="n">displays_manager</span><span class="o">.</span><span class="n">template_cls</span> <span class="o">=</span> <span class="n">pidgy</span><span class="o">.</span><span class="n">weave</span><span class="o">.</span><span class="n">IPythonMarkdown</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       46
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-6-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          4
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="literate-computing-with-literary-machines-using-literate-programming-for-mass-computational-literacy">
+         <a href="#literate-computing-with-literary-machines-using-literate-programming-for-mass-computational-literacy">
+          literate computing with literary machines using literate programming for mass computational literacy
+         </a>
+        </h2>
+        <p>
+         literacy rings through the history of computer science.
+in Annette Vee's [Understanding Computer Programming as a Literacy] we get
+a high level view of literacy through history and in the our little microcosm of computer programming.
+        </p>
+        <blockquote>
+         <p>
+          We compare mass ability to read and write software with mass literacy, and predict equally pervasive changes to society.
+         </p>
+        </blockquote>
+        <pre><code>history =\
+</code></pre>
+        <pre><code>gantt 
+title Literacy in computer programming
+dateFormat YYYY
+axisFormat %Y
+
+section moderninity
+understanding media :mcluhan, 1964, 2022
+mother of all demos :englebert, 1968, 2022
+section post moderninity
+literate programming :knuth, 1984, 2022
+literary machines :nelson, 1987, 2022
+www :tbl, 1989, 2022
+
+section post web
+computer programming for everybody :cp4e, 1999, 2022
+ipython :fperez, 2001, 2022
+markdown :gruber, 2004, 2022
+ipython notebooks :ipynb, 2011, 2022
+anaconda :ana, 2012, 2022
+literate computing :lc, 2013, 2022
+understanding computer programming as a literacy :vee, 2013, 2022
+the birth &amp; death of javascript: js, 2014, 2022
+big split :split, 2015, 2022
+jupyterlab :lab, 2018, 2022
+jupyterlite :lab, 2021, 2022
+
+click vee href "https://licsjournal.org/index.php/LiCS/article/view/794/608"
+click knuth href "http://www.literateprogramming.com/knuthweb.pdf"
+click nelson href "https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf"
+click lc href "https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html"
+click cp4e href "https://www.python.org/doc/essays/cp4e/"
+
+
+</code></pre>
+        <pre><code>shell.displays_manager.template_cls = pidgy.weave.IPythonMarkdown
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell markdown" data-index="7" data-loc="3" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="7" aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+        7
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-7-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-7-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-7-source-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-7-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-7-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="3">## donald knuth's diagram for literate programming
+
+![image.png](attachment:b788dbdb-013f-46b3-b65d-49936fed4963.png)</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">## donald knuth's diagram for literate programming</span>
+
+![<span class="nt">image.png</span>](<span class="na">attachment:b788dbdb-013f-46b3-b65d-49936fed4963.png</span>)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-7-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="donald-knuths-diagram-for-literate-programming"><a href="#donald-knuths-diagram-for-literate-programming">donald knuth\'s diagram for literate programming</a></h2>\n<p><img alt="image.png" src="attachment:b788dbdb-013f-46b3-b65d-49936fed4963.png"></p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-7-loc" role="none">
+       3
+      </td>
+      <td class="nb-outputs" role="none">
+       <h2 id="donald-knuths-diagram-for-literate-programming">
+        <a href="#donald-knuths-diagram-for-literate-programming">
+         donald knuth's diagram for literate programming
+        </a>
+       </h2>
+       <p>
+        <img alt="image.png" src="attachment:b788dbdb-013f-46b3-b65d-49936fed4963.png">
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="10" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="8" aria-describedby="nb-code-label nb-cell-label cell-8-loc nb-loc-label
+    cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+        8
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-8-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         5
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-8-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-8-source-label" class="nb-toolbar" hidden id="cell-8" name="cell-8">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-8-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-8-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="10"># tangle (code) and weave (display)
+
+    knit =\
+```mermaid
+flowchart LR
+web-- tangle ---pas
+pas-- pascal ---rel
+web-- weave ---tex
+tex-- TEX ---dvi
+```</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1"># tangle (code) and weave (display)</span>
+
+    <span class="n">knit</span> <span class="o">=</span>\
+<span class="err">```</span><span class="n">mermaid</span>
+<span class="n">flowchart</span> <span class="n">LR</span>
+<span class="n">web</span><span class="o">--</span> <span class="n">tangle</span> <span class="o">---</span><span class="n">pas</span>
+<span class="n">pas</span><span class="o">--</span> <span class="n">pascal</span> <span class="o">---</span><span class="n">rel</span>
+<span class="n">web</span><span class="o">--</span> <span class="n">weave</span> <span class="o">---</span><span class="n">tex</span>
+<span class="n">tex</span><span class="o">--</span> <span class="n">TEX</span> <span class="o">---</span><span class="n">dvi</span>
+<span class="err">```</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-8-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-8" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-8-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-8-loc" role="none">
+       10
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-8-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-8-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          5
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h1 id="tangle-code-and-weave-display">
+         <a href="#tangle-code-and-weave-display">
+          tangle (code) and weave (display)
+         </a>
+        </h1>
+        <pre><code>knit =\
+</code></pre>
+        <pre><code>flowchart LR
+web-- tangle ---pas
+pas-- pascal ---rel
+web-- weave ---tex
+tex-- TEX ---dvi
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="11" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="9" aria-describedby="nb-code-label nb-cell-label cell-9-loc nb-loc-label
+    cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
+        9
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-9-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         6
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-9-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-9-source-label" class="nb-toolbar" hidden id="cell-9" name="cell-9">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-9-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-9-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="11">## `midgy/pidgy` family of input kernels in `IPython`
+
+literate inputs with markdown and python as the document and programming languages
+
+&lt;div style="font-size: 2rem;"&gt;
+    
+    import midgy as tangle, pidgy as weave
+    
+&lt;/div&gt;
+
+we'll explore a little program in markdown inside a bigger notebook program. hold tight.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## `midgy/pidgy` family of input kernels in `IPython`</span>
+
+<span class="n">literate</span> <span class="n">inputs</span> <span class="k">with</span> <span class="n">markdown</span> <span class="ow">and</span> <span class="n">python</span> <span class="k">as</span> <span class="n">the</span> <span class="n">document</span> <span class="ow">and</span> <span class="n">programming</span> <span class="n">languages</span>
+
+<span class="o">&lt;</span><span class="n">div</span> <span class="n">style</span><span class="o">=</span><span class="s2">"font-size: 2rem;"</span><span class="o">&gt;</span>
+    
+    <span class="kn">import</span> <span class="nn">midgy</span> <span class="k">as</span> <span class="nn">tangle</span><span class="o">,</span> <span class="nn">pidgy</span> <span class="k">as</span> <span class="nn">weave</span>
+    
+<span class="o">&lt;/</span><span class="n">div</span><span class="o">&gt;</span>
+
+<span class="n">we</span><span class="s1">'ll explore a little program in markdown inside a bigger notebook program. hold tight.</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-9-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-9" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-9-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-9-loc" role="none">
+       11
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-9-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-9-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          6
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="midgypidgy-family-of-input-kernels-in-ipython">
+         <a href="#midgypidgy-family-of-input-kernels-in-ipython">
+          midgy/pidgy family of input kernels in IPython
+         </a>
+        </h2>
+        <p>
+         literate inputs with markdown and python as the document and programming languages
+        </p>
+        <div style="font-size: 2rem;">
+         <pre><code>import midgy as tangle, pidgy as weave
+</code></pre>
+        </div>
+        <p>
+         we'll explore a little program in markdown inside a bigger notebook program. hold tight.
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="15" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-10-loc nb-loc-label
+    cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
+        10
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-10-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         7
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-10-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-10-source-label" class="nb-toolbar" hidden id="cell-10" name="cell-10">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-10-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-10-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="15">### how does `IPython` python?
+
+
+* `shell.kernel.do_execute`
+    * `shell.run_cell`
+        * tangle
+            * `shell.transform_cell`
+            * `shell.compile.ast_parse`
+            * `shell.transform_ast`
+            * `shell.run_ast_nodes`        
+        * weave
+            * if `shell.ast_node_interactivity` 
+            * `shell.display_formatter.format`
+        
+`IPython` is very hackable! that is what makes it fun along with all the development happening in python.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### how does `IPython` python?</span>
+
+
+<span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">do_execute</span><span class="err">`</span>
+    <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">run_cell</span><span class="err">`</span>
+        <span class="o">*</span> <span class="n">tangle</span>
+            <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">transform_cell</span><span class="err">`</span>
+            <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">compile</span><span class="o">.</span><span class="n">ast_parse</span><span class="err">`</span>
+            <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">transform_ast</span><span class="err">`</span>
+            <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">run_ast_nodes</span><span class="err">`</span>        
+        <span class="o">*</span> <span class="n">weave</span>
+            <span class="o">*</span> <span class="k">if</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">ast_node_interactivity</span><span class="err">`</span> 
+            <span class="o">*</span> <span class="err">`</span><span class="n">shell</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">format</span><span class="err">`</span>
+        
+<span class="err">`</span><span class="n">IPython</span><span class="err">`</span> <span class="ow">is</span> <span class="n">very</span> <span class="n">hackable</span><span class="err">!</span> <span class="n">that</span> <span class="ow">is</span> <span class="n">what</span> <span class="n">makes</span> <span class="n">it</span> <span class="n">fun</span> <span class="n">along</span> <span class="k">with</span> <span class="nb">all</span> <span class="n">the</span> <span class="n">development</span> <span class="n">happening</span> <span class="ow">in</span> <span class="n">python</span><span class="o">.</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-10-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-10-loc" role="none">
+       15
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-10-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          7
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#how-does-ipython-python">
+          how does IPython python?
+         </a>
+        </h3>
+        <ul>
+         <li>
+          <code>
+           shell.kernel.do_execute
+          </code>
+          <ul>
+           <li>
+            <code>
+             shell.run_cell
+            </code>
+            <ul>
+             <li>
+              tangle
+              <ul>
+               <li>
+                <code>
+                 shell.transform_cell
+                </code>
+               </li>
+               <li>
+                <code>
+                 shell.compile.ast_parse
+                </code>
+               </li>
+               <li>
+                <code>
+                 shell.transform_ast
+                </code>
+               </li>
+               <li>
+                <code>
+                 shell.run_ast_nodes
+                </code>
+               </li>
+              </ul>
+             </li>
+             <li>
+              weave
+              <ul>
+               <li>
+                if
+                <code>
+                 shell.ast_node_interactivity
+                </code>
+               </li>
+               <li>
+                <code>
+                 shell.display_formatter.format
+                </code>
+               </li>
+              </ul>
+             </li>
+            </ul>
+           </li>
+          </ul>
+         </li>
+        </ul>
+        <p>
+         <code>
+          IPython
+         </code>
+         is very hackable! that is what makes it fun along with all the development happening in python.
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="8" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-11-loc nb-loc-label
+    cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
+        11
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-11-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         8
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-11-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-11-source-label" class="nb-toolbar" hidden id="cell-11" name="cell-11">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-11-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-11-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="8">    %%file a-little-markdown-program.md
+    this markdown file is a program!
+    
+            &delta;&varepsilon;&alpha;&tau;&kappa;=\
+    death to pseudo code, long live pseudo code
+
+            if __name__ == "__main__":
+                print(&delta;&varepsilon;&alpha;&tau;&kappa;.upper())</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="o">%%</span><span class="n">file</span> <span class="n">a</span><span class="o">-</span><span class="n">little</span><span class="o">-</span><span class="n">markdown</span><span class="o">-</span><span class="n">program</span><span class="o">.</span><span class="n">md</span>
+    <span class="n">this</span> <span class="n">markdown</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">program</span><span class="err">!</span>
+    
+            <span class="n">&delta;&varepsilon;&alpha;&tau;&kappa;</span><span class="o">=</span>\
+    <span class="n">death</span> <span class="n">to</span> <span class="n">pseudo</span> <span class="n">code</span><span class="p">,</span> <span class="n">long</span> <span class="n">live</span> <span class="n">pseudo</span> <span class="n">code</span>
+
+            <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">&delta;&varepsilon;&alpha;&tau;&kappa;</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-11-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-11" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-11-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-11-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          8
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre class="stdout">
+<code>Overwriting a-little-markdown-program.md
+</code>
+</pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="3" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
+        12
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-12-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-12-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-12-source-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-12-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-12-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="3">we can run this like a script. WTF!
+    
+    !midgy a-little-markdown-program.md</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>we can run this like a script. WTF!
+    
+    !midgy a-little-markdown-program.md
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-12-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': [], 'data': {'text/html': '<p>we can run this like a script. WTF!</p>\n<pre><code>!midgy a-little-markdown-program.md\n</code></pre>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-12-loc" role="none">
+       3
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        we can run this like a script. WTF!
+       </p>
+       <pre><code>!midgy a-little-markdown-program.md
+</code></pre>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="4" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-13-loc nb-loc-label
+    cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
+        13
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-13-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         9
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-13-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-13-source-label" class="nb-toolbar" hidden id="cell-13" name="cell-13">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-13-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-13-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="4">    import midgy.loader
+    with midgy.loader.Markdown() as loader:
+        import a_little_markdown_program
+    a_little_markdown_program, a_little_markdown_program.&delta;&varepsilon;&alpha;&tau;&kappa;</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="kn">import</span> <span class="nn">midgy.loader</span>
+    <span class="k">with</span> <span class="n">midgy</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">Markdown</span><span class="p">()</span> <span class="k">as</span> <span class="n">loader</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">a_little_markdown_program</span>
+    <span class="n">a_little_markdown_program</span><span class="p">,</span> <span class="n">a_little_markdown_program</span><span class="o">.</span><span class="n">&delta;&varepsilon;&alpha;&tau;&kappa;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-13-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-13" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-13-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-13-loc" role="none">
+       4
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-13-outputs-len">
+        2 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="2">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-13-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          9
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre class="plain">(&lt;module 'a-little-markdown-program' from '/home/tbone/Documents/tonyfast/tonyfast/xxii/oct/a-little-markdown-program.md'&gt;,
+ 'death to pseudo code, long live pseudo code')</pre>
+        <pre><code>import midgy.loader
+with midgy.loader.Markdown() as loader:
+    import a_little_markdown_program
+a_little_markdown_program, a_little_markdown_program.&delta;&varepsilon;&alpha;&tau;&kappa;
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="11" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-14-loc nb-loc-label
+    cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
+        14
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-14-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         10
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-14-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-14-source-label" class="nb-toolbar" hidden id="cell-14" name="cell-14">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-14-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-14-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="11">`a_little_markdown_program` is a module like any other
+
+`{{a_little_markdown_program}}`
+
+🐇and we even generated a compiled version of the markdown source🎩
+    
+    if not STATE.LITE:
+        assert next(
+            (pathlib.Path(a_little_markdown_program.__file__).parent / "__pycache__").glob("a-little-markdown-program.*.pyc")
+        ),\
+verifies there is a compiled file.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="err">`</span><span class="n">a_little_markdown_program</span><span class="err">`</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">module</span> <span class="n">like</span> <span class="nb">any</span> <span class="n">other</span>
+
+<span class="err">`</span><span class="p">{{</span><span class="n">a_little_markdown_program</span><span class="p">}}</span><span class="err">`</span>
+
+<span class="err">🐇</span><span class="ow">and</span> <span class="n">we</span> <span class="n">even</span> <span class="n">generated</span> <span class="n">a</span> <span class="n">compiled</span> <span class="n">version</span> <span class="n">of</span> <span class="n">the</span> <span class="n">markdown</span> <span class="n">source</span><span class="err">🎩</span>
+    
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">STATE</span><span class="o">.</span><span class="n">LITE</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="nb">next</span><span class="p">(</span>
+            <span class="p">(</span><span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">a_little_markdown_program</span><span class="o">.</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="s2">"__pycache__"</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">"a-little-markdown-program.*.pyc"</span><span class="p">)</span>
+        <span class="p">),</span>\
+<span class="n">verifies</span> <span class="n">there</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">compiled</span> <span class="n">file</span><span class="o">.</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-14-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-14" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-14-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-14-loc" role="none">
+       11
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-14-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-14-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          10
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <p>
+         <code>
+          a_little_markdown_program
+         </code>
+         is a module like any other
+        </p>
+        <p>
+         <code>
+          &lt;module 'a-little-markdown-program' from '/home/tbone/Documents/tonyfast/tonyfast/xxii/oct/a-little-markdown-program.md'&gt;
+         </code>
+        </p>
+        <p>
+         🐇and we even generated a compiled version of the markdown source🎩
+        </p>
+        <pre><code>if not STATE.LITE:
+    assert next(
+        (pathlib.Path(a_little_markdown_program.__file__).parent / "__pycache__").glob("a-little-markdown-program.*.pyc")
+    ),\
+</code></pre>
+        <p>
+         verifies there is a compiled file.
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell code" data-index="15" data-loc="2" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-15-loc nb-loc-label
+    cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
+        15
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-15-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         11
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-15-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-15-source-label" class="nb-toolbar" hidden id="cell-15" name="cell-15">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-15-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-15-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-15-source-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="2">## [literate computing widgets and `IPython` interactive displays](2022-10-21-pidgy-displays.ipynb)
+
+</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## [literate computing widgets and `IPython` interactive displays](2022-10-21-pidgy-displays.ipynb)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-15-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-15" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-15-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-15-loc" role="none">
+       2
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-15-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-15-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          11
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="literate-computing-widgets-and-ipython-interactive-displays">
+         <a href="#literate-computing-widgets-and-ipython-interactive-displays">
+          literate computing widgets and IPython interactive displays
+         </a>
+        </h2>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="12" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-16-loc nb-loc-label
+    cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
+        16
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-16-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         12
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-16-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-16-source-label" class="nb-toolbar" hidden id="cell-16" name="cell-16">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-16-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-16-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-16-source-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="12">## reusing and importing notebooks
+
+we can import this presentation.
+        
+        import midgy.loader
+        with midgy.loader.Markdown(extensions=[".ipynb", ".md"]):
+            import _022_10_21_markdown_future
+        "__file__" not in locals() and display(
+            _022_10_21_markdown_future,
+            _022_10_21_markdown_future.a_little_markdown_program,
+            _022_10_21_markdown_future.a_little_markdown_program.&delta;&varepsilon;&alpha;&tau;&kappa;
+        )</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## reusing and importing notebooks</span>
+
+<span class="n">we</span> <span class="n">can</span> <span class="kn">import</span> <span class="nn">this</span> <span class="n">presentation</span><span class="o">.</span>
+        
+        <span class="kn">import</span> <span class="nn">midgy.loader</span>
+        <span class="k">with</span> <span class="n">midgy</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">extensions</span><span class="o">=</span><span class="p">[</span><span class="s2">".ipynb"</span><span class="p">,</span> <span class="s2">".md"</span><span class="p">]):</span>
+            <span class="kn">import</span> <span class="nn">_022_10_21_markdown_future</span>
+        <span class="s2">"__file__"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span> <span class="ow">and</span> <span class="n">display</span><span class="p">(</span>
+            <span class="n">_022_10_21_markdown_future</span><span class="p">,</span>
+            <span class="n">_022_10_21_markdown_future</span><span class="o">.</span><span class="n">a_little_markdown_program</span><span class="p">,</span>
+            <span class="n">_022_10_21_markdown_future</span><span class="o">.</span><span class="n">a_little_markdown_program</span><span class="o">.</span><span class="n">&delta;&varepsilon;&alpha;&tau;&kappa;</span>
+        <span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-16-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-16" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-16-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-16-loc" role="none">
+       12
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-16-outputs-len">
+        7 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="7">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-16-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          12
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre class="stdout">
+<code>Overwriting a-little-markdown-program.md
+</code>
+</pre>
+        <pre><code>gantt 
+title Literacy in computer programming
+dateFormat YYYY
+axisFormat %Y
+
+section moderninity
+understanding media :mcluhan, 1964, 2022
+mother of all demos :englebert, 1968, 2022
+section post moderninity
+literate programming :knuth, 1984, 2022
+literary machines :nelson, 1987, 2022
+www :tbl, 1989, 2022
+
+section post web
+computer programming for everybody :cp4e, 1999, 2022
+ipython :fperez, 2001, 2022
+markdown :gruber, 2004, 2022
+ipython notebooks :ipynb, 2011, 2022
+anaconda :ana, 2012, 2022
+literate computing :lc, 2013, 2022
+understanding computer programming as a literacy :vee, 2013, 2022
+the birth &amp; death of javascript: js, 2014, 2022
+big split :split, 2015, 2022
+jupyterlab :lab, 2018, 2022
+jupyterlite :lab, 2021, 2022
+
+click vee href "https://licsjournal.org/index.php/LiCS/article/view/794/608"
+click knuth href "http://www.literateprogramming.com/knuthweb.pdf"
+click nelson href "https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf"
+click lc href "https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html"
+click cp4e href "https://www.python.org/doc/essays/cp4e/"
+
+
+</code></pre>
+        <pre><code>flowchart LR
+web-- tangle ---pas
+pas-- pascal ---rel
+web-- weave ---tex
+tex-- TEX ---dvi
+</code></pre>
+        <pre class="plain">&lt;module '2022-10-21-markdown-future' from '/home/tbone/Documents/tonyfast/tonyfast/xxii/oct/2022-10-21-markdown-future.ipynb'&gt;</pre>
+        <pre class="plain">&lt;module 'a-little-markdown-program' from '/home/tbone/Documents/tonyfast/tonyfast/xxii/oct/a-little-markdown-program.md'&gt;</pre>
+        <pre class="plain">'death to pseudo code, long live pseudo code'</pre>
+        <h2 id="reusing-and-importing-notebooks">
+         <a href="#reusing-and-importing-notebooks">
+          reusing and importing notebooks
+         </a>
+        </h2>
+        <p>
+         we can import this presentation.
+        </p>
+        <pre><code>    import midgy.loader
+    with midgy.loader.Markdown(extensions=[".ipynb", ".md"]):
+        import _022_10_21_markdown_future
+    "__file__" not in locals() and display(
+        _022_10_21_markdown_future,
+        _022_10_21_markdown_future.a_little_markdown_program,
+        _022_10_21_markdown_future.a_little_markdown_program.&delta;&varepsilon;&alpha;&tau;&kappa;
+    )
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell code" data-index="17" data-loc="7" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-17-loc nb-loc-label
+    cell-17-outputs-len" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
+        17
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-17-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         13
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-17-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-17-source-label" class="nb-toolbar" hidden id="cell-17" name="cell-17">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-17-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-17-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-17-source-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="7">### what about reusing that diagram
+    
+    
+    display(
+        IPython.display.Markdown(_022_10_21_markdown_future.history),
+        IPython.display.Markdown(_022_10_21_markdown_future.knit)
+    )</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### what about reusing that diagram</span>
+    
+    
+    <span class="n">display</span><span class="p">(</span>
+        <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">_022_10_21_markdown_future</span><span class="o">.</span><span class="n">history</span><span class="p">),</span>
+        <span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">_022_10_21_markdown_future</span><span class="o">.</span><span class="n">knit</span><span class="p">)</span>
+    <span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-17-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-17" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-17-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-17-loc" role="none">
+       7
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-17-outputs-len">
+        3 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="3">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-17-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          13
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre><code>gantt 
+title Literacy in computer programming
+dateFormat YYYY
+axisFormat %Y
+
+section moderninity
+understanding media :mcluhan, 1964, 2022
+mother of all demos :englebert, 1968, 2022
+section post moderninity
+literate programming :knuth, 1984, 2022
+literary machines :nelson, 1987, 2022
+www :tbl, 1989, 2022
+
+section post web
+computer programming for everybody :cp4e, 1999, 2022
+ipython :fperez, 2001, 2022
+markdown :gruber, 2004, 2022
+ipython notebooks :ipynb, 2011, 2022
+anaconda :ana, 2012, 2022
+literate computing :lc, 2013, 2022
+understanding computer programming as a literacy :vee, 2013, 2022
+the birth &amp; death of javascript: js, 2014, 2022
+big split :split, 2015, 2022
+jupyterlab :lab, 2018, 2022
+jupyterlite :lab, 2021, 2022
+
+click vee href "https://licsjournal.org/index.php/LiCS/article/view/794/608"
+click knuth href "http://www.literateprogramming.com/knuthweb.pdf"
+click nelson href "https://monoskop.org/images/b/be/Nelson_Ted_Literary_Machines_c1987_chs_0-1.pdf"
+click lc href "https://web.archive.org/web/20220510083647/http://blog.fperez.org/2013/04/literate-computing-and-computational.html"
+click cp4e href "https://www.python.org/doc/essays/cp4e/"
+
+
+</code></pre>
+        <pre><code>flowchart LR
+web-- tangle ---pas
+pas-- pascal ---rel
+web-- weave ---tex
+tex-- TEX ---dvi
+</code></pre>
+        <h3>
+         <a href="#what-about-reusing-that-diagram">
+          what about reusing that diagram
+         </a>
+        </h3>
+        <pre><code>display(
+    IPython.display.Markdown(_022_10_21_markdown_future.history),
+    IPython.display.Markdown(_022_10_21_markdown_future.knit)
+)
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell code" data-index="18" data-loc="4" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-18-loc nb-loc-label
+    cell-18-outputs-len" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
+        18
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-18-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         14
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-18-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-18-source-label" class="nb-toolbar" hidden id="cell-18" name="cell-18">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-18-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-18-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-18-source-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="4">i'm not saying importing markdown or notebooks is a good idea. 
+coffeescript died didn't it?
+sometimes it is too soon.
+it can be done and some folks might thrive working that way.</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">i</span><span class="s1">'m not saying importing markdown or notebooks is a good idea. </span>
+<span class="n">coffeescript</span> <span class="n">died</span> <span class="n">didn</span><span class="s1">'t it?</span>
+<span class="n">sometimes</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">too</span> <span class="n">soon</span><span class="o">.</span>
+<span class="n">it</span> <span class="n">can</span> <span class="n">be</span> <span class="n">done</span> <span class="ow">and</span> <span class="n">some</span> <span class="n">folks</span> <span class="n">might</span> <span class="n">thrive</span> <span class="n">working</span> <span class="n">that</span> <span class="n">way</span><span class="o">.</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-18-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-18" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-18-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-18-loc" role="none">
+       4
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-18-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-18-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          14
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <p>
+         i'm not saying importing markdown or notebooks is a good idea.
+coffeescript died didn't it?
+sometimes it is too soon.
+it can be done and some folks might thrive working that way.
+        </p>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell code" data-index="19" data-loc="17" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-19-loc nb-loc-label
+    cell-19-outputs-len" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
+        19
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-19-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         15
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-19-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-19-source-label" class="nb-toolbar" hidden id="cell-19" name="cell-19">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-19-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-19-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-19-source-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="17">### an inclusive future for code
+
+![](https://pbs.twimg.com/media/FfmxiqlaAAIzTvT?format=jpg&amp;name=large)
+
+in this demo, we used markdown and notebooks for source.
+
+literate programs explicitly define a document and program language.
+notebooks are literate programs.
+there are times when when code and narrative are inseparable.
+
+```future
+docker up my-paper.pdf # can a paper contain containers?
+importpdf my-paper --input-file my-data.csv # could you run a pdf with your data?
+
+with importdocx():
+    import my_word_document # https://nbviewer.org/github/deathbeds/deathbeds.github.io/blob/master/deathbeds/2019-03-08-say-word.ipynb
+```</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">### an inclusive future for code</span>
+
+<span class="err">!</span><span class="p">[](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">pbs</span><span class="o">.</span><span class="n">twimg</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">media</span><span class="o">/</span><span class="n">FfmxiqlaAAIzTvT</span><span class="err">?</span><span class="nb">format</span><span class="o">=</span><span class="n">jpg</span><span class="o">&amp;</span><span class="n">name</span><span class="o">=</span><span class="n">large</span><span class="p">)</span>
+
+<span class="ow">in</span> <span class="n">this</span> <span class="n">demo</span><span class="p">,</span> <span class="n">we</span> <span class="n">used</span> <span class="n">markdown</span> <span class="ow">and</span> <span class="n">notebooks</span> <span class="k">for</span> <span class="n">source</span><span class="o">.</span>
+
+<span class="n">literate</span> <span class="n">programs</span> <span class="n">explicitly</span> <span class="n">define</span> <span class="n">a</span> <span class="n">document</span> <span class="ow">and</span> <span class="n">program</span> <span class="n">language</span><span class="o">.</span>
+<span class="n">notebooks</span> <span class="n">are</span> <span class="n">literate</span> <span class="n">programs</span><span class="o">.</span>
+<span class="n">there</span> <span class="n">are</span> <span class="n">times</span> <span class="n">when</span> <span class="n">when</span> <span class="n">code</span> <span class="ow">and</span> <span class="n">narrative</span> <span class="n">are</span> <span class="n">inseparable</span><span class="o">.</span>
+
+<span class="err">```</span><span class="n">future</span>
+<span class="n">docker</span> <span class="n">up</span> <span class="n">my</span><span class="o">-</span><span class="n">paper</span><span class="o">.</span><span class="n">pdf</span> <span class="c1"># can a paper contain containers?</span>
+<span class="n">importpdf</span> <span class="n">my</span><span class="o">-</span><span class="n">paper</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">file</span> <span class="n">my</span><span class="o">-</span><span class="n">data</span><span class="o">.</span><span class="n">csv</span> <span class="c1"># could you run a pdf with your data?</span>
+
+<span class="k">with</span> <span class="n">importdocx</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">my_word_document</span> <span class="c1"># https://nbviewer.org/github/deathbeds/deathbeds.github.io/blob/master/deathbeds/2019-03-08-say-word.ipynb</span>
+<span class="err">```</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-19-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-19" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-19-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'slide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-19-loc" role="none">
+       17
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-19-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-19-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          15
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h3>
+         <a href="#an-inclusive-future-for-code">
+          an inclusive future for code
+         </a>
+        </h3>
+        <p>
+         <img alt src="https://pbs.twimg.com/media/FfmxiqlaAAIzTvT?format=jpg&amp;name=large">
+        </p>
+        <p>
+         in this demo, we used markdown and notebooks for source.
+        </p>
+        <p>
+         literate programs explicitly define a document and program language.
+notebooks are literate programs.
+there are times when when code and narrative are inseparable.
+        </p>
+        <pre><code>docker up my-paper.pdf # can a paper contain containers?
+importpdf my-paper --input-file my-data.csv # could you run a pdf with your data?
+
+with importdocx():
+    import my_word_document # https://nbviewer.org/github/deathbeds/deathbeds.github.io/blob/master/deathbeds/2019-03-08-say-word.ipynb
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell code" data-index="20" data-loc="7" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-20-loc nb-loc-label
+    cell-20-outputs-len" aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
+        20
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-20-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         16
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-20-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-20-source-label" class="nb-toolbar" hidden id="cell-20" name="cell-20">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-20-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-20-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-20-source-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="7">## the power of markdown
+
+often notebooks or markdown are means not an ends.
+
+* how many agendas have we made in `hackmd`?
+* how many `README`s guided our way?
+* how much good code is lost in notebooks?</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## the power of markdown</span>
+
+<span class="n">often</span> <span class="n">notebooks</span> <span class="ow">or</span> <span class="n">markdown</span> <span class="n">are</span> <span class="n">means</span> <span class="ow">not</span> <span class="n">an</span> <span class="n">ends</span><span class="o">.</span>
+
+<span class="o">*</span> <span class="n">how</span> <span class="n">many</span> <span class="n">agendas</span> <span class="n">have</span> <span class="n">we</span> <span class="n">made</span> <span class="ow">in</span> <span class="err">`</span><span class="n">hackmd</span><span class="err">`?</span>
+<span class="o">*</span> <span class="n">how</span> <span class="n">many</span> <span class="err">`</span><span class="n">README</span><span class="err">`</span><span class="n">s</span> <span class="n">guided</span> <span class="n">our</span> <span class="n">way</span><span class="err">?</span>
+<span class="o">*</span> <span class="n">how</span> <span class="n">much</span> <span class="n">good</span> <span class="n">code</span> <span class="ow">is</span> <span class="n">lost</span> <span class="ow">in</span> <span class="n">notebooks</span><span class="err">?</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-20-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-20" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-20-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-20-loc" role="none">
+       7
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-20-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-20-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          16
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <h2 id="the-power-of-markdown">
+         <a href="#the-power-of-markdown">
+          the power of markdown
+         </a>
+        </h2>
+        <p>
+         often notebooks or markdown are means not an ends.
+        </p>
+        <ul>
+         <li>
+          how many agendas have we made in
+          <code>
+           hackmd
+          </code>
+          ?
+         </li>
+         <li>
+          how many
+          <code>
+           README
+          </code>
+          s guided our way?
+         </li>
+         <li>
+          how much good code is lost in notebooks?
+         </li>
+        </ul>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell markdown" data-index="21" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label " aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
+        21
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-21-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-21-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-21-source-label" class="nb-toolbar" hidden id="cell-21" name="cell-21">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-21-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-21-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-21-source-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="1">![](https://pbs.twimg.com/media/FfmxiqjaEAAekZn?format=jpg&amp;name=large)
+</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>![](https://pbs.twimg.com/media/FfmxiqjaEAAekZn?format=jpg&amp;name=large)
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-21-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-21" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-21-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': [], 'data': {'text/html': '<p><img alt src="https://pbs.twimg.com/media/FfmxiqjaEAAekZn?format=jpg&amp;name=large"></p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-21-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        <img alt src="https://pbs.twimg.com/media/FfmxiqjaEAAekZn?format=jpg&amp;name=large">
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell code" data-index="22" data-loc="6" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-22-loc nb-loc-label
+    cell-22-outputs-len" aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
+        22
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-22-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         17
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-22-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-22-source-label" class="nb-toolbar" hidden id="cell-22" name="cell-22">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-22-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-22-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-22-source-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="6">    
+    def qr(url, size=8):
+        q = __import__("qrcode").QRCode(version=1, error_correction=1,
+                          box_size=size, border=1, mask_pattern=None,)
+        q.add_data(url), q.make()
+        return q.make_image()</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    
+    <span class="k">def</span> <span class="nf">qr</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">q</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">"qrcode"</span><span class="p">)</span><span class="o">.</span><span class="n">QRCode</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">error_correction</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                          <span class="n">box_size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">border</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">mask_pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">,)</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">add_data</span><span class="p">(</span><span class="n">url</span><span class="p">),</span> <span class="n">q</span><span class="o">.</span><span class="n">make</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">q</span><span class="o">.</span><span class="n">make_image</span><span class="p">()</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-22-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-22" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-22-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'skip'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-22-loc" role="none">
+       6
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-22-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-22-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          17
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell code" data-index="23" data-loc="15" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-23-loc nb-loc-label
+    cell-23-outputs-len" aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
+        23
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-23-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         18
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-23-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-23-source-label" class="nb-toolbar" hidden id="cell-23" name="cell-23">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-23-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-23-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-23-source-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="15">## what if the code was just the start something?
+
+y'all, like all y'all can modify this document in jupyterlite on github pages.
+
+&lt;style&gt;
+[data-mime-type="image/png"] img {
+    max-width: 200px; max-height: 200px;
+}
+&lt;/style&gt;
+
+    qr(        
+https://tonyfast.github.io/tonyfast/run/lab/index.html?path=xxii/oct/2022-10-21-markdown-future.ipynb&amp;room=deathbeds-more-like-deft-breads
+    
+    )
+    
+</textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="c1">## what if the code was just the start something?</span>
+
+<span class="n">y</span><span class="s1">'all, like all y'</span><span class="nb">all</span> <span class="n">can</span> <span class="n">modify</span> <span class="n">this</span> <span class="n">document</span> <span class="ow">in</span> <span class="n">jupyterlite</span> <span class="n">on</span> <span class="n">github</span> <span class="n">pages</span><span class="o">.</span>
+
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="p">[</span><span class="n">data</span><span class="o">-</span><span class="n">mime</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="s2">"image/png"</span><span class="p">]</span> <span class="n">img</span> <span class="p">{</span>
+    <span class="nb">max</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mi">200</span><span class="n">px</span><span class="p">;</span> <span class="nb">max</span><span class="o">-</span><span class="n">height</span><span class="p">:</span> <span class="mi">200</span><span class="n">px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+
+    <span class="n">qr</span><span class="p">(</span>        
+<span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">tonyfast</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">tonyfast</span><span class="o">/</span><span class="n">run</span><span class="o">/</span><span class="n">lab</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">html</span><span class="err">?</span><span class="n">path</span><span class="o">=</span><span class="n">xxii</span><span class="o">/</span><span class="nb">oct</span><span class="o">/</span><span class="mi">2022</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">21</span><span class="o">-</span><span class="n">markdown</span><span class="o">-</span><span class="n">future</span><span class="o">.</span><span class="n">ipynb</span><span class="o">&amp;</span><span class="n">room</span><span class="o">=</span><span class="n">deathbeds</span><span class="o">-</span><span class="n">more</span><span class="o">-</span><span class="n">like</span><span class="o">-</span><span class="n">deft</span><span class="o">-</span><span class="n">breads</span>
+    
+    <span class="p">)</span>
+    
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-23-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-23" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-23-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'slideshow': {'slide_type': 'fragment'}, 'tags': []}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-23-loc" role="none">
+       15
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-23-outputs-len">
+        2 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="2">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-23-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          18
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <img alt="No description has been provided for this image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXgAAAF4AQAAAAB25t8LAAADLklEQVR4nO1b2Y7cMAwji/z/L7MPpGRPH7pY1Jk6O84OZnIQC0GRdVAyhW8dv74HP/gvjgv0iSgQIgCB9QEFAFShdpP/6fgLsIahfEQKVC6j/kbtJv9PwJMEAAECrWwReSFgTN+oHeX/MXjSqicg6z7eif9Hng/AX9O5QIqCyuQFMDHhXfJ8Gv5CXHsOiqAceUlRrOd6izyfhm/l64u/oHaT/+n468X6FYv3a/EicBJaqN3kfzqenXbCyef0TESnn1UH7Cb/0/GUsxu5xorKCflrRF95Lewm/9PxkFxcSVDKLY0fP/SJcPz/HfhR+gJwFlo/SulLrwgd+1+Nv2C9s1xRAm3UDiCOiHZBu8n/dHz8TvkeVbJZvqh9j7wAdpP/B+CddNr7JPA28yAToWYkoC3lfzS+zL6sfq61oLrvM5z4ewdeUDOgKjsv7+/IKzNzOPF3NT6WHeuOu4/dF+s/LYtj/8vxBCBS1QIDADDEGyVBVPFDG8r/bHy5fs0r4TUMjOrr2P9y/HAy+EPvSBwYAOnknzfh1QGgKt16DU5G7YbeJ88H4e1bHAUQ0hmofKeWRCiJDeV/Nr76jzZ3FuVcxLMoKj0w4uSfy/FTd2siQPNojg253E3+p+OLd9ZQdlhndfxtPujE3xvw7rqk2PUiIOOOwv9Mxdh+8j8bj1fmp1sueaZifuKXjv0vx1MAlFAb3pOdftb4m/OfE3/X4+Pd7YB69gGClKZLjYGCJ/+8Be+ZK9+It2FS0TF/9UZ5Pg6fNF/V/DX1BnZDkoLE439uw8fcqcycOAqE/D/5z2340dn1RbV/p6ynHx7+7Q681c/u8MrJDyGJfg/hhU78XY+/Mtwv9oxhZaTuvqO5IFBH/6vxxTb0tNvUaxmF2YDuJv/T8Ve33DPuCWQItDqRzUqf+ZMb8HObsbu8Eyfa7Ukd+78DP/Y/Vg7a8/+d+I9S7Mwfrsa3l2/K+aUhPHggHPu/Gd/uH834M+yzgzOP/1+OH/sfewI9O99z11NBng89+y+W48f+x87+syGgb1cvBmf/0Xr81YkmvNuugjBrGmVkoO+Q59Pw1NeYf/n/B//34zdUBF26ahd6egAAAABJRU5ErkJggg==
+">
+        <h2 id="what-if-the-code-was-just-the-start-something">
+         <a href="#what-if-the-code-was-just-the-start-something">
+          what if the code was just the start something?
+         </a>
+        </h2>
+        <p>
+         y'all, like all y'all can modify this document in jupyterlite on github pages.
+        </p>
+        <style>
+         [data-mime-type="image/png"] img {
+    max-width: 200px; max-height: 200px;
+}
+        </style>
+        <pre><code>qr(        
+</code></pre>
+        <p>
+         <a href="https://tonyfast.github.io/tonyfast/run/lab/index.html?path=xxii/oct/2022-10-21-markdown-future.ipynb&amp;room=deathbeds-more-like-deft-breads">
+          https://tonyfast.github.io/tonyfast/run/lab/index.html?path=xxii/oct/2022-10-21-markdown-future.ipynb&amp;room=deathbeds-more-like-deft-breads
+         </a>
+        </p>
+        <pre><code>)
+</code></pre>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell code" data-index="24" data-loc="0" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-code-label nb-cell-label cell-24-loc nb-loc-label" aria-labelledby="nb-cell-label 24" class="nb-anchor visually-hidden" href="#24" id="24">
+        24
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count" id="cell-24-source-label">
+        <span>
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span>
+         None
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-24-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-24-source-label" class="nb-toolbar" hidden id="cell-24" name="cell-24">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-24-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-24-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-24-source-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="0"></textarea>
+       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-24-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-24" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-24-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-24-loc" role="none">
+       0
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-24-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          None
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2022-10-21-pidgy-displays.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;literate computing - interactive literate programming
+   </a>
+   <br>
+   <a href="2022-10-20-meeting-link-widgets.html" rel="next">
+    making meeting links
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      <a href="#nb-accessibility-settings-label">
+       accessibility settings
+      </a>
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        <a href="#nb-notebook-layout-label">
+         notebook layout
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        <a href="#nb-font-settings-label">
+         font settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="120%">
+            large
+           </option>
+           <option value="150%">
+            x-large
+           </option>
+           <option value="200%">
+            xx-large
+           </option>
+           <option value="300%">
+            xxx-large
+           </option>
+           <option value="400%">
+            xxxx-large
+           </option>
+           <option value="500%">
+            xxxxx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        <a href="#nb-sound-settings-label">
+         sound settings
+        </a>
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     <a href="#notebook-help">
+      notebook help
+     </a>
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      <a href="#nb-defs-label">
+       definitions
+      </a>
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme(value = null) {
+    value = value === null ? document.forms.settings.elements["color-scheme"].value : value;
+    let DARK = value == "dark";
+    let opposite = DARK ? "light" : "dark";
+    document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-highlight`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    BODY.classList.toggle("dark", DARK);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+    setStyle("change font size");
+});
+document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+    activityLog("speech on")
+});
+document.forms.settings.elements.margin.addEventListener("change", (x) => {
+    setStyle("margin changed");
+});
+document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+    setStyle("line height changed");
+});
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+function toggleActive() {
+    if (document.forms.notebook.elements.edit.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+
+
+document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+
+document.forms.visibility['visually-hide'].addEventListener("change",
+    (x) => {
+        document.querySelector("main").classList.toggle("visually-hide");
+        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+    });
+
+document.forms.settings['horizontal-scrolling'].addEventListener("change",
+    (x) => {
+        BODY.classList.toggle("horiz-overflow", event.target.checked);
+        if (!event.target.checked) {
+            document.querySelectorAll("textarea").forEach(
+                (x) => {
+                    x.style.width = "";
+                    x.style.height = "";
+                }
+            )
+        };
+        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+    });
+
+
+function fullScreen() {
+    if (!document.fullscreenElement) {
+        document.querySelector("main").requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        entry.target.style.width = "";
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        entry.target.style.width = `${Math.ceil(width) + Math.ceil(left) + Math.ceil(right) + 1}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
+    }
+
+}
+let observer = new ResizeObserver(
+    (entries) => {
+        entries.forEach((entry) => {
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+        });
+    }
+);
+
+document.querySelectorAll("textarea").forEach(
+    (x) => {
+        observer.observe(x);
+    }
+);
+
+if (!document.fullscreenEnabled) {
+    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+}
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+  </script>
+ </body>
+</html>
