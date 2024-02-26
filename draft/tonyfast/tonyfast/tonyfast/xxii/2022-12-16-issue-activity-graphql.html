@@ -1338,7 +1338,7 @@ retreive my activity with the github graphql api.
       </td>
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="5">    
     %reload_ext pidgy
     import requests, pandas
@@ -1365,7 +1365,7 @@ retreive my activity with the github graphql api.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1527,7 +1527,7 @@ we use <span class="sb">`%`</span> string formatting because of the braces in gr
       </td>
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="21">    def get_stamps(user="tonyfast", repo="iota-school/notebooks-for-all"):
         return \
 query { 
@@ -1587,7 +1587,7 @@ query {
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1685,7 +1685,7 @@ publishedAt
       </td>
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="11">&lt;details open=""&gt;
     &lt;summary&gt;
 a graphql query the find the dates a user made comments on issues or pull requests.
@@ -1724,7 +1724,7 @@ a graphql query the find the dates a user made comments on issues or pull reques
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1822,7 +1822,7 @@ a graphql query the find the dates a user made comments on issues or pull reques
       </td>
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">    df = pandas.DataFrame((
         response := requests.post("https://api.github.com/graphql", json=dict(query=get_stamps()), **header)
     ).json()["data"]["search"]["edges"])["node"].apply(pandas.Series)
@@ -1851,7 +1851,7 @@ a graphql query the find the dates a user made comments on issues or pull reques
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1930,7 +1930,7 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
       </td>
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    freq = df.groupby(pandas.Grouper(freq="1D", key="publishedAt")).count()</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1949,7 +1949,7 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2100,7 +2100,7 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
       </td>
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="2">    days = freq[freq.astype(bool)].dropna()
     days</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
@@ -2121,7 +2121,7 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2324,7 +2324,7 @@ days
       </td>
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">    days</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2343,7 +2343,7 @@ days
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2544,7 +2544,7 @@ days
       </td>
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="0"></textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2563,7 +2563,7 @@ days
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
