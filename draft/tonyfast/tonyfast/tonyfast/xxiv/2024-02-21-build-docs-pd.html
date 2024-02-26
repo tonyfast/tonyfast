@@ -1144,7 +1144,7 @@ nbformat at the primary interface for multimedia content.
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       210
+       215
       </dd>
       <dt>
        outputs
@@ -1380,7 +1380,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       </td>
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    import tonyfast.utils, pandas, json, nbconvert, nbformat, operator, bs4, anyio, pathlib, re, os
     __import__("nest_asyncio").apply()</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
@@ -1401,7 +1401,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1475,7 +1475,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       </td>
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="16">    if MAIN := __name__ == "__main__":
         class Config:
             dir = pathlib.Path(globals().get("__file_") or "2024-02-21-build-docs-pd.ipynb").absolute().parent.parent.parent
@@ -1524,7 +1524,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1686,7 +1686,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="6">    df = (
         Config.dir / pandas.Index(Config.paths)
     ).rename("directory").path(
@@ -1715,7 +1715,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -1864,11 +1864,11 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    df = df[~df.astype(str).str.contains("checkpoint")].pipe(pandas.Index).rename("file")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    df = df.loc[~df.astype(str).str.contains("checkpoint")].pipe(pandas.Index).rename("file")</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">"checkpoint"</span><span class="p">)]</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"file"</span><span class="p">)</span>
+         <pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">"checkpoint"</span><span class="p">)]</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"file"</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -1883,7 +1883,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2032,7 +2032,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="4">    TITLE = "(?P&lt;year&gt;[0-9]{4})-(?P&lt;month&gt;[0-9]{2})-(?P&lt;day&gt;[0-9]{1,2})-(?P&lt;slug&gt;.+)"
     df = df.apath.stem.str.extract(TITLE).set_index(df).dropna(how="all")
     df["date"] = pandas.to_datetime(df.year +"-"+ df.month +"-"+ df.day)
@@ -2057,7 +2057,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2206,7 +2206,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    df = (await df.index.apath.read_text()).apply(json.loads)\
     .rename("nb").apply(nbformat.from_dict).pipe(df.join)
     if not FILE:
@@ -2233,7 +2233,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2672,7 +2672,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="11">    MIDGY = re.compile("^\%\%[\s+,(pidgy),(midgy)]")
 
     def prepare_cell(cell):
@@ -2711,7 +2711,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2741,7 +2741,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-code-label nb-cell-label cell-14-loc nb-loc-label
     cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
@@ -2785,11 +2785,21 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">    cells = df.nb.itemgetter("cells").enumerate("index").apply(prepare_cell).series()</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="6">    cells = df.nb.itemgetter("cells").enumerate("index").apply(prepare_cell).series()
+    code = cells.loc[cells.cell_type.eq("code"), :]
+    _idgy = code[code.source.str.find("\s*%reload_ext\s+[pm]idgy").gt(-1)]
+    code.loc[_idgy.index.get_level_values(0).drop_duplicates()].apply(
+        lambda x: x["metadata"].setdefault("jupyter", {}).setdefault("source_hidden", True), axis=1
+    );</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">cells</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">nb</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="s2">"cells"</span><span class="p">)</span><span class="o">.</span><span class="n">enumerate</span><span class="p">(</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">prepare_cell</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+    <span class="n">code</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">cell_type</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">"code"</span><span class="p">),</span> <span class="p">:]</span>
+    <span class="n">_idgy</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="n">code</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">"\s*</span><span class="si">%r</span><span class="s2">eload_ext\s+[pm]idgy"</span><span class="p">)</span><span class="o">.</span><span class="n">gt</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">code</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">_idgy</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s2">"metadata"</span><span class="p">]</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"jupyter"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"source_hidden"</span><span class="p">,</span> <span class="kc">True</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">);</span>
 </code></pre>
         </div>
        </div>
@@ -2804,13 +2814,13 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-14-loc" role="none">
-       1
+       6
       </td>
       <td class="nb-outputs" hidden role="none">
        <span class="nb-outputs visually-hidden" id="cell-14-outputs-len">
@@ -2878,7 +2888,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-15-source-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="7">    def render_markdown_output(output):
         if "data" in output:
             if "text/markdown" in output["data"]:
@@ -2909,7 +2919,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -2983,7 +2993,7 @@ indexes and readmes use different exporter configurations than content notebooks
       </td>
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-16-source-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="11">    outputs = cells.outputs.dropna().enumerate("output").dropna()
     outputs.apply(render_markdown_output);
     markdowns = cells[cells.cell_type.eq("markdown")].apply(
@@ -3022,7 +3032,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -3174,7 +3184,7 @@ to build the table of contents and relative links.
       </td>
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-18-source-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="9">    html = pandas.concat(
         [
             markdowns,
@@ -3209,7 +3219,7 @@ to build the table of contents and relative links.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -3358,7 +3368,7 @@ to build the table of contents and relative links.
       </td>
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-20-source-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="2">    html["h"] = html.soup.methodcaller("select", "h1,h2,h3,h4,h5,h6")
     h = html.h.enumerate("h").dropna()</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
@@ -3379,7 +3389,7 @@ to build the table of contents and relative links.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -3528,7 +3538,7 @@ to build the table of contents and relative links.
       </td>
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-22-source-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="5">    h = h.to_frame("h").assign(
         level=h.attrgetter("name").str.lstrip("h").astype(int),
         string=h.attrgetter("string"),
@@ -3555,7 +3565,7 @@ to build the table of contents and relative links.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -3887,7 +3897,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-24-source-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="3">    df = df.assign(title=h.groupby(h.index.get_level_values("file")).apply(
         lambda s: s.sort_values("level").string.iloc[0]
     ).rename("title"))</textarea>
@@ -3910,7 +3920,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -3984,7 +3994,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-25-source-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="3">    df = df.assign(description=html.soup.methodcaller("select_one", "p").dropna().attrgetter("text").groupby(
         "file"
     ).apply(lambda x: x.sort_index().iloc[0]).rename("description").reindex(df.index))</textarea>
@@ -4007,7 +4017,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4081,7 +4091,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-26-source-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="6">    df.apply(
         lambda x: (
             x.title and x.loc["nb"].metadata.setdefault("title", x.title),
@@ -4110,7 +4120,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4263,7 +4273,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-28-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-28-source-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="23">    def make_toc(df):        
         toc = bs4.BeautifulSoup(features="lxml")
         toc.append(nav := toc.new_tag("nav"))
@@ -4326,7 +4336,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4475,7 +4485,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-30-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-30-source-label nb-source-label" class="nb-source" form="cell-30" id="cell-30-source" name="source" readonly rows="1">    df = df.assign(toc=h.groupby(h.index.get_level_values("file")).apply(make_toc).apply(str))</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -4494,7 +4504,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4643,7 +4653,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-32-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-32-source-label nb-source-label" class="nb-source" form="cell-32" id="cell-32-source" name="source" readonly rows="3">    df = df.assign(target=(await (
         Config.target / df.index.apath.relative_to(Config.dir)
     ).apath().apath.with_suffix(".html").apath.absolute()).values)</textarea>
@@ -4666,7 +4676,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4740,7 +4750,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-33-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-33-source-label nb-source-label" class="nb-source" form="cell-33" id="cell-33-source" name="source" readonly rows="3">    df = df.assign(**pandas.DataFrame([
             [None] + df.index.values[:-1].tolist(), df.index.values, df.index.values[1:].tolist() + [None]
     ], index=["prev", "file", "next"]).T.set_index("file"))</textarea>
@@ -4763,7 +4773,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -4837,7 +4847,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-34-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-34-source-label nb-source-label" class="nb-source" form="cell-34" id="cell-34-source" name="source" readonly rows="11">    def relative_path(source, target):
         """compute a relative path from source to target"""
         if target:
@@ -4876,7 +4886,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5025,7 +5035,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-36-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-36-source-label nb-source-label" class="nb-source" form="cell-36" id="cell-36-source" name="source" readonly rows="7">    df = df.assign(
         footer = df.apply(
                 lambda s: (s.prev and F"""&lt;a href="{relative_path(s.target, df.loc[s.prev].target)}" rel="prev&gt;&lt;span aria-hidden=" true"=""&gt;&lt;{df.loc[s.prev].title}&lt;/a&gt;&lt;br/&gt;""" or "")
@@ -5056,7 +5066,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5130,7 +5140,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-37-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-37-source-label nb-source-label" class="nb-source" form="cell-37" id="cell-37-source" name="source" readonly rows="2">    me = """&lt;p&gt;&lt;a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank"&gt;@tonyfast&lt;/a&gt;s notebooks&lt;/p&gt;"""</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -5150,7 +5160,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5224,7 +5234,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-38-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-38-source-label nb-source-label" class="nb-source" form="cell-38" id="cell-38-source" name="source" readonly rows="7">    df = df.assign(
         header = df.apply(
         lambda s: me + "&lt;details&gt;&lt;summary&gt;site navigation&lt;/summary&gt;&lt;nav&gt;&lt;ol&gt;%s&lt;/ol&gt;&lt;/nav&gt;&lt;/details&gt;"% "".join(
@@ -5255,7 +5265,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5329,7 +5339,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-39-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-39-source-label nb-source-label" class="nb-source" form="cell-39" id="cell-39-source" name="source" readonly rows="2">    await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
     </textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
@@ -5350,7 +5360,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5424,7 +5434,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-40-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-40-source-label nb-source-label" class="nb-source" form="cell-40" id="cell-40-source" name="source" readonly rows="2">    df["html"] = await df[["nb"]].apply(
         lambda s: from_notebook_node(s["nb"], dict(toc=df.toc.loc[s.name], footer=df.loc[s.name].footer, header=df.loc[s.name].header)), axis=1).gather()</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
@@ -5445,7 +5455,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -5519,7 +5529,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       </td>
       <td class="nb-end" hidden id="cell-41-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-41-source-label nb-source-label" class="nb-source" form="cell-41" id="cell-41-source" name="source" readonly rows="9">    if 0 or FILE:
         await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
         await df.apply(
@@ -5554,7 +5564,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          </button>
          <pre><code>
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -9454,7 +9464,7 @@ nbformat at the primary interface for multimedia content.
        lines of code
       &amp;lt;/dt&amp;gt;
       &amp;lt;dd id=&amp;quot;nb-ct-loc&amp;quot;&amp;gt;
-       210
+       215
       &amp;lt;/dd&amp;gt;
       &amp;lt;dt&amp;gt;
        outputs
@@ -9689,7 +9699,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-2-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-2-in-label cell-2-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-2&amp;quot; id=&amp;quot;cell-2-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;2&amp;quot;&amp;gt;    import tonyfast.utils, pandas, json, nbconvert, nbformat, operator, bs4, anyio, pathlib, re, os
     __import__(&amp;quot;nest_asyncio&amp;quot;).apply()&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-2-in-label cell-2-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
@@ -9710,7 +9720,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -9780,7 +9790,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-3-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-3-in-label cell-3-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-3&amp;quot; id=&amp;quot;cell-3-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;16&amp;quot;&amp;gt;    if MAIN := __name__ == &amp;quot;__main__&amp;quot;:
         class Config:
             dir = pathlib.Path(globals().get(&amp;quot;__file_&amp;quot;) or &amp;quot;2024-02-21-build-docs-pd.ipynb&amp;quot;).absolute().parent.parent.parent
@@ -9829,7 +9839,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -9987,7 +9997,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-5-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-5-in-label cell-5-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-5&amp;quot; id=&amp;quot;cell-5-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;6&amp;quot;&amp;gt;    df = (
         Config.dir / pandas.Index(Config.paths)
     ).rename(&amp;quot;directory&amp;quot;).path(
@@ -10016,7 +10026,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10161,11 +10171,11 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-7-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
-       &amp;lt;textarea aria-labelledby=&amp;quot;cell-7-in-label cell-7-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-7&amp;quot; id=&amp;quot;cell-7-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    df = df[~df.astype(str).str.contains(&amp;quot;checkpoint&amp;quot;)].pipe(pandas.Index).rename(&amp;quot;file&amp;quot;)&amp;lt;/textarea&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
+       &amp;lt;textarea aria-labelledby=&amp;quot;cell-7-in-label cell-7-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-7&amp;quot; id=&amp;quot;cell-7-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    df = df.loc[~df.astype(str).str.contains(&amp;quot;checkpoint&amp;quot;)].pipe(pandas.Index).rename(&amp;quot;file&amp;quot;)&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-7-in-label cell-7-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
-         &amp;lt;pre&amp;gt;&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;code&amp;gt;    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;~&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;astype&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;nb&amp;quot;&amp;gt;str&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;str&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;contains&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;checkpoint&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)]&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;pipe&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;pandas&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;Index&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;rename&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;file&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;
+         &amp;lt;pre&amp;gt;&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;code&amp;gt;    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;loc&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;~&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;astype&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;nb&amp;quot;&amp;gt;str&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;str&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;contains&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;checkpoint&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)]&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;pipe&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;pandas&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;Index&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;rename&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;file&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/div&amp;gt;
        &amp;lt;/div&amp;gt;
@@ -10180,7 +10190,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10325,7 +10335,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-9-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-9-in-label cell-9-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-9&amp;quot; id=&amp;quot;cell-9-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;4&amp;quot;&amp;gt;    TITLE = &amp;quot;(?P&amp;amp;lt;year&amp;amp;gt;[0-9]{4})-(?P&amp;amp;lt;month&amp;amp;gt;[0-9]{2})-(?P&amp;amp;lt;day&amp;amp;gt;[0-9]{1,2})-(?P&amp;amp;lt;slug&amp;amp;gt;.+)&amp;quot;
     df = df.apath.stem.str.extract(TITLE).set_index(df).dropna(how=&amp;quot;all&amp;quot;)
     df[&amp;quot;date&amp;quot;] = pandas.to_datetime(df.year +&amp;quot;-&amp;quot;+ df.month +&amp;quot;-&amp;quot;+ df.day)
@@ -10350,7 +10360,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10495,7 +10505,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-11-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-11-in-label cell-11-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-11&amp;quot; id=&amp;quot;cell-11-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;5&amp;quot;&amp;gt;    df = (await df.index.apath.read_text()).apply(json.loads)\
     .rename(&amp;quot;nb&amp;quot;).apply(nbformat.from_dict).pipe(df.join)
     if not FILE:
@@ -10522,7 +10532,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10667,7 +10677,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-13-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-13-in-label cell-13-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-13&amp;quot; id=&amp;quot;cell-13-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;11&amp;quot;&amp;gt;    MIDGY = re.compile(&amp;quot;^\%\%[\s+,(pidgy),(midgy)]&amp;quot;)
 
     def prepare_cell(cell):
@@ -10706,7 +10716,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10733,7 +10743,7 @@ indexes and readmes use different exporter configurations than content notebooks
        &amp;lt;/fieldset&amp;gt;
       &amp;lt;/td&amp;gt;
      &amp;lt;/tr&amp;gt;
-     &amp;lt;tr aria-labelledby=&amp;quot;nb-cell-label 14 cell-14-cell_type&amp;quot; class=&amp;quot;cell code&amp;quot; data-index=&amp;quot;14&amp;quot; data-loc=&amp;quot;1&amp;quot; data-slide_type role=&amp;quot;listitem&amp;quot;&amp;gt;
+     &amp;lt;tr aria-labelledby=&amp;quot;nb-cell-label 14 cell-14-cell_type&amp;quot; class=&amp;quot;cell code&amp;quot; data-index=&amp;quot;14&amp;quot; data-loc=&amp;quot;6&amp;quot; data-slide_type role=&amp;quot;listitem&amp;quot;&amp;gt;
       &amp;lt;th class=&amp;quot;nb-anchor&amp;quot; role=&amp;quot;none&amp;quot; scope=&amp;quot;row&amp;quot;&amp;gt;
        &amp;lt;a aria-describedby=&amp;quot;nb-code-label nb-cell-label cell-14-loc nb-loc-label&amp;quot; aria-labelledby=&amp;quot;nb-cell-label 14&amp;quot; class=&amp;quot;nb-anchor visually-hidden&amp;quot; href=&amp;quot;#14&amp;quot; id=&amp;quot;14&amp;quot;&amp;gt;
         14
@@ -10776,11 +10786,21 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-14-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
-       &amp;lt;textarea aria-labelledby=&amp;quot;cell-14-in-label cell-14-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-14&amp;quot; id=&amp;quot;cell-14-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    cells = df.nb.itemgetter(&amp;quot;cells&amp;quot;).enumerate(&amp;quot;index&amp;quot;).apply(prepare_cell).series()&amp;lt;/textarea&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
+       &amp;lt;textarea aria-labelledby=&amp;quot;cell-14-in-label cell-14-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-14&amp;quot; id=&amp;quot;cell-14-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;6&amp;quot;&amp;gt;    cells = df.nb.itemgetter(&amp;quot;cells&amp;quot;).enumerate(&amp;quot;index&amp;quot;).apply(prepare_cell).series()
+    code = cells.loc[cells.cell_type.eq(&amp;quot;code&amp;quot;), :]
+    _idgy = code[code.source.str.find(&amp;quot;\s*%reload_ext\s+[pm]idgy&amp;quot;).gt(-1)]
+    code.loc[_idgy.index.get_level_values(0).drop_duplicates()].apply(
+        lambda x: x[&amp;quot;metadata&amp;quot;].setdefault(&amp;quot;jupyter&amp;quot;, {}).setdefault(&amp;quot;source_hidden&amp;quot;, True), axis=1
+    );&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-14-in-label cell-14-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;span&amp;gt;&amp;lt;/span&amp;gt;&amp;lt;code&amp;gt;    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;cells&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;df&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;nb&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;itemgetter&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;cells&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;enumerate&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;index&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;apply&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;prepare_cell&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;series&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;()&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;code&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;cells&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;loc&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;cells&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;cell_type&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;eq&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;code&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;),&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;:]&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;_idgy&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;code&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;code&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;source&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;str&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;find&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;\s*&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;si&amp;quot;&amp;gt;%r&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;eload_ext\s+[pm]idgy&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;gt&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;-&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;mi&amp;quot;&amp;gt;1&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)]&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;code&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;loc&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;_idgy&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;index&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;get_level_values&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;mi&amp;quot;&amp;gt;0&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;)&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;drop_duplicates&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;()]&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;apply&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;
+        &amp;lt;span class=&amp;quot;k&amp;quot;&amp;gt;lambda&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;x&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;:&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;x&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;[&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;metadata&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;]&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;setdefault&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;jupyter&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;,&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;{})&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;.&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;setdefault&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;(&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;s2&amp;quot;&amp;gt;&amp;quot;source_hidden&amp;quot;&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;,&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;kc&amp;quot;&amp;gt;True&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;),&amp;lt;/span&amp;gt; &amp;lt;span class=&amp;quot;n&amp;quot;&amp;gt;axis&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;o&amp;quot;&amp;gt;=&amp;lt;/span&amp;gt;&amp;lt;span class=&amp;quot;mi&amp;quot;&amp;gt;1&amp;lt;/span&amp;gt;
+    &amp;lt;span class=&amp;quot;p&amp;quot;&amp;gt;);&amp;lt;/span&amp;gt;
 &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/div&amp;gt;
        &amp;lt;/div&amp;gt;
@@ -10795,13 +10815,13 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-loc&amp;quot; hidden id=&amp;quot;cell-14-loc&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
-       1
+       6
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-outputs&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;fieldset class=&amp;quot;nb-outputs&amp;quot; data-outputs=&amp;quot;0&amp;quot;&amp;gt;
@@ -10865,7 +10885,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-15-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-15-in-label cell-15-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-15&amp;quot; id=&amp;quot;cell-15-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;7&amp;quot;&amp;gt;    def render_markdown_output(output):
         if &amp;quot;data&amp;quot; in output:
             if &amp;quot;text/markdown&amp;quot; in output[&amp;quot;data&amp;quot;]:
@@ -10896,7 +10916,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -10966,7 +10986,7 @@ indexes and readmes use different exporter configurations than content notebooks
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-16-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-16-in-label cell-16-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-16&amp;quot; id=&amp;quot;cell-16-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;11&amp;quot;&amp;gt;    outputs = cells.outputs.dropna().enumerate(&amp;quot;output&amp;quot;).dropna()
     outputs.apply(render_markdown_output);
     markdowns = cells[cells.cell_type.eq(&amp;quot;markdown&amp;quot;)].apply(
@@ -11005,7 +11025,7 @@ indexes and readmes use different exporter configurations than content notebooks
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11153,7 +11173,7 @@ to build the table of contents and relative links.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-18-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-18-in-label cell-18-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-18&amp;quot; id=&amp;quot;cell-18-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;9&amp;quot;&amp;gt;    html = pandas.concat(
         [
             markdowns,
@@ -11188,7 +11208,7 @@ to build the table of contents and relative links.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11333,7 +11353,7 @@ to build the table of contents and relative links.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-20-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-20-in-label cell-20-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-20&amp;quot; id=&amp;quot;cell-20-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;2&amp;quot;&amp;gt;    html[&amp;quot;h&amp;quot;] = html.soup.methodcaller(&amp;quot;select&amp;quot;, &amp;quot;h1,h2,h3,h4,h5,h6&amp;quot;)
     h = html.h.enumerate(&amp;quot;h&amp;quot;).dropna()&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-20-in-label cell-20-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
@@ -11354,7 +11374,7 @@ to build the table of contents and relative links.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11499,7 +11519,7 @@ to build the table of contents and relative links.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-22-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-22-in-label cell-22-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-22&amp;quot; id=&amp;quot;cell-22-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;5&amp;quot;&amp;gt;    h = h.to_frame(&amp;quot;h&amp;quot;).assign(
         level=h.attrgetter(&amp;quot;name&amp;quot;).str.lstrip(&amp;quot;h&amp;quot;).astype(int),
         string=h.attrgetter(&amp;quot;string&amp;quot;),
@@ -11526,7 +11546,7 @@ to build the table of contents and relative links.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11674,7 +11694,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-24-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-24-in-label cell-24-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-24&amp;quot; id=&amp;quot;cell-24-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;3&amp;quot;&amp;gt;    df = df.assign(title=h.groupby(h.index.get_level_values(&amp;quot;file&amp;quot;)).apply(
         lambda s: s.sort_values(&amp;quot;level&amp;quot;).string.iloc[0]
     ).rename(&amp;quot;title&amp;quot;))&amp;lt;/textarea&amp;gt;
@@ -11697,7 +11717,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11767,7 +11787,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-25-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-25-in-label cell-25-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-25&amp;quot; id=&amp;quot;cell-25-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;3&amp;quot;&amp;gt;    df = df.assign(description=html.soup.methodcaller(&amp;quot;select_one&amp;quot;, &amp;quot;p&amp;quot;).dropna().attrgetter(&amp;quot;text&amp;quot;).groupby(
         &amp;quot;file&amp;quot;
     ).apply(lambda x: x.sort_index().iloc[0]).rename(&amp;quot;description&amp;quot;).reindex(df.index))&amp;lt;/textarea&amp;gt;
@@ -11790,7 +11810,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -11860,7 +11880,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-26-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-26-in-label cell-26-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-26&amp;quot; id=&amp;quot;cell-26-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;6&amp;quot;&amp;gt;    df.apply(
         lambda x: (
             x.title and x.loc[&amp;quot;nb&amp;quot;].metadata.setdefault(&amp;quot;title&amp;quot;, x.title),
@@ -11889,7 +11909,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12038,7 +12058,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-28-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-28-in-label cell-28-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-28&amp;quot; id=&amp;quot;cell-28-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;23&amp;quot;&amp;gt;    def make_toc(df):        
         toc = bs4.BeautifulSoup(features=&amp;quot;lxml&amp;quot;)
         toc.append(nav := toc.new_tag(&amp;quot;nav&amp;quot;))
@@ -12101,7 +12121,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12246,7 +12266,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-30-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-30-in-label cell-30-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-30&amp;quot; id=&amp;quot;cell-30-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    df = df.assign(toc=h.groupby(h.index.get_level_values(&amp;quot;file&amp;quot;)).apply(make_toc).apply(str))&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-30-in-label cell-30-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
@@ -12265,7 +12285,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12410,7 +12430,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-32-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-32-in-label cell-32-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-32&amp;quot; id=&amp;quot;cell-32-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;3&amp;quot;&amp;gt;    df = df.assign(target=(await (
         Config.target / df.index.apath.relative_to(Config.dir)
     ).apath().apath.with_suffix(&amp;quot;.html&amp;quot;).apath.absolute()).values)&amp;lt;/textarea&amp;gt;
@@ -12433,7 +12453,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12503,7 +12523,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-33-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-33-in-label cell-33-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-33&amp;quot; id=&amp;quot;cell-33-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;3&amp;quot;&amp;gt;    df = df.assign(**pandas.DataFrame([
             [None] + df.index.values[:-1].tolist(), df.index.values, df.index.values[1:].tolist() + [None]
     ], index=[&amp;quot;prev&amp;quot;, &amp;quot;file&amp;quot;, &amp;quot;next&amp;quot;]).T.set_index(&amp;quot;file&amp;quot;))&amp;lt;/textarea&amp;gt;
@@ -12526,7 +12546,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12596,7 +12616,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-34-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-34-in-label cell-34-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-34&amp;quot; id=&amp;quot;cell-34-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;11&amp;quot;&amp;gt;    def relative_path(source, target):
         &amp;quot;&amp;quot;&amp;quot;compute a relative path from source to target&amp;quot;&amp;quot;&amp;quot;
         if target:
@@ -12635,7 +12655,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12780,7 +12800,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-36-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-36-in-label cell-36-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-36&amp;quot; id=&amp;quot;cell-36-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;7&amp;quot;&amp;gt;    df = df.assign(
         footer = df.apply(
                 lambda s: (s.prev and F&amp;quot;&amp;quot;&amp;quot;&amp;amp;lt;a href=&amp;quot;{relative_path(s.target, df.loc[s.prev].target)}&amp;quot; rel=&amp;quot;prev&amp;amp;gt;&amp;amp;lt;span aria-hidden=&amp;quot; true&amp;quot;=&amp;quot;&amp;quot;&amp;amp;gt;&amp;amp;lt;{df.loc[s.prev].title}&amp;amp;lt;/a&amp;amp;gt;&amp;amp;lt;br/&amp;amp;gt;&amp;quot;&amp;quot;&amp;quot; or &amp;quot;&amp;quot;)
@@ -12811,7 +12831,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12881,7 +12901,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-37-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-37-in-label cell-37-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-37&amp;quot; id=&amp;quot;cell-37-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;2&amp;quot;&amp;gt;    me = &amp;quot;&amp;quot;&amp;quot;&amp;amp;lt;p&amp;amp;gt;&amp;amp;lt;a aria-description=&amp;quot;opens new tab&amp;quot; href=&amp;quot;https://github.com/tonyfast&amp;quot; rel=&amp;quot;me&amp;quot; style=&amp;quot;font-size: bigger;&amp;quot; target=&amp;quot;_blank&amp;quot;&amp;amp;gt;@tonyfast&amp;amp;lt;/a&amp;amp;gt;s notebooks&amp;amp;lt;/p&amp;amp;gt;&amp;quot;&amp;quot;&amp;quot;&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-37-in-label cell-37-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
@@ -12901,7 +12921,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -12971,7 +12991,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-38-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-38-in-label cell-38-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-38&amp;quot; id=&amp;quot;cell-38-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;7&amp;quot;&amp;gt;    df = df.assign(
         header = df.apply(
         lambda s: me + &amp;quot;&amp;amp;lt;details&amp;amp;gt;&amp;amp;lt;summary&amp;amp;gt;site navigation&amp;amp;lt;/summary&amp;amp;gt;&amp;amp;lt;nav&amp;amp;gt;&amp;amp;lt;ol&amp;amp;gt;%s&amp;amp;lt;/ol&amp;amp;gt;&amp;amp;lt;/nav&amp;amp;gt;&amp;amp;lt;/details&amp;amp;gt;&amp;quot;% &amp;quot;&amp;quot;.join(
@@ -13002,7 +13022,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13072,7 +13092,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-39-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-39-in-label cell-39-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-39&amp;quot; id=&amp;quot;cell-39-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;2&amp;quot;&amp;gt;    await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
     &amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-39-in-label cell-39-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
@@ -13093,7 +13113,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13163,7 +13183,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-40-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-40-in-label cell-40-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-40&amp;quot; id=&amp;quot;cell-40-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;2&amp;quot;&amp;gt;    df[&amp;quot;html&amp;quot;] = await df[[&amp;quot;nb&amp;quot;]].apply(
         lambda s: from_notebook_node(s[&amp;quot;nb&amp;quot;], dict(toc=df.toc.loc[s.name], footer=df.loc[s.name].footer, header=df.loc[s.name].header)), axis=1).gather()&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-40-in-label cell-40-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
@@ -13184,7 +13204,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13254,7 +13274,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-41-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-41-in-label cell-41-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-41&amp;quot; id=&amp;quot;cell-41-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;9&amp;quot;&amp;gt;    if 0 or FILE:
         await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
         await df.apply(
@@ -13289,7 +13309,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13359,7 +13379,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-42-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-42-in-label cell-42-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-42&amp;quot; id=&amp;quot;cell-42-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;5&amp;quot;&amp;gt;    readmes = df.groupby(df.target.apath.parent / &amp;quot;index.html&amp;quot;).apply(
         (top_toc := lambda x: x.apply(
           lambda y: F&amp;quot;&amp;quot;&amp;quot;&amp;amp;lt;li&amp;amp;gt;&amp;amp;lt;a href=&amp;quot;{relative_path(y.target.parent / &amp;quot; index.html&amp;quot;,=&amp;quot;&amp;quot; y.target)}&amp;quot;=&amp;quot;&amp;quot;&amp;amp;gt;{y.loc[&amp;quot;title&amp;quot;]}&amp;amp;lt;/a&amp;amp;gt;&amp;amp;lt;/li&amp;amp;gt;&amp;quot;&amp;quot;&amp;quot;, axis=1
@@ -13386,7 +13406,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13456,7 +13476,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-43-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-43-in-label cell-43-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-43&amp;quot; id=&amp;quot;cell-43-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    readmes = readmes.assign(target=Config.target / readmes.index.apath.relative_to(Config.dir))&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-43-in-label cell-43-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
@@ -13475,7 +13495,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13545,7 +13565,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-44-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-44-in-label cell-44-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-44&amp;quot; id=&amp;quot;cell-44-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;1&amp;quot;&amp;gt;    await readmes.target.apath().apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);&amp;lt;/textarea&amp;gt;
        &amp;lt;div aria-labelledby=&amp;quot;cell-44-in-label cell-44-exec-label&amp;quot; aria-roledescription=&amp;quot;highlighted&amp;quot; role=&amp;quot;group&amp;quot;&amp;gt;
         &amp;lt;div class=&amp;quot;highlight&amp;quot;&amp;gt;
@@ -13564,7 +13584,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {}
+        {'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -13634,7 +13654,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       &amp;lt;/td&amp;gt;
       &amp;lt;td class=&amp;quot;nb-end&amp;quot; hidden id=&amp;quot;cell-45-end&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
       &amp;lt;/td&amp;gt;
-      &amp;lt;td class=&amp;quot;nb-source&amp;quot; role=&amp;quot;none&amp;quot;&amp;gt;
+      &amp;lt;td class=&amp;quot;nb-source&amp;quot; hidden role=&amp;quot;none&amp;quot;&amp;gt;
        &amp;lt;textarea aria-labelledby=&amp;quot;cell-45-in-label cell-45-exec-label nb-source-label&amp;quot; class=&amp;quot;nb-source&amp;quot; form=&amp;quot;cell-45&amp;quot; id=&amp;quot;cell-45-source&amp;quot; name=&amp;quot;source&amp;quot; readonly rows=&amp;quot;27&amp;quot;&amp;gt;    content = readmes.nb.apply(
         from_notebook_node, exporter=(
             toc_exporter := nbconvert.get_exporter(&amp;quot;a11y&amp;quot;)(
@@ -13705,7 +13725,7 @@ adding description to the meta is good for accessibility when choosing tabs.
           Close
          &amp;lt;/button&amp;gt;
          &amp;lt;pre&amp;gt;&amp;lt;code&amp;gt;
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         &amp;lt;/code&amp;gt;&amp;lt;/pre&amp;gt;
         &amp;lt;/form&amp;gt;
        &amp;lt;/dialog&amp;gt;
@@ -14844,7 +14864,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       </td>
       <td class="nb-end" hidden id="cell-42-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-42-source-label nb-source-label" class="nb-source" form="cell-42" id="cell-42-source" name="source" readonly rows="5">    readmes = df.groupby(df.target.apath.parent / "index.html").apply(
         (top_toc := lambda x: x.apply(
           lambda y: F"""&lt;li&gt;&lt;a href="{relative_path(y.target.parent / " index.html",="" y.target)}"=""&gt;{y.loc["title"]}&lt;/a&gt;&lt;/li&gt;""", axis=1
@@ -14871,7 +14891,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -14945,7 +14965,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       </td>
       <td class="nb-end" hidden id="cell-43-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-43-source-label nb-source-label" class="nb-source" form="cell-43" id="cell-43-source" name="source" readonly rows="1">    readmes = readmes.assign(target=Config.target / readmes.index.apath.relative_to(Config.dir))</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -14964,7 +14984,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -15038,7 +15058,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       </td>
       <td class="nb-end" hidden id="cell-44-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-44-source-label nb-source-label" class="nb-source" form="cell-44" id="cell-44-source" name="source" readonly rows="1">    await readmes.target.apath().apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);</textarea>
        <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -15057,7 +15077,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -15131,7 +15151,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       </td>
       <td class="nb-end" hidden id="cell-45-end" role="none">
       </td>
-      <td class="nb-source" role="none">
+      <td class="nb-source" hidden role="none">
        <textarea aria-labelledby="cell-45-source-label nb-source-label" class="nb-source" form="cell-45" id="cell-45-source" name="source" readonly rows="27">    content = readmes.nb.apply(
         from_notebook_node, exporter=(
             toc_exporter := nbconvert.get_exporter("a11y")(
@@ -15202,7 +15222,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           Close
          </button>
          <pre><code>
-        {'editable': True, 'slideshow': {'slide_type': ''}, 'tags': []}
+        {'editable': True, 'scrolled': True, 'slideshow': {'slide_type': ''}, 'tags': [], 'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
@@ -15214,7 +15234,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        <span class="nb-outputs visually-hidden" id="cell-45-outputs-len">
         3 outputs.
        </span>
-       <fieldset class="nb-outputs" data-outputs="3">
+       <fieldset class="nb-outputs nb-scrolled" data-outputs="3">
         <legend aria-describedby="nb-outputs-desc" hidden id="cell-45-outputs-label">
          <span>
           Out
