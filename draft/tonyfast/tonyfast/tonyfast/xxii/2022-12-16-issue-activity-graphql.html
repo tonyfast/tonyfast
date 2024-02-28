@@ -1232,14 +1232,14 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-1-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-1-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-1-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1268,10 +1268,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="3"># retreiving my issue activity
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="3"># retreiving my issue activity
 
 retreive my activity with the github graphql api.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># retreiving my issue activity</span>
 
@@ -1317,14 +1317,14 @@ retreive my activity with the github graphql api.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-2-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-2-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-2-exec-label">
          1
         </span>
         <span aria-hidden="true">
@@ -1354,12 +1354,12 @@ retreive my activity with the github graphql api.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="5">    
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="5">    
     %reload_ext pidgy
     import requests, pandas
     from info import header
     __import__("requests_cache").install_cache(allowable_methods=["POST"])</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    
     <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
@@ -1417,14 +1417,14 @@ retreive my activity with the github graphql api.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-3-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-3-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-3-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1453,10 +1453,10 @@ retreive my activity with the github graphql api.
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="3">## construct the query from parameters
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="3">## construct the query from parameters
 
 we use `%` string formatting because of the braces in graphql syntaxes.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## construct the query from parameters</span>
 
@@ -1506,14 +1506,14 @@ we use <span class="sb">`%`</span> string formatting because of the braces in gr
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-4-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-4-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-4-exec-label">
          2
         </span>
         <span aria-hidden="true">
@@ -1543,7 +1543,7 @@ we use <span class="sb">`%`</span> string formatting because of the braces in gr
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="21">    def get_stamps(user="tonyfast", repo="iota-school/notebooks-for-all"):
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="21">    def get_stamps(user="tonyfast", repo="iota-school/notebooks-for-all"):
         return \
 query { 
   search(type:ISSUE, query: "user:%s repo:%s", first: 100) {
@@ -1565,7 +1565,7 @@ query {
     
             % (user, repo)
 </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_stamps</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="s2">"tonyfast"</span><span class="p">,</span> <span class="n">repo</span><span class="o">=</span><span class="s2">"iota-school/notebooks-for-all"</span><span class="p">):</span>
         <span class="k">return</span> \
@@ -1664,14 +1664,14 @@ publishedAt
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-5-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-5-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-5-exec-label">
          3
         </span>
         <span aria-hidden="true">
@@ -1701,7 +1701,7 @@ publishedAt
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="11">&lt;details open=""&gt;
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="11">&lt;details open=""&gt;
     &lt;summary&gt;
 a graphql query the find the dates a user made comments on issues or pull requests.
     &lt;/summary&gt;
@@ -1712,7 +1712,7 @@ a graphql query the find the dates a user made comments on issues or pull reques
 ```
 
 &lt;/details&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">&lt;</span><span class="n">details</span> <span class="nb">open</span><span class="o">&gt;</span>
     <span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span>
@@ -1801,14 +1801,14 @@ a graphql query the find the dates a user made comments on issues or pull reques
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-6-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-6-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-6-exec-label">
          4
         </span>
         <span aria-hidden="true">
@@ -1838,13 +1838,13 @@ a graphql query the find the dates a user made comments on issues or pull reques
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">    df = pandas.DataFrame((
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">    df = pandas.DataFrame((
         response := requests.post("https://api.github.com/graphql", json=dict(query=get_stamps()), **header)
     ).json()["data"]["search"]["edges"])["node"].apply(pandas.Series)
     df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
     
     </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">((</span>
         <span class="n">response</span> <span class="o">:=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span><span class="s2">"https://api.github.com/graphql"</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">query</span><span class="o">=</span><span class="n">get_stamps</span><span class="p">()),</span> <span class="o">**</span><span class="n">header</span><span class="p">)</span>
@@ -1909,14 +1909,14 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-7-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-7-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-7-exec-label">
          5
         </span>
         <span aria-hidden="true">
@@ -1946,8 +1946,8 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    freq = df.groupby(pandas.Grouper(freq="1D", key="publishedAt")).count()</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    freq = df.groupby(pandas.Grouper(freq="1D", key="publishedAt")).count()</textarea>
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">freq</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"1D"</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">"publishedAt"</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
 </code></pre>
@@ -2003,14 +2003,14 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-8-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-8-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-8-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2039,8 +2039,8 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">what days where these comments made at?</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">what days where these comments made at?</textarea>
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>what days where these comments made at?
 </code></pre>
@@ -2079,14 +2079,14 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-9-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-9-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-9-exec-label">
          6
         </span>
         <span aria-hidden="true">
@@ -2116,9 +2116,9 @@ df.publishedAt = df.publishedAt.pipe(pandas.to_datetime)
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="2">    days = freq[freq.astype(bool)].dropna()
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="2">    days = freq[freq.astype(bool)].dropna()
     days</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">days</span> <span class="o">=</span> <span class="n">freq</span><span class="p">[</span><span class="n">freq</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
     <span class="n">days</span>
@@ -2303,14 +2303,14 @@ days
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-10-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-10-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-10-exec-label">
          7
         </span>
         <span aria-hidden="true">
@@ -2340,8 +2340,8 @@ days
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">    days</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">    days</textarea>
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">days</span>
 </code></pre>
@@ -2523,14 +2523,14 @@ days
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-11-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-11-exec-label">
          None
         </span>
         <span aria-hidden="true">
@@ -2560,8 +2560,8 @@ days
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="0"></textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="0"></textarea>
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>
 </code></pre>

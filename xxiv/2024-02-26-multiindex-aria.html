@@ -447,6 +447,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    adding aria to long or wide tables
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="2024-02-26-multiindex-aria.html" class="md-nav__link md-nav__link--active">
         
   
@@ -456,6 +467,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#notesdiscussion" class="md-nav__link">
+    <span class="md-ellipsis">
+      notes/discussion
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2031,20 +2070,15 @@
 
 
 <h1 id="adding-aria-to-long-or-wide-tables">adding aria to long or wide tables<a class="headerlink" href="#adding-aria-to-long-or-wide-tables" title="Permanent link">¤</a></h1>
-<p>sometimes tables are large are truncating bt default to save screen and disc real estate.
-when this happens, we break the meaning of the columns/row ordering.
+<p>sometimes tables are large and truncated by default to save screen and disc real estate.
+when this happens, we break the meaning of the columns/row ordering to assistive technology.
 we need to supplement the table elements with aria to ensure an accessible experience.</p>
-<p>screen reader behavior is ok when dataframes are smaller than the pandas display options.
-when they exceed these values then data is truncated and screen readers need extra markup
-to accurately navigate the tables based on there real size. 
-we'll also highlight a persistent ambiguity between visual dataframe indexing and audible dataframe indexing.</p>
-<p>to provide the proper mark up for large tables we need to be rigorous about use of ARIA: <code>rowindex</code> <code>colindex</code> <code>rowspan</code> <code>colspan</code>.</p>
-<p>this example is a most complex axis case and does not include grouping. </p>
+<p>we'll also highlight a persistent ambiguity between visual dataframe indexing and audible dataframe indexing.</p>
 <div class="highlight"><pre><span></span><code>    <span class="kn">import</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">bs4</span><span class="o">,</span> <span class="nn">enum</span><span class="o">,</span> <span class="nn">numpy</span><span class="o">,</span> <span class="nn">midgy</span><span class="o">,</span> <span class="nn">functools</span>
     <span class="n">get_ipython</span><span class="p">()</span><span class="o">.</span><span class="n">display_formatter</span><span class="o">.</span><span class="n">formatters</span><span class="p">[</span><span class="s2">&quot;text/html&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">for_type</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">,</span> <span class="nb">str</span><span class="p">);</span>
 </code></pre></div>
 <div class="output_subarea output_stream output_stderr output_text">
-<pre>/tmp/ipykernel_645500/1227099998.py:1: DeprecationWarning: 
+<pre>/tmp/ipykernel_18771/1227099998.py:1: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
 but was not found to be installed on your system.
@@ -2068,14 +2102,121 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 }
 </style>
 
-<div class="highlight"><pre><span></span><code>    <span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">([</span>
-        <span class="p">[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
-    <span class="p">],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="s2">&quot;JKL&quot;</span><span class="p">])</span>
+<p>get an aria marked up, non-uniform table.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_table</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">ARIA</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+        <span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">),</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">WIDE</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span>
+        <span class="n">LONG</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_rows</span>
+        <span class="n">col_ranges</span><span class="p">,</span> <span class="n">row_ranges</span> <span class="o">=</span> <span class="n">get_ranges</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">WIDE</span><span class="p">,</span> <span class="n">LONG</span><span class="p">)</span>
+        <span class="n">soup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;table&quot;</span><span class="p">,</span> 
+                                 <span class="n">colcount</span><span class="o">=</span><span class="n">row_major_at_cols</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">WIDE</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">rowcount</span><span class="o">=</span><span class="n">row_major_at_rows</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">LONG</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cap</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;caption&quot;</span><span class="p">,</span> <span class="n">caption</span><span class="p">))</span>    
+        <span class="n">cap</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">get_caption</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+        <span class="n">get_thead</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">col_ranges</span><span class="p">,</span> <span class="n">WIDE</span><span class="p">,</span> <span class="n">ARIA</span><span class="p">,</span> <span class="n">LONG</span><span class="p">)</span>
+        <span class="n">get_tbody</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">col_ranges</span><span class="p">,</span> <span class="n">row_ranges</span><span class="p">,</span> <span class="n">WIDE</span><span class="p">,</span> <span class="n">ARIA</span><span class="p">,</span> <span class="n">LONG</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soup</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_thead</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">col_ranges</span><span class="p">,</span> <span class="n">WIDE</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ARIA</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">LONG</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">),</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">col_center</span> <span class="o">=</span> <span class="n">col_ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">col_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="k">for</span> <span class="n">col_level</span><span class="p">,</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
+            <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">col_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">LONG</span> <span class="ow">and</span> <span class="n">row_part</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">col_level</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">COLS</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">row_level</span><span class="p">,</span> <span class="n">row_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
+                        <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">th</span> <span class="o">:=</span> <span class="n">theading</span><span class="p">(</span>
+                            <span class="nb">str</span><span class="p">(</span><span class="n">row_name</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">F</span><span class="s2">&quot;index </span><span class="si">{</span><span class="n">row_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> 
+                            <span class="n">rowspan</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> 
+                            <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">COLS</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">F</span><span class="s2">&quot;level </span><span class="si">{</span><span class="n">col_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
+                <span class="n">colindex</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span>
+                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="n">HIDDEN</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">bool</span><span class="p">(</span><span class="n">LONG</span> <span class="ow">and</span> <span class="n">WIDE</span><span class="p">)</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                                       <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">}))</span>
+                <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span>
+                    <span class="n">col_value</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">col_level</span><span class="p">)[</span><span class="n">col_index</span><span class="p">]</span>
+                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col_value</span><span class="p">),</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)</span> <span class="o">+</span> <span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">WIDE</span> <span class="ow">and</span> <span class="n">col_part</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+</code></pre></div>
+<p>one of the confusions that will be encountered is that 
+natural row and column indexing of tidy data frames will be inconsistent with those announced by assistive technology.
+assistive technology indexes tables starting from</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">row_major_at_rows</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
+    <span class="k">def</span> <span class="nf">row_major_at_cols</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">))</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> 
+</code></pre></div>
+<p>we present a potentational solution provide more information in the caption that may alert screen readers to the mismatch.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_caption</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
+        <span class="n">dl</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;dl&quot;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;presentation&quot;</span><span class="p">)</span>
+        <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;rows&quot;</span><span class="p">)),</span> <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))))</span>
+        <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;columns&quot;</span><span class="p">)),</span> <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">))))</span>
+        <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;indexes:&quot;</span><span class="p">)),</span> <span class="n">dl</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span> <span class="n">indexes</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;dl&quot;</span><span class="p">,</span> <span class="n">role</span><span class="o">=</span><span class="s2">&quot;presentation&quot;</span><span class="p">)))</span>
+        <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;rows&quot;</span><span class="p">)),</span> <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">)))</span>
+        <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dt&quot;</span><span class="p">,</span> <span class="s2">&quot;columns&quot;</span><span class="p">)),</span> <span class="n">indexes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;dd&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">)))</span>
+        <span class="k">return</span> <span class="n">dl</span>
+</code></pre></div>
+<p>iterate through the rows of data and append them to the table</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_tbody</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">table</span><span class="p">,</span> <span class="n">col_ranges</span><span class="p">,</span> <span class="n">row_ranges</span><span class="p">,</span> <span class="n">WIDE</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ARIA</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">LONG</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">),</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
+        <span class="n">row_center</span> <span class="o">=</span> <span class="n">row_ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">row_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="n">col_center</span> <span class="o">=</span> <span class="n">col_ranges</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">start</span> <span class="o">-</span> <span class="n">col_ranges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stop</span>
+        <span class="k">for</span> <span class="n">row_part</span><span class="p">,</span> <span class="n">row_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_ranges</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">row_part</span><span class="p">:</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">row_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-rowspan&quot;</span><span class="p">:</span> <span class="n">row_center</span><span class="p">}))</span>
+                <span class="k">for</span> <span class="n">row_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">):</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="n">HIDDEN</span><span class="p">,</span><span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="n">HIDDEN</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-rowspan&quot;</span><span class="p">:</span> <span class="n">row_center</span><span class="p">,</span> <span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">}),)</span>
+                    <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="n">HIDDEN</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)))</span>
+            <span class="k">for</span> <span class="n">row_index</span> <span class="ow">in</span> <span class="n">row_range</span><span class="p">:</span>
+                <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">row_index</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">))</span>        
+                <span class="k">for</span> <span class="n">row_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">):</span>
+                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">row_level</span><span class="p">)[</span><span class="n">row_index</span><span class="p">]),</span> <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="n">EMPTY</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
+                <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span> <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span>
+                        <span class="n">HIDDEN</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">}))</span>
+                    <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span>
+                        <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_index</span><span class="p">,</span> <span class="n">col_index</span><span class="p">]),</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)))</span>
+</code></pre></div>
+<p><code>pandas.options.display.max_columns, pandas.options.display.max_rows</code> determine the ranges of values that are presented to the visitor.
+this work implements special logic for spanning multiple rows and columns for truncated data.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">get_frame_bounds</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">WIDE</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">LONG</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">WIDE</span><span class="p">:</span> <span class="n">a</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span><span class="o">//</span><span class="mi">2</span><span class="p">;</span> <span class="n">b</span> <span class="o">-=</span>  <span class="n">a</span>
+        <span class="k">if</span> <span class="n">LONG</span><span class="p">:</span> <span class="n">c</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_rows</span><span class="o">//</span><span class="mi">2</span><span class="p">;</span> <span class="n">d</span> <span class="o">-=</span> <span class="n">c</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span>
+    <span class="k">def</span> <span class="nf">get_ranges</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">WIDE</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">LONG</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">get_frame_bounds</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">WIDE</span><span class="o">=</span><span class="n">WIDE</span><span class="p">,</span> <span class="n">LONG</span><span class="o">=</span><span class="n">LONG</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+</code></pre></div>
+<p>to provide the proper mark up for large tables we need to be rigorous about use of ARIA: <code>rowindex</code> <code>colindex</code> <code>rowspan</code> <code>colspan</code>.</p>
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> 
+            <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">rowindex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rowcount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colcount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">rowspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">colspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+            <span class="o">*</span><span class="p">,</span> <span class="n">soup</span><span class="o">=</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">),</span> <span class="o">**</span><span class="n">attrs</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;create a new beautiful soup with table and aria properties&quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
+        <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">F</span><span class="s2">&quot;aria-</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rowindex&quot;</span><span class="p">,</span> <span class="s2">&quot;colindex&quot;</span><span class="p">,</span> <span class="s2">&quot;rowcount&quot;</span><span class="p">,</span> <span class="s2">&quot;colcount&quot;</span><span class="p">]</span>  <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)})</span>
+        <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="n">k</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rowspan&quot;</span><span class="p">,</span> <span class="s2">&quot;colspan&quot;</span><span class="p">,</span> <span class="s2">&quot;scope&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)})</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">new_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">string</span><span class="p">:</span> <span class="n">tag</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tag</span>
+    <span class="n">trow</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span>
+    <span class="n">theading</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;th&quot;</span><span class="p">)</span>
+    <span class="n">tdata</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;td&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>sample data</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">index</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">MultiIndex</span><span class="o">.</span><span class="n">from_product</span><span class="p">([[</span><span class="s2">&quot;A&quot;</span><span class="p">,</span> <span class="s2">&quot;Z&quot;</span><span class="p">],</span> <span class="p">[</span><span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;O&quot;</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]],</span> <span class="n">names</span><span class="o">=</span><span class="p">[</span><span class="o">*</span><span class="s2">&quot;JKL&quot;</span><span class="p">])</span>
     <span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">index</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
     <span class="n">single</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">droplevel</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">df</span>
+    <span class="n">wide</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span>
+    <span class="k">with</span> <span class="p">(</span><span class="n">options</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s2">&quot;display.max_rows&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="mi">4</span><span class="p">)):</span>
+        <span class="n">display</span><span class="p">(</span><span class="n">wide</span><span class="p">)</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<div class="output_html rendered_html output_subarea"><div>
 <style scoped="">
     .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
@@ -2099,19 +2240,17 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 <th></th>
 <th></th>
 <th>10</th>
-<th colspan="9" halign="left">A</th>
-<th colspan="9" halign="left">Z</th>
+<th colspan="2" halign="left">A</th>
+<th>...</th>
+<th colspan="2" halign="left">Z</th>
 </tr>
 <tr>
 <th></th>
 <th></th>
 <th>100</th>
-<th colspan="3" halign="left">M</th>
-<th colspan="3" halign="left">N</th>
-<th colspan="3" halign="left">O</th>
-<th colspan="3" halign="left">M</th>
-<th colspan="3" halign="left">N</th>
-<th colspan="3" halign="left">O</th>
+<th colspan="2" halign="left">M</th>
+<th>...</th>
+<th colspan="2" halign="left">O</th>
 </tr>
 <tr>
 <th></th>
@@ -2119,20 +2258,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 <th>1000</th>
 <th>1</th>
 <th>2</th>
-<th>3</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>1</th>
+<th>...</th>
 <th>2</th>
 <th>3</th>
 </tr>
@@ -2145,42 +2271,16 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 <th></th>
 <th></th>
 <th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
-<th></th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <th rowspan="5" valign="top">A</th>
-<th rowspan="3" valign="top">M</th>
+<th rowspan="2" valign="top">M</th>
 <th>1</th>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td>...</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
@@ -2188,63 +2288,25 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 <th>2</th>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td>...</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
 <tr>
-<th>3</th>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<th>...</th>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
 </tr>
 <tr>
 <th rowspan="2" valign="top">N</th>
 <th>1</th>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td>...</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
@@ -2252,176 +2314,66 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
 <th>2</th>
 <td>NaN</td>
 <td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
-<td>NaN</td>
+<td>...</td>
 <td>NaN</td>
 <td>NaN</td>
 </tr>
 </tbody>
 </table>
+<p>100 rows × 180 columns</p>
 </div></div>
 
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">new</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> 
-            <span class="n">string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">rowindex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">rowcount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">colcount</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">rowspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">colspan</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span><span class="n">scope</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="o">*</span><span class="p">,</span> <span class="n">soup</span><span class="o">=</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">),</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="nb">locals</span><span class="p">()</span>
-        <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="sa">F</span><span class="s2">&quot;aria-</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rowindex&quot;</span><span class="p">,</span> <span class="s2">&quot;colindex&quot;</span><span class="p">,</span> <span class="s2">&quot;rowcount&quot;</span><span class="p">,</span> <span class="s2">&quot;colcount&quot;</span><span class="p">]</span>  <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-        <span class="p">}</span>
-        <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-            <span class="n">k</span><span class="p">:</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;rowspan&quot;</span><span class="p">,</span> <span class="s2">&quot;colspan&quot;</span><span class="p">,</span> <span class="s2">&quot;scope&quot;</span><span class="p">]</span> <span class="k">if</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
-        <span class="p">})</span>
-        <span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">tag</span> <span class="o">=</span> <span class="n">soup</span><span class="o">.</span><span class="n">new_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="n">attrs</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">string</span><span class="p">:</span>
-            <span class="n">tag</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tag</span>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="o">/**</span><span class="n">inline</span> <span class="n">flex</span> <span class="n">the</span> <span class="n">dl</span> <span class="n">block</span> <span class="n">display</span> <span class="ow">and</span> <span class="n">force</span> <span class="n">it</span> <span class="n">cause</span> <span class="n">jupyter</span> <span class="ow">is</span> <span class="n">aggressive</span><span class="o">.**/</span>
+<span class="n">table</span><span class="o">&gt;</span><span class="n">caption</span> <span class="n">dl</span> <span class="p">{</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">flex</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+    <span class="n">justify</span><span class="o">-</span><span class="n">content</span><span class="p">:</span> <span class="n">flex</span><span class="o">-</span><span class="n">start</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">/**</span> <span class="n">add</span> <span class="n">punctation</span> <span class="n">after</span> <span class="n">each</span> <span class="n">of</span> <span class="n">the</span> <span class="n">descriptors</span><span class="o">.</span> <span class="o">**/</span>
+<span class="n">table</span><span class="o">&gt;</span><span class="n">caption</span> <span class="n">dl</span><span class="o">&gt;</span><span class="n">dd</span> <span class="p">{</span>
+    <span class="o">&amp;</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span><span class="n">content</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="p">};</span> <span class="o">&amp;</span><span class="p">:</span><span class="n">last</span><span class="o">-</span><span class="n">child</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span><span class="n">content</span><span class="p">:</span> <span class="s2">&quot; &quot;</span><span class="p">};</span>
+<span class="p">}</span>
+<span class="o">/**</span><span class="n">unset</span> <span class="n">some</span> <span class="n">jupyter</span> <span class="n">nonsense</span><span class="o">**/</span>
+<span class="n">dl</span> <span class="o">&gt;</span> <span class="n">dt</span><span class="p">,</span> <span class="n">dl</span> <span class="o">&gt;</span> <span class="n">dd</span> <span class="p">{</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">unset</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+    <span class="nb">float</span><span class="p">:</span> <span class="n">unset</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+    <span class="n">padding</span><span class="o">-</span><span class="n">right</span><span class="p">:</span> <span class="mi">1</span><span class="n">rem</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>    <span class="n">trow</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;tr&quot;</span><span class="p">)</span>
-    <span class="n">theading</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;th&quot;</span><span class="p">)</span>
-    <span class="n">tdata</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">new</span><span class="p">,</span> <span class="s2">&quot;td&quot;</span><span class="p">)</span>
+<style>
+/**inline flex the dl block display and force it cause jupyter is aggressive.**/
+table>caption dl {
+    display: inline-flex !important;
+    justify-content: flex-start;
+}
+/** add punctation after each of the descriptors. **/
+table>caption dl>dd {
+    &::after {content: ", "}; &:last-child::after {content: " "};
+}
+/**unset some jupyter nonsense**/
+dl > dt, dl > dd {
+    width: unset !important;
+    float: unset !important;
+    padding-right: 1rem !important;
+}
+</style>
+
+<p>HIDDEN and EMPTY are used for visual verification of the technique.</p>
+<div class="highlight"><pre><span></span><code>    <span class="n">HIDDEN</span><span class="p">,</span> <span class="n">EMPTY</span> <span class="o">=</span> <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>  <span class="s2">&quot;empty&quot;</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="nb">locals</span><span class="p">()</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">&quot;df2&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">)</span>
-<span class="n">wide</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df2</span><span class="p">]</span><span class="o">*</span><span class="mi">10</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)]</span><span class="o">*</span><span class="mi">20</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code>    <span class="k">with</span> <span class="n">options</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">get_table</span><span class="p">(</span><span class="n">wide</span><span class="p">,</span> <span class="s2">&quot;a smaller table representation with hidden rows and columns.&quot;</span><span class="p">))</span>
 </code></pre></div>
-<p>aria needs to be adjusted by the names.</p>
-<p>one of the confusions that will be encountered is that 
-natural row and column indexing of tidy data frames will be inconsistent with those announced by assistive technology.
-assistive technology indexes tables starting from</p>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">row_major_at_rows</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> 
+<div class="output_html rendered_html output_subarea"><table aria-colcount="184" aria-rowcount="103"><caption><dl role="presentation"><dt>rows</dt><dd>100</dd><dt>columns</dt><dd>180</dd><dt>indexes:</dt><dd><dl role="presentation"><dt>rows</dt><dd>3</dd><dt>columns</dt><dd>3</dd></dl></dd></dl></caption><tr aria-rowindex="1"><th aria-colindex="1" rowspan="3" scope="col">J</th><th aria-colindex="2" rowspan="3" scope="col">K</th><th aria-colindex="3" rowspan="3" scope="col">L</th><th aria-colindex="4" scope="row">10</th><th aria-colindex="5" scope="col">A</th><th aria-colindex="6" scope="col">A</th><th aria-colindex="7" aria-colspan="176">hidden</th><th aria-colindex="183" scope="col">Z</th><th aria-colindex="184" scope="col">Z</th></tr><tr aria-rowindex="2"><th aria-colindex="4" scope="row">100</th><th aria-colindex="5" scope="col">M</th><th aria-colindex="6" scope="col">M</th><th aria-colindex="7" aria-colspan="176">hidden</th><th aria-colindex="183" scope="col">O</th><th aria-colindex="184" scope="col">O</th></tr><tr aria-rowindex="3"><th aria-colindex="4" scope="row">1000</th><th aria-colindex="5" scope="col">1</th><th aria-colindex="6" scope="col">2</th><th aria-colindex="7" aria-colspan="176">hidden</th><th aria-colindex="183" scope="col">2</th><th aria-colindex="184" scope="col">3</th></tr><tr aria-rowindex="4"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7" aria-colspan="176">hidden</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="5"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7" aria-colspan="176">hidden</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="6" aria-rowspan="96"><th aria-colindex="1">hidden</th><th aria-colindex="2">hidden</th><th aria-colindex="3">hidden</th><td aria-colindex="4">empty</td><td aria-colindex="5">hidden</td><td aria-colindex="6">hidden</td><td aria-colindex="7" aria-colspan="176" aria-rowspan="96">hidden</td><td aria-colindex="183">hidden</td><td aria-colindex="184">hidden</td></tr><tr aria-rowindex="102"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7" aria-colspan="176">hidden</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="103"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7" aria-colspan="176">hidden</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr></table></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="k">with</span> <span class="n">pandas</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s2">&quot;display.max_rows&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">&quot;display.max_columns&quot;</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span> <span class="n">display</span><span class="p">(</span><span class="n">get_table</span><span class="p">(</span><span class="n">wide</span><span class="p">))</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">row_major_at_cols</span><span class="p">(</span><span class="n">df</span><span class="p">):</span> <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">))</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> 
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>    <span class="n">wide</span><span class="o">.</span><span class="n">shape</span>
-</code></pre></div>
-<div class="output_text output_subarea output_execute_result">
-<pre>(100, 180)</pre>
-</div>
+<div class="output_html rendered_html output_subarea"><table aria-colcount="184" aria-rowcount="103"><caption><dl role="presentation"><dt>rows</dt><dd>100</dd><dt>columns</dt><dd>180</dd><dt>indexes:</dt><dd><dl role="presentation"><dt>rows</dt><dd>3</dd><dt>columns</dt><dd>3</dd></dl></dd></dl></caption><tr aria-rowindex="1"><th aria-colindex="1" rowspan="3" scope="col">J</th><th aria-colindex="2" rowspan="3" scope="col">K</th><th aria-colindex="3" rowspan="3" scope="col">L</th><th aria-colindex="4" scope="row">10</th><th aria-colindex="5" scope="col">A</th><th aria-colindex="6" scope="col">A</th><th aria-colindex="7" scope="col">A</th><th aria-colindex="8" scope="col">A</th><th aria-colindex="9" scope="col">A</th><th aria-colindex="10" aria-colspan="170">hidden</th><th aria-colindex="180" scope="col">Z</th><th aria-colindex="181" scope="col">Z</th><th aria-colindex="182" scope="col">Z</th><th aria-colindex="183" scope="col">Z</th><th aria-colindex="184" scope="col">Z</th></tr><tr aria-rowindex="2"><th aria-colindex="4" scope="row">100</th><th aria-colindex="5" scope="col">M</th><th aria-colindex="6" scope="col">M</th><th aria-colindex="7" scope="col">M</th><th aria-colindex="8" scope="col">N</th><th aria-colindex="9" scope="col">N</th><th aria-colindex="10" aria-colspan="170">hidden</th><th aria-colindex="180" scope="col">N</th><th aria-colindex="181" scope="col">N</th><th aria-colindex="182" scope="col">O</th><th aria-colindex="183" scope="col">O</th><th aria-colindex="184" scope="col">O</th></tr><tr aria-rowindex="3"><th aria-colindex="4" scope="row">1000</th><th aria-colindex="5" scope="col">1</th><th aria-colindex="6" scope="col">2</th><th aria-colindex="7" scope="col">3</th><th aria-colindex="8" scope="col">1</th><th aria-colindex="9" scope="col">2</th><th aria-colindex="10" aria-colspan="170">hidden</th><th aria-colindex="180" scope="col">2</th><th aria-colindex="181" scope="col">3</th><th aria-colindex="182" scope="col">1</th><th aria-colindex="183" scope="col">2</th><th aria-colindex="184" scope="col">3</th></tr><tr aria-rowindex="4"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="5"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="6"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">3</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="7"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="8"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="9" aria-rowspan="90"><th aria-colindex="1">hidden</th><th aria-colindex="2">hidden</th><th aria-colindex="3">hidden</th><td aria-colindex="4">empty</td><td aria-colindex="5">hidden</td><td aria-colindex="6">hidden</td><td aria-colindex="7">hidden</td><td aria-colindex="8">hidden</td><td aria-colindex="9">hidden</td><td aria-colindex="10" aria-colspan="170" aria-rowspan="90">hidden</td><td aria-colindex="180">hidden</td><td aria-colindex="181">hidden</td><td aria-colindex="182">hidden</td><td aria-colindex="183">hidden</td><td aria-colindex="184">hidden</td></tr><tr aria-rowindex="99"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="100"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="101"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">3</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="102"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="103"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10" aria-colspan="170">hidden</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr></table></div>
 
-<div class="highlight"><pre><span></span><code><span class="o">%%</span> 
-
-    <span class="n">max_columns</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">max_columns</span>
-    <span class="n">max_rows</span><span class="o">=</span> <span class="mi">4</span><span class="c1">#pandas.options.display.max_rows</span>
-
-    <span class="n">df</span> <span class="o">=</span> <span class="n">wide</span>
-    <span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
-    <span class="n">ROWS</span><span class="p">,</span> <span class="n">COLS</span> <span class="o">=</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">),</span> <span class="nb">any</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">)</span>
-    <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-    <span class="n">WIDE</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">max_columns</span>
-    <span class="n">LONG</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">max_rows</span>
-    <span class="n">ARIA</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="k">if</span> <span class="n">WIDE</span><span class="p">:</span>
-        <span class="n">a</span> <span class="o">=</span> <span class="n">max_columns</span><span class="o">//</span><span class="mi">2</span>
-        <span class="n">b</span> <span class="o">-=</span>  <span class="n">a</span>
-        <span class="n">col_center</span> <span class="o">=</span> <span class="n">b</span> <span class="o">-</span> <span class="n">a</span>
-    <span class="k">if</span> <span class="n">LONG</span><span class="p">:</span>
-        <span class="n">c</span> <span class="o">=</span> <span class="n">max_rows</span><span class="o">//</span><span class="mi">2</span>
-        <span class="n">d</span> <span class="o">-=</span> <span class="n">c</span>
-        <span class="n">row_center</span> <span class="o">=</span> <span class="n">d</span> <span class="o">-</span> <span class="n">c</span>
-    <span class="n">col_ranges</span> <span class="o">=</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">a</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
-    <span class="n">row_ranges</span> <span class="o">=</span> <span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">c</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
-    <span class="n">soup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-        <span class="n">table</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span>
-            <span class="s2">&quot;table&quot;</span><span class="p">,</span> 
-            <span class="n">colcount</span><span class="o">=</span><span class="n">row_major_at_cols</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">if</span> <span class="n">WIDE</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-            <span class="n">rowcount</span><span class="o">=</span><span class="n">row_major_at_rows</span><span class="p">(</span><span class="n">df</span><span class="p">)</span> <span class="k">if</span> <span class="n">LONG</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">col_level</span><span class="p">,</span> <span class="n">col_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
-        <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">col_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">LONG</span> <span class="ow">and</span> <span class="n">row_part</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
-<span class="n">write</span> <span class="n">the</span> <span class="n">index</span> <span class="n">names</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">col_level</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">COLS</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">row_level</span><span class="p">,</span> <span class="n">row_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">):</span>
-                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">th</span> <span class="o">:=</span> <span class="n">theading</span><span class="p">(</span>
-                        <span class="nb">str</span><span class="p">(</span><span class="n">row_name</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">F</span><span class="s2">&quot;index </span><span class="si">{</span><span class="n">row_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                        <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> 
-                        <span class="n">rowspan</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="k">if</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> 
-                        <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">COLS</span><span class="p">:</span>
-<span class="n">write</span> <span class="n">the</span> <span class="n">column</span> <span class="n">names</span>
-
-            <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span>
-                <span class="nb">str</span><span class="p">(</span><span class="n">col_name</span><span class="p">)</span> <span class="ow">or</span> <span class="sa">F</span><span class="s2">&quot;level </span><span class="si">{</span><span class="n">col_level</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span><span class="p">,</span>
-                <span class="n">colindex</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
-
-        <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span>
-<span class="n">write</span> <span class="n">a</span> <span class="n">header</span> <span class="n">placeholder</span> <span class="k">for</span> <span class="n">several</span> <span class="n">columns</span><span class="o">.</span>
-
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span> 
-                                   <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">bool</span><span class="p">(</span><span class="n">LONG</span> <span class="ow">and</span> <span class="n">WIDE</span><span class="p">)</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-                                  <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">}))</span>
-            <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span>
-<span class="n">write</span> <span class="n">the</span> <span class="n">column</span> <span class="n">values</span>
-
-                <span class="n">col_value</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">col_level</span><span class="p">)[</span><span class="n">col_index</span><span class="p">]</span>
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">col_value</span><span class="p">),</span> <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;col&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)</span> <span class="o">+</span> <span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="ow">or</span> <span class="n">WIDE</span> <span class="ow">and</span> <span class="n">col_part</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
-
-
-    <span class="k">for</span> <span class="n">row_part</span><span class="p">,</span> <span class="n">row_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">row_ranges</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">row_part</span><span class="p">:</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">row_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-rowspan&quot;</span><span class="p">:</span> <span class="n">row_center</span><span class="p">})</span>
-            <span class="p">)</span>
-            <span class="k">for</span> <span class="n">row_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">):</span>
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span>
-                    <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
-                    <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span>
-                <span class="p">))</span>
-            <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">:</span>
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span>
-                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">tdata</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="o">+</span><span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">),</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-rowspan&quot;</span><span class="p">:</span> <span class="n">row_center</span><span class="p">,</span> <span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">}),</span>
-
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span>
-                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">tdata</span><span class="p">(</span>
-                            <span class="s2">&quot;hidden&quot;</span><span class="p">,</span>
-                            <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)))</span>
-
-        <span class="k">for</span> <span class="n">row_index</span> <span class="ow">in</span> <span class="n">row_range</span><span class="p">:</span>
-            <span class="n">table</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">tr</span> <span class="o">:=</span> <span class="n">trow</span><span class="p">(</span><span class="n">rowindex</span><span class="o">=</span><span class="n">row_index</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">nlevels</span><span class="p">)</span>
-            <span class="p">)</span>        
-            <span class="k">for</span> <span class="n">row_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span><span class="p">):</span>
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">theading</span><span class="p">(</span>
-                    <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="n">row_level</span><span class="p">)[</span><span class="n">row_index</span><span class="p">]),</span>
-                    <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">1</span> <span class="k">if</span> <span class="n">ARIA</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
-                    <span class="n">scope</span><span class="o">=</span><span class="s2">&quot;row&quot;</span>
-                <span class="p">))</span>
-            <span class="k">if</span> <span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">:</span>
-                <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tdata</span><span class="p">(</span><span class="s2">&quot;empty&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">row_level</span><span class="o">+</span><span class="mi">2</span><span class="p">))</span>
-            <span class="k">for</span> <span class="n">col_part</span><span class="p">,</span> <span class="n">col_range</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">col_ranges</span><span class="p">):</span>
-                <span class="k">if</span> <span class="n">col_part</span><span class="p">:</span>
-                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">tdata</span><span class="p">(</span><span class="s2">&quot;hidden&quot;</span><span class="p">,</span> <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">),</span>
-                             <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-colspan&quot;</span><span class="p">:</span> <span class="n">col_center</span><span class="p">})</span>
-                    <span class="p">)</span>
-                <span class="k">for</span> <span class="n">col_index</span> <span class="ow">in</span> <span class="n">col_range</span><span class="p">:</span>
-                    <span class="n">tr</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                        <span class="n">tdata</span><span class="p">(</span>
-                            <span class="nb">str</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">row_index</span><span class="p">,</span> <span class="n">col_index</span><span class="p">]),</span>
-                            <span class="n">colindex</span><span class="o">=</span><span class="n">col_index</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">+</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">nlevels</span> <span class="o">+</span> <span class="nb">int</span><span class="p">(</span><span class="n">ROWS</span> <span class="ow">and</span> <span class="n">COLS</span><span class="p">)))</span>
-    <span class="n">soup</span>
-</code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><table aria-colcount="184" aria-rowcount="103"><tr aria-rowindex="1"><th aria-colindex="1" rowspan="3" scope="col">J</th><th aria-colindex="2" rowspan="3" scope="col">K</th><th aria-colindex="3" rowspan="3" scope="col">L</th><th aria-colindex="4" scope="row">10</th><th aria-colindex="5" scope="col">A</th><th aria-colindex="6" scope="col">A</th><th aria-colindex="7" scope="col">A</th><th aria-colindex="8" scope="col">A</th><th aria-colindex="9" scope="col">A</th><th aria-colindex="10" scope="col">A</th><th aria-colindex="11" scope="col">A</th><th aria-colindex="12" scope="col">A</th><th aria-colindex="13" scope="col">A</th><th aria-colindex="14" scope="col">Z</th><th aria-colindex="15" aria-colspan="160">hidden</th><th aria-colindex="175" scope="col">A</th><th aria-colindex="176" scope="col">Z</th><th aria-colindex="177" scope="col">Z</th><th aria-colindex="178" scope="col">Z</th><th aria-colindex="179" scope="col">Z</th><th aria-colindex="180" scope="col">Z</th><th aria-colindex="181" scope="col">Z</th><th aria-colindex="182" scope="col">Z</th><th aria-colindex="183" scope="col">Z</th><th aria-colindex="184" scope="col">Z</th></tr><tr aria-rowindex="2"><th aria-colindex="4" scope="row">100</th><th aria-colindex="5" scope="col">M</th><th aria-colindex="6" scope="col">M</th><th aria-colindex="7" scope="col">M</th><th aria-colindex="8" scope="col">N</th><th aria-colindex="9" scope="col">N</th><th aria-colindex="10" scope="col">N</th><th aria-colindex="11" scope="col">O</th><th aria-colindex="12" scope="col">O</th><th aria-colindex="13" scope="col">O</th><th aria-colindex="14" scope="col">M</th><th aria-colindex="15" aria-colspan="160">hidden</th><th aria-colindex="175" scope="col">O</th><th aria-colindex="176" scope="col">M</th><th aria-colindex="177" scope="col">M</th><th aria-colindex="178" scope="col">M</th><th aria-colindex="179" scope="col">N</th><th aria-colindex="180" scope="col">N</th><th aria-colindex="181" scope="col">N</th><th aria-colindex="182" scope="col">O</th><th aria-colindex="183" scope="col">O</th><th aria-colindex="184" scope="col">O</th></tr><tr aria-rowindex="3"><th aria-colindex="4" scope="row">1000</th><th aria-colindex="5" scope="col">1</th><th aria-colindex="6" scope="col">2</th><th aria-colindex="7" scope="col">3</th><th aria-colindex="8" scope="col">1</th><th aria-colindex="9" scope="col">2</th><th aria-colindex="10" scope="col">3</th><th aria-colindex="11" scope="col">1</th><th aria-colindex="12" scope="col">2</th><th aria-colindex="13" scope="col">3</th><th aria-colindex="14" scope="col">1</th><th aria-colindex="15" aria-colspan="160">hidden</th><th aria-colindex="175" scope="col">3</th><th aria-colindex="176" scope="col">1</th><th aria-colindex="177" scope="col">2</th><th aria-colindex="178" scope="col">3</th><th aria-colindex="179" scope="col">1</th><th aria-colindex="180" scope="col">2</th><th aria-colindex="181" scope="col">3</th><th aria-colindex="182" scope="col">1</th><th aria-colindex="183" scope="col">2</th><th aria-colindex="184" scope="col">3</th></tr><tr aria-rowindex="4"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10">nan</td><td aria-colindex="11">nan</td><td aria-colindex="12">nan</td><td aria-colindex="13">nan</td><td aria-colindex="14">nan</td><td aria-colindex="15" aria-colspan="160">hidden</td><td aria-colindex="175">nan</td><td aria-colindex="176">nan</td><td aria-colindex="177">nan</td><td aria-colindex="178">nan</td><td aria-colindex="179">nan</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="5"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">M</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10">nan</td><td aria-colindex="11">nan</td><td aria-colindex="12">nan</td><td aria-colindex="13">nan</td><td aria-colindex="14">nan</td><td aria-colindex="15" aria-colspan="160">hidden</td><td aria-colindex="175">nan</td><td aria-colindex="176">nan</td><td aria-colindex="177">nan</td><td aria-colindex="178">nan</td><td aria-colindex="179">nan</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="6" aria-rowspan="96"><th aria-colindex="1">hidden</th><th aria-colindex="2">hidden</th><th aria-colindex="3">hidden</th><td aria-colindex="4">empty</td><td aria-colindex="5">hidden</td><td aria-colindex="6">hidden</td><td aria-colindex="7">hidden</td><td aria-colindex="8">hidden</td><td aria-colindex="9">hidden</td><td aria-colindex="10">hidden</td><td aria-colindex="11">hidden</td><td aria-colindex="12">hidden</td><td aria-colindex="13">hidden</td><td aria-colindex="14">hidden</td><td aria-colindex="15" aria-colspan="160" aria-rowspan="96">hidden</td><td aria-colindex="175">hidden</td><td aria-colindex="176">hidden</td><td aria-colindex="177">hidden</td><td aria-colindex="178">hidden</td><td aria-colindex="179">hidden</td><td aria-colindex="180">hidden</td><td aria-colindex="181">hidden</td><td aria-colindex="182">hidden</td><td aria-colindex="183">hidden</td><td aria-colindex="184">hidden</td></tr><tr aria-rowindex="102"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">1</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10">nan</td><td aria-colindex="11">nan</td><td aria-colindex="12">nan</td><td aria-colindex="13">nan</td><td aria-colindex="14">nan</td><td aria-colindex="15" aria-colspan="160">hidden</td><td aria-colindex="175">nan</td><td aria-colindex="176">nan</td><td aria-colindex="177">nan</td><td aria-colindex="178">nan</td><td aria-colindex="179">nan</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr><tr aria-rowindex="103"><th aria-colindex="1" scope="row">A</th><th aria-colindex="2" scope="row">N</th><th aria-colindex="3" scope="row">2</th><td aria-colindex="4">empty</td><td aria-colindex="5">nan</td><td aria-colindex="6">nan</td><td aria-colindex="7">nan</td><td aria-colindex="8">nan</td><td aria-colindex="9">nan</td><td aria-colindex="10">nan</td><td aria-colindex="11">nan</td><td aria-colindex="12">nan</td><td aria-colindex="13">nan</td><td aria-colindex="14">nan</td><td aria-colindex="15" aria-colspan="160">hidden</td><td aria-colindex="175">nan</td><td aria-colindex="176">nan</td><td aria-colindex="177">nan</td><td aria-colindex="178">nan</td><td aria-colindex="179">nan</td><td aria-colindex="180">nan</td><td aria-colindex="181">nan</td><td aria-colindex="182">nan</td><td aria-colindex="183">nan</td><td aria-colindex="184">nan</td></tr></table></div>
+<h2 id="notesdiscussion">notes/discussion<a class="headerlink" href="#notesdiscussion" title="Permanent link">¤</a></h2>
+<p>an array be a special case for tables where headings aren't needed. a table with no rows or columns headings will reveal a nice array.</p>
+<p>this example is a most complex axis case and does not include grouping. </p>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>

@@ -1295,14 +1295,14 @@ have richer semantics.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-1-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-1-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-1-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1331,7 +1331,7 @@ have richer semantics.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="16"># accessibile semantics for python code
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="16"># accessibile semantics for python code
 
 pre-formatted html representations of code, in browse or focus mode, ignore the semantic of the source language.
 this leaves readers consuming preformatted text splattered with some color.
@@ -1347,7 +1347,7 @@ some flexible changes we'll propose are:
 * top-level expressions/comments are grouped
   
 in this document, we imagine an annotation object model for code that provides landmarks, headings, and other aria semantics.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># accessibile semantics for python code</span>
 
@@ -1428,14 +1428,14 @@ some flexible changes we'll propose are:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-2-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-2-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-2-exec-label">
          1
         </span>
         <span aria-hidden="true">
@@ -1465,8 +1465,8 @@ some flexible changes we'll propose are:
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="1">    import pandas, ast, tokenize, pygments, io, inspect, itertools, html; from typing import *; from IPython.display import *; from functools import partial</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="1">    import pandas, ast, tokenize, pygments, io, inspect, itertools, html; from typing import *; from IPython.display import *; from functools import partial</textarea>
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="kn">import</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">ast</span><span class="o">,</span> <span class="nn">tokenize</span><span class="o">,</span> <span class="nn">pygments</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">inspect</span><span class="o">,</span> <span class="nn">itertools</span><span class="o">,</span> <span class="nn">html</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="o">*</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
 </code></pre>
@@ -1520,14 +1520,14 @@ some flexible changes we'll propose are:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-3-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-3-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-3-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1556,7 +1556,7 @@ some flexible changes we'll propose are:
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="9">## synthesizing multiple representations.
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="9">## synthesizing multiple representations.
 
 `pygments` is the primary way we display syntax highlighted code, it is a language agnostic tool.
 to achieve our goals of a semantically meaningful code structure we need more details than `pygments` lexical analysis provides.
@@ -1565,7 +1565,7 @@ our semantic solution merges three streams of tokenized python source:
 1. the `pygments` tokens provides html classes with reusable style sheets
 2. the `ast` module provides nesting information of expressions
 3. `tokenize` is used to discover comments in the python code because the `ast` module ignores them.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## synthesizing multiple representations.</span>
 
@@ -1653,14 +1653,14 @@ to achieve our goals of a semantically meaningful code structure we need more de
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-4-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-4-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-4-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1689,12 +1689,12 @@ to achieve our goals of a semantically meaningful code structure we need more de
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="5">## capturing structure from the `ast` and `tokenize`
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="5">## capturing structure from the `ast` and `tokenize`
 
 we use the `ast` module to capture the block nature of the python source code.
 we synthesize the block line numbers with the `tokenize` tokens to capture comments, `ast` does not capture comments.
 the line number and tag attributes are yielded for the regions of interest (eg expression and comment blocks) sorted by line number.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## capturing structure from the `ast` and `tokenize`</span>
 
@@ -1756,14 +1756,14 @@ the line number and tag attributes are yielded for the regions of interest (eg e
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-5-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-5-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-5-exec-label">
          2
         </span>
         <span aria-hidden="true">
@@ -1793,7 +1793,7 @@ the line number and tag attributes are yielded for the regions of interest (eg e
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="20">    def get_sorted_regions(source: str) -&gt; Iterator[tuple[int, dict]]:
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="20">    def get_sorted_regions(source: str) -&gt; Iterator[tuple[int, dict]]:
         nodes: ast.AST = ast.parse(source)
         nested = []
         for i, s in sorted(itertools.chain(get_limits_from_ast(nodes), get_comments_from_tokenize(source))
@@ -1813,7 +1813,7 @@ the line number and tag attributes are yielded for the regions of interest (eg e
             else:
                 nested and nested.pop()
                 yield i, None</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_sorted_regions</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
         <span class="n">nodes</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">source</span><span class="p">)</span>
@@ -1886,14 +1886,14 @@ the line number and tag attributes are yielded for the regions of interest (eg e
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-6-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-6-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-6-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1922,13 +1922,13 @@ the line number and tag attributes are yielded for the regions of interest (eg e
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">### capturing nesting structure of the semantics with the `ast` module
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">### capturing nesting structure of the semantics with the `ast` module
 
 the `ast` module allows us to capture the line numbers encapsulating expressions, functions and classes.
 to add structure the semantics:
 1. the top level expressions and statements in the module are grouped
 2. all functions and classes are grouped</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### capturing nesting structure of the semantics with the `ast` module</span>
 
@@ -1990,14 +1990,14 @@ to add structure the semantics:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-7-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-7-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-7-exec-label">
          3
         </span>
         <span aria-hidden="true">
@@ -2027,8 +2027,8 @@ to add structure the semantics:
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    def skip(n, x=None):  yield from (y for i, y in enumerate(x) if i &gt; n)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    def skip(n, x=None):  yield from (y for i, y in enumerate(x) if i &gt; n)</textarea>
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">skip</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="k">yield from</span> <span class="p">(</span><span class="n">y</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">)</span>
 </code></pre>
@@ -2083,14 +2083,14 @@ to add structure the semantics:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-8-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-8-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-8-exec-label">
          4
         </span>
         <span aria-hidden="true">
@@ -2120,12 +2120,12 @@ to add structure the semantics:
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="5">    def get_last_line(nodes):
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="5">    def get_last_line(nodes):
         last = -1
         for x in skip(1, ast.walk(nodes)):
             last = max(getattr(x, "end_lineno", -1), last)
         return last</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_last_line</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
         <span class="n">last</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
@@ -2184,14 +2184,14 @@ to add structure the semantics:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-9-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-9-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-9-exec-label">
          5
         </span>
         <span aria-hidden="true">
@@ -2221,13 +2221,13 @@ to add structure the semantics:
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="6">    def get_end(node):
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="6">    def get_end(node):
         if node.lineno == node.end_lineno:
             return node.lineno-1, None
         if node.end_lineno == get_last_line(node):
             return node.end_lineno-1, None
         return node.end_lineno-2, None</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_end</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">lineno</span> <span class="o">==</span> <span class="n">node</span><span class="o">.</span><span class="n">end_lineno</span><span class="p">:</span>
@@ -2287,14 +2287,14 @@ to add structure the semantics:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-10-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-10-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-10-exec-label">
          6
         </span>
         <span aria-hidden="true">
@@ -2324,7 +2324,7 @@ to add structure the semantics:
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="12">    def get_limits_from_ast(nodes: ast.AST) -&gt; Iterator[tuple[int, dict]]:
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="12">    def get_limits_from_ast(nodes: ast.AST) -&gt; Iterator[tuple[int, dict]]:
         for node in nodes.body:
             if isinstance(node, (ast.ClassDef, ast.AsyncFunctionDef, ast.FunctionDef)):
                 yield node.lineno-1, node.name
@@ -2336,7 +2336,7 @@ to add structure the semantics:
             if isinstance(node, (ast.ClassDef, ast.AsyncFunctionDef, ast.FunctionDef)):
                 yield node.lineno-1, node.name
                 yield get_end(node)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_limits_from_ast</span><span class="p">(</span><span class="n">nodes</span><span class="p">:</span> <span class="n">ast</span><span class="o">.</span><span class="n">AST</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
         <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">nodes</span><span class="o">.</span><span class="n">body</span><span class="p">:</span>
@@ -2401,14 +2401,14 @@ to add structure the semantics:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-11-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-11-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2437,10 +2437,10 @@ to add structure the semantics:
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="3">### capturing comments with `tokenize`
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="3">### capturing comments with `tokenize`
 
 comments are effectively paragraphs in code. they should be more readable and specifically demarcated as non-code.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### capturing comments with `tokenize`</span>
 
@@ -2486,14 +2486,14 @@ comments are effectively paragraphs in code. they should be more readable and sp
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-12-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-12-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-12-exec-label">
          7
         </span>
         <span aria-hidden="true">
@@ -2523,7 +2523,7 @@ comments are effectively paragraphs in code. they should be more readable and sp
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="16">    def get_comments_from_tokenize(source: str) -&gt; Iterator[tuple[int, dict]]:
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="16">    def get_comments_from_tokenize(source: str) -&gt; Iterator[tuple[int, dict]]:
         last = []
         for token in tokenize.tokenize(io.BytesIO(source.encode()).readline):
             if token.type == tokenize.NEWLINE:
@@ -2540,7 +2540,7 @@ comments are effectively paragraphs in code. they should be more readable and sp
             yield last[-1].end[0]-1, None
             last.clear()    
 </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_comments_from_tokenize</span><span class="p">(</span><span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
         <span class="n">last</span> <span class="o">=</span> <span class="p">[]</span>
@@ -2609,14 +2609,14 @@ comments are effectively paragraphs in code. they should be more readable and sp
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-13-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-13-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-13-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2645,8 +2645,8 @@ comments are effectively paragraphs in code. they should be more readable and sp
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="1">we extract docstrings so we use them to describe landmarks or links.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="1">we extract docstrings so we use them to describe landmarks or links.</textarea>
+       <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>we extract docstrings so we use them to describe landmarks or links.
 </code></pre>
@@ -2684,14 +2684,14 @@ comments are effectively paragraphs in code. they should be more readable and sp
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-14-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-14-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-14-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2720,10 +2720,10 @@ comments are effectively paragraphs in code. they should be more readable and sp
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="3">## custom `pygments` formatter
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="3">## custom `pygments` formatter
 
 `pygments` drives the translation of source code to html. our custom renderer merges the `pygments`, `ast`, and `tokenize` streams together. the outcome is a semantically meaningfully representation of the code source.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## custom `pygments` formatter</span>
 
@@ -2784,14 +2784,14 @@ comments are effectively paragraphs in code. they should be more readable and sp
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-15-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-15-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-15-exec-label">
          8
         </span>
         <span aria-hidden="true">
@@ -2821,7 +2821,7 @@ comments are effectively paragraphs in code. they should be more readable and sp
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-source-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="16">    class Html(pygments.formatters.HtmlFormatter):
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="16">    class Html(pygments.formatters.HtmlFormatter):
         def _format_lines(self, tokens):
             for j, (i, line) in enumerate(super()._format_lines(tokens), 1):
                 while self.regions and j &gt; self.regions[0][0]:
@@ -2837,7 +2837,7 @@ comments are effectively paragraphs in code. they should be more readable and sp
             tokensource = list(tokensource)
             self.regions = list(get_sorted_regions("".join(y for _, y in tokensource)))
             return super().format(tokensource, outfile)&lt;/span&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">class</span> <span class="nc">Html</span><span class="p">(</span><span class="n">pygments</span><span class="o">.</span><span class="n">formatters</span><span class="o">.</span><span class="n">HtmlFormatter</span><span class="p">):</span>
         <span class="k">def</span> <span class="nf">_format_lines</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">):</span>
@@ -2906,14 +2906,14 @@ comments are effectively paragraphs in code. they should be more readable and sp
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-16-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-16-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-16-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2942,7 +2942,7 @@ comments are effectively paragraphs in code. they should be more readable and sp
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-source-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="8">### more semantics by post processing the html
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="8">### more semantics by post processing the html
 
 out of covenience, we add a post processing step to modify the highlighted html. these changes make:
 
@@ -2950,7 +2950,7 @@ out of covenience, we add a post processing step to modify the highlighted html.
 * functions and classes declarations links
 
 the headings and links will now be included redundantly in screen reader navigation.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### more semantics by post processing the html</span>
 
@@ -3012,14 +3012,14 @@ the headings and links will now be included redundantly in screen reader navigat
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-17-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-17-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-17-exec-label">
          9
         </span>
         <span aria-hidden="true">
@@ -3049,7 +3049,7 @@ the headings and links will now be included redundantly in screen reader navigat
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-17-source-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="9">    def post_highlight(html):
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="9">    def post_highlight(html):
         soup = __import__("bs4").BeautifulSoup(html, features="html.parser")
         for name in soup.select(".k+.nf,.k+.nc,.k+.fm"):
             id = name.parent.attrs.get("id") or ""
@@ -3058,7 +3058,7 @@ the headings and links will now be included redundantly in screen reader navigat
                 a.attrs.update(href="#"+id, role="heading", **{"aria-level": id.count(".")+2})
                 a.extend(name.children), name.clear(), name.append(a)
         return soup.prettify()</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">post_highlight</span><span class="p">(</span><span class="n">html</span><span class="p">):</span>
         <span class="n">soup</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">"bs4"</span><span class="p">)</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">"html.parser"</span><span class="p">)</span>
@@ -3120,14 +3120,14 @@ the headings and links will now be included redundantly in screen reader navigat
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-18-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-18-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-18-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -3156,8 +3156,8 @@ the headings and links will now be included redundantly in screen reader navigat
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-source-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="1">## the modified highlighter in action</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="1">## the modified highlighter in action</textarea>
+       <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## the modified highlighter in action</span>
 </code></pre>
@@ -3197,14 +3197,14 @@ the headings and links will now be included redundantly in screen reader navigat
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-19-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-19-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-19-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -3233,10 +3233,10 @@ the headings and links will now be included redundantly in screen reader navigat
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-source-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="3">our `sample` source is randomly taken as the source of the `tokenize` module. _if this notebook is live then you can change the source._
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="3">our `sample` source is randomly taken as the source of the `tokenize` module. _if this notebook is live then you can change the source._
 
 we include accessible `pygments` themes extended from eric bailey's accessible theme palettes.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>our <span class="sb">`sample`</span> source is randomly taken as the source of the <span class="sb">`tokenize`</span> module. <span class="ge">_if this notebook is live then you can change the source._</span>
 
@@ -3295,14 +3295,14 @@ we include accessible <span class="sb">`pygments`</span> themes extended from er
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-20-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-20-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-20-exec-label">
          10
         </span>
         <span aria-hidden="true">
@@ -3332,11 +3332,11 @@ we include accessible <span class="sb">`pygments`</span> themes extended from er
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-20-source-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="4">    sample = inspect.getsource(tokenize)
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="4">    sample = inspect.getsource(tokenize)
     formatter = Html(style="github-light-high-contrast")
     page = post_highlight(pygments.highlight(sample, pygments.lexers.get_lexer_by_name("python"), formatter))
     HTML(F"""&lt;details&gt;&lt;summary&gt;expand this to see the  highlighted code &lt;/summary&gt;{page}&lt;/details&gt;""")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">sample</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getsource</span><span class="p">(</span><span class="n">tokenize</span><span class="p">)</span>
     <span class="n">formatter</span> <span class="o">=</span> <span class="n">Html</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"github-light-high-contrast"</span><span class="p">)</span>
@@ -4085,14 +4085,14 @@ we include accessible <span class="sb">`pygments`</span> themes extended from er
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-21-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-21-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-21-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -4121,11 +4121,11 @@ we include accessible <span class="sb">`pygments`</span> themes extended from er
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-21-source-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="4">## a page/document of code
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="4">## a page/document of code
 
 all of this can be combined into a complete page of that treats code as an accessible document.
 we can event include a heading for navigation.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## a page/document of code</span>
 
@@ -4173,14 +4173,14 @@ we can event include a heading for navigation.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-22-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-22-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-22-exec-label">
          11
         </span>
         <span aria-hidden="true">
@@ -4210,7 +4210,7 @@ we can event include a heading for navigation.
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-22-source-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="8">    def get_toc(body):
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="8">    def get_toc(body):
         import mistune, textwrap
         soup = __import__("bs4").BeautifulSoup(body, features="html.parser")
         toc = """"""
@@ -4218,7 +4218,7 @@ we can event include a heading for navigation.
             toc += "  " * int(x.attrs.get("aria-level"))
             toc += F"* [`{x.string}`](#{x.string})\n"
         return mistune.markdown(textwrap.dedent(toc))</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_toc</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">mistune</span><span class="o">,</span> <span class="nn">textwrap</span>
@@ -4279,14 +4279,14 @@ we can event include a heading for navigation.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-23-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-23-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-23-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -4315,8 +4315,8 @@ we can event include a heading for navigation.
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-23-source-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">capture the css styles.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">capture the css styles.</textarea>
+       <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>capture the css styles.
 </code></pre>
@@ -4355,14 +4355,14 @@ we can event include a heading for navigation.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-24-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-24-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-24-exec-label">
          12
         </span>
         <span aria-hidden="true">
@@ -4392,8 +4392,8 @@ we can event include a heading for navigation.
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-24-source-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">    style = formatter; HTML(F"&lt;style&gt;{style}&lt;/style&gt;")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">    style = formatter; HTML(F"&lt;style&gt;{style}&lt;/style&gt;")</textarea>
+       <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">style</span> <span class="o">=</span> <span class="n">formatter</span><span class="p">;</span> <span class="n">HTML</span><span class="p">(</span><span class="sa">F</span><span class="s2">"&lt;style&gt;</span><span class="si">{</span><span class="n">style</span><span class="si">}</span><span class="s2">&lt;/style&gt;"</span><span class="p">)</span>
 </code></pre>
@@ -4451,14 +4451,14 @@ we can event include a heading for navigation.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-25-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-25-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-25-exec-label">
          13
         </span>
         <span aria-hidden="true">
@@ -4488,11 +4488,11 @@ we can event include a heading for navigation.
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-25-source-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="4">    all = F"""&lt;head&gt;&lt;meta content="dark light" name="color-scheme"/&gt;
+       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="4">    all = F"""&lt;head&gt;&lt;meta content="dark light" name="color-scheme"/&gt;
     &lt;style&gt;{Html(style="github-dark-high-contrast").get_style_defs()}&lt;/style&gt;
     &lt;/head&gt;&lt;body&gt;&lt;main&gt;&lt;header&gt;
     &lt;details&gt;&lt;summary&gt;Table of contents&lt;/summary&gt;&lt;nav&gt;{get_toc(page)}&lt;/nav&gt;&lt;/details&gt;&lt;/header&gt;{page}&lt;/main&gt;"""&lt;/body&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-25-in-label cell-25-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="nb">all</span> <span class="o">=</span> <span class="sa">F</span><span class="s2">"""&lt;head&gt;&lt;meta name="color-scheme" content="dark light"&gt;</span>
 <span class="s2">    &lt;style&gt;</span><span class="si">{</span><span class="n">Html</span><span class="p">(</span><span class="n">style</span><span class="o">=</span><span class="s2">"github-dark-high-contrast"</span><span class="p">)</span><span class="o">.</span><span class="n">get_style_defs</span><span class="p">()</span><span class="si">}</span><span class="s2">&lt;/style&gt;</span>
@@ -4550,14 +4550,14 @@ we can event include a heading for navigation.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-26-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-26-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-26-exec-label">
          14
         </span>
         <span aria-hidden="true">
@@ -4587,8 +4587,8 @@ we can event include a heading for navigation.
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-26-source-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="1">    HTML(F'&lt;iframe height="600" srcdoc="{html.escape(all)}" width="100%"&gt;&lt;/iframe&gt;')</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="1">    HTML(F'&lt;iframe height="600" srcdoc="{html.escape(all)}" width="100%"&gt;&lt;/iframe&gt;')</textarea>
+       <div aria-labelledby="cell-26-in-label cell-26-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">HTML</span><span class="p">(</span><span class="sa">F</span><span class="s1">'&lt;iframe srcdoc="</span><span class="si">{</span><span class="n">html</span><span class="o">.</span><span class="n">escape</span><span class="p">(</span><span class="nb">all</span><span class="p">)</span><span class="si">}</span><span class="s1">" height=600 width="100%"/&gt;'</span><span class="p">)</span>
 </code></pre>
@@ -5446,14 +5446,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-27-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-27-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-27-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -5482,10 +5482,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <td class="nb-end" hidden id="cell-27-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-27-source-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="3">### flexible configuration
+       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="3">### flexible configuration
 
 the implementation of semantic structure for html should be flexible. some settings that make sense for pure code documents would not apply for notebooks. for example, cell landmarks would be preferred to expressions level landmarks. a rough configuration of the code semantis would abide the schema below.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-27-in-label cell-27-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### flexible configuration</span>
 
@@ -5531,14 +5531,14 @@ the implementation of semantic structure for html should be flexible. some setti
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-28-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-28-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-28-exec-label">
          15
         </span>
         <span aria-hidden="true">
@@ -5568,7 +5568,7 @@ the implementation of semantic structure for html should be flexible. some setti
       <td class="nb-end" hidden id="cell-28-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-28-source-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="16">from pydantic import BaseModel, Field
+       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="16">from pydantic import BaseModel, Field
 
 class Settings(BaseModel):
     all_expressions_are_grouped: bool = Field(
@@ -5584,7 +5584,7 @@ class Settings(BaseModel):
         True, description="function and classes in code blocks are treated as headings"
     )
 JSON(Settings.schema(), root="Semantic code settings")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-28-in-label cell-28-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="kn">from</span> <span class="nn">pydantic</span> <span class="kn">import</span> <span class="n">BaseModel</span><span class="p">,</span> <span class="n">Field</span>
 
@@ -5654,14 +5654,14 @@ JSON(Settings.schema(), root="Semantic code settings")</textarea>
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-29-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-29-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-29-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -5690,7 +5690,7 @@ JSON(Settings.schema(), root="Semantic code settings")</textarea>
       <td class="nb-end" hidden id="cell-29-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-29-source-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="8">## conclusions
+       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="8">## conclusions
 
 * all of this is hand wavy bullshit cause i'm the only disabled person to test this and i'm not an experienced screen reader user.
 * some structure is better, too much structure would be bad.
@@ -5698,7 +5698,7 @@ JSON(Settings.schema(), root="Semantic code settings")</textarea>
 * for long code documents, line numbers are challenging to navigate with a screen reader. better semantics can improve code navigation.
 * the visual structure of the annotation object model is more navigable.
 * audibly, this is better for me when testing notebooks on a screen reader. code cells with more than 5 lines of code are garbled and unstructured. more structure and interactive elements can improve the comprehension of coded elements.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-29-in-label cell-29-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## conclusions</span>
 

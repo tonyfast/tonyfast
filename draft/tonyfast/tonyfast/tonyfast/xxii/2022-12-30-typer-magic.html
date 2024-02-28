@@ -1237,14 +1237,14 @@ the line in a line magic or the first line in a cell magic may take arguments.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-1-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-1-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-1-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1273,13 +1273,13 @@ the line in a line magic or the first line in a cell magic may take arguments.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># using `typer` in ipython magics
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># using `typer` in ipython magics
 
 - [x] wrap function to consume system arguments using `typer`
 - [x] register the magic with `IPython`
 - [x] examples
 - [x] ipython extensions</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># using `typer` in ipython magics</span>
 
@@ -1344,14 +1344,14 @@ the line in a line magic or the first line in a cell magic may take arguments.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-2-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-2-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-2-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1380,11 +1380,11 @@ the line in a line magic or the first line in a cell magic may take arguments.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">## wrapping the function
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">## wrapping the function
 
 we needs to process system arguments as a string when use magics.
 the line in a line magic or the first line in a cell magic may take arguments.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## wrapping the function</span>
 
@@ -1431,14 +1431,14 @@ the line in a line magic or the first line in a cell magic may take arguments.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-3-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-3-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-3-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1467,7 +1467,7 @@ the line in a line magic or the first line in a cell magic may take arguments.
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="8">`wrap_magic` transforms our function into a magic style method that has the following signature.
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="8">`wrap_magic` transforms our function into a magic style method that has the following signature.
 
     def magicish(line: str, cell: str =None): ...
 
@@ -1475,7 +1475,7 @@ the line in a line magic or the first line in a cell magic may take arguments.
 it uses `click` by way of `typer` to deserialize the line of system arguments.
 these parameters are passed to the original function. 
 the magic function's help/docstring is replaced with the help from the command line interface.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="sb">`wrap_magic`</span> transforms our function into a magic style method that has the following signature.
 
@@ -1539,14 +1539,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-4-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-4-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-4-exec-label">
          1
         </span>
         <span aria-hidden="true">
@@ -1576,7 +1576,7 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="18">    def wrap_magic(function, cell_key="cell"):
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="18">    def wrap_magic(function, cell_key="cell"):
         import typer, click, shlex, functools
         app = typer.Typer(add_completion=False, context_settings={"help_option_names": ["-h", "--help"]})
         app.command()(function)
@@ -1594,7 +1594,7 @@ the magic function's help/docstring is replaced with the help from the command l
         
         magic.__doc__ = "\n".join((function.__doc__ or "", get_help(ctx)))
         return magic</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">wrap_magic</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">cell_key</span><span class="o">=</span><span class="s2">"cell"</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">typer</span><span class="o">,</span> <span class="nn">click</span><span class="o">,</span> <span class="nn">shlex</span><span class="o">,</span> <span class="nn">functools</span>
@@ -1665,14 +1665,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-5-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-5-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-5-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1701,8 +1701,8 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## register the magic with `IPython`</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## register the magic with `IPython`</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## register the magic with `IPython`</span>
 </code></pre>
@@ -1742,14 +1742,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-6-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-6-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-6-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1778,8 +1778,8 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">`register` a line, cell or line/cell magic method.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">`register` a line, cell or line/cell magic method.</textarea>
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="sb">`register`</span> a line, cell or line/cell magic method.
 </code></pre>
@@ -1821,14 +1821,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-7-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-7-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-7-exec-label">
          2
         </span>
         <span aria-hidden="true">
@@ -1858,7 +1858,7 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="15">    def register_magic(function, name=None,  cell_key = "cell"):
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="15">    def register_magic(function, name=None,  cell_key = "cell"):
         import inspect
         from IPython import get_ipython
         shell = get_ipython()
@@ -1873,7 +1873,7 @@ the magic function's help/docstring is replaced with the help from the command l
         shell.register_magic_function(wrapper, kind, name)
         shell.log.info(F"registered {repr(function)} as magic named {name or function.__name__}")
         return function</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">register_magic</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="n">cell_key</span> <span class="o">=</span> <span class="s2">"cell"</span><span class="p">):</span>
         <span class="kn">import</span> <span class="nn">inspect</span>
@@ -1941,14 +1941,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-8-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-8-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-8-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1977,8 +1977,8 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">### getting the help</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">### getting the help</textarea>
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### getting the help</span>
 </code></pre>
@@ -2018,14 +2018,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-9-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-9-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-9-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2054,8 +2054,8 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">when `rich` is installed, which it often is, we need to do some tomfoolery</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">when `rich` is installed, which it often is, we need to do some tomfoolery</textarea>
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>when <span class="sb">`rich`</span> is installed, which it often is, we need to do some tomfoolery
 </code></pre>
@@ -2097,14 +2097,14 @@ the magic function's help/docstring is replaced with the help from the command l
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-10-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-10-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-10-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2133,10 +2133,10 @@ the magic function's help/docstring is replaced with the help from the command l
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="3">in our interactive condition we want access to the `rich` console that `typer` uses.
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="3">in our interactive condition we want access to the `rich` console that `typer` uses.
 we're going to wrap a cache around `typer`s method so that each we recieve the same `rich.console.Console`
 each time the function is invoked.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>in our interactive condition we want access to the <span class="sb">`rich`</span> console that <span class="sb">`typer`</span> uses.
 we're going to wrap a cache around <span class="sb">`typer`</span>s method so that each we recieve the same <span class="sb">`rich.console.Console`</span>
@@ -2194,14 +2194,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-11-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-11-exec-label">
          3
         </span>
         <span aria-hidden="true">
@@ -2231,12 +2231,12 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    def cache_rich_console(cache={}):
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    def cache_rich_console(cache={}):
         import typer, functools
         if not cache:
             cache.setdefault("_get_rich_console", typer.rich_utils._get_rich_console)
         typer.rich_utils._get_rich_console = functools.lru_cache(cache["_get_rich_console"])</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">cache_rich_console</span><span class="p">(</span><span class="n">cache</span><span class="o">=</span><span class="p">{}):</span>
         <span class="kn">import</span> <span class="nn">typer</span><span class="o">,</span> <span class="nn">functools</span>
@@ -2294,14 +2294,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-12-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-12-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-12-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2330,8 +2330,8 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">when the `Console` is consistent we can capture it's output and reclaim the help information</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">when the `Console` is consistent we can capture it's output and reclaim the help information</textarea>
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>when the <span class="sb">`Console`</span> is consistent we can capture it's output and reclaim the help information
 </code></pre>
@@ -2374,14 +2374,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-13-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-13-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-13-exec-label">
          4
         </span>
         <span aria-hidden="true">
@@ -2411,10 +2411,10 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="3">    def get_help(ctx):
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="3">    def get_help(ctx):
         with typer.rich_utils._get_rich_console().capture() as console: ctx.get_help()
         return console.get()</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_help</span><span class="p">(</span><span class="n">ctx</span><span class="p">):</span>
         <span class="k">with</span> <span class="n">typer</span><span class="o">.</span><span class="n">rich_utils</span><span class="o">.</span><span class="n">_get_rich_console</span><span class="p">()</span><span class="o">.</span><span class="n">capture</span><span class="p">()</span> <span class="k">as</span> <span class="n">console</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get_help</span><span class="p">()</span>
@@ -2470,14 +2470,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-14-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-14-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-14-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2506,8 +2506,8 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">## examples</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">## examples</textarea>
+       <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## examples</span>
 </code></pre>
@@ -2547,14 +2547,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-15-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-15-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-15-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2583,8 +2583,8 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-source-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="1">* register a line magic</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="1">* register a line magic</textarea>
+       <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="k">*</span><span class="w"> </span>register a line magic
 </code></pre>
@@ -2625,14 +2625,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-16-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-16-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-16-exec-label">
          5
         </span>
         <span aria-hidden="true">
@@ -2662,7 +2662,7 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-source-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="8">    if (&Oslash; := "__file__" not in locals()):
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="8">    if (&Oslash; := "__file__" not in locals()):
         import typer
         @register_magic
         def hello(count:int = 5, name:str = typer.Option("world", help="a name to repeat"), msg: str = "&lt;3"):
@@ -2670,7 +2670,7 @@ we're going to wrap a cache around
             print(name*count, msg)
         assert "hello" not in (shell := get_ipython()).magics_manager.magics["cell"]
         %hello </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">if</span> <span class="p">(</span><span class="n">&Oslash;</span> <span class="o">:=</span> <span class="s2">"__file__"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()):</span>
         <span class="kn">import</span> <span class="nn">typer</span>
@@ -2736,14 +2736,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-17-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-17-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-17-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2772,8 +2772,8 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-source-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">* register a cell magic because the cell parameter was found in the signature. this is by convention, and should be configurable.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">* register a cell magic because the cell parameter was found in the signature. this is by convention, and should be configurable.</textarea>
+       <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="k">*</span><span class="w"> </span>register a cell magic because the cell parameter was found in the signature. this is by convention, and should be configurable.
 </code></pre>
@@ -2814,14 +2814,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-18-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-18-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-18-exec-label">
          6
         </span>
         <span aria-hidden="true">
@@ -2851,13 +2851,13 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-18-source-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    if &Oslash;:
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    if &Oslash;:
         @register_magic
         def yall(count:int = 5, name:str = typer.Option("world", help="a name to repeat"),  cell: str = "xoxo"):
             """a function that says hello to yall"""
             hello(count, name, msg=cell)
         assert "yall" in shell.magics_manager.magics["cell"], "the method didn't get registered."</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">if</span> <span class="n">&Oslash;</span><span class="p">:</span>
         <span class="nd">@register_magic</span>
@@ -2917,14 +2917,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-19-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-19-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-19-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2953,8 +2953,8 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-source-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">verify that we can import `register_magic` for reuse.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">verify that we can import `register_magic` for reuse.</textarea>
+       <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>verify that we can import <span class="sb">`register_magic`</span> for reuse.
 </code></pre>
@@ -2997,14 +2997,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-20-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-20-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-20-exec-label">
          7
         </span>
         <span aria-hidden="true">
@@ -3034,10 +3034,10 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-20-source-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="3">    if &Oslash;:
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="3">    if &Oslash;:
         with __import__("importnb").Notebook():
             from tonyfast.xxii.__typer_magic import register_magic as imported_register_magic</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">if</span> <span class="n">&Oslash;</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">"importnb"</span><span class="p">)</span><span class="o">.</span><span class="n">Notebook</span><span class="p">():</span>
@@ -3094,14 +3094,14 @@ we're going to wrap a cache around
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-21-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-21-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-21-exec-label">
          9
         </span>
         <span aria-hidden="true">
@@ -3131,9 +3131,9 @@ we're going to wrap a cache around
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-21-source-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="2">    def load_ipython_extension(shell): shell.user_ns.setdefault(register_magic.__name__, register_magic)
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="2">    def load_ipython_extension(shell): shell.user_ns.setdefault(register_magic.__name__, register_magic)
     def unload_ipython_extension(shell): pass</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span> <span class="n">shell</span><span class="o">.</span><span class="n">user_ns</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">register_magic</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">register_magic</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">unload_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span> <span class="k">pass</span>

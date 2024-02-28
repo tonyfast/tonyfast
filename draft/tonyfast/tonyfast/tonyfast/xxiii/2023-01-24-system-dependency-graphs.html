@@ -1249,14 +1249,14 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-1-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-1-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-1-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1285,8 +1285,8 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># extracting a dependency graph from `importlib_metadata`</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># extracting a dependency graph from `importlib_metadata`</textarea>
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># extracting a dependency graph from `importlib_metadata`</span>
 </code></pre>
@@ -1327,14 +1327,14 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-2-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-2-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-2-exec-label">
          1
         </span>
         <span aria-hidden="true">
@@ -1370,11 +1370,11 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    
     %reload_ext pidgy
     import importlib_metadata, pandas, networkx
     from toolz.curried import *    </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    
     <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
@@ -1438,14 +1438,14 @@ from toolz.curried import *
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-3-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-3-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-3-exec-label">
          2
         </span>
         <span aria-hidden="true">
@@ -1481,14 +1481,14 @@ from toolz.curried import *
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="7">    @functools.lru_cache # cache this because the result will always be the same and parsing can be costly
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="7">    @functools.lru_cache # cache this because the result will always be the same and parsing can be costly
     def get_tidy_dist() -&gt; pandas.DataFrame:
 `get_tidy_dist` creates a tidy dataframe of the required distributions in this environment
         
         return get_dists().loc["Requires-Dist"].apply(
             compose_left(pkg_resources.parse_requirements, first, vars, pandas.Series)
         )</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span> <span class="c1"># cache this because the result will always be the same and parsing can be costly</span>
     <span class="k">def</span> <span class="nf">get_tidy_dist</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
@@ -1562,14 +1562,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-4-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-4-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-4-exec-label">
          3
         </span>
         <span aria-hidden="true">
@@ -1605,7 +1605,7 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="8">    def get_dists():
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="8">    def get_dists():
 `get_dists` iterates through the `importlib_metadata.distributions` extracting the known metadata.
         
         return pandas.Series(
@@ -1613,7 +1613,7 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
         ).rename_axis(index=["project"]).explode().apply(
             pandas.Series, index=["key", "value"]
         ).set_index("key", append=True).reorder_levels((1, 0), 0)["value"]</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_dists</span><span class="p">():</span>
 <span class="err">`</span><span class="n">get_dists</span><span class="err">`</span> <span class="n">iterates</span> <span class="n">through</span> <span class="n">the</span> <span class="err">`</span><span class="n">importlib_metadata</span><span class="o">.</span><span class="n">distributions</span><span class="err">`</span> <span class="n">extracting</span> <span class="n">the</span> <span class="n">known</span> <span class="n">metadata</span><span class="o">.</span>
@@ -1692,14 +1692,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-5-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-5-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-5-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1728,8 +1728,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying the functionss</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying the functionss</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## applying the functionss</span>
 </code></pre>
@@ -1769,14 +1769,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-6-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-6-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-6-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1805,8 +1805,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">generate the `pandas.DataFrame` of the dependency graph and metadata</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">generate the `pandas.DataFrame` of the dependency graph and metadata</textarea>
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>generate the <span class="sb">`pandas.DataFrame`</span> of the dependency graph and metadata
 </code></pre>
@@ -1849,14 +1849,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-7-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-7-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-7-exec-label">
          4
         </span>
         <span aria-hidden="true">
@@ -1892,8 +1892,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    (df := get_tidy_dist()).head().style.set_caption("the metadata associated with my known python dependecies")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    (df := get_tidy_dist()).head().style.set_caption("the metadata associated with my known python dependecies")</textarea>
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">get_tidy_dist</span><span class="p">())</span><span class="o">.</span><span class="n">head</span><span class="p">()</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"the metadata associated with my known python dependecies"</span><span class="p">)</span>
 </code></pre>
@@ -2241,14 +2241,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-8-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-8-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-8-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2277,8 +2277,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">cast the tidy data as a `networkx` graph</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">cast the tidy data as a `networkx` graph</textarea>
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>cast the tidy data as a <span class="sb">`networkx`</span> graph
 </code></pre>
@@ -2321,14 +2321,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-9-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-9-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-9-exec-label">
          5
         </span>
         <span aria-hidden="true">
@@ -2364,8 +2364,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">    G =df.reset_index().pipe(networkx.from_pandas_edgelist, source="project", target="name")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">    G =df.reset_index().pipe(networkx.from_pandas_edgelist, source="project", target="name")</textarea>
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">G</span> <span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">networkx</span><span class="o">.</span><span class="n">from_pandas_edgelist</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="s2">"project"</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s2">"name"</span><span class="p">)</span>
 </code></pre>
@@ -2422,14 +2422,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-10-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-10-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-10-exec-label">
          6
         </span>
         <span aria-hidden="true">
@@ -2465,8 +2465,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">    df.name.value_counts().to_frame("count").head(20).T.style.set_caption("a table counting the frequency of specific distributions.")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">    df.name.value_counts().to_frame("count").head(20).T.style.set_caption("a table counting the frequency of specific distributions.")</textarea>
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">df</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">"count"</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="s2">"a table counting the frequency of specific distributions."</span><span class="p">)</span>
 </code></pre>
@@ -2663,14 +2663,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-11-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-11-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2699,8 +2699,8 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="1">draw the graph n matplotlib</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="1">draw the graph n matplotlib</textarea>
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>draw the graph n matplotlib
 </code></pre>
@@ -2739,14 +2739,14 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-12-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-12-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-12-exec-label">
          7
         </span>
         <span aria-hidden="true">
@@ -2782,9 +2782,9 @@ def get_tidy_dist() -&gt; pandas.DataFrame:
        </time>
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="2">    matplotlib.pyplot.gcf().set_size_inches((20, 20))
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="2">    matplotlib.pyplot.gcf().set_size_inches((20, 20))
     networkx.draw_networkx(G)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">matplotlib</span><span class="o">.</span><span class="n">pyplot</span><span class="o">.</span><span class="n">gcf</span><span class="p">()</span><span class="o">.</span><span class="n">set_size_inches</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
     <span class="n">networkx</span><span class="o">.</span><span class="n">draw_networkx</span><span class="p">(</span><span class="n">G</span><span class="p">)</span>

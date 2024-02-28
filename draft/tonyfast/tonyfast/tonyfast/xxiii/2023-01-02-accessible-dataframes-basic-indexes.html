@@ -1355,14 +1355,14 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-1-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-1-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-1-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -1391,11 +1391,11 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-source-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="4"># rendering dataframes for screen readers with `pandas`
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="4"># rendering dataframes for screen readers with `pandas`
 
 in the document we'll explore what it takes to make `pandas.DataFrame`s accessible.
 we'll follow [Paul J Adam's](https://pauljadam.com) instructions for making [Simple Data Tables](https://pauljadam.com/demos/data-tables.html#heading1).</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># rendering dataframes for screen readers with `pandas`</span>
 
@@ -1455,14 +1455,14 @@ we'll follow
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-2-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-2-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-2-exec-label">
          1
         </span>
         <span aria-hidden="true">
@@ -1492,13 +1492,13 @@ we'll follow
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-source-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="6">    
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="6">    
     %reload_ext pidgy
     import pandas.io.formats.style, bs4, pytest
     shell.weave.reactive = False
     shell.weave.use_async = False
     soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    
     <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
@@ -1566,14 +1566,14 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-3-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-3-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-3-exec-label">
          2
         </span>
         <span aria-hidden="true">
@@ -1603,11 +1603,11 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-source-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="4">    (df := pandas.DataFrame(
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="4">    (df := pandas.DataFrame(
         columns=pandas.Index(list("ABC")), 
         index=pandas.Index(range(2), name="index"))
     ).style.set_caption("the basic dataframe &lt;var&gt;df&lt;/var&gt; we use for explanation in this document. ")</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="p">(</span><span class="n">df</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span>
         <span class="n">columns</span><span class="o">=</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">"ABC"</span><span class="p">)),</span> 
@@ -1741,14 +1741,14 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-4-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-4-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-4-exec-label">
          3
         </span>
         <span aria-hidden="true">
@@ -1778,13 +1778,13 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-source-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="6">`df` is a basic `pandas.DataFrame` because:    
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="6">`df` is a basic `pandas.DataFrame` because:    
     
 * it has ONE row level 
 * it has ONE column level 
 
 we do not need to consider the contents of the cells for the recommendations we are implementing.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="err">`</span><span class="n">df</span><span class="err">`</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">basic</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span> <span class="n">because</span><span class="p">:</span>    
     
@@ -1865,14 +1865,14 @@ we do not need to consider the contents of the cells for the recommendations we 
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-5-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-5-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-5-exec-label">
          4
         </span>
         <span aria-hidden="true">
@@ -1902,8 +1902,8 @@ we do not need to consider the contents of the cells for the recommendations we 
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-source-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying best practices  to pandas</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying best practices  to pandas</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">## applying best practices  to pandas</span>
 </code></pre>
@@ -1963,14 +1963,14 @@ we do not need to consider the contents of the cells for the recommendations we 
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-6-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-6-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-6-exec-label">
          5
         </span>
         <span aria-hidden="true">
@@ -2000,11 +2000,11 @@ we do not need to consider the contents of the cells for the recommendations we 
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-source-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="4">### 1. Title of data table is inside the `&lt;caption&gt;` element.
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="4">### 1. Title of data table is inside the `&lt;caption&gt;` element.
 
 the caption is dependent on the data and effects the visual appearance of the table. 
 it is context dependent up to the author to supply.&lt;/caption&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### 1. Title of data table is inside the `&lt;caption&gt;` element.</span>
 
@@ -2071,14 +2071,14 @@ it is context dependent up to the author to supply.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-7-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-7-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-7-exec-label">
          6
         </span>
         <span aria-hidden="true">
@@ -2108,11 +2108,11 @@ it is context dependent up to the author to supply.
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-source-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="4">    def assert_has_caption(object):
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="4">    def assert_has_caption(object):
         caption = soup(object).select_one("table caption")
         assert caption and caption.string.strip(), "table is missing a &lt;caption&gt;"
     # with pytest.raises(AssertionError): assert_has_caption(df._repr_html_())&lt;/caption&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_caption</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
         <span class="n">caption</span> <span class="o">=</span> <span class="n">soup</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">"table caption"</span><span class="p">)</span>
@@ -2174,14 +2174,14 @@ it is context dependent up to the author to supply.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-8-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-8-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-8-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -2210,10 +2210,10 @@ it is context dependent up to the author to supply.
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-source-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="3">the caption can be set using the `pandas.DataFrame.style.set_caption` method.
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="3">the caption can be set using the `pandas.DataFrame.style.set_caption` method.
 the result is a `pandas.io.formats.style.Styler` object that let's us modify how the
 instance is displayed.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>the caption can be set using the <span class="sb">`pandas.DataFrame.style.set_caption`</span> method.
 the result is a <span class="sb">`pandas.io.formats.style.Styler`</span> object that let's us modify how the
@@ -2264,14 +2264,14 @@ instance is displayed.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-9-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-9-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-9-exec-label">
          7
         </span>
         <span aria-hidden="true">
@@ -2301,8 +2301,8 @@ instance is displayed.
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-source-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">`set_caption` user the `pandas.DataFrame.style` attribute to set a caption</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">`set_caption` user the `pandas.DataFrame.style` attribute to set a caption</textarea>
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="err">`</span><span class="n">set_caption</span><span class="err">`</span> <span class="n">user</span> <span class="n">the</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">style</span><span class="err">`</span> <span class="n">attribute</span> <span class="n">to</span> <span class="nb">set</span> <span class="n">a</span> <span class="n">caption</span>
 </code></pre>
@@ -2367,14 +2367,14 @@ instance is displayed.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-10-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-10-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-10-exec-label">
          8
         </span>
         <span aria-hidden="true">
@@ -2404,12 +2404,12 @@ instance is displayed.
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-source-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="5">    def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="5">    def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
         return df.style.set_caption(caption)
     
 after we have a styler we are working with a subset of pandas operations.
 the styler should be the last stop for the data.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">set_caption</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">caption</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pandas</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">formats</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">Styler</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">df</span><span class="o">.</span><span class="n">style</span><span class="o">.</span><span class="n">set_caption</span><span class="p">(</span><span class="n">caption</span><span class="p">)</span>
@@ -2475,14 +2475,14 @@ the styler should be the last stop for the data.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-11-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-11-exec-label">
          9
         </span>
         <span aria-hidden="true">
@@ -2512,14 +2512,14 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-source-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="7">the `&lt;table&gt;` below demonstrates how the `&lt;caption&gt;` appears on a `captioned` `pandas.DataFrame`.
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="7">the `&lt;table&gt;` below demonstrates how the `&lt;caption&gt;` appears on a `captioned` `pandas.DataFrame`.
 
 {{captioned}}
     
     assert_has_caption(
         captioned := set_caption(df, "a value-less dataframe with columns and row indexes")._repr_html_()
     );&lt;/caption&gt;&lt;/table&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">table</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">below</span> <span class="n">demonstrates</span> <span class="n">how</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">caption</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">appears</span> <span class="n">on</span> <span class="n">a</span> <span class="err">`</span><span class="n">captioned</span><span class="err">`</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="err">`</span><span class="o">.</span>
 
@@ -2669,14 +2669,14 @@ the styler should be the last stop for the data.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-12-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-12-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-12-exec-label">
          10
         </span>
         <span aria-hidden="true">
@@ -2706,13 +2706,13 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-source-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="5">#### `pandas.io.formats.style.Styler`
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="5">#### `pandas.io.formats.style.Styler`
 
 `pandas.io.formats.style.Styler` gives a different html representation that `_repr_html_`
 
     assert df.style.to_html() != df.to_html()
 </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">#### `pandas.io.formats.style.Styler`</span>
 
@@ -2787,14 +2787,14 @@ the styler should be the last stop for the data.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-13-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-13-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-13-exec-label">
          11
         </span>
         <span aria-hidden="true">
@@ -2824,10 +2824,10 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-source-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="3">### 2. Column headers are inside `&lt;th scope="col"&gt;` elements.
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="3">### 2. Column headers are inside `&lt;th scope="col"&gt;` elements.
 
 the `scope` property improves navigation for screen readers when used properly.&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### 2. Column headers are inside `&lt;th scope="col"&gt;` elements.</span>
 
@@ -2896,14 +2896,14 @@ the `scope` property improves navigation for screen readers when used properly.&
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-14-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-14-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-14-exec-label">
          12
         </span>
         <span aria-hidden="true">
@@ -2933,12 +2933,12 @@ the `scope` property improves navigation for screen readers when used properly.&
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-source-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="5">    def assert_has_col_scope(object, selector="thead tr th"):
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="5">    def assert_has_col_scope(object, selector="thead tr th"):
 for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scope="col"`
         
         assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
     # with pytest.raises(AssertionError): assert_has_col_scope(captioned)&lt;/th&gt;&lt;/thead&gt;&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_col_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">"thead tr th"</span><span class="p">):</span>
 <span class="k">for</span> <span class="n">basic</span> <span class="n">frames</span><span class="p">,</span> <span class="nb">all</span> <span class="n">the</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">tags</span> <span class="ow">in</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">thead</span><span class="o">&gt;</span><span class="err">`</span> <span class="n">should</span> <span class="n">have</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">"col"</span><span class="err">`</span>
@@ -3016,14 +3016,14 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-15-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-15-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-15-exec-label">
          13
         </span>
         <span aria-hidden="true">
@@ -3053,13 +3053,13 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-source-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def set_col_scope(object, selector="thead tr th"):
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def set_col_scope(object, selector="thead tr th"):
 `set_col_scope` automatically remediates missing columns `scope`s
         
         for th in (object := soup(object)).select(selector):
             th.attrs.setdefault("scope", "col")
         return str(object)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">set_col_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">"thead tr th"</span><span class="p">):</span>
 <span class="err">`</span><span class="n">set_col_scope</span><span class="err">`</span> <span class="n">automatically</span> <span class="n">remediates</span> <span class="n">missing</span> <span class="n">columns</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span><span class="n">s</span>
@@ -3135,14 +3135,14 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-16-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-16-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-16-exec-label">
          14
         </span>
         <span aria-hidden="true">
@@ -3172,10 +3172,10 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-source-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="3">these `scope` has no visual effect, however we can use `assert_has_col_scope` to verify the scope is correct.
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="3">these `scope` has no visual effect, however we can use `assert_has_col_scope` to verify the scope is correct.
 
     assert_has_col_scope(col_scoped := set_col_scope(captioned));</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="n">these</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span> <span class="n">has</span> <span class="n">no</span> <span class="n">visual</span> <span class="n">effect</span><span class="p">,</span> <span class="n">however</span> <span class="n">we</span> <span class="n">can</span> <span class="n">use</span> <span class="err">`</span><span class="n">assert_has_col_scope</span><span class="err">`</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">the</span> <span class="n">scope</span> <span class="ow">is</span> <span class="n">correct</span><span class="o">.</span>
 
@@ -3245,14 +3245,14 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-17-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-17-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-17-exec-label">
          15
         </span>
         <span aria-hidden="true">
@@ -3282,11 +3282,11 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-source-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="4">### 3. Row headers are inside `&lt;th scope="row"&gt;` elements.
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="4">### 3. Row headers are inside `&lt;th scope="row"&gt;` elements.
 
 similar to `scope="col"`, the `&lt;th&gt;` elements in the body require `scope="row"`;
 basically every `&lt;th&gt;` needs the scope property.&lt;/th&gt;&lt;/th&gt;&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### 3. Row headers are inside `&lt;th scope="row"&gt;` elements.</span>
 
@@ -3369,14 +3369,14 @@ basically every
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-18-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-18-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-18-exec-label">
          16
         </span>
         <span aria-hidden="true">
@@ -3406,11 +3406,11 @@ basically every
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-source-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="4">    def assert_has_row_scope(object, selector="tbody tr th"):
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="4">    def assert_has_row_scope(object, selector="tbody tr th"):
         assert all(th.attrs.get("scope") in {"row", "rowgroup"} for th in soup(object).select(selector)),\
         "&lt;th&gt; is missing `scope='col'`"
     # with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_has_row_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">"tbody tr th"</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">th</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"scope"</span><span class="p">)</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"row"</span><span class="p">,</span> <span class="s2">"rowgroup"</span><span class="p">}</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">selector</span><span class="p">)),</span>\
@@ -3473,14 +3473,14 @@ basically every
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-19-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-19-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-19-exec-label">
          17
         </span>
         <span aria-hidden="true">
@@ -3510,13 +3510,13 @@ basically every
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-source-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="6">    def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="6">    def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
 like the columns, we can deterministically add `scope="row"`
 
         for th in (object := soup(object)).select(selector):
             th.attrs.setdefault("scope", "row")
         return str(object)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">set_row_scope</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="n">selector</span><span class="o">=</span><span class="s2">"tbody tr th, tfoot tr th"</span><span class="p">):</span>
 <span class="n">like</span> <span class="n">the</span> <span class="n">columns</span><span class="p">,</span> <span class="n">we</span> <span class="n">can</span> <span class="n">deterministically</span> <span class="n">add</span> <span class="err">`</span><span class="n">scope</span><span class="o">=</span><span class="s2">"row"</span><span class="err">`</span>
@@ -3588,14 +3588,14 @@ like the columns, we can deterministically add `scope="row"`
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-20-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-20-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-20-exec-label">
          18
         </span>
         <span aria-hidden="true">
@@ -3625,10 +3625,10 @@ like the columns, we can deterministically add `scope="row"`
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-20-source-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="3">we use `set_row_scope` to verify the `scope` because, again, there aren't any visual effects to these changes.
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="3">we use `set_row_scope` to verify the `scope` because, again, there aren't any visual effects to these changes.
 
     assert_has_row_scope(row_scoped := set_row_scope(col_scoped))</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="n">we</span> <span class="n">use</span> <span class="err">`</span><span class="n">set_row_scope</span><span class="err">`</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">the</span> <span class="err">`</span><span class="n">scope</span><span class="err">`</span> <span class="n">because</span><span class="p">,</span> <span class="n">again</span><span class="p">,</span> <span class="n">there</span> <span class="n">aren</span><span class="s1">'t any visual effects to these changes.</span>
 
@@ -3698,14 +3698,14 @@ like the columns, we can deterministically add `scope="row"`
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-21-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-21-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-21-exec-label">
          19
         </span>
         <span aria-hidden="true">
@@ -3735,11 +3735,11 @@ like the columns, we can deterministically add `scope="row"`
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-21-source-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="4">### 4. Avoid using blank header cells.
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="4">### 4. Avoid using blank header cells.
 
 this instruction to yield a best practice to __name the dataframe index__.
 without a name, the index `&lt;th&gt;` will always be empty.&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### 4. Avoid using blank header cells.</span>
 
@@ -3814,14 +3814,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-22-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-22-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-22-exec-label">
          20
         </span>
         <span aria-hidden="true">
@@ -3851,9 +3851,9 @@ without a name, the index
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-22-source-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="2">    def assert_no_blank_header(body):
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="2">    def assert_no_blank_header(body):
         assert all(th.string.strip() for th in soup(body).select("th")), "there is a blank &lt;th&gt;"&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">assert_no_blank_header</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="n">th</span><span class="o">.</span><span class="n">string</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">th</span> <span class="ow">in</span> <span class="n">soup</span><span class="p">(</span><span class="n">body</span><span class="p">)</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"th"</span><span class="p">)),</span> <span class="s2">"there is a blank &lt;th&gt;"</span>
@@ -3912,14 +3912,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-23-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-23-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-23-exec-label">
          21
         </span>
         <span aria-hidden="true">
@@ -3949,8 +3949,8 @@ without a name, the index
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-23-source-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    # with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    # with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</textarea>
+       <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="c1"># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</span>
 </code></pre>
@@ -4007,14 +4007,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-24-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-24-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-24-exec-label">
          22
         </span>
         <span aria-hidden="true">
@@ -4044,8 +4044,8 @@ without a name, the index
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-24-source-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">`pandas` requires some upstream work to satisfy this instruction.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">`pandas` requires some upstream work to satisfy this instruction.</textarea>
+       <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">requires</span> <span class="n">some</span> <span class="n">upstream</span> <span class="n">work</span> <span class="n">to</span> <span class="n">satisfy</span> <span class="n">this</span> <span class="n">instruction</span><span class="o">.</span>
 </code></pre>
@@ -4106,14 +4106,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-25-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-25-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-25-exec-label">
          23
         </span>
         <span aria-hidden="true">
@@ -4143,7 +4143,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-25-source-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="11">    def set_squashed_th(body):
+       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="11">    def set_squashed_th(body):
 `set_squashed_th` squashes the table column names. this method on works for the most basic dataframes.
         
         table = soup(body)
@@ -4154,7 +4154,7 @@ without a name, the index
         thead = bs4.Tag(name="thead"); thead.append(tr)
         table.select_one("thead").replace_with(thead)
         return str(table)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-25-in-label cell-25-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">set_squashed_th</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
 <span class="err">`</span><span class="n">set_squashed_th</span><span class="err">`</span> <span class="n">squashes</span> <span class="n">the</span> <span class="n">table</span> <span class="n">column</span> <span class="n">names</span><span class="o">.</span> <span class="n">this</span> <span class="n">method</span> <span class="n">on</span> <span class="n">works</span> <span class="k">for</span> <span class="n">the</span> <span class="n">most</span> <span class="n">basic</span> <span class="n">dataframes</span><span class="o">.</span>
@@ -4236,14 +4236,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-26-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-26-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-26-exec-label">
          24
         </span>
         <span aria-hidden="true">
@@ -4273,12 +4273,12 @@ without a name, the index
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-26-source-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="5">the frame below doesn't have empty `&lt;th&gt;` elements and is denser.
+       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="5">the frame below doesn't have empty `&lt;th&gt;` elements and is denser.
 
 {{squashed_th}}
     
     assert_no_blank_header(squashed_th := set_squashed_th(row_scoped))&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-26-in-label cell-26-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="n">the</span> <span class="n">frame</span> <span class="n">below</span> <span class="n">doesn</span><span class="s1">'t have empty `&lt;th&gt;` elements and is denser.</span>
 
@@ -4399,14 +4399,14 @@ without a name, the index
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-27-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-27-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-27-exec-label">
          25
         </span>
         <span aria-hidden="true">
@@ -4436,11 +4436,11 @@ without a name, the index
       <td class="nb-end" hidden id="cell-27-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-27-source-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="4">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
+       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="4">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
 
 the naming of columns is a context specific screen reader feature.
 authors would have to add this information themselves.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-27-in-label cell-27-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.</span>
 
@@ -4507,14 +4507,14 @@ authors would have to add this information themselves.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-28-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-28-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-28-exec-label">
          26
         </span>
         <span aria-hidden="true">
@@ -4544,7 +4544,7 @@ authors would have to add this information themselves.
       <td class="nb-end" hidden id="cell-28-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-28-source-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="11">    titles = dict(A="apple", B="banana", C="carrot")
+       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="11">    titles = dict(A="apple", B="banana", C="carrot")
     def set_header_titles(body, titles=titles):
 `set_header_titles` is a method that includes the name of the abbreviation in the `title`.
         
@@ -4555,7 +4555,7 @@ authors would have to add this information themselves.
         return str(body)
     
 &gt; a real dataset would make more sense in this example.</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-28-in-label cell-28-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">titles</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">A</span><span class="o">=</span><span class="s2">"apple"</span><span class="p">,</span> <span class="n">B</span><span class="o">=</span><span class="s2">"banana"</span><span class="p">,</span> <span class="n">C</span><span class="o">=</span><span class="s2">"carrot"</span><span class="p">)</span>
     <span class="k">def</span> <span class="nf">set_header_titles</span><span class="p">(</span><span class="n">body</span><span class="p">,</span> <span class="n">titles</span><span class="o">=</span><span class="n">titles</span><span class="p">):</span>
@@ -4644,14 +4644,14 @@ def set_header_titles(body, titles=titles):
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-29-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-29-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-29-exec-label">
          27
         </span>
         <span aria-hidden="true">
@@ -4681,8 +4681,8 @@ def set_header_titles(body, titles=titles):
       <td class="nb-end" hidden id="cell-29-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-29-source-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="1">    titled = set_header_titles(squashed_th, titles)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="1">    titled = set_header_titles(squashed_th, titles)</textarea>
+       <div aria-labelledby="cell-29-in-label cell-29-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">titled</span> <span class="o">=</span> <span class="n">set_header_titles</span><span class="p">(</span><span class="n">squashed_th</span><span class="p">,</span> <span class="n">titles</span><span class="p">)</span>
 </code></pre>
@@ -4739,14 +4739,14 @@ def set_header_titles(body, titles=titles):
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-30-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-30-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-30-exec-label">
          28
         </span>
         <span aria-hidden="true">
@@ -4776,7 +4776,7 @@ def set_header_titles(body, titles=titles):
       <td class="nb-end" hidden id="cell-30-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-30-source-label nb-source-label" class="nb-source" form="cell-30" id="cell-30-source" name="source" readonly rows="9">    def strip_class_ids(body):
+       <textarea aria-labelledby="cell-30-in-label cell-30-exec-label nb-source-label" class="nb-source" form="cell-30" id="cell-30-source" name="source" readonly rows="9">    def strip_class_ids(body):
 `pandas` adds classes and ids to elements that for the sake of this discussion are superfluous.
 
         for e in (body := soup(body)).select("td, th"): 
@@ -4785,7 +4785,7 @@ def set_header_titles(body, titles=titles):
 
         return str(body)
     final = strip_class_ids(titled)</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-30-in-label cell-30-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">strip_class_ids</span><span class="p">(</span><span class="n">body</span><span class="p">):</span>
 <span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">adds</span> <span class="n">classes</span> <span class="ow">and</span> <span class="n">ids</span> <span class="n">to</span> <span class="n">elements</span> <span class="n">that</span> <span class="k">for</span> <span class="n">the</span> <span class="n">sake</span> <span class="n">of</span> <span class="n">this</span> <span class="n">discussion</span> <span class="n">are</span> <span class="n">superfluous</span><span class="o">.</span>
@@ -4863,14 +4863,14 @@ final = strip_class_ids(titled)
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-31-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-31-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-31-exec-label">
          29
         </span>
         <span aria-hidden="true">
@@ -4900,13 +4900,13 @@ final = strip_class_ids(titled)
       <td class="nb-end" hidden id="cell-31-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-31-source-label nb-source-label" class="nb-source" form="cell-31" id="cell-31-source" name="source" readonly rows="6">## inconsistencies in labelled indexes
+       <textarea aria-labelledby="cell-31-in-label cell-31-exec-label nb-source-label" class="nb-source" form="cell-31" id="cell-31-source" name="source" readonly rows="6">## inconsistencies in labelled indexes
 
 everything goes to hell with `named_column` which as a column name.
 
     named_column = df.copy()
     named_column.columns.name = "letters"</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-31-in-label cell-31-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">## inconsistencies in labelled indexes</span>
 
@@ -4981,14 +4981,14 @@ named_column.columns.name = "letters"
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-32-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-32-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-32-exec-label">
          30
         </span>
         <span aria-hidden="true">
@@ -5018,7 +5018,7 @@ named_column.columns.name = "letters"
       <td class="nb-end" hidden id="cell-32-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-32-source-label nb-source-label" class="nb-source" form="cell-32" id="cell-32-source" name="source" readonly rows="9">### column and index names
+       <textarea aria-labelledby="cell-32-in-label cell-32-exec-label nb-source-label" class="nb-source" form="cell-32" id="cell-32-source" name="source" readonly rows="9">### column and index names
 
 consider the case of `df2` where the `df2.columns` is named and `df2.index` is not. 
     
@@ -5027,7 +5027,7 @@ consider the case of `df2` where the `df2.columns` is named and `df2.index` is n
 
 screenreader visitors may struggle to interpret the meaning of "letters" relative to the index.
 ensurely a proper experience for screen readers will require extra markup to group the `&lt;th&gt; with the columns. &lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-32-in-label cell-32-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### column and index names</span>
 
@@ -5190,14 +5190,14 @@ ensurely a proper experience for screen readers will require extra markup to gro
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-33-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-33-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-33-exec-label">
          31
         </span>
         <span aria-hidden="true">
@@ -5227,7 +5227,7 @@ ensurely a proper experience for screen readers will require extra markup to gro
       <td class="nb-end" hidden id="cell-33-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-33-source-label nb-source-label" class="nb-source" form="cell-33" id="cell-33-source" name="source" readonly rows="11">### column name and no index name
+       <textarea aria-labelledby="cell-33-in-label cell-33-exec-label nb-source-label" class="nb-source" form="cell-33" id="cell-33-source" name="source" readonly rows="11">### column name and no index name
 
     named_column_no_index = named_column.copy()
     named_column_no_index.index.name = None
@@ -5238,7 +5238,7 @@ ensurely a proper experience for screen readers will require extra markup to gro
 in this conformation, it is possible for a screen reader to misinterpet `letters` as the name of the index column.
 when the column index is named, like `letters`, the entry should be `&lt;th scope="row"&gt;`. 
 it this example we can see how instructions in 2 and 3 differ.&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-33-in-label cell-33-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### column name and no index name</span>
 
@@ -5386,14 +5386,14 @@ it this example we can see how instructions in 2 and 3 differ.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-34-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-34-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-34-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -5422,8 +5422,8 @@ it this example we can see how instructions in 2 and 3 differ.
       <td class="nb-end" hidden id="cell-34-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-34-source-label nb-source-label" class="nb-source" form="cell-34" id="cell-34-source" name="source" readonly rows="1">## conclusions</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <textarea aria-labelledby="cell-34-in-label cell-34-exec-label nb-source-label" class="nb-source" form="cell-34" id="cell-34-source" name="source" readonly rows="1">## conclusions</textarea>
+       <div aria-labelledby="cell-34-in-label cell-34-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## conclusions</span>
 </code></pre>
@@ -5464,14 +5464,14 @@ it this example we can see how instructions in 2 and 3 differ.
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-35-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-35-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-35-exec-label">
          32
         </span>
         <span aria-hidden="true">
@@ -5501,7 +5501,7 @@ it this example we can see how instructions in 2 and 3 differ.
       <td class="nb-end" hidden id="cell-35-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-35-source-label nb-source-label" class="nb-source" form="cell-35" id="cell-35-source" name="source" readonly rows="21">for basic dataframes, two practices can be enforced without knowledge of the data:
+       <textarea aria-labelledby="cell-35-in-label cell-35-exec-label nb-source-label" class="nb-source" form="cell-35" id="cell-35-source" name="source" readonly rows="21">for basic dataframes, two practices can be enforced without knowledge of the data:
 
 - [x] Column headers are inside &lt;th scope="col"&gt; elements.
 - [x] Row headers are inside &lt;th scope="row"&gt; elements.
@@ -5522,7 +5522,7 @@ some conventions we can extract from this study is:
     
 * treat the `df.index` as a column that needs to be named
 * if an index is superfluous then remove it. this can be down with the styler `df.style.hide(axis=0)`&lt;/caption&gt;&lt;/th&gt;&lt;/th&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-35-in-label cell-35-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="k">for</span> <span class="n">basic</span> <span class="n">dataframes</span><span class="p">,</span> <span class="n">two</span> <span class="n">practices</span> <span class="n">can</span> <span class="n">be</span> <span class="n">enforced</span> <span class="n">without</span> <span class="n">knowledge</span> <span class="n">of</span> <span class="n">the</span> <span class="n">data</span><span class="p">:</span>
 
@@ -5616,14 +5616,14 @@ some conventions we can extract from this study is:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-36-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-36-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-36-exec-label">
          33
         </span>
         <span aria-hidden="true">
@@ -5653,7 +5653,7 @@ some conventions we can extract from this study is:
       <td class="nb-end" hidden id="cell-36-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-36-source-label nb-source-label" class="nb-source" form="cell-36" id="cell-36-source" name="source" readonly rows="18">### final frame
+       <textarea aria-labelledby="cell-36-in-label cell-36-exec-label nb-source-label" class="nb-source" form="cell-36" id="cell-36-source" name="source" readonly rows="18">### final frame
 
 our final dataframe has:
 
@@ -5671,7 +5671,7 @@ our final dataframe has:
 ```html
 {{final}}
 ```&lt;/th&gt;&lt;/th&gt;&lt;/th&gt;&lt;/th&gt;&lt;/caption&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-36-in-label cell-36-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### final frame</span>
 
@@ -5864,14 +5864,14 @@ our final dataframe has:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-37-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-37-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-37-exec-label">
          34
         </span>
         <span aria-hidden="true">
@@ -5901,12 +5901,12 @@ our final dataframe has:
       <td class="nb-end" hidden id="cell-37-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-37-source-label nb-source-label" class="nb-source" form="cell-37" id="cell-37-source" name="source" readonly rows="5">### about the `scope` attribute
+       <textarea aria-labelledby="cell-37-in-label cell-37-exec-label nb-source-label" class="nb-source" form="cell-37" id="cell-37-source" name="source" readonly rows="5">### about the `scope` attribute
 
 &lt;q cite="https://www.w3schools.com/tags/att_scope.asp"&gt;The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.&lt;/q&gt;
 
 &lt;q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid"&gt;The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient. &lt;q&gt;&lt;/q&gt;&lt;/q&gt;</textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-37-in-label cell-37-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">### about the `scope` attribute</span>
 
@@ -5981,14 +5981,14 @@ our final dataframe has:
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count" id="cell-38-source-label">
-        <span>
+       <label class="nb-execution_count">
+        <span id="cell-38-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span>
+        <span id="cell-38-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -6017,14 +6017,14 @@ our final dataframe has:
       <td class="nb-end" hidden id="cell-38-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-38-source-label nb-source-label" class="nb-source" form="cell-38" id="cell-38-source" name="source" readonly rows="6">### links
+       <textarea aria-labelledby="cell-38-in-label cell-38-exec-label nb-source-label" class="nb-source" form="cell-38" id="cell-38-source" name="source" readonly rows="6">### links
 
 * https://pandas.pydata.org/docs/user_guide/style.html
 * https://pauljadam.com/demos/data-tables.html
 * https://www.w3.org/WAI/tutorials/tables/
 * https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced
 </textarea>
-       <div aria-labelledby="nb-source-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-38-in-label cell-38-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### links</span>
 
