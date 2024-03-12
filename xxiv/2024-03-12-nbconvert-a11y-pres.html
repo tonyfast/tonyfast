@@ -442,6 +442,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#tldr" class="md-nav__link">
+    <span class="md-ellipsis">
+      TLDR
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#beyond-wcag" class="md-nav__link">
     <span class="md-ellipsis">
       beyond wcag
@@ -454,15 +463,6 @@
   <a href="#what-if-web-content-accessibility-guidelines-cared-about-visualization-and-data" class="md-nav__link">
     <span class="md-ellipsis">
       what if web content accessibility guidelines cared about visualization and data?
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#what-are-we-going-to-do" class="md-nav__link">
-    <span class="md-ellipsis">
-      what are we going to do?
     </span>
   </a>
   
@@ -2326,69 +2326,25 @@
 <li>notebook demo</li>
 <li>testing</li>
 </ol>
+<h2 id="tldr">TLDR<a class="headerlink" href="#tldr" title="Permanent link">¤</a></h2>
+<ul>
+<li><q>HTML is our matter</q> for accessible experiences</li>
+<li>WCAG is anachronistic for interactive computing education</li>
+<li>computational notebooks are collections of <code>form</code>s</li>
+<li>reference implementations (eg APG) provide valuable calibrations for more complex applications</li>
+</ul>
 <h2 id="beyond-wcag">beyond wcag<a class="headerlink" href="#beyond-wcag" title="Permanent link">¤</a></h2>
-<p><a href="https://en.wikipedia.org/wiki/Section_508_Amendment_to_the_Rehabilitation_Act_of_1973">section 508 amendent of the rehabiliation act of 1973</a> is drastically insufficient for the needs of interactive computing technology. <a href="https://www.w3.org/TR/WCAG20/">WCAG 2.0</a> was published in Dec 2008 long before the demanding needs of modern javascript. compliance actively neglects the needs of assistive technology users in modern learning environments and creates a two-tier system.</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Section_508_Amendment_to_the_Rehabilitation_Act_of_1973">section 508 amendent of the rehabiliation act of 1973</a> is drastically insufficient for the needs of interactive computing technology.</li>
+<li><a href="https://www.w3.org/TR/WCAG20/">WCAG 2.0</a> was published in Dec 2008 long before the demanding needs of modern javascript (eg <a href="https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/">Modern Health, frameworks, performance, and harm </a>)</li>
+<li>compliance actively neglects the needs of assistive technology users in modern learning environments and creates a two-tier system.</li>
+<li><a href="https://www.w3.org/TR/WCAG22/">WCAG 2.2</a>, adopted in October 2023, is a more equitable goal with clearer specifications for implementers and testers than the prior versions.</li>
+<li>satisfy AAA and allow the ability to downgrade when access needs are less important. </li>
+</ul>
 <h2 id="what-if-web-content-accessibility-guidelines-cared-about-visualization-and-data">what if web content accessibility guidelines cared about visualization and data?<a class="headerlink" href="#what-if-web-content-accessibility-guidelines-cared-about-visualization-and-data" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">html</span>
-<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
-<span class="o">.</span><span class="n">barb</span> <span class="n">li</span> <span class="p">{</span>
-    <span class="nb">list</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
-    <span class="n">a</span> <span class="p">{</span><span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">400</span><span class="o">%</span><span class="p">;}</span>
-    <span class="n">q</span> <span class="p">{</span><span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">150</span><span class="o">%</span><span class="p">;</span> <span class="n">text</span><span class="o">-</span><span class="n">transform</span><span class="p">:</span> <span class="n">lowercase</span><span class="p">;}</span>
-    <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">bg</span><span class="o">-</span><span class="n">color</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">jp</span><span class="o">-</span><span class="n">layout</span><span class="o">-</span><span class="n">color0</span>
-                                          <span class="p">,</span> <span class="n">white</span><span class="p">));</span>
-    <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="mi">1000</span><span class="p">;</span>
-    <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">child</span><span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="nb">filter</span><span class="p">:</span> <span class="n">invert</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span><span class="p">);}</span>
-    <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">child</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">~</span> <span class="n">li</span> <span class="p">{</span><span class="n">text</span><span class="o">-</span><span class="n">transform</span><span class="p">:</span> <span class="n">uppercase</span><span class="p">;}</span>
-    <span class="n">a</span><span class="p">:</span><span class="n">visited</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span><span class="n">link</span> <span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="n">unset</span><span class="p">;</span> <span class="p">}</span>   
-<span class="p">}</span>
-<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">figure</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span> <span class="n">cite</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF&quot;</span><span class="o">&gt;</span><span class="n">Chartability</span> <span class="ow">is</span> <span class="n">a</span> <span class="nb">set</span> <span class="n">of</span> <span class="n">heuristics</span> <span class="k">for</span> <span class="n">ensuring</span> <span class="n">that</span> <span class="n">data</span> <span class="n">visualizations</span><span class="p">,</span> <span class="n">systems</span><span class="p">,</span> <span class="ow">and</span> <span class="n">interfaces</span> <span class="n">are</span> <span class="n">accessible</span><span class="o">.&lt;/</span><span class="n">q</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">br</span><span class="o">/&gt;</span>
-<span class="n">the</span> <span class="n">first</span> <span class="n">four</span> <span class="n">principles</span> <span class="n">extend</span> <span class="kn">from</span> <span class="nn">web</span> <span class="n">content</span> <span class="n">accessibility</span> <span class="n">guidelines</span><span class="o">.</span> <span class="n">the</span> <span class="n">last</span> <span class="n">three</span> <span class="n">principles</span> <span class="n">are</span> <span class="n">the</span> <span class="n">additional</span> <span class="n">principles</span> <span class="k">for</span> <span class="n">accessibile</span> <span class="n">data</span> <span class="n">experiences</span><span class="o">.</span>
-<span class="o">&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">ul</span> <span class="n">aria</span><span class="o">-</span><span class="n">label</span><span class="o">=</span><span class="s2">&quot;accessibility principles for accessibile data experiences.&quot;</span> <span class="n">class</span><span class="o">=</span><span class="s2">&quot;barb&quot;</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#perceivable&quot;</span><span class="o">&gt;</span><span class="n">perceivable</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="n">User</span> <span class="n">must</span> <span class="n">be</span> <span class="n">able</span> <span class="n">to</span> <span class="n">easily</span> <span class="n">identify</span> <span class="n">content</span> <span class="n">using</span> <span class="n">their</span> <span class="n">senses</span><span class="p">:</span> <span class="n">sight</span><span class="p">,</span> <span class="n">sound</span><span class="p">,</span> <span class="ow">and</span> <span class="n">touch</span><span class="o">.&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#operable&quot;</span><span class="o">&gt;</span><span class="n">operable</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="n">All</span> <span class="n">controls</span> <span class="n">must</span> <span class="n">be</span> <span class="n">error</span><span class="o">-</span><span class="n">tolerant</span><span class="p">,</span> <span class="n">discoverable</span><span class="p">,</span> <span class="ow">and</span> <span class="n">multi</span><span class="o">-</span><span class="n">modal</span> <span class="p">(</span><span class="ow">not</span> <span class="n">just</span> <span class="n">mouse</span> <span class="n">operable</span><span class="p">,</span> <span class="n">but</span> <span class="n">using</span> <span class="n">keyboard</span><span class="p">,</span> <span class="n">etc</span><span class="p">)</span><span class="o">.&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#understandable&quot;</span><span class="o">&gt;</span><span class="n">understandable</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="n">Any</span> <span class="n">information</span> <span class="ow">or</span> <span class="n">data</span> <span class="n">are</span> <span class="n">presented</span> <span class="n">without</span> <span class="n">ambiguity</span><span class="p">,</span> <span class="k">with</span> <span class="n">clarity</span><span class="p">,</span> <span class="ow">and</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">way</span> <span class="n">that</span> <span class="n">minimizes</span> <span class="n">cognitive</span> <span class="n">load</span><span class="o">.</span>
-<span class="o">&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#robust&quot;</span><span class="o">&gt;</span><span class="n">robust</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="n">The</span> <span class="n">design</span> <span class="ow">is</span> <span class="n">compliant</span> <span class="k">with</span> <span class="n">existing</span> <span class="n">standards</span> <span class="ow">and</span> <span class="n">works</span> <span class="k">with</span> <span class="n">the</span> <span class="n">user</span><span class="err">’</span><span class="n">s</span> <span class="n">compliant</span><span class="p">,</span> <span class="n">assistive</span> <span class="n">technologies</span> <span class="n">of</span> <span class="n">choice</span><span class="o">.</span>
-<span class="o">&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#compromising&quot;</span><span class="o">&gt;</span><span class="n">compromising</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Understandable</span><span class="p">,</span> <span class="n">yet</span> <span class="n">Robust</span><span class="p">):</span> <span class="n">Information</span> <span class="n">flows</span> <span class="n">must</span> <span class="n">provide</span> <span class="n">transparency</span><span class="p">,</span> <span class="n">tolerance</span><span class="p">,</span> <span class="ow">and</span> <span class="n">consideration</span> <span class="k">for</span> <span class="n">different</span> <span class="n">ways</span> <span class="n">that</span> <span class="n">users</span> <span class="k">with</span> <span class="n">assistive</span> <span class="n">technologies</span> <span class="ow">and</span> <span class="n">disabilities</span> <span class="n">will</span> <span class="n">prefer</span> <span class="n">to</span> <span class="n">consume</span> <span class="n">different</span> <span class="n">information</span><span class="o">.&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#assistive&quot;</span><span class="o">&gt;</span><span class="n">assistive</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Understandable</span> <span class="ow">and</span> <span class="n">Perceivable</span> <span class="n">but</span> <span class="n">labor</span><span class="o">-</span><span class="n">reducing</span><span class="p">):</span> <span class="n">Interface</span> <span class="n">must</span> <span class="n">be</span> <span class="n">intelligent</span> <span class="ow">and</span> <span class="n">multi</span><span class="o">-</span><span class="n">sensory</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">way</span> <span class="n">that</span> <span class="n">reduces</span> <span class="n">the</span> <span class="n">cognitive</span> <span class="ow">and</span> <span class="n">functional</span> <span class="n">labor</span> <span class="n">required</span> <span class="k">for</span> <span class="n">use</span><span class="o">.</span>
-<span class="o">&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">li</span><span class="o">&gt;&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://github.com/Chartability/POUR-CAF#flexible&quot;</span><span class="o">&gt;</span><span class="n">flexible</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="n">q</span><span class="o">&gt;</span><span class="p">(</span><span class="n">Perceivable</span> <span class="ow">and</span> <span class="n">Operable</span><span class="p">,</span> <span class="n">yet</span> <span class="n">Robust</span><span class="p">):</span> <span class="n">Design</span> <span class="n">must</span> <span class="n">respect</span> <span class="n">user</span> <span class="n">settings</span> <span class="kn">from</span> <span class="nn">user</span> <span class="n">agents</span> <span class="p">(</span><span class="n">browsers</span><span class="p">,</span> <span class="n">operating</span> <span class="n">systems</span><span class="p">,</span> <span class="n">applications</span><span class="p">)</span> <span class="ow">and</span> <span class="n">provide</span> <span class="n">presentation</span> <span class="ow">and</span> <span class="n">operation</span> <span class="n">control</span><span class="o">.</span>
-<span class="o">&lt;/</span><span class="n">q</span><span class="o">&gt;&lt;/</span><span class="n">li</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">ul</span><span class="o">&gt;</span>
-<span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
-
-<span class="n">read</span> <span class="n">more</span> <span class="n">about</span> <span class="n">the</span> <span class="n">relationship</span> <span class="n">between</span> <span class="n">computational</span> <span class="n">notebooks</span> <span class="ow">and</span> <span class="n">other</span> <span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://www.w3.org/WAI/about/&quot;</span><span class="o">&gt;</span><span class="n">web</span> <span class="n">accessibility</span> <span class="n">initiatives</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;</span> <span class="n">on</span> <span class="n">the</span> <span class="o">&lt;</span><span class="n">code</span><span class="o">&gt;</span><span class="n">nbconvert</span><span class="o">-</span><span class="n">a11y</span><span class="o">&lt;/</span><span class="n">code</span><span class="o">&gt;</span> <span class="n">work</span> <span class="ow">in</span> <span class="n">progress</span> <span class="n">wiki</span><span class="o">.</span>
-</code></pre></div>
-<div class="output_html rendered_html output_subarea"><style>
-.barb li {
-    list-style: none;
-    a {font-size: 400%;}
-    q {display: block; font-size: 150%; text-transform: lowercase;}
-    background-color: var(--bg-color, var(--jp-layout-color0
-                                          , white));
-    font-weight: 1000;
-    &:nth-child(2n+1) {filter: invert(100%);}
-    &:nth-child(4) ~ li {text-transform: uppercase;}
-    a:visited, a:link {color: unset; }   
-}
-</style>
 <figure>
 <figcaption>
-<q cite="https://github.com/Chartability/POUR-CAF">Chartability is a set of heuristics for ensuring that data visualizations, systems, and interfaces are accessible.</q>
+<q cite="https://github.com/Chartability/POUR-CAF"><a href="https://chartability.fizz.studio/">Chartability</a> is a set of heuristics for ensuring that data visualizations, systems, and interfaces are accessible.</q>
 <br/>
 the first four principles extend from web content accessibility guidelines. the last three principles are the additional principles for accessibile data experiences.
 </figcaption>
@@ -2414,18 +2370,40 @@ the first four principles extend from web content accessibility guidelines. the 
 </ul>
 </figure>
 
-read more about the relationship between computational notebooks and other <a href="https://www.w3.org/WAI/about/">web accessibility initiatives</a> on the <code>nbconvert-a11y</code> work in progress wiki.
+<p>read more about the relationship between <a href="https://github.com/deathbeds/nbconvert-a11y/wiki/accessible-computational-notebooks">accessible computational notebooks</a> and other <a href="https://www.w3.org/WAI/about/">web accessibility initiatives</a> on the <code>nbconvert-a11y</code> <a href="https://github.com/deathbeds/nbconvert-a11y/wiki">work in progress wiki<s a="">.</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="o">.</span><span class="n">barb</span> <span class="n">li</span> <span class="p">{</span>
+    <span class="nb">list</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+    <span class="n">a</span> <span class="p">{</span><span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">400</span><span class="o">%</span><span class="p">;}</span>
+    <span class="n">q</span> <span class="p">{</span><span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">150</span><span class="o">%</span><span class="p">;</span> <span class="n">text</span><span class="o">-</span><span class="n">transform</span><span class="p">:</span> <span class="n">lowercase</span><span class="p">;}</span>
+    <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">bg</span><span class="o">-</span><span class="n">color</span><span class="p">,</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">jp</span><span class="o">-</span><span class="n">layout</span><span class="o">-</span><span class="n">color0</span>
+                                          <span class="p">,</span> <span class="n">white</span><span class="p">));</span>
+    <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">child</span><span class="p">(</span><span class="mi">2</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span><span class="nb">filter</span><span class="p">:</span> <span class="n">invert</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span><span class="p">);}</span>
+    <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">child</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span> <span class="o">~</span> <span class="n">li</span> <span class="p">{</span><span class="n">text</span><span class="o">-</span><span class="n">transform</span><span class="p">:</span> <span class="n">uppercase</span><span class="p">;}</span>
+    <span class="n">a</span><span class="p">:</span><span class="n">visited</span><span class="p">,</span> <span class="n">a</span><span class="p">:</span><span class="n">link</span> <span class="p">{</span><span class="n">color</span><span class="p">:</span> <span class="n">unset</span><span class="p">;</span> <span class="p">}</span>   
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><style>
+.barb li {
+    list-style: none;
+    a {font-size: 400%;}
+    q {display: block; font-size: 150%; text-transform: lowercase;}
+    background-color: var(--bg-color, var(--jp-layout-color0
+                                          , white));
+    font-weight: 1000;
+    &:nth-child(2n+1) {filter: invert(100%);}
+    &:nth-child(4) ~ li {text-transform: uppercase;}
+    a:visited, a:link {color: unset; }   
+}
+</style>
 </div>
 
-<h2 id="what-are-we-going-to-do">what are we going to do?<a class="headerlink" href="#what-are-we-going-to-do" title="Permanent link">¤</a></h2>
-<p>talk about notebooks being used for stories</p>
-<ul>
-<li>we will not retrofit jupyter notebook accessibility</li>
-<li>we will consider a perfect idealized scenario</li>
-</ul>
 <h2 id="designing-assistive-interfaces-for-pour-caf-outcomes">designing assistive interfaces for POUR-CAF outcomes<a class="headerlink" href="#designing-assistive-interfaces-for-pour-caf-outcomes" title="Permanent link">¤</a></h2>
 <p>accessibility is the floor. 
-our designs consider all the sensory modalities that are possible with hypermedia.
+our perceivable designs consider all the sensory modalities that are possible with hypermedia.
 we'll find that correctly choosing semantics from the html standard has superior accessibility outcomes.</p>
 <ul>
 <li>how is the story percievable?<ul>
@@ -2530,6 +2508,9 @@ we'll find that correctly choosing semantics from the html standard has superior
 <li>automated screen reader testing is still a working in progress</li>
 </ul>
 <h2 id="tables-and-forms">tables and forms<a class="headerlink" href="#tables-and-forms" title="Permanent link">¤</a></h2>
+<p>html is our matter. 
+it provides the accessible substrate for reading notebooks. 
+through progressive enhancement</p>
 <p>we acheive superior assistive technology experiences for computational works
 by expressing more of the html5 vocabulary to capture notebooks semantics.</p>
 <p>we still strongly to the first principle of aria, and strongly bend the second rule.</p>
@@ -2541,17 +2522,9 @@ by expressing more of the html5 vocabulary to capture notebooks semantics.</p>
 </ul>
 </li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="n">reducing</span> <span class="n">the</span> <span class="n">distance</span> <span class="n">between</span> <span class="n">your</span> <span class="n">build</span> <span class="n">chains</span>
-</code></pre></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-cyan-fg">  Cell </span><span class="ansi-green-fg">In[7], line 1</span>
-<span class="ansi-red-fg">    reducing the distance between your build chains</span>
-             ^
-<span class="ansi-red-fg">SyntaxError</span><span class="ansi-red-fg">:</span> invalid syntax
-</pre>
-</div>
-
+<p><a href="https://alistapart.com/article/web-typography-tables/">https://alistapart.com/article/web-typography-tables/</a></p>
+<p>reducing the distance between source and html.
+accessibility can only be evaluated in html!</p>
 <h2 id="open-questions">open questions<a class="headerlink" href="#open-questions" title="Permanent link">¤</a></h2>
 <ul class="task-list">
 <li class="task-list-item"><label class="task-list-control"><input type="checkbox" disabled checked/><span class="task-list-indicator"></span></label> accessible application</li>
@@ -2597,6 +2570,7 @@ This is a cluster of young stars – about one to two million years old – loca
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
+<p></s></a></p>
 
 
 
