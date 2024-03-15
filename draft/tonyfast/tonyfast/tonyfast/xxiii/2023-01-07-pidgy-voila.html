@@ -76,6 +76,14 @@ body {
     background-color: var(--color-light);
 }
 
+body:not([data-dev-sa11y]) sa11y-control-panel {
+    display: none;
+}
+
+body[data-dev-sa11y] sa11y-control-panel {
+    display: unset;
+}
+
 body.dark {
     color: var(--color-light);
     background-color: var(--color-dark);
@@ -167,8 +175,9 @@ the design decisions are focused native elements so that the assistive technolog
 
 /* line height cant change pre elements based on browser presets */
 pre,
+.highlight>pre,
 textarea {
-    line-height: unset;
+    line-height: var(--nb-line-height);
     white-space: pre-wrap;
 }
 
@@ -189,21 +198,19 @@ li.cell {
 
 /* ## notebook components layout */
 
-td[role="none"]:not([hidden]),
-th[role="none"]:not([hidden]) {
+#cells>tbody>tr>[role="none"] {
     display: block;
     text-align: unset;
 }
 
-table {
-    border-spacing: unset;
+#cells>tbody>tr>[role="none"][hidden] {
+    display: none;
 }
 
-#cells,
-#cells .cell,
-#cells>tbody {
-    display: flex;
-    flex-direction: column;
+tr.cell>th:first-child {}
+
+table {
+    border-spacing: unset;
 }
 
 ol[reversed]#cells,
@@ -281,7 +288,6 @@ button {
 textarea {
     font-family: monospace;
     font-size: inherit;
-    line-height: inherit;
     overflow: auto;
     color: unset;
 }
@@ -1761,9 +1767,9 @@ the cookies demo is a go to demo from Bret Viktor's [tanglejs].
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="fe1d6243-8f43-4276-94cf-ebbcec145476">
+        <div class="jupyter-widgets jp-OutputArea-output" id="d30a0135-b009-4a4d-834a-d7d1d08f2576">
          <script type="text/javascript">
-          var element = document.getElementById('fe1d6243-8f43-4276-94cf-ebbcec145476');
+          var element = document.getElementById('d30a0135-b009-4a4d-834a-d7d1d08f2576');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "c91a3037a55f406d9b31ddd00b3117bc", "version_major": 2, "version_minor": 0}
@@ -1866,9 +1872,9 @@ the cookies demo is a go to demo from Bret Viktor's [tanglejs].
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="4427de62-8e48-42c3-8490-0bdd94e823c7">
+        <div class="jupyter-widgets jp-OutputArea-output" id="df21c2aa-1c04-4805-a82e-6a5fa56b6f4b">
          <script type="text/javascript">
-          var element = document.getElementById('4427de62-8e48-42c3-8490-0bdd94e823c7');
+          var element = document.getElementById('df21c2aa-1c04-4805-a82e-6a5fa56b6f4b');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "c2aecbfa15fd4cc2ab29c05d0c0822a2", "version_major": 2, "version_minor": 0}
@@ -1993,9 +1999,9 @@ when widgets change, the display changes as shown in the COOOKIES demo.
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="2e01eed7-cd27-4574-a875-20779bb1a8c1">
+        <div class="jupyter-widgets jp-OutputArea-output" id="57ae4a38-5d42-4701-b366-943bfc508532">
          <script type="text/javascript">
-          var element = document.getElementById('2e01eed7-cd27-4574-a875-20779bb1a8c1');
+          var element = document.getElementById('57ae4a38-5d42-4701-b366-943bfc508532');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "4ddab38140394b759f63c83bdddee5e0", "version_major": 2, "version_minor": 0}
@@ -2246,6 +2252,10 @@ when widgets change, the display changes as shown in the COOOKIES demo.
      <label>
       <input name="visually-hide" type="checkbox">
       visually hide
+     </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
      </label>
      <fieldset disabled>
       <legend>
@@ -2976,6 +2986,10 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.value);
+});
+
 
 function fullScreen() {
     if (!document.fullscreenElement) {
@@ -2996,7 +3010,7 @@ function setTextareaWidth(entry, set = null) {
         let width = entry.target.scrollWidth,
             left = Number(props.borderLeftWidth.slice(0, -2)),
             right = Number(props.borderRightWidth.slice(0, -2));
-        entry.target.style.width = `${Math.ceil(width) + Math.ceil(left) + Math.ceil(right) + 1}px`
+        entry.target.style.width = `${Math.floor(width)}px`
         setTextareaHeight(entry, true);
     }
 }
@@ -3019,7 +3033,7 @@ let observer = new ResizeObserver(
     (entries) => {
         entries.forEach((entry) => {
             (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
+        });a
     }
 );
 

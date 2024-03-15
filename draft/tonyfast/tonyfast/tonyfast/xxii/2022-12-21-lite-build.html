@@ -51,6 +51,14 @@ body {
     background-color: var(--color-light);
 }
 
+body:not([data-dev-sa11y]) sa11y-control-panel {
+    display: none;
+}
+
+body[data-dev-sa11y] sa11y-control-panel {
+    display: unset;
+}
+
 body.dark {
     color: var(--color-light);
     background-color: var(--color-dark);
@@ -142,8 +150,9 @@ the design decisions are focused native elements so that the assistive technolog
 
 /* line height cant change pre elements based on browser presets */
 pre,
+.highlight>pre,
 textarea {
-    line-height: unset;
+    line-height: var(--nb-line-height);
     white-space: pre-wrap;
 }
 
@@ -164,21 +173,19 @@ li.cell {
 
 /* ## notebook components layout */
 
-td[role="none"]:not([hidden]),
-th[role="none"]:not([hidden]) {
+#cells>tbody>tr>[role="none"] {
     display: block;
     text-align: unset;
 }
 
-table {
-    border-spacing: unset;
+#cells>tbody>tr>[role="none"][hidden] {
+    display: none;
 }
 
-#cells,
-#cells .cell,
-#cells>tbody {
-    display: flex;
-    flex-direction: column;
+tr.cell>th:first-child {}
+
+table {
+    border-spacing: unset;
 }
 
 ol[reversed]#cells,
@@ -256,7 +263,6 @@ button {
 textarea {
     font-family: monospace;
     font-size: inherit;
-    line-height: inherit;
     overflow: auto;
     color: unset;
 }
@@ -3922,6 +3928,10 @@ status     : run
       <input name="visually-hide" type="checkbox">
       visually hide
      </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
+     </label>
      <fieldset disabled>
       <legend>
        visibility
@@ -4651,6 +4661,10 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.value);
+});
+
 
 function fullScreen() {
     if (!document.fullscreenElement) {
@@ -4671,7 +4685,7 @@ function setTextareaWidth(entry, set = null) {
         let width = entry.target.scrollWidth,
             left = Number(props.borderLeftWidth.slice(0, -2)),
             right = Number(props.borderRightWidth.slice(0, -2));
-        entry.target.style.width = `${Math.ceil(width) + Math.ceil(left) + Math.ceil(right) + 1}px`
+        entry.target.style.width = `${Math.floor(width)}px`
         setTextareaHeight(entry, true);
     }
 }
@@ -4694,7 +4708,7 @@ let observer = new ResizeObserver(
     (entries) => {
         entries.forEach((entry) => {
             (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
+        });a
     }
 );
 
