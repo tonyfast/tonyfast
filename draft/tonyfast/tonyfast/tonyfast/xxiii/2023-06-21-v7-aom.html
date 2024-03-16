@@ -8,6 +8,17 @@
   </title>
   <meta content="this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that an accessible reference implementation of the rendered notebook will extend to an assistive interactive experience." name="description">
   <meta content="light" name="color-scheme">
+  <link href="https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@3.0.5/dist/css/sa11y.min.css" rel="stylesheet">
+  <script type="module">
+   import { Sa11y, Lang } from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/sa11y.esm.js';
+    import Sa11yLangEn from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/lang/enUS.js';
+    Lang.addI18n(Sa11yLangEn.strings);
+
+    // Instantiate
+    export const sa11y = new Sa11y({
+        checkRoot: "body",
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
   </script>
   <style type="text/css">
@@ -1143,7 +1154,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </details>
    <section aria-labelledby="nb-summary-label">
     <details>
-     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-state nb-ct-loc nb-loc-label
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-lang nb-state nb-ct-loc nb-loc-label
 nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       notebook summary
      </summary>
@@ -1181,10 +1192,30 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        executed out of order
       </dd>
       <dt>
-       language
+       kernel
       </dt>
-      <dd id="nb-lang">
-       python
+      <dd>
+       Python 3 (ipykernel)
+      </dd>
+      <dd>
+       <dl>
+        <dt>
+         language
+        </dt>
+        <dd id="nb-lang">
+         python
+        </dd>
+        <dt>
+         name
+        </dt>
+        <dd>
+         <samp>
+          <kbd>
+           python3
+          </kbd>
+         </samp>
+        </dd>
+       </dl>
       </dd>
       <dt id="nb-loc-label">
        lines of code
@@ -1922,9 +1953,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="2357973d-4af2-4f87-a195-cc5c9b0712a8">
+        <div class="output_subarea output_javascript" id="f4873ffe-a783-49fe-9493-5213ff241892">
          <script type="text/javascript">
-          var element = $('#2357973d-4af2-4f87-a195-cc5c9b0712a8');
+          var element = $('#f4873ffe-a783-49fe-9493-5213ff241892');
         ['document.querySelectorAll("#top-panel").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Menu");});\n', 'document.querySelectorAll("#main-panel").forEach((x,i) =>{x.setAttribute("aria-labelledby", "jp-title");});\n', 'document.querySelectorAll("#menu-panel").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); \n', '    x.setAttribute("aria-label", "Notebook Menu");\n', '});\n']
          </script>
         </div>
@@ -2120,9 +2151,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="46e0acc4-fe4e-4f7f-b915-8cf2e41d8eb9">
+        <div class="output_subarea output_javascript" id="d1698907-f84c-4e85-916f-9cb98c03f60f">
          <script type="text/javascript">
-          var element = $('#46e0acc4-fe4e-4f7f-b915-8cf2e41d8eb9');
+          var element = $('#d1698907-f84c-4e85-916f-9cb98c03f60f');
         ['for (x in document.querySelectorAll("#top-panel #jp-title h1").children){\n', "    // we can't set our own h1 as that will mess up custom content.\n", "    // the css depends on the h1, but the screen reader won't find it this way.\n", '    x.setAttribute("role", "presentation");\n', '};\n']
          </script>
         </div>
@@ -2307,9 +2338,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="7946aad3-fed9-4f4d-87f1-bf1ea9ddc2d2">
+        <div class="output_subarea output_javascript" id="03e64fd1-d530-49d5-8494-b15eb3575787">
          <script type="text/javascript">
-          var element = $('#7946aad3-fed9-4f4d-87f1-bf1ea9ddc2d2');
+          var element = $('#03e64fd1-d530-49d5-8494-b15eb3575787');
         ['// a user should be able to trigger the logo dialog by clicking on .jp-NotebookKernelLogo\n', '// the trusted status button needs alt and a clearer title .jp-NotebookTrustedStatus\n', '// the button.jp-Notebook-footer semantics are wrong. the button should be inside a footer, or role=contentinfo\n']
          </script>
         </div>
@@ -2505,9 +2536,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="12a9a680-dd37-43c5-90a8-bdf7af774011">
+        <div class="output_subarea output_javascript" id="9cd576ae-56a5-452a-915e-06150cffce5a">
          <script type="text/javascript">
-          var element = $('#12a9a680-dd37-43c5-90a8-bdf7af774011');
+          var element = $('#9cd576ae-56a5-452a-915e-06150cffce5a');
         ['// it is going to make no sense to anyone that the jupyter label sends you to open files\n', 'document.querySelectorAll("#top-panel #jp-NotebookLogo").forEach((x,i) =>{\n', '    x.setAttribute("title", "Open File Browser in a New Tab");\n', '    x.setAttribute("alt", "Open File Browser in a New Tab");\n', '});\n']
          </script>
         </div>
@@ -2688,9 +2719,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="8249b48c-0017-4d67-8f54-68219c29ed38">
+        <div class="output_subarea output_javascript" id="cf0e00c7-fd9a-4137-90e7-23703222dfa8">
          <script type="text/javascript">
-          var element = $('#8249b48c-0017-4d67-8f54-68219c29ed38');
+          var element = $('#cf0e00c7-fd9a-4137-90e7-23703222dfa8');
         ['document.querySelectorAll("#spacer-widget-top").forEach((x,i) =>{x.setAttribute("role", "presentation");});\n', 'document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Cells");});\n']
          </script>
         </div>
@@ -2875,9 +2906,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="6ad6d31e-8649-4d1f-b34c-58e0c38c835b">
+        <div class="output_subarea output_javascript" id="a5b74b58-df71-451e-9aa7-6bb2d89b7774">
          <script type="text/javascript">
-          var element = $('#6ad6d31e-8649-4d1f-b34c-58e0c38c835b');
+          var element = $('#a5b74b58-df71-451e-9aa7-6bb2d89b7774');
         ['// role navigation -> banner, this is a landmark inside of main\n', 'document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); x.setAttribute("aria-label", "Notebook Actions");\n', '});    \n']
          </script>
         </div>
@@ -3078,9 +3109,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="0dfe0a75-760a-434d-b6cf-3c4c36b5b8de">
+        <div class="output_subarea output_javascript" id="6cded774-df09-4d19-960f-0e3e2dee8a10">
          <script type="text/javascript">
-          var element = $('#0dfe0a75-760a-434d-b6cf-3c4c36b5b8de');
+          var element = $('#6cded774-df09-4d19-960f-0e3e2dee8a10');
         ['document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{\n', '    x.setAttribute("role", "feed"); x.setAttribute("aria-label", "Cells");\n', '});\n']
          </script>
         </div>
@@ -3313,9 +3344,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="a6a462c1-ae75-4496-af83-fdf46cdb5b19">
+        <div class="output_subarea output_javascript" id="508a89b0-63f1-4be6-bddd-d325f17e19d1">
          <script type="text/javascript">
-          var element = $('#a6a462c1-ae75-4496-af83-fdf46cdb5b19');
+          var element = $('#508a89b0-63f1-4be6-bddd-d325f17e19d1');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    // lets punt on the feed pattern to start\n', '    // x.setAttribute("role", "article"); \n', '    // x.setAttribute("aria-posinset", i+1); \n', '    // x.setAttribute("aria-setsize", cells.length); \n', '\n', '    // use a raw region to make sure the cells show as landmarks\n', '    x.setAttribute("role", "region"); \n', '    \n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '    if (CODE){\n', '        x.setAttribute("aria-label", `Code Cell ${i+1}`);\n', '    } else if (MD){\n', '        x.setAttribute("aria-label", `Markdown Cell ${i+1}`);\n', '    } else {\n', '        x.setAttribute("aria-label", `Cell ${i+1}`);\n', '    };\n', '\n', '    // i cant directly know the input number. semantically it is some kind of label.\n', '    // this effort is concerned with the AOM, not WCAG. \n', '    // we do have a visible label so this should satisfy the visible label\n', '    prompt = x.querySelectorAll(".jp-InputPrompt")[0];\n', '    prompt.setAttribute("aria-hidden", "true");\n', '\n', '    // STILL NEED TO ADD A LANDMARK FOR THE CELL\n', '});\n']
          </script>
         </div>
@@ -3560,9 +3591,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="2286bb45-9a5b-48c4-8238-8ad44931fc8a">
+        <div class="output_subarea output_javascript" id="3cae2352-6dc6-4394-a399-b94504387c36">
          <script type="text/javascript">
-          var element = $('#2286bb45-9a5b-48c4-8238-8ad44931fc8a');
+          var element = $('#3cae2352-6dc6-4394-a399-b94504387c36');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '\n', '    // code, markdown, raw cells need different groupings.\n', '    x.querySelectorAll(".jp-Cell-inputWrapper").forEach(\n', '        (y)=>{\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (CODE){\n', '                if (label.length){\n', '                    y.setAttribute("aria-label", `In ${label}`);\n', '                } else {\n', '                    y.setAttribute("aria-label", `New Code Input`);\n', '                }\n', '            } else if (MD){\n', '                y.setAttribute("aria-label", `Markdown Input`);\n', '            } else {\n', '                y.setAttribute("aria-label", `Input`);\n', '            }\n', '        }\n', '    );\n', '    // make the cell toolbar an APG styled toolbar. this is the most cursory modification.\n', '    x.querySelectorAll(".jp-cell-toolbar").forEach(\n', '        (y)=>{\n', '            // https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/examples/toolbar/\n', '            y.setAttribute("role", "toolbar");\n', '            y.setAttribute("aria-label", `Cell ${i+1} Toolbar`);\n', '            y.setAttribute("aria-controls", `cell-input-${i}`);\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
@@ -3807,9 +3838,9 @@ right now, i'm only comfortable calling the outputs a group, this means they may
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="9f8f2bef-f439-4173-84ac-4c26d2d22bfa">
+        <div class="output_subarea output_javascript" id="3d08c9e8-6e5e-42eb-98c2-3e03622fe0e6">
          <script type="text/javascript">
-          var element = $('#9f8f2bef-f439-4173-84ac-4c26d2d22bfa');
+          var element = $('#3d08c9e8-6e5e-42eb-98c2-3e03622fe0e6');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    x.querySelectorAll(".jp-Cell-outputWrapper").forEach(\n', '        (y)=>{\n', '            // this will only be encountered on code cells.\n', '            // i have no invested significant time into the semantics of the outputs\n', '            // group is a fine semantic, but it is non specific.\n', '            // increasingly i feel like the output is nested feed because it \n', '            // would allow outputs to be indexed. need more testing.\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (label.length){\n', '                y.setAttribute("aria-label", `Output ${label}`);\n', '            } else {\n', '                // no need to worry about the output label when there is not execution\n', '                // aria hidden might be appropriate without testing on a screen reader.\n', '            };\n', '        }\n', '    );\n', '    x.querySelectorAll(".jp-OutputCollapser").forEach(\n', '        (y)=>{\n', '            // the collapser button has no semantics or visible label.\n', '            // this feature is not accessible, but should because for folks using screen magnification.\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
