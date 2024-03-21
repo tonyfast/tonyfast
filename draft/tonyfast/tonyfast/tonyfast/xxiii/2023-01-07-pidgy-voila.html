@@ -87,11 +87,13 @@ body {
     background-color: var(--color-light);
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel {
+body:not([data-dev-sa11y]) sa11y-control-panel,
+body:not([data-dev-sa11y]) sa11y-annotation {
     display: none;
 }
 
-body[data-dev-sa11y] sa11y-control-panel {
+body[data-dev-sa11y] sa11y-control-panel,
+body[data-dev-sa11y] sa11y-annotation {
     display: unset;
 }
 
@@ -209,11 +211,36 @@ li.cell {
 
 /* ## notebook components layout */
 
+#cells,
+#cells>tbody,
+#cells>tbody>tr,
 #cells>tbody>tr>[role="none"] {
     display: block;
     text-align: unset;
+    width: calc(100vw - 2 * var(--nb-margin));
 }
 
+.nb-outputs img,
+.nb-outputs image {
+    height: 100%;
+    width: 100%;
+}
+
+
+.horiz-overflow .nb-outputs img,
+.horiz-overflow .nb-outputs image {
+    height: unset;
+    width: unset;
+}
+
+.horiz-overflow #cells,
+.horiz-overflow #cells>tbody,
+.horiz-overflow #cells>tbody>tr,
+.horiz-overflow #cells>tbody>tr>[role="none"] {
+    width: max-content;
+}
+
+#cells>tbody>tr[hidden],
 #cells>tbody>tr>[role="none"][hidden] {
     display: none;
 }
@@ -264,7 +291,6 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
 .horiz-overflow footer {
     width: max-content;
@@ -1821,9 +1847,9 @@ the cookies demo is a go to demo from Bret Viktor's [tanglejs].
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="571664e2-a413-43b8-9f83-0b5e8f1bdaaf">
+        <div class="jupyter-widgets jp-OutputArea-output" id="9755cc89-e1f0-4246-a285-17ec6cd6cf5a">
          <script type="text/javascript">
-          var element = document.getElementById('571664e2-a413-43b8-9f83-0b5e8f1bdaaf');
+          var element = document.getElementById('9755cc89-e1f0-4246-a285-17ec6cd6cf5a');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "c91a3037a55f406d9b31ddd00b3117bc", "version_major": 2, "version_minor": 0}
@@ -1928,9 +1954,9 @@ the cookies demo is a go to demo from Bret Viktor's [tanglejs].
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="68ecb95e-c13c-4332-b78a-2e6fe5a220c2">
+        <div class="jupyter-widgets jp-OutputArea-output" id="1d5a7c11-d8b1-4975-bd67-44d04a1c41c5">
          <script type="text/javascript">
-          var element = document.getElementById('68ecb95e-c13c-4332-b78a-2e6fe5a220c2');
+          var element = document.getElementById('1d5a7c11-d8b1-4975-bd67-44d04a1c41c5');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "c2aecbfa15fd4cc2ab29c05d0c0822a2", "version_major": 2, "version_minor": 0}
@@ -2057,9 +2083,9 @@ when widgets change, the display changes as shown in the COOOKIES demo.
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="97038f09-f563-44bc-a3c8-0bc5e077eeae">
+        <div class="jupyter-widgets jp-OutputArea-output" id="4871c44f-7aad-4c62-a921-a6fdeff6b2df">
          <script type="text/javascript">
-          var element = document.getElementById('97038f09-f563-44bc-a3c8-0bc5e077eeae');
+          var element = document.getElementById('4871c44f-7aad-4c62-a921-a6fdeff6b2df');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "4ddab38140394b759f63c83bdddee5e0", "version_major": 2, "version_minor": 0}

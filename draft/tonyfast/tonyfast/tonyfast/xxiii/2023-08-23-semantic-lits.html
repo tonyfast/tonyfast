@@ -89,11 +89,13 @@ body {
     background-color: var(--color-light);
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel {
+body:not([data-dev-sa11y]) sa11y-control-panel,
+body:not([data-dev-sa11y]) sa11y-annotation {
     display: none;
 }
 
-body[data-dev-sa11y] sa11y-control-panel {
+body[data-dev-sa11y] sa11y-control-panel,
+body[data-dev-sa11y] sa11y-annotation {
     display: unset;
 }
 
@@ -211,11 +213,36 @@ li.cell {
 
 /* ## notebook components layout */
 
+#cells,
+#cells>tbody,
+#cells>tbody>tr,
 #cells>tbody>tr>[role="none"] {
     display: block;
     text-align: unset;
+    width: calc(100vw - 2 * var(--nb-margin));
 }
 
+.nb-outputs img,
+.nb-outputs image {
+    height: 100%;
+    width: 100%;
+}
+
+
+.horiz-overflow .nb-outputs img,
+.horiz-overflow .nb-outputs image {
+    height: unset;
+    width: unset;
+}
+
+.horiz-overflow #cells,
+.horiz-overflow #cells>tbody,
+.horiz-overflow #cells>tbody>tr,
+.horiz-overflow #cells>tbody>tr>[role="none"] {
+    width: max-content;
+}
+
+#cells>tbody>tr[hidden],
 #cells>tbody>tr>[role="none"][hidden] {
     display: none;
 }
@@ -266,7 +293,6 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
 .horiz-overflow footer {
     width: max-content;

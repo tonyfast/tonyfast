@@ -87,11 +87,13 @@ body {
     background-color: var(--color-light);
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel {
+body:not([data-dev-sa11y]) sa11y-control-panel,
+body:not([data-dev-sa11y]) sa11y-annotation {
     display: none;
 }
 
-body[data-dev-sa11y] sa11y-control-panel {
+body[data-dev-sa11y] sa11y-control-panel,
+body[data-dev-sa11y] sa11y-annotation {
     display: unset;
 }
 
@@ -209,11 +211,36 @@ li.cell {
 
 /* ## notebook components layout */
 
+#cells,
+#cells>tbody,
+#cells>tbody>tr,
 #cells>tbody>tr>[role="none"] {
     display: block;
     text-align: unset;
+    width: calc(100vw - 2 * var(--nb-margin));
 }
 
+.nb-outputs img,
+.nb-outputs image {
+    height: 100%;
+    width: 100%;
+}
+
+
+.horiz-overflow .nb-outputs img,
+.horiz-overflow .nb-outputs image {
+    height: unset;
+    width: unset;
+}
+
+.horiz-overflow #cells,
+.horiz-overflow #cells>tbody,
+.horiz-overflow #cells>tbody>tr,
+.horiz-overflow #cells>tbody>tr>[role="none"] {
+    width: max-content;
+}
+
+#cells>tbody>tr[hidden],
 #cells>tbody>tr>[role="none"][hidden] {
     display: none;
 }
@@ -264,7 +291,6 @@ td.nb-source {
     overflow-x: auto;
 }
 
-.horiz-overflow td.nb-outputs,
 .horiz-overflow header,
 .horiz-overflow footer {
     width: max-content;
@@ -2092,9 +2118,9 @@ flowchart LR
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="640a3103-e9ee-4ecf-a7a3-c1f07675c45f">
+        <div class="jupyter-widgets jp-OutputArea-output" id="dabc6f2c-ea97-4fde-aaf6-9dc2d06f7d91">
          <script type="text/javascript">
-          var element = document.getElementById('640a3103-e9ee-4ecf-a7a3-c1f07675c45f');
+          var element = document.getElementById('dabc6f2c-ea97-4fde-aaf6-9dc2d06f7d91');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "c6e3eac55d054bc1807e06185dacd8ef", "version_major": 2, "version_minor": 0}
@@ -3308,9 +3334,9 @@ you consume {{cookies.value * calories}} calories.
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="f59a6a29-05ed-4367-8c75-8b3faecdc7c8">
+        <div class="jupyter-widgets jp-OutputArea-output" id="d9378dcb-0c8c-4422-9a17-965479de462e">
          <script type="text/javascript">
-          var element = document.getElementById('f59a6a29-05ed-4367-8c75-8b3faecdc7c8');
+          var element = document.getElementById('d9378dcb-0c8c-4422-9a17-965479de462e');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "6067e814cf3b48a9a6ef5914b8296461", "version_major": 2, "version_minor": 0}
@@ -3675,17 +3701,17 @@ in this collection, there are {{len(lang)}} different languages included. their 
           ]
          </span>
         </legend>
-        <div class="jupyter-widgets jp-OutputArea-output" id="cabcad0e-369d-4e4f-945d-5894c004b7e3">
+        <div class="jupyter-widgets jp-OutputArea-output" id="077b048e-41a3-4817-91b3-827eb293c18c">
          <script type="text/javascript">
-          var element = document.getElementById('cabcad0e-369d-4e4f-945d-5894c004b7e3');
+          var element = document.getElementById('077b048e-41a3-4817-91b3-827eb293c18c');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "346f75e828204a6a99793697fce30407", "version_major": 2, "version_minor": 0}
          </script>
         </div>
-        <div class="jupyter-widgets jp-OutputArea-output" id="12aa6466-9bf7-4d1b-9d36-d01293adfdbe">
+        <div class="jupyter-widgets jp-OutputArea-output" id="a7ef0325-1e9a-4ae4-ae9f-57cc3d6bde53">
          <script type="text/javascript">
-          var element = document.getElementById('12aa6466-9bf7-4d1b-9d36-d01293adfdbe');
+          var element = document.getElementById('a7ef0325-1e9a-4ae4-ae9f-57cc3d6bde53');
          </script>
          <script type="application/vnd.jupyter.widget-view+json">
           {"model_id": "878cd30fc71541cc95e9c28c59b42e17", "version_major": 2, "version_minor": 0}
