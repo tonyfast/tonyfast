@@ -2417,18 +2417,19 @@
     <span class="n">config</span> <span class="o">=</span> <span class="err">!</span><span class="n">ipython</span> <span class="n">profile</span> <span class="n">locate</span>
     <span class="n">config</span> <span class="o">=</span> <span class="n">pathlib</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="o">*</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;ipython_config.py&quot;</span><span class="p">)</span>
 </code></pre></div>
-<p>programmatically discover the default <code>ipython profile location</code> which is where we need to write or update our configuration at.</p>
-<pre><code>config = !ipython profile locate
-config = pathlib.Path(*config, "ipython_config.py")
-</code></pre>
 <p><code>config_source</code> contains the lines of code we want to write to our configuration.</p>
 <div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">config_source</span><span class="p">():</span>        
-        <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">exec_lines</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;from nobook.utils import Index, Series, DataFrame&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;import midgy, pathlib&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;from dataclasses import dataclass, field&quot;</span><span class="p">,</span>
-<span class="w">            </span><span class="sd">&quot;&quot;&quot;[get_ipython().user_ns.setdefault(k, v) for k, v in __import__(&quot;sys&quot;).modules.items() if &quot;.&quot; not in k]&quot;&quot;&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;from toolz.curried import *&quot;</span><span class="p">]</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;from nobook.utils import Index, Series, DataFrame</span>
+<span class="s2">        import midgy,  anyio, pyperclip</span>
+<span class="s2">        from pathlib import Path</span>
+<span class="s2">        from IPython.display import *</span>
+<span class="s2">        from dataclasses import dataclass, field</span>
+<span class="s2">        from toolz.curried import *</span>
+<span class="s2">        [get_ipython().user_ns.setdefault(k, v) for k, v in __import__(&quot;sys&quot;).modules.items() if &quot;.&quot; not in k]</span>
+<span class="s2">        print(&quot;my config loaded&quot;)</span>
+<span class="s2">        &quot;&quot;&quot;</span>
+
+        <span class="n">c</span><span class="o">.</span><span class="n">InteractiveShellApp</span><span class="o">.</span><span class="n">exec_lines</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
 </code></pre></div>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="n">write</span> <span class="n">the</span> <span class="err">`</span><span class="n">config_source</span><span class="err">`</span> <span class="n">to</span> <span class="n">disc</span> 
@@ -2452,33 +2453,11 @@ config = pathlib.Path(*config, "ipython_config.py")
 
         <span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="k">assert</span> <span class="nb">all</span><span class="p">((</span><span class="n">operator</span><span class="p">,</span> <span class="n">compose</span><span class="p">,</span> <span class="n">pipe</span><span class="p">))</span>
 </code></pre></div>
-<p>write the <code>config_source</code> to disc </p>
-<pre><code>config.write_text(textwrap.dedent(
-    "".join(inspect.getsourcelines(config_source)[0][1:])
-))
-</code></pre>
-<p>when we restart our kernel we should have some new variables 
-that we can use by default. </p>
-<ul>
-<li>
-<p>i always want my pandas dataframes because i use them as first class citizens</p>
-<pre><code>&amp;gt;&amp;gt;&amp;gt; assert all((Index, Series, DataFrame))
-</code></pre>
-</li>
-<li>
-<p>we loaded in all the modules we know about from <code>sys</code> modules. this enriched namespace makes it easier to continue flowing thoughts.</p>
-<pre><code>&amp;gt;&amp;gt;&amp;gt; assert all((pathlib,))
-</code></pre>
-</li>
-<li>
-<p><code>toolz</code> is the shit for functional programming, especially the curried versions. we want them to shred faster.</p>
-<pre><code>&amp;gt;&amp;gt;&amp;gt; assert all((operator, compose, pipe))
-</code></pre>
-</li>
-</ul>
 <p>all these modifications make it possible run this without any imports.
 we start with imports, but could remove them after our configuration
 was defined properly.</p>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
