@@ -50,301 +50,336 @@
 }());
   </script>
   <style type="text/css">
-   /* # accessible css configurations
+   @layer api, defaults, layout, cells, cell, sa11y;
 
-we define these high level variables to allow for configuration during use and testing.
-we are not sure what the preferred default values are for these any accessible notebooks features.
-the variables specify critical degrees of freedom in the notebook style.
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
 
-## notebook interface specific css variables
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
 
-*/
-:root {
-    --nb-focus-width: 3px;
-    --nb-accent-color: auto;
-    --nb-margin: 5%;
-    --nb-font-size: 16px;
-    --nb-font-family: serif;
-    --nb-line-height: 1.5;
-    --nb-scrolled-height: 600px;
-    --color-light: #FFFFFF;
-    --color-dark: #2b2a33;
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        display: inline-block;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
 }
 
 
-/* map css variables to css properties on the `body` elements.
-this mapping turns out css variables into user interfaces. */
+@layer sally {
 
-body {
-    font-size: var(--nb-font-size);
-    font-family: var(--nb-font-family);
-    accent-color: var(--nb-accent-color);
-    margin-left: var(--nb-margin);
-    margin-right: var(--nb-margin);
-    line-height: var(--nb-line-height);
-    width: calc(100% - 2*var(--nb-margin));
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel,
-body:not([data-dev-sa11y]) sa11y-annotation {
-    display: none;
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[aria-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
 }
 
-body[data-dev-sa11y] sa11y-control-panel,
-body[data-dev-sa11y] sa11y-annotation {
-    display: unset;
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
 }
 
-body.dark {
-    color: var(--color-light);
-    background-color: var(--color-dark);
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
 }
 
-main:fullscreen {
-    overflow: auto;
-    background: var(--color-light);
-}
-
-.dark main:fullscreen {
-    background: var(--color-dark);
-}
-
-/* ## notebook settings
-
-the notebook settings interface connects configurable css features to the user.
-we use dialog elements to represents an element that should be hidden by default.
-it turns out there are two ways to layout `dialog` elements. 
-they can be used as modals or block elements.
-we extract this dual purpose to provide both configurations to the user.
-
-*/
-
-dialog form>* {
-    display: block;
-}
-
-
-/* ## wcag accessibility guidelines as a feature
-
-flexibility is the future of assistive interfaces.
-it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
-it is the fucking priority.
-
-in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
-one configurable feature is the accessibility priority. 
-experienced developers may need less assistive features as they spend more time with an interface.
-
-### buttons sizes
-
-WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
-
-/* satisfy AAA 2.5.5 */
-
-.wcag-aaa button,
-.wcag-aaa input[type=checkbox] {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.wcag-aaa a {
-    font-size: max(44px, var(--nb-font-size));
-}
-
-/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
-/* satisfy AA 2.5.8 minimum target requirement */
-.wcag-aa button,
-.wcag-aa input[type=checkbox] {
-    min-height: 24px;
-    min-width: 24px;
-}
-
-.wcag-aa a {
-    font-size: max(24px, var(--nb-font-size));
-}
-
-/* remove the color styling for AAA */
-.wcag-aaa .highlight pre code span[class] {
-    color: unset;
-}
-
-/* ### native textareas for AAA priority.
-
-
-our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
-the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
-
-*/
-
-.markdown textarea[name=source]+[role=group],
-.wcag-a textarea[name=source],
-.wcag-aa textarea[name=source],
-.wcag-aaa .markdown textarea[name=source],
-/* this group selector is very ambiguous */
-.wcag-aaa textarea[name=source]+[role=group] {
-    display: none;
-}
-
-/* line height cant change pre elements based on browser presets */
-pre,
-.highlight>pre,
-textarea {
-    line-height: var(--nb-line-height);
-    white-space: pre-wrap;
-}
-
-.horiz-overflow pre,
-.horiz-overflow textarea {
-    white-space: pre;
-}
-
-/* this is only needed for the lsit template variant */
-ol#cells {
-    margin: unset;
-    padding: unset;
-}
-
-li.cell {
-    list-style-type: none;
-}
-
-/* ## notebook components layout */
-
-#cells,
-#cells>tbody,
-#cells>tbody>tr,
-#cells>tbody>tr>[role="none"] {
-    display: block;
-    text-align: unset;
-    width: calc(100vw - 2 * var(--nb-margin));
-}
-
-.nb-outputs img,
-.nb-outputs image {
-    height: 100%;
-    width: 100%;
-}
-
-
-.horiz-overflow .nb-outputs img,
-.horiz-overflow .nb-outputs image {
-    height: unset;
-    width: unset;
-}
-
-.horiz-overflow #cells,
-.horiz-overflow #cells>tbody,
-.horiz-overflow #cells>tbody>tr,
-.horiz-overflow #cells>tbody>tr>[role="none"] {
-    width: max-content;
-}
-
-#cells>tbody>tr[hidden],
-#cells>tbody>tr>[role="none"][hidden] {
-    display: none;
-}
-
-tr.cell>th:first-child {}
-
-table {
-    border-spacing: unset;
-}
-
-ol[reversed]#cells,
-[reversed]#cells tbody {
-    flex-direction: column-reverse;
-}
-
-/* hide the visual output area when there are no outputs. 
-assistive technologies will recieve an audible notification that there are not outputs. */
-
-fieldset[data-outputs="0"] {
-    display: none;
-}
-
-/* ## modifications to html defaults 
-
-### focus 
-
-there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
-we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
-
-*/
-
-
-
-.cell:focus-within,
-:focus-visible {
-    outline: max(var(--nb-focus-width), 1px) solid;
-    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
-}
-
-
-/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
-textarea[name=source] {
-    min-width: 0;
-}
-
-td.nb-outputs,
-td.nb-source {
-    overflow-x: auto;
-}
-
-.horiz-overflow header,
-.horiz-overflow footer {
-    width: max-content;
-}
-
-.horiz-overflow td.nb-source {
-    overflow-x: visible;
-}
-
-.horiz-overflow td.nb-outputs {
-    min-width: 100%;
-}
-
-.horiz-overflow .cell {
-    width: fit-content;
-}
-
-#nb-settings li::marker,
-summary[inert]::marker {
-    content: "";
-}
-
-/* ### inheriting styles */
-
-input,
-select,
-button {
-    font-family: inherit;
-    font-size: inherit;
-}
-
-textarea {
-    font-family: monospace;
-    font-size: inherit;
-    overflow: auto;
-    color: unset;
-}
-
-textarea[name=source] {
-    box-sizing: border-box;
-    width: 100%;
-    resize: none;
-}
-
-
-/* align checkboxes with buttons */
-input[type="checkbox"] {
-    vertical-align: middle;
-}
-
-/* ## custom class selectors */
-
-#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
-/* legend:not(:focus-within):not(:active), */
 details.log:not([open])+table,
 .visually-hidden:not(:focus-within):not(:active),
 .visually-hide {
@@ -355,15 +390,6 @@ details.log:not([open])+table,
     position: absolute;
     white-space: nowrap;
     width: 1px;
-}
-
-.nb-outputs.nb-scrolled {
-    max-height: var(--nb-scrolled-height);
-    overflow-y: auto;
-}
-
-.nb-outputs.nb-collapsed {
-    display: none;
 }
   </style>
   <style id="nb-light-highlight" media="screen" type="text/css">
@@ -744,7 +770,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </style>
   <!-- End of mermaid configuration -->
  </head>
- <body class="wcag-aa">
+ <body class="wcag-aa sticky">
   <header>
    <a href="#1" id="TOP">
     skip to main content
@@ -1434,7 +1460,20 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <table id="cells" role="none">
+   <fieldset form="settings">
+    <legend>
+     cell ordering
+    </legend>
+    <input id="sort-asc" name="sorted" type="radio" value="ascending">
+    <label for="sort-asc">
+     ascending
+    </label>
+    <input id="sort-desc" name="sorted" type="radio" value="descending">
+    <label for="sort-desc">
+     descending
+    </label>
+   </fieldset>
+   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1447,7 +1486,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
      <col class="nb-metadata">
      <col class="nb-outputs">
     </colgroup>
-    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
        index
@@ -1480,7 +1519,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="14" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1577,7 +1616,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'execution': {'iopub.execute_input': '2023-12-13T03:11:24.037323Z', 'iopub.status.busy': '2023-12-13T03:11:24.037027Z', 'iopub.status.idle': '2023-12-13T03:11:24.043611Z', 'shell.execute_reply': '2023-12-13T03:11:24.042940Z', 'shell.execute_reply.started': '2023-12-13T03:11:24.037295Z'}, 'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h1><a href="#it-s-the-community-call-y-all">It\'s the Community Call Y\'all</a></h1>\n\n<label for="run">🏃</label><button data-commandlinker-command="notebook:run-all-cells" id="run">run all</button>\n<label for="doc">🖹</label><button data-commandlinker-command="application:toggle-mode" id="doc">document mode</button>\n<label for="prez">📽</label><button data-commandlinker-command="application:toggle-presentation-mode" id="prez">presentation mode</button>\n<label for="collapse">&minusb;</label><button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse">collapse all the code</button>\n<br>\n<label for="expand">&plusb;</label><button data-commandlinker-command="notebook:show-all-cell-code" id="expand">expand all the code</button>\n<button data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button>\n<button data-commandlinker-command="notebook:render-with-voila"><code>voila</code></button>\n<label for="inspectoropen">🔍</label><button data-commandlinker-command="inspector:open" id="inspectoropen">inspector</button>\n<label for="right" title="open side by side view">👯</label><button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right">side-by-side</button>\n\n\n'}}
+        {'execution': {'iopub.execute_input': '2023-12-13T03:11:24.037323Z', 'iopub.status.busy': '2023-12-13T03:11:24.037027Z', 'iopub.status.idle': '2023-12-13T03:11:24.043611Z', 'shell.execute_reply': '2023-12-13T03:11:24.042940Z', 'shell.execute_reply.started': '2023-12-13T03:11:24.037295Z'}, 'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h1 id="it-s-the-community-call-y-all"><a aria-labelledby="it-s-the-community-call-y-all" class="pilcrow" href="#it-s-the-community-call-y-all"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">It\'s the Community Call Y\'all</span></h1>\n\n<label for="run">🏃</label><button data-commandlinker-command="notebook:run-all-cells" id="run">run all</button>\n<label for="doc">🖹</label><button data-commandlinker-command="application:toggle-mode" id="doc">document mode</button>\n<label for="prez">📽</label><button data-commandlinker-command="application:toggle-presentation-mode" id="prez">presentation mode</button>\n<label for="collapse">&minusb;</label><button data-commandlinker-command="notebook:hide-all-cell-code" id="collapse">collapse all the code</button>\n<br>\n<label for="expand">&plusb;</label><button data-commandlinker-command="notebook:show-all-cell-code" id="expand">expand all the code</button>\n<button data-commandlinker-command="deck:toggle"><code>jupyterlab-deck</code></button>\n<button data-commandlinker-command="notebook:render-with-voila"><code>voila</code></button>\n<label for="inspectoropen">🔍</label><button data-commandlinker-command="inspector:open" id="inspectoropen">inspector</button>\n<label for="right" title="open side by side view">👯</label><button data-commandlinker-command="notebook:toggle-render-side-by-side-current" id="right">side-by-side</button>\n\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1586,10 +1625,14 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        14
       </td>
       <td class="nb-outputs" role="none">
-       <h1>
-        <a href="#it-s-the-community-call-y-all">
-         It's the Community Call Y'all
+       <h1 id="it-s-the-community-call-y-all">
+        <a aria-labelledby="it-s-the-community-call-y-all" class="pilcrow" href="#it-s-the-community-call-y-all">
+         <span class="pilcrow" data-level="1">
+         </span>
         </a>
+        <span aria-hidden="True">
+         It's the Community Call Y'all
+        </span>
        </h1>
        <form id="controls">
         <label for="run">
@@ -1648,7 +1691,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        </form>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="15" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell markdown" data-index="2" data-loc="15" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1740,7 +1783,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#about-today-s-event">about today\'s event</a></h2>\n<p>This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.</p>\n<ol>\n<li><p>We want to remind everyone that community calls and chat are recorded.</p>\n</li>\n<li><p>This is a part of the Jupyter community we are all held to the Jupyter Code of Conduct. You can find this at any time at jupyter.org/conduct.</p>\n</li>\n<li><p>Presenters have submitted what they want to share ahead of time and can be found on the agenda. Presenters will keep talks between 5-7 minutes. Since we have a full program, we\'ll defer questions to the Zoom chat.</p>\n</li>\n<li><p>There are several ways to participate if you aren\'t demoing:</p>\n<ul>\n<li>Keep the Zoom chat zoom active with questions, links and other discussions.</li>\n<li>Help take and record links notes on the <a href="https://hackmd.io/h_S-qpfsQgS_HFewzJvI5g?both#Notes-and-Other-Links">collaborative HackMD</a></li>\n<li>React with Emoji\'s in Zoom</li>\n</ul>\n</li>\n</ol>\n'}}
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="about-today-s-event"><a aria-labelledby="about-today-s-event" class="pilcrow" href="#about-today-s-event"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">about today\'s event</span></h2>\n<p>This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.</p>\n<ol>\n<li><p>We want to remind everyone that community calls and chat are recorded.</p>\n</li>\n<li><p>This is a part of the Jupyter community we are all held to the Jupyter Code of Conduct. You can find this at any time at jupyter.org/conduct.</p>\n</li>\n<li><p>Presenters have submitted what they want to share ahead of time and can be found on the agenda. Presenters will keep talks between 5-7 minutes. Since we have a full program, we\'ll defer questions to the Zoom chat.</p>\n</li>\n<li><p>There are several ways to participate if you aren\'t demoing:</p>\n<ul>\n<li>Keep the Zoom chat zoom active with questions, links and other discussions.</li>\n<li>Help take and record links notes on the <a href="https://hackmd.io/h_S-qpfsQgS_HFewzJvI5g?both#Notes-and-Other-Links">collaborative HackMD</a></li>\n<li>React with Emoji\'s in Zoom</li>\n</ul>\n</li>\n</ol>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1749,10 +1792,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        15
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#about-today-s-event">
-         about today's event
+       <h2 id="about-today-s-event">
+        <a aria-labelledby="about-today-s-event" class="pilcrow" href="#about-today-s-event">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         about today's event
+        </span>
        </h2>
        <p>
         This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.
@@ -1795,7 +1842,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </ol>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell markdown" data-index="3" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell markdown" data-index="3" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1867,7 +1914,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#who-is-excited-to-see-demos">Who Is Excited to See Demos?</a></h2>\n<p>🎉 Use the Zoom chat and emoji reactions to let us know how excited you are to see some demos!</p>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/hi%20bye%20jo.jpg?raw=true" width="400"></p>\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="who-is-excited-to-see-demos"><a aria-labelledby="who-is-excited-to-see-demos" class="pilcrow" href="#who-is-excited-to-see-demos"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">Who Is Excited to See Demos?</span></h2>\n<p>🎉 Use the Zoom chat and emoji reactions to let us know how excited you are to see some demos!</p>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/hi%20bye%20jo.jpg?raw=true" width="400"></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1876,10 +1923,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        5
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#who-is-excited-to-see-demos">
-         Who Is Excited to See Demos?
+       <h2 id="who-is-excited-to-see-demos">
+        <a aria-labelledby="who-is-excited-to-see-demos" class="pilcrow" href="#who-is-excited-to-see-demos">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Who Is Excited to See Demos?
+        </span>
        </h2>
        <p>
         🎉 Use the Zoom chat and emoji reactions to let us know how excited you are to see some demos!
@@ -1889,7 +1940,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1963,7 +2014,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#thank-yous">Thank yous</a></h2>\n<ul>\n<li>thanks to all y\'all for being here!</li>\n<li>thank you to all the participants in <a href="https://github.com/jupyterlab/team-compass/issues/223">jupyterlab/team-compass/issues/223</a> who helped organize this event as a community</li>\n<li>thank you to the <a href="https://jupyter.org/governance/executive_council.html">executive council</a>, <a href="https://jupyter.org/governance/communitybuildingworkinggroup.html">jupyter community building working group(JCB)</a>, and <a href="https://jupyter.org/governance/charters/MediaStrategyCharter.html">jupyter media strategy working group (JMS)</a> for support in organizing this call</li>\n</ul>\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="thank-yous"><a aria-labelledby="thank-yous" class="pilcrow" href="#thank-yous"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">Thank yous</span></h2>\n<ul>\n<li>thanks to all y\'all for being here!</li>\n<li>thank you to all the participants in <a href="https://github.com/jupyterlab/team-compass/issues/223">jupyterlab/team-compass/issues/223</a> who helped organize this event as a community</li>\n<li>thank you to the <a href="https://jupyter.org/governance/executive_council.html">executive council</a>, <a href="https://jupyter.org/governance/communitybuildingworkinggroup.html">jupyter community building working group(JCB)</a>, and <a href="https://jupyter.org/governance/charters/MediaStrategyCharter.html">jupyter media strategy working group (JMS)</a> for support in organizing this call</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1972,10 +2023,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        6
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#thank-yous">
-         Thank yous
+       <h2 id="thank-yous">
+        <a aria-labelledby="thank-yous" class="pilcrow" href="#thank-yous">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Thank yous
+        </span>
        </h2>
        <ul>
         <li>
@@ -2006,7 +2061,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="7" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell markdown" data-index="5" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -2082,7 +2137,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#updates-from-the-executive-council">Updates from the Executive council</a></h2>\n<ul>\n<li><a href="https://docs.google.com/presentation/d/1IINOQjpxTTfDGkbfkywp6nE14bWBuNWm1FKnN_ha_nw/edit?usp=sharing">Executive Council update from May 2023</a></li>\n<li><a href="https://docs.google.com/presentation/d/1IINOQjpxTTfDGkbfkywp6nE14bWBuNWm1FKnN_ha_nw/edit#slide=id.p">How Jupyter is governed.</a></li>\n<li><a href="https://jupyter.org/community">Ways to connect with the community on Jupyter.org</a></li>\n</ul>\n<p><img alt="No description has been provided for this image" src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*lz2yH1jyAlILFF9hZNtFPg.jpeg" width="400"></p>\n'}}
+        {'data': {'text/html': '<h2 id="updates-from-the-executive-council"><a aria-labelledby="updates-from-the-executive-council" class="pilcrow" href="#updates-from-the-executive-council"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">Updates from the Executive council</span></h2>\n<ul>\n<li><a href="https://docs.google.com/presentation/d/1IINOQjpxTTfDGkbfkywp6nE14bWBuNWm1FKnN_ha_nw/edit?usp=sharing">Executive Council update from May 2023</a></li>\n<li><a href="https://docs.google.com/presentation/d/1IINOQjpxTTfDGkbfkywp6nE14bWBuNWm1FKnN_ha_nw/edit#slide=id.p">How Jupyter is governed.</a></li>\n<li><a href="https://jupyter.org/community">Ways to connect with the community on Jupyter.org</a></li>\n</ul>\n<p><img alt="No description has been provided for this image" src="https://miro.medium.com/v2/resize:fit:1400/format:webp/1*lz2yH1jyAlILFF9hZNtFPg.jpeg" width="400"></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2091,10 +2146,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        7
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#updates-from-the-executive-council">
-         Updates from the Executive council
+       <h2 id="updates-from-the-executive-council">
+        <a aria-labelledby="updates-from-the-executive-council" class="pilcrow" href="#updates-from-the-executive-council">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Updates from the Executive council
+        </span>
        </h2>
        <ul>
         <li>
@@ -2118,7 +2177,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell markdown" data-index="6" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell markdown" data-index="6" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
@@ -2192,7 +2251,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3><a href="#thank-you-isabela-presedo-floyd">thank you Isabela Presedo Floyd</a></h3>\n<ul>\n<li>thank you for single handedly organizing, hosting, and sharing <a href="https://discourse.jupyter.org/t/jupyter-community-calls/668#previous-calls-2">2 years of community calls</a></li>\n<li>for anyone that wants to host future calls there a bunch of <a href="https://github.com/Quansight-Labs/jupyter-communitycalls">prepared <kbd></kbd>Ctrl + C/<kbd></kbd>Ctrl + V resources</a></li>\n</ul>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/plant%20baby%20jo.jpg?raw=true" width="400"></p>\n'}}
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3 id="thank-you-isabela-presedo-floyd"><a aria-labelledby="thank-you-isabela-presedo-floyd" class="pilcrow" href="#thank-you-isabela-presedo-floyd"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">thank you Isabela Presedo Floyd</span></h3>\n<ul>\n<li>thank you for single handedly organizing, hosting, and sharing <a href="https://discourse.jupyter.org/t/jupyter-community-calls/668#previous-calls-2">2 years of community calls</a></li>\n<li>for anyone that wants to host future calls there a bunch of <a href="https://github.com/Quansight-Labs/jupyter-communitycalls">prepared <kbd></kbd>Ctrl + C/<kbd></kbd>Ctrl + V resources</a></li>\n</ul>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/plant%20baby%20jo.jpg?raw=true" width="400"></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2201,10 +2260,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        6
       </td>
       <td class="nb-outputs" role="none">
-       <h3>
-        <a href="#thank-you-isabela-presedo-floyd">
-         thank you Isabela Presedo Floyd
+       <h3 id="thank-you-isabela-presedo-floyd">
+        <a aria-labelledby="thank-you-isabela-presedo-floyd" class="pilcrow" href="#thank-you-isabela-presedo-floyd">
+         <span class="pilcrow" data-level="3">
+         </span>
         </a>
+        <span aria-hidden="True">
+         thank you Isabela Presedo Floyd
+        </span>
        </h3>
        <ul>
         <li>
@@ -2231,7 +2294,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell markdown" data-index="7" data-loc="8" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell markdown" data-index="7" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -2315,7 +2378,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'execution': {'iopub.execute_input': '2023-12-08T19:31:05.638772Z', 'iopub.status.busy': '2023-12-08T19:31:05.638534Z', 'iopub.status.idle': '2023-12-08T19:31:05.641221Z', 'shell.execute_reply': '2023-12-08T19:31:05.640808Z', 'shell.execute_reply.started': '2023-12-08T19:31:05.638751Z'}, 'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3><a href="#thank-you-zach-sailer">thank you Zach Sailer</a></h3>\n<ul>\n<li><p><a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">reviving the community call</a></p>\n</li>\n<li><p><a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">communicating the major challenge that the community calls overcome</a></p>\n<blockquote>\n<p>There is often little cross-talk between Jupyter developers in sub-organizations and sub-projects. This isn&rsquo;t personal; it&rsquo;s one of the expected pains of being a large, open-source organization. I often find myself surprised by libraries, extensions, tools, etc. created by colleagues that I didn&rsquo;t know about! While that&rsquo;s a fun surprise, it can lead to each sub-organization re-inventing the wheel or worse, creating tools that do not work together (even though they are both from Jupyter devs!).</p>\n</blockquote>\n</li>\n<li><p><a href="https://discourse.jupyter.org/t/jupyter-community-calls/668/3">first community call</a></p>\n</li>\n</ul>\n'}}
+        {'execution': {'iopub.execute_input': '2023-12-08T19:31:05.638772Z', 'iopub.status.busy': '2023-12-08T19:31:05.638534Z', 'iopub.status.idle': '2023-12-08T19:31:05.641221Z', 'shell.execute_reply': '2023-12-08T19:31:05.640808Z', 'shell.execute_reply.started': '2023-12-08T19:31:05.638751Z'}, 'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3 id="thank-you-zach-sailer"><a aria-labelledby="thank-you-zach-sailer" class="pilcrow" href="#thank-you-zach-sailer"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">thank you Zach Sailer</span></h3>\n<ul>\n<li><p><a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">reviving the community call</a></p>\n</li>\n<li><p><a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">communicating the major challenge that the community calls overcome</a></p>\n<blockquote>\n<p>There is often little cross-talk between Jupyter developers in sub-organizations and sub-projects. This isn&rsquo;t personal; it&rsquo;s one of the expected pains of being a large, open-source organization. I often find myself surprised by libraries, extensions, tools, etc. created by colleagues that I didn&rsquo;t know about! While that&rsquo;s a fun surprise, it can lead to each sub-organization re-inventing the wheel or worse, creating tools that do not work together (even though they are both from Jupyter devs!).</p>\n</blockquote>\n</li>\n<li><p><a href="https://discourse.jupyter.org/t/jupyter-community-calls/668/3">first community call</a></p>\n</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2324,10 +2387,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        8
       </td>
       <td class="nb-outputs" role="none">
-       <h3>
-        <a href="#thank-you-zach-sailer">
-         thank you Zach Sailer
+       <h3 id="thank-you-zach-sailer">
+        <a aria-labelledby="thank-you-zach-sailer" class="pilcrow" href="#thank-you-zach-sailer">
+         <span class="pilcrow" data-level="3">
+         </span>
         </a>
+        <span aria-hidden="True">
+         thank you Zach Sailer
+        </span>
        </h3>
        <ul>
         <li>
@@ -2359,7 +2426,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="15" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="15" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -2451,7 +2518,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#about-today-s-event">about today\'s event</a></h2>\n<p>This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.</p>\n<ol>\n<li><p>We want to remind everyone that community calls and chat are recorded.</p>\n</li>\n<li><p>This is a part of the Jupyter community we are all held to the Jupyter Code of Conduct. You can find this at any time at jupyter.org/conduct.</p>\n</li>\n<li><p>Presenters have submitted what they want to share ahead of time and can be found on the agenda. Presenters will keep talks between 5-7 minutes. Since we have a full program, we\'ll defer questions to the Zoom chat.</p>\n</li>\n<li><p>There are several ways to participate if you aren\'t demoing:</p>\n<ul>\n<li>Keep the Zoom chat zoom active with questions, links and other discussions.</li>\n<li>Help take and record links notes on the <a href="https://hackmd.io/h_S-qpfsQgS_HFewzJvI5g?both#Notes-and-Other-Links">collaborative HackMD</a></li>\n<li>React with Emoji\'s in Zoom</li>\n</ul>\n</li>\n</ol>\n'}}
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="about-today-s-event"><a aria-labelledby="about-today-s-event" class="pilcrow" href="#about-today-s-event"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">about today\'s event</span></h2>\n<p>This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.</p>\n<ol>\n<li><p>We want to remind everyone that community calls and chat are recorded.</p>\n</li>\n<li><p>This is a part of the Jupyter community we are all held to the Jupyter Code of Conduct. You can find this at any time at jupyter.org/conduct.</p>\n</li>\n<li><p>Presenters have submitted what they want to share ahead of time and can be found on the agenda. Presenters will keep talks between 5-7 minutes. Since we have a full program, we\'ll defer questions to the Zoom chat.</p>\n</li>\n<li><p>There are several ways to participate if you aren\'t demoing:</p>\n<ul>\n<li>Keep the Zoom chat zoom active with questions, links and other discussions.</li>\n<li>Help take and record links notes on the <a href="https://hackmd.io/h_S-qpfsQgS_HFewzJvI5g?both#Notes-and-Other-Links">collaborative HackMD</a></li>\n<li>React with Emoji\'s in Zoom</li>\n</ul>\n</li>\n</ol>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2460,10 +2527,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        15
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#about-today-s-event">
-         about today's event
+       <h2 id="about-today-s-event">
+        <a aria-labelledby="about-today-s-event" class="pilcrow" href="#about-today-s-event">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         about today's event
+        </span>
        </h2>
        <p>
         This is a place to celebrate what people are doing in the Jupyter ecosystem and build connections across communities. There&rsquo;s a couple things to know while we are here.
@@ -2506,7 +2577,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        </ol>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="13" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell markdown" data-index="9" data-loc="13" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2594,7 +2665,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<hr>\n<hr>\n<hr>\n<h2><a href="#demonstration-or-demolition-time-which-will-it-be">Demonstration or Demolition Time! Which will it be?</a></h2>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/local%20hosts%20chillin.jpg?raw=true" width="400"></p>\n<hr>\n<hr>\n<hr>\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<hr>\n<hr>\n<hr>\n<h2 id="demonstration-or-demolition-time-which-will-it-be"><a aria-labelledby="demonstration-or-demolition-time-which-will-it-be" class="pilcrow" href="#demonstration-or-demolition-time-which-will-it-be"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">Demonstration or Demolition Time! Which will it be?</span></h2>\n<p><img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/local%20hosts%20chillin.jpg?raw=true" width="400"></p>\n<hr>\n<hr>\n<hr>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2606,10 +2677,14 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        <hr>
        <hr>
        <hr>
-       <h2>
-        <a href="#demonstration-or-demolition-time-which-will-it-be">
-         Demonstration or Demolition Time! Which will it be?
+       <h2 id="demonstration-or-demolition-time-which-will-it-be">
+        <a aria-labelledby="demonstration-or-demolition-time-which-will-it-be" class="pilcrow" href="#demonstration-or-demolition-time-which-will-it-be">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Demonstration or Demolition Time! Which will it be?
+        </span>
        </h2>
        <p>
         <img alt="No description has been provided for this image" src="https://github.com/deathbeds/drawins/blob/master/local%20hosts%20chillin.jpg?raw=true" width="400">
@@ -2619,7 +2694,7 @@ This is a place to celebrate what people are doing in the Jupyter ecosystem and 
        <hr>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="10" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell markdown" data-index="10" data-loc="10" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2701,7 +2776,7 @@ using established meetings to host community calls:
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#suggestion-for-the-community">suggestion for the community</a></h2>\n<p>on a monthly basis, repurpose a major team meeting eg lab, server, hub to host a community call.\nusing established meetings to host community calls:</p>\n<ul>\n<li>gives community leaders a break. for example, today we are repurposing the normal weekly JupyterLab.<ul>\n<li>shout out the small group of rotating JupyterLab meeting hosts using the <a href="https://github.com/jupyterlab/team-compass/issues/197">sign up to host issue</a></li>\n</ul>\n</li>\n<li>reduces and redistributes organizing efforts for community call organizers</li>\n<li>stimulate cross project communication</li>\n<li>caution: don\'t repurpose meetings near releases</li>\n</ul>\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="suggestion-for-the-community"><a aria-labelledby="suggestion-for-the-community" class="pilcrow" href="#suggestion-for-the-community"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">suggestion for the community</span></h2>\n<p>on a monthly basis, repurpose a major team meeting eg lab, server, hub to host a community call.\nusing established meetings to host community calls:</p>\n<ul>\n<li>gives community leaders a break. for example, today we are repurposing the normal weekly JupyterLab.<ul>\n<li>shout out the small group of rotating JupyterLab meeting hosts using the <a href="https://github.com/jupyterlab/team-compass/issues/197">sign up to host issue</a></li>\n</ul>\n</li>\n<li>reduces and redistributes organizing efforts for community call organizers</li>\n<li>stimulate cross project communication</li>\n<li>caution: don\'t repurpose meetings near releases</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2710,10 +2785,14 @@ using established meetings to host community calls:
        10
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#suggestion-for-the-community">
-         suggestion for the community
+       <h2 id="suggestion-for-the-community">
+        <a aria-labelledby="suggestion-for-the-community" class="pilcrow" href="#suggestion-for-the-community">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         suggestion for the community
+        </span>
        </h2>
        <p>
         on a monthly basis, repurpose a major team meeting eg lab, server, hub to host a community call.
@@ -2743,7 +2822,7 @@ using established meetings to host community calls:
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell markdown" data-index="11" data-loc="14" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell markdown" data-index="11" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -2833,7 +2912,7 @@ Advocate for the consistent support of the Community Calls and their hosts on [<
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls">suggestion to ammend the community working group charter to include community calls.</a></h2>\n<p><a href="https://jupyter.org/governance/communitybuildingworkinggroup.html#areas-of-responsibility">Community Building Committe Areas of Responsibility</a> should include community calls in its charter.</p>\n<ul>\n<li>Jupyter Community Workshops</li>\n<li>JupyterCon</li>\n<li>Jupyter Community Events Staff</li>\n<li>Operations and Budget</li>\n<li>Diversity, Equity, Inclusion</li>\n<li>Reporting</li>\n<li>Membership</li>\n<li><ins></ins>Community Calls</li>\n</ul>\n<p>Advocate for the consistent support of the Community Calls and their hosts on <a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">Discourse</a> or <a href="https://github.com/jupyterlab/team-compass/issues/223">Github</a>.</p>\n'}}
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h2 id="suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls"><a aria-labelledby="suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls" class="pilcrow" href="#suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">suggestion to ammend the community working group charter to include community calls.</span></h2>\n<p><a href="https://jupyter.org/governance/communitybuildingworkinggroup.html#areas-of-responsibility">Community Building Committe Areas of Responsibility</a> should include community calls in its charter.</p>\n<ul>\n<li>Jupyter Community Workshops</li>\n<li>JupyterCon</li>\n<li>Jupyter Community Events Staff</li>\n<li>Operations and Budget</li>\n<li>Diversity, Equity, Inclusion</li>\n<li>Reporting</li>\n<li>Membership</li>\n<li><ins></ins>Community Calls</li>\n</ul>\n<p>Advocate for the consistent support of the Community Calls and their hosts on <a href="https://discourse.jupyter.org/t/reviving-the-all-jupyter-community-meetings/423">Discourse</a> or <a href="https://github.com/jupyterlab/team-compass/issues/223">Github</a>.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2842,10 +2921,14 @@ Advocate for the consistent support of the Community Calls and their hosts on [<
        14
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls">
-         suggestion to ammend the community working group charter to include community calls.
+       <h2 id="suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls">
+        <a aria-labelledby="suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls" class="pilcrow" href="#suggestion-to-ammend-the-community-working-group-charter-to-include-community-calls">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         suggestion to ammend the community working group charter to include community calls.
+        </span>
        </h2>
        <p>
         <a href="https://jupyter.org/governance/communitybuildingworkinggroup.html#areas-of-responsibility">
@@ -2894,7 +2977,7 @@ Advocate for the consistent support of the Community Calls and their hosts on [<
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="14" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell markdown" data-index="12" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -2984,7 +3067,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2><a href="#fin">Fin</a></h2>\n<p>Thank you to everyone presenting and attending! We\'re happy to have you all as a part of the Jupyter community.</p>\n<p>If you have any feedback, please direct it at <a href="https://github.com/jupyterlab/team-compass/issues/223">https://github.com/jupyterlab/team-compass/issues/223</a>. We&rsquo;d love to hear what you think about the call, even if it just an emoji reaction.</p>\n<p>Our next community call will be when all y\'all decide. Check out the <a href="https://discourse.jupyter.org/t/jupyter-community-calendar/2485">Jupyter community calendar</a> to see what other types of meetings are happening in between.</p>\n<ul>\n<li>Join the new <a href="https://github.com/jupyterlab/team-compass/issues/212">documentation working group</a></li>\n<li><a href="https://github.com/jupyterlab/team-compass/issues/203">Triage meetings are great beginner friendly meetings</a>. (could some share more meeting information in the hackmd link in the call notes)</li>\n</ul>\n<p>If you have any interest in sharing on future community calls, please do! It doesn&rsquo;t have to be a big share, a polished share, or a technical share, just show off what you do with Jupyter that excites you.</p>\n<p>If you&rsquo;re interested in hosting a community call, or <a href="https://github.com/jupyterlab/team-compass/issues/197">JupyterLab meeting</a>, feel free to reach out. We have <a href="https://github.com/Quansight-Labs/jupyter-communitycalls">community event resources</a> prepared to support you. It would be great to get different people interacting with the community.</p>\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h2 id="fin"><a aria-labelledby="fin" class="pilcrow" href="#fin"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">Fin</span></h2>\n<p>Thank you to everyone presenting and attending! We\'re happy to have you all as a part of the Jupyter community.</p>\n<p>If you have any feedback, please direct it at <a href="https://github.com/jupyterlab/team-compass/issues/223">https://github.com/jupyterlab/team-compass/issues/223</a>. We&rsquo;d love to hear what you think about the call, even if it just an emoji reaction.</p>\n<p>Our next community call will be when all y\'all decide. Check out the <a href="https://discourse.jupyter.org/t/jupyter-community-calendar/2485">Jupyter community calendar</a> to see what other types of meetings are happening in between.</p>\n<ul>\n<li>Join the new <a href="https://github.com/jupyterlab/team-compass/issues/212">documentation working group</a></li>\n<li><a href="https://github.com/jupyterlab/team-compass/issues/203">Triage meetings are great beginner friendly meetings</a>. (could some share more meeting information in the hackmd link in the call notes)</li>\n</ul>\n<p>If you have any interest in sharing on future community calls, please do! It doesn&rsquo;t have to be a big share, a polished share, or a technical share, just show off what you do with Jupyter that excites you.</p>\n<p>If you&rsquo;re interested in hosting a community call, or <a href="https://github.com/jupyterlab/team-compass/issues/197">JupyterLab meeting</a>, feel free to reach out. We have <a href="https://github.com/Quansight-Labs/jupyter-communitycalls">community event resources</a> prepared to support you. It would be great to get different people interacting with the community.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2993,10 +3076,14 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
        14
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#fin">
-         Fin
+       <h2 id="fin">
+        <a aria-labelledby="fin" class="pilcrow" href="#fin">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Fin
+        </span>
        </h2>
        <p>
         Thank you to everyone presenting and attending! We're happy to have you all as a part of the Jupyter community.
@@ -3078,9 +3165,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
    <dialog id="nb-settings">
     <form name="settings">
      <h1 id="nb-accessibility-settings-label">
-      <a href="#nb-accessibility-settings-label">
-       accessibility settings
-      </a>
+      accessibility settings
      </h1>
      <button formmethod="dialog">
       Close
@@ -3088,9 +3173,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
      <ul aria-labelledby="nb-accessibility-settings-label">
       <li>
        <h2 id="nb-notebook-layout-label">
-        <a href="#nb-notebook-layout-label">
-         notebook layout
-        </a>
+        notebook layout
        </h2>
        <ul aria-labelledby="nb-notebook-layout-label">
         <li>
@@ -3171,6 +3254,24 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
         </li>
         <li>
          <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
           <input checked name="accesskey-navigation" type="checkbox">
           accesskey navigation
          </label>
@@ -3179,9 +3280,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
       </li>
       <li>
        <h2 id="nb-font-settings-label">
-        <a href="#nb-font-settings-label">
-         font settings
-        </a>
+        font settings
        </h2>
        <ul aria-labelledby="nb-font-settings-label">
         <li>
@@ -3238,9 +3337,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
       </li>
       <li>
        <h2 id="nb-sound-settings-label">
-        <a href="#nb-sound-settings-label">
-         sound settings
-        </a>
+        sound settings
        </h2>
        <ul aria-labelledby="nb-sound-settings-label">
         <li>
@@ -3505,18 +3602,14 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
    </dialog>
    <dialog id="nb-help">
     <h1>
-     <a href="#notebook-help">
-      notebook help
-     </a>
+     notebook help
     </h1>
     <form>
      <button formmethod="dialog">
       close
      </button>
      <h2 id="nb-defs-label">
-      <a href="#nb-defs-label">
-       definitions
-      </a>
+      definitions
      </h2>
      <dl aria-labelledby="nb-defs-label">
       <dt id="nb-notebook-label">
@@ -3804,7 +3897,7 @@ If you&rsquo;re interested in hosting a community call, or [<span class="nt">Jup
    </a>
   </footer>
   <script>
-   const BODY = document.querySelector("body"), SELECTORS = {
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
     "table": "table#cells",
     "body": "table#cells>tbody",
     "row": "table#cells>tbody>tr",
@@ -4008,7 +4101,7 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     });
 
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (x) => {
+    (event) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
         if (!event.target.checked) {
             document.querySelectorAll("textarea").forEach(
@@ -4021,11 +4114,30 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.settings.sticky.addEventListener("change",
+    (event) => {
+        BODY.classList.toggle("sticky", event.target.checked);
+        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+    });
+
 document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
     document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
 });
 
+document.forms.settings.invert.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+})
+document.forms.settings.grayscale.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+})
 
+document.querySelectorAll("input[name=sorted]").forEach(
+    (x) => {
+        x.addEventListener("change", (y) => {
+            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
+        })
+    }
+)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -4072,9 +4184,10 @@ let observer = new ResizeObserver(
     }
 );
 
-document.querySelectorAll("textarea").forEach(
+document.querySelectorAll("textarea[name=source]").forEach(
     (x) => {
         observer.observe(x);
+        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
     }
 );
 

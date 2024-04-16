@@ -52,301 +52,336 @@ through this study we'll design some accessible options we could generically use
 }());
   </script>
   <style type="text/css">
-   /* # accessible css configurations
+   @layer api, defaults, layout, cells, cell, sa11y;
 
-we define these high level variables to allow for configuration during use and testing.
-we are not sure what the preferred default values are for these any accessible notebooks features.
-the variables specify critical degrees of freedom in the notebook style.
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
 
-## notebook interface specific css variables
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
 
-*/
-:root {
-    --nb-focus-width: 3px;
-    --nb-accent-color: auto;
-    --nb-margin: 5%;
-    --nb-font-size: 16px;
-    --nb-font-family: serif;
-    --nb-line-height: 1.5;
-    --nb-scrolled-height: 600px;
-    --color-light: #FFFFFF;
-    --color-dark: #2b2a33;
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        display: inline-block;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
 }
 
 
-/* map css variables to css properties on the `body` elements.
-this mapping turns out css variables into user interfaces. */
+@layer sally {
 
-body {
-    font-size: var(--nb-font-size);
-    font-family: var(--nb-font-family);
-    accent-color: var(--nb-accent-color);
-    margin-left: var(--nb-margin);
-    margin-right: var(--nb-margin);
-    line-height: var(--nb-line-height);
-    width: calc(100% - 2*var(--nb-margin));
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel,
-body:not([data-dev-sa11y]) sa11y-annotation {
-    display: none;
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[aria-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
 }
 
-body[data-dev-sa11y] sa11y-control-panel,
-body[data-dev-sa11y] sa11y-annotation {
-    display: unset;
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
 }
 
-body.dark {
-    color: var(--color-light);
-    background-color: var(--color-dark);
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
 }
 
-main:fullscreen {
-    overflow: auto;
-    background: var(--color-light);
-}
-
-.dark main:fullscreen {
-    background: var(--color-dark);
-}
-
-/* ## notebook settings
-
-the notebook settings interface connects configurable css features to the user.
-we use dialog elements to represents an element that should be hidden by default.
-it turns out there are two ways to layout `dialog` elements. 
-they can be used as modals or block elements.
-we extract this dual purpose to provide both configurations to the user.
-
-*/
-
-dialog form>* {
-    display: block;
-}
-
-
-/* ## wcag accessibility guidelines as a feature
-
-flexibility is the future of assistive interfaces.
-it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
-it is the fucking priority.
-
-in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
-one configurable feature is the accessibility priority. 
-experienced developers may need less assistive features as they spend more time with an interface.
-
-### buttons sizes
-
-WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
-
-/* satisfy AAA 2.5.5 */
-
-.wcag-aaa button,
-.wcag-aaa input[type=checkbox] {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.wcag-aaa a {
-    font-size: max(44px, var(--nb-font-size));
-}
-
-/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
-/* satisfy AA 2.5.8 minimum target requirement */
-.wcag-aa button,
-.wcag-aa input[type=checkbox] {
-    min-height: 24px;
-    min-width: 24px;
-}
-
-.wcag-aa a {
-    font-size: max(24px, var(--nb-font-size));
-}
-
-/* remove the color styling for AAA */
-.wcag-aaa .highlight pre code span[class] {
-    color: unset;
-}
-
-/* ### native textareas for AAA priority.
-
-
-our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
-the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
-
-*/
-
-.markdown textarea[name=source]+[role=group],
-.wcag-a textarea[name=source],
-.wcag-aa textarea[name=source],
-.wcag-aaa .markdown textarea[name=source],
-/* this group selector is very ambiguous */
-.wcag-aaa textarea[name=source]+[role=group] {
-    display: none;
-}
-
-/* line height cant change pre elements based on browser presets */
-pre,
-.highlight>pre,
-textarea {
-    line-height: var(--nb-line-height);
-    white-space: pre-wrap;
-}
-
-.horiz-overflow pre,
-.horiz-overflow textarea {
-    white-space: pre;
-}
-
-/* this is only needed for the lsit template variant */
-ol#cells {
-    margin: unset;
-    padding: unset;
-}
-
-li.cell {
-    list-style-type: none;
-}
-
-/* ## notebook components layout */
-
-#cells,
-#cells>tbody,
-#cells>tbody>tr,
-#cells>tbody>tr>[role="none"] {
-    display: block;
-    text-align: unset;
-    width: calc(100vw - 2 * var(--nb-margin));
-}
-
-.nb-outputs img,
-.nb-outputs image {
-    height: 100%;
-    width: 100%;
-}
-
-
-.horiz-overflow .nb-outputs img,
-.horiz-overflow .nb-outputs image {
-    height: unset;
-    width: unset;
-}
-
-.horiz-overflow #cells,
-.horiz-overflow #cells>tbody,
-.horiz-overflow #cells>tbody>tr,
-.horiz-overflow #cells>tbody>tr>[role="none"] {
-    width: max-content;
-}
-
-#cells>tbody>tr[hidden],
-#cells>tbody>tr>[role="none"][hidden] {
-    display: none;
-}
-
-tr.cell>th:first-child {}
-
-table {
-    border-spacing: unset;
-}
-
-ol[reversed]#cells,
-[reversed]#cells tbody {
-    flex-direction: column-reverse;
-}
-
-/* hide the visual output area when there are no outputs. 
-assistive technologies will recieve an audible notification that there are not outputs. */
-
-fieldset[data-outputs="0"] {
-    display: none;
-}
-
-/* ## modifications to html defaults 
-
-### focus 
-
-there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
-we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
-
-*/
-
-
-
-.cell:focus-within,
-:focus-visible {
-    outline: max(var(--nb-focus-width), 1px) solid;
-    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
-}
-
-
-/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
-textarea[name=source] {
-    min-width: 0;
-}
-
-td.nb-outputs,
-td.nb-source {
-    overflow-x: auto;
-}
-
-.horiz-overflow header,
-.horiz-overflow footer {
-    width: max-content;
-}
-
-.horiz-overflow td.nb-source {
-    overflow-x: visible;
-}
-
-.horiz-overflow td.nb-outputs {
-    min-width: 100%;
-}
-
-.horiz-overflow .cell {
-    width: fit-content;
-}
-
-#nb-settings li::marker,
-summary[inert]::marker {
-    content: "";
-}
-
-/* ### inheriting styles */
-
-input,
-select,
-button {
-    font-family: inherit;
-    font-size: inherit;
-}
-
-textarea {
-    font-family: monospace;
-    font-size: inherit;
-    overflow: auto;
-    color: unset;
-}
-
-textarea[name=source] {
-    box-sizing: border-box;
-    width: 100%;
-    resize: none;
-}
-
-
-/* align checkboxes with buttons */
-input[type="checkbox"] {
-    vertical-align: middle;
-}
-
-/* ## custom class selectors */
-
-#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
-/* legend:not(:focus-within):not(:active), */
 details.log:not([open])+table,
 .visually-hidden:not(:focus-within):not(:active),
 .visually-hide {
@@ -357,15 +392,6 @@ details.log:not([open])+table,
     position: absolute;
     white-space: nowrap;
     width: 1px;
-}
-
-.nb-outputs.nb-scrolled {
-    max-height: var(--nb-scrolled-height);
-    overflow-y: auto;
-}
-
-.nb-outputs.nb-collapsed {
-    display: none;
 }
   </style>
   <style id="nb-light-highlight" media="screen" type="text/css">
@@ -746,7 +772,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </style>
   <!-- End of mermaid configuration -->
  </head>
- <body class="wcag-aa">
+ <body class="wcag-aa sticky">
   <header>
    <a href="#1" id="TOP">
     skip to main content
@@ -1442,7 +1468,20 @@ through this study we'll design some accessible options we could generically use
    </dialog>
   </header>
   <main>
-   <table id="cells" role="none">
+   <fieldset form="settings">
+    <legend>
+     cell ordering
+    </legend>
+    <input id="sort-asc" name="sorted" type="radio" value="ascending">
+    <label for="sort-asc">
+     ascending
+    </label>
+    <input id="sort-desc" name="sorted" type="radio" value="descending">
+    <label for="sort-desc">
+     descending
+    </label>
+   </fieldset>
+   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1455,7 +1494,7 @@ through this study we'll design some accessible options we could generically use
      <col class="nb-metadata">
      <col class="nb-outputs">
     </colgroup>
-    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
        index
@@ -1488,7 +1527,7 @@ through this study we'll design some accessible options we could generically use
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1560,7 +1599,7 @@ through this study we'll design some accessible options we could generically use
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h1><a href="#proper-html-tables-with-multiple-indexes">proper html tables with multiple indexes</a></h1>\n<p>our goal is reduce the empty cells in tables, especially where headers should.\nempty cells diminish the experience for assistive technology users.\nthrough this study we'll design some accessible options we could generically use to represent dataframes.</p>\n"}}
+        {'data': {'text/html': "<h1 id="proper-html-tables-with-multiple-indexes"><a aria-labelledby="proper-html-tables-with-multiple-indexes" class="pilcrow" href="#proper-html-tables-with-multiple-indexes"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">proper html tables with multiple indexes</span></h1>\n<p>our goal is reduce the empty cells in tables, especially where headers should.\nempty cells diminish the experience for assistive technology users.\nthrough this study we'll design some accessible options we could generically use to represent dataframes.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1569,10 +1608,14 @@ through this study we'll design some accessible options we could generically use
        5
       </td>
       <td class="nb-outputs" role="none">
-       <h1>
-        <a href="#proper-html-tables-with-multiple-indexes">
-         proper html tables with multiple indexes
+       <h1 id="proper-html-tables-with-multiple-indexes">
+        <a aria-labelledby="proper-html-tables-with-multiple-indexes" class="pilcrow" href="#proper-html-tables-with-multiple-indexes">
+         <span class="pilcrow" data-level="1">
+         </span>
         </a>
+        <span aria-hidden="True">
+         proper html tables with multiple indexes
+        </span>
        </h1>
        <p>
         our goal is reduce the empty cells in tables, especially where headers should.
@@ -1581,7 +1624,7 @@ through this study we'll design some accessible options we could generically use
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1689,7 +1732,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1799,7 +1842,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1880,7 +1923,7 @@ this facilitates our study because it is easier to remove axes than add them lat
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -2466,7 +2509,7 @@ this facilitates our study because it is easier to remove axes than add them lat
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell markdown" data-index="6" data-loc="25" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell markdown" data-index="6" data-loc="25" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
@@ -2578,7 +2621,7 @@ accessibility requires us to center a user's visual, audible, and tactile experi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#accessibility-html-recommendations">accessibility html recommendations</a></h2>\n<p>there is a long <a href="http://www.tiernok.com/posts/history-of-html-table-layouts.html">history of html table layouts</a>, they have existed since <a href="http://www.w3.org/TR/REC-html32">html 3.2 in january 1997</a>, these standards precede a lot of the history of mass data literacy.\n<code>table</code>s are introduced to present 2-D data structures</p>\n<blockquote>\n<p><a href="https://en.wikipedia.org/wiki/VisiCalc">VISICALC</a> represented a new idea of a way to use a computer and a new way of thinking about the world. Where conventional programming was thought of as a sequence of steps, this new thing was no longer sequential in effect: When you made a change in one place, all other things changed instantly and automatically.</p>\n<blockquote>\n<p>\u200aTed Nelson[13]</p>\n</blockquote>\n</blockquote>\n<p>considering the accessibility of <code>table</code>s means we need extend the visual representation to the tactile and audible experiences.</p>\n<p>let\'s start with some popular advice from <a href="https://racheleditullio.com">rachele ditullio</a> about <a href="https://racheleditullio.com/blog/2020/03/5-ways-to-improve-table-accessibility/">5 ways to improve table accessibility</a></p>\n<ol>\n<li>Caption that table</li>\n<li>Include header text for every column</li>\n<li>Use alt attributes meaningfully</li>\n<li>Have data in every table cell</li>\n<li>Check your (con)text</li>\n</ol>\n<p>this is where we start because these recommendations represent users needs before needs.\naccessibility requires us to center a user\'s visual, audible, and tactile experience when working with data.</p>\n'}}
+        {'data': {'text/html': '<h2 id="accessibility-html-recommendations"><a aria-labelledby="accessibility-html-recommendations" class="pilcrow" href="#accessibility-html-recommendations"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">accessibility html recommendations</span></h2>\n<p>there is a long <a href="http://www.tiernok.com/posts/history-of-html-table-layouts.html">history of html table layouts</a>, they have existed since <a href="http://www.w3.org/TR/REC-html32">html 3.2 in january 1997</a>, these standards precede a lot of the history of mass data literacy.\n<code>table</code>s are introduced to present 2-D data structures</p>\n<blockquote>\n<p><a href="https://en.wikipedia.org/wiki/VisiCalc">VISICALC</a> represented a new idea of a way to use a computer and a new way of thinking about the world. Where conventional programming was thought of as a sequence of steps, this new thing was no longer sequential in effect: When you made a change in one place, all other things changed instantly and automatically.</p>\n<blockquote>\n<p>\u200aTed Nelson[13]</p>\n</blockquote>\n</blockquote>\n<p>considering the accessibility of <code>table</code>s means we need extend the visual representation to the tactile and audible experiences.</p>\n<p>let\'s start with some popular advice from <a href="https://racheleditullio.com">rachele ditullio</a> about <a href="https://racheleditullio.com/blog/2020/03/5-ways-to-improve-table-accessibility/">5 ways to improve table accessibility</a></p>\n<ol>\n<li>Caption that table</li>\n<li>Include header text for every column</li>\n<li>Use alt attributes meaningfully</li>\n<li>Have data in every table cell</li>\n<li>Check your (con)text</li>\n</ol>\n<p>this is where we start because these recommendations represent users needs before needs.\naccessibility requires us to center a user\'s visual, audible, and tactile experience when working with data.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2587,10 +2630,14 @@ accessibility requires us to center a user's visual, audible, and tactile experi
        25
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#accessibility-html-recommendations">
-         accessibility html recommendations
+       <h2 id="accessibility-html-recommendations">
+        <a aria-labelledby="accessibility-html-recommendations" class="pilcrow" href="#accessibility-html-recommendations">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         accessibility html recommendations
+        </span>
        </h2>
        <p>
         there is a long
@@ -2660,7 +2707,7 @@ accessibility requires us to center a user's visual, audible, and tactile experi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="56" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="56" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -2863,9 +2910,13 @@ of pandas tidy frames.</textarea>
          </span>
         </legend>
         <h2 id="testing-an-actual-dataframe">
-         <a href="#testing-an-actual-dataframe">
-          testing an actual dataframe
+         <a aria-labelledby="testing-an-actual-dataframe" class="pilcrow" href="#testing-an-actual-dataframe">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          testing an actual dataframe
+         </span>
         </h2>
         <p>
          based off these suggestions we can connect dataframe parlance to the consistent standards of html.
@@ -3004,7 +3055,7 @@ of pandas tidy frames.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="65" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="65" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -3196,7 +3247,7 @@ https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3><a href="#more-accessible-tables">more accessible tables</a></h3>\n<p>our next resource provides more dos and don\'ts that correspond to accessible table experiences.</p>\n<ul>\n<li><p>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</p>\n<p><code>pandas</code> dataframes should be represented with a named index or column.</p>\n</li>\n<li><p>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</p>\n</li>\n<li><p>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</p>\n<p>our primary task is to remove empty cells from the <code>thead</code> porition of the dataframe representation.\ncurrently, it is very common for screen reader users to find empty first cells in a table.\nimagine how much it sucks.</p>\n</li>\n<li><p>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</p>\n</li>\n<li><p>❌ Don\'t merge cells.</p>\n<p>merging cells creates ambiguities. <code>td</code>s in dataframes will NEVER be spanned.</p>\n</li>\n</ul>\n<h4><a href="#accessible-table-do-and-don-t">Accessible table do and don\'t</a></h4>\n<p><a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables</a></p>\n<details><summary>Use Tables to Display Data</summary>\n</details>\n<ul>\n<li>✅ Use tables to present information in a grid, or matrix, with columns or rows that show the meaning of the information.</li>\n</ul>\n<ul>\n<li>❌ Don\'t use tables to make your webpage look a particular way. Layout tables on webpages do not pose inherent accessibility issues, but it is more difficult to make sure screen reader software reads the cells in the proper order.</li>\n<li>❌ Never use tables as a means of laying out a page in a Google or Microsoft Word document. While these tables can be hidden from visual users by simply eliminating the borders between cells, they cannot be hidden from screen readers.</li>\n</ul>\n\n<details><summary>Designate Row and/or Column Headers</summary>\n</details>\n<ul>\n<li>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</li>\n<li>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</li>\n</ul>\n<ul>\n<li>❌ Don\'t create tables without table headers.</li>\n<li>❌ Don\'t just change the visual formatting of the text, such as the font size or color, to visually indicate table header rows and/or columns. Screen readers will not be able to associate the headers with the correct cells.</li>\n<li>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</li>\n</ul>\n\n<details><summary>Avoid or Simplify Complex Tables</summary>\n</details>\n<ul>\n<li>✅ Include a maximum of one header row and one header column.</li>\n<li>✅ Spell out abbreviations or acronyms, or use the <code>&lt;abbr&gt;</code> or <code>&lt;acronym&gt;</code> tags in HTML to ensure accessibility.</li>\n<li>✅ If your table has multiple header rows, merged cells, or another table embedded in it, split it into two or more simple tables.</li>\n<li>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</li>\n</ul>\n<ul>\n<li>❌ Don\'t merge cells.</li>\n<li>❌ Don\'t include a table within another table.</li>\n</ul>\n\n<details><summary>Provide Contextual Information</summary>\n</details>\n<ul>\n<li>✅ Associate descriptive text about a table with its respective table by including a <code>&lt;caption&gt;</code> element in HTML or alt text in Microsoft Word. Captions are not necessary for each table, but can helpful for screen reader users. The caption can be visually formatted and positioned above or below the table as needed, but on webpages, the <code>&lt;caption&gt;</code> element must be the first one after the opening <code>&lt;table&gt;</code> tag.</li>\n<li>✅ You may use <code>&lt;thead&gt;</code>, <code>&lt;tfoot&gt;</code>, and <code>&lt;tbody&gt;</code> tags in HTML tables so that the head and/or foot rows repeat at the top or bottom of the table when it is printed, but these do not provide any additional accessibility benefits.</li>\n</ul>\n<ul>\n<li>❌ Don\'t repeat the same text in the caption that appears in a heading preceding the table.</li>\n<li>❌ You may provide a summary of the structure of the data table (not of the content) using the <code>&lt;summary&gt;</code> attribute, but screen reader support for it varies, and it is not part of the HTML5 specification, so WebAim does not recommend it.</li>\n<li>❌ If both a caption and summary are provided for one table, the summary should not duplicate information present in the caption.</li>\n</ul>\n\n<details><summary>Include Content in All Cells</summary>\n</details>\n<ul>\n<li>✅ Include text such as "not applicable," "none," etc. to indicate that there is no data in empty cells.</li>\n</ul>\n<ul>\n<li>❌ Don\'t leave any table cells empty.</li>\n</ul>\n\n\n'}}
+        {'data': {'text/html': '<h3 id="more-accessible-tables"><a aria-labelledby="more-accessible-tables" class="pilcrow" href="#more-accessible-tables"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">more accessible tables</span></h3>\n<p>our next resource provides more dos and don\'ts that correspond to accessible table experiences.</p>\n<ul>\n<li><p>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</p>\n<p><code>pandas</code> dataframes should be represented with a named index or column.</p>\n</li>\n<li><p>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</p>\n</li>\n<li><p>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</p>\n<p>our primary task is to remove empty cells from the <code>thead</code> porition of the dataframe representation.\ncurrently, it is very common for screen reader users to find empty first cells in a table.\nimagine how much it sucks.</p>\n</li>\n<li><p>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</p>\n</li>\n<li><p>❌ Don\'t merge cells.</p>\n<p>merging cells creates ambiguities. <code>td</code>s in dataframes will NEVER be spanned.</p>\n</li>\n</ul>\n<h4 id="accessible-table-do-and-don-t"><a aria-labelledby="accessible-table-do-and-don-t" class="pilcrow" href="#accessible-table-do-and-don-t"><span class="pilcrow" data-level="4"></span></a><span aria-hidden="True">Accessible table do and don\'t</span></h4>\n<p><a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables</a></p>\n<details><summary>Use Tables to Display Data</summary>\n</details>\n<ul>\n<li>✅ Use tables to present information in a grid, or matrix, with columns or rows that show the meaning of the information.</li>\n</ul>\n<ul>\n<li>❌ Don\'t use tables to make your webpage look a particular way. Layout tables on webpages do not pose inherent accessibility issues, but it is more difficult to make sure screen reader software reads the cells in the proper order.</li>\n<li>❌ Never use tables as a means of laying out a page in a Google or Microsoft Word document. While these tables can be hidden from visual users by simply eliminating the borders between cells, they cannot be hidden from screen readers.</li>\n</ul>\n\n<details><summary>Designate Row and/or Column Headers</summary>\n</details>\n<ul>\n<li>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</li>\n<li>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</li>\n</ul>\n<ul>\n<li>❌ Don\'t create tables without table headers.</li>\n<li>❌ Don\'t just change the visual formatting of the text, such as the font size or color, to visually indicate table header rows and/or columns. Screen readers will not be able to associate the headers with the correct cells.</li>\n<li>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</li>\n</ul>\n\n<details><summary>Avoid or Simplify Complex Tables</summary>\n</details>\n<ul>\n<li>✅ Include a maximum of one header row and one header column.</li>\n<li>✅ Spell out abbreviations or acronyms, or use the <code>&lt;abbr&gt;</code> or <code>&lt;acronym&gt;</code> tags in HTML to ensure accessibility.</li>\n<li>✅ If your table has multiple header rows, merged cells, or another table embedded in it, split it into two or more simple tables.</li>\n<li>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</li>\n</ul>\n<ul>\n<li>❌ Don\'t merge cells.</li>\n<li>❌ Don\'t include a table within another table.</li>\n</ul>\n\n<details><summary>Provide Contextual Information</summary>\n</details>\n<ul>\n<li>✅ Associate descriptive text about a table with its respective table by including a <code>&lt;caption&gt;</code> element in HTML or alt text in Microsoft Word. Captions are not necessary for each table, but can helpful for screen reader users. The caption can be visually formatted and positioned above or below the table as needed, but on webpages, the <code>&lt;caption&gt;</code> element must be the first one after the opening <code>&lt;table&gt;</code> tag.</li>\n<li>✅ You may use <code>&lt;thead&gt;</code>, <code>&lt;tfoot&gt;</code>, and <code>&lt;tbody&gt;</code> tags in HTML tables so that the head and/or foot rows repeat at the top or bottom of the table when it is printed, but these do not provide any additional accessibility benefits.</li>\n</ul>\n<ul>\n<li>❌ Don\'t repeat the same text in the caption that appears in a heading preceding the table.</li>\n<li>❌ You may provide a summary of the structure of the data table (not of the content) using the <code>&lt;summary&gt;</code> attribute, but screen reader support for it varies, and it is not part of the HTML5 specification, so WebAim does not recommend it.</li>\n<li>❌ If both a caption and summary are provided for one table, the summary should not duplicate information present in the caption.</li>\n</ul>\n\n<details><summary>Include Content in All Cells</summary>\n</details>\n<ul>\n<li>✅ Include text such as "not applicable," "none," etc. to indicate that there is no data in empty cells.</li>\n</ul>\n<ul>\n<li>❌ Don\'t leave any table cells empty.</li>\n</ul>\n\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3205,10 +3256,14 @@ https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables
        65
       </td>
       <td class="nb-outputs" role="none">
-       <h3>
-        <a href="#more-accessible-tables">
-         more accessible tables
+       <h3 id="more-accessible-tables">
+        <a aria-labelledby="more-accessible-tables" class="pilcrow" href="#more-accessible-tables">
+         <span class="pilcrow" data-level="3">
+         </span>
         </a>
+        <span aria-hidden="True">
+         more accessible tables
+        </span>
        </h3>
        <p>
         our next resource provides more dos and don'ts that correspond to accessible table experiences.
@@ -3270,10 +3325,14 @@ imagine how much it sucks.
          </p>
         </li>
        </ul>
-       <h4>
-        <a href="#accessible-table-do-and-don-t">
-         Accessible table do and don't
+       <h4 id="accessible-table-do-and-don-t">
+        <a aria-labelledby="accessible-table-do-and-don-t" class="pilcrow" href="#accessible-table-do-and-don-t">
+         <span class="pilcrow" data-level="4">
+         </span>
         </a>
+        <span aria-hidden="True">
+         Accessible table do and don't
+        </span>
        </h4>
        <p>
         <a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">
@@ -3434,7 +3493,7 @@ imagine how much it sucks.
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell markdown" data-index="9" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell markdown" data-index="9" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -3498,7 +3557,7 @@ imagine how much it sucks.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#better-tables">better tables</a></h2>\n'}}
+        {'data': {'text/html': '<h2 id="better-tables"><a aria-labelledby="better-tables" class="pilcrow" href="#better-tables"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">better tables</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3507,14 +3566,18 @@ imagine how much it sucks.
        1
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#better-tables">
-         better tables
+       <h2 id="better-tables">
+        <a aria-labelledby="better-tables" class="pilcrow" href="#better-tables">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         better tables
+        </span>
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="23" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="23" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-10-executed nb-code-label nb-cell-label cell-10-loc nb-loc-label cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -3683,7 +3746,7 @@ def diff_shift(df: pandas.DataFrame) -&gt; pandas.DataFrame:
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="70" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="70" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -4017,7 +4080,7 @@ pre-compute the grouping structure of the indexes
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="75" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell code" data-index="12" data-loc="75" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-12-executed nb-code-label nb-cell-label cell-12-loc nb-loc-label cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -4371,7 +4434,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell markdown" data-index="13" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell markdown" data-index="13" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -4435,7 +4498,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#single-index-names">single index names</a></h2>\n'}}
+        {'data': {'text/html': '<h2 id="single-index-names"><a aria-labelledby="single-index-names" class="pilcrow" href="#single-index-names"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">single index names</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4444,14 +4507,18 @@ return soup
        1
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#single-index-names">
-         single index names
+       <h2 id="single-index-names">
+        <a aria-labelledby="single-index-names" class="pilcrow" href="#single-index-names">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         single index names
+        </span>
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell code" data-index="14" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-14-executed nb-code-label nb-cell-label cell-14-loc nb-loc-label cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
@@ -4909,7 +4976,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell code" data-index="15" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell code" data-index="15" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-15-executed nb-code-label nb-cell-label cell-15-loc nb-loc-label cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -5367,7 +5434,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" aria-posinset="16" class="cell code" data-index="16" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-16-executed nb-code-label nb-cell-label cell-16-loc nb-loc-label cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
         16
@@ -5845,7 +5912,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell code" data-index="17" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" aria-posinset="17" class="cell code" data-index="17" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-17-executed nb-code-label nb-cell-label cell-17-loc nb-loc-label cell-17-outputs-len" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
@@ -6309,7 +6376,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell markdown" data-index="18" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" aria-posinset="18" class="cell markdown" data-index="18" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
         18
@@ -6373,7 +6440,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#one-named-index-spanning">one named index spanning</a></h2>\n'}}
+        {'data': {'text/html': '<h2 id="one-named-index-spanning"><a aria-labelledby="one-named-index-spanning" class="pilcrow" href="#one-named-index-spanning"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">one named index spanning</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -6382,14 +6449,18 @@ return soup
        1
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#one-named-index-spanning">
-         one named index spanning
+       <h2 id="one-named-index-spanning">
+        <a aria-labelledby="one-named-index-spanning" class="pilcrow" href="#one-named-index-spanning">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         one named index spanning
+        </span>
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell code" data-index="19" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" aria-posinset="19" class="cell code" data-index="19" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-19-executed nb-code-label nb-cell-label cell-19-loc nb-loc-label cell-19-outputs-len" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
         19
@@ -6888,7 +6959,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell code" data-index="20" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" aria-posinset="20" class="cell code" data-index="20" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-20-executed nb-code-label nb-cell-label cell-20-loc nb-loc-label cell-20-outputs-len" aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
         20
@@ -7387,7 +7458,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell markdown" data-index="21" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" aria-posinset="21" class="cell markdown" data-index="21" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
         21
@@ -7451,7 +7522,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3><a href="#spanning-two-named-indexes">spanning two named indexes</a></h3>\n'}}
+        {'data': {'text/html': '<h3 id="spanning-two-named-indexes"><a aria-labelledby="spanning-two-named-indexes" class="pilcrow" href="#spanning-two-named-indexes"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">spanning two named indexes</span></h3>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -7460,14 +7531,18 @@ return soup
        1
       </td>
       <td class="nb-outputs" role="none">
-       <h3>
-        <a href="#spanning-two-named-indexes">
-         spanning two named indexes
+       <h3 id="spanning-two-named-indexes">
+        <a aria-labelledby="spanning-two-named-indexes" class="pilcrow" href="#spanning-two-named-indexes">
+         <span class="pilcrow" data-level="3">
+         </span>
         </a>
+        <span aria-hidden="True">
+         spanning two named indexes
+        </span>
        </h3>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell code" data-index="22" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" aria-posinset="22" class="cell code" data-index="22" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-22-executed nb-code-label nb-cell-label cell-22-loc nb-loc-label cell-22-outputs-len" aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
         22
@@ -7985,7 +8060,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell code" data-index="23" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" aria-posinset="23" class="cell code" data-index="23" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-23-executed nb-code-label nb-cell-label cell-23-loc nb-loc-label cell-23-outputs-len" aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
         23
@@ -8531,7 +8606,7 @@ return soup
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell markdown" data-index="24" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" aria-posinset="24" class="cell markdown" data-index="24" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 24" class="nb-anchor visually-hidden" href="#24" id="24">
         24
@@ -8612,7 +8687,7 @@ we'll likely include an empty row or column. this might seem like this is author
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" class="cell markdown" data-index="25" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" aria-posinset="25" class="cell markdown" data-index="25" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 25" class="nb-anchor visually-hidden" href="#25" id="25">
         25
@@ -8684,7 +8759,7 @@ this experience can really suck for assistive technology introducing navigation 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3><a href="#non-spanning-frames">non-spanning frames</a></h3>\n<p>so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;\nonly headers will span for dataframes while data will not.\nthis experience can really suck for assistive technology introducing navigation ambiguities and complications.</p>\n'}}
+        {'data': {'text/html': '<h3 id="non-spanning-frames"><a aria-labelledby="non-spanning-frames" class="pilcrow" href="#non-spanning-frames"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">non-spanning frames</span></h3>\n<p>so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;\nonly headers will span for dataframes while data will not.\nthis experience can really suck for assistive technology introducing navigation ambiguities and complications.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -8693,10 +8768,14 @@ this experience can really suck for assistive technology introducing navigation 
        5
       </td>
       <td class="nb-outputs" role="none">
-       <h3>
-        <a href="#non-spanning-frames">
-         non-spanning frames
+       <h3 id="non-spanning-frames">
+        <a aria-labelledby="non-spanning-frames" class="pilcrow" href="#non-spanning-frames">
+         <span class="pilcrow" data-level="3">
+         </span>
         </a>
+        <span aria-hidden="True">
+         non-spanning frames
+        </span>
        </h3>
        <p>
         so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;
@@ -8705,7 +8784,7 @@ this experience can really suck for assistive technology introducing navigation 
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 26 cell-26-cell_type" class="cell code" data-index="26" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 26 cell-26-cell_type" aria-posinset="26" class="cell code" data-index="26" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-26-executed nb-code-label nb-cell-label cell-26-loc nb-loc-label cell-26-outputs-len" aria-labelledby="nb-cell-label 26" class="nb-anchor visually-hidden" href="#26" id="26">
         26
@@ -9328,7 +9407,7 @@ this experience can really suck for assistive technology introducing navigation 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 27 cell-27-cell_type" class="cell code" data-index="27" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 27 cell-27-cell_type" aria-posinset="27" class="cell code" data-index="27" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-27-executed nb-code-label nb-cell-label cell-27-loc nb-loc-label cell-27-outputs-len" aria-labelledby="nb-cell-label 27" class="nb-anchor visually-hidden" href="#27" id="27">
         27
@@ -9979,7 +10058,7 @@ this experience can really suck for assistive technology introducing navigation 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 28 cell-28-cell_type" class="cell code" data-index="28" data-loc="19" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 28 cell-28-cell_type" aria-posinset="28" class="cell code" data-index="28" data-loc="19" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-28-executed nb-code-label nb-cell-label cell-28-loc nb-loc-label cell-28-outputs-len" aria-labelledby="nb-cell-label 28" class="nb-anchor visually-hidden" href="#28" id="28">
         28
@@ -10108,9 +10187,13 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
          </span>
         </legend>
         <h2 id="visual-and-nonvisual-shape">
-         <a href="#visual-and-nonvisual-shape">
-          visual and nonvisual shape
+         <a aria-labelledby="visual-and-nonvisual-shape" class="pilcrow" href="#visual-and-nonvisual-shape">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          visual and nonvisual shape
+         </span>
         </h2>
         <p>
          rows and columns references in a
@@ -10140,7 +10223,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 29 cell-29-cell_type" class="cell markdown" data-index="29" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 29 cell-29-cell_type" aria-posinset="29" class="cell markdown" data-index="29" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 29" class="nb-anchor visually-hidden" href="#29" id="29">
         29
@@ -10210,7 +10293,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#todo">todo</a></h2>\n<ul>\n<li>AT shape vs nominal shape information</li>\n<li>dataframes larger than trunacted thresholds where we will have to introduce aria</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="todo"><a aria-labelledby="todo" class="pilcrow" href="#todo"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">todo</span></h2>\n<ul>\n<li>AT shape vs nominal shape information</li>\n<li>dataframes larger than trunacted thresholds where we will have to introduce aria</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -10219,10 +10302,14 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
        4
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#todo">
-         todo
+       <h2 id="todo">
+        <a aria-labelledby="todo" class="pilcrow" href="#todo">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         todo
+        </span>
        </h2>
        <ul>
         <li>
@@ -10267,9 +10354,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
    <dialog id="nb-settings">
     <form name="settings">
      <h1 id="nb-accessibility-settings-label">
-      <a href="#nb-accessibility-settings-label">
-       accessibility settings
-      </a>
+      accessibility settings
      </h1>
      <button formmethod="dialog">
       Close
@@ -10277,9 +10362,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
      <ul aria-labelledby="nb-accessibility-settings-label">
       <li>
        <h2 id="nb-notebook-layout-label">
-        <a href="#nb-notebook-layout-label">
-         notebook layout
-        </a>
+        notebook layout
        </h2>
        <ul aria-labelledby="nb-notebook-layout-label">
         <li>
@@ -10360,6 +10443,24 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
         </li>
         <li>
          <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
           <input checked name="accesskey-navigation" type="checkbox">
           accesskey navigation
          </label>
@@ -10368,9 +10469,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
       </li>
       <li>
        <h2 id="nb-font-settings-label">
-        <a href="#nb-font-settings-label">
-         font settings
-        </a>
+        font settings
        </h2>
        <ul aria-labelledby="nb-font-settings-label">
         <li>
@@ -10427,9 +10526,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
       </li>
       <li>
        <h2 id="nb-sound-settings-label">
-        <a href="#nb-sound-settings-label">
-         sound settings
-        </a>
+        sound settings
        </h2>
        <ul aria-labelledby="nb-sound-settings-label">
         <li>
@@ -10694,18 +10791,14 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
    </dialog>
    <dialog id="nb-help">
     <h1>
-     <a href="#notebook-help">
-      notebook help
-     </a>
+     notebook help
     </h1>
     <form>
      <button formmethod="dialog">
       close
      </button>
      <h2 id="nb-defs-label">
-      <a href="#nb-defs-label">
-       definitions
-      </a>
+      definitions
      </h2>
      <dl aria-labelledby="nb-defs-label">
       <dt id="nb-notebook-label">
@@ -10993,7 +11086,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
    </a>
   </footer>
   <script>
-   const BODY = document.querySelector("body"), SELECTORS = {
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
     "table": "table#cells",
     "body": "table#cells>tbody",
     "row": "table#cells>tbody>tr",
@@ -11197,7 +11290,7 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     });
 
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (x) => {
+    (event) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
         if (!event.target.checked) {
             document.querySelectorAll("textarea").forEach(
@@ -11210,11 +11303,30 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.settings.sticky.addEventListener("change",
+    (event) => {
+        BODY.classList.toggle("sticky", event.target.checked);
+        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+    });
+
 document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
     document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
 });
 
+document.forms.settings.invert.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+})
+document.forms.settings.grayscale.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+})
 
+document.querySelectorAll("input[name=sorted]").forEach(
+    (x) => {
+        x.addEventListener("change", (y) => {
+            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
+        })
+    }
+)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -11261,9 +11373,10 @@ let observer = new ResizeObserver(
     }
 );
 
-document.querySelectorAll("textarea").forEach(
+document.querySelectorAll("textarea[name=source]").forEach(
     (x) => {
         observer.observe(x);
+        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
     }
 );
 

@@ -51,301 +51,336 @@ nbformat at the primary interface for multimedia content." name="description">
 }());
   </script>
   <style type="text/css">
-   /* # accessible css configurations
+   @layer api, defaults, layout, cells, cell, sa11y;
 
-we define these high level variables to allow for configuration during use and testing.
-we are not sure what the preferred default values are for these any accessible notebooks features.
-the variables specify critical degrees of freedom in the notebook style.
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
 
-## notebook interface specific css variables
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
 
-*/
-:root {
-    --nb-focus-width: 3px;
-    --nb-accent-color: auto;
-    --nb-margin: 5%;
-    --nb-font-size: 16px;
-    --nb-font-family: serif;
-    --nb-line-height: 1.5;
-    --nb-scrolled-height: 600px;
-    --color-light: #FFFFFF;
-    --color-dark: #2b2a33;
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        display: inline-block;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
 }
 
 
-/* map css variables to css properties on the `body` elements.
-this mapping turns out css variables into user interfaces. */
+@layer sally {
 
-body {
-    font-size: var(--nb-font-size);
-    font-family: var(--nb-font-family);
-    accent-color: var(--nb-accent-color);
-    margin-left: var(--nb-margin);
-    margin-right: var(--nb-margin);
-    line-height: var(--nb-line-height);
-    width: calc(100% - 2*var(--nb-margin));
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel,
-body:not([data-dev-sa11y]) sa11y-annotation {
-    display: none;
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[aria-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
 }
 
-body[data-dev-sa11y] sa11y-control-panel,
-body[data-dev-sa11y] sa11y-annotation {
-    display: unset;
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
 }
 
-body.dark {
-    color: var(--color-light);
-    background-color: var(--color-dark);
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
 }
 
-main:fullscreen {
-    overflow: auto;
-    background: var(--color-light);
-}
-
-.dark main:fullscreen {
-    background: var(--color-dark);
-}
-
-/* ## notebook settings
-
-the notebook settings interface connects configurable css features to the user.
-we use dialog elements to represents an element that should be hidden by default.
-it turns out there are two ways to layout `dialog` elements. 
-they can be used as modals or block elements.
-we extract this dual purpose to provide both configurations to the user.
-
-*/
-
-dialog form>* {
-    display: block;
-}
-
-
-/* ## wcag accessibility guidelines as a feature
-
-flexibility is the future of assistive interfaces.
-it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
-it is the fucking priority.
-
-in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
-one configurable feature is the accessibility priority. 
-experienced developers may need less assistive features as they spend more time with an interface.
-
-### buttons sizes
-
-WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
-
-/* satisfy AAA 2.5.5 */
-
-.wcag-aaa button,
-.wcag-aaa input[type=checkbox] {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.wcag-aaa a {
-    font-size: max(44px, var(--nb-font-size));
-}
-
-/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
-/* satisfy AA 2.5.8 minimum target requirement */
-.wcag-aa button,
-.wcag-aa input[type=checkbox] {
-    min-height: 24px;
-    min-width: 24px;
-}
-
-.wcag-aa a {
-    font-size: max(24px, var(--nb-font-size));
-}
-
-/* remove the color styling for AAA */
-.wcag-aaa .highlight pre code span[class] {
-    color: unset;
-}
-
-/* ### native textareas for AAA priority.
-
-
-our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
-the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
-
-*/
-
-.markdown textarea[name=source]+[role=group],
-.wcag-a textarea[name=source],
-.wcag-aa textarea[name=source],
-.wcag-aaa .markdown textarea[name=source],
-/* this group selector is very ambiguous */
-.wcag-aaa textarea[name=source]+[role=group] {
-    display: none;
-}
-
-/* line height cant change pre elements based on browser presets */
-pre,
-.highlight>pre,
-textarea {
-    line-height: var(--nb-line-height);
-    white-space: pre-wrap;
-}
-
-.horiz-overflow pre,
-.horiz-overflow textarea {
-    white-space: pre;
-}
-
-/* this is only needed for the lsit template variant */
-ol#cells {
-    margin: unset;
-    padding: unset;
-}
-
-li.cell {
-    list-style-type: none;
-}
-
-/* ## notebook components layout */
-
-#cells,
-#cells>tbody,
-#cells>tbody>tr,
-#cells>tbody>tr>[role="none"] {
-    display: block;
-    text-align: unset;
-    width: calc(100vw - 2 * var(--nb-margin));
-}
-
-.nb-outputs img,
-.nb-outputs image {
-    height: 100%;
-    width: 100%;
-}
-
-
-.horiz-overflow .nb-outputs img,
-.horiz-overflow .nb-outputs image {
-    height: unset;
-    width: unset;
-}
-
-.horiz-overflow #cells,
-.horiz-overflow #cells>tbody,
-.horiz-overflow #cells>tbody>tr,
-.horiz-overflow #cells>tbody>tr>[role="none"] {
-    width: max-content;
-}
-
-#cells>tbody>tr[hidden],
-#cells>tbody>tr>[role="none"][hidden] {
-    display: none;
-}
-
-tr.cell>th:first-child {}
-
-table {
-    border-spacing: unset;
-}
-
-ol[reversed]#cells,
-[reversed]#cells tbody {
-    flex-direction: column-reverse;
-}
-
-/* hide the visual output area when there are no outputs. 
-assistive technologies will recieve an audible notification that there are not outputs. */
-
-fieldset[data-outputs="0"] {
-    display: none;
-}
-
-/* ## modifications to html defaults 
-
-### focus 
-
-there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
-we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
-
-*/
-
-
-
-.cell:focus-within,
-:focus-visible {
-    outline: max(var(--nb-focus-width), 1px) solid;
-    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
-}
-
-
-/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
-textarea[name=source] {
-    min-width: 0;
-}
-
-td.nb-outputs,
-td.nb-source {
-    overflow-x: auto;
-}
-
-.horiz-overflow header,
-.horiz-overflow footer {
-    width: max-content;
-}
-
-.horiz-overflow td.nb-source {
-    overflow-x: visible;
-}
-
-.horiz-overflow td.nb-outputs {
-    min-width: 100%;
-}
-
-.horiz-overflow .cell {
-    width: fit-content;
-}
-
-#nb-settings li::marker,
-summary[inert]::marker {
-    content: "";
-}
-
-/* ### inheriting styles */
-
-input,
-select,
-button {
-    font-family: inherit;
-    font-size: inherit;
-}
-
-textarea {
-    font-family: monospace;
-    font-size: inherit;
-    overflow: auto;
-    color: unset;
-}
-
-textarea[name=source] {
-    box-sizing: border-box;
-    width: 100%;
-    resize: none;
-}
-
-
-/* align checkboxes with buttons */
-input[type="checkbox"] {
-    vertical-align: middle;
-}
-
-/* ## custom class selectors */
-
-#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
-/* legend:not(:focus-within):not(:active), */
 details.log:not([open])+table,
 .visually-hidden:not(:focus-within):not(:active),
 .visually-hide {
@@ -356,15 +391,6 @@ details.log:not([open])+table,
     position: absolute;
     white-space: nowrap;
     width: 1px;
-}
-
-.nb-outputs.nb-scrolled {
-    max-height: var(--nb-scrolled-height);
-    overflow-y: auto;
-}
-
-.nb-outputs.nb-collapsed {
-    display: none;
 }
   </style>
   <style id="nb-light-highlight" media="screen" type="text/css">
@@ -745,7 +771,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </style>
   <!-- End of mermaid configuration -->
  </head>
- <body class="wcag-aa">
+ <body class="wcag-aa sticky">
   <header>
    <a href="#1" id="TOP">
     skip to main content
@@ -1373,7 +1399,20 @@ nbformat at the primary interface for multimedia content.
    </dialog>
   </header>
   <main>
-   <table id="cells" role="none">
+   <fieldset form="settings">
+    <legend>
+     cell ordering
+    </legend>
+    <input id="sort-asc" name="sorted" type="radio" value="ascending">
+    <label for="sort-asc">
+     ascending
+    </label>
+    <input id="sort-desc" name="sorted" type="radio" value="descending">
+    <label for="sort-desc">
+     descending
+    </label>
+   </fieldset>
+   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1386,7 +1425,7 @@ nbformat at the primary interface for multimedia content.
      <col class="nb-metadata">
      <col class="nb-outputs">
     </colgroup>
-    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
        index
@@ -1419,7 +1458,7 @@ nbformat at the primary interface for multimedia content.
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1493,7 +1532,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1><a href="#build-the-site-docs">build the site docs</a></h1>\n<p>building documentation with <code>nbconvert</code> and dataframes. this approach treats document as data using the\n<code>nbformat</code> at the primary interface for multimedia content.</p>\n<p>the following is an example rendering <a href="https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiii/2023-12-13-jupyter-community-call.html">https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiii/2023-12-13-jupyter-community-call.html</a> . something got wonky with the paths.</p>\n'}}
+        {'data': {'text/html': '<h1 id="build-the-site-docs"><a aria-labelledby="build-the-site-docs" class="pilcrow" href="#build-the-site-docs"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">build the site docs</span></h1>\n<p>building documentation with <code>nbconvert</code> and dataframes. this approach treats document as data using the\n<code>nbformat</code> at the primary interface for multimedia content.</p>\n<p>the following is an example rendering <a href="https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiii/2023-12-13-jupyter-community-call.html">https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiii/2023-12-13-jupyter-community-call.html</a> . something got wonky with the paths.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1502,10 +1541,14 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
        6
       </td>
       <td class="nb-outputs" role="none">
-       <h1>
-        <a href="#build-the-site-docs">
-         build the site docs
+       <h1 id="build-the-site-docs">
+        <a aria-labelledby="build-the-site-docs" class="pilcrow" href="#build-the-site-docs">
+         <span class="pilcrow" data-level="1">
+         </span>
         </a>
+        <span aria-hidden="True">
+         build the site docs
+        </span>
        </h1>
        <p>
         building documentation with
@@ -1527,7 +1570,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1624,7 +1667,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="19" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="19" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1755,7 +1798,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1846,7 +1889,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -1951,7 +1994,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell markdown" data-index="6" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell markdown" data-index="6" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
@@ -2029,7 +2072,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -2124,7 +2167,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -2202,7 +2245,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="cell-9-executed nb-code-label nb-cell-label cell-9-loc nb-loc-label cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2303,7 +2346,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell markdown" data-index="10" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2381,7 +2424,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -2774,7 +2817,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -2852,7 +2895,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="11" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell code" data-index="13" data-loc="11" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-13-executed nb-code-label nb-cell-label cell-13-loc nb-loc-label cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -2967,7 +3010,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell code" data-index="14" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell code" data-index="14" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-14-executed nb-code-label nb-cell-label cell-14-loc nb-loc-label cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
@@ -3066,7 +3109,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell code" data-index="15" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell code" data-index="15" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-15-executed nb-code-label nb-cell-label cell-15-loc nb-loc-label cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -3171,7 +3214,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell code" data-index="16" data-loc="7" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" aria-posinset="16" class="cell code" data-index="16" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-16-executed nb-code-label nb-cell-label cell-16-loc nb-loc-label cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
         16
@@ -3278,7 +3321,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell code" data-index="17" data-loc="11" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" aria-posinset="17" class="cell code" data-index="17" data-loc="11" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-17-executed nb-code-label nb-cell-label cell-17-loc nb-loc-label cell-17-outputs-len" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
@@ -3393,7 +3436,7 @@ indexes and readmes use different exporter configurations than content notebooks
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell markdown" data-index="18" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" aria-posinset="18" class="cell markdown" data-index="18" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
         18
@@ -3474,7 +3517,7 @@ to build the table of contents and relative links.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" class="cell code" data-index="19" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" aria-posinset="19" class="cell code" data-index="19" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-19-executed nb-code-label nb-cell-label cell-19-loc nb-loc-label cell-19-outputs-len" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
         19
@@ -3585,7 +3628,7 @@ to build the table of contents and relative links.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" class="cell markdown" data-index="20" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" aria-posinset="20" class="cell markdown" data-index="20" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
         20
@@ -3663,7 +3706,7 @@ to build the table of contents and relative links.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" class="cell code" data-index="21" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" aria-posinset="21" class="cell code" data-index="21" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-21-executed nb-code-label nb-cell-label cell-21-loc nb-loc-label cell-21-outputs-len" aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
         21
@@ -3760,7 +3803,7 @@ to build the table of contents and relative links.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" class="cell markdown" data-index="22" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" aria-posinset="22" class="cell markdown" data-index="22" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
         22
@@ -3838,7 +3881,7 @@ to build the table of contents and relative links.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" class="cell code" data-index="23" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" aria-posinset="23" class="cell code" data-index="23" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-23-executed nb-code-label nb-cell-label cell-23-loc nb-loc-label cell-23-outputs-len" aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
         23
@@ -4124,7 +4167,7 @@ to build the table of contents and relative links.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" class="cell markdown" data-index="24" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 24 cell-24-cell_type" aria-posinset="24" class="cell markdown" data-index="24" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 24" class="nb-anchor visually-hidden" href="#24" id="24">
         24
@@ -4205,7 +4248,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" class="cell code" data-index="25" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 25 cell-25-cell_type" aria-posinset="25" class="cell code" data-index="25" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-25-executed nb-code-label nb-cell-label cell-25-loc nb-loc-label cell-25-outputs-len" aria-labelledby="nb-cell-label 25" class="nb-anchor visually-hidden" href="#25" id="25">
         25
@@ -4633,7 +4676,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 26 cell-26-cell_type" class="cell code" data-index="26" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 26 cell-26-cell_type" aria-posinset="26" class="cell code" data-index="26" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-26-executed nb-code-label nb-cell-label cell-26-loc nb-loc-label cell-26-outputs-len" aria-labelledby="nb-cell-label 26" class="nb-anchor visually-hidden" href="#26" id="26">
         26
@@ -5059,7 +5102,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 27 cell-27-cell_type" class="cell code" data-index="27" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 27 cell-27-cell_type" aria-posinset="27" class="cell code" data-index="27" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-27-executed nb-code-label nb-cell-label cell-27-loc nb-loc-label cell-27-outputs-len" aria-labelledby="nb-cell-label 27" class="nb-anchor visually-hidden" href="#27" id="27">
         27
@@ -5158,7 +5201,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 28 cell-28-cell_type" class="cell code" data-index="28" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 28 cell-28-cell_type" aria-posinset="28" class="cell code" data-index="28" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-28-executed nb-code-label nb-cell-label cell-28-loc nb-loc-label cell-28-outputs-len" aria-labelledby="nb-cell-label 28" class="nb-anchor visually-hidden" href="#28" id="28">
         28
@@ -5257,7 +5300,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 29 cell-29-cell_type" class="cell code" data-index="29" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 29 cell-29-cell_type" aria-posinset="29" class="cell code" data-index="29" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-29-executed nb-code-label nb-cell-label cell-29-loc nb-loc-label cell-29-outputs-len" aria-labelledby="nb-cell-label 29" class="nb-anchor visually-hidden" href="#29" id="29">
         29
@@ -5362,7 +5405,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 30 cell-30-cell_type" class="cell markdown" data-index="30" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 30 cell-30-cell_type" aria-posinset="30" class="cell markdown" data-index="30" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 30" class="nb-anchor visually-hidden" href="#30" id="30">
         30
@@ -5444,7 +5487,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 31 cell-31-cell_type" class="cell code" data-index="31" data-loc="23" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 31 cell-31-cell_type" aria-posinset="31" class="cell code" data-index="31" data-loc="23" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-31-executed nb-code-label nb-cell-label cell-31-loc nb-loc-label cell-31-outputs-len" aria-labelledby="nb-cell-label 31" class="nb-anchor visually-hidden" href="#31" id="31">
         31
@@ -5583,7 +5626,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 32 cell-32-cell_type" class="cell markdown" data-index="32" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 32 cell-32-cell_type" aria-posinset="32" class="cell markdown" data-index="32" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 32" class="nb-anchor visually-hidden" href="#32" id="32">
         32
@@ -5661,7 +5704,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 33 cell-33-cell_type" class="cell code" data-index="33" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 33 cell-33-cell_type" aria-posinset="33" class="cell code" data-index="33" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-33-executed nb-code-label nb-cell-label cell-33-loc nb-loc-label cell-33-outputs-len" aria-labelledby="nb-cell-label 33" class="nb-anchor visually-hidden" href="#33" id="33">
         33
@@ -5756,7 +5799,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 34 cell-34-cell_type" class="cell markdown" data-index="34" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 34 cell-34-cell_type" aria-posinset="34" class="cell markdown" data-index="34" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 34" class="nb-anchor visually-hidden" href="#34" id="34">
         34
@@ -5834,7 +5877,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 35 cell-35-cell_type" class="cell code" data-index="35" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 35 cell-35-cell_type" aria-posinset="35" class="cell code" data-index="35" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-35-executed nb-code-label nb-cell-label cell-35-loc nb-loc-label cell-35-outputs-len" aria-labelledby="nb-cell-label 35" class="nb-anchor visually-hidden" href="#35" id="35">
         35
@@ -5933,7 +5976,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 36 cell-36-cell_type" class="cell code" data-index="36" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 36 cell-36-cell_type" aria-posinset="36" class="cell code" data-index="36" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-36-executed nb-code-label nb-cell-label cell-36-loc nb-loc-label cell-36-outputs-len" aria-labelledby="nb-cell-label 36" class="nb-anchor visually-hidden" href="#36" id="36">
         36
@@ -6032,7 +6075,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 37 cell-37-cell_type" class="cell code" data-index="37" data-loc="11" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 37 cell-37-cell_type" aria-posinset="37" class="cell code" data-index="37" data-loc="11" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-37-executed nb-code-label nb-cell-label cell-37-loc nb-loc-label cell-37-outputs-len" aria-labelledby="nb-cell-label 37" class="nb-anchor visually-hidden" href="#37" id="37">
         37
@@ -6147,7 +6190,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 38 cell-38-cell_type" class="cell markdown" data-index="38" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 38 cell-38-cell_type" aria-posinset="38" class="cell markdown" data-index="38" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 38" class="nb-anchor visually-hidden" href="#38" id="38">
         38
@@ -6225,7 +6268,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 39 cell-39-cell_type" class="cell code" data-index="39" data-loc="7" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 39 cell-39-cell_type" aria-posinset="39" class="cell code" data-index="39" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-39-executed nb-code-label nb-cell-label cell-39-loc nb-loc-label cell-39-outputs-len" aria-labelledby="nb-cell-label 39" class="nb-anchor visually-hidden" href="#39" id="39">
         39
@@ -6332,7 +6375,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 40 cell-40-cell_type" class="cell code" data-index="40" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 40 cell-40-cell_type" aria-posinset="40" class="cell code" data-index="40" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-40-executed nb-code-label nb-cell-label cell-40-loc nb-loc-label cell-40-outputs-len" aria-labelledby="nb-cell-label 40" class="nb-anchor visually-hidden" href="#40" id="40">
         40
@@ -6428,7 +6471,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 41 cell-41-cell_type" class="cell code" data-index="41" data-loc="7" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 41 cell-41-cell_type" aria-posinset="41" class="cell code" data-index="41" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-41-executed nb-code-label nb-cell-label cell-41-loc nb-loc-label cell-41-outputs-len" aria-labelledby="nb-cell-label 41" class="nb-anchor visually-hidden" href="#41" id="41">
         41
@@ -6535,7 +6578,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 42 cell-42-cell_type" class="cell code" data-index="42" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 42 cell-42-cell_type" aria-posinset="42" class="cell code" data-index="42" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-42-executed nb-code-label nb-cell-label cell-42-loc nb-loc-label cell-42-outputs-len" aria-labelledby="nb-cell-label 42" class="nb-anchor visually-hidden" href="#42" id="42">
         42
@@ -6632,7 +6675,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 43 cell-43-cell_type" class="cell code" data-index="43" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 43 cell-43-cell_type" aria-posinset="43" class="cell code" data-index="43" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-43-executed nb-code-label nb-cell-label cell-43-loc nb-loc-label cell-43-outputs-len" aria-labelledby="nb-cell-label 43" class="nb-anchor visually-hidden" href="#43" id="43">
         43
@@ -6729,7 +6772,7 @@ adding description to the meta is good for accessibility when choosing tabs.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 44 cell-44-cell_type" class="cell code" data-index="44" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 44 cell-44-cell_type" aria-posinset="44" class="cell code" data-index="44" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-44-executed nb-code-label nb-cell-label cell-44-loc nb-loc-label cell-44-outputs-len" aria-labelledby="nb-cell-label 44" class="nb-anchor visually-hidden" href="#44" id="44">
         44
@@ -12384,7 +12427,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 45 cell-45-cell_type" class="cell code" data-index="45" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 45 cell-45-cell_type" aria-posinset="45" class="cell code" data-index="45" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-45-executed nb-code-label nb-cell-label cell-45-loc nb-loc-label cell-45-outputs-len" aria-labelledby="nb-cell-label 45" class="nb-anchor visually-hidden" href="#45" id="45">
         45
@@ -12487,7 +12530,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 46 cell-46-cell_type" class="cell code" data-index="46" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 46 cell-46-cell_type" aria-posinset="46" class="cell code" data-index="46" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-46-executed nb-code-label nb-cell-label cell-46-loc nb-loc-label cell-46-outputs-len" aria-labelledby="nb-cell-label 46" class="nb-anchor visually-hidden" href="#46" id="46">
         46
@@ -12582,7 +12625,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 47 cell-47-cell_type" class="cell code" data-index="47" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 47 cell-47-cell_type" aria-posinset="47" class="cell code" data-index="47" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-47-executed nb-code-label nb-cell-label cell-47-loc nb-loc-label cell-47-outputs-len" aria-labelledby="nb-cell-label 47" class="nb-anchor visually-hidden" href="#47" id="47">
         47
@@ -12677,7 +12720,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 48 cell-48-cell_type" class="cell code" data-index="48" data-loc="27" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 48 cell-48-cell_type" aria-posinset="48" class="cell code" data-index="48" data-loc="27" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-48-executed nb-code-label nb-cell-label cell-48-loc nb-loc-label cell-48-outputs-len" aria-labelledby="nb-cell-label 48" class="nb-anchor visually-hidden" href="#48" id="48">
         48
@@ -15591,7 +15634,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 49 cell-49-cell_type" class="cell code" data-index="49" data-loc="0" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 49 cell-49-cell_type" aria-posinset="49" class="cell code" data-index="49" data-loc="0" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-49-executed nb-code-label nb-cell-label cell-49-loc nb-loc-label cell-49-outputs-len" aria-labelledby="nb-cell-label 49" class="nb-anchor visually-hidden" href="#49" id="49">
         49
@@ -15716,9 +15759,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    <dialog id="nb-settings">
     <form name="settings">
      <h1 id="nb-accessibility-settings-label">
-      <a href="#nb-accessibility-settings-label">
-       accessibility settings
-      </a>
+      accessibility settings
      </h1>
      <button formmethod="dialog">
       Close
@@ -15726,9 +15767,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
      <ul aria-labelledby="nb-accessibility-settings-label">
       <li>
        <h2 id="nb-notebook-layout-label">
-        <a href="#nb-notebook-layout-label">
-         notebook layout
-        </a>
+        notebook layout
        </h2>
        <ul aria-labelledby="nb-notebook-layout-label">
         <li>
@@ -15809,6 +15848,24 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
         </li>
         <li>
          <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
           <input checked name="accesskey-navigation" type="checkbox">
           accesskey navigation
          </label>
@@ -15817,9 +15874,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       </li>
       <li>
        <h2 id="nb-font-settings-label">
-        <a href="#nb-font-settings-label">
-         font settings
-        </a>
+        font settings
        </h2>
        <ul aria-labelledby="nb-font-settings-label">
         <li>
@@ -15876,9 +15931,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       </li>
       <li>
        <h2 id="nb-sound-settings-label">
-        <a href="#nb-sound-settings-label">
-         sound settings
-        </a>
+        sound settings
        </h2>
        <ul aria-labelledby="nb-sound-settings-label">
         <li>
@@ -16143,18 +16196,14 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </dialog>
    <dialog id="nb-help">
     <h1>
-     <a href="#notebook-help">
-      notebook help
-     </a>
+     notebook help
     </h1>
     <form>
      <button formmethod="dialog">
       close
      </button>
      <h2 id="nb-defs-label">
-      <a href="#nb-defs-label">
-       definitions
-      </a>
+      definitions
      </h2>
      <dl aria-labelledby="nb-defs-label">
       <dt id="nb-notebook-label">
@@ -16442,7 +16491,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </a>
   </footer>
   <script>
-   const BODY = document.querySelector("body"), SELECTORS = {
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
     "table": "table#cells",
     "body": "table#cells>tbody",
     "row": "table#cells>tbody>tr",
@@ -16646,7 +16695,7 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     });
 
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (x) => {
+    (event) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
         if (!event.target.checked) {
             document.querySelectorAll("textarea").forEach(
@@ -16659,11 +16708,30 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.settings.sticky.addEventListener("change",
+    (event) => {
+        BODY.classList.toggle("sticky", event.target.checked);
+        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+    });
+
 document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
     document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
 });
 
+document.forms.settings.invert.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+})
+document.forms.settings.grayscale.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+})
 
+document.querySelectorAll("input[name=sorted]").forEach(
+    (x) => {
+        x.addEventListener("change", (y) => {
+            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
+        })
+    }
+)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -16710,9 +16778,10 @@ let observer = new ResizeObserver(
     }
 );
 
-document.querySelectorAll("textarea").forEach(
+document.querySelectorAll("textarea[name=source]").forEach(
     (x) => {
         observer.observe(x);
+        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
     }
 );
 

@@ -50,301 +50,336 @@
 }());
   </script>
   <style type="text/css">
-   /* # accessible css configurations
+   @layer api, defaults, layout, cells, cell, sa11y;
 
-we define these high level variables to allow for configuration during use and testing.
-we are not sure what the preferred default values are for these any accessible notebooks features.
-the variables specify critical degrees of freedom in the notebook style.
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
 
-## notebook interface specific css variables
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
 
-*/
-:root {
-    --nb-focus-width: 3px;
-    --nb-accent-color: auto;
-    --nb-margin: 5%;
-    --nb-font-size: 16px;
-    --nb-font-family: serif;
-    --nb-line-height: 1.5;
-    --nb-scrolled-height: 600px;
-    --color-light: #FFFFFF;
-    --color-dark: #2b2a33;
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        display: inline-block;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
 }
 
 
-/* map css variables to css properties on the `body` elements.
-this mapping turns out css variables into user interfaces. */
+@layer sally {
 
-body {
-    font-size: var(--nb-font-size);
-    font-family: var(--nb-font-family);
-    accent-color: var(--nb-accent-color);
-    margin-left: var(--nb-margin);
-    margin-right: var(--nb-margin);
-    line-height: var(--nb-line-height);
-    width: calc(100% - 2*var(--nb-margin));
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel,
-body:not([data-dev-sa11y]) sa11y-annotation {
-    display: none;
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[aria-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
 }
 
-body[data-dev-sa11y] sa11y-control-panel,
-body[data-dev-sa11y] sa11y-annotation {
-    display: unset;
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
 }
 
-body.dark {
-    color: var(--color-light);
-    background-color: var(--color-dark);
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
 }
 
-main:fullscreen {
-    overflow: auto;
-    background: var(--color-light);
-}
-
-.dark main:fullscreen {
-    background: var(--color-dark);
-}
-
-/* ## notebook settings
-
-the notebook settings interface connects configurable css features to the user.
-we use dialog elements to represents an element that should be hidden by default.
-it turns out there are two ways to layout `dialog` elements. 
-they can be used as modals or block elements.
-we extract this dual purpose to provide both configurations to the user.
-
-*/
-
-dialog form>* {
-    display: block;
-}
-
-
-/* ## wcag accessibility guidelines as a feature
-
-flexibility is the future of assistive interfaces.
-it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
-it is the fucking priority.
-
-in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
-one configurable feature is the accessibility priority. 
-experienced developers may need less assistive features as they spend more time with an interface.
-
-### buttons sizes
-
-WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
-
-/* satisfy AAA 2.5.5 */
-
-.wcag-aaa button,
-.wcag-aaa input[type=checkbox] {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.wcag-aaa a {
-    font-size: max(44px, var(--nb-font-size));
-}
-
-/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
-/* satisfy AA 2.5.8 minimum target requirement */
-.wcag-aa button,
-.wcag-aa input[type=checkbox] {
-    min-height: 24px;
-    min-width: 24px;
-}
-
-.wcag-aa a {
-    font-size: max(24px, var(--nb-font-size));
-}
-
-/* remove the color styling for AAA */
-.wcag-aaa .highlight pre code span[class] {
-    color: unset;
-}
-
-/* ### native textareas for AAA priority.
-
-
-our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
-the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
-
-*/
-
-.markdown textarea[name=source]+[role=group],
-.wcag-a textarea[name=source],
-.wcag-aa textarea[name=source],
-.wcag-aaa .markdown textarea[name=source],
-/* this group selector is very ambiguous */
-.wcag-aaa textarea[name=source]+[role=group] {
-    display: none;
-}
-
-/* line height cant change pre elements based on browser presets */
-pre,
-.highlight>pre,
-textarea {
-    line-height: var(--nb-line-height);
-    white-space: pre-wrap;
-}
-
-.horiz-overflow pre,
-.horiz-overflow textarea {
-    white-space: pre;
-}
-
-/* this is only needed for the lsit template variant */
-ol#cells {
-    margin: unset;
-    padding: unset;
-}
-
-li.cell {
-    list-style-type: none;
-}
-
-/* ## notebook components layout */
-
-#cells,
-#cells>tbody,
-#cells>tbody>tr,
-#cells>tbody>tr>[role="none"] {
-    display: block;
-    text-align: unset;
-    width: calc(100vw - 2 * var(--nb-margin));
-}
-
-.nb-outputs img,
-.nb-outputs image {
-    height: 100%;
-    width: 100%;
-}
-
-
-.horiz-overflow .nb-outputs img,
-.horiz-overflow .nb-outputs image {
-    height: unset;
-    width: unset;
-}
-
-.horiz-overflow #cells,
-.horiz-overflow #cells>tbody,
-.horiz-overflow #cells>tbody>tr,
-.horiz-overflow #cells>tbody>tr>[role="none"] {
-    width: max-content;
-}
-
-#cells>tbody>tr[hidden],
-#cells>tbody>tr>[role="none"][hidden] {
-    display: none;
-}
-
-tr.cell>th:first-child {}
-
-table {
-    border-spacing: unset;
-}
-
-ol[reversed]#cells,
-[reversed]#cells tbody {
-    flex-direction: column-reverse;
-}
-
-/* hide the visual output area when there are no outputs. 
-assistive technologies will recieve an audible notification that there are not outputs. */
-
-fieldset[data-outputs="0"] {
-    display: none;
-}
-
-/* ## modifications to html defaults 
-
-### focus 
-
-there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
-we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
-
-*/
-
-
-
-.cell:focus-within,
-:focus-visible {
-    outline: max(var(--nb-focus-width), 1px) solid;
-    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
-}
-
-
-/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
-textarea[name=source] {
-    min-width: 0;
-}
-
-td.nb-outputs,
-td.nb-source {
-    overflow-x: auto;
-}
-
-.horiz-overflow header,
-.horiz-overflow footer {
-    width: max-content;
-}
-
-.horiz-overflow td.nb-source {
-    overflow-x: visible;
-}
-
-.horiz-overflow td.nb-outputs {
-    min-width: 100%;
-}
-
-.horiz-overflow .cell {
-    width: fit-content;
-}
-
-#nb-settings li::marker,
-summary[inert]::marker {
-    content: "";
-}
-
-/* ### inheriting styles */
-
-input,
-select,
-button {
-    font-family: inherit;
-    font-size: inherit;
-}
-
-textarea {
-    font-family: monospace;
-    font-size: inherit;
-    overflow: auto;
-    color: unset;
-}
-
-textarea[name=source] {
-    box-sizing: border-box;
-    width: 100%;
-    resize: none;
-}
-
-
-/* align checkboxes with buttons */
-input[type="checkbox"] {
-    vertical-align: middle;
-}
-
-/* ## custom class selectors */
-
-#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
-/* legend:not(:focus-within):not(:active), */
 details.log:not([open])+table,
 .visually-hidden:not(:focus-within):not(:active),
 .visually-hide {
@@ -355,15 +390,6 @@ details.log:not([open])+table,
     position: absolute;
     white-space: nowrap;
     width: 1px;
-}
-
-.nb-outputs.nb-scrolled {
-    max-height: var(--nb-scrolled-height);
-    overflow-y: auto;
-}
-
-.nb-outputs.nb-collapsed {
-    display: none;
 }
   </style>
   <style id="nb-light-highlight" media="screen" type="text/css">
@@ -744,7 +770,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </style>
   <!-- End of mermaid configuration -->
  </head>
- <body class="wcag-aa">
+ <body class="wcag-aa sticky">
   <header>
    <a href="#1" id="TOP">
     skip to main content
@@ -1449,7 +1475,20 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <table id="cells" role="none">
+   <fieldset form="settings">
+    <legend>
+     cell ordering
+    </legend>
+    <input id="sort-asc" name="sorted" type="radio" value="ascending">
+    <label for="sort-asc">
+     ascending
+    </label>
+    <input id="sort-desc" name="sorted" type="radio" value="descending">
+    <label for="sort-desc">
+     descending
+    </label>
+   </fieldset>
+   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1462,7 +1501,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
      <col class="nb-metadata">
      <col class="nb-outputs">
     </colgroup>
-    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
        index
@@ -1495,7 +1534,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="12" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="12" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1581,7 +1620,7 @@ our plan for today is to explore a more accessible future of scientific literatu
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1><a href="#assistive-documentation-data">assistive documentation data</a></h1>\n<p>hey folx, my name is <a href="https://github.com/tonyfast">tonyfast</a> and i\'m excited to discuss a concept for assistive, accessible and labor-reducing, documentation.</p>\n<p>our plan for today is to explore a more accessible future of scientific literature. consider this presentation a possible sensory future for computational notebooks. together we\'ll experience a screen reader while discussing the following items:</p>\n<ol>\n<li>give some history about why i am here</li>\n<li>share a brief demonstration about the concept of <em>documentation as data</em></li>\n<li>listen to accessible notebook experiences with y\'all</li>\n<li>consider how accessibility could guide sustainable open science programs</li>\n</ol>\n<blockquote>\n<p><strong>react in zoom if that was your first time experiencing a screen reader</strong></p>\n</blockquote>\n'}}
+        {'data': {'text/html': '<h1 id="assistive-documentation-data"><a aria-labelledby="assistive-documentation-data" class="pilcrow" href="#assistive-documentation-data"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">assistive documentation data</span></h1>\n<p>hey folx, my name is <a href="https://github.com/tonyfast">tonyfast</a> and i\'m excited to discuss a concept for assistive, accessible and labor-reducing, documentation.</p>\n<p>our plan for today is to explore a more accessible future of scientific literature. consider this presentation a possible sensory future for computational notebooks. together we\'ll experience a screen reader while discussing the following items:</p>\n<ol>\n<li>give some history about why i am here</li>\n<li>share a brief demonstration about the concept of <em>documentation as data</em></li>\n<li>listen to accessible notebook experiences with y\'all</li>\n<li>consider how accessibility could guide sustainable open science programs</li>\n</ol>\n<blockquote>\n<p><strong>react in zoom if that was your first time experiencing a screen reader</strong></p>\n</blockquote>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1590,10 +1629,14 @@ our plan for today is to explore a more accessible future of scientific literatu
        12
       </td>
       <td class="nb-outputs" role="none">
-       <h1>
-        <a href="#assistive-documentation-data">
-         assistive documentation data
+       <h1 id="assistive-documentation-data">
+        <a aria-labelledby="assistive-documentation-data" class="pilcrow" href="#assistive-documentation-data">
+         <span class="pilcrow" data-level="1">
+         </span>
         </a>
+        <span aria-hidden="True">
+         assistive documentation data
+        </span>
        </h1>
        <p>
         hey folx, my name is
@@ -1631,7 +1674,7 @@ our plan for today is to explore a more accessible future of scientific literatu
        </blockquote>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell markdown" data-index="2" data-loc="10" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell markdown" data-index="2" data-loc="10" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1713,7 +1756,7 @@ our plan for today is to explore a more accessible future of scientific literatu
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#disclaimers">disclaimers</a></h2>\n<ul>\n<li>there are two threads in this presentation<ol>\n<li>disability advocacy for assistive documentation</li>\n<li>immersing folx in the screen reader experience</li>\n</ol>\n</li>\n<li>this talk assumes awareness of pandas dataframes and jupyter notebooks.</li>\n<li>this talk demonstrates two active works in progress.<ul>\n<li><a href="https://github.com/deathbeds/nbconvert-a11y"><code>nbconvert-a11y</code></a> is the more mature project containing accessible reference templates for computational notebooks</li>\n<li><a href="https://github.com/materialsgenomefoundation/nobook/"><code>nobook</code></a> thinks that books and publications are terrible, non-reusable databases. <code>nobook</code> teaches data literacies learners explore, transform, and expand their documentation worlds</li>\n</ul>\n</li>\n<li>this is a performance piece developed to be read primarily by a screen reader</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="disclaimers"><a aria-labelledby="disclaimers" class="pilcrow" href="#disclaimers"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">disclaimers</span></h2>\n<ul>\n<li>there are two threads in this presentation<ol>\n<li>disability advocacy for assistive documentation</li>\n<li>immersing folx in the screen reader experience</li>\n</ol>\n</li>\n<li>this talk assumes awareness of pandas dataframes and jupyter notebooks.</li>\n<li>this talk demonstrates two active works in progress.<ul>\n<li><a href="https://github.com/deathbeds/nbconvert-a11y"><code>nbconvert-a11y</code></a> is the more mature project containing accessible reference templates for computational notebooks</li>\n<li><a href="https://github.com/materialsgenomefoundation/nobook/"><code>nobook</code></a> thinks that books and publications are terrible, non-reusable databases. <code>nobook</code> teaches data literacies learners explore, transform, and expand their documentation worlds</li>\n</ul>\n</li>\n<li>this is a performance piece developed to be read primarily by a screen reader</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1722,10 +1765,14 @@ our plan for today is to explore a more accessible future of scientific literatu
        10
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#disclaimers">
-         disclaimers
+       <h2 id="disclaimers">
+        <a aria-labelledby="disclaimers" class="pilcrow" href="#disclaimers">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         disclaimers
+        </span>
        </h2>
        <ul>
         <li>
@@ -1773,7 +1820,7 @@ our plan for today is to explore a more accessible future of scientific literatu
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="16" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="16" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1896,9 +1943,13 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
          </span>
         </legend>
         <h2 id="notebooks-for-all-is-example-of-leading-with-accessibility">
-         <a href="#notebooks-for-all-is-example-of-leading-with-accessibility">
-          notebooks for all is example of leading with accessibility
+         <a aria-labelledby="notebooks-for-all-is-example-of-leading-with-accessibility" class="pilcrow" href="#notebooks-for-all-is-example-of-leading-with-accessibility">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          notebooks for all is example of leading with accessibility
+         </span>
         </h2>
         <p>
          i'm here because of the
@@ -1928,7 +1979,7 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell code" data-index="4" data-loc="18" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="18" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -2054,10 +2105,14 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
           ]
          </span>
         </legend>
-        <h3>
-         <a href="#notebooks-for-all-research-timeline">
-          notebooks for all research timeline
+        <h3 id="notebooks-for-all-research-timeline">
+         <a aria-labelledby="notebooks-for-all-research-timeline" class="pilcrow" href="#notebooks-for-all-research-timeline">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          notebooks for all research timeline
+         </span>
         </h3>
         <ul>
          <li>
@@ -2146,7 +2201,7 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell markdown" data-index="5" data-loc="18" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell markdown" data-index="5" data-loc="18" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -2245,7 +2300,7 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#help-me-meet-you-where-you-are">help me meet you where you are</a></h2>\n<ul>\n<li><p><strong>ACTION</strong> - share <q></q>what are notebooks to you? by typing in the chat or turning on your mic.</p>\n</li>\n<li><details><summary>tonyfast\'s list</summary>\n</details>\n<blockquote>\n<p>this work is personal to me because notebooks are an assistive technology for me. with a career in data and modeling, notebooks have given me access to language and science to share with other people. they are where i continue to learn how to program.</p>\n</blockquote>\n<ul>\n<li>notebooks are literacy machines for reading and writing computational thought</li>\n<li>they can make computational thought <strong>percievable</strong>, <strong>operable</strong>, <strong>understandable</strong>, and <strong>robust</strong>. further, they can compromising, assistive, and flexible for better data-driven documents.</li>\n<li>notebooks provide access to compute</li>\n<li>notebooks are place to test things</li>\n<li>notebooks are data</li>\n<li>notebooks are hypermedia collage</li>\n<li>notebooks are <a href="https://nbviewer.org/github/deathbeds/XlbsOSh_t/blob/master/xlbs/1-skateparks.md.ipynb">computational skateparks</a> to do rad tricks with text</li>\n<li>notebooks are a medium, message, and model</li>\n<li>notebooks are a means and an ends</li>\n</ul>\n \n\n</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="help-me-meet-you-where-you-are"><a aria-labelledby="help-me-meet-you-where-you-are" class="pilcrow" href="#help-me-meet-you-where-you-are"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">help me meet you where you are</span></h2>\n<ul>\n<li><p><strong>ACTION</strong> - share <q></q>what are notebooks to you? by typing in the chat or turning on your mic.</p>\n</li>\n<li><details><summary>tonyfast\'s list</summary>\n</details>\n<blockquote>\n<p>this work is personal to me because notebooks are an assistive technology for me. with a career in data and modeling, notebooks have given me access to language and science to share with other people. they are where i continue to learn how to program.</p>\n</blockquote>\n<ul>\n<li>notebooks are literacy machines for reading and writing computational thought</li>\n<li>they can make computational thought <strong>percievable</strong>, <strong>operable</strong>, <strong>understandable</strong>, and <strong>robust</strong>. further, they can compromising, assistive, and flexible for better data-driven documents.</li>\n<li>notebooks provide access to compute</li>\n<li>notebooks are place to test things</li>\n<li>notebooks are data</li>\n<li>notebooks are hypermedia collage</li>\n<li>notebooks are <a href="https://nbviewer.org/github/deathbeds/XlbsOSh_t/blob/master/xlbs/1-skateparks.md.ipynb">computational skateparks</a> to do rad tricks with text</li>\n<li>notebooks are a medium, message, and model</li>\n<li>notebooks are a means and an ends</li>\n</ul>\n \n\n</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2254,10 +2309,14 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
        18
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#help-me-meet-you-where-you-are">
-         help me meet you where you are
+       <h2 id="help-me-meet-you-where-you-are">
+        <a aria-labelledby="help-me-meet-you-where-you-are" class="pilcrow" href="#help-me-meet-you-where-you-are">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         help me meet you where you are
+        </span>
        </h2>
        <ul>
         <li>
@@ -2335,7 +2394,7 @@ screen readers have dynamic tables of contents that allow folx to navigate quick
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="14" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
@@ -2453,10 +2512,14 @@ containing the information about cells, outputs, mimebundles, and headings acros
           ]
          </span>
         </legend>
-        <h3>
-         <a href="#lets-think-about-collections-of-notebooks">
-          lets think about collections of notebooks
+        <h3 id="lets-think-about-collections-of-notebooks">
+         <a aria-labelledby="lets-think-about-collections-of-notebooks" class="pilcrow" href="#lets-think-about-collections-of-notebooks">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          lets think about collections of notebooks
+         </span>
         </h3>
         <p>
          building documentation from notebooks is difficult because we treat them as text files, not data files.
@@ -2729,7 +2792,7 @@ docs.head(10).assign(html=None) # html is a whole page so we dont put that in th
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="8" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -2835,10 +2898,14 @@ in an interactive computing context.
           ]
          </span>
         </legend>
-        <h3>
-         <a href="#documentation-as-data-allows-us-to-interactively-explore-our-works">
-          documentation as data allows us to interactively explore our works
+        <h3 id="documentation-as-data-allows-us-to-interactively-explore-our-works">
+         <a aria-labelledby="documentation-as-data-allows-us-to-interactively-explore-our-works" class="pilcrow" href="#documentation-as-data-allows-us-to-interactively-explore-our-works">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          documentation as data allows us to interactively explore our works
+         </span>
         </h3>
         <p>
          when we have our
@@ -22174,7 +22241,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell code" data-index="8" data-loc="6" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell code" data-index="8" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="cell-8-executed nb-code-label nb-cell-label cell-8-loc nb-loc-label cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -22410,7 +22477,7 @@ our `docs` are structured information about the cells containing the source and 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="cell-9-executed nb-code-label nb-cell-label cell-9-loc nb-loc-label cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -22630,7 +22697,7 @@ we have structured information about the outputs containing errors and mimebindl
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell code" data-index="10" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-10-executed nb-code-label nb-cell-label cell-10-loc nb-loc-label cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -22839,7 +22906,7 @@ we have an enormous collection of hypermedia
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell markdown" data-index="11" data-loc="17" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell markdown" data-index="11" data-loc="17" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -22935,7 +23002,7 @@ we have an enormous collection of hypermedia
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook">beyond accessibility - what makes an assistive, labor-reducing notebook?</a></h2>\n<ul>\n<li><p><abbr title="percievable operable understandable robust"></abbr>POUR are principles for web content accessibility guidelines, but they are insufficient for interative computing in education. regulatory compliance of interactive computing is neglectful of the needs of disabled scientists.</p>\n<ul>\n<li><p>we use extended <abbr></abbr>POUR-<abbr title="compromising assistive flexible"></abbr>CAF <a href="https://chartability.fizz.studio/">chartability guidelines</a></p>\n<blockquote>\n<p>Chartability is a set of heuristics (testable questions) for ensuring that data visualizations, systems, and interfaces are accessible. Chartability is organized into principles with testable criteria and focused on creating an outcome that is an inclusive data experience for people with disabilities.</p>\n</blockquote>\n</li>\n<li><p>when we have nowhere else to turn we turn <a href="https://gameaccessibilityguidelines.com/">to game accessibility guidelines</a></p>\n</li>\n</ul>\n</li>\n<li><p>the document sounds and navigates naturally with assistive technology</p>\n<ul>\n<li>the DOM and ARIA generate a well structured accessibility object model</li>\n<li>the document has been tested with a screen reader and with screen reader navigation</li>\n</ul>\n</li>\n<li><p>design choices consider the audible, visual, and tactile representation of information units</p>\n<ul>\n<li>the design choices are configurable</li>\n</ul>\n</li>\n<li><p>the design is robust, it passes automated tests</p>\n</li>\n<li><p>the designs and content have been tested with, hopefully paid, affected users</p>\n<blockquote>\n<p>this is last because organizations should do consider the prior before testing with affected users, especially, unpaid ones. <a href="https://www.accessibility.com/blog/what-is-crip-time">crip time</a> can be considerably costly for some disabled people</p>\n</blockquote>\n</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook"><a aria-labelledby="beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook" class="pilcrow" href="#beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">beyond accessibility - what makes an assistive, labor-reducing notebook?</span></h2>\n<ul>\n<li><p><abbr title="percievable operable understandable robust"></abbr>POUR are principles for web content accessibility guidelines, but they are insufficient for interative computing in education. regulatory compliance of interactive computing is neglectful of the needs of disabled scientists.</p>\n<ul>\n<li><p>we use extended <abbr></abbr>POUR-<abbr title="compromising assistive flexible"></abbr>CAF <a href="https://chartability.fizz.studio/">chartability guidelines</a></p>\n<blockquote>\n<p>Chartability is a set of heuristics (testable questions) for ensuring that data visualizations, systems, and interfaces are accessible. Chartability is organized into principles with testable criteria and focused on creating an outcome that is an inclusive data experience for people with disabilities.</p>\n</blockquote>\n</li>\n<li><p>when we have nowhere else to turn we turn <a href="https://gameaccessibilityguidelines.com/">to game accessibility guidelines</a></p>\n</li>\n</ul>\n</li>\n<li><p>the document sounds and navigates naturally with assistive technology</p>\n<ul>\n<li>the DOM and ARIA generate a well structured accessibility object model</li>\n<li>the document has been tested with a screen reader and with screen reader navigation</li>\n</ul>\n</li>\n<li><p>design choices consider the audible, visual, and tactile representation of information units</p>\n<ul>\n<li>the design choices are configurable</li>\n</ul>\n</li>\n<li><p>the design is robust, it passes automated tests</p>\n</li>\n<li><p>the designs and content have been tested with, hopefully paid, affected users</p>\n<blockquote>\n<p>this is last because organizations should do consider the prior before testing with affected users, especially, unpaid ones. <a href="https://www.accessibility.com/blog/what-is-crip-time">crip time</a> can be considerably costly for some disabled people</p>\n</blockquote>\n</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -22944,10 +23011,14 @@ we have an enormous collection of hypermedia
        17
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook">
-         beyond accessibility - what makes an assistive, labor-reducing notebook?
+       <h2 id="beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook">
+        <a aria-labelledby="beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook" class="pilcrow" href="#beyond-accessibility-what-makes-an-assistive-labor-reducing-notebook">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         beyond accessibility - what makes an assistive, labor-reducing notebook?
+        </span>
        </h2>
        <ul>
         <li>
@@ -23031,7 +23102,7 @@ we have an enormous collection of hypermedia
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell code" data-index="12" data-loc="19" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell code" data-index="12" data-loc="19" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-12-executed nb-code-label nb-cell-label cell-12-loc nb-loc-label cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -23160,9 +23231,14 @@ we have an enormous collection of hypermedia
          </span>
         </legend>
         <h2 id="demonstrate-the-newest-nbconvert-a11y-template">
-         <a href="#demonstrate-the-newest-nbconvert-a11y-template">
-          demonstrate the newest nbconvert-a11y template
+         <a aria-labelledby="demonstrate-the-newest-nbconvert-a11y-template" class="pilcrow" href="#demonstrate-the-newest-nbconvert-a11y-template">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          demonstrate the newest
+          template
+         </span>
         </h2>
         <ul>
          <li>
@@ -23243,7 +23319,7 @@ we have an enormous collection of hypermedia
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell markdown" data-index="13" data-loc="34" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell markdown" data-index="13" data-loc="34" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -23373,7 +23449,7 @@ a list of challenges in accessibility in no particular order. the list items can
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#what-makes-accessibility-hard-and-what-to-do">what makes accessibility hard and what to do?</a></h2>\n<p>a list of challenges in accessibility in no particular order. the list items can be expanded for actions to improve these challenges.</p>\n<ul>\n<li><details><summary>describing the disabled experience in issues using written language is insufficient</summary>\n</details>\n<blockquote>\n<p>encourage audio and video feedback for software projects. meet people where they are</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>low accessibility and screen reader literacies amongst developers</summary>\n</details>\n<blockquote>\n<p><a href="#turning-on-your-screen-reader"> every person experiencing this talk has a screen reader on their device</a>. spend 10 minutes every couple days trying it out. become familiar with your accessibility settings so you may discover your own access needs</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>complex builds increase the distance between source code and html</summary>\n</details>\n<blockquote>\n<p>slow feedback loops kill productivity and desire. reducing complexity between source code and the outcome requires maintaince and refactoring. constant growth mindsets increase technical debt.</p>\n</blockquote>\n \n\n</li>\n<li><details><summary><a href="https://www.hyrumslaw.com/">hyrum\'s law</a>, technical debt, lack of history increase the complexity with retrofitting inaccessibility</summary>\n</details>\n<blockquote>\n<p><a href="https://nostarch.com/kill-it-fire">kill it with fire - Manage Aging Computer Systems (and Future Proof Modern Ones)</a></p>\n</blockquote>\n\n\n</li>\n<li><details><summary>lack of practice guides or reference implementations for components</summary>\n</details>\n<blockquote>\n<p>make sure your framework is robust and aligns with standards</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>capitalism</summary>\n</details>\n<p><a href="https://www.haymarketbooks.org/books/1289-capitalism-and-disability">capitalism &amp; disability</a></p>\n\n\n</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="what-makes-accessibility-hard-and-what-to-do"><a aria-labelledby="what-makes-accessibility-hard-and-what-to-do" class="pilcrow" href="#what-makes-accessibility-hard-and-what-to-do"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">what makes accessibility hard and what to do?</span></h2>\n<p>a list of challenges in accessibility in no particular order. the list items can be expanded for actions to improve these challenges.</p>\n<ul>\n<li><details><summary>describing the disabled experience in issues using written language is insufficient</summary>\n</details>\n<blockquote>\n<p>encourage audio and video feedback for software projects. meet people where they are</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>low accessibility and screen reader literacies amongst developers</summary>\n</details>\n<blockquote>\n<p><a href="#turning-on-your-screen-reader"> every person experiencing this talk has a screen reader on their device</a>. spend 10 minutes every couple days trying it out. become familiar with your accessibility settings so you may discover your own access needs</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>complex builds increase the distance between source code and html</summary>\n</details>\n<blockquote>\n<p>slow feedback loops kill productivity and desire. reducing complexity between source code and the outcome requires maintaince and refactoring. constant growth mindsets increase technical debt.</p>\n</blockquote>\n \n\n</li>\n<li><details><summary><a href="https://www.hyrumslaw.com/">hyrum\'s law</a>, technical debt, lack of history increase the complexity with retrofitting inaccessibility</summary>\n</details>\n<blockquote>\n<p><a href="https://nostarch.com/kill-it-fire">kill it with fire - Manage Aging Computer Systems (and Future Proof Modern Ones)</a></p>\n</blockquote>\n\n\n</li>\n<li><details><summary>lack of practice guides or reference implementations for components</summary>\n</details>\n<blockquote>\n<p>make sure your framework is robust and aligns with standards</p>\n</blockquote>\n\n\n</li>\n<li><details><summary>capitalism</summary>\n</details>\n<p><a href="https://www.haymarketbooks.org/books/1289-capitalism-and-disability">capitalism &amp; disability</a></p>\n\n\n</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -23382,10 +23458,14 @@ a list of challenges in accessibility in no particular order. the list items can
        34
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#what-makes-accessibility-hard-and-what-to-do">
-         what makes accessibility hard and what to do?
+       <h2 id="what-makes-accessibility-hard-and-what-to-do">
+        <a aria-labelledby="what-makes-accessibility-hard-and-what-to-do" class="pilcrow" href="#what-makes-accessibility-hard-and-what-to-do">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         what makes accessibility hard and what to do?
+        </span>
        </h2>
        <p>
         a list of challenges in accessibility in no particular order. the list items can be expanded for actions to improve these challenges.
@@ -23474,7 +23554,7 @@ a list of challenges in accessibility in no particular order. the list items can
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell markdown" data-index="14" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell markdown" data-index="14" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
@@ -23554,7 +23634,7 @@ accessibility - the technical side of disability - provides foundational princip
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h2><a href="#accessibility-and-open-science">accessibility and open science</a></h2>\n<p>accessibility - the technical side of disability - provides foundational principles for sustainable, enduring, archival data-driven scientific literature.</p>\n<ul>\n<li>accessibility demands asking "what does this mean? is it percievable? operable? understandable? robust?" semantically meaningful design improves all of these qualities.</li>\n<li>without reference implementations that include disabled developers and affected communities, we'll continue to make inaccessible data experiences.</li>\n<li>some of y'all are early in your career - if you are lucky, you'll be seeing the fruits of your labors 50 years from now. future you will be a different person with  different access needs - how do you want to experience science when you are old?</li>\n<li>accessibility creates better data and metadata for archiving documents</li>\n<li>accessibility principles recover the sense data experiences that formed early  philosophies of science, mathematics, reason, and stargazing.</li>\n</ul>\n"}}
+        {'data': {'text/html': "<h2 id="accessibility-and-open-science"><a aria-labelledby="accessibility-and-open-science" class="pilcrow" href="#accessibility-and-open-science"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">accessibility and open science</span></h2>\n<p>accessibility - the technical side of disability - provides foundational principles for sustainable, enduring, archival data-driven scientific literature.</p>\n<ul>\n<li>accessibility demands asking "what does this mean? is it percievable? operable? understandable? robust?" semantically meaningful design improves all of these qualities.</li>\n<li>without reference implementations that include disabled developers and affected communities, we'll continue to make inaccessible data experiences.</li>\n<li>some of y'all are early in your career - if you are lucky, you'll be seeing the fruits of your labors 50 years from now. future you will be a different person with  different access needs - how do you want to experience science when you are old?</li>\n<li>accessibility creates better data and metadata for archiving documents</li>\n<li>accessibility principles recover the sense data experiences that formed early  philosophies of science, mathematics, reason, and stargazing.</li>\n</ul>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -23563,10 +23643,14 @@ accessibility - the technical side of disability - provides foundational princip
        9
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#accessibility-and-open-science">
-         accessibility and open science
+       <h2 id="accessibility-and-open-science">
+        <a aria-labelledby="accessibility-and-open-science" class="pilcrow" href="#accessibility-and-open-science">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         accessibility and open science
+        </span>
        </h2>
        <p>
         accessibility - the technical side of disability - provides foundational principles for sustainable, enduring, archival data-driven scientific literature.
@@ -23590,7 +23674,7 @@ accessibility - the technical side of disability - provides foundational princip
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell markdown" data-index="15" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell markdown" data-index="15" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -23670,7 +23754,7 @@ please reach out to me if you're interested in collaborating or finding ways to 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#connecting-in-a-more-accessible-future">connecting in a more accessible future</a></h2>\n<p>please reach out to me if you\'re interested in collaborating or finding ways to support this work</p>\n<ul>\n<li><a href="https://github.com/tonyfast">github</a><ul>\n<li><a href="https://github.com/deathbeds/nbconvert-a11y">nbconvert-a11y</a></li>\n<li><a href="https://github.com/materialsgenomefoundation/nobook/">nobook</a></li>\n</ul>\n</li>\n<li><a href="https://www.linkedin.com/in/tonyfast/">linkedin</a></li>\n<li><a href="https://hackmd.io/@tonyfast/ryhbqUIha">next notebooks for all monthly call on april 16</a></li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="connecting-in-a-more-accessible-future"><a aria-labelledby="connecting-in-a-more-accessible-future" class="pilcrow" href="#connecting-in-a-more-accessible-future"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">connecting in a more accessible future</span></h2>\n<p>please reach out to me if you\'re interested in collaborating or finding ways to support this work</p>\n<ul>\n<li><a href="https://github.com/tonyfast">github</a><ul>\n<li><a href="https://github.com/deathbeds/nbconvert-a11y">nbconvert-a11y</a></li>\n<li><a href="https://github.com/materialsgenomefoundation/nobook/">nobook</a></li>\n</ul>\n</li>\n<li><a href="https://www.linkedin.com/in/tonyfast/">linkedin</a></li>\n<li><a href="https://hackmd.io/@tonyfast/ryhbqUIha">next notebooks for all monthly call on april 16</a></li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -23679,10 +23763,14 @@ please reach out to me if you're interested in collaborating or finding ways to 
        9
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#connecting-in-a-more-accessible-future">
-         connecting in a more accessible future
+       <h2 id="connecting-in-a-more-accessible-future">
+        <a aria-labelledby="connecting-in-a-more-accessible-future" class="pilcrow" href="#connecting-in-a-more-accessible-future">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         connecting in a more accessible future
+        </span>
        </h2>
        <p>
         please reach out to me if you're interested in collaborating or finding ways to support this work
@@ -23718,7 +23806,7 @@ please reach out to me if you're interested in collaborating or finding ways to 
        </ul>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" class="cell markdown" data-index="16" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" aria-posinset="16" class="cell markdown" data-index="16" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
         16
@@ -23782,7 +23870,7 @@ please reach out to me if you're interested in collaborating or finding ways to 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2><a href="#extra-content">extra content</a></h2>\n'}}
+        {'data': {'text/html': '<h2 id="extra-content"><a aria-labelledby="extra-content" class="pilcrow" href="#extra-content"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">extra content</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -23791,14 +23879,18 @@ please reach out to me if you're interested in collaborating or finding ways to 
        1
       </td>
       <td class="nb-outputs" role="none">
-       <h2>
-        <a href="#extra-content">
-         extra content
+       <h2 id="extra-content">
+        <a aria-labelledby="extra-content" class="pilcrow" href="#extra-content">
+         <span class="pilcrow" data-level="2">
+         </span>
         </a>
+        <span aria-hidden="True">
+         extra content
+        </span>
        </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" class="cell code" data-index="17" data-loc="8" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" aria-posinset="17" class="cell code" data-index="17" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-17-executed nb-code-label nb-cell-label cell-17-loc nb-loc-label cell-17-outputs-len" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
@@ -23904,10 +23996,14 @@ please reach out to me if you're interested in collaborating or finding ways to 
           ]
          </span>
         </legend>
-        <h3>
-         <a href="#turning-on-your-screen-reader">
-          turning on your screen reader
+        <h3 id="turning-on-your-screen-reader">
+         <a aria-labelledby="turning-on-your-screen-reader" class="pilcrow" href="#turning-on-your-screen-reader">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          turning on your screen reader
+         </span>
         </h3>
         <ul>
          <li>
@@ -23939,7 +24035,7 @@ please reach out to me if you're interested in collaborating or finding ways to 
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" class="cell code" data-index="18" data-loc="8" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" aria-posinset="18" class="cell code" data-index="18" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-18-executed nb-code-label nb-cell-label cell-18-loc nb-loc-label cell-18-outputs-len" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
         18
@@ -24045,10 +24141,14 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
           ]
          </span>
         </legend>
-        <h3>
-         <a href="#start-at-the-end-data-sonification-westerlund-2">
-          start at the end: data sonification - westerlund 2
+        <h3 id="start-at-the-end-data-sonification-westerlund-2">
+         <a aria-labelledby="start-at-the-end-data-sonification-westerlund-2" class="pilcrow" href="#start-at-the-end-data-sonification-westerlund-2">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          start at the end:
+         </span>
         </h3>
         <blockquote>
          This is a cluster of young stars &ndash; about one to two million years old &ndash; located about 20,000 light-years from Earth. In its visual image form, data from Hubble (green and blue) reveals thick clouds where stars are forming, while X-rays seen by Chandra (purple) penetrate through that haze. In the sonified version of this data, sounds sweep from left to right across the field of view with brighter light producing louder sound. The pitch of the notes indicates the vertical position of the sources in the image with the higher pitches towards the top of the image. The Hubble data is played by strings, either plucked for individual stars or bowed for diffuse clouds. Chandra&rsquo;s X-ray data is represented by bells, and the more diffuse X-ray light is played by more sustained tones.
@@ -24091,9 +24191,7 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
    <dialog id="nb-settings">
     <form name="settings">
      <h1 id="nb-accessibility-settings-label">
-      <a href="#nb-accessibility-settings-label">
-       accessibility settings
-      </a>
+      accessibility settings
      </h1>
      <button formmethod="dialog">
       Close
@@ -24101,9 +24199,7 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
      <ul aria-labelledby="nb-accessibility-settings-label">
       <li>
        <h2 id="nb-notebook-layout-label">
-        <a href="#nb-notebook-layout-label">
-         notebook layout
-        </a>
+        notebook layout
        </h2>
        <ul aria-labelledby="nb-notebook-layout-label">
         <li>
@@ -24184,6 +24280,24 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
         </li>
         <li>
          <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
           <input checked name="accesskey-navigation" type="checkbox">
           accesskey navigation
          </label>
@@ -24192,9 +24306,7 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
       </li>
       <li>
        <h2 id="nb-font-settings-label">
-        <a href="#nb-font-settings-label">
-         font settings
-        </a>
+        font settings
        </h2>
        <ul aria-labelledby="nb-font-settings-label">
         <li>
@@ -24251,9 +24363,7 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
       </li>
       <li>
        <h2 id="nb-sound-settings-label">
-        <a href="#nb-sound-settings-label">
-         sound settings
-        </a>
+        sound settings
        </h2>
        <ul aria-labelledby="nb-sound-settings-label">
         <li>
@@ -24518,18 +24628,14 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
    </dialog>
    <dialog id="nb-help">
     <h1>
-     <a href="#notebook-help">
-      notebook help
-     </a>
+     notebook help
     </h1>
     <form>
      <button formmethod="dialog">
       close
      </button>
      <h2 id="nb-defs-label">
-      <a href="#nb-defs-label">
-       definitions
-      </a>
+      definitions
      </h2>
      <dl aria-labelledby="nb-defs-label">
       <dt id="nb-notebook-label">
@@ -24817,7 +24923,7 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
    </a>
   </footer>
   <script>
-   const BODY = document.querySelector("body"), SELECTORS = {
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
     "table": "table#cells",
     "body": "table#cells>tbody",
     "row": "table#cells>tbody>tr",
@@ -25021,7 +25127,7 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     });
 
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (x) => {
+    (event) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
         if (!event.target.checked) {
             document.querySelectorAll("textarea").forEach(
@@ -25034,11 +25140,30 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.settings.sticky.addEventListener("change",
+    (event) => {
+        BODY.classList.toggle("sticky", event.target.checked);
+        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+    });
+
 document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
     document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
 });
 
+document.forms.settings.invert.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+})
+document.forms.settings.grayscale.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+})
 
+document.querySelectorAll("input[name=sorted]").forEach(
+    (x) => {
+        x.addEventListener("change", (y) => {
+            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
+        })
+    }
+)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -25085,9 +25210,10 @@ let observer = new ResizeObserver(
     }
 );
 
-document.querySelectorAll("textarea").forEach(
+document.querySelectorAll("textarea[name=source]").forEach(
     (x) => {
         observer.observe(x);
+        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
     }
 );
 

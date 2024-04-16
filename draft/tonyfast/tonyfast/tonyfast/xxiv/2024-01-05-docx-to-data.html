@@ -51,301 +51,336 @@ it can eventually be exported as notebooks." name="description">
 }());
   </script>
   <style type="text/css">
-   /* # accessible css configurations
+   @layer api, defaults, layout, cells, cell, sa11y;
 
-we define these high level variables to allow for configuration during use and testing.
-we are not sure what the preferred default values are for these any accessible notebooks features.
-the variables specify critical degrees of freedom in the notebook style.
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
 
-## notebook interface specific css variables
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
 
-*/
-:root {
-    --nb-focus-width: 3px;
-    --nb-accent-color: auto;
-    --nb-margin: 5%;
-    --nb-font-size: 16px;
-    --nb-font-family: serif;
-    --nb-line-height: 1.5;
-    --nb-scrolled-height: 600px;
-    --color-light: #FFFFFF;
-    --color-dark: #2b2a33;
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        display: inline-block;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
 }
 
 
-/* map css variables to css properties on the `body` elements.
-this mapping turns out css variables into user interfaces. */
+@layer sally {
 
-body {
-    font-size: var(--nb-font-size);
-    font-family: var(--nb-font-family);
-    accent-color: var(--nb-accent-color);
-    margin-left: var(--nb-margin);
-    margin-right: var(--nb-margin);
-    line-height: var(--nb-line-height);
-    width: calc(100% - 2*var(--nb-margin));
-    color: var(--color-dark);
-    background-color: var(--color-light);
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
 }
 
-body:not([data-dev-sa11y]) sa11y-control-panel,
-body:not([data-dev-sa11y]) sa11y-annotation {
-    display: none;
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[aria-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
 }
 
-body[data-dev-sa11y] sa11y-control-panel,
-body[data-dev-sa11y] sa11y-annotation {
-    display: unset;
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
 }
 
-body.dark {
-    color: var(--color-light);
-    background-color: var(--color-dark);
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
 }
 
-main:fullscreen {
-    overflow: auto;
-    background: var(--color-light);
-}
-
-.dark main:fullscreen {
-    background: var(--color-dark);
-}
-
-/* ## notebook settings
-
-the notebook settings interface connects configurable css features to the user.
-we use dialog elements to represents an element that should be hidden by default.
-it turns out there are two ways to layout `dialog` elements. 
-they can be used as modals or block elements.
-we extract this dual purpose to provide both configurations to the user.
-
-*/
-
-dialog form>* {
-    display: block;
-}
-
-
-/* ## wcag accessibility guidelines as a feature
-
-flexibility is the future of assistive interfaces.
-it is not in the purvey of privileged developers and inaccessible systems to decide what priority accessibility is.
-it is the fucking priority.
-
-in this implementation, we want to satisfy broad user needs by making a lot of features configurable.
-one configurable feature is the accessibility priority. 
-experienced developers may need less assistive features as they spend more time with an interface.
-
-### buttons sizes
-
-WCAG 2.1 defines a huge stinking AAA hit size for buttons. its beautiful.
-
-/* satisfy AAA 2.5.5 */
-
-.wcag-aaa button,
-.wcag-aaa input[type=checkbox] {
-    min-height: 44px;
-    min-width: 44px;
-}
-
-.wcag-aaa a {
-    font-size: max(44px, var(--nb-font-size));
-}
-
-/* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
-/* satisfy AA 2.5.8 minimum target requirement */
-.wcag-aa button,
-.wcag-aa input[type=checkbox] {
-    min-height: 24px;
-    min-width: 24px;
-}
-
-.wcag-aa a {
-    font-size: max(24px, var(--nb-font-size));
-}
-
-/* remove the color styling for AAA */
-.wcag-aaa .highlight pre code span[class] {
-    color: unset;
-}
-
-/* ### native textareas for AAA priority.
-
-
-our AAA priority choices often ensure that third party libraries can not compromise the accessibility of notebook.
-the design decisions are focused native elements so that the assistive technology users have consistent expectations and outcomes.
-
-*/
-
-.markdown textarea[name=source]+[role=group],
-.wcag-a textarea[name=source],
-.wcag-aa textarea[name=source],
-.wcag-aaa .markdown textarea[name=source],
-/* this group selector is very ambiguous */
-.wcag-aaa textarea[name=source]+[role=group] {
-    display: none;
-}
-
-/* line height cant change pre elements based on browser presets */
-pre,
-.highlight>pre,
-textarea {
-    line-height: var(--nb-line-height);
-    white-space: pre-wrap;
-}
-
-.horiz-overflow pre,
-.horiz-overflow textarea {
-    white-space: pre;
-}
-
-/* this is only needed for the lsit template variant */
-ol#cells {
-    margin: unset;
-    padding: unset;
-}
-
-li.cell {
-    list-style-type: none;
-}
-
-/* ## notebook components layout */
-
-#cells,
-#cells>tbody,
-#cells>tbody>tr,
-#cells>tbody>tr>[role="none"] {
-    display: block;
-    text-align: unset;
-    width: calc(100vw - 2 * var(--nb-margin));
-}
-
-.nb-outputs img,
-.nb-outputs image {
-    height: 100%;
-    width: 100%;
-}
-
-
-.horiz-overflow .nb-outputs img,
-.horiz-overflow .nb-outputs image {
-    height: unset;
-    width: unset;
-}
-
-.horiz-overflow #cells,
-.horiz-overflow #cells>tbody,
-.horiz-overflow #cells>tbody>tr,
-.horiz-overflow #cells>tbody>tr>[role="none"] {
-    width: max-content;
-}
-
-#cells>tbody>tr[hidden],
-#cells>tbody>tr>[role="none"][hidden] {
-    display: none;
-}
-
-tr.cell>th:first-child {}
-
-table {
-    border-spacing: unset;
-}
-
-ol[reversed]#cells,
-[reversed]#cells tbody {
-    flex-direction: column-reverse;
-}
-
-/* hide the visual output area when there are no outputs. 
-assistive technologies will recieve an audible notification that there are not outputs. */
-
-fieldset[data-outputs="0"] {
-    display: none;
-}
-
-/* ## modifications to html defaults 
-
-### focus 
-
-there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
-we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).
-
-*/
-
-
-
-.cell:focus-within,
-:focus-visible {
-    outline: max(var(--nb-focus-width), 1px) solid;
-    box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
-}
-
-
-/* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
-textarea[name=source] {
-    min-width: 0;
-}
-
-td.nb-outputs,
-td.nb-source {
-    overflow-x: auto;
-}
-
-.horiz-overflow header,
-.horiz-overflow footer {
-    width: max-content;
-}
-
-.horiz-overflow td.nb-source {
-    overflow-x: visible;
-}
-
-.horiz-overflow td.nb-outputs {
-    min-width: 100%;
-}
-
-.horiz-overflow .cell {
-    width: fit-content;
-}
-
-#nb-settings li::marker,
-summary[inert]::marker {
-    content: "";
-}
-
-/* ### inheriting styles */
-
-input,
-select,
-button {
-    font-family: inherit;
-    font-size: inherit;
-}
-
-textarea {
-    font-family: monospace;
-    font-size: inherit;
-    overflow: auto;
-    color: unset;
-}
-
-textarea[name=source] {
-    box-sizing: border-box;
-    width: 100%;
-    resize: none;
-}
-
-
-/* align checkboxes with buttons */
-input[type="checkbox"] {
-    vertical-align: middle;
-}
-
-/* ## custom class selectors */
-
-#nb-dialogs details:not([open])~dialog:not([open]):not(:focus-within):not(:active),
-/* legend:not(:focus-within):not(:active), */
 details.log:not([open])+table,
 .visually-hidden:not(:focus-within):not(:active),
 .visually-hide {
@@ -356,15 +391,6 @@ details.log:not([open])+table,
     position: absolute;
     white-space: nowrap;
     width: 1px;
-}
-
-.nb-outputs.nb-scrolled {
-    max-height: var(--nb-scrolled-height);
-    overflow-y: auto;
-}
-
-.nb-outputs.nb-collapsed {
-    display: none;
 }
   </style>
   <style id="nb-light-highlight" media="screen" type="text/css">
@@ -745,7 +771,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
   </style>
   <!-- End of mermaid configuration -->
  </head>
- <body class="wcag-aa">
+ <body class="wcag-aa sticky">
   <header>
    <a href="#1" id="TOP">
     skip to main content
@@ -1431,7 +1457,20 @@ it can eventually be exported as notebooks.
    </dialog>
   </header>
   <main>
-   <table id="cells" role="none">
+   <fieldset form="settings">
+    <legend>
+     cell ordering
+    </legend>
+    <input id="sort-asc" name="sorted" type="radio" value="ascending">
+    <label for="sort-asc">
+     ascending
+    </label>
+    <input id="sort-desc" name="sorted" type="radio" value="descending">
+    <label for="sort-desc">
+     descending
+    </label>
+   </fieldset>
+   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1444,7 +1483,7 @@ it can eventually be exported as notebooks.
      <col class="nb-metadata">
      <col class="nb-outputs">
     </colgroup>
-    <tbody aria-labelledby="nb-notebook-label nb-cells-label" role="list">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
        index
@@ -1477,7 +1516,7 @@ it can eventually be exported as notebooks.
        outputs
       </th>
      </tr>
-     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" class="cell markdown" data-index="1" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
         1
@@ -1557,7 +1596,7 @@ developers become familiar with the content through this data engineering activi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1><a href="#convertin-a-docx-into-a-structured-dataframe">convertin a docx into a structured dataframe</a></h1>\n<p>this feature engineering task transforms a docx to tidy data.\nit can eventually be exported as notebooks.</p>\n<p>this work is important because we when open existing course content\nwe want to avoid redundant work. spending &lt;1 week to feature engineer\nexisting content into structured notebooks is a reasonable time line.\ndevelopers become familiar with the content through this data engineering activity.: typing.Sequence[docx.Type]</p>\n'}}
+        {'data': {'text/html': '<h1 id="convertin-a-docx-into-a-structured-dataframe"><a aria-labelledby="convertin-a-docx-into-a-structured-dataframe" class="pilcrow" href="#convertin-a-docx-into-a-structured-dataframe"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">convertin a docx into a structured dataframe</span></h1>\n<p>this feature engineering task transforms a docx to tidy data.\nit can eventually be exported as notebooks.</p>\n<p>this work is important because we when open existing course content\nwe want to avoid redundant work. spending &lt;1 week to feature engineer\nexisting content into structured notebooks is a reasonable time line.\ndevelopers become familiar with the content through this data engineering activity.: typing.Sequence[docx.Type]</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1566,10 +1605,14 @@ developers become familiar with the content through this data engineering activi
        9
       </td>
       <td class="nb-outputs" role="none">
-       <h1>
-        <a href="#convertin-a-docx-into-a-structured-dataframe">
-         convertin a docx into a structured dataframe
+       <h1 id="convertin-a-docx-into-a-structured-dataframe">
+        <a aria-labelledby="convertin-a-docx-into-a-structured-dataframe" class="pilcrow" href="#convertin-a-docx-into-a-structured-dataframe">
+         <span class="pilcrow" data-level="1">
+         </span>
         </a>
+        <span aria-hidden="True">
+         convertin a docx into a structured dataframe
+        </span>
        </h1>
        <p>
         this feature engineering task transforms a docx to tidy data.
@@ -1583,7 +1626,7 @@ developers become familiar with the content through this data engineering activi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" class="cell code" data-index="2" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1690,7 +1733,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" class="cell code" data-index="3" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
@@ -1791,7 +1834,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" class="cell markdown" data-index="4" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1875,7 +1918,7 @@ developers become familiar with the content through this data engineering activi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" class="cell code" data-index="5" data-loc="7" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
@@ -1988,7 +2031,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" class="cell code" data-index="6" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
@@ -2091,7 +2134,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" class="cell code" data-index="7" data-loc="10" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="10" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
@@ -2210,7 +2253,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
@@ -2288,7 +2331,7 @@ developers become familiar with the content through this data engineering activi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" class="cell code" data-index="9" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="cell-9-executed nb-code-label nb-cell-label cell-9-loc nb-loc-label cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2397,7 +2440,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" class="cell markdown" data-index="10" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell markdown" data-index="10" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2475,7 +2518,7 @@ developers become familiar with the content through this data engineering activi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" class="cell code" data-index="11" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -2718,7 +2761,7 @@ developers become familiar with the content through this data engineering activi
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
         12
@@ -2796,7 +2839,7 @@ developers become familiar with the content through this data engineering activi
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" class="cell code" data-index="13" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell code" data-index="13" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-13-executed nb-code-label nb-cell-label cell-13-loc nb-loc-label cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -2895,9 +2938,13 @@ developers become familiar with the content through this data engineering activi
          </span>
         </legend>
         <h2 id="ellingham-diagram-and-buffered-systems">
-         <a href="#ellingham-diagram-and-buffered-systems">
-          Ellingham diagram and buffered systems
+         <a aria-labelledby="ellingham-diagram-and-buffered-systems" class="pilcrow" href="#ellingham-diagram-and-buffered-systems">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Ellingham diagram and buffered systems
+         </span>
         </h2>
         <p>
          One type of chemical reactions is between a pure element in liquid or
@@ -3187,9 +3234,13 @@ in the logarithmic scales from the diagram, indicating the robustness of
 the Ellingham diagram.
         </p>
         <h2 id="internal-process-and-differential-and-integrated-driving-forces">
-         <a href="#internal-process-and-differential-and-integrated-driving-forces">
-          Internal process and differential and integrated driving forces
+         <a aria-labelledby="internal-process-and-differential-and-integrated-driving-forces" class="pilcrow" href="#internal-process-and-differential-and-integrated-driving-forces">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Internal process and differential and integrated driving forces
+         </span>
         </h2>
         <p>
          The driving force for an internal process can be defined as following
@@ -3354,9 +3405,13 @@ of CO
          and CO.
         </p>
         <h2 id="maximum-reaction-rate-and-chemical-transport-reactions">
-         <a href="#maximum-reaction-rate-and-chemical-transport-reactions">
-          Maximum reaction rate and chemical transport reactions
+         <a aria-labelledby="maximum-reaction-rate-and-chemical-transport-reactions" class="pilcrow" href="#maximum-reaction-rate-and-chemical-transport-reactions">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Maximum reaction rate and chemical transport reactions
+         </span>
         </h2>
         <p>
          Equilibrium thermodynamics can be used to calculate the maximum rates of
@@ -3581,9 +3636,13 @@ $\mathrm{\Delta}
 the same sign, resulting from the equalities of .
         </p>
         <h2 id="trends-of-entropies-of-reactions">
-         <a href="#trends-of-entropies-of-reactions">
-          Trends of entropies of reactions
+         <a aria-labelledby="trends-of-entropies-of-reactions" class="pilcrow" href="#trends-of-entropies-of-reactions">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Trends of entropies of reactions
+         </span>
         </h2>
         <p>
          The reaction entropy, $\mathrm{\Delta}_{\ }^{0}S$ in , plays an
@@ -3722,9 +3781,13 @@ For solid-state reactions, the average values can be approximated as
          0.464
         </p>
         <h2 id="aqueous-solution-and-pourbaix-diagram">
-         <a href="#aqueous-solution-and-pourbaix-diagram">
-          Aqueous solution and Pourbaix diagram
+         <a aria-labelledby="aqueous-solution-and-pourbaix-diagram" class="pilcrow" href="#aqueous-solution-and-pourbaix-diagram">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Aqueous solution and Pourbaix diagram
+         </span>
         </h2>
         <p>
          The importance of aqueous solutions in all aspects of life is so well
@@ -4518,9 +4581,13 @@ concentrations of Fe
 from and .
         </p>
         <h2 id="concentrations-activities-and-reference-states-of-electrolyte-species">
-         <a href="#concentrations-activities-and-reference-states-of-electrolyte-species">
-          Concentrations, activities, and reference states of electrolyte species
+         <a aria-labelledby="concentrations-activities-and-reference-states-of-electrolyte-species" class="pilcrow" href="#concentrations-activities-and-reference-states-of-electrolyte-species">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Concentrations, activities, and reference states of electrolyte species
+         </span>
         </h2>
         <p>
          Thermodynamic descriptions of ionic species in solutions are different
@@ -4653,10 +4720,14 @@ For idea, weak electrolytes, $\gamma
          {\pm} = 1$, and for non-ideal,
 strong electrolytes, $\gamma_{\pm} \neq 1$.
         </p>
-        <h3>
-         <a href="#electrical-batteries">
-          Electrical batteries
+        <h3 id="electrical-batteries">
+         <a aria-labelledby="electrical-batteries" class="pilcrow" href="#electrical-batteries">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Electrical batteries
+         </span>
         </h3>
         <p>
          Batteries utilize electrochemical reactions to generate electricity for
@@ -5141,9 +5212,13 @@ psuedo-binary system, in which the chemical potentials are constants, so
 is the electric potential, resulting in stable battery output.
         </p>
         <h2 id="electrolyte-reactions-and-electrochemical-reactions">
-         <a href="#electrolyte-reactions-and-electrochemical-reactions">
-          Electrolyte reactions and electrochemical reactions
+         <a aria-labelledby="electrolyte-reactions-and-electrochemical-reactions" class="pilcrow" href="#electrolyte-reactions-and-electrochemical-reactions">
+          <span class="pilcrow" data-level="2">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Electrolyte reactions and electrochemical reactions
+         </span>
         </h2>
         <p>
          Electrolytes that dissolve in a polar solvent such as water to produce
@@ -5295,10 +5370,14 @@ No anode or cathode half-cell reactions exist in this system. The
 electrons and ions involved in the reaction move only over atomic-scale
 distances.
         </p>
-        <h3>
-         <a href="#fuel-cells">
-          Fuel cells
+        <h3 id="fuel-cells">
+         <a aria-labelledby="fuel-cells" class="pilcrow" href="#fuel-cells">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Fuel cells
+         </span>
         </h3>
         <p>
          Fuel cells are devices to convert chemical energy to electricity and
@@ -5399,10 +5478,14 @@ for precious-metal catalyst and enabling the use of a variety of fuels.
 The net cell reaction for all three fuel cells is the same as in the
 case of $H^{+}$, represented by .
         </p>
-        <h3>
-         <a href="#half-cell-potentials">
-          Half cell potentials
+        <h3 id="half-cell-potentials">
+         <a aria-labelledby="half-cell-potentials" class="pilcrow" href="#half-cell-potentials">
+          <span class="pilcrow" data-level="3">
+          </span>
          </a>
+         <span aria-hidden="True">
+          Half cell potentials
+         </span>
         </h3>
         <p>
          When electron current flows between electrodes, reactions are occurring
@@ -5828,7 +5911,7 @@ reaction is neutral in electron and balanced in mass.
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" class="cell markdown" data-index="14" data-loc="3" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell markdown" data-index="14" data-loc="3" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
@@ -5918,7 +6001,7 @@ reaction is neutral in electron and balanced in mass.
        </ol>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" class="cell code" data-index="15" data-loc="0" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell code" data-index="15" data-loc="0" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-15-executed nb-code-label nb-cell-label cell-15-loc nb-loc-label cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
@@ -6043,9 +6126,7 @@ reaction is neutral in electron and balanced in mass.
    <dialog id="nb-settings">
     <form name="settings">
      <h1 id="nb-accessibility-settings-label">
-      <a href="#nb-accessibility-settings-label">
-       accessibility settings
-      </a>
+      accessibility settings
      </h1>
      <button formmethod="dialog">
       Close
@@ -6053,9 +6134,7 @@ reaction is neutral in electron and balanced in mass.
      <ul aria-labelledby="nb-accessibility-settings-label">
       <li>
        <h2 id="nb-notebook-layout-label">
-        <a href="#nb-notebook-layout-label">
-         notebook layout
-        </a>
+        notebook layout
        </h2>
        <ul aria-labelledby="nb-notebook-layout-label">
         <li>
@@ -6136,6 +6215,24 @@ reaction is neutral in electron and balanced in mass.
         </li>
         <li>
          <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
           <input checked name="accesskey-navigation" type="checkbox">
           accesskey navigation
          </label>
@@ -6144,9 +6241,7 @@ reaction is neutral in electron and balanced in mass.
       </li>
       <li>
        <h2 id="nb-font-settings-label">
-        <a href="#nb-font-settings-label">
-         font settings
-        </a>
+        font settings
        </h2>
        <ul aria-labelledby="nb-font-settings-label">
         <li>
@@ -6203,9 +6298,7 @@ reaction is neutral in electron and balanced in mass.
       </li>
       <li>
        <h2 id="nb-sound-settings-label">
-        <a href="#nb-sound-settings-label">
-         sound settings
-        </a>
+        sound settings
        </h2>
        <ul aria-labelledby="nb-sound-settings-label">
         <li>
@@ -6470,18 +6563,14 @@ reaction is neutral in electron and balanced in mass.
    </dialog>
    <dialog id="nb-help">
     <h1>
-     <a href="#notebook-help">
-      notebook help
-     </a>
+     notebook help
     </h1>
     <form>
      <button formmethod="dialog">
       close
      </button>
      <h2 id="nb-defs-label">
-      <a href="#nb-defs-label">
-       definitions
-      </a>
+      definitions
      </h2>
      <dl aria-labelledby="nb-defs-label">
       <dt id="nb-notebook-label">
@@ -6769,7 +6858,7 @@ reaction is neutral in electron and balanced in mass.
    </a>
   </footer>
   <script>
-   const BODY = document.querySelector("body"), SELECTORS = {
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
     "table": "table#cells",
     "body": "table#cells>tbody",
     "row": "table#cells>tbody>tr",
@@ -6973,7 +7062,7 @@ document.forms.visibility['visually-hide'].addEventListener("change",
     });
 
 document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (x) => {
+    (event) => {
         BODY.classList.toggle("horiz-overflow", event.target.checked);
         if (!event.target.checked) {
             document.querySelectorAll("textarea").forEach(
@@ -6986,11 +7075,30 @@ document.forms.settings['horizontal-scrolling'].addEventListener("change",
         // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
     });
 
+document.forms.settings.sticky.addEventListener("change",
+    (event) => {
+        BODY.classList.toggle("sticky", event.target.checked);
+        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+    });
+
 document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
     document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
 });
 
+document.forms.settings.invert.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+})
+document.forms.settings.grayscale.addEventListener("change", (event) => {
+    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+})
 
+document.querySelectorAll("input[name=sorted]").forEach(
+    (x) => {
+        x.addEventListener("change", (y) => {
+            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
+        })
+    }
+)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -7037,9 +7145,10 @@ let observer = new ResizeObserver(
     }
 );
 
-document.querySelectorAll("textarea").forEach(
+document.querySelectorAll("textarea[name=source]").forEach(
     (x) => {
         observer.observe(x);
+        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
     }
 );
 
