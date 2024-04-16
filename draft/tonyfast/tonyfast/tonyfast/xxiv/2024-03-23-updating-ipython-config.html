@@ -1318,10 +1318,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        cells
       </dt>
       <dd id="nb-ct-total">
-       7 total
+       6 total
       </dd>
       <dd id="nb-ct-code">
-       4 code
+       3 code
       </dd>
       <dd>
       </dd>
@@ -1329,7 +1329,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        state
       </dt>
       <dd id="nb-state">
-       executed out of order
+       executed in order
       </dd>
       <dt>
        kernel
@@ -1361,13 +1361,13 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       35
+       38
       </dd>
       <dt>
        outputs
       </dt>
       <dd id="nb-ct-outputs">
-       0
+       2
       </dd>
      </dl>
     </details>
@@ -1576,7 +1576,7 @@ we're going to supply ourselves with better literate programming interfaces by d
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-2-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-2-in-label">
          In
@@ -1585,7 +1585,7 @@ we're going to supply ourselves with better literate programming interfaces by d
          [
         </span>
         <span id="cell-2-exec-label">
-         None
+         1
         </span>
         <span aria-hidden="true">
          ]
@@ -1648,8 +1648,11 @@ programmatically discover the default `ipython profile location` which is where 
       <td class="nb-loc" hidden id="cell-2-loc" role="none">
        5
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
         <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
          <span>
           Out
@@ -1658,12 +1661,21 @@ programmatically discover the default `ipython profile location` which is where 
           [
          </span>
          <span>
-          None
+          1
          </span>
          <span aria-hidden="true">
           ]
          </span>
         </legend>
+        <p>
+         programmatically discover the default
+         <code>
+          ipython profile location
+         </code>
+         which is where we need to write or update our configuration at.
+        </p>
+        <pre><code>config = !ipython profile locate
+config = pathlib.Path(*config, "ipython_config.py")</code></pre>
        </fieldset>
       </td>
      </tr>
@@ -1748,7 +1760,7 @@ programmatically discover the default `ipython profile location` which is where 
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="12" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="15" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1757,7 +1769,7 @@ programmatically discover the default `ipython profile location` which is where 
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-4-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-4-in-label">
          In
@@ -1766,7 +1778,7 @@ programmatically discover the default `ipython profile location` which is where 
          [
         </span>
         <span id="cell-4-exec-label">
-         None
+         2
         </span>
         <span aria-hidden="true">
          ]
@@ -1795,13 +1807,16 @@ programmatically discover the default `ipython profile location` which is where 
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="12">    def config_source():        
-        source = """from nobook.utils import Index, Series, DataFrame
-        import midgy,  anyio, pyperclip
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="15">    def config_source():        
+        source = """from nobook.utils import Index, Series, DataFrame, doctest
+        import midgy,  anyio, pyperclip, importnb
         from pathlib import Path
         from IPython.display import *
         from dataclasses import dataclass, field
         from toolz.curried import *
+        with importnb.Notebook(): from __llm_workflow import load_ipython_extension
+        load_ipython_extension(get_ipython())
+        del load_ipython_extension
         [get_ipython().user_ns.setdefault(k, v) for k, v in __import__("sys").modules.items() if "." not in k]
         print("my config loaded")
         """
@@ -1810,12 +1825,15 @@ programmatically discover the default `ipython profile location` which is where 
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">def</span> <span class="nf">config_source</span><span class="p">():</span>        
-        <span class="n">source</span> <span class="o">=</span> <span class="s2">"""from nobook.utils import Index, Series, DataFrame</span>
-<span class="s2">        import midgy,  anyio, pyperclip</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="s2">"""from nobook.utils import Index, Series, DataFrame, doctest</span>
+<span class="s2">        import midgy,  anyio, pyperclip, importnb</span>
 <span class="s2">        from pathlib import Path</span>
 <span class="s2">        from IPython.display import *</span>
 <span class="s2">        from dataclasses import dataclass, field</span>
 <span class="s2">        from toolz.curried import *</span>
+<span class="s2">        with importnb.Notebook(): from __llm_workflow import load_ipython_extension</span>
+<span class="s2">        load_ipython_extension(get_ipython())</span>
+<span class="s2">        del load_ipython_extension</span>
 <span class="s2">        [get_ipython().user_ns.setdefault(k, v) for k, v in __import__("sys").modules.items() if "." not in k]</span>
 <span class="s2">        print("my config loaded")</span>
 <span class="s2">        """</span>
@@ -1841,9 +1859,12 @@ programmatically discover the default `ipython profile location` which is where 
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-4-loc" role="none">
-       12
+       15
       </td>
       <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
+        0 outputs.
+       </span>
        <fieldset class="nb-outputs" data-outputs="0">
         <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
          <span>
@@ -1853,7 +1874,7 @@ programmatically discover the default `ipython profile location` which is where 
           [
          </span>
          <span>
-          None
+          2
          </span>
          <span aria-hidden="true">
           ]
@@ -1871,7 +1892,7 @@ programmatically discover the default `ipython profile location` which is where 
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-5-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-5-in-label">
          In
@@ -1880,7 +1901,7 @@ programmatically discover the default `ipython profile location` which is where 
          [
         </span>
         <span id="cell-5-exec-label">
-         None
+         3
         </span>
         <span aria-hidden="true">
          ]
@@ -1975,8 +1996,11 @@ that we can use by default.
       <td class="nb-loc" hidden id="cell-5-loc" role="none">
        21
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
         <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
          <span>
           Out
@@ -1985,12 +2009,56 @@ that we can use by default.
           [
          </span>
          <span>
-          None
+          3
          </span>
          <span aria-hidden="true">
           ]
          </span>
         </legend>
+        <p>
+         write the
+         <code>
+          config_source
+         </code>
+         to disc
+        </p>
+        <pre><code>config.write_text(textwrap.dedent(
+    "".join(inspect.getsourcelines(config_source)[0][1:])
+))
+</code></pre>
+        <p>
+         when we restart our kernel we should have some new variables
+that we can use by default.
+        </p>
+        <ul>
+         <li>
+          <p>
+           i always want my pandas dataframes because i use them as first class citizens
+          </p>
+          <pre><code>        &gt;&gt;&gt; assert all((Index, Series, DataFrame))
+</code></pre>
+         </li>
+         <li>
+          <p>
+           we loaded in all the modules we know about from
+           <code>
+            sys
+           </code>
+           modules. this enriched namespace makes it easier to continue flowing thoughts.
+          </p>
+          <pre><code>        &gt;&gt;&gt; assert all((pathlib,))
+</code></pre>
+         </li>
+         <li>
+          <p>
+           <code>
+            toolz
+           </code>
+           is the shit for functional programming, especially the curried versions. we want them to shred faster.
+          </p>
+          <pre><code>        &gt;&gt;&gt; assert all((operator, compose, pipe))</code></pre>
+         </li>
+        </ul>
        </fieldset>
       </td>
      </tr>
@@ -2076,98 +2144,6 @@ was defined properly.
 we start with imports, but could remove them after our configuration
 was defined properly.
        </p>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="0" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
-        7
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-7-executed">
-         unexecuted
-        </span>
-        <span id="cell-7-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-7-exec-label">
-         None
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-7-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-7-exec-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-7-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-7-end" role="none">
-      </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="0"></textarea>
-       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-7-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-7-loc" role="none">
-       0
-      </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
       </td>
      </tr>
     </tbody>

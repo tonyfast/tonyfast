@@ -1318,10 +1318,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        cells
       </dt>
       <dd id="nb-ct-total">
-       19 total
+       23 total
       </dd>
       <dd id="nb-ct-code">
-       11 code
+       7 code
       </dd>
       <dd>
       </dd>
@@ -1361,13 +1361,13 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       69
+       96
       </dd>
       <dt>
        outputs
       </dt>
       <dd id="nb-ct-outputs">
-       7
+       1
       </dd>
      </dl>
     </details>
@@ -1400,51 +1400,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
            some queries i made making this
           </a>
          </li>
-         <li>
-          <a href="#understanding-css-specificity">
-           Understanding CSS Specificity
-          </a>
-         </li>
-         <li>
-          <ol>
-           <li>
-            <a href="#None">
-             Inline Styles
-            </a>
-           </li>
-           <li>
-            <a href="#None">
-             ID Selector
-            </a>
-           </li>
-           <li>
-            <a href="#None">
-             Class and Attribute Selectors
-            </a>
-           </li>
-           <li>
-            <a href="#None">
-             Type Selectors and Pseudo-Classes
-            </a>
-           </li>
-           <li>
-            <a href="#None">
-             Importance
-            </a>
-           </li>
-          </ol>
-         </li>
-         <li>
-          <a href="#tagged-pdf-and-html-relationship">
-           Tagged PDF and HTML Relationship
-          </a>
-         </li>
         </ol>
-       </li>
-       <li>
-        <a href="#web-content-accessibility-guidelines-wcag-and-pdf">
-         Web Content Accessibility Guidelines (WCAG) and PDF
-        </a>
        </li>
       </ol>
      </nav>
@@ -1627,7 +1583,7 @@ i want it as a magic and a code fence for
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="14" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1645,7 +1601,7 @@ i want it as a magic and a code fence for
          [
         </span>
         <span id="cell-2-exec-label">
-         4
+         25
         </span>
         <span aria-hidden="true">
          ]
@@ -1674,26 +1630,36 @@ i want it as a magic and a code fence for
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="9">    import langchain.cache, langchain.globals, langchain.chains.conversation.base, langchain.chains.conversation.memory, langchain.prompts.prompt
-    import langchain_community.chat_models.huggingface
-
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="14">    MAIN = __name__ == "__main__"
+    FILE = "__file__" in locals()
+    I = MAIN and not FILE
+    import functools, asyncio, argparse, shlex, contextlib, io, IPython, textwrap
+    from pathlib import Path
+    shell = IPython.get_ipython()
     if "initialize" not in locals():
         @functools.lru_cache
         def initialize():
+            global langchain, langchain_community
+            import langchain.cache, langchain.globals, langchain.chains.conversation.base, langchain.chains.conversation.memory, langchain.prompts.prompt
+            import langchain_community.chat_models.huggingface
             langchain.globals.set_llm_cache(langchain.cache.SQLiteCache())
-            __import__("dotenv").load_dotenv()
-    initialize()</textarea>
+            __import__("dotenv").load_dotenv()</textarea>
        <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="kn">import</span> <span class="nn">langchain.cache</span><span class="o">,</span> <span class="nn">langchain.globals</span><span class="o">,</span> <span class="nn">langchain.chains.conversation.base</span><span class="o">,</span> <span class="nn">langchain.chains.conversation.memory</span><span class="o">,</span> <span class="nn">langchain.prompts.prompt</span>
-    <span class="kn">import</span> <span class="nn">langchain_community.chat_models.huggingface</span>
-
+         <pre><span></span><code>    <span class="n">MAIN</span> <span class="o">=</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span>
+    <span class="n">FILE</span> <span class="o">=</span> <span class="s2">"__file__"</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">()</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">MAIN</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">FILE</span>
+    <span class="kn">import</span> <span class="nn">functools</span><span class="o">,</span> <span class="nn">asyncio</span><span class="o">,</span> <span class="nn">argparse</span><span class="o">,</span> <span class="nn">shlex</span><span class="o">,</span> <span class="nn">contextlib</span><span class="o">,</span> <span class="nn">io</span><span class="o">,</span> <span class="nn">IPython</span><span class="o">,</span> <span class="nn">textwrap</span>
+    <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+    <span class="n">shell</span> <span class="o">=</span> <span class="n">IPython</span><span class="o">.</span><span class="n">get_ipython</span><span class="p">()</span>
     <span class="k">if</span> <span class="s2">"initialize"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">():</span>
         <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
         <span class="k">def</span> <span class="nf">initialize</span><span class="p">():</span>
+            <span class="k">global</span> <span class="n">langchain</span><span class="p">,</span> <span class="n">langchain_community</span>
+            <span class="kn">import</span> <span class="nn">langchain.cache</span><span class="o">,</span> <span class="nn">langchain.globals</span><span class="o">,</span> <span class="nn">langchain.chains.conversation.base</span><span class="o">,</span> <span class="nn">langchain.chains.conversation.memory</span><span class="o">,</span> <span class="nn">langchain.prompts.prompt</span>
+            <span class="kn">import</span> <span class="nn">langchain_community.chat_models.huggingface</span>
             <span class="n">langchain</span><span class="o">.</span><span class="n">globals</span><span class="o">.</span><span class="n">set_llm_cache</span><span class="p">(</span><span class="n">langchain</span><span class="o">.</span><span class="n">cache</span><span class="o">.</span><span class="n">SQLiteCache</span><span class="p">())</span>
             <span class="nb">__import__</span><span class="p">(</span><span class="s2">"dotenv"</span><span class="p">)</span><span class="o">.</span><span class="n">load_dotenv</span><span class="p">()</span>
-    <span class="n">initialize</span><span class="p">()</span>
 </code></pre>
         </div>
        </div>
@@ -1714,7 +1680,7 @@ i want it as a magic and a code fence for
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-2-loc" role="none">
-       9
+       14
       </td>
       <td class="nb-outputs" hidden role="none">
        <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
@@ -1729,7 +1695,7 @@ i want it as a magic and a code fence for
           [
          </span>
          <span>
-          4
+          25
          </span>
          <span aria-hidden="true">
           ]
@@ -1818,16 +1784,16 @@ i want it as a magic and a code fence for
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="16" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="2" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+       <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-4-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-4-in-label">
          In
@@ -1836,7 +1802,6 @@ i want it as a magic and a code fence for
          [
         </span>
         <span id="cell-4-exec-label">
-         2
         </span>
         <span aria-hidden="true">
          ]
@@ -1845,7 +1810,7 @@ i want it as a magic and a code fence for
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-4-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -1865,40 +1830,12 @@ i want it as a magic and a code fence for
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="16">%%
-create our `llm` using the default `parser` values
-
-    parser = argparse.ArgumentParser(prog="🗩")
-    parser.add_argument("repo_id",  type=str, nargs="?", default="mistralai/Mistral-7B-Instruct-v0.2")
-    parser.add_argument("-t", "--max_new_tokens",  type=int, default=512)
-    parser.add_argument("-k", "--top_k",  type=int, default=30)
-    parser.add_argument("-r", "--repetition_penalty", type=float, default=1.03)
-
-ensure that our creditials were accepted.
-
-    &gt;&gt;&gt; registration.stdout
-    'Token...Login successful...'
-
-    %%capture registration
-    llm = langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**vars(parser.parse_args([])))</textarea>
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="2">create our `llm` using the default `parser` values
+    </textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="o">%%</span>
-<span class="n">create</span> <span class="n">our</span> <span class="err">`</span><span class="n">llm</span><span class="err">`</span> <span class="n">using</span> <span class="n">the</span> <span class="n">default</span> <span class="err">`</span><span class="n">parser</span><span class="err">`</span> <span class="n">values</span>
-
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"🗩"</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"repo_id"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"mistralai/Mistral-7B-Instruct-v0.2"</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--max_new_tokens"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">512</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-k"</span><span class="p">,</span> <span class="s2">"--top_k"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-r"</span><span class="p">,</span> <span class="s2">"--repetition_penalty"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
-
-<span class="n">ensure</span> <span class="n">that</span> <span class="n">our</span> <span class="n">creditials</span> <span class="n">were</span> <span class="n">accepted</span><span class="o">.</span>
-
-    <span class="o">&gt;&gt;&gt;</span> <span class="n">registration</span><span class="o">.</span><span class="n">stdout</span>
-    <span class="s1">'Token...Login successful...'</span>
-
-    <span class="o">%%</span><span class="n">capture</span> <span class="n">registration</span>
-    <span class="n">llm</span> <span class="o">=</span> <span class="n">langchain_community</span><span class="o">.</span><span class="n">chat_models</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">HuggingFaceEndpoint</span><span class="p">(</span><span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">([])))</span>
+         <pre><span></span><code>create our <span class="sb">`llm`</span> using the default <span class="sb">`parser`</span> values
+    
 </code></pre>
         </div>
        </div>
@@ -1913,64 +1850,31 @@ ensure that our creditials were accepted.
           Close
          </button>
          <pre><code>
-        {'jupyter': {'source_hidden': True}}
+        {'data': {'text/html': '<p>create our <code>llm</code> using the default <code>parser</code> values</p>\n'}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-4-loc" role="none">
-       16
+       2
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
-        1 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          2
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <p>
-         create our
-         <code>
-          llm
-         </code>
-         using the default
-         <code>
-          parser
-         </code>
-         values
-        </p>
-        <pre><code>parser = argparse.ArgumentParser(prog="🗩")
-parser.add_argument("repo_id",  type=str, nargs="?", default="mistralai/Mistral-7B-Instruct-v0.2")
-parser.add_argument("-t", "--max_new_tokens",  type=int, default=512)
-parser.add_argument("-k", "--top_k",  type=int, default=30)
-parser.add_argument("-r", "--repetition_penalty", type=float, default=1.03)
-</code></pre>
-        <p>
-         ensure that our creditials were accepted.
-        </p>
-        <pre><code>    &gt;&gt;&gt; registration.stdout
-    'Token...Login successful...'
-</code></pre>
-        <pre><code>%%capture registration
-llm = langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**vars(parser.parse_args([])))</code></pre>
-       </fieldset>
+       <p>
+        create our
+        <code>
+         llm
+        </code>
+        using the default
+        <code>
+         parser
+        </code>
+        values
+       </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell markdown" data-index="5" data-loc="16" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+       <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
         5
        </a>
       </th>
@@ -1986,6 +1890,7 @@ llm = langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**vars(par
          [
         </span>
         <span id="cell-5-exec-label">
+         None
         </span>
         <span aria-hidden="true">
          ]
@@ -1994,7 +1899,7 @@ llm = langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**vars(par
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-5-cell_type">
-        markdown
+        code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2013,41 +1918,25 @@ llm = langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**vars(par
       </td>
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="16">i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
-
-https://python.langchain.com/docs/modules/memory/conversational_customization/
-
-```ipython
-%%file prompt_template.md
-The following is a friendly conversation between a human and an AI. 
-The AI is talkative and provides lots of specific details from its context. 
-If the AI does not know the answer to a question, it truthfully says it does not know.
-The AI always responds in well structured markdown with headings beginning at level 2.
-
-Current conversation:
-{history}
-🥩: {input}
-🤗:
-```</textarea>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="8">    @functools.lru_cache
+    def get_parser():
+        parser = argparse.ArgumentParser(prog="🗩")
+        parser.add_argument("repo_id",  type=str, nargs="?", default="mistralai/Mistral-7B-Instruct-v0.2")
+        parser.add_argument("-t", "--max_new_tokens",  type=int, default=512*2)
+        parser.add_argument("-k", "--top_k",  type=int, default=30)
+        parser.add_argument("-r", "--repetition_penalty", type=float, default=1.03)
+        return parser</textarea>
        <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
-
-https://python.langchain.com/docs/modules/memory/conversational_customization/
-
-<span class="sb">```ipython</span>
-<span class="o">%%file</span> prompt_template.md
-<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> 
-<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> 
-<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>
-<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">2.</span>
-
-<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>
-<span class="p">{</span><span class="n">history</span><span class="p">}</span>
-<span class="err">🥩</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>
-<span class="err">🤗</span><span class="p">:</span>
-<span class="sb">```</span>
+         <pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
+    <span class="k">def</span> <span class="nf">get_parser</span><span class="p">():</span>
+        <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">"🗩"</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"repo_id"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">"?"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">"mistralai/Mistral-7B-Instruct-v0.2"</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-t"</span><span class="p">,</span> <span class="s2">"--max_new_tokens"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">512</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-k"</span><span class="p">,</span> <span class="s2">"--top_k"</span><span class="p">,</span>  <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+        <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">"-r"</span><span class="p">,</span> <span class="s2">"--repetition_penalty"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.03</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">parser</span>
 </code></pre>
         </div>
        </div>
@@ -2062,41 +1951,36 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<p>i figure it makes sense to curate my own prompt template over time. i\'ll start with this template and modify the files on disk</p>\n<p><a href="https://python.langchain.com/docs/modules/memory/conversational_customization/">https://python.langchain.com/docs/modules/memory/conversational_customization/</a></p>\n<div class="highlight"><pre><span></span><span class="o">%%file</span> prompt_template.md\n<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> \n<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> \n<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>\n<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">2.</span>\n\n<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>\n<span class="p">{</span><span class="n">history</span><span class="p">}</span>\n<span class="err">🥩</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>\n<span class="err">🤗</span><span class="p">:</span>\n</pre></div>\n'}}
+        {}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-5-loc" role="none">
-       16
+       8
       </td>
-      <td class="nb-outputs" role="none">
-       <p>
-        i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
-       </p>
-       <p>
-        <a href="https://python.langchain.com/docs/modules/memory/conversational_customization/">
-         https://python.langchain.com/docs/modules/memory/conversational_customization/
-        </a>
-       </p>
-       <div class="highlight">
-        <pre><span></span><span class="o">%%file</span> prompt_template.md
-<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> 
-<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> 
-<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>
-<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">2.</span>
-
-<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>
-<span class="p">{</span><span class="n">history</span><span class="p">}</span>
-<span class="err">🥩</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>
-<span class="err">🤗</span><span class="p">:</span>
-</pre>
-       </div>
+      <td class="nb-outputs" hidden role="none">
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          None
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell markdown" data-index="6" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="6" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+       <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
         6
        </a>
       </th>
@@ -2112,6 +1996,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-6-exec-label">
+         None
         </span>
         <span aria-hidden="true">
          ]
@@ -2120,7 +2005,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-6-cell_type">
-        markdown
+        code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2139,11 +2024,17 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">establish a conversation chain. we'll want to name these things and curate them over time.</textarea>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="4">    @functools.lru_cache
+    def get_llm(**kwargs):
+        with contextlib.redirect_stdout(io.StringIO()):
+            return langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**kwargs)</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>establish a conversation chain. we'll want to name these things and curate them over time.
+         <pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
+    <span class="k">def</span> <span class="nf">get_llm</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">with</span> <span class="n">contextlib</span><span class="o">.</span><span class="n">redirect_stdout</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()):</span>
+            <span class="k">return</span> <span class="n">langchain_community</span><span class="o">.</span><span class="n">chat_models</span><span class="o">.</span><span class="n">huggingface</span><span class="o">.</span><span class="n">HuggingFaceEndpoint</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -2158,30 +2049,70 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<p>establish a conversation chain. we'll want to name these things and curate them over time.</p>\n"}}
+        {}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-6-loc" role="none">
-       1
+       4
       </td>
       <td class="nb-outputs" role="none">
-       <p>
-        establish a conversation chain. we'll want to name these things and curate them over time.
-       </p>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          None
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <p>
+         create our
+         <code>
+          llm
+         </code>
+         using the default
+         <code>
+          parser
+         </code>
+         values
+        </p>
+        <pre><code>@functools.lru_cache
+def get_parser():
+    parser = argparse.ArgumentParser(prog="🗩")
+    parser.add_argument("repo_id",  type=str, nargs="?", default="mistralai/Mistral-7B-Instruct-v0.2")
+    parser.add_argument("-t", "--max_new_tokens",  type=int, default=512*2)
+    parser.add_argument("-k", "--top_k",  type=int, default=30)
+    parser.add_argument("-r", "--repetition_penalty", type=float, default=1.03)
+    return parser
+</code></pre>
+        <p>
+         ensure that our creditials were accepted.
+        </p>
+        <pre><code>@functools.lru_cache
+def get_llm(**kwargs):
+    with contextlib.redirect_stdout(io.StringIO()):
+        return langchain_community.chat_models.huggingface.HuggingFaceEndpoint(**kwargs)</code></pre>
+       </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell markdown" data-index="7" data-loc="22" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+       <a accesskey="7" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
         7
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-7-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-7-in-label">
          In
@@ -2190,7 +2121,6 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-7-exec-label">
-         5
         </span>
         <span aria-hidden="true">
          ]
@@ -2199,7 +2129,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-7-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2218,19 +2148,53 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="5">    conversation = langchain.chains.conversation.base.ConversationChain(
-        prompt=langchain.prompts.prompt.PromptTemplate(input_variables=["history", "input"], template=Path("prompt_template.md").read_text()),
-        llm=llm,
-        memory=langchain.chains.conversation.memory.ConversationBufferMemory(ai_prefix="🤗", human_prefix="🥩"),
-    )</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="22">%%
+&gt; activate this to reset the prompt template
+
+i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
+
+https://python.langchain.com/docs/modules/memory/conversational_customization/
+
+    &gt;&gt;&gt; assert Path("prompt_template.md").read_text().strip().endswith("them:")
+
+    if I:
+```ipython
+%%file prompt_template.md
+The following is a friendly conversation between a human and an AI. 
+The AI is talkative and provides lots of specific details from its context. 
+If the AI does not know the answer to a question, it truthfully says it does not know.
+The AI always responds in well structured markdown with headings beginning at level 3.
+
+Current conversation:
+{history}
+me: {input}
+them:
+```</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="n">conversation</span> <span class="o">=</span> <span class="n">langchain</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">conversation</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">ConversationChain</span><span class="p">(</span>
-        <span class="n">prompt</span><span class="o">=</span><span class="n">langchain</span><span class="o">.</span><span class="n">prompts</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"history"</span><span class="p">,</span> <span class="s2">"input"</span><span class="p">],</span> <span class="n">template</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">"prompt_template.md"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()),</span>
-        <span class="n">llm</span><span class="o">=</span><span class="n">llm</span><span class="p">,</span>
-        <span class="n">memory</span><span class="o">=</span><span class="n">langchain</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">conversation</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">ConversationBufferMemory</span><span class="p">(</span><span class="n">ai_prefix</span><span class="o">=</span><span class="s2">"🤗"</span><span class="p">,</span> <span class="n">human_prefix</span><span class="o">=</span><span class="s2">"🥩"</span><span class="p">),</span>
-    <span class="p">)</span>
+         <pre><span></span><code>%%
+<span class="k">&gt; </span><span class="ge">activate this to reset the prompt template</span>
+
+i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
+
+https://python.langchain.com/docs/modules/memory/conversational_customization/
+
+    &gt;&gt;&gt; assert Path("prompt_template.md").read_text().strip().endswith("them:")
+
+    if I:
+<span class="sb">```ipython</span>
+<span class="o">%%file</span> prompt_template.md
+<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> 
+<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> 
+<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">3.</span>
+
+<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>
+<span class="p">{</span><span class="n">history</span><span class="p">}</span>
+<span class="n">me</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>
+<span class="n">them</span><span class="p">:</span>
+<span class="sb">```</span>
 </code></pre>
         </div>
        </div>
@@ -2245,46 +2209,59 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}, 'data': {'text/html': '<p>%%</p>\n<blockquote>\n<p>activate this to reset the prompt template</p>\n</blockquote>\n<p>i figure it makes sense to curate my own prompt template over time. i\'ll start with this template and modify the files on disk</p>\n<p><a href="https://python.langchain.com/docs/modules/memory/conversational_customization/">https://python.langchain.com/docs/modules/memory/conversational_customization/</a></p>\n<pre><code>&gt;&gt;&gt; assert Path("prompt_template.md").read_text().strip().endswith("them:")\n\nif I:</code></pre>\n<div class="highlight"><pre><span></span><span class="o">%%file</span> prompt_template.md\n<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> \n<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> \n<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>\n<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">3.</span>\n\n<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>\n<span class="p">{</span><span class="n">history</span><span class="p">}</span>\n<span class="n">me</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>\n<span class="n">them</span><span class="p">:</span>\n</pre></div>\n'}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-7-loc" role="none">
-       5
+       22
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <span class="nb-outputs visually-hidden" id="cell-7-outputs-len">
-        0 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          5
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
+      <td class="nb-outputs" role="none">
+       <p>
+        %%
+       </p>
+       <blockquote>
+        <p>
+         activate this to reset the prompt template
+        </p>
+       </blockquote>
+       <p>
+        i figure it makes sense to curate my own prompt template over time. i'll start with this template and modify the files on disk
+       </p>
+       <p>
+        <a href="https://python.langchain.com/docs/modules/memory/conversational_customization/">
+         https://python.langchain.com/docs/modules/memory/conversational_customization/
+        </a>
+       </p>
+       <pre><code>&gt;&gt;&gt; assert Path("prompt_template.md").read_text().strip().endswith("them:")
+
+if I:</code></pre>
+       <div class="highlight">
+        <pre><span></span><span class="o">%%file</span> prompt_template.md
+<span class="n">The</span> <span class="n">following</span> <span class="ow">is</span> <span class="n">a</span> <span class="n">friendly</span> <span class="n">conversation</span> <span class="n">between</span> <span class="n">a</span> <span class="n">human</span> <span class="ow">and</span> <span class="n">an</span> <span class="n">AI</span><span class="o">.</span> 
+<span class="n">The</span> <span class="n">AI</span> <span class="ow">is</span> <span class="n">talkative</span> <span class="ow">and</span> <span class="n">provides</span> <span class="n">lots</span> <span class="n">of</span> <span class="n">specific</span> <span class="n">details</span> <span class="kn">from</span> <span class="nn">its</span> <span class="n">context</span><span class="o">.</span> 
+<span class="n">If</span> <span class="n">the</span> <span class="n">AI</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span> <span class="n">the</span> <span class="n">answer</span> <span class="n">to</span> <span class="n">a</span> <span class="n">question</span><span class="p">,</span> <span class="n">it</span> <span class="n">truthfully</span> <span class="n">says</span> <span class="n">it</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">know</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">AI</span> <span class="n">always</span> <span class="n">responds</span> <span class="ow">in</span> <span class="n">well</span> <span class="n">structured</span> <span class="n">markdown</span> <span class="k">with</span> <span class="n">headings</span> <span class="n">beginning</span> <span class="n">at</span> <span class="n">level</span> <span class="mf">3.</span>
+
+<span class="n">Current</span> <span class="n">conversation</span><span class="p">:</span>
+<span class="p">{</span><span class="n">history</span><span class="p">}</span>
+<span class="n">me</span><span class="p">:</span> <span class="p">{</span><span class="nb">input</span><span class="p">}</span>
+<span class="n">them</span><span class="p">:</span>
+</pre>
+       </div>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell code" data-index="8" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="8" aria-describedby="cell-8-executed nb-code-label nb-cell-label cell-8-loc nb-loc-label cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+       <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
         8
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-8-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-8-in-label">
          In
@@ -2293,7 +2270,6 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-8-exec-label">
-         6
         </span>
         <span aria-hidden="true">
          ]
@@ -2302,7 +2278,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-8-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2321,27 +2297,11 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="9">    async def invoke(input):
-        global result
-        try:
-            id = display(IPython.display.HTML(shell.tangle.parser.parser.render(F"pending\n: &gt; {input}")), display_id=True)
-            return id
-        finally:
-            result = await conversation.ainvoke(input)
-            left, sep, right = result["response"].rpartition("🤗:")
-            id.update(IPython.display.Markdown(right))</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">establish a conversation chain. we'll want to name these things and curate them over time.</textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="k">async</span> <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="nb">input</span><span class="p">):</span>
-        <span class="k">global</span> <span class="n">result</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="nb">id</span> <span class="o">=</span> <span class="n">display</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">F</span><span class="s2">"pending</span><span class="se">\n</span><span class="s2">: &gt; </span><span class="si">{</span><span class="nb">input</span><span class="si">}</span><span class="s2">"</span><span class="p">)),</span> <span class="n">display_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">return</span> <span class="nb">id</span>
-        <span class="k">finally</span><span class="p">:</span>
-            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">conversation</span><span class="o">.</span><span class="n">ainvoke</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
-            <span class="n">left</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"response"</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">"🤗:"</span><span class="p">)</span>
-            <span class="nb">id</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">Markdown</span><span class="p">(</span><span class="n">right</span><span class="p">))</span>
+         <pre><span></span><code>establish a conversation chain. we'll want to name these things and curate them over time.
 </code></pre>
         </div>
        </div>
@@ -2356,46 +2316,30 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': "<p>establish a conversation chain. we'll want to name these things and curate them over time.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-8-loc" role="none">
-       9
+       1
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <span class="nb-outputs visually-hidden" id="cell-8-outputs-len">
-        0 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-8-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          6
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
+      <td class="nb-outputs" role="none">
+       <p>
+        establish a conversation chain. we'll want to name these things and curate them over time.
+       </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell markdown" data-index="9" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="7" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
+       <a accesskey="9" aria-describedby="cell-9-executed nb-code-label nb-cell-label cell-9-loc nb-loc-label cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-9-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-9-in-label">
          In
@@ -2404,6 +2348,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-9-exec-label">
+         16
         </span>
         <span aria-hidden="true">
          ]
@@ -2412,7 +2357,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-9-cell_type">
-        markdown
+        code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2431,11 +2376,23 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">register the magic functions for `chat`</textarea>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="7">    @functools.lru_cache
+    def get_conversation(**kwargs):
+        return langchain.chains.conversation.base.ConversationChain(
+            prompt=langchain.prompts.prompt.PromptTemplate(input_variables=["history", "input"], template=Path("prompt_template.md").read_text()),
+            llm=get_llm(**kwargs),
+            memory=langchain.chains.conversation.memory.ConversationBufferMemory(ai_prefix="AI", human_prefix="ME"),
+        )</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>register the magic functions for <span class="sb">`chat`</span>
+         <pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span>
+    <span class="k">def</span> <span class="nf">get_conversation</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">langchain</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">conversation</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">ConversationChain</span><span class="p">(</span>
+            <span class="n">prompt</span><span class="o">=</span><span class="n">langchain</span><span class="o">.</span><span class="n">prompts</span><span class="o">.</span><span class="n">prompt</span><span class="o">.</span><span class="n">PromptTemplate</span><span class="p">(</span><span class="n">input_variables</span><span class="o">=</span><span class="p">[</span><span class="s2">"history"</span><span class="p">,</span> <span class="s2">"input"</span><span class="p">],</span> <span class="n">template</span><span class="o">=</span><span class="n">Path</span><span class="p">(</span><span class="s2">"prompt_template.md"</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">()),</span>
+            <span class="n">llm</span><span class="o">=</span><span class="n">get_llm</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="n">memory</span><span class="o">=</span><span class="n">langchain</span><span class="o">.</span><span class="n">chains</span><span class="o">.</span><span class="n">conversation</span><span class="o">.</span><span class="n">memory</span><span class="o">.</span><span class="n">ConversationBufferMemory</span><span class="p">(</span><span class="n">ai_prefix</span><span class="o">=</span><span class="s2">"AI"</span><span class="p">,</span> <span class="n">human_prefix</span><span class="o">=</span><span class="s2">"ME"</span><span class="p">),</span>
+        <span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -2450,24 +2407,37 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<p>register the magic functions for <code>chat</code></p>\n'}}
+        {}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-9-loc" role="none">
-       1
+       7
       </td>
-      <td class="nb-outputs" role="none">
-       <p>
-        register the magic functions for
-        <code>
-         chat
-        </code>
-       </p>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-9-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-9-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          16
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="4" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-10-executed nb-code-label nb-cell-label cell-10-loc nb-loc-label cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2485,7 +2455,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-10-exec-label">
-         7
+         17
         </span>
         <span aria-hidden="true">
          ]
@@ -2514,16 +2484,26 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="4">    @functools.partial(shell.register_magic_function, magic_kind="line_cell")
-    def chat(line, cell=None):
-        if cell:
-            asyncio.create_task(invoke(cell))</textarea>
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="9">    async def invoke(input, **kwargs):
+        global result
+        try:
+            id = display(IPython.display.HTML(shell.tangle.parser.parser.render(F"pending\n: &gt; {input}")), display_id=True)
+            return id
+        finally:
+            result = await get_conversation(**kwargs).ainvoke(input)
+            left, sep, right = result["response"].rpartition("AI:")
+            id.update(IPython.display.HTML(shell.tangle.parser.parser.render(textwrap.dedent(right))))</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="nd">@functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">register_magic_function</span><span class="p">,</span> <span class="n">magic_kind</span><span class="o">=</span><span class="s2">"line_cell"</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">chat</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">cell</span><span class="p">:</span>
-            <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">invoke</span><span class="p">(</span><span class="n">cell</span><span class="p">))</span>
+         <pre><span></span><code>    <span class="k">async</span> <span class="k">def</span> <span class="nf">invoke</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">global</span> <span class="n">result</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="nb">id</span> <span class="o">=</span> <span class="n">display</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">F</span><span class="s2">"pending</span><span class="se">\n</span><span class="s2">: &gt; </span><span class="si">{</span><span class="nb">input</span><span class="si">}</span><span class="s2">"</span><span class="p">)),</span> <span class="n">display_id</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">id</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">get_conversation</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span><span class="o">.</span><span class="n">ainvoke</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+            <span class="n">left</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">right</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s2">"response"</span><span class="p">]</span><span class="o">.</span><span class="n">rpartition</span><span class="p">(</span><span class="s2">"AI:"</span><span class="p">)</span>
+            <span class="nb">id</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">IPython</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">HTML</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">right</span><span class="p">))))</span>
 </code></pre>
         </div>
        </div>
@@ -2544,7 +2524,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-10-loc" role="none">
-       4
+       9
       </td>
       <td class="nb-outputs" hidden role="none">
        <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
@@ -2559,7 +2539,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           [
          </span>
          <span>
-          7
+          17
          </span>
          <span aria-hidden="true">
           ]
@@ -2568,16 +2548,16 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell markdown" data-index="11" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="4" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
+       <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-11-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-11-in-label">
          In
@@ -2586,6 +2566,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-11-exec-label">
+         19
         </span>
         <span aria-hidden="true">
          ]
@@ -2594,7 +2575,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-11-cell_type">
-        markdown
+        code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2613,11 +2594,17 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="1">## conclusion</textarea>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="4">    def chat(line, cell=None):
+        initialize()
+        if cell:
+            asyncio.create_task(invoke(cell, **vars(get_parser().parse_args(shlex.split(line)))))</textarea>
        <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="gu">## conclusion</span>
+         <pre><span></span><code>    <span class="k">def</span> <span class="nf">chat</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">cell</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">initialize</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">cell</span><span class="p">:</span>
+            <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="n">invoke</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="o">**</span><span class="nb">vars</span><span class="p">(</span><span class="n">get_parser</span><span class="p">()</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">line</span><span class="p">)))))</span>
 </code></pre>
         </div>
        </div>
@@ -2632,24 +2619,34 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="conclusion"><a aria-labelledby="conclusion" class="pilcrow" href="#conclusion"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">conclusion</span></h2>\n'}}
+        {}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-11-loc" role="none">
-       1
+       4
       </td>
-      <td class="nb-outputs" role="none">
-       <h2 id="conclusion">
-        <a aria-labelledby="conclusion" class="pilcrow" href="#conclusion">
-         <span class="pilcrow" data-level="2">
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
+         <span>
+          Out
          </span>
-        </a>
-        <span aria-hidden="True">
-         conclusion
-        </span>
-       </h2>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          19
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
       </td>
      </tr>
      <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell markdown" data-index="12" data-loc="1" data-slide_type role="listitem">
@@ -2698,10 +2695,10 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.</textarea>
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">register the magic functions for `chat`</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.
+         <pre><span></span><code>register the magic functions for <span class="sb">`chat`</span>
 </code></pre>
         </div>
        </div>
@@ -2716,7 +2713,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<p>an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.</p>\n'}}
+        {'data': {'text/html': '<p>register the magic functions for <code>chat</code></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2726,20 +2723,23 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-outputs" role="none">
        <p>
-        an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.
+        register the magic functions for
+        <code>
+         chat
+        </code>
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell markdown" data-index="13" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell code" data-index="13" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
+       <a aria-describedby="cell-13-executed nb-code-label nb-cell-label cell-13-loc nb-loc-label cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-13-executed">
-         unexecuted
+         executed
         </span>
         <span id="cell-13-in-label">
          In
@@ -2748,6 +2748,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-13-exec-label">
+         20
         </span>
         <span aria-hidden="true">
          ]
@@ -2756,7 +2757,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-13-cell_type">
-        markdown
+        code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2775,11 +2776,19 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="1">## some queries i made making this</textarea>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="5">    def load_ipython_extension(shell):
+        shell.register_magic_function(chat, magic_kind="line_cell")
+    def unload_ipython_extension(shell):
+        pass
+    I and load_ipython_extension(shell)</textarea>
        <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="gu">## some queries i made making this</span>
+         <pre><span></span><code>    <span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
+        <span class="n">shell</span><span class="o">.</span><span class="n">register_magic_function</span><span class="p">(</span><span class="n">chat</span><span class="p">,</span> <span class="n">magic_kind</span><span class="o">=</span><span class="s2">"line_cell"</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">unload_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="n">I</span> <span class="ow">and</span> <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -2794,36 +2803,46 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="some-queries-i-made-making-this"><a aria-labelledby="some-queries-i-made-making-this" class="pilcrow" href="#some-queries-i-made-making-this"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">some queries i made making this</span></h2>\n'}}
+        {}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-13-loc" role="none">
-       1
+       5
       </td>
-      <td class="nb-outputs" role="none">
-       <h2 id="some-queries-i-made-making-this">
-        <a aria-labelledby="some-queries-i-made-making-this" class="pilcrow" href="#some-queries-i-made-making-this">
-         <span class="pilcrow" data-level="2">
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-13-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-13-outputs-label">
+         <span>
+          Out
          </span>
-        </a>
-        <span aria-hidden="True">
-         some queries i made making this
-        </span>
-       </h2>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          20
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell code" data-index="14" data-loc="2" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell markdown" data-index="14" data-loc="6" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-14-executed nb-code-label nb-cell-label cell-14-loc nb-loc-label cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
         14
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-14-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-14-in-label">
          In
@@ -2832,7 +2851,6 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
          [
         </span>
         <span id="cell-14-exec-label">
-         8
         </span>
         <span aria-hidden="true">
          ]
@@ -2841,7 +2859,7 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-14-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -2860,13 +2878,21 @@ https://python.langchain.com/docs/modules/memory/conversational_customization/
       </td>
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="2">%%chat
-how do i understand css specificity?</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="6">%%
+    if I:
+```ipython
+%%chat
+what are the standard ways of representing genomic data?
+```</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="o">%%</span><span class="n">chat</span>
-<span class="n">how</span> <span class="n">do</span> <span class="n">i</span> <span class="n">understand</span> <span class="n">css</span> <span class="n">specificity</span><span class="err">?</span>
+         <pre><span></span><code>%%
+    if I:
+<span class="sb">```ipython</span>
+<span class="o">%%</span><span class="k">chat</span>
+what are the standard ways of representing genomic data?
+<span class="sb">```</span>
 </code></pre>
         </div>
        </div>
@@ -2881,199 +2907,36 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}, 'data': {'text/html': '<p>%%\nif I:</p>\n<div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">chat</span>\nwhat are the standard ways of representing genomic data?\n</pre></div>\n'}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-14-loc" role="none">
-       2
+       6
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-14-outputs-len">
-        1 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-14-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          8
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <h2 id="understanding-css-specificity">
-         <a aria-labelledby="understanding-css-specificity" class="pilcrow" href="#understanding-css-specificity">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Understanding CSS Specificity
-         </span>
-        </h2>
-        <p>
-         CSS Specificity is a mechanism used by the Cascading Style Sheets (CSS) to determine which style property should be applied to an HTML element when there are multiple conflicting declarations for that property.
-        </p>
-        <p>
-         Here's a breakdown of how CSS Specificity works:
-        </p>
-        <h3 id="inline-styles">
-         <a aria-labelledby="inline-styles" class="pilcrow" href="#inline-styles">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Inline Styles
-         </span>
-        </h3>
-        <p>
-         Styles defined directly on the HTML element using the
-         <code>
-          style
-         </code>
-         attribute take precedence over all other styles.
-        </p>
-        <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">div</span> <span class="na">id</span><span class="o">=</span><span class="s">"my-div"</span> <span class="na">style</span><span class="o">=</span><span class="s">"color: red;"</span><span class="p">&gt;</span>This text will be red.<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
-
-<span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
-<span class="w">  </span><span class="p">#</span><span class="nn">my-div</span><span class="w"> </span><span class="p">{</span>
-<span class="w">    </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">blue</span><span class="p">;</span>
-<span class="w">  </span><span class="p">}</span>
-<span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
-</code></pre></div>
-</code></pre>
-        <p>
-         In this example, the inline style on the
-         <code>
-          div
-         </code>
-         element with the id
-         <code>
-          my-div
-         </code>
-         will override the
-         <code>
-          color
-         </code>
-         property in the external stylesheet.
-        </p>
-        <h3 id="id-selector">
-         <a aria-labelledby="id-selector" class="pilcrow" href="#id-selector">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          ID Selector
-         </span>
-        </h3>
-        <p>
-         Selectors that use the
-         <code>
-          #
-         </code>
-         symbol to target an element by its id have the highest specificity value, at 1000.
-        </p>
-        <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="p">#</span><span class="nn">my-id</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">green</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-</code></pre>
-        <h3 id="class-and-attribute-selectors">
-         <a aria-labelledby="class-and-attribute-selectors" class="pilcrow" href="#class-and-attribute-selectors">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Class and Attribute Selectors
-         </span>
-        </h3>
-        <p>
-         Class and attribute selectors have a specificity value of 10.
-        </p>
-        <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">my-class</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">yellow</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="o">[</span><span class="nt">data-custom</span><span class="o">=</span><span class="s2">"value"</span><span class="o">]</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">orange</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-</code></pre>
-        <h3 id="type-selectors-and-pseudo-classes">
-         <a aria-labelledby="type-selectors-and-pseudo-classes" class="pilcrow" href="#type-selectors-and-pseudo-classes">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Type Selectors and Pseudo-Classes
-         </span>
-        </h3>
-        <p>
-         Type selectors (selecting elements based on their tag name) and pseudo-classes have a specificity value of 1.
-        </p>
-        <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="nt">p</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">black</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="nt">p</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">gray</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-</code></pre>
-        <h3 id="importance">
-         <a aria-labelledby="importance" class="pilcrow" href="#importance">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Importance
-         </span>
-        </h3>
-        <p>
-         You can also manually increase the specificity of a rule by adding the
-         <code>
-          !important
-         </code>
-         keyword. Be careful with this, as it may make debugging more difficult.
-        </p>
-        <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="p">.</span><span class="nc">my-class</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">yellow</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="p">.</span><span class="nc">my-class</span><span class="w"> </span><span class="p">{</span>
-<span class="w">  </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">red</span><span class="w"> </span><span class="cp">!important</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-</code></pre>
-        <p>
-         In this example, the second rule with the
-         <code>
-          !important
-         </code>
-         keyword takes precedence over the first rule.
-        </p>
-        <p>
-         Keep in mind that the order in which the styles are defined also plays a role in determining which one takes effect,
-        </p>
-       </fieldset>
+       <p>
+        %%
+if I:
+       </p>
+       <div class="highlight">
+        <pre><span></span><span class="o">%%</span><span class="k">chat</span>
+what are the standard ways of representing genomic data?
+</pre>
+       </div>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell code" data-index="15" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell markdown" data-index="15" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-15-executed nb-code-label nb-cell-label cell-15-loc nb-loc-label cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
         15
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-15-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-15-in-label">
          In
@@ -3082,7 +2945,6 @@ how do i understand css specificity?</textarea>
          [
         </span>
         <span id="cell-15-exec-label">
-         9
         </span>
         <span aria-hidden="true">
          ]
@@ -3091,7 +2953,7 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-15-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -3110,11 +2972,11 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="1">await invoke("what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="1">## conclusion</textarea>
        <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="k">await</span> <span class="n">invoke</span><span class="p">(</span><span class="s2">"what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?"</span><span class="p">)</span>
+         <pre><span></span><code><span class="gu">## conclusion</span>
 </code></pre>
         </div>
        </div>
@@ -3129,7 +2991,7 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<h2 id="conclusion"><a aria-labelledby="conclusion" class="pilcrow" href="#conclusion"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">conclusion</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3138,56 +3000,27 @@ how do i understand css specificity?</textarea>
        1
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-15-outputs-len">
-        2 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-15-outputs-label">
-         <span>
-          Out
+       <h2 id="conclusion">
+        <a aria-labelledby="conclusion" class="pilcrow" href="#conclusion">
+         <span class="pilcrow" data-level="2">
          </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          9
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <h2 id="tagged-pdf-and-html-relationship">
-         <a aria-labelledby="tagged-pdf-and-html-relationship" class="pilcrow" href="#tagged-pdf-and-html-relationship">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Tagged PDF and HTML Relationship
-         </span>
-        </h2>
-        <p>
-         A Tagged PDF (PDF/A or Tagged PDF/A) is a type of Portable Document Format (PDF) file that contains structure information (tags) in addition to the visual representation of the document. These tags describe the meaning of the content, allowing assistive technology and search engines to access and understand the information within the PDF.
-        </p>
-        <p>
-         HTML, on the other hand, is a markup language used for creating the structure, content, and presentation of web pages. HTML files are text-based and consist of a hierarchical tree-like structure with elements and tags.
-        </p>
-        <p>
-         Regarding your second question, it is technically possible to create a Tagged PDF from well-formed HTML using dedicated tools like Adobe Acrobat or third-party libraries such as iText or Apache PDFBox. However, the process involves converting the HTML to XML, applying XSL-FO stylesheets to transform the XML into Tagged PDF format, and finally exporting the document as a Tagged PDF. This conversion process can be complex, and the resulting Tagged PDF may not perfectly preserve all the formatting and layout of the original HTML document.
-        </p>
-        <pre class="plain">&lt;DisplayHandle display_id=1bcf2ddf37a486c47bde440f32c99269&gt;</pre>
-       </fieldset>
+        </a>
+        <span aria-hidden="True">
+         conclusion
+        </span>
+       </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" aria-posinset="16" class="cell code" data-index="16" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 16 cell-16-cell_type" aria-posinset="16" class="cell markdown" data-index="16" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-16-executed nb-code-label nb-cell-label cell-16-loc nb-loc-label cell-16-outputs-len" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 16" class="nb-anchor visually-hidden" href="#16" id="16">
         16
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-16-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-16-in-label">
          In
@@ -3196,7 +3029,6 @@ how do i understand css specificity?</textarea>
          [
         </span>
         <span id="cell-16-exec-label">
-         10
         </span>
         <span aria-hidden="true">
          ]
@@ -3205,7 +3037,7 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-16-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -3224,11 +3056,11 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="1">await invoke("do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful.")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="1">an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.</textarea>
        <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="k">await</span> <span class="n">invoke</span><span class="p">(</span><span class="s2">"do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful."</span><span class="p">)</span>
+         <pre><span></span><code>an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.
 </code></pre>
         </div>
        </div>
@@ -3243,7 +3075,7 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<p>an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3252,89 +3084,14 @@ how do i understand css specificity?</textarea>
        1
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-16-outputs-len">
-        2 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-16-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          10
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <h2 id="web-content-accessibility-guidelines-wcag-and-pdf">
-         <a aria-labelledby="web-content-accessibility-guidelines-wcag-and-pdf" class="pilcrow" href="#web-content-accessibility-guidelines-wcag-and-pdf">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
-          Web Content Accessibility Guidelines (WCAG) and PDF
-         </span>
-        </h2>
-        <p>
-         Yes, Web Content Accessibility Guidelines (WCAG) apply to PDF documents to ensure they are accessible to people with disabilities. WCAG provides a set of recommendations for making web content more accessible. Although WCAG is primarily designed for web content, many of its principles can be applied to PDF documents to make them more accessible.
-        </p>
-        <p>
-         To help you understand how to make PDFs accessible, the World Wide Web Consortium (W3C) has created an additional set of guidelines called the
-         <a href="https://www.w3.org/TR/pdf-accessibility-1/">
-          Accessible PDF Metadata
-         </a>
-         (APM) specification. APM focuses on providing metadata that describes the structure and accessibility features of a PDF document.
-        </p>
-        <p>
-         Here are some ways to make PDFs accessible:
-        </p>
-        <ol>
-         <li>
-          Use descriptive and meaningful text for all non-text content, such as images, graphs, and charts.
-         </li>
-         <li>
-          Provide alternative text for images using the "Alt Text" tag.
-         </li>
-         <li>
-          Make sure the document is tagged correctly, including headings, lists, tables, and other structural elements.
-         </li>
-         <li>
-          Use proper color contrast for readability.
-         </li>
-         <li>
-          Ensure all form fields are labeled and accessible.
-         </li>
-         <li>
-          Add bookmarks and internal links to help users navigate through the document.
-         </li>
-         <li>
-          Use clear and consistent language and formatting throughout the document.
-         </li>
-         <li>
-          Use a logical reading order.
-         </li>
-        </ol>
-        <p>
-         For more detailed information, you can refer to the
-         <a href="https://www.adobe.com/content/dam/acom/en/devnet/accessibility/pdfs/pdfs_accessibility_checklist.pdf">
-          PDF Accessibility Checklist
-         </a>
-         provided by Adobe.
-        </p>
-        <p>
-         By following these guidelines, you can ensure that your PDF documents are accessible to as many users as possible, regardless of their abilities.
-        </p>
-        <pre class="plain">&lt;DisplayHandle display_id=3bb2b4603e2d884a4ba367ac1e0b8ebc&gt;</pre>
-       </fieldset>
+       <p>
+        an overall theme is curating your llm over time. the feeling of control and consent is important in the interactive computing experience.
+       </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" aria-posinset="17" class="cell code" data-index="17" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 17 cell-17-cell_type" aria-posinset="17" class="cell markdown" data-index="17" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-17-executed nb-code-label nb-cell-label cell-17-loc nb-loc-label cell-17-outputs-len" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 17" class="nb-anchor visually-hidden" href="#17" id="17">
         17
        </a>
       </th>
@@ -3350,7 +3107,6 @@ how do i understand css specificity?</textarea>
          [
         </span>
         <span id="cell-17-exec-label">
-         None
         </span>
         <span aria-hidden="true">
          ]
@@ -3359,7 +3115,7 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-17-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -3378,11 +3134,11 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">await invoke("what are the major css apis or concepts like block contexts and 3d rendering?")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">## some queries i made making this</textarea>
        <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="k">await</span> <span class="n">invoke</span><span class="p">(</span><span class="s2">"what are the major css apis or concepts like block contexts and 3d rendering?"</span><span class="p">)</span>
+         <pre><span></span><code><span class="gu">## some queries i made making this</span>
 </code></pre>
         </div>
        </div>
@@ -3397,7 +3153,7 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<h2 id="some-queries-i-made-making-this"><a aria-labelledby="some-queries-i-made-making-this" class="pilcrow" href="#some-queries-i-made-making-this"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">some queries i made making this</span></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3406,39 +3162,20 @@ how do i understand css specificity?</textarea>
        1
       </td>
       <td class="nb-outputs" role="none">
-       <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-17-outputs-label">
-         <span>
-          Out
+       <h2 id="some-queries-i-made-making-this">
+        <a aria-labelledby="some-queries-i-made-making-this" class="pilcrow" href="#some-queries-i-made-making-this">
+         <span class="pilcrow" data-level="2">
          </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <dl>
-         <dt>
-          pending
-         </dt>
-         <dd>
-          <blockquote>
-           <p>
-            what are the major css apis or concepts like block contexts and 3d rendering?
-           </p>
-          </blockquote>
-         </dd>
-        </dl>
-       </fieldset>
+        </a>
+        <span aria-hidden="True">
+         some queries i made making this
+        </span>
+       </h2>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" aria-posinset="18" class="cell code" data-index="18" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 18 cell-18-cell_type" aria-posinset="18" class="cell markdown" data-index="18" data-loc="5" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-18-executed nb-code-label nb-cell-label cell-18-loc nb-loc-label cell-18-outputs-len" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 18" class="nb-anchor visually-hidden" href="#18" id="18">
         18
        </a>
       </th>
@@ -3454,7 +3191,6 @@ how do i understand css specificity?</textarea>
          [
         </span>
         <span id="cell-18-exec-label">
-         None
         </span>
         <span aria-hidden="true">
          ]
@@ -3463,7 +3199,7 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-18-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -3482,11 +3218,19 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="1">await invoke("could you tell me some more core features of css so that i can better understand ALL of the capabilities")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="5">    if I:
+```ipython
+%%chat
+how do i understand css specificity?
+```</textarea>
        <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="k">await</span> <span class="n">invoke</span><span class="p">(</span><span class="s2">"could you tell me some more core features of css so that i can better understand ALL of the capabilities"</span><span class="p">)</span>
+         <pre><span></span><code>    if I:
+<span class="sb">```ipython</span>
+<span class="o">%%</span><span class="k">chat</span>
+how do i understand css specificity?
+<span class="sb">```</span>
 </code></pre>
         </div>
        </div>
@@ -3501,36 +3245,26 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<pre><code>if I:</code></pre>\n<div class="highlight"><pre><span></span><span class="o">%%</span><span class="k">chat</span>\nhow do i understand css specificity?\n</pre></div>\n'}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-18-loc" role="none">
-       1
+       5
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-18-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
+      <td class="nb-outputs" role="none">
+       <pre><code>if I:</code></pre>
+       <div class="highlight">
+        <pre><span></span><span class="o">%%</span><span class="k">chat</span>
+how do i understand css specificity?
+</pre>
+       </div>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" aria-posinset="19" class="cell code" data-index="19" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 19 cell-19-cell_type" aria-posinset="19" class="cell markdown" data-index="19" data-loc="1" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-19-executed nb-code-label nb-cell-label cell-19-loc nb-loc-label cell-19-outputs-len" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 19" class="nb-anchor visually-hidden" href="#19" id="19">
         19
        </a>
       </th>
@@ -3546,7 +3280,6 @@ how do i understand css specificity?</textarea>
          [
         </span>
         <span id="cell-19-exec-label">
-         None
         </span>
         <span aria-hidden="true">
          ]
@@ -3555,7 +3288,7 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-19-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -3574,11 +3307,11 @@ how do i understand css specificity?</textarea>
       </td>
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">await invoke("what are some of the most advanced css concepts a seasoned developer will encounter?")</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">I and await invoke("what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?")</textarea>
        <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="k">await</span> <span class="n">invoke</span><span class="p">(</span><span class="s2">"what are some of the most advanced css concepts a seasoned developer will encounter?"</span><span class="p">)</span>
+         <pre><span></span><code>I and await invoke("what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?")
 </code></pre>
         </div>
        </div>
@@ -3593,7 +3326,7 @@ how do i understand css specificity?</textarea>
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<p>I and await invoke("what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?")</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3601,23 +3334,322 @@ how do i understand css specificity?</textarea>
       <td class="nb-loc" hidden id="cell-19-loc" role="none">
        1
       </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-19-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
+      <td class="nb-outputs" role="none">
+       <p>
+        I and await invoke("what is a tagged pdf and how does it relate to an html document? can tagged pdf be made from well formed html?")
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 20 cell-20-cell_type" aria-posinset="20" class="cell markdown" data-index="20" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 20" class="nb-anchor visually-hidden" href="#20" id="20">
+        20
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-20-executed">
+         unexecuted
+        </span>
+        <span id="cell-20-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-20-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-20-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-20-exec-label" class="nb-toolbar" hidden id="cell-20" name="cell-20">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-20-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-20-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="1">I and  invoke("do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful.")</textarea>
+       <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>I and  invoke("do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful.")
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-20-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-20" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-20-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>I and  invoke("do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful.")</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-20-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        I and  invoke("do web content accessibiity guidelines apply to pdf? is there a different standard? links are helpful.")
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 21 cell-21-cell_type" aria-posinset="21" class="cell markdown" data-index="21" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 21" class="nb-anchor visually-hidden" href="#21" id="21">
+        21
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-21-executed">
+         unexecuted
+        </span>
+        <span id="cell-21-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-21-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-21-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-21-exec-label" class="nb-toolbar" hidden id="cell-21" name="cell-21">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-21-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-21-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="1">I and  invoke("what are the major css apis or concepts like block contexts and 3d rendering?")</textarea>
+       <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>I and  invoke("what are the major css apis or concepts like block contexts and 3d rendering?")
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-21-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-21" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-21-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>I and  invoke("what are the major css apis or concepts like block contexts and 3d rendering?")</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-21-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        I and  invoke("what are the major css apis or concepts like block contexts and 3d rendering?")
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 22 cell-22-cell_type" aria-posinset="22" class="cell markdown" data-index="22" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 22" class="nb-anchor visually-hidden" href="#22" id="22">
+        22
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-22-executed">
+         unexecuted
+        </span>
+        <span id="cell-22-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-22-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-22-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-22-exec-label" class="nb-toolbar" hidden id="cell-22" name="cell-22">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-22-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-22-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="1">I and  invoke("could you tell me some more core features of css so that i can better understand ALL of the capabilities")</textarea>
+       <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>I and  invoke("could you tell me some more core features of css so that i can better understand ALL of the capabilities")
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-22-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-22" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-22-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>I and  invoke("could you tell me some more core features of css so that i can better understand ALL of the capabilities")</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-22-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        I and  invoke("could you tell me some more core features of css so that i can better understand ALL of the capabilities")
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 23 cell-23-cell_type" aria-posinset="23" class="cell markdown" data-index="23" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 23" class="nb-anchor visually-hidden" href="#23" id="23">
+        23
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-23-executed">
+         unexecuted
+        </span>
+        <span id="cell-23-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-23-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-23-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-23-exec-label" class="nb-toolbar" hidden id="cell-23" name="cell-23">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-23-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-23-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">I and  invoke("what are some of the most advanced css concepts a seasoned developer will encounter?")</textarea>
+       <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>I and  invoke("what are some of the most advanced css concepts a seasoned developer will encounter?")
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-23-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-23" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-23-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>I and  invoke("what are some of the most advanced css concepts a seasoned developer will encounter?")</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-23-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        I and  invoke("what are some of the most advanced css concepts a seasoned developer will encounter?")
+       </p>
       </td>
      </tr>
     </tbody>
