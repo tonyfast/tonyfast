@@ -119,7 +119,7 @@ through this study we'll design some accessible options we could generically use
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -283,7 +283,7 @@ through this study we'll design some accessible options we could generically use
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -797,6 +797,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -917,13 +922,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1027,12 +1032,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+       <a href="../xxiii/2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-ally-talk.html">
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1057,13 +1062,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1097,13 +1102,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1473,20 +1478,22 @@ through this study we'll design some accessible options we could generically use
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1604,7 +1611,7 @@ through this study we'll design some accessible options we could generically use
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h1 id="proper-html-tables-with-multiple-indexes"><a aria-labelledby="proper-html-tables-with-multiple-indexes" class="pilcrow" href="#proper-html-tables-with-multiple-indexes"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">proper html tables with multiple indexes</span></h1>\n<p>our goal is reduce the empty cells in tables, especially where headers should.\nempty cells diminish the experience for assistive technology users.\nthrough this study we'll design some accessible options we could generically use to represent dataframes.</p>\n"}}
+        {'data': {'text/html': "<h1 id="proper-html-tables-with-multiple-indexes"><a href="#proper-html-tables-with-multiple-indexes">proper html tables with multiple indexes</a></h1>\n<p>our goal is reduce the empty cells in tables, especially where headers should.\nempty cells diminish the experience for assistive technology users.\nthrough this study we'll design some accessible options we could generically use to represent dataframes.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1614,13 +1621,9 @@ through this study we'll design some accessible options we could generically use
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="proper-html-tables-with-multiple-indexes">
-        <a aria-labelledby="proper-html-tables-with-multiple-indexes" class="pilcrow" href="#proper-html-tables-with-multiple-indexes">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#proper-html-tables-with-multiple-indexes">
          proper html tables with multiple indexes
-        </span>
+        </a>
        </h1>
        <p>
         our goal is reduce the empty cells in tables, especially where headers should.
@@ -2626,7 +2629,7 @@ accessibility requires us to center a user's visual, audible, and tactile experi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="accessibility-html-recommendations"><a aria-labelledby="accessibility-html-recommendations" class="pilcrow" href="#accessibility-html-recommendations"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">accessibility html recommendations</span></h2>\n<p>there is a long <a href="http://www.tiernok.com/posts/history-of-html-table-layouts.html">history of html table layouts</a>, they have existed since <a href="http://www.w3.org/TR/REC-html32">html 3.2 in january 1997</a>, these standards precede a lot of the history of mass data literacy.\n<code>table</code>s are introduced to present 2-D data structures</p>\n<blockquote>\n<p><a href="https://en.wikipedia.org/wiki/VisiCalc">VISICALC</a> represented a new idea of a way to use a computer and a new way of thinking about the world. Where conventional programming was thought of as a sequence of steps, this new thing was no longer sequential in effect: When you made a change in one place, all other things changed instantly and automatically.</p>\n<blockquote>\n<p>\u200aTed Nelson[13]</p>\n</blockquote>\n</blockquote>\n<p>considering the accessibility of <code>table</code>s means we need extend the visual representation to the tactile and audible experiences.</p>\n<p>let\'s start with some popular advice from <a href="https://racheleditullio.com">rachele ditullio</a> about <a href="https://racheleditullio.com/blog/2020/03/5-ways-to-improve-table-accessibility/">5 ways to improve table accessibility</a></p>\n<ol>\n<li>Caption that table</li>\n<li>Include header text for every column</li>\n<li>Use alt attributes meaningfully</li>\n<li>Have data in every table cell</li>\n<li>Check your (con)text</li>\n</ol>\n<p>this is where we start because these recommendations represent users needs before needs.\naccessibility requires us to center a user\'s visual, audible, and tactile experience when working with data.</p>\n'}}
+        {'data': {'text/html': '<h2 id="accessibility-html-recommendations"><a href="#accessibility-html-recommendations">accessibility html recommendations</a></h2>\n<p>there is a long <a href="http://www.tiernok.com/posts/history-of-html-table-layouts.html">history of html table layouts</a>, they have existed since <a href="http://www.w3.org/TR/REC-html32">html 3.2 in january 1997</a>, these standards precede a lot of the history of mass data literacy.\n<code>table</code>s are introduced to present 2-D data structures</p>\n<blockquote>\n<p><a href="https://en.wikipedia.org/wiki/VisiCalc">VISICALC</a> represented a new idea of a way to use a computer and a new way of thinking about the world. Where conventional programming was thought of as a sequence of steps, this new thing was no longer sequential in effect: When you made a change in one place, all other things changed instantly and automatically.</p>\n<blockquote>\n<p>\u200aTed Nelson[13]</p>\n</blockquote>\n</blockquote>\n<p>considering the accessibility of <code>table</code>s means we need extend the visual representation to the tactile and audible experiences.</p>\n<p>let\'s start with some popular advice from <a href="https://racheleditullio.com">rachele ditullio</a> about <a href="https://racheleditullio.com/blog/2020/03/5-ways-to-improve-table-accessibility/">5 ways to improve table accessibility</a></p>\n<ol>\n<li>Caption that table</li>\n<li>Include header text for every column</li>\n<li>Use alt attributes meaningfully</li>\n<li>Have data in every table cell</li>\n<li>Check your (con)text</li>\n</ol>\n<p>this is where we start because these recommendations represent users needs before needs.\naccessibility requires us to center a user\'s visual, audible, and tactile experience when working with data.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2636,13 +2639,9 @@ accessibility requires us to center a user's visual, audible, and tactile experi
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="accessibility-html-recommendations">
-        <a aria-labelledby="accessibility-html-recommendations" class="pilcrow" href="#accessibility-html-recommendations">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#accessibility-html-recommendations">
          accessibility html recommendations
-        </span>
+        </a>
        </h2>
        <p>
         there is a long
@@ -2915,13 +2914,9 @@ of pandas tidy frames.</textarea>
          </span>
         </legend>
         <h2 id="testing-an-actual-dataframe">
-         <a aria-labelledby="testing-an-actual-dataframe" class="pilcrow" href="#testing-an-actual-dataframe">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#testing-an-actual-dataframe">
           testing an actual dataframe
-         </span>
+         </a>
         </h2>
         <p>
          based off these suggestions we can connect dataframe parlance to the consistent standards of html.
@@ -3252,7 +3247,7 @@ https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="more-accessible-tables"><a aria-labelledby="more-accessible-tables" class="pilcrow" href="#more-accessible-tables"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">more accessible tables</span></h3>\n<p>our next resource provides more dos and don\'ts that correspond to accessible table experiences.</p>\n<ul>\n<li><p>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</p>\n<p><code>pandas</code> dataframes should be represented with a named index or column.</p>\n</li>\n<li><p>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</p>\n</li>\n<li><p>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</p>\n<p>our primary task is to remove empty cells from the <code>thead</code> porition of the dataframe representation.\ncurrently, it is very common for screen reader users to find empty first cells in a table.\nimagine how much it sucks.</p>\n</li>\n<li><p>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</p>\n</li>\n<li><p>❌ Don\'t merge cells.</p>\n<p>merging cells creates ambiguities. <code>td</code>s in dataframes will NEVER be spanned.</p>\n</li>\n</ul>\n<h4 id="accessible-table-do-and-don-t"><a aria-labelledby="accessible-table-do-and-don-t" class="pilcrow" href="#accessible-table-do-and-don-t"><span class="pilcrow" data-level="4"></span></a><span aria-hidden="True">Accessible table do and don\'t</span></h4>\n<p><a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables</a></p>\n<details><summary>Use Tables to Display Data</summary>\n</details>\n<ul>\n<li>✅ Use tables to present information in a grid, or matrix, with columns or rows that show the meaning of the information.</li>\n</ul>\n<ul>\n<li>❌ Don\'t use tables to make your webpage look a particular way. Layout tables on webpages do not pose inherent accessibility issues, but it is more difficult to make sure screen reader software reads the cells in the proper order.</li>\n<li>❌ Never use tables as a means of laying out a page in a Google or Microsoft Word document. While these tables can be hidden from visual users by simply eliminating the borders between cells, they cannot be hidden from screen readers.</li>\n</ul>\n\n<details><summary>Designate Row and/or Column Headers</summary>\n</details>\n<ul>\n<li>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</li>\n<li>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</li>\n</ul>\n<ul>\n<li>❌ Don\'t create tables without table headers.</li>\n<li>❌ Don\'t just change the visual formatting of the text, such as the font size or color, to visually indicate table header rows and/or columns. Screen readers will not be able to associate the headers with the correct cells.</li>\n<li>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</li>\n</ul>\n\n<details><summary>Avoid or Simplify Complex Tables</summary>\n</details>\n<ul>\n<li>✅ Include a maximum of one header row and one header column.</li>\n<li>✅ Spell out abbreviations or acronyms, or use the <code>&lt;abbr&gt;</code> or <code>&lt;acronym&gt;</code> tags in HTML to ensure accessibility.</li>\n<li>✅ If your table has multiple header rows, merged cells, or another table embedded in it, split it into two or more simple tables.</li>\n<li>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</li>\n</ul>\n<ul>\n<li>❌ Don\'t merge cells.</li>\n<li>❌ Don\'t include a table within another table.</li>\n</ul>\n\n<details><summary>Provide Contextual Information</summary>\n</details>\n<ul>\n<li>✅ Associate descriptive text about a table with its respective table by including a <code>&lt;caption&gt;</code> element in HTML or alt text in Microsoft Word. Captions are not necessary for each table, but can helpful for screen reader users. The caption can be visually formatted and positioned above or below the table as needed, but on webpages, the <code>&lt;caption&gt;</code> element must be the first one after the opening <code>&lt;table&gt;</code> tag.</li>\n<li>✅ You may use <code>&lt;thead&gt;</code>, <code>&lt;tfoot&gt;</code>, and <code>&lt;tbody&gt;</code> tags in HTML tables so that the head and/or foot rows repeat at the top or bottom of the table when it is printed, but these do not provide any additional accessibility benefits.</li>\n</ul>\n<ul>\n<li>❌ Don\'t repeat the same text in the caption that appears in a heading preceding the table.</li>\n<li>❌ You may provide a summary of the structure of the data table (not of the content) using the <code>&lt;summary&gt;</code> attribute, but screen reader support for it varies, and it is not part of the HTML5 specification, so WebAim does not recommend it.</li>\n<li>❌ If both a caption and summary are provided for one table, the summary should not duplicate information present in the caption.</li>\n</ul>\n\n<details><summary>Include Content in All Cells</summary>\n</details>\n<ul>\n<li>✅ Include text such as "not applicable," "none," etc. to indicate that there is no data in empty cells.</li>\n</ul>\n<ul>\n<li>❌ Don\'t leave any table cells empty.</li>\n</ul>\n\n\n'}}
+        {'data': {'text/html': '<h3 id="more-accessible-tables"><a href="#more-accessible-tables">more accessible tables</a></h3>\n<p>our next resource provides more dos and don\'ts that correspond to accessible table experiences.</p>\n<ul>\n<li><p>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</p>\n<p><code>pandas</code> dataframes should be represented with a named index or column.</p>\n</li>\n<li><p>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</p>\n</li>\n<li><p>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</p>\n<p>our primary task is to remove empty cells from the <code>thead</code> porition of the dataframe representation.\ncurrently, it is very common for screen reader users to find empty first cells in a table.\nimagine how much it sucks.</p>\n</li>\n<li><p>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</p>\n</li>\n<li><p>❌ Don\'t merge cells.</p>\n<p>merging cells creates ambiguities. <code>td</code>s in dataframes will NEVER be spanned.</p>\n</li>\n</ul>\n<h4 id="accessible-table-do-and-don-t"><a href="#accessible-table-do-and-don-t">Accessible table do and don\'t</a></h4>\n<p><a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables</a></p>\n<details><summary>Use Tables to Display Data</summary>\n</details>\n<ul>\n<li>✅ Use tables to present information in a grid, or matrix, with columns or rows that show the meaning of the information.</li>\n</ul>\n<ul>\n<li>❌ Don\'t use tables to make your webpage look a particular way. Layout tables on webpages do not pose inherent accessibility issues, but it is more difficult to make sure screen reader software reads the cells in the proper order.</li>\n<li>❌ Never use tables as a means of laying out a page in a Google or Microsoft Word document. While these tables can be hidden from visual users by simply eliminating the borders between cells, they cannot be hidden from screen readers.</li>\n</ul>\n\n<details><summary>Designate Row and/or Column Headers</summary>\n</details>\n<ul>\n<li>✅ Designate at least one row and/or column header using the table formatting tools in your web content management system or document creation software.</li>\n<li>✅ Use the <code>&lt;th&gt;</code> element to mark up table headers in HTML.</li>\n</ul>\n<ul>\n<li>❌ Don\'t create tables without table headers.</li>\n<li>❌ Don\'t just change the visual formatting of the text, such as the font size or color, to visually indicate table header rows and/or columns. Screen readers will not be able to associate the headers with the correct cells.</li>\n<li>❌ Table headers should never be empty. This is particularly of concern for the top-left cell of some tables.</li>\n</ul>\n\n<details><summary>Avoid or Simplify Complex Tables</summary>\n</details>\n<ul>\n<li>✅ Include a maximum of one header row and one header column.</li>\n<li>✅ Spell out abbreviations or acronyms, or use the <code>&lt;abbr&gt;</code> or <code>&lt;acronym&gt;</code> tags in HTML to ensure accessibility.</li>\n<li>✅ If your table has multiple header rows, merged cells, or another table embedded in it, split it into two or more simple tables.</li>\n<li>✅ If you do create a complex data table on a webpage, use the <code>&lt;scope&gt;</code> tag to programmatically associate the data cells with the appropriate headers.</li>\n</ul>\n<ul>\n<li>❌ Don\'t merge cells.</li>\n<li>❌ Don\'t include a table within another table.</li>\n</ul>\n\n<details><summary>Provide Contextual Information</summary>\n</details>\n<ul>\n<li>✅ Associate descriptive text about a table with its respective table by including a <code>&lt;caption&gt;</code> element in HTML or alt text in Microsoft Word. Captions are not necessary for each table, but can helpful for screen reader users. The caption can be visually formatted and positioned above or below the table as needed, but on webpages, the <code>&lt;caption&gt;</code> element must be the first one after the opening <code>&lt;table&gt;</code> tag.</li>\n<li>✅ You may use <code>&lt;thead&gt;</code>, <code>&lt;tfoot&gt;</code>, and <code>&lt;tbody&gt;</code> tags in HTML tables so that the head and/or foot rows repeat at the top or bottom of the table when it is printed, but these do not provide any additional accessibility benefits.</li>\n</ul>\n<ul>\n<li>❌ Don\'t repeat the same text in the caption that appears in a heading preceding the table.</li>\n<li>❌ You may provide a summary of the structure of the data table (not of the content) using the <code>&lt;summary&gt;</code> attribute, but screen reader support for it varies, and it is not part of the HTML5 specification, so WebAim does not recommend it.</li>\n<li>❌ If both a caption and summary are provided for one table, the summary should not duplicate information present in the caption.</li>\n</ul>\n\n<details><summary>Include Content in All Cells</summary>\n</details>\n<ul>\n<li>✅ Include text such as "not applicable," "none," etc. to indicate that there is no data in empty cells.</li>\n</ul>\n<ul>\n<li>❌ Don\'t leave any table cells empty.</li>\n</ul>\n\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3262,13 +3257,9 @@ https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="more-accessible-tables">
-        <a aria-labelledby="more-accessible-tables" class="pilcrow" href="#more-accessible-tables">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#more-accessible-tables">
          more accessible tables
-        </span>
+        </a>
        </h3>
        <p>
         our next resource provides more dos and don'ts that correspond to accessible table experiences.
@@ -3331,13 +3322,9 @@ imagine how much it sucks.
         </li>
        </ul>
        <h4 id="accessible-table-do-and-don-t">
-        <a aria-labelledby="accessible-table-do-and-don-t" class="pilcrow" href="#accessible-table-do-and-don-t">
-         <span class="pilcrow" data-level="4">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#accessible-table-do-and-don-t">
          Accessible table do and don't
-        </span>
+        </a>
        </h4>
        <p>
         <a href="https://accessibility.umn.edu/what-you-can-do/start-7-core-skills/tables">
@@ -3562,7 +3549,7 @@ imagine how much it sucks.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="better-tables"><a aria-labelledby="better-tables" class="pilcrow" href="#better-tables"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">better tables</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="better-tables"><a href="#better-tables">better tables</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3572,13 +3559,9 @@ imagine how much it sucks.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="better-tables">
-        <a aria-labelledby="better-tables" class="pilcrow" href="#better-tables">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#better-tables">
          better tables
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -4503,7 +4486,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="single-index-names"><a aria-labelledby="single-index-names" class="pilcrow" href="#single-index-names"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">single index names</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="single-index-names"><a href="#single-index-names">single index names</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4513,13 +4496,9 @@ return soup
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="single-index-names">
-        <a aria-labelledby="single-index-names" class="pilcrow" href="#single-index-names">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#single-index-names">
          single index names
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -6445,7 +6424,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="one-named-index-spanning"><a aria-labelledby="one-named-index-spanning" class="pilcrow" href="#one-named-index-spanning"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">one named index spanning</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="one-named-index-spanning"><a href="#one-named-index-spanning">one named index spanning</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -6455,13 +6434,9 @@ return soup
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="one-named-index-spanning">
-        <a aria-labelledby="one-named-index-spanning" class="pilcrow" href="#one-named-index-spanning">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#one-named-index-spanning">
          one named index spanning
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -7527,7 +7502,7 @@ return soup
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="spanning-two-named-indexes"><a aria-labelledby="spanning-two-named-indexes" class="pilcrow" href="#spanning-two-named-indexes"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">spanning two named indexes</span></h3>\n'}}
+        {'data': {'text/html': '<h3 id="spanning-two-named-indexes"><a href="#spanning-two-named-indexes">spanning two named indexes</a></h3>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -7537,13 +7512,9 @@ return soup
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="spanning-two-named-indexes">
-        <a aria-labelledby="spanning-two-named-indexes" class="pilcrow" href="#spanning-two-named-indexes">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#spanning-two-named-indexes">
          spanning two named indexes
-        </span>
+        </a>
        </h3>
       </td>
      </tr>
@@ -8764,7 +8735,7 @@ this experience can really suck for assistive technology introducing navigation 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="non-spanning-frames"><a aria-labelledby="non-spanning-frames" class="pilcrow" href="#non-spanning-frames"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">non-spanning frames</span></h3>\n<p>so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;\nonly headers will span for dataframes while data will not.\nthis experience can really suck for assistive technology introducing navigation ambiguities and complications.</p>\n'}}
+        {'data': {'text/html': '<h3 id="non-spanning-frames"><a href="#non-spanning-frames">non-spanning frames</a></h3>\n<p>so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;\nonly headers will span for dataframes while data will not.\nthis experience can really suck for assistive technology introducing navigation ambiguities and complications.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -8774,13 +8745,9 @@ this experience can really suck for assistive technology introducing navigation 
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="non-spanning-frames">
-        <a aria-labelledby="non-spanning-frames" class="pilcrow" href="#non-spanning-frames">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#non-spanning-frames">
          non-spanning frames
-        </span>
+        </a>
        </h3>
        <p>
         so far we have only illustrated spanning examples meaning that the row/column index may span multiple rows;
@@ -10192,13 +10159,9 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
          </span>
         </legend>
         <h2 id="visual-and-nonvisual-shape">
-         <a aria-labelledby="visual-and-nonvisual-shape" class="pilcrow" href="#visual-and-nonvisual-shape">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#visual-and-nonvisual-shape">
           visual and nonvisual shape
-         </span>
+         </a>
         </h2>
         <p>
          rows and columns references in a
@@ -10298,7 +10261,7 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="todo"><a aria-labelledby="todo" class="pilcrow" href="#todo"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">todo</span></h2>\n<ul>\n<li>AT shape vs nominal shape information</li>\n<li>dataframes larger than trunacted thresholds where we will have to introduce aria</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="todo"><a href="#todo">todo</a></h2>\n<ul>\n<li>AT shape vs nominal shape information</li>\n<li>dataframes larger than trunacted thresholds where we will have to introduce aria</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -10308,13 +10271,9 @@ if we are requiring folks to do math in their heads then we'll want an adaptive 
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="todo">
-        <a aria-labelledby="todo" class="pilcrow" href="#todo">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#todo">
          todo
-        </span>
+        </a>
        </h2>
        <ul>
         <li>
@@ -11218,22 +11177,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -11246,9 +11190,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -11272,10 +11215,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -11287,51 +11226,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -11370,24 +11264,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -11417,6 +11294,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

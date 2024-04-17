@@ -118,7 +118,7 @@ it can eventually be exported as notebooks." name="description">
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -282,7 +282,7 @@ it can eventually be exported as notebooks." name="description">
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -796,6 +796,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -916,13 +921,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1026,12 +1031,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+       <a href="../xxiii/2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-ally-talk.html">
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1056,13 +1061,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1096,13 +1101,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1462,20 +1467,22 @@ it can eventually be exported as notebooks.
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1601,7 +1608,7 @@ developers become familiar with the content through this data engineering activi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1 id="convertin-a-docx-into-a-structured-dataframe"><a aria-labelledby="convertin-a-docx-into-a-structured-dataframe" class="pilcrow" href="#convertin-a-docx-into-a-structured-dataframe"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">convertin a docx into a structured dataframe</span></h1>\n<p>this feature engineering task transforms a docx to tidy data.\nit can eventually be exported as notebooks.</p>\n<p>this work is important because we when open existing course content\nwe want to avoid redundant work. spending &lt;1 week to feature engineer\nexisting content into structured notebooks is a reasonable time line.\ndevelopers become familiar with the content through this data engineering activity.: typing.Sequence[docx.Type]</p>\n'}}
+        {'data': {'text/html': '<h1 id="convertin-a-docx-into-a-structured-dataframe"><a href="#convertin-a-docx-into-a-structured-dataframe">convertin a docx into a structured dataframe</a></h1>\n<p>this feature engineering task transforms a docx to tidy data.\nit can eventually be exported as notebooks.</p>\n<p>this work is important because we when open existing course content\nwe want to avoid redundant work. spending &lt;1 week to feature engineer\nexisting content into structured notebooks is a reasonable time line.\ndevelopers become familiar with the content through this data engineering activity.: typing.Sequence[docx.Type]</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1611,13 +1618,9 @@ developers become familiar with the content through this data engineering activi
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="convertin-a-docx-into-a-structured-dataframe">
-        <a aria-labelledby="convertin-a-docx-into-a-structured-dataframe" class="pilcrow" href="#convertin-a-docx-into-a-structured-dataframe">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#convertin-a-docx-into-a-structured-dataframe">
          convertin a docx into a structured dataframe
-        </span>
+        </a>
        </h1>
        <p>
         this feature engineering task transforms a docx to tidy data.
@@ -2943,13 +2946,9 @@ developers become familiar with the content through this data engineering activi
          </span>
         </legend>
         <h2 id="ellingham-diagram-and-buffered-systems">
-         <a aria-labelledby="ellingham-diagram-and-buffered-systems" class="pilcrow" href="#ellingham-diagram-and-buffered-systems">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#ellingham-diagram-and-buffered-systems">
           Ellingham diagram and buffered systems
-         </span>
+         </a>
         </h2>
         <p>
          One type of chemical reactions is between a pure element in liquid or
@@ -3239,13 +3238,9 @@ in the logarithmic scales from the diagram, indicating the robustness of
 the Ellingham diagram.
         </p>
         <h2 id="internal-process-and-differential-and-integrated-driving-forces">
-         <a aria-labelledby="internal-process-and-differential-and-integrated-driving-forces" class="pilcrow" href="#internal-process-and-differential-and-integrated-driving-forces">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#internal-process-and-differential-and-integrated-driving-forces">
           Internal process and differential and integrated driving forces
-         </span>
+         </a>
         </h2>
         <p>
          The driving force for an internal process can be defined as following
@@ -3410,13 +3405,9 @@ of CO
          and CO.
         </p>
         <h2 id="maximum-reaction-rate-and-chemical-transport-reactions">
-         <a aria-labelledby="maximum-reaction-rate-and-chemical-transport-reactions" class="pilcrow" href="#maximum-reaction-rate-and-chemical-transport-reactions">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#maximum-reaction-rate-and-chemical-transport-reactions">
           Maximum reaction rate and chemical transport reactions
-         </span>
+         </a>
         </h2>
         <p>
          Equilibrium thermodynamics can be used to calculate the maximum rates of
@@ -3641,13 +3632,9 @@ $\mathrm{\Delta}
 the same sign, resulting from the equalities of .
         </p>
         <h2 id="trends-of-entropies-of-reactions">
-         <a aria-labelledby="trends-of-entropies-of-reactions" class="pilcrow" href="#trends-of-entropies-of-reactions">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#trends-of-entropies-of-reactions">
           Trends of entropies of reactions
-         </span>
+         </a>
         </h2>
         <p>
          The reaction entropy, $\mathrm{\Delta}_{\ }^{0}S$ in , plays an
@@ -3786,13 +3773,9 @@ For solid-state reactions, the average values can be approximated as
          0.464
         </p>
         <h2 id="aqueous-solution-and-pourbaix-diagram">
-         <a aria-labelledby="aqueous-solution-and-pourbaix-diagram" class="pilcrow" href="#aqueous-solution-and-pourbaix-diagram">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#aqueous-solution-and-pourbaix-diagram">
           Aqueous solution and Pourbaix diagram
-         </span>
+         </a>
         </h2>
         <p>
          The importance of aqueous solutions in all aspects of life is so well
@@ -4586,13 +4569,9 @@ concentrations of Fe
 from and .
         </p>
         <h2 id="concentrations-activities-and-reference-states-of-electrolyte-species">
-         <a aria-labelledby="concentrations-activities-and-reference-states-of-electrolyte-species" class="pilcrow" href="#concentrations-activities-and-reference-states-of-electrolyte-species">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#concentrations-activities-and-reference-states-of-electrolyte-species">
           Concentrations, activities, and reference states of electrolyte species
-         </span>
+         </a>
         </h2>
         <p>
          Thermodynamic descriptions of ionic species in solutions are different
@@ -4726,13 +4705,9 @@ For idea, weak electrolytes, $\gamma
 strong electrolytes, $\gamma_{\pm} \neq 1$.
         </p>
         <h3 id="electrical-batteries">
-         <a aria-labelledby="electrical-batteries" class="pilcrow" href="#electrical-batteries">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#electrical-batteries">
           Electrical batteries
-         </span>
+         </a>
         </h3>
         <p>
          Batteries utilize electrochemical reactions to generate electricity for
@@ -5217,13 +5192,9 @@ psuedo-binary system, in which the chemical potentials are constants, so
 is the electric potential, resulting in stable battery output.
         </p>
         <h2 id="electrolyte-reactions-and-electrochemical-reactions">
-         <a aria-labelledby="electrolyte-reactions-and-electrochemical-reactions" class="pilcrow" href="#electrolyte-reactions-and-electrochemical-reactions">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#electrolyte-reactions-and-electrochemical-reactions">
           Electrolyte reactions and electrochemical reactions
-         </span>
+         </a>
         </h2>
         <p>
          Electrolytes that dissolve in a polar solvent such as water to produce
@@ -5376,13 +5347,9 @@ electrons and ions involved in the reaction move only over atomic-scale
 distances.
         </p>
         <h3 id="fuel-cells">
-         <a aria-labelledby="fuel-cells" class="pilcrow" href="#fuel-cells">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#fuel-cells">
           Fuel cells
-         </span>
+         </a>
         </h3>
         <p>
          Fuel cells are devices to convert chemical energy to electricity and
@@ -5484,13 +5451,9 @@ The net cell reaction for all three fuel cells is the same as in the
 case of $H^{+}$, represented by .
         </p>
         <h3 id="half-cell-potentials">
-         <a aria-labelledby="half-cell-potentials" class="pilcrow" href="#half-cell-potentials">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#half-cell-potentials">
           Half cell potentials
-         </span>
+         </a>
         </h3>
         <p>
          When electron current flows between electrodes, reactions are occurring
@@ -6990,22 +6953,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -7018,9 +6966,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -7044,10 +6991,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -7059,51 +7002,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -7142,24 +7040,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -7189,6 +7070,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

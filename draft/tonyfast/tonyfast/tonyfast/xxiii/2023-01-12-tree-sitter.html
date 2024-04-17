@@ -117,7 +117,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -281,7 +281,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -795,6 +795,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="../xxiv/2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="../xxiv/2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -915,13 +920,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1025,12 +1030,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-03-18-pycascades-ally-talk.html">
+       <a href="2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="2023-03-18-ally-talk.html">
+       <a href="2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1055,13 +1060,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1095,13 +1100,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1430,20 +1435,22 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1553,7 +1560,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1 id="getting-start-with-tree-sitter"><a aria-labelledby="getting-start-with-tree-sitter" class="pilcrow" href="#getting-start-with-tree-sitter"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">getting start with tree sitter</span></h1>\n'}}
+        {'data': {'text/html': '<h1 id="getting-start-with-tree-sitter"><a href="#getting-start-with-tree-sitter">getting start with tree sitter</a></h1>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1563,13 +1570,9 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="getting-start-with-tree-sitter">
-        <a aria-labelledby="getting-start-with-tree-sitter" class="pilcrow" href="#getting-start-with-tree-sitter">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#getting-start-with-tree-sitter">
          getting start with tree sitter
-        </span>
+        </a>
        </h1>
       </td>
      </tr>
@@ -1637,7 +1640,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="installing-tree-sitter-for-python"><a aria-labelledby="installing-tree-sitter-for-python" class="pilcrow" href="#installing-tree-sitter-for-python"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">installing tree sitter for python</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="installing-tree-sitter-for-python"><a href="#installing-tree-sitter-for-python">installing tree sitter for python</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1647,13 +1650,9 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="installing-tree-sitter-for-python">
-        <a aria-labelledby="installing-tree-sitter-for-python" class="pilcrow" href="#installing-tree-sitter-for-python">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#installing-tree-sitter-for-python">
          installing tree sitter for python
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -1946,7 +1945,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="loading-a-bunch-of-python-code"><a aria-labelledby="loading-a-bunch-of-python-code" class="pilcrow" href="#loading-a-bunch-of-python-code"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">loading a bunch of python code</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="loading-a-bunch-of-python-code"><a href="#loading-a-bunch-of-python-code">loading a bunch of python code</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1956,13 +1955,9 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="loading-a-bunch-of-python-code">
-        <a aria-labelledby="loading-a-bunch-of-python-code" class="pilcrow" href="#loading-a-bunch-of-python-code">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#loading-a-bunch-of-python-code">
          loading a bunch of python code
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -2490,7 +2485,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="tree-sitting-parser"><a aria-labelledby="tree-sitting-parser" class="pilcrow" href="#tree-sitting-parser"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">tree sitting parser</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="tree-sitting-parser"><a href="#tree-sitting-parser">tree sitting parser</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2500,13 +2495,9 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="tree-sitting-parser">
-        <a aria-labelledby="tree-sitting-parser" class="pilcrow" href="#tree-sitting-parser">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#tree-sitting-parser">
          tree sitting parser
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -2678,7 +2669,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="tree-sitting-parsed"><a aria-labelledby="tree-sitting-parsed" class="pilcrow" href="#tree-sitting-parsed"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">tree sitting parsed</span></h3>\n'}}
+        {'data': {'text/html': '<h3 id="tree-sitting-parsed"><a href="#tree-sitting-parsed">tree sitting parsed</a></h3>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2688,13 +2679,9 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="tree-sitting-parsed">
-        <a aria-labelledby="tree-sitting-parsed" class="pilcrow" href="#tree-sitting-parsed">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#tree-sitting-parsed">
          tree sitting parsed
-        </span>
+        </a>
        </h3>
       </td>
      </tr>
@@ -2956,8 +2943,8 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
     &lt;adding giscus comments to this blog
    </a>
    <br>
-   <a href="2023-01-11-duckdb-search.html" rel="next">
-    full text search for notebooks and files using duckdb
+   <a href="2023-01-11-extensible-metadata.html" rel="next">
+    extensible metadata in the notebook format
     <span aria-hidden="true">
      &gt;
     </span>
@@ -3840,22 +3827,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -3868,9 +3840,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -3894,10 +3865,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -3909,51 +3876,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -3992,24 +3914,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -4039,6 +3944,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

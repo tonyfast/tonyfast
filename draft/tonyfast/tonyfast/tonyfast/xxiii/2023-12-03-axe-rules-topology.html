@@ -117,7 +117,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -281,7 +281,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -795,6 +795,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="../xxiv/2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="../xxiv/2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -915,13 +920,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1025,12 +1030,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-03-18-pycascades-ally-talk.html">
+       <a href="2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="2023-03-18-ally-talk.html">
+       <a href="2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1055,13 +1060,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1095,13 +1100,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1430,20 +1435,22 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1573,7 +1580,7 @@ improvements to the testing resolution should help developers resolve issues.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h1 id="axe-testing-codes-as-dataframes-and-exceptions"><a aria-labelledby="axe-testing-codes-as-dataframes-and-exceptions" class="pilcrow" href="#axe-testing-codes-as-dataframes-and-exceptions"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">axe testing codes as dataframes and exceptions</span></h1>\n<p>in accessibility testing there are two modes:</p>\n<ol>\n<li>one mode where you are testing a baseline</li>\n<li>one mode where you have errors in the baseline, and trying to address to errors.</li>\n</ol>\n<p>as we work through the tidy data representation of the axe codes we'll understand more of the landscape that axe covers in their automated tests.\nwe'll have a birds eye of what is tested. these tests then need to make sense in automated testing scenarios beyond a 👍/👎.\nit is important that downstreams user can reason with continuous test results, and promptly resolve automated inaccessibles.\nimprovements to the testing resolution should help developers resolve issues.</p>\n"}}
+        {'data': {'text/html': "<h1 id="axe-testing-codes-as-dataframes-and-exceptions"><a href="#axe-testing-codes-as-dataframes-and-exceptions">axe testing codes as dataframes and exceptions</a></h1>\n<p>in accessibility testing there are two modes:</p>\n<ol>\n<li>one mode where you are testing a baseline</li>\n<li>one mode where you have errors in the baseline, and trying to address to errors.</li>\n</ol>\n<p>as we work through the tidy data representation of the axe codes we'll understand more of the landscape that axe covers in their automated tests.\nwe'll have a birds eye of what is tested. these tests then need to make sense in automated testing scenarios beyond a 👍/👎.\nit is important that downstreams user can reason with continuous test results, and promptly resolve automated inaccessibles.\nimprovements to the testing resolution should help developers resolve issues.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1583,13 +1590,9 @@ improvements to the testing resolution should help developers resolve issues.
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="axe-testing-codes-as-dataframes-and-exceptions">
-        <a aria-labelledby="axe-testing-codes-as-dataframes-and-exceptions" class="pilcrow" href="#axe-testing-codes-as-dataframes-and-exceptions">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#axe-testing-codes-as-dataframes-and-exceptions">
          axe testing codes as dataframes and exceptions
-        </span>
+        </a>
        </h1>
        <p>
         in accessibility testing there are two modes:
@@ -1781,7 +1784,7 @@ axe has tests for a varied accessibility conditions. the list of categories/tags
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="the-axe-codes"><a aria-labelledby="the-axe-codes" class="pilcrow" href="#the-axe-codes"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">the axe codes</span></h2>\n<p>axe has tests for a varied accessibility conditions. the list of categories/tags are available @ <a href="https://raw.githubusercontent.com/dequelabs/axe-core/master/doc/rule-descriptions.md">https://raw.githubusercontent.com/dequelabs/axe-core/master/doc/rule-descriptions.md</a></p>\n'}}
+        {'data': {'text/html': '<h2 id="the-axe-codes"><a href="#the-axe-codes">the axe codes</a></h2>\n<p>axe has tests for a varied accessibility conditions. the list of categories/tags are available @ <a href="https://raw.githubusercontent.com/dequelabs/axe-core/master/doc/rule-descriptions.md">https://raw.githubusercontent.com/dequelabs/axe-core/master/doc/rule-descriptions.md</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1791,13 +1794,9 @@ axe has tests for a varied accessibility conditions. the list of categories/tags
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="the-axe-codes">
-        <a aria-labelledby="the-axe-codes" class="pilcrow" href="#the-axe-codes">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#the-axe-codes">
          the axe codes
-        </span>
+        </a>
        </h2>
        <p>
         axe has tests for a varied accessibility conditions. the list of categories/tags are available @
@@ -1978,7 +1977,7 @@ it is possible to extra tables as dataframes after we convert the markdown to ht
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="load-the-rules-into-a-dataframe"><a aria-labelledby="load-the-rules-into-a-dataframe" class="pilcrow" href="#load-the-rules-into-a-dataframe"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">load the rules into a dataframe</span></h2>\n<p>it is possible to extra tables as dataframes after we convert the markdown to html.</p>\n'}}
+        {'data': {'text/html': '<h2 id="load-the-rules-into-a-dataframe"><a href="#load-the-rules-into-a-dataframe">load the rules into a dataframe</a></h2>\n<p>it is possible to extra tables as dataframes after we convert the markdown to html.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1988,13 +1987,9 @@ it is possible to extra tables as dataframes after we convert the markdown to ht
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="load-the-rules-into-a-dataframe">
-        <a aria-labelledby="load-the-rules-into-a-dataframe" class="pilcrow" href="#load-the-rules-into-a-dataframe">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#load-the-rules-into-a-dataframe">
          load the rules into a dataframe
-        </span>
+        </a>
        </h2>
        <p>
         it is possible to extra tables as dataframes after we convert the markdown to html.
@@ -4018,7 +4013,7 @@ section 508
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="extract-all-the-unique-tags"><a aria-labelledby="extract-all-the-unique-tags" class="pilcrow" href="#extract-all-the-unique-tags"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">extract all the unique tags</span></h2>\n<p><a href="https://www.deque.com/en-301-549-compliance/">https://www.deque.com/en-301-549-compliance/</a>\n<a href="https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities/article-9-accessibility.html">https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities/article-9-accessibility.html</a>\n<a href="https://www.dhs.gov/trusted-tester">https://www.dhs.gov/trusted-tester</a>\nsection 508</p>\n'}}
+        {'data': {'text/html': '<h2 id="extract-all-the-unique-tags"><a href="#extract-all-the-unique-tags">extract all the unique tags</a></h2>\n<p><a href="https://www.deque.com/en-301-549-compliance/">https://www.deque.com/en-301-549-compliance/</a>\n<a href="https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities/article-9-accessibility.html">https://www.un.org/development/desa/disabilities/convention-on-the-rights-of-persons-with-disabilities/article-9-accessibility.html</a>\n<a href="https://www.dhs.gov/trusted-tester">https://www.dhs.gov/trusted-tester</a>\nsection 508</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4028,13 +4023,9 @@ section 508
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="extract-all-the-unique-tags">
-        <a aria-labelledby="extract-all-the-unique-tags" class="pilcrow" href="#extract-all-the-unique-tags">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#extract-all-the-unique-tags">
          extract all the unique tags
-        </span>
+        </a>
        </h2>
        <p>
         <a href="https://www.deque.com/en-301-549-compliance/">
@@ -18026,7 +18017,7 @@ we find a high level understanding of the relationship between the tags when we 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="topology-of-the-axe-tag-network"><a aria-labelledby="topology-of-the-axe-tag-network" class="pilcrow" href="#topology-of-the-axe-tag-network"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">topology of the axe tag network</span></h3>\n<p>we find a high level understanding of the relationship between the tags when we look at different layouts of the network.s</p>\n'}}
+        {'data': {'text/html': '<h3 id="topology-of-the-axe-tag-network"><a href="#topology-of-the-axe-tag-network">topology of the axe tag network</a></h3>\n<p>we find a high level understanding of the relationship between the tags when we look at different layouts of the network.s</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -18036,13 +18027,9 @@ we find a high level understanding of the relationship between the tags when we 
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="topology-of-the-axe-tag-network">
-        <a aria-labelledby="topology-of-the-axe-tag-network" class="pilcrow" href="#topology-of-the-axe-tag-network">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#topology-of-the-axe-tag-network">
          topology of the axe tag network
-        </span>
+        </a>
        </h3>
        <p>
         we find a high level understanding of the relationship between the tags when we look at different layouts of the network.s
@@ -19151,22 +19138,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -19179,9 +19151,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -19205,10 +19176,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -19220,51 +19187,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -19303,24 +19225,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -19350,6 +19255,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

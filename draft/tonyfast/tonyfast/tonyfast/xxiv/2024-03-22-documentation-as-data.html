@@ -117,7 +117,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -281,7 +281,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -795,6 +795,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -915,13 +920,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1025,12 +1030,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+       <a href="../xxiii/2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-ally-talk.html">
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1055,13 +1060,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1095,13 +1100,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1464,20 +1469,22 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1605,7 +1612,7 @@ it lets the learners discover the documentation they desire. i imagine it could 
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1 id="documentation-as-software-and-data"><a aria-labelledby="documentation-as-software-and-data" class="pilcrow" href="#documentation-as-software-and-data"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">documentation as software and data</span></h1>\n<p>computational literature like documentation is presented with antithetical distribution practices like static sites and pdf. the idea of static computational literature pushes against its real potential to give visitors agency over their content. we see developments towards more interactive computational literature with projects like jupyterlite, pyodide, and pyscript. these approaches providing slightly more agency to interact with code, but this is only part of the interaction we could imagine.</p>\n<p>documentation is valuable when people spend time with it. different folks might find different parts of documentation valuable as different places in their career. documentation has less to do with aesthetics than with spending quality time learning and practicing. a significant part of the documentation experience is how much time your audience is willing to put into participating.</p>\n<p>the most interactive way to enjoy information is in computational notebooks. if we can capture documentation as data we can expose multitudes of interaction capabilities than statically generated sites anca acheive.</p>\n<p>the following presents that concept of <code>nobook</code> which treats documentation as data.\nit lets the learners discover the documentation they desire. i imagine it could make better chat assistants if you are into that kind of thing.</p>\n'}}
+        {'data': {'text/html': '<h1 id="documentation-as-software-and-data"><a href="#documentation-as-software-and-data">documentation as software and data</a></h1>\n<p>computational literature like documentation is presented with antithetical distribution practices like static sites and pdf. the idea of static computational literature pushes against its real potential to give visitors agency over their content. we see developments towards more interactive computational literature with projects like jupyterlite, pyodide, and pyscript. these approaches providing slightly more agency to interact with code, but this is only part of the interaction we could imagine.</p>\n<p>documentation is valuable when people spend time with it. different folks might find different parts of documentation valuable as different places in their career. documentation has less to do with aesthetics than with spending quality time learning and practicing. a significant part of the documentation experience is how much time your audience is willing to put into participating.</p>\n<p>the most interactive way to enjoy information is in computational notebooks. if we can capture documentation as data we can expose multitudes of interaction capabilities than statically generated sites anca acheive.</p>\n<p>the following presents that concept of <code>nobook</code> which treats documentation as data.\nit lets the learners discover the documentation they desire. i imagine it could make better chat assistants if you are into that kind of thing.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1615,13 +1622,9 @@ it lets the learners discover the documentation they desire. i imagine it could 
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="documentation-as-software-and-data">
-        <a aria-labelledby="documentation-as-software-and-data" class="pilcrow" href="#documentation-as-software-and-data">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#documentation-as-software-and-data">
          documentation as software and data
-        </span>
+        </a>
        </h1>
        <p>
         computational literature like documentation is presented with antithetical distribution practices like static sites and pdf. the idea of static computational literature pushes against its real potential to give visitors agency over their content. we see developments towards more interactive computational literature with projects like jupyterlite, pyodide, and pyscript. these approaches providing slightly more agency to interact with code, but this is only part of the interaction we could imagine.
@@ -1710,7 +1713,7 @@ a key success criterion for this is approach is that we ought to be able to oper
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="beyond-individual-documentation"><a aria-labelledby="beyond-individual-documentation" class="pilcrow" href="#beyond-individual-documentation"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">beyond individual documentation</span></h2>\n<p>a key success criterion for this is approach is that we ought to be able to operate on multiple documentations at once and reuse existing configurations when possible.</p>\n'}}
+        {'data': {'text/html': '<h2 id="beyond-individual-documentation"><a href="#beyond-individual-documentation">beyond individual documentation</a></h2>\n<p>a key success criterion for this is approach is that we ought to be able to operate on multiple documentations at once and reuse existing configurations when possible.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1720,13 +1723,9 @@ a key success criterion for this is approach is that we ought to be able to oper
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="beyond-individual-documentation">
-        <a aria-labelledby="beyond-individual-documentation" class="pilcrow" href="#beyond-individual-documentation">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#beyond-individual-documentation">
          beyond individual documentation
-        </span>
+        </a>
        </h2>
        <p>
         a key success criterion for this is approach is that we ought to be able to operate on multiple documentations at once and reuse existing configurations when possible.
@@ -1906,7 +1905,7 @@ i do a lot of weird shit in documents so my works are a good stress tests.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="build-my-personal-blog"><a aria-labelledby="build-my-personal-blog" class="pilcrow" href="#build-my-personal-blog"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">build my personal blog</span></h3>\n<p>a goal is to build multiple sites at once. the first we build is my personal blog.\ni do a lot of weird shit in documents so my works are a good stress tests.</p>\n'}}
+        {'data': {'text/html': '<h3 id="build-my-personal-blog"><a href="#build-my-personal-blog">build my personal blog</a></h3>\n<p>a goal is to build multiple sites at once. the first we build is my personal blog.\ni do a lot of weird shit in documents so my works are a good stress tests.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1916,13 +1915,9 @@ i do a lot of weird shit in documents so my works are a good stress tests.
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="build-my-personal-blog">
-        <a aria-labelledby="build-my-personal-blog" class="pilcrow" href="#build-my-personal-blog">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#build-my-personal-blog">
          build my personal blog
-        </span>
+        </a>
        </h3>
        <p>
         a goal is to build multiple sites at once. the first we build is my personal blog.
@@ -2255,7 +2250,7 @@ https://spacetelescope.github.io/mast_notebooks/
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="build-the-mast-space-telescope-notebooks"><a aria-labelledby="build-the-mast-space-telescope-notebooks" class="pilcrow" href="#build-the-mast-space-telescope-notebooks"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">build the mast space telescope notebooks</span></h3>\n<p><a href="https://spacetelescope.github.io/mast_notebooks/">https://spacetelescope.github.io/mast_notebooks/</a></p>\n'}}
+        {'data': {'text/html': '<h3 id="build-the-mast-space-telescope-notebooks"><a href="#build-the-mast-space-telescope-notebooks">build the mast space telescope notebooks</a></h3>\n<p><a href="https://spacetelescope.github.io/mast_notebooks/">https://spacetelescope.github.io/mast_notebooks/</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2265,13 +2260,9 @@ https://spacetelescope.github.io/mast_notebooks/
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="build-the-mast-space-telescope-notebooks">
-        <a aria-labelledby="build-the-mast-space-telescope-notebooks" class="pilcrow" href="#build-the-mast-space-telescope-notebooks">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#build-the-mast-space-telescope-notebooks">
          build the mast space telescope notebooks
-        </span>
+        </a>
        </h3>
        <p>
         <a href="https://spacetelescope.github.io/mast_notebooks/">
@@ -2603,7 +2594,7 @@ we'll use the dataframes from our previous cells to demonstrate what we can do w
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h2 id="manipulating-the-documentation"><a aria-labelledby="manipulating-the-documentation" class="pilcrow" href="#manipulating-the-documentation"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">manipulating the documentation</span></h2>\n<p>we'll use the dataframes from our previous cells to demonstrate what we can do with documentation frames.</p>\n"}}
+        {'data': {'text/html': "<h2 id="manipulating-the-documentation"><a href="#manipulating-the-documentation">manipulating the documentation</a></h2>\n<p>we'll use the dataframes from our previous cells to demonstrate what we can do with documentation frames.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -2613,13 +2604,9 @@ we'll use the dataframes from our previous cells to demonstrate what we can do w
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="manipulating-the-documentation">
-        <a aria-labelledby="manipulating-the-documentation" class="pilcrow" href="#manipulating-the-documentation">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#manipulating-the-documentation">
          manipulating the documentation
-        </span>
+        </a>
        </h2>
        <p>
         we'll use the dataframes from our previous cells to demonstrate what we can do with documentation frames.
@@ -2725,13 +2712,9 @@ we'll use the dataframes from our previous cells to demonstrate what we can do w
          </span>
         </legend>
         <h3 id="preview-a-webpage">
-         <a aria-labelledby="preview-a-webpage" class="pilcrow" href="#preview-a-webpage">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#preview-a-webpage">
           preview a webpage
-         </span>
+         </a>
         </h3>
         <pre><code>tfast.html.tail(2).display.iframe().display()
 </code></pre>
@@ -9699,13 +9682,9 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
          </span>
         </legend>
         <h3 id="how-many-cells">
-         <a aria-labelledby="how-many-cells" class="pilcrow" href="#how-many-cells">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#how-many-cells">
           how many cells?
-         </span>
+         </a>
         </h3>
         <pre><code>tfast.cells.cell_type.value_counts().to_frame().T
 </code></pre>
@@ -9862,13 +9841,9 @@ we can invoke more complicated regular expressions to extract information.</text
          </span>
         </legend>
         <h3 id="search-cell-contents">
-         <a aria-labelledby="search-cell-contents" class="pilcrow" href="#search-cell-contents">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#search-cell-contents">
           search cell contents
-         </span>
+         </a>
         </h3>
         <p>
          find all the cells containing a reference to pandas.
@@ -9996,22 +9971,14 @@ as structured data, and we'll show some really good information in there.
          </span>
         </legend>
         <h3 id="what-markdown-intermediates-can-we-access">
-         <a aria-labelledby="what-markdown-intermediates-can-we-access" class="pilcrow" href="#what-markdown-intermediates-can-we-access">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#what-markdown-intermediates-can-we-access">
           what markdown intermediates can we access?
-         </span>
+         </a>
         </h3>
         <h4 id="access-markdown-referneces-across-documents">
-         <a aria-labelledby="access-markdown-referneces-across-documents" class="pilcrow" href="#access-markdown-referneces-across-documents">
-          <span class="pilcrow" data-level="4">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#access-markdown-referneces-across-documents">
           access markdown referneces across documents
-         </span>
+         </a>
         </h4>
         <p>
          markdown provides syntax for link references. these values return from markdown parsing
@@ -10215,13 +10182,9 @@ refs.apply(
          </span>
         </legend>
         <h4 id="access-images-in-the-mimebundle">
-         <a aria-labelledby="access-images-in-the-mimebundle" class="pilcrow" href="#access-images-in-the-mimebundle">
-          <span class="pilcrow" data-level="4">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#access-images-in-the-mimebundle">
           access images in the mimebundle
-         </span>
+         </a>
         </h4>
         <pre><code>docs.bundles[["image/png", "image/jpeg"]].stack().to_frame("b64").apply(
     lambda x: F"![](data:{x.name[-1]};base64,{x.b64})", axis=1
@@ -11316,22 +11279,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -11344,9 +11292,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -11370,10 +11317,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -11385,51 +11328,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -11468,24 +11366,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -11515,6 +11396,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

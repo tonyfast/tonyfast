@@ -118,7 +118,7 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables." name="de
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -282,7 +282,7 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables." name="de
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -796,6 +796,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="../xxiv/2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="../xxiv/2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -916,13 +921,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1026,12 +1031,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-03-18-pycascades-ally-talk.html">
+       <a href="2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="2023-03-18-ally-talk.html">
+       <a href="2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1056,13 +1061,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1096,13 +1101,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1491,19 +1496,21 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
    <p>
    </p>
    <li>
@@ -1550,7 +1557,7 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
      </code>
     </li>
    </ul>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1666,7 +1673,7 @@ we'll follow [<span class="nt">Paul J Adam's</span>](<span class="na">https://pa
           Close
          </button>
          <pre><code>
-        {'tags': [], 'data': {'text/html': '<h1 id="rendering-dataframes-for-screen-readers-with-pandas"><a aria-labelledby="rendering-dataframes-for-screen-readers-with-pandas" class="pilcrow" href="#rendering-dataframes-for-screen-readers-with-pandas"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">rendering dataframes for screen readers with </span></h1>\n<p>in the document we\'ll explore what it takes to make <code>pandas.DataFrame</code>s accessible.\nwe\'ll follow <a href="https://pauljadam.com">Paul J Adam\'s</a> instructions for making <a href="https://pauljadam.com/demos/data-tables.html#heading1">Simple Data Tables</a>.</p>\n'}}
+        {'tags': [], 'data': {'text/html': '<h1 id="rendering-dataframes-for-screen-readers-with-pandas"><a href="#rendering-dataframes-for-screen-readers-with-pandas">rendering dataframes for screen readers with </a></h1>\n<p>in the document we\'ll explore what it takes to make <code>pandas.DataFrame</code>s accessible.\nwe\'ll follow <a href="https://pauljadam.com">Paul J Adam\'s</a> instructions for making <a href="https://pauljadam.com/demos/data-tables.html#heading1">Simple Data Tables</a>.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1676,13 +1683,9 @@ we'll follow [<span class="nt">Paul J Adam's</span>](<span class="na">https://pa
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="rendering-dataframes-for-screen-readers-with-pandas">
-        <a aria-labelledby="rendering-dataframes-for-screen-readers-with-pandas" class="pilcrow" href="#rendering-dataframes-for-screen-readers-with-pandas">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#rendering-dataframes-for-screen-readers-with-pandas">
          rendering dataframes for screen readers with
-        </span>
+        </a>
        </h1>
        <p>
         in the document we'll explore what it takes to make
@@ -2211,13 +2214,9 @@ we do not need to consider the contents of the cells for the recommendations we 
          </span>
         </legend>
         <h2 id="applying-best-practices--to-pandas">
-         <a aria-labelledby="applying-best-practices--to-pandas" class="pilcrow" href="#applying-best-practices--to-pandas">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#applying-best-practices--to-pandas">
           applying best practices  to pandas
-         </span>
+         </a>
         </h2>
        </fieldset>
       </td>
@@ -2321,14 +2320,10 @@ it is context dependent up to the author to supply.&lt;/caption&gt;</textarea>
          </span>
         </legend>
         <h3 id="1-title-of-data-table-is-inside-the-caption-element">
-         <a aria-labelledby="1-title-of-data-table-is-inside-the-caption-element" class="pilcrow" href="#1-title-of-data-table-is-inside-the-caption-element">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#1-title-of-data-table-is-inside-the-caption-element">
           1. Title of data table is inside the
           element.
-         </span>
+         </a>
         </h3>
         <p>
          the caption is dependent on the data and effects the visual appearance of the table.
@@ -3048,15 +3043,11 @@ the styler should be the last stop for the data.
          </span>
         </legend>
         <h4 id="pandas-io-formats-style-styler">
-         <a aria-labelledby="pandas-io-formats-style-styler" class="pilcrow" href="#pandas-io-formats-style-styler">
-          <span class="pilcrow" data-level="4">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#pandas-io-formats-style-styler">
           <code>
            pandas.io.formats.style.Styler
           </code>
-         </span>
+         </a>
         </h4>
         <p>
          <code>
@@ -3169,14 +3160,10 @@ the `scope` property improves navigation for screen readers when used properly.&
          </span>
         </legend>
         <h3 id="2-column-headers-are-inside-th-scope-col-elements">
-         <a aria-labelledby="2-column-headers-are-inside-th-scope-col-elements" class="pilcrow" href="#2-column-headers-are-inside-th-scope-col-elements">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#2-column-headers-are-inside-th-scope-col-elements">
           2. Column headers are inside
           elements.
-         </span>
+         </a>
         </h3>
         <p>
          the
@@ -3642,14 +3629,10 @@ basically every `&lt;th&gt;` needs the scope property.&lt;/th&gt;&lt;/th&gt;&lt;
          </span>
         </legend>
         <h3 id="3-row-headers-are-inside-th-scope-row-elements">
-         <a aria-labelledby="3-row-headers-are-inside-th-scope-row-elements" class="pilcrow" href="#3-row-headers-are-inside-th-scope-row-elements">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#3-row-headers-are-inside-th-scope-row-elements">
           3. Row headers are inside
           elements.
-         </span>
+         </a>
         </h3>
         <p>
          similar to
@@ -4108,13 +4091,9 @@ without a name, the index `&lt;th&gt;` will always be empty.&lt;/th&gt;</textare
          </span>
         </legend>
         <h3 id="4-avoid-using-blank-header-cells">
-         <a aria-labelledby="4-avoid-using-blank-header-cells" class="pilcrow" href="#4-avoid-using-blank-header-cells">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#4-avoid-using-blank-header-cells">
           4. Avoid using blank header cells.
-         </span>
+         </a>
         </h3>
         <p>
          this instruction to yield a best practice to
@@ -4825,13 +4804,9 @@ authors would have to add this information themselves.</textarea>
          </span>
         </legend>
         <h3 id="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
-         <a aria-labelledby="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value" class="pilcrow" href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
           5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
-         </span>
+         </a>
         </h3>
         <p>
          the naming of columns is a context specific screen reader feature.
@@ -5305,13 +5280,9 @@ everything goes to hell with `named_column` which as a column name.
          </span>
         </legend>
         <h2 id="inconsistencies-in-labelled-indexes">
-         <a aria-labelledby="inconsistencies-in-labelled-indexes" class="pilcrow" href="#inconsistencies-in-labelled-indexes">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#inconsistencies-in-labelled-indexes">
           inconsistencies in labelled indexes
-         </span>
+         </a>
         </h2>
         <p>
          everything goes to hell with
@@ -5435,13 +5406,9 @@ ensurely a proper experience for screen readers will require extra markup to gro
          </span>
         </legend>
         <h3 id="column-and-index-names">
-         <a aria-labelledby="column-and-index-names" class="pilcrow" href="#column-and-index-names">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#column-and-index-names">
           column and index names
-         </span>
+         </a>
         </h3>
         <p>
          consider the case of
@@ -5654,13 +5621,9 @@ it this example we can see how instructions in 2 and 3 differ.&lt;/th&gt;</texta
          </span>
         </legend>
         <h3 id="column-name-and-no-index-name">
-         <a aria-labelledby="column-name-and-no-index-name" class="pilcrow" href="#column-name-and-no-index-name">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#column-name-and-no-index-name">
           column name and no index name
-         </span>
+         </a>
         </h3>
         <pre><code>named_column_no_index = named_column.copy()
 named_column_no_index.index.name = None
@@ -5808,7 +5771,7 @@ it this example we can see how instructions in 2 and 3 differ.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="conclusions"><a aria-labelledby="conclusions" class="pilcrow" href="#conclusions"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">conclusions</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="conclusions"><a href="#conclusions">conclusions</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -5818,13 +5781,9 @@ it this example we can see how instructions in 2 and 3 differ.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="conclusions">
-        <a aria-labelledby="conclusions" class="pilcrow" href="#conclusions">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#conclusions">
          conclusions
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -6109,13 +6068,9 @@ our final dataframe has:
          </span>
         </legend>
         <h3 id="final-frame">
-         <a aria-labelledby="final-frame" class="pilcrow" href="#final-frame">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#final-frame">
           final frame
-         </span>
+         </a>
         </h3>
         <p>
          our final dataframe has:
@@ -6207,13 +6162,9 @@ our final dataframe has:
          </tbody>
         </table>
         <h3 id="final-html-source">
-         <a aria-labelledby="final-html-source" class="pilcrow" href="#final-html-source">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#final-html-source">
           final html source
-         </span>
+         </a>
         </h3>
         <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
@@ -6341,14 +6292,10 @@ our final dataframe has:
          </span>
         </legend>
         <h3 id="about-the-scope-attribute">
-         <a aria-labelledby="about-the-scope-attribute" class="pilcrow" href="#about-the-scope-attribute">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#about-the-scope-attribute">
           about the
           attribute
-         </span>
+         </a>
         </h3>
         <p>
          <q cite="https://www.w3schools.com/tags/att_scope.asp">
@@ -6440,7 +6387,7 @@ our final dataframe has:
           Close
          </button>
          <pre><code>
-        {'tags': [], 'data': {'text/html': '<h3 id="links"><a aria-labelledby="links" class="pilcrow" href="#links"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">links</span></h3>\n<ul>\n<li><a href="https://pandas.pydata.org/docs/user_guide/style.html">https://pandas.pydata.org/docs/user_guide/style.html</a></li>\n<li><a href="https://pauljadam.com/demos/data-tables.html">https://pauljadam.com/demos/data-tables.html</a></li>\n<li><a href="https://www.w3.org/WAI/tutorials/tables/">https://www.w3.org/WAI/tutorials/tables/</a></li>\n<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced">https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced</a></li>\n</ul>\n'}}
+        {'tags': [], 'data': {'text/html': '<h3 id="links"><a href="#links">links</a></h3>\n<ul>\n<li><a href="https://pandas.pydata.org/docs/user_guide/style.html">https://pandas.pydata.org/docs/user_guide/style.html</a></li>\n<li><a href="https://pauljadam.com/demos/data-tables.html">https://pauljadam.com/demos/data-tables.html</a></li>\n<li><a href="https://www.w3.org/WAI/tutorials/tables/">https://www.w3.org/WAI/tutorials/tables/</a></li>\n<li><a href="https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced">https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables/Advanced</a></li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -6450,13 +6397,9 @@ our final dataframe has:
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="links">
-        <a aria-labelledby="links" class="pilcrow" href="#links">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#links">
          links
-        </span>
+        </a>
        </h3>
        <ul>
         <li>
@@ -7374,22 +7317,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -7402,9 +7330,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -7428,10 +7355,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -7443,51 +7366,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -7526,24 +7404,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -7573,6 +7434,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

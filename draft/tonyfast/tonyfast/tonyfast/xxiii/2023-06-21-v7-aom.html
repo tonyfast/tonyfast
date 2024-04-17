@@ -89,7 +89,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -253,7 +253,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -767,6 +767,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="../xxiv/2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="../xxiv/2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -887,13 +892,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -997,12 +1002,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-03-18-pycascades-ally-talk.html">
+       <a href="2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="2023-03-18-ally-talk.html">
+       <a href="2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1027,13 +1032,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1067,13 +1072,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1417,20 +1422,22 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1566,7 +1573,7 @@ Note: all labels will need to be internationalized.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1 id="jupyter-notebook-v7-remediations"><a aria-labelledby="jupyter-notebook-v7-remediations" class="pilcrow" href="#jupyter-notebook-v7-remediations"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">jupyter notebook v7 remediations</span></h1>\n<p>this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that <q></q>an accessible reference implementation of the rendered notebook will extend to an assistive interactive experience.</p>\n<blockquote>\n</blockquote>\n<p>i think this remediation is 4 primary tasks</p>\n<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">improved notebook level semantics for landmarks and initial APG recommendations</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">introduce landmark semantics for the cells<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">establish input group semantics</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">establish preliminary group semantics</li>\n</ul>\n</li>\n</ul>\n<p>our goal is presentation an assistive experience that can be extended with feedback from users. this will drastically improve the assistive tech experience through improvements to the annotation object model.\nNote: all labels will need to be internationalized.</p>\n'}}
+        {'data': {'text/html': '<h1 id="jupyter-notebook-v7-remediations"><a href="#jupyter-notebook-v7-remediations">jupyter notebook v7 remediations</a></h1>\n<p>this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that <q></q>an accessible reference implementation of the rendered notebook will extend to an assistive interactive experience.</p>\n<blockquote>\n</blockquote>\n<p>i think this remediation is 4 primary tasks</p>\n<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">improved notebook level semantics for landmarks and initial APG recommendations</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">introduce landmark semantics for the cells<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">establish input group semantics</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">establish preliminary group semantics</li>\n</ul>\n</li>\n</ul>\n<p>our goal is presentation an assistive experience that can be extended with feedback from users. this will drastically improve the assistive tech experience through improvements to the annotation object model.\nNote: all labels will need to be internationalized.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1576,13 +1583,9 @@ Note: all labels will need to be internationalized.
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="jupyter-notebook-v7-remediations">
-        <a aria-labelledby="jupyter-notebook-v7-remediations" class="pilcrow" href="#jupyter-notebook-v7-remediations">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#jupyter-notebook-v7-remediations">
          jupyter notebook v7 remediations
-        </span>
+        </a>
        </h1>
        <p>
         this issue provides more structure to the annotation object model in the interactive jupyter notebook v7 experience. this effort is an extension of the notebooks for all effort to establish a minimum, semantic html5 footprint for a rendered notebook. the originial hypothesis still stands that
@@ -1697,7 +1700,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="out-of-scope"><a aria-labelledby="out-of-scope" class="pilcrow" href="#out-of-scope"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">out of scope</span></h2>\n<p>this documents focus on non-visual changes that improve the quality of Annotation Objective Model so the following important topics are out of scope:</p>\n<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">the split panel handler has an <a href="https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/">APG Window Splitter Pattern</a> that should be implemented.</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">tab traps are bad for keyboard users. tab in cell mode should not enter edit mode automatically. the assistive experience hinges on <a href="https://github.com/jupyterlab/jupyterlab/pull/14115">https://github.com/jupyterlab/jupyterlab/pull/14115</a>.</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">modifying the native find experience without an escape hatch is super dangerous; so i\'m real worried about <code>.jp-DocumentSearch-overlay</code>.</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="out-of-scope"><a href="#out-of-scope">out of scope</a></h2>\n<p>this documents focus on non-visual changes that improve the quality of Annotation Objective Model so the following important topics are out of scope:</p>\n<ul>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">the split panel handler has an <a href="https://www.w3.org/WAI/ARIA/apg/patterns/windowsplitter/">APG Window Splitter Pattern</a> that should be implemented.</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">tab traps are bad for keyboard users. tab in cell mode should not enter edit mode automatically. the assistive experience hinges on <a href="https://github.com/jupyterlab/jupyterlab/pull/14115">https://github.com/jupyterlab/jupyterlab/pull/14115</a>.</li>\n<li class="task-list-item"><input class="task-list-item-checkbox" disabled type="checkbox">modifying the native find experience without an escape hatch is super dangerous; so i\'m real worried about <code>.jp-DocumentSearch-overlay</code>.</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1707,13 +1710,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="out-of-scope">
-        <a aria-labelledby="out-of-scope" class="pilcrow" href="#out-of-scope">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#out-of-scope">
          out of scope
-        </span>
+        </a>
        </h2>
        <p>
         this documents focus on non-visual changes that improve the quality of Annotation Objective Model so the following important topics are out of scope:
@@ -1888,7 +1887,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="application-level-semantics"><a aria-labelledby="application-level-semantics" class="pilcrow" href="#application-level-semantics"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">application level semantics</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="application-level-semantics"><a href="#application-level-semantics">application level semantics</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1898,13 +1897,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="application-level-semantics">
-        <a aria-labelledby="application-level-semantics" class="pilcrow" href="#application-level-semantics">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#application-level-semantics">
          application level semantics
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -2090,9 +2085,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="c9da22f0-2010-4459-b4ad-56e2b3498a49">
+        <div class="output_subarea output_javascript" id="dd3aba5c-b208-460f-9ac9-3a50271efea4">
          <script type="text/javascript">
-          var element = $('#c9da22f0-2010-4459-b4ad-56e2b3498a49');
+          var element = $('#dd3aba5c-b208-460f-9ac9-3a50271efea4');
         ['document.querySelectorAll("#top-panel").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Menu");});\n', 'document.querySelectorAll("#main-panel").forEach((x,i) =>{x.setAttribute("aria-labelledby", "jp-title");});\n', 'document.querySelectorAll("#menu-panel").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); \n', '    x.setAttribute("aria-label", "Notebook Menu");\n', '});\n']
          </script>
         </div>
@@ -2288,9 +2283,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="8b15ea5c-3e25-4637-a97d-b1a0c5790c42">
+        <div class="output_subarea output_javascript" id="c074118a-d5af-4391-b91e-b82ad7618e39">
          <script type="text/javascript">
-          var element = $('#8b15ea5c-3e25-4637-a97d-b1a0c5790c42');
+          var element = $('#c074118a-d5af-4391-b91e-b82ad7618e39');
         ['for (x in document.querySelectorAll("#top-panel #jp-title h1").children){\n', "    // we can't set our own h1 as that will mess up custom content.\n", "    // the css depends on the h1, but the screen reader won't find it this way.\n", '    x.setAttribute("role", "presentation");\n', '};\n']
          </script>
         </div>
@@ -2361,7 +2356,7 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="application-label-concerns"><a aria-labelledby="application-label-concerns" class="pilcrow" href="#application-label-concerns"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">application label concerns.</span></h3>\n'}}
+        {'data': {'text/html': '<h3 id="application-label-concerns"><a href="#application-label-concerns">application label concerns.</a></h3>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2371,13 +2366,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="application-label-concerns">
-        <a aria-labelledby="application-label-concerns" class="pilcrow" href="#application-label-concerns">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#application-label-concerns">
          application label concerns.
-        </span>
+        </a>
        </h3>
       </td>
      </tr>
@@ -2479,9 +2470,9 @@ this documents focus on non-visual changes that improve the quality of Annotatio
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="5f48d49e-dca1-4a56-88fc-2660b010bc52">
+        <div class="output_subarea output_javascript" id="9f1c6801-aa7c-4483-a2ea-bc5b4bf08d18">
          <script type="text/javascript">
-          var element = $('#5f48d49e-dca1-4a56-88fc-2660b010bc52');
+          var element = $('#9f1c6801-aa7c-4483-a2ea-bc5b4bf08d18');
         ['// a user should be able to trigger the logo dialog by clicking on .jp-NotebookKernelLogo\n', '// the trusted status button needs alt and a clearer title .jp-NotebookTrustedStatus\n', '// the button.jp-Notebook-footer semantics are wrong. the button should be inside a footer, or role=contentinfo\n']
          </script>
         </div>
@@ -2677,9 +2668,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="fe654b8e-c8b9-44ec-946d-f5b5991fe257">
+        <div class="output_subarea output_javascript" id="5a907fa3-98d4-44ba-b02e-f438e035d37e">
          <script type="text/javascript">
-          var element = $('#fe654b8e-c8b9-44ec-946d-f5b5991fe257');
+          var element = $('#5a907fa3-98d4-44ba-b02e-f438e035d37e');
         ['// it is going to make no sense to anyone that the jupyter label sends you to open files\n', 'document.querySelectorAll("#top-panel #jp-NotebookLogo").forEach((x,i) =>{\n', '    x.setAttribute("title", "Open File Browser in a New Tab");\n', '    x.setAttribute("alt", "Open File Browser in a New Tab");\n', '});\n']
          </script>
         </div>
@@ -2860,9 +2851,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="9e651f81-eeee-4cd4-a4a7-a01bca6c86a3">
+        <div class="output_subarea output_javascript" id="5ec3b26f-4411-4b31-9e51-cc0329378305">
          <script type="text/javascript">
-          var element = $('#9e651f81-eeee-4cd4-a4a7-a01bca6c86a3');
+          var element = $('#5ec3b26f-4411-4b31-9e51-cc0329378305');
         ['document.querySelectorAll("#spacer-widget-top").forEach((x,i) =>{x.setAttribute("role", "presentation");});\n', 'document.querySelectorAll(".jp-Notebook").forEach((x,i) =>{x.setAttribute("aria-label", "Notebook Cells");});\n']
          </script>
         </div>
@@ -3047,9 +3038,9 @@ the changes below communicate the current semantics, but the feel of this experi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="86bbd221-12f5-440c-b65a-0da5feed2372">
+        <div class="output_subarea output_javascript" id="701f3600-a3f3-4271-86c2-1bbb7c230407">
          <script type="text/javascript">
-          var element = $('#86bbd221-12f5-440c-b65a-0da5feed2372');
+          var element = $('#701f3600-a3f3-4271-86c2-1bbb7c230407');
         ['// role navigation -> banner, this is a landmark inside of main\n', 'document.querySelectorAll(".jp-Toolbar").forEach((x,i) =>{\n', '    x.setAttribute("role", "banner"); x.setAttribute("aria-label", "Notebook Actions");\n', '});    \n']
          </script>
         </div>
@@ -3128,7 +3119,7 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="the-notebook-cell-regions"><a aria-labelledby="the-notebook-cell-regions" class="pilcrow" href="#the-notebook-cell-regions"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">the notebook cell regions</span></h2>\n<p>it was found, in a single notebook mode, that some assistive tech users liked finding cells as landmarks especially in long notebooks. we can add more complicated semantics later, the feed pattern makes more sense in reading html notebooks.</p>\n<p><del>the feed pattern is read mode pattern for identifying units of content is a potentially infinite scrolling element. we use this pattern because it introduces the minimal aria semantics to add order.</del></p>\n'}}
+        {'data': {'text/html': '<h2 id="the-notebook-cell-regions"><a href="#the-notebook-cell-regions">the notebook cell regions</a></h2>\n<p>it was found, in a single notebook mode, that some assistive tech users liked finding cells as landmarks especially in long notebooks. we can add more complicated semantics later, the feed pattern makes more sense in reading html notebooks.</p>\n<p><del>the feed pattern is read mode pattern for identifying units of content is a potentially infinite scrolling element. we use this pattern because it introduces the minimal aria semantics to add order.</del></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3138,13 +3129,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="the-notebook-cell-regions">
-        <a aria-labelledby="the-notebook-cell-regions" class="pilcrow" href="#the-notebook-cell-regions">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#the-notebook-cell-regions">
          the notebook cell regions
-        </span>
+        </a>
        </h2>
        <p>
         it was found, in a single notebook mode, that some assistive tech users liked finding cells as landmarks especially in long notebooks. we can add more complicated semantics later, the feed pattern makes more sense in reading html notebooks.
@@ -3254,9 +3241,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="a2721b61-2b70-4126-a8eb-eb7a3e2e95b6">
+        <div class="output_subarea output_javascript" id="0917652f-9986-49de-877c-cbd0c1bf825f">
          <script type="text/javascript">
-          var element = $('#a2721b61-2b70-4126-a8eb-eb7a3e2e95b6');
+          var element = $('#0917652f-9986-49de-877c-cbd0c1bf825f');
         ['document.querySelectorAll(".jp-WindowedPanel-window").forEach((x,i) =>{\n', '    x.setAttribute("role", "feed"); x.setAttribute("aria-label", "Cells");\n', '});\n']
          </script>
         </div>
@@ -3489,9 +3476,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="080054bf-d2c8-486e-9356-273195c252fe">
+        <div class="output_subarea output_javascript" id="5d38ec61-eabe-4ee8-98b8-5ee1b77b93f1">
          <script type="text/javascript">
-          var element = $('#080054bf-d2c8-486e-9356-273195c252fe');
+          var element = $('#5d38ec61-eabe-4ee8-98b8-5ee1b77b93f1');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    // lets punt on the feed pattern to start\n', '    // x.setAttribute("role", "article"); \n', '    // x.setAttribute("aria-posinset", i+1); \n', '    // x.setAttribute("aria-setsize", cells.length); \n', '\n', '    // use a raw region to make sure the cells show as landmarks\n', '    x.setAttribute("role", "region"); \n', '    \n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '    if (CODE){\n', '        x.setAttribute("aria-label", `Code Cell ${i+1}`);\n', '    } else if (MD){\n', '        x.setAttribute("aria-label", `Markdown Cell ${i+1}`);\n', '    } else {\n', '        x.setAttribute("aria-label", `Cell ${i+1}`);\n', '    };\n', '\n', '    // i cant directly know the input number. semantically it is some kind of label.\n', '    // this effort is concerned with the AOM, not WCAG. \n', '    // we do have a visible label so this should satisfy the visible label\n', '    prompt = x.querySelectorAll(".jp-InputPrompt")[0];\n', '    prompt.setAttribute("aria-hidden", "true");\n', '\n', '    // STILL NEED TO ADD A LANDMARK FOR THE CELL\n', '});\n']
          </script>
         </div>
@@ -3562,7 +3549,7 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="input-area-fixes"><a aria-labelledby="input-area-fixes" class="pilcrow" href="#input-area-fixes"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">input area fixes</span></h3>\n'}}
+        {'data': {'text/html': '<h3 id="input-area-fixes"><a href="#input-area-fixes">input area fixes</a></h3>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3572,13 +3559,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="input-area-fixes">
-        <a aria-labelledby="input-area-fixes" class="pilcrow" href="#input-area-fixes">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#input-area-fixes">
          input area fixes
-        </span>
+        </a>
        </h3>
       </td>
      </tr>
@@ -3740,9 +3723,9 @@ it was found, in a single notebook mode, that some assistive tech users liked fi
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="407c7879-8d26-4248-a8c4-9d87cd612f8f">
+        <div class="output_subarea output_javascript" id="5a00fb6c-956b-4d82-9a7e-f8d68ede2f9a">
          <script type="text/javascript">
-          var element = $('#407c7879-8d26-4248-a8c4-9d87cd612f8f');
+          var element = $('#5a00fb6c-956b-4d82-9a7e-f8d68ede2f9a');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    var MD = x.className.includes("jp-MarkdownCell");\n', '    var CODE = x.className.includes("jp-CodeCell");\n', '\n', '    // code, markdown, raw cells need different groupings.\n', '    x.querySelectorAll(".jp-Cell-inputWrapper").forEach(\n', '        (y)=>{\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (CODE){\n', '                if (label.length){\n', '                    y.setAttribute("aria-label", `In ${label}`);\n', '                } else {\n', '                    y.setAttribute("aria-label", `New Code Input`);\n', '                }\n', '            } else if (MD){\n', '                y.setAttribute("aria-label", `Markdown Input`);\n', '            } else {\n', '                y.setAttribute("aria-label", `Input`);\n', '            }\n', '        }\n', '    );\n', '    // make the cell toolbar an APG styled toolbar. this is the most cursory modification.\n', '    x.querySelectorAll(".jp-cell-toolbar").forEach(\n', '        (y)=>{\n', '            // https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/examples/toolbar/\n', '            y.setAttribute("role", "toolbar");\n', '            y.setAttribute("aria-label", `Cell ${i+1} Toolbar`);\n', '            y.setAttribute("aria-controls", `cell-input-${i}`);\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
@@ -3821,7 +3804,7 @@ right now, i'm only comfortable calling the outputs a group, this means they may
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h3 id="output-area-fixes"><a aria-labelledby="output-area-fixes" class="pilcrow" href="#output-area-fixes"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">output area fixes</span></h3>\n<p>i am very not confident about the output semantics. my efforts were to understand the rendered cell's landmarks. the output semantics are pure presentation in reading mode, but editting mode is several HCI PhDs.</p>\n<p>right now, i'm only comfortable calling the outputs a group, this means they may be announced by a screen reader to provide some relative position. on disk, in the notebook format, outputs are a list of structures, as are cells, and it might make the most sense to employ a nested feed pattern. when you start to thinking about async updates then ordering is out the window.</p>\n"}}
+        {'data': {'text/html': "<h3 id="output-area-fixes"><a href="#output-area-fixes">output area fixes</a></h3>\n<p>i am very not confident about the output semantics. my efforts were to understand the rendered cell's landmarks. the output semantics are pure presentation in reading mode, but editting mode is several HCI PhDs.</p>\n<p>right now, i'm only comfortable calling the outputs a group, this means they may be announced by a screen reader to provide some relative position. on disk, in the notebook format, outputs are a list of structures, as are cells, and it might make the most sense to employ a nested feed pattern. when you start to thinking about async updates then ordering is out the window.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -3831,13 +3814,9 @@ right now, i'm only comfortable calling the outputs a group, this means they may
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="output-area-fixes">
-        <a aria-labelledby="output-area-fixes" class="pilcrow" href="#output-area-fixes">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#output-area-fixes">
          output area fixes
-        </span>
+        </a>
        </h3>
        <p>
         i am very not confident about the output semantics. my efforts were to understand the rendered cell's landmarks. the output semantics are pure presentation in reading mode, but editting mode is several HCI PhDs.
@@ -3991,9 +3970,9 @@ right now, i'm only comfortable calling the outputs a group, this means they may
           ]
          </span>
         </legend>
-        <div class="output_subarea output_javascript" id="269d62d8-4cc6-400a-b72a-d1eaf91ece7d">
+        <div class="output_subarea output_javascript" id="3ef2e834-4b36-4119-a5c5-69822fe89590">
          <script type="text/javascript">
-          var element = $('#269d62d8-4cc6-400a-b72a-d1eaf91ece7d');
+          var element = $('#3ef2e834-4b36-4119-a5c5-69822fe89590');
         ['var cells = document.querySelectorAll(".jp-Cell");\n', 'cells.forEach((x,i) =>{\n', '    x.querySelectorAll(".jp-Cell-outputWrapper").forEach(\n', '        (y)=>{\n', '            // this will only be encountered on code cells.\n', '            // i have no invested significant time into the semantics of the outputs\n', '            // group is a fine semantic, but it is non specific.\n', '            // increasingly i feel like the output is nested feed because it \n', '            // would allow outputs to be indexed. need more testing.\n', '            y.setAttribute("role", "group");\n', '            var label = prompt.textContent.slice(1, -2).trim();\n', '            if (label.length){\n', '                y.setAttribute("aria-label", `Output ${label}`);\n', '            } else {\n', '                // no need to worry about the output label when there is not execution\n', '                // aria hidden might be appropriate without testing on a screen reader.\n', '            };\n', '        }\n', '    );\n', '    x.querySelectorAll(".jp-OutputCollapser").forEach(\n', '        (y)=>{\n', '            // the collapser button has no semantics or visible label.\n', '            // this feature is not accessible, but should because for folks using screen magnification.\n', '        }\n', '    )\n', '});\n']
          </script>
         </div>
@@ -4070,7 +4049,7 @@ right now, i'm only comfortable calling the outputs a group, this means they may
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="conclusion"><a aria-labelledby="conclusion" class="pilcrow" href="#conclusion"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">conclusion</span></h2>\n<ul>\n<li>the output area is where the research stops. it is less though out than the others. announcements are part of the equation too for the proper assistive experience.</li>\n<li>there are significant follow up work to improve the whole experience.</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="conclusion"><a href="#conclusion">conclusion</a></h2>\n<ul>\n<li>the output area is where the research stops. it is less though out than the others. announcements are part of the equation too for the proper assistive experience.</li>\n<li>there are significant follow up work to improve the whole experience.</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4080,13 +4059,9 @@ right now, i'm only comfortable calling the outputs a group, this means they may
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="conclusion">
-        <a aria-labelledby="conclusion" class="pilcrow" href="#conclusion">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#conclusion">
          conclusion
-        </span>
+        </a>
        </h2>
        <ul>
         <li>
@@ -4106,7 +4081,7 @@ right now, i'm only comfortable calling the outputs a group, this means they may
     &lt;a semantic dataframe
    </a>
    <br>
-   <a href="2023-03-18-pycascades-ally-talk.html" rel="next">
+   <a href="2023-03-18-ally-talk.html" rel="next">
     A Crash Course in Digital Accessibility
     <span aria-hidden="true">
      &gt;
@@ -4990,22 +4965,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -5018,9 +4978,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -5044,10 +5003,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -5059,51 +5014,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -5142,24 +5052,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -5189,6 +5082,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
  </body>
 </html>

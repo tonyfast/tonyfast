@@ -92,7 +92,7 @@ advances in the jupyterlite have made it possible to realize this vision without
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -256,7 +256,7 @@ advances in the jupyterlite have made it possible to realize this vision without
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -770,6 +770,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="../xxiv/2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="../xxiv/2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -890,13 +895,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1000,12 +1005,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+       <a href="../xxiii/2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-ally-talk.html">
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1030,13 +1035,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1070,13 +1075,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1418,20 +1423,22 @@ advances in the jupyterlite have made it possible to realize this vision without
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1581,7 +1588,7 @@ the inferred dependencies are then inserted in to the first line of the first co
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h1 id="jupyterlite-blog-integration"><a aria-labelledby="jupyterlite-blog-integration" class="pilcrow" href="#jupyterlite-blog-integration"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True"><code>jupyterlite</code></span></h1>\n<p>i've always thought of blog posts as a means, not an ends.\nmy dream has always been content that myself and others can execute themselves.\noften this goal has been hindered by the need for infrastructure.\nadvances in the <code>jupyterlite</code> have made it possible to realize this vision without infrastructure.</p>\n<p><code>jupyterlite</code> is jupyterlab running completely in the browser without the need for a local server.\nthis means that folks can redirect from a static post into an interactive version they can try themselves.</p>\n<h2 id="jupyterlite-notebooks-are-different"><a aria-labelledby="jupyterlite-notebooks-are-different" class="pilcrow" href="#jupyterlite-notebooks-are-different"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True"><code>jupyterlite</code></span></h2>\n<p>when working with a standard jupyter implementation we are interacting with a server within an implicit environment. when we write our notebooks we assume that we can import modules because they are in our environment. however, in <code>jupyterlite</code> we need to explicitly define our dependencies for every notebook.</p>\n<p>we define our dependencies by inserting the <code>pip</code> line magic:</p>\n<pre><code>%pip install my dependencies</code></pre>\n<p>this statement is superfluous under normal circumstances so it doesn't need to exist in the source.\ninstead we use the <code>depfinder</code> project to infer the projects imported by our notebook.\nthe inferred dependencies are then inserted in to the first line of the first code cell of the notebook.</p>\n"}}
+        {'data': {'text/html': "<h1 id="jupyterlite-blog-integration"><a href="#jupyterlite-blog-integration"><code>jupyterlite</code></a></h1>\n<p>i've always thought of blog posts as a means, not an ends.\nmy dream has always been content that myself and others can execute themselves.\noften this goal has been hindered by the need for infrastructure.\nadvances in the <code>jupyterlite</code> have made it possible to realize this vision without infrastructure.</p>\n<p><code>jupyterlite</code> is jupyterlab running completely in the browser without the need for a local server.\nthis means that folks can redirect from a static post into an interactive version they can try themselves.</p>\n<h2 id="jupyterlite-notebooks-are-different"><a href="#jupyterlite-notebooks-are-different"><code>jupyterlite</code></a></h2>\n<p>when working with a standard jupyter implementation we are interacting with a server within an implicit environment. when we write our notebooks we assume that we can import modules because they are in our environment. however, in <code>jupyterlite</code> we need to explicitly define our dependencies for every notebook.</p>\n<p>we define our dependencies by inserting the <code>pip</code> line magic:</p>\n<pre><code>%pip install my dependencies</code></pre>\n<p>this statement is superfluous under normal circumstances so it doesn't need to exist in the source.\ninstead we use the <code>depfinder</code> project to infer the projects imported by our notebook.\nthe inferred dependencies are then inserted in to the first line of the first code cell of the notebook.</p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1591,15 +1598,11 @@ the inferred dependencies are then inserted in to the first line of the first co
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="jupyterlite-blog-integration">
-        <a aria-labelledby="jupyterlite-blog-integration" class="pilcrow" href="#jupyterlite-blog-integration">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#jupyterlite-blog-integration">
          <code>
           jupyterlite
          </code>
-        </span>
+        </a>
        </h1>
        <p>
         i've always thought of blog posts as a means, not an ends.
@@ -1619,15 +1622,11 @@ advances in the
 this means that folks can redirect from a static post into an interactive version they can try themselves.
        </p>
        <h2 id="jupyterlite-notebooks-are-different">
-        <a aria-labelledby="jupyterlite-notebooks-are-different" class="pilcrow" href="#jupyterlite-notebooks-are-different">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#jupyterlite-notebooks-are-different">
          <code>
           jupyterlite
          </code>
-        </span>
+        </a>
        </h2>
        <p>
         when working with a standard jupyter implementation we are interacting with a server within an implicit environment. when we write our notebooks we assume that we can import modules because they are in our environment. however, in
@@ -1727,7 +1726,7 @@ in the code that follow we define a <span class="sb">`doit`</span> task that:
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="the-doit-lite-implementation"><a aria-labelledby="the-doit-lite-implementation" class="pilcrow" href="#the-doit-lite-implementation"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">the  implementation</span></h2>\n<p>in the code that follow we define a <code>doit</code> task that:</p>\n<ol>\n<li>builds a <code>jupyterlite</code> site for this blog</li>\n<li>make the dependencies compatible with <code>jupyterlite</code></li>\n</ol>\n'}}
+        {'data': {'text/html': '<h2 id="the-doit-lite-implementation"><a href="#the-doit-lite-implementation">the  implementation</a></h2>\n<p>in the code that follow we define a <code>doit</code> task that:</p>\n<ol>\n<li>builds a <code>jupyterlite</code> site for this blog</li>\n<li>make the dependencies compatible with <code>jupyterlite</code></li>\n</ol>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1737,14 +1736,10 @@ in the code that follow we define a <span class="sb">`doit`</span> task that:
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="the-doit-lite-implementation">
-        <a aria-labelledby="the-doit-lite-implementation" class="pilcrow" href="#the-doit-lite-implementation">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#the-doit-lite-implementation">
          the
          implementation
-        </span>
+        </a>
        </h2>
        <p>
         in the code that follow we define a
@@ -1953,7 +1948,7 @@ in the code that follow we define a <span class="sb">`doit`</span> task that:
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h2 id="discovering-imports-with-depfinder"><a aria-labelledby="discovering-imports-with-depfinder" class="pilcrow" href="#discovering-imports-with-depfinder"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">discovering imports with </span></h2>\n<p>following sections we'll build the methods for discovering imports with <code>depfinder</code></p>\n"}}
+        {'data': {'text/html': "<h2 id="discovering-imports-with-depfinder"><a href="#discovering-imports-with-depfinder">discovering imports with </a></h2>\n<p>following sections we'll build the methods for discovering imports with <code>depfinder</code></p>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1963,13 +1958,9 @@ in the code that follow we define a <span class="sb">`doit`</span> task that:
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="discovering-imports-with-depfinder">
-        <a aria-labelledby="discovering-imports-with-depfinder" class="pilcrow" href="#discovering-imports-with-depfinder">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#discovering-imports-with-depfinder">
          discovering imports with
-        </span>
+        </a>
        </h2>
        <p>
         following sections we'll build the methods for discovering imports with
@@ -2631,7 +2622,7 @@ some documents might use [pidgy] syntax that need to be dealt with.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="handling-pidgy-documents"><a aria-labelledby="handling-pidgy-documents" class="pilcrow" href="#handling-pidgy-documents"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">handling  documents</span></h3>\n<p>some documents might use [pidgy] syntax that need to be dealt with.</p>\n'}}
+        {'data': {'text/html': '<h3 id="handling-pidgy-documents"><a href="#handling-pidgy-documents">handling  documents</a></h3>\n<p>some documents might use [pidgy] syntax that need to be dealt with.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2641,14 +2632,10 @@ some documents might use [pidgy] syntax that need to be dealt with.
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="handling-pidgy-documents">
-        <a aria-labelledby="handling-pidgy-documents" class="pilcrow" href="#handling-pidgy-documents">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#handling-pidgy-documents">
          handling
          documents
-        </span>
+        </a>
        </h3>
        <p>
         some documents might use [pidgy] syntax that need to be dealt with.
@@ -2830,7 +2817,7 @@ these methods are meant to operate on the contents of a <span class="sb">`jupyte
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="updating-the-jupyterlite-notebooks"><a aria-labelledby="updating-the-jupyterlite-notebooks" class="pilcrow" href="#updating-the-jupyterlite-notebooks"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">updating the  notebooks</span></h3>\n<p>these methods are meant to operate on the contents of a <code>jupyterlite</code> not the raw notebooks.</p>\n'}}
+        {'data': {'text/html': '<h3 id="updating-the-jupyterlite-notebooks"><a href="#updating-the-jupyterlite-notebooks">updating the  notebooks</a></h3>\n<p>these methods are meant to operate on the contents of a <code>jupyterlite</code> not the raw notebooks.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2840,14 +2827,10 @@ these methods are meant to operate on the contents of a <span class="sb">`jupyte
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="updating-the-jupyterlite-notebooks">
-        <a aria-labelledby="updating-the-jupyterlite-notebooks" class="pilcrow" href="#updating-the-jupyterlite-notebooks">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#updating-the-jupyterlite-notebooks">
          updating the
          notebooks
-        </span>
+        </a>
        </h3>
        <p>
         these methods are meant to operate on the contents of a
@@ -3528,7 +3511,7 @@ these methods are meant to operate on the contents of a <span class="sb">`jupyte
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="usage"><a aria-labelledby="usage" class="pilcrow" href="#usage"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">usage</span></h2>\n<ul>\n<li>from the <code>tonyfast</code> module, requires deps</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="usage"><a href="#usage">usage</a></h2>\n<ul>\n<li>from the <code>tonyfast</code> module, requires deps</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3538,13 +3521,9 @@ these methods are meant to operate on the contents of a <span class="sb">`jupyte
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="usage">
-        <a aria-labelledby="usage" class="pilcrow" href="#usage">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#usage">
          usage
-        </span>
+        </a>
        </h2>
        <ul>
         <li>
@@ -4835,22 +4814,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -4863,9 +4827,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -4889,10 +4852,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -4904,51 +4863,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -4987,24 +4901,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -5034,6 +4931,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
  </body>
 </html>

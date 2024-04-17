@@ -117,7 +117,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -281,7 +281,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -795,6 +795,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
        <a href="2024-04-15-llm-workflow.html">
         integrating llms into my notebook worflows.
        </a>
@@ -915,13 +920,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1025,12 +1030,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+       <a href="../xxiii/2023-03-18-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-03-18-ally-talk.html">
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
         A Crash Course in Digital Accessibility
        </a>
       </li>
@@ -1055,13 +1060,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-whoosh-search.html">
-        use whoosh to search cells/articles on disk
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1095,13 +1100,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
@@ -1544,20 +1549,22 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -1671,7 +1678,7 @@ the path to accessible notebooks is paved in technical debt.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h1 id="notebooks-and-accessibility-workshop"><a aria-labelledby="notebooks-and-accessibility-workshop" class="pilcrow" href="#notebooks-and-accessibility-workshop"><span class="pilcrow" data-level="1"></span></a><span aria-hidden="True">notebooks and accessibility workshop</span></h1>\n<p>the path to accessible notebooks is paved in technical debt.</p>\n'}}
+        {'data': {'text/html': '<h1 id="notebooks-and-accessibility-workshop"><a href="#notebooks-and-accessibility-workshop">notebooks and accessibility workshop</a></h1>\n<p>the path to accessible notebooks is paved in technical debt.</p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -1681,13 +1688,9 @@ the path to accessible notebooks is paved in technical debt.
       </td>
       <td class="nb-outputs" role="none">
        <h1 id="notebooks-and-accessibility-workshop">
-        <a aria-labelledby="notebooks-and-accessibility-workshop" class="pilcrow" href="#notebooks-and-accessibility-workshop">
-         <span class="pilcrow" data-level="1">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#notebooks-and-accessibility-workshop">
          notebooks and accessibility workshop
-        </span>
+        </a>
        </h1>
        <p>
         the path to accessible notebooks is paved in technical debt.
@@ -1961,7 +1964,7 @@ the path to accessible notebooks is paved in technical debt.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': "<h2 id="what-are-notebooks-to-y-all"><a aria-labelledby="what-are-notebooks-to-y-all" class="pilcrow" href="#what-are-notebooks-to-y-all"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">what are notebooks to y'all?</span></h2>\n<p><time></time>10 min</p>\n<ol>\n<li>what are notebooks to you?</li>\n<li>where have you used them?</li>\n<li>where do you wish you could use them?</li>\n</ol>\n"}}
+        {'data': {'text/html': "<h2 id="what-are-notebooks-to-y-all"><a href="#what-are-notebooks-to-y-all">what are notebooks to y'all?</a></h2>\n<p><time></time>10 min</p>\n<ol>\n<li>what are notebooks to you?</li>\n<li>where have you used them?</li>\n<li>where do you wish you could use them?</li>\n</ol>\n"}}
         </code></pre>
         </form>
        </dialog>
@@ -1971,13 +1974,9 @@ the path to accessible notebooks is paved in technical debt.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="what-are-notebooks-to-y-all">
-        <a aria-labelledby="what-are-notebooks-to-y-all" class="pilcrow" href="#what-are-notebooks-to-y-all">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#what-are-notebooks-to-y-all">
          what are notebooks to y'all?
-        </span>
+        </a>
        </h2>
        <p>
         <time>
@@ -2065,7 +2064,7 @@ the path to accessible notebooks is paved in technical debt.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="notebooks-accessibility-and-ada"><a aria-labelledby="notebooks-accessibility-and-ada" class="pilcrow" href="#notebooks-accessibility-and-ada"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">notebooks, accessibility, and ada</span></h2>\n<p><a href="#timeline">skip to timeline</a></p>\n'}}
+        {'data': {'text/html': '<h2 id="notebooks-accessibility-and-ada"><a href="#notebooks-accessibility-and-ada">notebooks, accessibility, and ada</a></h2>\n<p><a href="#timeline">skip to timeline</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2075,13 +2074,9 @@ the path to accessible notebooks is paved in technical debt.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="notebooks-accessibility-and-ada">
-        <a aria-labelledby="notebooks-accessibility-and-ada" class="pilcrow" href="#notebooks-accessibility-and-ada">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#notebooks-accessibility-and-ada">
          notebooks, accessibility, and ada
-        </span>
+        </a>
        </h2>
        <p>
         <a href="#timeline">
@@ -2158,7 +2153,7 @@ the path to accessible notebooks is paved in technical debt.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="example-notebook-audit"><a aria-labelledby="example-notebook-audit" class="pilcrow" href="#example-notebook-audit"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">example notebook audit</span></h2>\n<p><a href="#auditting">skip to section</a></p>\n'}}
+        {'data': {'text/html': '<h2 id="example-notebook-audit"><a href="#example-notebook-audit">example notebook audit</a></h2>\n<p><a href="#auditting">skip to section</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2168,13 +2163,9 @@ the path to accessible notebooks is paved in technical debt.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="example-notebook-audit">
-        <a aria-labelledby="example-notebook-audit" class="pilcrow" href="#example-notebook-audit">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#example-notebook-audit">
          example notebook audit
-        </span>
+        </a>
        </h2>
        <p>
         <a href="#auditting">
@@ -2275,7 +2266,7 @@ Example notebooks - still need fill in the names
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="hands-on-accessibility-auditting-notebooks"><a aria-labelledby="hands-on-accessibility-auditting-notebooks" class="pilcrow" href="#hands-on-accessibility-auditting-notebooks"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">hands on accessibility - auditting notebooks</span></h2>\n<p>take your time exploring accessibility tools on your mobile or desktop device.\nthe goal is to focus on accessibility related aspects of web content,\nyou\'ll learn to about assistive technology and web accessibility terminology.</p>\n<ul>\n<li>mobile users do not have access to most of these developers tools. they should practice manually auditting their content with different accessibility settings (eg color filters, magnification, large text, voice control)</li>\n<li>desktop users can choose manually test content with accessibility settings, use developer tools/bookmarklets to analyze their document, or install different tools to experience them. chrome has the most accessibility developer tools, but we need to test all the browsers.</li>\n</ul>\n<p>Example notebooks - still need fill in the names</p>\n<ul>\n<li><a href="https://github.com/mmattb/coproc-poc/grasp-coproc.ipynb">https://github.com/mmattb/coproc-poc/grasp-coproc.ipynb</a></li>\n<li><a href="https://github.com/makeabilitylab/accessibility-literature-survey/src/Study2_QuantitativeAnalysis.ipynb">https://github.com/makeabilitylab/accessibility-literature-survey/src/Study2_QuantitativeAnalysis.ipynb</a></li>\n<li><a href="https://www.zoesteinehanson.com/Exploring%20Brain%20Activity%20During%20Movement.html">https://www.zoesteinehanson.com/Exploring%20Brain%20Activity%20During%20Movement.html</a></li>\n<li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/03.01-introducing-pandas-objects.html">https://jakevdp.github.io/PythonDataScienceHandbook/03.01-introducing-pandas-objects.html</a></li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="hands-on-accessibility-auditting-notebooks"><a href="#hands-on-accessibility-auditting-notebooks">hands on accessibility - auditting notebooks</a></h2>\n<p>take your time exploring accessibility tools on your mobile or desktop device.\nthe goal is to focus on accessibility related aspects of web content,\nyou\'ll learn to about assistive technology and web accessibility terminology.</p>\n<ul>\n<li>mobile users do not have access to most of these developers tools. they should practice manually auditting their content with different accessibility settings (eg color filters, magnification, large text, voice control)</li>\n<li>desktop users can choose manually test content with accessibility settings, use developer tools/bookmarklets to analyze their document, or install different tools to experience them. chrome has the most accessibility developer tools, but we need to test all the browsers.</li>\n</ul>\n<p>Example notebooks - still need fill in the names</p>\n<ul>\n<li><a href="https://github.com/mmattb/coproc-poc/grasp-coproc.ipynb">https://github.com/mmattb/coproc-poc/grasp-coproc.ipynb</a></li>\n<li><a href="https://github.com/makeabilitylab/accessibility-literature-survey/src/Study2_QuantitativeAnalysis.ipynb">https://github.com/makeabilitylab/accessibility-literature-survey/src/Study2_QuantitativeAnalysis.ipynb</a></li>\n<li><a href="https://www.zoesteinehanson.com/Exploring%20Brain%20Activity%20During%20Movement.html">https://www.zoesteinehanson.com/Exploring%20Brain%20Activity%20During%20Movement.html</a></li>\n<li><a href="https://jakevdp.github.io/PythonDataScienceHandbook/03.01-introducing-pandas-objects.html">https://jakevdp.github.io/PythonDataScienceHandbook/03.01-introducing-pandas-objects.html</a></li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2285,13 +2276,9 @@ Example notebooks - still need fill in the names
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="hands-on-accessibility-auditting-notebooks">
-        <a aria-labelledby="hands-on-accessibility-auditting-notebooks" class="pilcrow" href="#hands-on-accessibility-auditting-notebooks">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#hands-on-accessibility-auditting-notebooks">
          hands on accessibility - auditting notebooks
-        </span>
+        </a>
        </h2>
        <p>
         take your time exploring accessibility tools on your mobile or desktop device.
@@ -2421,7 +2408,7 @@ where applicable, build the accessibility floor by using these in ci.
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h3 id="auditting-accessibility"><a aria-labelledby="auditting-accessibility" class="pilcrow" href="#auditting-accessibility"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">auditting accessibility</span></h3>\n<p>where applicable, build the accessibility floor by using these in ci.</p>\n<details>\n<summary>list of more accessibility tools </summary>\n</details>\n<ul>\n<li><a href="https://github.com/dequelabs/axe-core">Deque Labs Axe</a></li>\n<li><a href="https://github.com/IBMa/equal-access/tree/master">IBM Equal Access</a></li>\n<li><a href="https://wave.webaim.org/extension/">WAVE accessibility evaluator</a></li>\n<li><a href="https://validator.w3.org/">W3C markup validator</a></li>\n</ul>\n\n\n'}}
+        {'slideshow': {'slide_type': 'slide'}, 'tags': [], 'data': {'text/html': '<h3 id="auditting-accessibility"><a href="#auditting-accessibility">auditting accessibility</a></h3>\n<p>where applicable, build the accessibility floor by using these in ci.</p>\n<details>\n<summary>list of more accessibility tools </summary>\n</details>\n<ul>\n<li><a href="https://github.com/dequelabs/axe-core">Deque Labs Axe</a></li>\n<li><a href="https://github.com/IBMa/equal-access/tree/master">IBM Equal Access</a></li>\n<li><a href="https://wave.webaim.org/extension/">WAVE accessibility evaluator</a></li>\n<li><a href="https://validator.w3.org/">W3C markup validator</a></li>\n</ul>\n\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2431,13 +2418,9 @@ where applicable, build the accessibility floor by using these in ci.
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="auditting-accessibility">
-        <a aria-labelledby="auditting-accessibility" class="pilcrow" href="#auditting-accessibility">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#auditting-accessibility">
          auditting accessibility
-        </span>
+        </a>
        </h3>
        <p>
         where applicable, build the accessibility floor by using these in ci.
@@ -2545,7 +2528,7 @@ where applicable, build the accessibility floor by using these in ci.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="hands-work-workshop-reflections-and-findings"><a aria-labelledby="hands-work-workshop-reflections-and-findings" class="pilcrow" href="#hands-work-workshop-reflections-and-findings"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">hands work workshop reflections and findings</span></h2>\n<ul>\n<li>what topics did you discuss the most?</li>\n<li>what suprised you?</li>\n<li>did you learn anything new?</li>\n<li>are there things you now want to learn more about?</li>\n</ul>\n'}}
+        {'data': {'text/html': '<h2 id="hands-work-workshop-reflections-and-findings"><a href="#hands-work-workshop-reflections-and-findings">hands work workshop reflections and findings</a></h2>\n<ul>\n<li>what topics did you discuss the most?</li>\n<li>what suprised you?</li>\n<li>did you learn anything new?</li>\n<li>are there things you now want to learn more about?</li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2555,13 +2538,9 @@ where applicable, build the accessibility floor by using these in ci.
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="hands-work-workshop-reflections-and-findings">
-        <a aria-labelledby="hands-work-workshop-reflections-and-findings" class="pilcrow" href="#hands-work-workshop-reflections-and-findings">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#hands-work-workshop-reflections-and-findings">
          hands work workshop reflections and findings
-        </span>
+        </a>
        </h2>
        <ul>
         <li>
@@ -2647,7 +2626,7 @@ a presentation by [<span class="nt">venkatesh potluri</span>](<span class="na">h
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="notebook-inaccessibility-in-the-wild"><a aria-labelledby="notebook-inaccessibility-in-the-wild" class="pilcrow" href="#notebook-inaccessibility-in-the-wild"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">notebook inaccessibility in the wild</span></h2>\n<p>a presentation by <a href="https://venkateshpotluri.me/">venkatesh potluri</a></p>\n'}}
+        {'data': {'text/html': '<h2 id="notebook-inaccessibility-in-the-wild"><a href="#notebook-inaccessibility-in-the-wild">notebook inaccessibility in the wild</a></h2>\n<p>a presentation by <a href="https://venkateshpotluri.me/">venkatesh potluri</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2657,13 +2636,9 @@ a presentation by [<span class="nt">venkatesh potluri</span>](<span class="na">h
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="notebook-inaccessibility-in-the-wild">
-        <a aria-labelledby="notebook-inaccessibility-in-the-wild" class="pilcrow" href="#notebook-inaccessibility-in-the-wild">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#notebook-inaccessibility-in-the-wild">
          notebook inaccessibility in the wild
-        </span>
+        </a>
        </h2>
        <p>
         a presentation by
@@ -2745,7 +2720,7 @@ what makes this page accessible? a demo by [<span class="nt">tonyfast</span>](<s
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="notebook-accessibility-and-accessible-authoring"><a aria-labelledby="notebook-accessibility-and-accessible-authoring" class="pilcrow" href="#notebook-accessibility-and-accessible-authoring"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">notebook accessibility and accessible authoring</span></h2>\n<p>what makes this page accessible? a demo by <a href="https://github.com/tonyfast">tonyfast</a></p>\n<p><a href="#recs">skip to accessible authoring recommendations</a></p>\n'}}
+        {'data': {'text/html': '<h2 id="notebook-accessibility-and-accessible-authoring"><a href="#notebook-accessibility-and-accessible-authoring">notebook accessibility and accessible authoring</a></h2>\n<p>what makes this page accessible? a demo by <a href="https://github.com/tonyfast">tonyfast</a></p>\n<p><a href="#recs">skip to accessible authoring recommendations</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2755,13 +2730,9 @@ what makes this page accessible? a demo by [<span class="nt">tonyfast</span>](<s
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="notebook-accessibility-and-accessible-authoring">
-        <a aria-labelledby="notebook-accessibility-and-accessible-authoring" class="pilcrow" href="#notebook-accessibility-and-accessible-authoring">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#notebook-accessibility-and-accessible-authoring">
          notebook accessibility and accessible authoring
-        </span>
+        </a>
        </h2>
        <p>
         what makes this page accessible? a demo by
@@ -2840,7 +2811,7 @@ what makes this page accessible? a demo by [<span class="nt">tonyfast</span>](<s
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="slides-for-notebooks-accessibility-ada"><a aria-labelledby="slides-for-notebooks-accessibility-ada" class="pilcrow" href="#slides-for-notebooks-accessibility-ada"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">slides for notebooks, accessibility, ada</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="slides-for-notebooks-accessibility-ada"><a href="#slides-for-notebooks-accessibility-ada">slides for notebooks, accessibility, ada</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -2850,13 +2821,9 @@ what makes this page accessible? a demo by [<span class="nt">tonyfast</span>](<s
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="slides-for-notebooks-accessibility-ada">
-        <a aria-labelledby="slides-for-notebooks-accessibility-ada" class="pilcrow" href="#slides-for-notebooks-accessibility-ada">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#slides-for-notebooks-accessibility-ada">
          slides for notebooks, accessibility, ada
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -3281,7 +3248,7 @@ let's practice.
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="web-content-accessibility-guidelines-principles"><a aria-labelledby="web-content-accessibility-guidelines-principles" class="pilcrow" href="#web-content-accessibility-guidelines-principles"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">web content accessibility guidelines principles</span></h3>\n<p>let all practice sounding like digital accessibility experts</p>\n<p>when you see WCAG you should hear WUH-CAG.</p>\n<p>let\'s practice.</p>\n<dl aria-label="aria principles">\n<dt>Perceivable</dt><dd>Information and user interface components must be presentable to users in ways they can perceive.</dd>\n<dt>Operable</dt><dd>User interface components and navigation must be operable.</dd>\n<dt>Understandable</dt><dd>Information and the operation of user interface must be understandable.</dd>\n<dt>Robust</dt><dd>Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.</dd>\n</dl>\n\n'}}
+        {'data': {'text/html': '<h3 id="web-content-accessibility-guidelines-principles"><a href="#web-content-accessibility-guidelines-principles">web content accessibility guidelines principles</a></h3>\n<p>let all practice sounding like digital accessibility experts</p>\n<p>when you see WCAG you should hear WUH-CAG.</p>\n<p>let\'s practice.</p>\n<dl aria-label="aria principles">\n<dt>Perceivable</dt><dd>Information and user interface components must be presentable to users in ways they can perceive.</dd>\n<dt>Operable</dt><dd>User interface components and navigation must be operable.</dd>\n<dt>Understandable</dt><dd>Information and the operation of user interface must be understandable.</dd>\n<dt>Robust</dt><dd>Content must be robust enough that it can be interpreted reliably by a wide variety of user agents, including assistive technologies.</dd>\n</dl>\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3291,13 +3258,9 @@ let's practice.
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="web-content-accessibility-guidelines-principles">
-        <a aria-labelledby="web-content-accessibility-guidelines-principles" class="pilcrow" href="#web-content-accessibility-guidelines-principles">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#web-content-accessibility-guidelines-principles">
          web content accessibility guidelines principles
-        </span>
+        </a>
        </h3>
        <p>
         let all practice sounding like digital accessibility experts
@@ -3603,7 +3566,7 @@ summarized guidelines on the [<span class="nt">wcag wikipedia</span>](<span clas
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="example-notebook-audit"><a aria-labelledby="example-notebook-audit" class="pilcrow" href="#example-notebook-audit"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">example notebook audit</span></h3>\n<ol>\n<li>let us hear about lived experiences first.</li>\n<li>connect lived experience with accessibility tooling.<ol>\n<li>developer tools<ul>\n<li>accessibility tree</li>\n</ul>\n</li>\n<li>lighthouse</li>\n<li>axe</li>\n<li><a href="https://accessibility-bookmarklets.org/install.html">accessibility bookmarklets</a></li>\n<li>screen reader/magnifier</li>\n</ol>\n</li>\n</ol>\n<blockquote>\n<p>With <a href="https://github.com/dequelabs/axe-core">axe-core</a>, you can find on average 57% of WCAG issues automatically. Additionally, axe-core will return elements as "incomplete" where axe-core could not be certain, and manual review is needed.</p>\n</blockquote>\n<p><a href="https://adrianroselli.com/2023/01/comparing-manual-and-free-automated-wcag-reviews.html">adrian roselli provides an in depth comparison of manual and free automated wcag tools</a></p>\n'}}
+        {'data': {'text/html': '<h3 id="example-notebook-audit"><a href="#example-notebook-audit">example notebook audit</a></h3>\n<ol>\n<li>let us hear about lived experiences first.</li>\n<li>connect lived experience with accessibility tooling.<ol>\n<li>developer tools<ul>\n<li>accessibility tree</li>\n</ul>\n</li>\n<li>lighthouse</li>\n<li>axe</li>\n<li><a href="https://accessibility-bookmarklets.org/install.html">accessibility bookmarklets</a></li>\n<li>screen reader/magnifier</li>\n</ol>\n</li>\n</ol>\n<blockquote>\n<p>With <a href="https://github.com/dequelabs/axe-core">axe-core</a>, you can find on average 57% of WCAG issues automatically. Additionally, axe-core will return elements as "incomplete" where axe-core could not be certain, and manual review is needed.</p>\n</blockquote>\n<p><a href="https://adrianroselli.com/2023/01/comparing-manual-and-free-automated-wcag-reviews.html">adrian roselli provides an in depth comparison of manual and free automated wcag tools</a></p>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3613,14 +3576,10 @@ summarized guidelines on the [<span class="nt">wcag wikipedia</span>](<span clas
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="example-notebook-audit">
-        <a aria-labelledby="example-notebook-audit" class="pilcrow" href="#example-notebook-audit">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#example-notebook-audit">
          example notebook
          audit
-        </span>
+        </a>
        </h3>
        <ol>
         <li>
@@ -3734,7 +3693,7 @@ summarized guidelines on the [<span class="nt">wcag wikipedia</span>](<span clas
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="accessibile-notebook-authoring"><a aria-labelledby="accessibile-notebook-authoring" class="pilcrow" href="#accessibile-notebook-authoring"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">accessibile notebook authoring</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="accessibile-notebook-authoring"><a href="#accessibile-notebook-authoring">accessibile notebook authoring</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3744,13 +3703,9 @@ summarized guidelines on the [<span class="nt">wcag wikipedia</span>](<span clas
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="accessibile-notebook-authoring">
-        <a aria-labelledby="accessibile-notebook-authoring" class="pilcrow" href="#accessibile-notebook-authoring">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#accessibile-notebook-authoring">
          accessibile notebook authoring
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -3844,7 +3799,7 @@ expands POUR principles with...
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h3 id="n"><a aria-labelledby="n" class="pilcrow" href="#n"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">\n</span></h3>\n<p><a href="https://github.com/Chartability/POUR-CAF">chartability is a set of heuristics for ensuring that data visualizations, systems, and interfaces are accessible.</a></p>\n\n\n<p>expands POUR principles with...</p>\n<dl aria-label="extended chartability principles">\n<dt>Compromising</dt><dd>(Understandable, yet Robust): Information flows must provide transparency, tolerance, and consideration for different ways that users with assistive technologies and disabilities will prefer to consume different information.</dd>\n<dt>Assistive</dt><dd>(Understandable and Perceivable but labor-reducing): Interface must be intelligent and multi-sensory in a way that reduces the cognitive and functional labor required for use.</dd>\n<dt>Flexible</dt><dd>(Perceivable and Operable, yet Robust): Design must respect user settings from user agents (browsers, operating systems, applications) and provide presentation and operation control.\n</dd>\n</dl>\n\n'}}
+        {'data': {'text/html': '<h3 id="n"><a href="#n">\n</a></h3>\n<p><a href="https://github.com/Chartability/POUR-CAF">chartability is a set of heuristics for ensuring that data visualizations, systems, and interfaces are accessible.</a></p>\n\n\n<p>expands POUR principles with...</p>\n<dl aria-label="extended chartability principles">\n<dt>Compromising</dt><dd>(Understandable, yet Robust): Information flows must provide transparency, tolerance, and consideration for different ways that users with assistive technologies and disabilities will prefer to consume different information.</dd>\n<dt>Assistive</dt><dd>(Understandable and Perceivable but labor-reducing): Interface must be intelligent and multi-sensory in a way that reduces the cognitive and functional labor required for use.</dd>\n<dt>Flexible</dt><dd>(Perceivable and Operable, yet Robust): Design must respect user settings from user agents (browsers, operating systems, applications) and provide presentation and operation control.\n</dd>\n</dl>\n\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -3854,12 +3809,8 @@ expands POUR principles with...
       </td>
       <td class="nb-outputs" role="none">
        <h3 id>
-        <a aria-labelledby class="pilcrow" href="#">
-         <span class="pilcrow" data-level="3">
-         </span>
+        <a href="#">
         </a>
-        <span aria-hidden="True">
-        </span>
        </h3>
        <p>
         <a href="https://github.com/Chartability/POUR-CAF">
@@ -3998,34 +3949,22 @@ IPython.display.Markdown(heading + body)</textarea>
          </span>
         </legend>
         <h2 id="authoring-tips-draft">
-         <a aria-labelledby="authoring-tips-draft" class="pilcrow" href="#authoring-tips-draft">
-          <span class="pilcrow" data-level="2">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#authoring-tips-draft">
           Authoring Tips (Draft)
-         </span>
+         </a>
         </h2>
         <h3 id="use-well-formatted-markdown">
-         <a aria-labelledby="use-well-formatted-markdown" class="pilcrow" href="#use-well-formatted-markdown">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#use-well-formatted-markdown">
           Use well-formatted Markdown
-         </span>
+         </a>
         </h3>
         <p>
          Use content headings. There is only one H1. Do not skip heading levels.
         </p>
         <h3 id="all-text-in-the-document-needs-to-appear-as-plain-text">
-         <a aria-labelledby="all-text-in-the-document-needs-to-appear-as-plain-text" class="pilcrow" href="#all-text-in-the-document-needs-to-appear-as-plain-text">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#all-text-in-the-document-needs-to-appear-as-plain-text">
           All text in the document needs to appear as plain text
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4036,13 +3975,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="visualization-accessibility">
-         <a aria-labelledby="visualization-accessibility" class="pilcrow" href="#visualization-accessibility">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#visualization-accessibility">
           Visualization Accessibility
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4065,13 +4000,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="descriptive-text-for-visual-areas">
-         <a aria-labelledby="descriptive-text-for-visual-areas" class="pilcrow" href="#descriptive-text-for-visual-areas">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#descriptive-text-for-visual-areas">
           Descriptive text for visual areas
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4115,13 +4046,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="organization">
-         <a aria-labelledby="organization" class="pilcrow" href="#organization">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#organization">
           Organization
-         </span>
+         </a>
         </h3>
         <p>
          To help people orient themselves in the notebook and understand what to expect, give some context at the beginning. We recommend:
@@ -4147,13 +4074,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="color-contrast">
-         <a aria-labelledby="color-contrast" class="pilcrow" href="#color-contrast">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#color-contrast">
           Color contrast
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4164,13 +4087,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="use-plain-language">
-         <a aria-labelledby="use-plain-language" class="pilcrow" href="#use-plain-language">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#use-plain-language">
           Use &ldquo;plain language&rdquo;
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4184,13 +4103,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="use-descriptive-link-names">
-         <a aria-labelledby="use-descriptive-link-names" class="pilcrow" href="#use-descriptive-link-names">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#use-descriptive-link-names">
           Use descriptive link names!
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4201,13 +4116,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="lead-into-your-code-cells-where-relevant">
-         <a aria-labelledby="lead-into-your-code-cells-where-relevant" class="pilcrow" href="#lead-into-your-code-cells-where-relevant">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#lead-into-your-code-cells-where-relevant">
           Lead into your code cells (where relevant)
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4221,13 +4132,9 @@ IPython.display.Markdown(heading + body)</textarea>
          </li>
         </ul>
         <h3 id="comment-on-your-code-where-relevant">
-         <a aria-labelledby="comment-on-your-code-where-relevant" class="pilcrow" href="#comment-on-your-code-where-relevant">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#comment-on-your-code-where-relevant">
           Comment on your code (where relevant)
-         </span>
+         </a>
         </h3>
         <ul>
          <li>
@@ -4317,7 +4224,7 @@ IPython.display.Markdown(heading + body)</textarea>
           Close
          </button>
          <pre><code>
-        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3 id="other-useful-authoring-resources"><a aria-labelledby="other-useful-authoring-resources" class="pilcrow" href="#other-useful-authoring-resources"><span class="pilcrow" data-level="3"></span></a><span aria-hidden="True">other useful authoring resources</span></h3>\n<ul>\n<li><a href="https://chartability.fizz.studio/https://chartability.fizz.studio/">chartability</a></li>\n<li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/">wai patterns</a></li>\n<li><a href="http://diagramcenter.org/general-guidelines-final-draft.html">diagram center general guidelines</a></li>\n<li>Frameworks? <a href="https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/">Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm </a></li>\n<li><a href="https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization">Do No Harm Guide: Applying Equity Awareness in Data Visualization</a></li>\n<li><a href="https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments">accessible pygments themes for code</a></li>\n<li><a href="gameaccessibilityguidelines.com/">game accessibility guidelines</a></li>\n</ul>\n'}}
+        {'slideshow': {'slide_type': 'subslide'}, 'tags': [], 'data': {'text/html': '<h3 id="other-useful-authoring-resources"><a href="#other-useful-authoring-resources">other useful authoring resources</a></h3>\n<ul>\n<li><a href="https://chartability.fizz.studio/https://chartability.fizz.studio/">chartability</a></li>\n<li><a href="https://www.w3.org/WAI/ARIA/apg/patterns/https://www.w3.org/WAI/ARIA/apg/patterns/">wai patterns</a></li>\n<li><a href="http://diagramcenter.org/general-guidelines-final-draft.html">diagram center general guidelines</a></li>\n<li>Frameworks? <a href="https://ericwbailey.website/published/modern-health-frameworks-performance-and-harm/">Modern Health, frameworks, performance, and harm Modern Health, frameworks, performance, and harm </a></li>\n<li><a href="https://www.urban.org/research/publication/do-no-harm-guide-applying-equity-awareness-data-visualization">Do No Harm Guide: Applying Equity Awareness in Data Visualization</a></li>\n<li><a href="https://github.com/Quansight-Labs/accessible-pygmentshttps://github.com/Quansight-Labs/accessible-pygments">accessible pygments themes for code</a></li>\n<li><a href="gameaccessibilityguidelines.com/">game accessibility guidelines</a></li>\n</ul>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4327,13 +4234,9 @@ IPython.display.Markdown(heading + body)</textarea>
       </td>
       <td class="nb-outputs" role="none">
        <h3 id="other-useful-authoring-resources">
-        <a aria-labelledby="other-useful-authoring-resources" class="pilcrow" href="#other-useful-authoring-resources">
-         <span class="pilcrow" data-level="3">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#other-useful-authoring-resources">
          other useful authoring resources
-        </span>
+        </a>
        </h3>
        <ul>
         <li>
@@ -4439,7 +4342,7 @@ IPython.display.Markdown(heading + body)</textarea>
           Close
          </button>
          <pre><code>
-        {'data': {'text/html': '<h2 id="extra-links"><a aria-labelledby="extra-links" class="pilcrow" href="#extra-links"><span class="pilcrow" data-level="2"></span></a><span aria-hidden="True">extra links</span></h2>\n'}}
+        {'data': {'text/html': '<h2 id="extra-links"><a href="#extra-links">extra links</a></h2>\n'}}
         </code></pre>
         </form>
        </dialog>
@@ -4449,13 +4352,9 @@ IPython.display.Markdown(heading + body)</textarea>
       </td>
       <td class="nb-outputs" role="none">
        <h2 id="extra-links">
-        <a aria-labelledby="extra-links" class="pilcrow" href="#extra-links">
-         <span class="pilcrow" data-level="2">
-         </span>
-        </a>
-        <span aria-hidden="True">
+        <a href="#extra-links">
          extra links
-        </span>
+        </a>
        </h2>
       </td>
      </tr>
@@ -4566,15 +4465,11 @@ This is a cluster of young stars &ndash; about one to two million years old &nda
          </span>
         </legend>
         <h3 id="data-sonification-westerlund-2">
-         <a aria-labelledby="data-sonification-westerlund-2" class="pilcrow" href="#data-sonification-westerlund-2">
-          <span class="pilcrow" data-level="3">
-          </span>
-         </a>
-         <span aria-hidden="True">
+         <a href="#data-sonification-westerlund-2">
           <a href="https://science.nasa.gov/mission/hubble/multimedia/sonifications/">
            data sonification - westerlund 2
           </a>
-         </span>
+         </a>
         </h3>
         <blockquote>
          This is a cluster of young stars &ndash; about one to two million years old &ndash; located about 20,000 light-years from Earth. In its visual image form, data from Hubble (green and blue) reveals thick clouds where stars are forming, while X-rays seen by Chandra (purple) penetrate through that haze. In the sonified version of this data, sounds sweep from left to right across the field of view with brighter light producing louder sound. The pitch of the notes indicates the vertical position of the sources in the image with the higher pitches towards the top of the image. The Hubble data is played by strings, either plucked for individual stars or bowed for diffuse clouds. Chandra&rsquo;s X-ray data is represented by bells, and the more diffuse X-ray light is played by more sustained tones.
@@ -5557,22 +5452,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -5585,9 +5465,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -5611,10 +5490,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -5626,51 +5501,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -5709,24 +5539,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -5756,6 +5569,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

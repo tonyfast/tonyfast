@@ -77,7 +77,7 @@
     }
 
     .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
-        display: inline-block;
+        float: left;
         width: unset;
     }
 
@@ -241,7 +241,7 @@
     @layer reversed {
 
         ol[reversed]#cells,
-        .notebook-cells[aria-sort="descending"] .cells {
+        .notebook-cells[data-sort="descending"] .cells {
             display: flex;
             flex-direction: column-reverse;
         }
@@ -752,20 +752,22 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </dialog>
   </header>
   <main>
-   <fieldset form="settings">
-    <legend>
-     cell ordering
-    </legend>
-    <input id="sort-asc" name="sorted" type="radio" value="ascending">
-    <label for="sort-asc">
-     ascending
-    </label>
-    <input id="sort-desc" name="sorted" type="radio" value="descending">
-    <label for="sort-desc">
-     descending
-    </label>
-   </fieldset>
-   <table aria-setsize="1" aria-sort="ascending" class="notebook-cells" id="cells" role="none">
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
     <colgroup>
      <col class="nb-index">
      <col class="nb-execution_count">
@@ -857,10 +859,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1">&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-12-20-interactive-html-validation.html"&gt;interactive w3c validation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-15-a11y-testing-dimensions.html"&gt;slicing and dicing accessibility violations with exception groups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-13-jupyter-community-call.html"&gt;It's the Community Call Y'all&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-08-vnu-validator-exceptions.html"&gt;generating higher resolution exceptions for the vnu validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-03-axe-rules-topology.html"&gt;axe testing codes as dataframes and exceptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-11-14-w3c-validator.html"&gt;running the w3c validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-24-semantically-meaningful-displays.html"&gt;semantically meaningful display outputs for notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-23-semantic-lits.html"&gt;semantically meaningful lists&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-10-semantic-code-blocks.html"&gt;accessibile semantics for python code&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-03-pandas-accessors.html"&gt;pandas accessors&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-07-17-accessible-string-representations.html"&gt;the string is a samp&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-26-dataframe-diagrams-figure-semantics.html"&gt;a semantic dataframe&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-21-v7-aom.html"&gt;jupyter notebook v7 remediations&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-pycascades-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-04-computational-notebooks-history.html"&gt;a sprint through history toward computional notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-28-community-demo.html"&gt;pidgy literate computing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-19-semantic.html"&gt;semantic notebook structure&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-lite-build.html"&gt;including development builds in jupyter lite&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-whoosh-search.html"&gt;use whoosh to search cells/articles on disk&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-system-dependency-graphs.html"&gt;extracting a dependency graph from importlib_metadata&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-18-voila-pidgy-integration.html"&gt;cleaner integration of pidgy &amp; voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-16-inspector-hack.html"&gt;customizing the IPython contextual help&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-14-links-in-markdown-tokens.html"&gt;where do all the good links go?&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-giscus-comments.html"&gt;adding giscus comments to this blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-tree-sitter.html"&gt;getting start with tree sitter&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-duckdb-search.html"&gt;full text search for notebooks and files using duckdb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-extensible-metadata.html"&gt;extensible metadata in the notebook format&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-10-rara-gtfo.html"&gt;restart and run all or it didn't happen&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-09-notebooks-states.html"&gt;three states of python in a notebook&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-07-pidgy-voila.html"&gt;running pidgy in voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-using-diagrams.html"&gt;diagrams in jupyter and mkdocs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-tfoot-dataframe.html"&gt;using tfoot in dataframes for more information&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-02-accessible-dataframes-basic-indexes.html"&gt;rendering dataframes for screen readers with pandas&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-01-strawberry-server.html"&gt;WIP: strawberry jupyter server&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;</textarea>
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1">&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-12-20-interactive-html-validation.html"&gt;interactive w3c validation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-15-a11y-testing-dimensions.html"&gt;slicing and dicing accessibility violations with exception groups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-13-jupyter-community-call.html"&gt;It's the Community Call Y'all&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-08-vnu-validator-exceptions.html"&gt;generating higher resolution exceptions for the vnu validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-03-axe-rules-topology.html"&gt;axe testing codes as dataframes and exceptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-11-14-w3c-validator.html"&gt;running the w3c validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-24-semantically-meaningful-displays.html"&gt;semantically meaningful display outputs for notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-23-semantic-lits.html"&gt;semantically meaningful lists&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-10-semantic-code-blocks.html"&gt;accessibile semantics for python code&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-03-pandas-accessors.html"&gt;pandas accessors&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-07-17-accessible-string-representations.html"&gt;the string is a samp&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-26-dataframe-diagrams-figure-semantics.html"&gt;a semantic dataframe&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-21-v7-aom.html"&gt;jupyter notebook v7 remediations&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-pycascades-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-04-computational-notebooks-history.html"&gt;a sprint through history toward computional notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-28-community-demo.html"&gt;pidgy literate computing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-19-semantic.html"&gt;semantic notebook structure&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-whoosh-search.html"&gt;use whoosh to search cells/articles on disk&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-lite-build.html"&gt;including development builds in jupyter lite&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-system-dependency-graphs.html"&gt;extracting a dependency graph from importlib_metadata&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-18-voila-pidgy-integration.html"&gt;cleaner integration of pidgy &amp; voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-16-inspector-hack.html"&gt;customizing the IPython contextual help&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-14-links-in-markdown-tokens.html"&gt;where do all the good links go?&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-giscus-comments.html"&gt;adding giscus comments to this blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-tree-sitter.html"&gt;getting start with tree sitter&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-extensible-metadata.html"&gt;extensible metadata in the notebook format&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-duckdb-search.html"&gt;full text search for notebooks and files using duckdb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-10-rara-gtfo.html"&gt;restart and run all or it didn't happen&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-09-notebooks-states.html"&gt;three states of python in a notebook&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-07-pidgy-voila.html"&gt;running pidgy in voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-using-diagrams.html"&gt;diagrams in jupyter and mkdocs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-tfoot-dataframe.html"&gt;using tfoot in dataframes for more information&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-02-accessible-dataframes-basic-indexes.html"&gt;rendering dataframes for screen readers with pandas&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-01-strawberry-server.html"&gt;WIP: strawberry jupyter server&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;</textarea>
        <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-12-20-interactive-html-validation.html"&gt;interactive w3c validation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-15-a11y-testing-dimensions.html"&gt;slicing and dicing accessibility violations with exception groups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-13-jupyter-community-call.html"&gt;It's the Community Call Y'all&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-08-vnu-validator-exceptions.html"&gt;generating higher resolution exceptions for the vnu validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-03-axe-rules-topology.html"&gt;axe testing codes as dataframes and exceptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-11-14-w3c-validator.html"&gt;running the w3c validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-24-semantically-meaningful-displays.html"&gt;semantically meaningful display outputs for notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-23-semantic-lits.html"&gt;semantically meaningful lists&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-10-semantic-code-blocks.html"&gt;accessibile semantics for python code&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-03-pandas-accessors.html"&gt;pandas accessors&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-07-17-accessible-string-representations.html"&gt;the string is a samp&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-26-dataframe-diagrams-figure-semantics.html"&gt;a semantic dataframe&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-21-v7-aom.html"&gt;jupyter notebook v7 remediations&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-pycascades-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-04-computational-notebooks-history.html"&gt;a sprint through history toward computional notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-28-community-demo.html"&gt;pidgy literate computing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-19-semantic.html"&gt;semantic notebook structure&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-lite-build.html"&gt;including development builds in jupyter lite&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-whoosh-search.html"&gt;use whoosh to search cells/articles on disk&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-system-dependency-graphs.html"&gt;extracting a dependency graph from importlib_metadata&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-18-voila-pidgy-integration.html"&gt;cleaner integration of pidgy &amp; voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-16-inspector-hack.html"&gt;customizing the IPython contextual help&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-14-links-in-markdown-tokens.html"&gt;where do all the good links go?&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-giscus-comments.html"&gt;adding giscus comments to this blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-tree-sitter.html"&gt;getting start with tree sitter&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-duckdb-search.html"&gt;full text search for notebooks and files using duckdb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-extensible-metadata.html"&gt;extensible metadata in the notebook format&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-10-rara-gtfo.html"&gt;restart and run all or it didn't happen&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-09-notebooks-states.html"&gt;three states of python in a notebook&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-07-pidgy-voila.html"&gt;running pidgy in voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-using-diagrams.html"&gt;diagrams in jupyter and mkdocs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-tfoot-dataframe.html"&gt;using tfoot in dataframes for more information&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-02-accessible-dataframes-basic-indexes.html"&gt;rendering dataframes for screen readers with pandas&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-01-strawberry-server.html"&gt;WIP: strawberry jupyter server&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;
+         <pre><span></span><code>&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-12-20-interactive-html-validation.html"&gt;interactive w3c validation&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-15-a11y-testing-dimensions.html"&gt;slicing and dicing accessibility violations with exception groups&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-13-jupyter-community-call.html"&gt;It's the Community Call Y'all&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-08-vnu-validator-exceptions.html"&gt;generating higher resolution exceptions for the vnu validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-12-03-axe-rules-topology.html"&gt;axe testing codes as dataframes and exceptions&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-11-14-w3c-validator.html"&gt;running the w3c validator&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-24-semantically-meaningful-displays.html"&gt;semantically meaningful display outputs for notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-23-semantic-lits.html"&gt;semantically meaningful lists&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-10-semantic-code-blocks.html"&gt;accessibile semantics for python code&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-08-03-pandas-accessors.html"&gt;pandas accessors&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-07-17-accessible-string-representations.html"&gt;the string is a samp&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-26-dataframe-diagrams-figure-semantics.html"&gt;a semantic dataframe&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-06-21-v7-aom.html"&gt;jupyter notebook v7 remediations&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-18-pycascades-ally-talk.html"&gt;A Crash Course in Digital Accessibility&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-03-04-computational-notebooks-history.html"&gt;a sprint through history toward computional notebooks&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-28-community-demo.html"&gt;pidgy literate computing&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-02-19-semantic.html"&gt;semantic notebook structure&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-whoosh-search.html"&gt;use whoosh to search cells/articles on disk&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-lite-build.html"&gt;including development builds in jupyter lite&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-24-system-dependency-graphs.html"&gt;extracting a dependency graph from importlib_metadata&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-18-voila-pidgy-integration.html"&gt;cleaner integration of pidgy &amp; voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-16-inspector-hack.html"&gt;customizing the IPython contextual help&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-14-links-in-markdown-tokens.html"&gt;where do all the good links go?&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-giscus-comments.html"&gt;adding giscus comments to this blog&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-12-tree-sitter.html"&gt;getting start with tree sitter&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-extensible-metadata.html"&gt;extensible metadata in the notebook format&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-11-duckdb-search.html"&gt;full text search for notebooks and files using duckdb&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-10-rara-gtfo.html"&gt;restart and run all or it didn't happen&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-09-notebooks-states.html"&gt;three states of python in a notebook&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-07-pidgy-voila.html"&gt;running pidgy in voila&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-using-diagrams.html"&gt;diagrams in jupyter and mkdocs&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-04-tfoot-dataframe.html"&gt;using tfoot in dataframes for more information&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-02-accessible-dataframes-basic-indexes.html"&gt;rendering dataframes for screen readers with pandas&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;a href="2023-01-01-strawberry-server.html"&gt;WIP: strawberry jupyter server&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;
 </code></pre>
         </div>
        </div>
@@ -952,12 +954,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
           </a>
          </li>
          <li>
-          <a href="2023-03-18-pycascades-ally-talk.html">
+          <a href="2023-03-18-ally-talk.html">
            A Crash Course in Digital Accessibility
           </a>
          </li>
          <li>
-          <a href="2023-03-18-ally-talk.html">
+          <a href="2023-03-18-pycascades-ally-talk.html">
            A Crash Course in Digital Accessibility
           </a>
          </li>
@@ -977,13 +979,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
           </a>
          </li>
          <li>
-          <a href="2023-01-24-lite-build.html">
-           including development builds in jupyter lite
+          <a href="2023-01-24-whoosh-search.html">
+           use whoosh to search cells/articles on disk
           </a>
          </li>
          <li>
-          <a href="2023-01-24-whoosh-search.html">
-           use whoosh to search cells/articles on disk
+          <a href="2023-01-24-lite-build.html">
+           including development builds in jupyter lite
           </a>
          </li>
          <li>
@@ -1017,13 +1019,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
           </a>
          </li>
          <li>
-          <a href="2023-01-11-duckdb-search.html">
-           full text search for notebooks and files using duckdb
+          <a href="2023-01-11-extensible-metadata.html">
+           extensible metadata in the notebook format
           </a>
          </li>
          <li>
-          <a href="2023-01-11-extensible-metadata.html">
-           extensible metadata in the notebook format
+          <a href="2023-01-11-duckdb-search.html">
+           full text search for notebooks and files using duckdb
           </a>
          </li>
          <li>
@@ -1946,22 +1948,7 @@ document.querySelectorAll("table[role=grid]").forEach(
         })
     }
 );
-document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
 
-document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
-document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
-    setStyle("change font size");
-});
-document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
-document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
-    activityLog("speech on")
-});
-document.forms.settings.elements.margin.addEventListener("change", (x) => {
-    setStyle("margin changed");
-});
-document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
-    setStyle("line height changed");
-});
 function setWCAG() {
     var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
     ["a", "aa", "aaa"].forEach(
@@ -1974,9 +1961,8 @@ function setWCAG() {
         }
     );
 }
-document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
 function toggleActive() {
-    if (document.forms.notebook.elements.edit.checked) {
+    if (document.forms.notebook.elements.edit?.checked) {
         document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
             x => x.removeAttribute("inert")
         );
@@ -2000,10 +1986,6 @@ function toggleActive() {
         activityLog("entering reading mode");
     }
 }
-
-
-document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
-
 function openDialogs() {
     let trigger = document.querySelector("#nb-dialogs > details");
     Array.from(
@@ -2015,51 +1997,6 @@ function openDialogs() {
     );
     event.target.focus();
 }
-
-document.forms.visibility['visually-hide'].addEventListener("change",
-    (x) => {
-        document.querySelector("main").classList.toggle("visually-hide");
-        activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
-    });
-
-document.forms.settings['horizontal-scrolling'].addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("horiz-overflow", event.target.checked);
-        if (!event.target.checked) {
-            document.querySelectorAll("textarea").forEach(
-                (x) => {
-                    x.style.width = "";
-                    x.style.height = "";
-                }
-            )
-        };
-        // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
-    });
-
-document.forms.settings.sticky.addEventListener("change",
-    (event) => {
-        BODY.classList.toggle("sticky", event.target.checked);
-        // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
-    });
-
-document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
-    document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
-});
-
-document.forms.settings.invert.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
-})
-document.forms.settings.grayscale.addEventListener("change", (event) => {
-    HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
-})
-
-document.querySelectorAll("input[name=sorted]").forEach(
-    (x) => {
-        x.addEventListener("change", (y) => {
-            x.checked ? document.querySelector(".notebook-cells").setAttribute("aria-sort", x.value) : null;
-        })
-    }
-)
 function fullScreen() {
     if (!document.fullscreenElement) {
         document.querySelector("main").requestFullscreen();
@@ -2098,24 +2035,7 @@ function setTextareaHeight(entry, reset = null) {
     }
 
 }
-let observer = new ResizeObserver(
-    (entries) => {
-        entries.forEach((entry) => {
-            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
-        });
-    }
-);
 
-document.querySelectorAll("textarea[name=source]").forEach(
-    (x) => {
-        observer.observe(x);
-        (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
-    }
-);
-
-if (!document.fullscreenEnabled) {
-    document.getElementById("nb-fullscreen").setAttribute("hidden", "");
-}
 
 setStyle("initialize saved settings.")
 // async function runSource(target) {
@@ -2145,6 +2065,96 @@ setStyle("initialize saved settings.")
 //         })
 //     }
 // );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
   </script>
  </body>
 </html>
