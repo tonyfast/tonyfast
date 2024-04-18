@@ -1,0 +1,4941 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   non-numerical dataframes
+  </title>
+  <meta content="dataframes will be challenging for folks with dyscalculia. the wai-adapt has started writing guidance for concepts like this, but dataframes are likely out of scope." name="description">
+  <meta content="light" name="color-scheme">
+  <link href="https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@3.0.5/dist/css/sa11y.min.css" rel="stylesheet">
+  <script type="module">
+   import { Sa11y, Lang } from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/sa11y.esm.js';
+    import Sa11yLangEn from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/lang/enUS.js';
+    Lang.addI18n(Sa11yLangEn.strings);
+
+    // Instantiate
+    export const sa11y = new Sa11y({
+        checkRoot: "body",
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   @layer api, defaults, layout, cells, cell, sa11y;
+
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
+
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
+
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        float: left;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
+}
+
+
+@layer sally {
+
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
+}
+
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[data-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
+}
+
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
+}
+
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
+}
+
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+  </style>
+  <style id="nb-light-highlight" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-highlight" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa sticky">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <br>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button id="nb-fullscreen" onclick="fullScreen()">
+    fullscreen
+   </button>
+   <p>
+    <a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank">
+     @tonyfast
+    </a>
+    s notebooks
+   </p>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="2024-04-17-visual-table-indicator.html">
+        non-numerical dataframes
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-15-llm-workflow.html">
+        integrating llms into my notebook worflows.
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-12-word-cloud.html">
+        word clouds are the wedding font of visualization
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-11-3d-html-table.html">
+        3d plots from html tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-08-table-plots.html">
+        html tables in figures
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-06-dl-dict.html">
+        definition lists as dictionaries
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-04-nbconvert-html-screen-reader.html">
+        screen reader improvements to nbconvert html exporter
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-03-markdown-lists-to-python.html">
+        turning markdown lists to python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-26-accessible-documentation-data.html">
+        assistive documentation data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-23-updating-ipython-config.html">
+        ipython profile updates
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-itables-stream.html">
+        screen reader experiences with static and interactive tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-documentation-as-data.html">
+        documentation as software and data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-20-exec-mast-nb.html">
+        executing the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-15-screen-tests.html">
+        revisiting nbviewer/nbconvert screen reader experiences
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-13-notebooks-for-all-march-call.html">
+        notebooks for all community summary
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-12-nbconvert-a11y-pres.html">
+        semantically meaningful notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-11-NOA.html">
+        Astronomy Notebooks for All
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-06-mast-revisit.html">
+        revisit building the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-04-semantic-outputs.html">
+        improved output semantic for python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-a11y-list-string.ipynb.html">
+        using microdata and semantic html to represent python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-notebook-accessibility-workshop.html">
+        notebooks and accessibility workshop
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-28-histograms-sucks.html">
+        histograms suck
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-multiindex-aria.html">
+        adding aria to long or wide tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-03-pandas-accessors.html">
+        pandas accessors
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-28-community-demo.html">
+        pidgy literate computing
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-18-voila-pidgy-integration.html">
+        cleaner integration of pidgy &amp; voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-16-inspector-hack.html">
+        customizing the IPython contextual help
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-07-pidgy-voila.html">
+        running pidgy in voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-tfoot-dataframe.html">
+        using tfoot in dataframes for more information
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+        rendering dataframes for screen readers with pandas
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        using typer in ipython magics
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        mkdocs plugin for jupyter notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        analyzing pyproject.toml configurations of popular projects
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        jupyterlite blog integration
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        rendering a notebook with pyscript
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        integrating typer into the blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        doit integration - a mkdocs example
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        exploring many pyproject.toml configs
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        formatting markdown it tokens as python doctests
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        making __main__ a __package__
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        unravel directories of notebooks with dask
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        inferring linked data from IPython run times.
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        what do we learn when we make colormaps from dataframes
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-lang nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       non-numerical dataframes
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       dataframes will be challenging for folks with dyscalculia. the wai-adapt has started writing guidance for concepts like this, but dataframes are likely out of scope.
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       4 total
+      </dd>
+      <dd id="nb-ct-code">
+       1 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       kernel
+      </dt>
+      <dd>
+       Python [conda env:p311] *
+      </dd>
+      <dd>
+       <dl>
+        <dt>
+         language
+        </dt>
+        <dd id="nb-lang">
+         python
+        </dd>
+        <dt>
+         name
+        </dt>
+        <dd>
+         <samp>
+          <kbd>
+           conda-env-p311-py
+          </kbd>
+         </samp>
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       75
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       1
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#None">
+         non-numerical dataframes
+        </a>
+       </li>
+      </ol>
+     </nav>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:p311] *", "language": "python", "name": "conda-env-p311-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.11.3"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "non-numerical dataframes", "description": "dataframes will be challenging for folks with dyscalculia. the wai-adapt has started writing guidance for concepts like this, but dataframes are likely out of scope."}
+    </form>
+   </dialog>
+  </header>
+  <main>
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
+    <colgroup>
+     <col class="nb-index">
+     <col class="nb-execution_count">
+     <col class="nb-cell_type">
+     <col class="nb-toolbar">
+     <col class="nb-started_at">
+     <col class="nb-completed_at">
+     <col class="nb-source">
+     <col class="nb-loc">
+     <col class="nb-metadata">
+     <col class="nb-outputs">
+    </colgroup>
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="7" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-1-executed">
+         unexecuted
+        </span>
+        <span id="cell-1-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-1-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-exec-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="7"># non-numerical dataframes
+
+dataframes will be challenging for folks with dyscalculia. the [wai-adapt](https://www.w3.org/TR/adapt/) has started writing guidance for concepts like this, but dataframes are likely out of scope.
+
+this notebook sketches an approach towards subtle visual identificaition of a table value in a distribution. before making this i realized that there is no way to explore a table of numbers with dyscalculia. i imagine i'll be thinking more about the visual, audible, and tactile aspects of numeric information.
+
+we'll want a systematic approach where we explore how the dimensions of line, tone/weight, and, lastly, color can present numerical concepts using visual gestalts.</textarea>
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># non-numerical dataframes</span>
+
+dataframes will be challenging for folks with dyscalculia. the [<span class="nt">wai-adapt</span>](<span class="na">https://www.w3.org/TR/adapt/</span>) has started writing guidance for concepts like this, but dataframes are likely out of scope.
+
+this notebook sketches an approach towards subtle visual identificaition of a table value in a distribution. before making this i realized that there is no way to explore a table of numbers with dyscalculia. i imagine i'll be thinking more about the visual, audible, and tactile aspects of numeric information.
+
+we'll want a systematic approach where we explore how the dimensions of line, tone/weight, and, lastly, color can present numerical concepts using visual gestalts.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h1 id="non-numerical-dataframes"><a href="#non-numerical-dataframes">non-numerical dataframes</a></h1>\n<p>dataframes will be challenging for folks with dyscalculia. the <a href="https://www.w3.org/TR/adapt/">wai-adapt</a> has started writing guidance for concepts like this, but dataframes are likely out of scope.</p>\n<p>this notebook sketches an approach towards subtle visual identificaition of a table value in a distribution. before making this i realized that there is no way to explore a table of numbers with dyscalculia. i imagine i\'ll be thinking more about the visual, audible, and tactile aspects of numeric information.</p>\n<p>we\'ll want a systematic approach where we explore how the dimensions of line, tone/weight, and, lastly, color can present numerical concepts using visual gestalts.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       7
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="non-numerical-dataframes">
+        <a href="#non-numerical-dataframes">
+         non-numerical dataframes
+        </a>
+       </h1>
+       <p>
+        dataframes will be challenging for folks with dyscalculia. the
+        <a href="https://www.w3.org/TR/adapt/">
+         wai-adapt
+        </a>
+        has started writing guidance for concepts like this, but dataframes are likely out of scope.
+       </p>
+       <p>
+        this notebook sketches an approach towards subtle visual identificaition of a table value in a distribution. before making this i realized that there is no way to explore a table of numbers with dyscalculia. i imagine i'll be thinking more about the visual, audible, and tactile aspects of numeric information.
+       </p>
+       <p>
+        we'll want a systematic approach where we explore how the dimensions of line, tone/weight, and, lastly, color can present numerical concepts using visual gestalts.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell markdown" data-index="2" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-2-executed">
+         unexecuted
+        </span>
+        <span id="cell-2-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-2-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-exec-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="1">an interesting outcome of this approach is that scrolling activates an animation of the values. it reverses back into albers assertion that notice color in motion and when it is changing. simple concepts like this have significant potential for activiting ones participation in exploring data.</textarea>
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>an interesting outcome of this approach is that scrolling activates an animation of the values. it reverses back into albers assertion that notice color in motion and when it is changing. simple concepts like this have significant potential for activiting ones participation in exploring data.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>an interesting outcome of this approach is that scrolling activates an animation of the values. it reverses back into albers assertion that notice color in motion and when it is changing. simple concepts like this have significant potential for activiting ones participation in exploring data.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        an interesting outcome of this approach is that scrolling activates an animation of the values. it reverses back into albers assertion that notice color in motion and when it is changing. simple concepts like this have significant potential for activiting ones participation in exploring data.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell markdown" data-index="3" data-loc="0" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-3-executed">
+         unexecuted
+        </span>
+        <span id="cell-3-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-3-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-exec-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="0"></textarea>
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': ''}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       0
+      </td>
+      <td class="nb-outputs" role="none">
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="74" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-4-executed">
+         executed
+        </span>
+        <span id="cell-4-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-4-exec-label">
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-exec-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="74">%%
+        df = pipe(numpy.linspace(0, 360, 101), pandas.Index).rename("index").to_series().mul(numpy.pi/180).apply(lambda x: pandas.Series(dict(x=numpy.cos(x), y=numpy.sin(x))))
+        style_attributes = lambda extra="": compose_left(operator.methodcaller("items"), map(F"--%s{extra}: %s".__mod__), ";".join, "{};".format)
+
+{% set df = df.reset_index() %}
+{% set summary = df.describe() %}
+{% set groups = [df, df.sample(20)] %}
+&lt;style&gt;
+.dataframe {
+    --height: 600px;
+    display: block;
+    position: relative;
+    width: 100%;
+    border: 5px red solid;
+    {%- for col in df.columns -%}
+    --d{{col}}: calc(var(--{{col}}-max) - var(--{{col}}-min));
+    {%- endfor -%}
+    --dx: calc(var(--x-max) - var(--x-min));
+    --dy: calc(var(--y-max) - var(--y-min));
+    tbody, thead {
+        tr {
+            border: 4px white solid;
+            position: relative;
+            td {
+                {%- for col in df.columns -%}
+                &amp;:nth-of-type({{loop.index}}) {
+                    --rel: calc((var(--{{col}}) - var(--{{col}}-min)) / var(--d{{col}}));
+                }
+                {%- endfor -%}
+                background: linear-gradient(90deg, 
+                        rgba(0,0,0,0) calc(100% * var(--rel) - .25rem), 
+                        rgba(128,128,128,.5) calc(100% * var(--rel)), 
+                        rgba(0,0,0,0) calc(100% * var(--rel) + .25rem)
+                    );
+            }
+            
+        }
+    }
+}
+
+&lt;/style&gt;
+
+%%
+&lt;table class="dataframe" min"].pipe(style_attributes("-min"))}}{{summary.loc["max"].pipe(style_attributes("-max"))}}"="" style="{{summary.loc["&gt;
+    &lt;caption&gt;a table of sin and cosine data with visual representations in each cell.&lt;/caption&gt;
+    &lt;thead&gt;
+     &lt;tr&gt;
+        &lt;th&gt;index&lt;/th&gt;
+         {%- for k in df.columns -%}
+             &lt;th&gt;{{k}}&lt;/th&gt;
+         {%- endfor -%}
+    &lt;/tr&gt;
+    {%-for i, row in summary.iterrows() -%}
+    &lt;tr style="{{style_attributes()(row)}}"&gt;
+        &lt;th scope="row"&gt;{{row.name}}&lt;/th&gt;
+        {%- for k in df.columns -%}
+        &lt;td&gt;{{row.loc[k]}}&lt;/td&gt;
+        {%- endfor -%}
+    &lt;/tr&gt;
+    {%- endfor -%}
+    &lt;/thead&gt;
+     {%- for g in groups -%}
+     &lt;tbody&gt;
+         {%- for i, row in g.iterrows() -%}
+            &lt;tr style="{{style_attributes()(row)}}"&gt;
+             &lt;th&gt;{{loop.index}}&lt;/th&gt;
+             {%- for k in df.columns -%}
+                 &lt;td&gt;{{row.loc[k]}}&lt;/td&gt;
+             {%- endfor -%}
+            &lt;/tr&gt;
+         {%- endfor -%}
+     &lt;/tbody&gt;
+     {%- endfor -%}
+&lt;/table&gt;</textarea>
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="o">%%</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">101</span><span class="p">),</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"index"</span><span class="p">)</span><span class="o">.</span><span class="n">to_series</span><span class="p">()</span><span class="o">.</span><span class="n">mul</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">pandas</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">y</span><span class="o">=</span><span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+        <span class="n">style_attributes</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">extra</span><span class="o">=</span><span class="s2">""</span><span class="p">:</span> <span class="n">compose_left</span><span class="p">(</span><span class="n">operator</span><span class="o">.</span><span class="n">methodcaller</span><span class="p">(</span><span class="s2">"items"</span><span class="p">),</span> <span class="nb">map</span><span class="p">(</span><span class="sa">F</span><span class="s2">"--%s</span><span class="si">{</span><span class="n">extra</span><span class="si">}</span><span class="s2">: %s"</span><span class="o">.</span><span class="fm">__mod__</span><span class="p">),</span> <span class="s2">";"</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="s2">"</span><span class="si">{}</span><span class="s2">;"</span><span class="o">.</span><span class="n">format</span><span class="p">)</span>
+
+<span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span> <span class="o">%</span><span class="p">}</span>
+<span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">summary</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span> <span class="o">%</span><span class="p">}</span>
+<span class="p">{</span><span class="o">%</span> <span class="nb">set</span> <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">,</span> <span class="n">df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">20</span><span class="p">)]</span> <span class="o">%</span><span class="p">}</span>
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="o">.</span><span class="n">dataframe</span> <span class="p">{</span>
+    <span class="o">--</span><span class="n">height</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+    <span class="n">border</span><span class="p">:</span> <span class="mi">5</span><span class="n">px</span> <span class="n">red</span> <span class="n">solid</span><span class="p">;</span>
+    <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">--</span><span class="n">d</span><span class="p">{{</span><span class="n">col</span><span class="p">}}:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="p">{{</span><span class="n">col</span><span class="p">}}</span><span class="o">-</span><span class="nb">max</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="p">{{</span><span class="n">col</span><span class="p">}}</span><span class="o">-</span><span class="nb">min</span><span class="p">));</span>
+    <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">--</span><span class="n">dx</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x</span><span class="o">-</span><span class="nb">max</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x</span><span class="o">-</span><span class="nb">min</span><span class="p">));</span>
+    <span class="o">--</span><span class="n">dy</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y</span><span class="o">-</span><span class="nb">max</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y</span><span class="o">-</span><span class="nb">min</span><span class="p">));</span>
+    <span class="n">tbody</span><span class="p">,</span> <span class="n">thead</span> <span class="p">{</span>
+        <span class="n">tr</span> <span class="p">{</span>
+            <span class="n">border</span><span class="p">:</span> <span class="mi">4</span><span class="n">px</span> <span class="n">white</span> <span class="n">solid</span><span class="p">;</span>
+            <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+            <span class="n">td</span> <span class="p">{</span>
+                <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">-%</span><span class="p">}</span>
+                <span class="o">&amp;</span><span class="p">:</span><span class="n">nth</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="nb">type</span><span class="p">({{</span><span class="n">loop</span><span class="o">.</span><span class="n">index</span><span class="p">}})</span> <span class="p">{</span>
+                    <span class="o">--</span><span class="n">rel</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="p">{{</span><span class="n">col</span><span class="p">}})</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="p">{{</span><span class="n">col</span><span class="p">}}</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d</span><span class="p">{{</span><span class="n">col</span><span class="p">}}));</span>
+                <span class="p">}</span>
+                <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+                <span class="n">background</span><span class="p">:</span> <span class="n">linear</span><span class="o">-</span><span class="n">gradient</span><span class="p">(</span><span class="mi">90</span><span class="n">deg</span><span class="p">,</span> 
+                        <span class="n">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="n">calc</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rel</span><span class="p">)</span> <span class="o">-</span> <span class="mf">.25</span><span class="n">rem</span><span class="p">),</span> 
+                        <span class="n">rgba</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mi">128</span><span class="p">,</span><span class="mf">.5</span><span class="p">)</span> <span class="n">calc</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rel</span><span class="p">)),</span> 
+                        <span class="n">rgba</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="n">calc</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rel</span><span class="p">)</span> <span class="o">+</span> <span class="mf">.25</span><span class="n">rem</span><span class="p">)</span>
+                    <span class="p">);</span>
+            <span class="p">}</span>
+            
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+
+<span class="o">%%</span>
+<span class="o">&lt;</span><span class="n">table</span> <span class="n">class</span><span class="o">=</span><span class="n">dataframe</span> <span class="n">style</span><span class="o">=</span><span class="s2">"{{summary.loc["</span><span class="nb">min</span><span class="s2">"].pipe(style_attributes("</span><span class="o">-</span><span class="nb">min</span><span class="s2">"))}}{{summary.loc["</span><span class="nb">max</span><span class="s2">"].pipe(style_attributes("</span><span class="o">-</span><span class="nb">max</span><span class="s2">"))}}"</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">caption</span><span class="o">&gt;</span><span class="n">a</span> <span class="n">table</span> <span class="n">of</span> <span class="n">sin</span> <span class="ow">and</span> <span class="n">cosine</span> <span class="n">data</span> <span class="k">with</span> <span class="n">visual</span> <span class="n">representations</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">cell</span><span class="o">.&lt;/</span><span class="n">caption</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">thead</span><span class="o">&gt;</span>
+     <span class="o">&lt;</span><span class="n">tr</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="n">index</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+         <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">-%</span><span class="p">}</span>
+             <span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">k</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+         <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">tr</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%-</span><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">summary</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">&lt;</span><span class="n">tr</span> <span class="n">style</span><span class="o">=</span><span class="s2">"{{style_attributes()(row)}}"</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="n">th</span> <span class="n">scope</span><span class="o">=</span><span class="n">row</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">-%</span><span class="p">}</span>
+        <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">k</span><span class="p">]}}</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+        <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">tr</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">thead</span><span class="o">&gt;</span>
+     <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">groups</span> <span class="o">-%</span><span class="p">}</span>
+     <span class="o">&lt;</span><span class="n">tbody</span><span class="o">&gt;</span>
+         <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span> <span class="o">-%</span><span class="p">}</span>
+            <span class="o">&lt;</span><span class="n">tr</span> <span class="n">style</span><span class="o">=</span><span class="s2">"{{style_attributes()(row)}}"</span><span class="o">&gt;</span>
+             <span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">loop</span><span class="o">.</span><span class="n">index</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+             <span class="p">{</span><span class="o">%-</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">-%</span><span class="p">}</span>
+                 <span class="o">&lt;</span><span class="n">td</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">k</span><span class="p">]}}</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;</span>
+             <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+            <span class="o">&lt;/</span><span class="n">tr</span><span class="o">&gt;</span>
+         <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+     <span class="o">&lt;/</span><span class="n">tbody</span><span class="o">&gt;</span>
+     <span class="p">{</span><span class="o">%-</span> <span class="n">endfor</span> <span class="o">-%</span><span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">table</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       74
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <pre><code>    df = pipe(numpy.linspace(0, 360, 101), pandas.Index).rename("index").to_series().mul(numpy.pi/180).apply(lambda x: pandas.Series(dict(x=numpy.cos(x), y=numpy.sin(x))))
+    style_attributes = lambda extra="": compose_left(operator.methodcaller("items"), map(F"--%s{extra}: %s".__mod__), ";".join, "{};".format)
+</code></pre>
+        <style>
+         .dataframe {
+    --height: 600px;
+    display: block;
+    position: relative;
+    width: 100%;
+    border: 5px red solid;--dindex: calc(var(--index-max) - var(--index-min));--dx: calc(var(--x-max) - var(--x-min));--dy: calc(var(--y-max) - var(--y-min));--dx: calc(var(--x-max) - var(--x-min));
+    --dy: calc(var(--y-max) - var(--y-min));
+    tbody, thead {
+        tr {
+            border: 4px white solid;
+            position: relative;
+            td {&:nth-of-type(1) {
+                    --rel: calc((var(--index) - var(--index-min)) / var(--dindex));
+                }&:nth-of-type(2) {
+                    --rel: calc((var(--x) - var(--x-min)) / var(--dx));
+                }&:nth-of-type(3) {
+                    --rel: calc((var(--y) - var(--y-min)) / var(--dy));
+                }background: linear-gradient(90deg, 
+                        rgba(0,0,0,0) calc(100% * var(--rel) - .25rem), 
+                        rgba(128,128,128,.5) calc(100% * var(--rel)), 
+                        rgba(0,0,0,0) calc(100% * var(--rel) + .25rem)
+                    );
+            }
+            
+        }
+    }
+}
+        </style>
+        <p>
+         %%
+        </p>
+        <table class="dataframe" style="--index-min: 0.0;--x-min: -1.0;--y-min: -1.0;--index-max: 360.0;--x-max: 1.0;--y-max: 1.0;">
+         <caption>
+          a table of sin and cosine data with visual representations in each cell.
+         </caption>
+         <thead>
+          <tr>
+           <th>
+            index
+           </th>
+           <th>
+            index
+           </th>
+           <th>
+            x
+           </th>
+           <th>
+            y
+           </th>
+          </tr>
+          <tr style="--index: 101.0;--x: 101.0;--y: 101.0;">
+           <th scope="row">
+            count
+           </th>
+           <td>
+            101.0
+           </td>
+           <td>
+            101.0
+           </td>
+           <td>
+            101.0
+           </td>
+          </tr>
+          <tr style="--index: 180.0;--x: 0.009900990099009927;--y: 5.681783374570121e-18;">
+           <th scope="row">
+            mean
+           </th>
+           <td>
+            180.0
+           </td>
+           <td>
+            0.009900990099009927
+           </td>
+           <td>
+            5.681783374570121e-18
+           </td>
+          </tr>
+          <tr style="--index: 105.48061433268201;--x: 0.7140735186932855;--y: 0.7071067811865475;">
+           <th scope="row">
+            std
+           </th>
+           <td>
+            105.48061433268201
+           </td>
+           <td>
+            0.7140735186932855
+           </td>
+           <td>
+            0.7071067811865475
+           </td>
+          </tr>
+          <tr style="--index: 0.0;--x: -1.0;--y: -1.0;">
+           <th scope="row">
+            min
+           </th>
+           <td>
+            0.0
+           </td>
+           <td>
+            -1.0
+           </td>
+           <td>
+            -1.0
+           </td>
+          </tr>
+          <tr style="--index: 90.0;--x: -0.6845471059286887;--y: -0.6845471059286887;">
+           <th scope="row">
+            25%
+           </th>
+           <td>
+            90.0
+           </td>
+           <td>
+            -0.6845471059286887
+           </td>
+           <td>
+            -0.6845471059286887
+           </td>
+          </tr>
+          <tr style="--index: 180.0;--x: 6.123233995736766e-17;--y: 0.0;">
+           <th scope="row">
+            50%
+           </th>
+           <td>
+            180.0
+           </td>
+           <td>
+            6.123233995736766e-17
+           </td>
+           <td>
+            0.0
+           </td>
+          </tr>
+          <tr style="--index: 270.0;--x: 0.7289686274214116;--y: 0.6845471059286887;">
+           <th scope="row">
+            75%
+           </th>
+           <td>
+            270.0
+           </td>
+           <td>
+            0.7289686274214116
+           </td>
+           <td>
+            0.6845471059286887
+           </td>
+          </tr>
+          <tr style="--index: 360.0;--x: 1.0;--y: 1.0;">
+           <th scope="row">
+            max
+           </th>
+           <td>
+            360.0
+           </td>
+           <td>
+            1.0
+           </td>
+           <td>
+            1.0
+           </td>
+          </tr>
+         </thead>
+         <tbody>
+          <tr style="--index: 0.0;--x: 1.0;--y: 0.0;">
+           <th>
+            1
+           </th>
+           <td>
+            0.0
+           </td>
+           <td>
+            1.0
+           </td>
+           <td>
+            0.0
+           </td>
+          </tr>
+          <tr style="--index: 3.6;--x: 0.9980267284282716;--y: 0.06279051952931337;">
+           <th>
+            2
+           </th>
+           <td>
+            3.6
+           </td>
+           <td>
+            0.9980267284282716
+           </td>
+           <td>
+            0.06279051952931337
+           </td>
+          </tr>
+          <tr style="--index: 7.2;--x: 0.9921147013144779;--y: 0.12533323356430426;">
+           <th>
+            3
+           </th>
+           <td>
+            7.2
+           </td>
+           <td>
+            0.9921147013144779
+           </td>
+           <td>
+            0.12533323356430426
+           </td>
+          </tr>
+          <tr style="--index: 10.8;--x: 0.9822872507286887;--y: 0.18738131458572463;">
+           <th>
+            4
+           </th>
+           <td>
+            10.8
+           </td>
+           <td>
+            0.9822872507286887
+           </td>
+           <td>
+            0.18738131458572463
+           </td>
+          </tr>
+          <tr style="--index: 14.4;--x: 0.9685831611286311;--y: 0.2486898871648548;">
+           <th>
+            5
+           </th>
+           <td>
+            14.4
+           </td>
+           <td>
+            0.9685831611286311
+           </td>
+           <td>
+            0.2486898871648548
+           </td>
+          </tr>
+          <tr style="--index: 18.0;--x: 0.9510565162951535;--y: 0.3090169943749474;">
+           <th>
+            6
+           </th>
+           <td>
+            18.0
+           </td>
+           <td>
+            0.9510565162951535
+           </td>
+           <td>
+            0.3090169943749474
+           </td>
+          </tr>
+          <tr style="--index: 21.6;--x: 0.9297764858882513;--y: 0.368124552684678;">
+           <th>
+            7
+           </th>
+           <td>
+            21.6
+           </td>
+           <td>
+            0.9297764858882513
+           </td>
+           <td>
+            0.368124552684678
+           </td>
+          </tr>
+          <tr style="--index: 25.2;--x: 0.9048270524660196;--y: 0.42577929156507266;">
+           <th>
+            8
+           </th>
+           <td>
+            25.2
+           </td>
+           <td>
+            0.9048270524660196
+           </td>
+           <td>
+            0.42577929156507266
+           </td>
+          </tr>
+          <tr style="--index: 28.8;--x: 0.8763066800438636;--y: 0.4817536741017153;">
+           <th>
+            9
+           </th>
+           <td>
+            28.8
+           </td>
+           <td>
+            0.8763066800438636
+           </td>
+           <td>
+            0.4817536741017153
+           </td>
+          </tr>
+          <tr style="--index: 32.4;--x: 0.8443279255020151;--y: 0.5358267949789967;">
+           <th>
+            10
+           </th>
+           <td>
+            32.4
+           </td>
+           <td>
+            0.8443279255020151
+           </td>
+           <td>
+            0.5358267949789967
+           </td>
+          </tr>
+          <tr style="--index: 36.0;--x: 0.8090169943749475;--y: 0.5877852522924731;">
+           <th>
+            11
+           </th>
+           <td>
+            36.0
+           </td>
+           <td>
+            0.8090169943749475
+           </td>
+           <td>
+            0.5877852522924731
+           </td>
+          </tr>
+          <tr style="--index: 39.6;--x: 0.7705132427757891;--y: 0.6374239897486897;">
+           <th>
+            12
+           </th>
+           <td>
+            39.6
+           </td>
+           <td>
+            0.7705132427757891
+           </td>
+           <td>
+            0.6374239897486897
+           </td>
+          </tr>
+          <tr style="--index: 43.2;--x: 0.7289686274214116;--y: 0.6845471059286887;">
+           <th>
+            13
+           </th>
+           <td>
+            43.2
+           </td>
+           <td>
+            0.7289686274214116
+           </td>
+           <td>
+            0.6845471059286887
+           </td>
+          </tr>
+          <tr style="--index: 46.800000000000004;--x: 0.6845471059286886;--y: 0.7289686274214116;">
+           <th>
+            14
+           </th>
+           <td>
+            46.800000000000004
+           </td>
+           <td>
+            0.6845471059286886
+           </td>
+           <td>
+            0.7289686274214116
+           </td>
+          </tr>
+          <tr style="--index: 50.4;--x: 0.6374239897486897;--y: 0.7705132427757893;">
+           <th>
+            15
+           </th>
+           <td>
+            50.4
+           </td>
+           <td>
+            0.6374239897486897
+           </td>
+           <td>
+            0.7705132427757893
+           </td>
+          </tr>
+          <tr style="--index: 54.0;--x: 0.5877852522924731;--y: 0.8090169943749475;">
+           <th>
+            16
+           </th>
+           <td>
+            54.0
+           </td>
+           <td>
+            0.5877852522924731
+           </td>
+           <td>
+            0.8090169943749475
+           </td>
+          </tr>
+          <tr style="--index: 57.6;--x: 0.5358267949789965;--y: 0.8443279255020151;">
+           <th>
+            17
+           </th>
+           <td>
+            57.6
+           </td>
+           <td>
+            0.5358267949789965
+           </td>
+           <td>
+            0.8443279255020151
+           </td>
+          </tr>
+          <tr style="--index: 61.2;--x: 0.48175367410171516;--y: 0.8763066800438637;">
+           <th>
+            18
+           </th>
+           <td>
+            61.2
+           </td>
+           <td>
+            0.48175367410171516
+           </td>
+           <td>
+            0.8763066800438637
+           </td>
+          </tr>
+          <tr style="--index: 64.8;--x: 0.42577929156507266;--y: 0.9048270524660196;">
+           <th>
+            19
+           </th>
+           <td>
+            64.8
+           </td>
+           <td>
+            0.42577929156507266
+           </td>
+           <td>
+            0.9048270524660196
+           </td>
+          </tr>
+          <tr style="--index: 68.4;--x: 0.36812455268467786;--y: 0.9297764858882515;">
+           <th>
+            20
+           </th>
+           <td>
+            68.4
+           </td>
+           <td>
+            0.36812455268467786
+           </td>
+           <td>
+            0.9297764858882515
+           </td>
+          </tr>
+          <tr style="--index: 72.0;--x: 0.30901699437494745;--y: 0.9510565162951535;">
+           <th>
+            21
+           </th>
+           <td>
+            72.0
+           </td>
+           <td>
+            0.30901699437494745
+           </td>
+           <td>
+            0.9510565162951535
+           </td>
+          </tr>
+          <tr style="--index: 75.60000000000001;--x: 0.24868988716485474;--y: 0.9685831611286311;">
+           <th>
+            22
+           </th>
+           <td>
+            75.60000000000001
+           </td>
+           <td>
+            0.24868988716485474
+           </td>
+           <td>
+            0.9685831611286311
+           </td>
+          </tr>
+          <tr style="--index: 79.2;--x: 0.18738131458572452;--y: 0.9822872507286887;">
+           <th>
+            23
+           </th>
+           <td>
+            79.2
+           </td>
+           <td>
+            0.18738131458572452
+           </td>
+           <td>
+            0.9822872507286887
+           </td>
+          </tr>
+          <tr style="--index: 82.8;--x: 0.12533323356430426;--y: 0.9921147013144779;">
+           <th>
+            24
+           </th>
+           <td>
+            82.8
+           </td>
+           <td>
+            0.12533323356430426
+           </td>
+           <td>
+            0.9921147013144779
+           </td>
+          </tr>
+          <tr style="--index: 86.4;--x: 0.0627905195293133;--y: 0.9980267284282716;">
+           <th>
+            25
+           </th>
+           <td>
+            86.4
+           </td>
+           <td>
+            0.0627905195293133
+           </td>
+           <td>
+            0.9980267284282716
+           </td>
+          </tr>
+          <tr style="--index: 90.0;--x: 6.123233995736766e-17;--y: 1.0;">
+           <th>
+            26
+           </th>
+           <td>
+            90.0
+           </td>
+           <td>
+            6.123233995736766e-17
+           </td>
+           <td>
+            1.0
+           </td>
+          </tr>
+          <tr style="--index: 93.60000000000001;--x: -0.0627905195293134;--y: 0.9980267284282716;">
+           <th>
+            27
+           </th>
+           <td>
+            93.60000000000001
+           </td>
+           <td>
+            -0.0627905195293134
+           </td>
+           <td>
+            0.9980267284282716
+           </td>
+          </tr>
+          <tr style="--index: 97.2;--x: -0.12533323356430437;--y: 0.9921147013144778;">
+           <th>
+            28
+           </th>
+           <td>
+            97.2
+           </td>
+           <td>
+            -0.12533323356430437
+           </td>
+           <td>
+            0.9921147013144778
+           </td>
+          </tr>
+          <tr style="--index: 100.8;--x: -0.1873813145857246;--y: 0.9822872507286887;">
+           <th>
+            29
+           </th>
+           <td>
+            100.8
+           </td>
+           <td>
+            -0.1873813145857246
+           </td>
+           <td>
+            0.9822872507286887
+           </td>
+          </tr>
+          <tr style="--index: 104.4;--x: -0.24868988716485485;--y: 0.9685831611286311;">
+           <th>
+            30
+           </th>
+           <td>
+            104.4
+           </td>
+           <td>
+            -0.24868988716485485
+           </td>
+           <td>
+            0.9685831611286311
+           </td>
+          </tr>
+          <tr style="--index: 108.0;--x: -0.30901699437494734;--y: 0.9510565162951536;">
+           <th>
+            31
+           </th>
+           <td>
+            108.0
+           </td>
+           <td>
+            -0.30901699437494734
+           </td>
+           <td>
+            0.9510565162951536
+           </td>
+          </tr>
+          <tr style="--index: 111.60000000000001;--x: -0.368124552684678;--y: 0.9297764858882513;">
+           <th>
+            32
+           </th>
+           <td>
+            111.60000000000001
+           </td>
+           <td>
+            -0.368124552684678
+           </td>
+           <td>
+            0.9297764858882513
+           </td>
+          </tr>
+          <tr style="--index: 115.2;--x: -0.4257792915650727;--y: 0.9048270524660195;">
+           <th>
+            33
+           </th>
+           <td>
+            115.2
+           </td>
+           <td>
+            -0.4257792915650727
+           </td>
+           <td>
+            0.9048270524660195
+           </td>
+          </tr>
+          <tr style="--index: 118.8;--x: -0.48175367410171505;--y: 0.8763066800438637;">
+           <th>
+            34
+           </th>
+           <td>
+            118.8
+           </td>
+           <td>
+            -0.48175367410171505
+           </td>
+           <td>
+            0.8763066800438637
+           </td>
+          </tr>
+          <tr style="--index: 122.4;--x: -0.5358267949789969;--y: 0.844327925502015;">
+           <th>
+            35
+           </th>
+           <td>
+            122.4
+           </td>
+           <td>
+            -0.5358267949789969
+           </td>
+           <td>
+            0.844327925502015
+           </td>
+          </tr>
+          <tr style="--index: 126.0;--x: -0.587785252292473;--y: 0.8090169943749475;">
+           <th>
+            36
+           </th>
+           <td>
+            126.0
+           </td>
+           <td>
+            -0.587785252292473
+           </td>
+           <td>
+            0.8090169943749475
+           </td>
+          </tr>
+          <tr style="--index: 129.6;--x: -0.6374239897486897;--y: 0.7705132427757893;">
+           <th>
+            37
+           </th>
+           <td>
+            129.6
+           </td>
+           <td>
+            -0.6374239897486897
+           </td>
+           <td>
+            0.7705132427757893
+           </td>
+          </tr>
+          <tr style="--index: 133.20000000000002;--x: -0.6845471059286887;--y: 0.7289686274214114;">
+           <th>
+            38
+           </th>
+           <td>
+            133.20000000000002
+           </td>
+           <td>
+            -0.6845471059286887
+           </td>
+           <td>
+            0.7289686274214114
+           </td>
+          </tr>
+          <tr style="--index: 136.8;--x: -0.7289686274214117;--y: 0.6845471059286885;">
+           <th>
+            39
+           </th>
+           <td>
+            136.8
+           </td>
+           <td>
+            -0.7289686274214117
+           </td>
+           <td>
+            0.6845471059286885
+           </td>
+          </tr>
+          <tr style="--index: 140.4;--x: -0.7705132427757894;--y: 0.6374239897486895;">
+           <th>
+            40
+           </th>
+           <td>
+            140.4
+           </td>
+           <td>
+            -0.7705132427757894
+           </td>
+           <td>
+            0.6374239897486895
+           </td>
+          </tr>
+          <tr style="--index: 144.0;--x: -0.8090169943749473;--y: 0.5877852522924732;">
+           <th>
+            41
+           </th>
+           <td>
+            144.0
+           </td>
+           <td>
+            -0.8090169943749473
+           </td>
+           <td>
+            0.5877852522924732
+           </td>
+          </tr>
+          <tr style="--index: 147.6;--x: -0.8443279255020151;--y: 0.5358267949789967;">
+           <th>
+            42
+           </th>
+           <td>
+            147.6
+           </td>
+           <td>
+            -0.8443279255020151
+           </td>
+           <td>
+            0.5358267949789967
+           </td>
+          </tr>
+          <tr style="--index: 151.20000000000002;--x: -0.8763066800438636;--y: 0.4817536741017152;">
+           <th>
+            43
+           </th>
+           <td>
+            151.20000000000002
+           </td>
+           <td>
+            -0.8763066800438636
+           </td>
+           <td>
+            0.4817536741017152
+           </td>
+          </tr>
+          <tr style="--index: 154.8;--x: -0.9048270524660196;--y: 0.4257792915650725;">
+           <th>
+            44
+           </th>
+           <td>
+            154.8
+           </td>
+           <td>
+            -0.9048270524660196
+           </td>
+           <td>
+            0.4257792915650725
+           </td>
+          </tr>
+          <tr style="--index: 158.4;--x: -0.9297764858882515;--y: 0.36812455268467775;">
+           <th>
+            45
+           </th>
+           <td>
+            158.4
+           </td>
+           <td>
+            -0.9297764858882515
+           </td>
+           <td>
+            0.36812455268467775
+           </td>
+          </tr>
+          <tr style="--index: 162.0;--x: -0.9510565162951535;--y: 0.3090169943749475;">
+           <th>
+            46
+           </th>
+           <td>
+            162.0
+           </td>
+           <td>
+            -0.9510565162951535
+           </td>
+           <td>
+            0.3090169943749475
+           </td>
+          </tr>
+          <tr style="--index: 165.6;--x: -0.9685831611286311;--y: 0.24868988716485482;">
+           <th>
+            47
+           </th>
+           <td>
+            165.6
+           </td>
+           <td>
+            -0.9685831611286311
+           </td>
+           <td>
+            0.24868988716485482
+           </td>
+          </tr>
+          <tr style="--index: 169.20000000000002;--x: -0.9822872507286887;--y: 0.18738131458572457;">
+           <th>
+            48
+           </th>
+           <td>
+            169.20000000000002
+           </td>
+           <td>
+            -0.9822872507286887
+           </td>
+           <td>
+            0.18738131458572457
+           </td>
+          </tr>
+          <tr style="--index: 172.8;--x: -0.9921147013144779;--y: 0.1253332335643041;">
+           <th>
+            49
+           </th>
+           <td>
+            172.8
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+           <td>
+            0.1253332335643041
+           </td>
+          </tr>
+          <tr style="--index: 176.4;--x: -0.9980267284282716;--y: 0.06279051952931314;">
+           <th>
+            50
+           </th>
+           <td>
+            176.4
+           </td>
+           <td>
+            -0.9980267284282716
+           </td>
+           <td>
+            0.06279051952931314
+           </td>
+          </tr>
+          <tr style="--index: 180.0;--x: -1.0;--y: 1.2246467991473532e-16;">
+           <th>
+            51
+           </th>
+           <td>
+            180.0
+           </td>
+           <td>
+            -1.0
+           </td>
+           <td>
+            1.2246467991473532e-16
+           </td>
+          </tr>
+          <tr style="--index: 183.6;--x: -0.9980267284282716;--y: -0.06279051952931335;">
+           <th>
+            52
+           </th>
+           <td>
+            183.6
+           </td>
+           <td>
+            -0.9980267284282716
+           </td>
+           <td>
+            -0.06279051952931335
+           </td>
+          </tr>
+          <tr style="--index: 187.20000000000002;--x: -0.9921147013144779;--y: -0.12533323356430429;">
+           <th>
+            53
+           </th>
+           <td>
+            187.20000000000002
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+           <td>
+            -0.12533323356430429
+           </td>
+          </tr>
+          <tr style="--index: 190.8;--x: -0.9822872507286886;--y: -0.18738131458572477;">
+           <th>
+            54
+           </th>
+           <td>
+            190.8
+           </td>
+           <td>
+            -0.9822872507286886
+           </td>
+           <td>
+            -0.18738131458572477
+           </td>
+          </tr>
+          <tr style="--index: 194.4;--x: -0.9685831611286311;--y: -0.24868988716485502;">
+           <th>
+            55
+           </th>
+           <td>
+            194.4
+           </td>
+           <td>
+            -0.9685831611286311
+           </td>
+           <td>
+            -0.24868988716485502
+           </td>
+          </tr>
+          <tr style="--index: 198.0;--x: -0.9510565162951536;--y: -0.3090169943749473;">
+           <th>
+            56
+           </th>
+           <td>
+            198.0
+           </td>
+           <td>
+            -0.9510565162951536
+           </td>
+           <td>
+            -0.3090169943749473
+           </td>
+          </tr>
+          <tr style="--index: 201.6;--x: -0.9297764858882515;--y: -0.3681245526846779;">
+           <th>
+            57
+           </th>
+           <td>
+            201.6
+           </td>
+           <td>
+            -0.9297764858882515
+           </td>
+           <td>
+            -0.3681245526846779
+           </td>
+          </tr>
+          <tr style="--index: 205.20000000000002;--x: -0.9048270524660195;--y: -0.42577929156507266;">
+           <th>
+            58
+           </th>
+           <td>
+            205.20000000000002
+           </td>
+           <td>
+            -0.9048270524660195
+           </td>
+           <td>
+            -0.42577929156507266
+           </td>
+          </tr>
+          <tr style="--index: 208.8;--x: -0.8763066800438635;--y: -0.4817536741017154;">
+           <th>
+            59
+           </th>
+           <td>
+            208.8
+           </td>
+           <td>
+            -0.8763066800438635
+           </td>
+           <td>
+            -0.4817536741017154
+           </td>
+          </tr>
+          <tr style="--index: 212.4;--x: -0.844327925502015;--y: -0.5358267949789968;">
+           <th>
+            60
+           </th>
+           <td>
+            212.4
+           </td>
+           <td>
+            -0.844327925502015
+           </td>
+           <td>
+            -0.5358267949789968
+           </td>
+          </tr>
+          <tr style="--index: 216.0;--x: -0.8090169943749476;--y: -0.587785252292473;">
+           <th>
+            61
+           </th>
+           <td>
+            216.0
+           </td>
+           <td>
+            -0.8090169943749476
+           </td>
+           <td>
+            -0.587785252292473
+           </td>
+          </tr>
+          <tr style="--index: 219.6;--x: -0.7705132427757893;--y: -0.6374239897486896;">
+           <th>
+            62
+           </th>
+           <td>
+            219.6
+           </td>
+           <td>
+            -0.7705132427757893
+           </td>
+           <td>
+            -0.6374239897486896
+           </td>
+          </tr>
+          <tr style="--index: 223.20000000000002;--x: -0.7289686274214116;--y: -0.6845471059286887;">
+           <th>
+            63
+           </th>
+           <td>
+            223.20000000000002
+           </td>
+           <td>
+            -0.7289686274214116
+           </td>
+           <td>
+            -0.6845471059286887
+           </td>
+          </tr>
+          <tr style="--index: 226.8;--x: -0.6845471059286886;--y: -0.7289686274214116;">
+           <th>
+            64
+           </th>
+           <td>
+            226.8
+           </td>
+           <td>
+            -0.6845471059286886
+           </td>
+           <td>
+            -0.7289686274214116
+           </td>
+          </tr>
+          <tr style="--index: 230.4;--x: -0.6374239897486895;--y: -0.7705132427757894;">
+           <th>
+            65
+           </th>
+           <td>
+            230.4
+           </td>
+           <td>
+            -0.6374239897486895
+           </td>
+           <td>
+            -0.7705132427757894
+           </td>
+          </tr>
+          <tr style="--index: 234.0;--x: -0.5877852522924732;--y: -0.8090169943749473;">
+           <th>
+            66
+           </th>
+           <td>
+            234.0
+           </td>
+           <td>
+            -0.5877852522924732
+           </td>
+           <td>
+            -0.8090169943749473
+           </td>
+          </tr>
+          <tr style="--index: 237.6;--x: -0.5358267949789971;--y: -0.8443279255020149;">
+           <th>
+            67
+           </th>
+           <td>
+            237.6
+           </td>
+           <td>
+            -0.5358267949789971
+           </td>
+           <td>
+            -0.8443279255020149
+           </td>
+          </tr>
+          <tr style="--index: 241.20000000000002;--x: -0.48175367410171527;--y: -0.8763066800438636;">
+           <th>
+            68
+           </th>
+           <td>
+            241.20000000000002
+           </td>
+           <td>
+            -0.48175367410171527
+           </td>
+           <td>
+            -0.8763066800438636
+           </td>
+          </tr>
+          <tr style="--index: 244.8;--x: -0.42577929156507216;--y: -0.9048270524660198;">
+           <th>
+            69
+           </th>
+           <td>
+            244.8
+           </td>
+           <td>
+            -0.42577929156507216
+           </td>
+           <td>
+            -0.9048270524660198
+           </td>
+          </tr>
+          <tr style="--index: 248.4;--x: -0.3681245526846778;--y: -0.9297764858882515;">
+           <th>
+            70
+           </th>
+           <td>
+            248.4
+           </td>
+           <td>
+            -0.3681245526846778
+           </td>
+           <td>
+            -0.9297764858882515
+           </td>
+          </tr>
+          <tr style="--index: 252.0;--x: -0.30901699437494756;--y: -0.9510565162951535;">
+           <th>
+            71
+           </th>
+           <td>
+            252.0
+           </td>
+           <td>
+            -0.30901699437494756
+           </td>
+           <td>
+            -0.9510565162951535
+           </td>
+          </tr>
+          <tr style="--index: 255.6;--x: -0.2486898871648553;--y: -0.968583161128631;">
+           <th>
+            72
+           </th>
+           <td>
+            255.6
+           </td>
+           <td>
+            -0.2486898871648553
+           </td>
+           <td>
+            -0.968583161128631
+           </td>
+          </tr>
+          <tr style="--index: 259.2;--x: -0.18738131458572463;--y: -0.9822872507286887;">
+           <th>
+            73
+           </th>
+           <td>
+            259.2
+           </td>
+           <td>
+            -0.18738131458572463
+           </td>
+           <td>
+            -0.9822872507286887
+           </td>
+          </tr>
+          <tr style="--index: 262.8;--x: -0.12533323356430373;--y: -0.9921147013144779;">
+           <th>
+            74
+           </th>
+           <td>
+            262.8
+           </td>
+           <td>
+            -0.12533323356430373
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+          </tr>
+          <tr style="--index: 266.40000000000003;--x: -0.06279051952931321;--y: -0.9980267284282716;">
+           <th>
+            75
+           </th>
+           <td>
+            266.40000000000003
+           </td>
+           <td>
+            -0.06279051952931321
+           </td>
+           <td>
+            -0.9980267284282716
+           </td>
+          </tr>
+          <tr style="--index: 270.0;--x: -1.8369701987210297e-16;--y: -1.0;">
+           <th>
+            76
+           </th>
+           <td>
+            270.0
+           </td>
+           <td>
+            -1.8369701987210297e-16
+           </td>
+           <td>
+            -1.0
+           </td>
+          </tr>
+          <tr style="--index: 273.6;--x: 0.06279051952931372;--y: -0.9980267284282716;">
+           <th>
+            77
+           </th>
+           <td>
+            273.6
+           </td>
+           <td>
+            0.06279051952931372
+           </td>
+           <td>
+            -0.9980267284282716
+           </td>
+          </tr>
+          <tr style="--index: 277.2;--x: 0.12533323356430423;--y: -0.9921147013144779;">
+           <th>
+            78
+           </th>
+           <td>
+            277.2
+           </td>
+           <td>
+            0.12533323356430423
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+          </tr>
+          <tr style="--index: 280.8;--x: 0.18738131458572513;--y: -0.9822872507286886;">
+           <th>
+            79
+           </th>
+           <td>
+            280.8
+           </td>
+           <td>
+            0.18738131458572513
+           </td>
+           <td>
+            -0.9822872507286886
+           </td>
+          </tr>
+          <tr style="--index: 284.40000000000003;--x: 0.24868988716485493;--y: -0.9685831611286311;">
+           <th>
+            80
+           </th>
+           <td>
+            284.40000000000003
+           </td>
+           <td>
+            0.24868988716485493
+           </td>
+           <td>
+            -0.9685831611286311
+           </td>
+          </tr>
+          <tr style="--index: 288.0;--x: 0.30901699437494723;--y: -0.9510565162951536;">
+           <th>
+            81
+           </th>
+           <td>
+            288.0
+           </td>
+           <td>
+            0.30901699437494723
+           </td>
+           <td>
+            -0.9510565162951536
+           </td>
+          </tr>
+          <tr style="--index: 291.6;--x: 0.36812455268467825;--y: -0.9297764858882512;">
+           <th>
+            82
+           </th>
+           <td>
+            291.6
+           </td>
+           <td>
+            0.36812455268467825
+           </td>
+           <td>
+            -0.9297764858882512
+           </td>
+          </tr>
+          <tr style="--index: 295.2;--x: 0.4257792915650726;--y: -0.9048270524660196;">
+           <th>
+            83
+           </th>
+           <td>
+            295.2
+           </td>
+           <td>
+            0.4257792915650726
+           </td>
+           <td>
+            -0.9048270524660196
+           </td>
+          </tr>
+          <tr style="--index: 298.8;--x: 0.4817536741017157;--y: -0.8763066800438634;">
+           <th>
+            84
+           </th>
+           <td>
+            298.8
+           </td>
+           <td>
+            0.4817536741017157
+           </td>
+           <td>
+            -0.8763066800438634
+           </td>
+          </tr>
+          <tr style="--index: 302.40000000000003;--x: 0.5358267949789968;--y: -0.844327925502015;">
+           <th>
+            85
+           </th>
+           <td>
+            302.40000000000003
+           </td>
+           <td>
+            0.5358267949789968
+           </td>
+           <td>
+            -0.844327925502015
+           </td>
+          </tr>
+          <tr style="--index: 306.0;--x: 0.5877852522924729;--y: -0.8090169943749476;">
+           <th>
+            86
+           </th>
+           <td>
+            306.0
+           </td>
+           <td>
+            0.5877852522924729
+           </td>
+           <td>
+            -0.8090169943749476
+           </td>
+          </tr>
+          <tr style="--index: 309.6;--x: 0.63742398974869;--y: -0.770513242775789;">
+           <th>
+            87
+           </th>
+           <td>
+            309.6
+           </td>
+           <td>
+            0.63742398974869
+           </td>
+           <td>
+            -0.770513242775789
+           </td>
+          </tr>
+          <tr style="--index: 313.2;--x: 0.6845471059286886;--y: -0.7289686274214116;">
+           <th>
+            88
+           </th>
+           <td>
+            313.2
+           </td>
+           <td>
+            0.6845471059286886
+           </td>
+           <td>
+            -0.7289686274214116
+           </td>
+          </tr>
+          <tr style="--index: 316.8;--x: 0.7289686274214119;--y: -0.6845471059286883;">
+           <th>
+            89
+           </th>
+           <td>
+            316.8
+           </td>
+           <td>
+            0.7289686274214119
+           </td>
+           <td>
+            -0.6845471059286883
+           </td>
+          </tr>
+          <tr style="--index: 320.40000000000003;--x: 0.7705132427757894;--y: -0.6374239897486896;">
+           <th>
+            90
+           </th>
+           <td>
+            320.40000000000003
+           </td>
+           <td>
+            0.7705132427757894
+           </td>
+           <td>
+            -0.6374239897486896
+           </td>
+          </tr>
+          <tr style="--index: 324.0;--x: 0.8090169943749473;--y: -0.5877852522924734;">
+           <th>
+            91
+           </th>
+           <td>
+            324.0
+           </td>
+           <td>
+            0.8090169943749473
+           </td>
+           <td>
+            -0.5877852522924734
+           </td>
+          </tr>
+          <tr style="--index: 327.6;--x: 0.8443279255020153;--y: -0.5358267949789963;">
+           <th>
+            92
+           </th>
+           <td>
+            327.6
+           </td>
+           <td>
+            0.8443279255020153
+           </td>
+           <td>
+            -0.5358267949789963
+           </td>
+          </tr>
+          <tr style="--index: 331.2;--x: 0.8763066800438636;--y: -0.4817536741017153;">
+           <th>
+            93
+           </th>
+           <td>
+            331.2
+           </td>
+           <td>
+            0.8763066800438636
+           </td>
+           <td>
+            -0.4817536741017153
+           </td>
+          </tr>
+          <tr style="--index: 334.8;--x: 0.9048270524660197;--y: -0.4257792915650722;">
+           <th>
+            94
+           </th>
+           <td>
+            334.8
+           </td>
+           <td>
+            0.9048270524660197
+           </td>
+           <td>
+            -0.4257792915650722
+           </td>
+          </tr>
+          <tr style="--index: 338.40000000000003;--x: 0.9297764858882515;--y: -0.36812455268467786;">
+           <th>
+            95
+           </th>
+           <td>
+            338.40000000000003
+           </td>
+           <td>
+            0.9297764858882515
+           </td>
+           <td>
+            -0.36812455268467786
+           </td>
+          </tr>
+          <tr style="--index: 342.0;--x: 0.9510565162951535;--y: -0.3090169943749476;">
+           <th>
+            96
+           </th>
+           <td>
+            342.0
+           </td>
+           <td>
+            0.9510565162951535
+           </td>
+           <td>
+            -0.3090169943749476
+           </td>
+          </tr>
+          <tr style="--index: 345.6;--x: 0.9685831611286312;--y: -0.2486898871648545;">
+           <th>
+            97
+           </th>
+           <td>
+            345.6
+           </td>
+           <td>
+            0.9685831611286312
+           </td>
+           <td>
+            -0.2486898871648545
+           </td>
+          </tr>
+          <tr style="--index: 349.2;--x: 0.9822872507286887;--y: -0.18738131458572468;">
+           <th>
+            98
+           </th>
+           <td>
+            349.2
+           </td>
+           <td>
+            0.9822872507286887
+           </td>
+           <td>
+            -0.18738131458572468
+           </td>
+          </tr>
+          <tr style="--index: 352.8;--x: 0.9921147013144779;--y: -0.1253332335643038;">
+           <th>
+            99
+           </th>
+           <td>
+            352.8
+           </td>
+           <td>
+            0.9921147013144779
+           </td>
+           <td>
+            -0.1253332335643038
+           </td>
+          </tr>
+          <tr style="--index: 356.40000000000003;--x: 0.9980267284282716;--y: -0.06279051952931326;">
+           <th>
+            100
+           </th>
+           <td>
+            356.40000000000003
+           </td>
+           <td>
+            0.9980267284282716
+           </td>
+           <td>
+            -0.06279051952931326
+           </td>
+          </tr>
+          <tr style="--index: 360.0;--x: 1.0;--y: -2.4492935982947064e-16;">
+           <th>
+            101
+           </th>
+           <td>
+            360.0
+           </td>
+           <td>
+            1.0
+           </td>
+           <td>
+            -2.4492935982947064e-16
+           </td>
+          </tr>
+         </tbody>
+         <tbody>
+          <tr style="--index: 172.8;--x: -0.9921147013144779;--y: 0.1253332335643041;">
+           <th>
+            1
+           </th>
+           <td>
+            172.8
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+           <td>
+            0.1253332335643041
+           </td>
+          </tr>
+          <tr style="--index: 356.40000000000003;--x: 0.9980267284282716;--y: -0.06279051952931326;">
+           <th>
+            2
+           </th>
+           <td>
+            356.40000000000003
+           </td>
+           <td>
+            0.9980267284282716
+           </td>
+           <td>
+            -0.06279051952931326
+           </td>
+          </tr>
+          <tr style="--index: 248.4;--x: -0.3681245526846778;--y: -0.9297764858882515;">
+           <th>
+            3
+           </th>
+           <td>
+            248.4
+           </td>
+           <td>
+            -0.3681245526846778
+           </td>
+           <td>
+            -0.9297764858882515
+           </td>
+          </tr>
+          <tr style="--index: 140.4;--x: -0.7705132427757894;--y: 0.6374239897486895;">
+           <th>
+            4
+           </th>
+           <td>
+            140.4
+           </td>
+           <td>
+            -0.7705132427757894
+           </td>
+           <td>
+            0.6374239897486895
+           </td>
+          </tr>
+          <tr style="--index: 187.20000000000002;--x: -0.9921147013144779;--y: -0.12533323356430429;">
+           <th>
+            5
+           </th>
+           <td>
+            187.20000000000002
+           </td>
+           <td>
+            -0.9921147013144779
+           </td>
+           <td>
+            -0.12533323356430429
+           </td>
+          </tr>
+          <tr style="--index: 36.0;--x: 0.8090169943749475;--y: 0.5877852522924731;">
+           <th>
+            6
+           </th>
+           <td>
+            36.0
+           </td>
+           <td>
+            0.8090169943749475
+           </td>
+           <td>
+            0.5877852522924731
+           </td>
+          </tr>
+          <tr style="--index: 320.40000000000003;--x: 0.7705132427757894;--y: -0.6374239897486896;">
+           <th>
+            7
+           </th>
+           <td>
+            320.40000000000003
+           </td>
+           <td>
+            0.7705132427757894
+           </td>
+           <td>
+            -0.6374239897486896
+           </td>
+          </tr>
+          <tr style="--index: 72.0;--x: 0.30901699437494745;--y: 0.9510565162951535;">
+           <th>
+            8
+           </th>
+           <td>
+            72.0
+           </td>
+           <td>
+            0.30901699437494745
+           </td>
+           <td>
+            0.9510565162951535
+           </td>
+          </tr>
+          <tr style="--index: 64.8;--x: 0.42577929156507266;--y: 0.9048270524660196;">
+           <th>
+            9
+           </th>
+           <td>
+            64.8
+           </td>
+           <td>
+            0.42577929156507266
+           </td>
+           <td>
+            0.9048270524660196
+           </td>
+          </tr>
+          <tr style="--index: 162.0;--x: -0.9510565162951535;--y: 0.3090169943749475;">
+           <th>
+            10
+           </th>
+           <td>
+            162.0
+           </td>
+           <td>
+            -0.9510565162951535
+           </td>
+           <td>
+            0.3090169943749475
+           </td>
+          </tr>
+          <tr style="--index: 219.6;--x: -0.7705132427757893;--y: -0.6374239897486896;">
+           <th>
+            11
+           </th>
+           <td>
+            219.6
+           </td>
+           <td>
+            -0.7705132427757893
+           </td>
+           <td>
+            -0.6374239897486896
+           </td>
+          </tr>
+          <tr style="--index: 111.60000000000001;--x: -0.368124552684678;--y: 0.9297764858882513;">
+           <th>
+            12
+           </th>
+           <td>
+            111.60000000000001
+           </td>
+           <td>
+            -0.368124552684678
+           </td>
+           <td>
+            0.9297764858882513
+           </td>
+          </tr>
+          <tr style="--index: 133.20000000000002;--x: -0.6845471059286887;--y: 0.7289686274214114;">
+           <th>
+            13
+           </th>
+           <td>
+            133.20000000000002
+           </td>
+           <td>
+            -0.6845471059286887
+           </td>
+           <td>
+            0.7289686274214114
+           </td>
+          </tr>
+          <tr style="--index: 50.4;--x: 0.6374239897486897;--y: 0.7705132427757893;">
+           <th>
+            14
+           </th>
+           <td>
+            50.4
+           </td>
+           <td>
+            0.6374239897486897
+           </td>
+           <td>
+            0.7705132427757893
+           </td>
+          </tr>
+          <tr style="--index: 226.8;--x: -0.6845471059286886;--y: -0.7289686274214116;">
+           <th>
+            15
+           </th>
+           <td>
+            226.8
+           </td>
+           <td>
+            -0.6845471059286886
+           </td>
+           <td>
+            -0.7289686274214116
+           </td>
+          </tr>
+          <tr style="--index: 338.40000000000003;--x: 0.9297764858882515;--y: -0.36812455268467786;">
+           <th>
+            16
+           </th>
+           <td>
+            338.40000000000003
+           </td>
+           <td>
+            0.9297764858882515
+           </td>
+           <td>
+            -0.36812455268467786
+           </td>
+          </tr>
+          <tr style="--index: 115.2;--x: -0.4257792915650727;--y: 0.9048270524660195;">
+           <th>
+            17
+           </th>
+           <td>
+            115.2
+           </td>
+           <td>
+            -0.4257792915650727
+           </td>
+           <td>
+            0.9048270524660195
+           </td>
+          </tr>
+          <tr style="--index: 295.2;--x: 0.4257792915650726;--y: -0.9048270524660196;">
+           <th>
+            18
+           </th>
+           <td>
+            295.2
+           </td>
+           <td>
+            0.4257792915650726
+           </td>
+           <td>
+            -0.9048270524660196
+           </td>
+          </tr>
+          <tr style="--index: 201.6;--x: -0.9297764858882515;--y: -0.3681245526846779;">
+           <th>
+            19
+           </th>
+           <td>
+            201.6
+           </td>
+           <td>
+            -0.9297764858882515
+           </td>
+           <td>
+            -0.3681245526846779
+           </td>
+          </tr>
+          <tr style="--index: 284.40000000000003;--x: 0.24868988716485493;--y: -0.9685831611286311;">
+           <th>
+            20
+           </th>
+           <td>
+            284.40000000000003
+           </td>
+           <td>
+            0.24868988716485493
+           </td>
+           <td>
+            -0.9685831611286311
+           </td>
+          </tr>
+         </tbody>
+        </table>
+       </fieldset>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2024-04-17-windchime.html" rel="next">
+    wind chime table
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      accessibility settings
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        notebook layout
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        font settings
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="120%">
+            large
+           </option>
+           <option value="150%">
+            x-large
+           </option>
+           <option value="200%">
+            xx-large
+           </option>
+           <option value="300%">
+            xxx-large
+           </option>
+           <option value="400%">
+            xxxx-large
+           </option>
+           <option value="500%">
+            xxxxx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        sound settings
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     notebook help
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      definitions
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme(value = null) {
+    value = document.forms.settings.elements["color-scheme"].value;
+    let DARK = value == "dark";
+    let opposite = DARK ? "light" : "dark";
+    document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-highlight`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    BODY.classList.toggle("dark", DARK);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+function toggleActive() {
+    if (document.forms.notebook.elements.edit?.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+function fullScreen() {
+    if (!document.fullscreenElement) {
+        document.querySelector("main").requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        entry.target.style.width = "";
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        entry.target.style.width = `${Math.floor(width)}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
+    }
+
+}
+
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>
