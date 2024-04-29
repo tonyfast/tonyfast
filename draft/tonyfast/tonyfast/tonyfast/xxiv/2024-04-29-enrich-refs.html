@@ -1,0 +1,4756 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   enriching markdown links with access to current python distributions
+  </title>
+  <meta content="when talking about code it needs to be easier to create links and references.
+it is a waste of energy to hand roll that information.
+this approach gives markdown references access the distributions in my python env." name="description">
+  <meta content="light" name="color-scheme">
+  <link href="https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@3.0.5/dist/css/sa11y.min.css" rel="stylesheet">
+  <script type="module">
+   import { Sa11y, Lang } from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/sa11y.esm.js';
+    import Sa11yLangEn from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/lang/enUS.js';
+    Lang.addI18n(Sa11yLangEn.strings);
+
+    // Instantiate
+    export const sa11y = new Sa11y({
+        checkRoot: "body",
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   @layer api, defaults, layout, cells, cell, sa11y;
+
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
+
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
+
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        float: left;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
+}
+
+
+@layer sally {
+
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
+}
+
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[data-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
+}
+
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
+}
+
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
+}
+
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+  </style>
+  <style id="nb-light-highlight" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-highlight" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa sticky">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <br>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button id="nb-fullscreen" onclick="fullScreen()">
+    fullscreen
+   </button>
+   <p>
+    <a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank">
+     @tonyfast
+    </a>
+    s notebooks
+   </p>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="2024-04-29-enrich-refs.html">
+        enriching markdown links with access to current python distributions
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-28-scroll-position.html">
+        listening for scroll position
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-23-Untitled42.html">
+        untitled42
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-18-a-simple-clock.html">
+        the bones of a clock
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-visual-table-indicator.html">
+        non-numerical dataframes
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-15-llm-workflow.html">
+        integrating llms into my notebook worflows.
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-12-word-cloud.html">
+        word clouds are the wedding font of visualization
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-11-3d-html-table.html">
+        3d plots from html tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-08-table-plots.html">
+        html tables in figures
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-06-dl-dict.html">
+        definition lists as dictionaries
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-04-nbconvert-html-screen-reader.html">
+        screen reader improvements to nbconvert html exporter
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-03-markdown-lists-to-python.html">
+        turning markdown lists to python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-26-accessible-documentation-data.html">
+        assistive documentation data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-23-updating-ipython-config.html">
+        ipython profile updates
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-itables-stream.html">
+        screen reader experiences with static and interactive tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-documentation-as-data.html">
+        documentation as software and data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-20-exec-mast-nb.html">
+        executing the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-15-screen-tests.html">
+        revisiting nbviewer/nbconvert screen reader experiences
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-13-notebooks-for-all-march-call.html">
+        notebooks for all community summary
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-12-nbconvert-a11y-pres.html">
+        semantically meaningful notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-11-NOA.html">
+        Astronomy Notebooks for All
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-06-mast-revisit.html">
+        revisit building the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-04-semantic-outputs.html">
+        improved output semantic for python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-notebook-accessibility-workshop.html">
+        notebooks and accessibility workshop
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-a11y-list-string.ipynb.html">
+        using microdata and semantic html to represent python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-28-histograms-sucks.html">
+        histograms suck
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-multiindex-aria.html">
+        adding aria to long or wide tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-03-pandas-accessors.html">
+        pandas accessors
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-28-community-demo.html">
+        pidgy literate computing
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-18-voila-pidgy-integration.html">
+        cleaner integration of pidgy &amp; voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-16-inspector-hack.html">
+        customizing the IPython contextual help
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-07-pidgy-voila.html">
+        running pidgy in voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-tfoot-dataframe.html">
+        using tfoot in dataframes for more information
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+        rendering dataframes for screen readers with pandas
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        using typer in ipython magics
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        mkdocs plugin for jupyter notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        analyzing pyproject.toml configurations of popular projects
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        jupyterlite blog integration
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        rendering a notebook with pyscript
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        integrating typer into the blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        doit integration - a mkdocs example
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        exploring many pyproject.toml configs
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        formatting markdown it tokens as python doctests
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        making __main__ a __package__
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        unravel directories of notebooks with dask
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        inferring linked data from IPython run times.
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        what do we learn when we make colormaps from dataframes
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-lang nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       enriching markdown links with access to current python distributions
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       when talking about code it needs to be easier to create links and references.
+it is a waste of energy to hand roll that information.
+this approach gives markdown references access the distributions in my python env.
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       8 total
+      </dd>
+      <dd id="nb-ct-code">
+       4 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       kernel
+      </dt>
+      <dd>
+       Python [conda env:p311] *
+      </dd>
+      <dd>
+       <dl>
+        <dt>
+         language
+        </dt>
+        <dd id="nb-lang">
+         python
+        </dd>
+        <dt>
+         name
+        </dt>
+        <dd>
+         <samp>
+          <kbd>
+           conda-env-p311-py
+          </kbd>
+         </samp>
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       30
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       1
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#None">
+         enriching markdown links with access to current python distributions
+        </a>
+       </li>
+      </ol>
+     </nav>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:p311] *", "language": "python", "name": "conda-env-p311-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.11.3"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "enriching markdown links with access to current python distributions", "description": "when talking about code it needs to be easier to create links and references.\nit is a waste of energy to hand roll that information.\nthis approach gives markdown references access the distributions in my python env."}
+    </form>
+   </dialog>
+  </header>
+  <main>
+   <form name="notebook">
+    <fieldset>
+     <legend>
+      cell ordering
+     </legend>
+     <input id="sort-asc" name="sorted" type="radio" value="ascending">
+     <label for="sort-asc">
+      ascending
+     </label>
+     <input id="sort-desc" name="sorted" type="radio" value="descending">
+     <label for="sort-desc">
+      descending
+     </label>
+    </fieldset>
+   </form>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
+    <colgroup>
+     <col class="nb-index">
+     <col class="nb-execution_count">
+     <col class="nb-cell_type">
+     <col class="nb-toolbar">
+     <col class="nb-started_at">
+     <col class="nb-completed_at">
+     <col class="nb-source">
+     <col class="nb-loc">
+     <col class="nb-metadata">
+     <col class="nb-outputs">
+    </colgroup>
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="5" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-1-executed">
+         unexecuted
+        </span>
+        <span id="cell-1-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-1-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-exec-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="5"># enriching markdown links with access to current python distributions
+
+when talking about code it needs to be easier to create links and references.
+it is a waste of energy to hand roll that information.
+this approach gives markdown references access the distributions in my python env.</textarea>
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># enriching markdown links with access to current python distributions</span>
+
+when talking about code it needs to be easier to create links and references.
+it is a waste of energy to hand roll that information.
+this approach gives markdown references access the distributions in my python env.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h1 id="enriching-markdown-links-with-access-to-current-python-distributions"><a href="#enriching-markdown-links-with-access-to-current-python-distributions">enriching markdown links with access to current python distributions</a></h1>\n<p>when talking about code it needs to be easier to create links and references.\nit is a waste of energy to hand roll that information.\nthis approach gives markdown references access the distributions in my python env.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       5
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="enriching-markdown-links-with-access-to-current-python-distributions">
+        <a href="#enriching-markdown-links-with-access-to-current-python-distributions">
+         enriching markdown links with access to current python distributions
+        </a>
+       </h1>
+       <p>
+        when talking about code it needs to be easier to create links and references.
+it is a waste of energy to hand roll that information.
+this approach gives markdown references access the distributions in my python env.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell markdown" data-index="2" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-2-executed">
+         unexecuted
+        </span>
+        <span id="cell-2-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-2-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-exec-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="1">`generate_refs` iteratres though all the distributions in the environment.</textarea>
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="sb">`generate_refs`</span> iteratres though all the distributions in the environment.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p><code>generate_refs</code> iteratres though all the distributions in the environment.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        <code>
+         generate_refs
+        </code>
+        iteratres though all the distributions in the environment.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="5" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-3-executed">
+         executed
+        </span>
+        <span id="cell-3-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-3-exec-label">
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-exec-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="5">    def generate_refs():
+        return {
+            dist.name.upper(): {
+                "href": url, "title": dist.metadata.get("summary")
+            } for dist in importlib.metadata.distributions() if (url := get_url(dist))}</textarea>
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="k">def</span> <span class="nf">generate_refs</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">dist</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">upper</span><span class="p">():</span> <span class="p">{</span>
+                <span class="s2">"href"</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span> <span class="s2">"title"</span><span class="p">:</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"summary"</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">importlib</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">distributions</span><span class="p">()</span> <span class="k">if</span> <span class="p">(</span><span class="n">url</span> <span class="o">:=</span> <span class="n">get_url</span><span class="p">(</span><span class="n">dist</span><span class="p">))}</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       5
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-3-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-4-executed">
+         unexecuted
+        </span>
+        <span id="cell-4-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-4-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-exec-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="1">`get_url` extracts one url to use for an external link.</textarea>
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="sb">`get_url`</span> extracts one url to use for an external link.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p><code>get_url</code> extracts one url to use for an external link.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        <code>
+         get_url
+        </code>
+        extracts one url to use for an external link.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="8" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-5-executed">
+         executed
+        </span>
+        <span id="cell-5-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-5-exec-label">
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-exec-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="8">    def get_url(dist):
+        url = dist.metadata.get("Home-Page")
+        if not url:
+            url = dist.metadata.get("Project-URL")
+            if url:
+                *_, url = url.splitlines()[0].partition(",")
+                url = url.strip()
+        return url</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="k">def</span> <span class="nf">get_url</span><span class="p">(</span><span class="n">dist</span><span class="p">):</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Home-Page"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">url</span><span class="p">:</span>
+            <span class="n">url</span> <span class="o">=</span> <span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"Project-URL"</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">url</span><span class="p">:</span>
+                <span class="o">*</span><span class="n">_</span><span class="p">,</span> <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">","</span><span class="p">)</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">url</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="3" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-6-executed">
+         executed
+        </span>
+        <span id="cell-6-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-6-exec-label">
+         3
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-exec-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="3">    def load_ipython_extension(shell):
+        shell._markdown_env.setdefault("references", {}).update(generate_refs())
+    (INTERACTIVE := "__file__" not in locals()) and load_ipython_extension(get_ipython())</textarea>
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="k">def</span> <span class="nf">load_ipython_extension</span><span class="p">(</span><span class="n">shell</span><span class="p">):</span>
+        <span class="n">shell</span><span class="o">.</span><span class="n">_markdown_env</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="s2">"references"</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">generate_refs</span><span class="p">())</span>
+    <span class="p">(</span><span class="n">INTERACTIVE</span> <span class="o">:=</span> <span class="s2">"__file__"</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">locals</span><span class="p">())</span> <span class="ow">and</span> <span class="n">load_ipython_extension</span><span class="p">(</span><span class="n">get_ipython</span><span class="p">())</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       3
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-6-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          3
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="11" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+        7
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-7-executed">
+         executed
+        </span>
+        <span id="cell-7-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-7-exec-label">
+         4
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-7-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-7-exec-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-7-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-7-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="11">%% 
+this gives me an advantage when talking about software an projects like [importnb], [midgy], or [pandas].
+
+
+&lt;details&gt;&lt;summary&gt;the dictionary of references created&lt;/summary&gt;
+
+~~~json
+{{json.dumps(shell._markdown_env, indent=2)}}
+~~~
+
+&lt;/details&gt;</textarea>
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="o">%%</span> 
+<span class="n">this</span> <span class="n">gives</span> <span class="n">me</span> <span class="n">an</span> <span class="n">advantage</span> <span class="n">when</span> <span class="n">talking</span> <span class="n">about</span> <span class="n">software</span> <span class="n">an</span> <span class="n">projects</span> <span class="n">like</span> <span class="p">[</span><span class="n">importnb</span><span class="p">],</span> <span class="p">[</span><span class="n">midgy</span><span class="p">],</span> <span class="ow">or</span> <span class="p">[</span><span class="n">pandas</span><span class="p">]</span><span class="o">.</span>
+
+
+<span class="o">&lt;</span><span class="n">details</span><span class="o">&gt;&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="n">the</span> <span class="n">dictionary</span> <span class="n">of</span> <span class="n">references</span> <span class="n">created</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
+
+<span class="o">~~~</span><span class="n">json</span>
+<span class="p">{{</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">_markdown_env</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)}}</span>
+<span class="o">~~~</span>
+
+<span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-7-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-7-loc" role="none">
+       11
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-7-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          4
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <p>
+         this gives me an advantage when talking about software an projects like
+         <a href="https://github.com/deathbeds/importnb#readme" title="import jupyter notebooks as python modules and scripts.">
+          importnb
+         </a>
+         ,
+         <a href="https://github.com/deathbeds/midgy#readme" title="run markdown as python code">
+          midgy
+         </a>
+         , or
+         <a href="https://pandas.pydata.org" title="Powerful data structures for data analysis, time series, and statistics">
+          pandas
+         </a>
+         .
+        </p>
+        <details>
+         <summary>
+          the dictionary of references created
+         </summary>
+         <pre><code class="json">{
+  "references": {
+    "TENACITY": {
+      "href": "https://github.com/jd/tenacity",
+      "title": "Retry code until it succeeds"
+    },
+    "JUPYTER-LSP": {
+      "href": "https://github.com/jupyter-lsp/jupyterlab-lsp/issues",
+      "title": "Multi-Language Server WebSocket proxy for Jupyter Notebook/Lab server"
+    },
+    "PLAYWRIGHT": {
+      "href": "https://github.com/Microsoft/playwright-python",
+      "title": "A high-level API to automate web browsers"
+    },
+    "PYTEST-BASE-URL": {
+      "href": "https://github.com/pytest-dev/pytest-base-url",
+      "title": "pytest plugin for URL based testing"
+    },
+    "CLINT": {
+      "href": "https://github.com/kennethreitz/clint",
+      "title": "Python Command Line Interface Tools"
+    },
+    "TQDM": {
+      "href": "https://tqdm.github.io",
+      "title": "Fast, Extensible Progress Meter"
+    },
+    "FLIT_CORE": {
+      "href": "https://flit.pypa.io",
+      "title": "Distribution-building parts of Flit. See flit package for more information"
+    },
+    "CATTRS": {
+      "href": "https://catt.rs",
+      "title": "Composable complex class support for attrs and dataclasses."
+    },
+    "OVERRIDES": {
+      "href": "https://github.com/mkorpela/overrides",
+      "title": "A decorator to automatically detect mismatch when overriding a method."
+    },
+    "RICH": {
+      "href": "https://github.com/Textualize/rich",
+      "title": "Render rich text, tables, progress bars, syntax highlighting, markdown and more to the terminal"
+    },
+    "MATPLOTLIB": {
+      "href": "https://matplotlib.org",
+      "title": "Python plotting package"
+    },
+    "PYTOOLCONFIG": {
+      "href": "https://github.com/bageljrkhanofemus/pytoolconfig",
+      "title": "Python tool configuration"
+    },
+    "ENTRYPOINTS": {
+      "href": "https://github.com/takluyver/entrypoints",
+      "title": "Discover and load entry points from installed packages."
+    },
+    "ZIPP": {
+      "href": "https://github.com/jaraco/zipp",
+      "title": "Backport of pathlib-compatible object wrapper for zip files"
+    },
+    "PATHSPEC": {
+      "href": "https://python-path-specification.readthedocs.io/en/latest/index.html",
+      "title": "Utility library for gitignore style pattern matching of file paths."
+    },
+    "PYDOCSTYLE": {
+      "href": "https://www.pydocstyle.org/en/stable/",
+      "title": "Python docstring style checker"
+    },
+    "LOCKET": {
+      "href": "http://github.com/mwilliamson/locket.py",
+      "title": "File-based locks for Python on Linux and Windows"
+    },
+    "RFC3339-VALIDATOR": {
+      "href": "https://github.com/naimetti/rfc3339-validator",
+      "title": "A pure python RFC3339 validator"
+    },
+    "JSONSCHEMA-SPECIFICATIONS": {
+      "href": "https://jsonschema-specifications.readthedocs.io/",
+      "title": "The JSON Schema meta-schemas and vocabularies, exposed as a Registry"
+    },
+    "XXHASH": {
+      "href": "https://github.com/ifduyue/python-xxhash",
+      "title": "Python binding for xxHash"
+    },
+    "FROZENDICT": {
+      "href": "https://github.com/Marco-Sulla/python-frozendict",
+      "title": "A simple immutable dictionary"
+    },
+    "PACKAGING": {
+      "href": "https://packaging.pypa.io/",
+      "title": "Core utilities for Python packages"
+    },
+    "ZSTANDARD": {
+      "href": "https://github.com/indygreg/python-zstandard",
+      "title": "Zstandard bindings for Python"
+    },
+    "JUPYTER_SERVER_TERMINALS": {
+      "href": "https://jupyter.org",
+      "title": "A Jupyter Server Extension Providing Terminals."
+    },
+    "WERKZEUG": {
+      "href": "https://werkzeug.palletsprojects.com/changes/",
+      "title": "The comprehensive WSGI web application library."
+    },
+    "PURE-EVAL": {
+      "href": "http://github.com/alexmojaki/pure_eval",
+      "title": "Safely evaluate AST nodes without side effects"
+    },
+    "PARSO": {
+      "href": "https://github.com/davidhalter/parso",
+      "title": "A Python Parser"
+    },
+    "ASTTOKENS": {
+      "href": "https://github.com/gristlabs/asttokens",
+      "title": "Annotate AST trees with source code positions"
+    },
+    "JUPYTERLAB_FONTS": {
+      "href": "https://github.com/deathbeds/jupyterlab-fonts/issues",
+      "title": "\"main importable for jupyterlab-fonts."
+    },
+    "SYMPY": {
+      "href": "https://sympy.org",
+      "title": "Computer algebra system (CAS) in Python"
+    },
+    "PANDAS": {
+      "href": "https://pandas.pydata.org",
+      "title": "Powerful data structures for data analysis, time series, and statistics"
+    },
+    "DFOCS": {
+      "href": "https://github.com/deathbeds/dfocs#readme",
+      "title": "dataframes of documentation"
+    },
+    "SMMAP": {
+      "href": "https://github.com/gitpython-developers/smmap",
+      "title": "A pure Python implementation of a sliding window memory map manager"
+    },
+    "TINYCSS2": {
+      "href": "https://github.com/Kozea/tinycss2/releases",
+      "title": "A tiny CSS parser"
+    },
+    "NOTEBOOK": {
+      "href": "https://jupyter-notebook.readthedocs.io/",
+      "title": "Jupyter Notebook - A web-based notebook environment for interactive computing"
+    },
+    "SNIFFIO": {
+      "href": "https://github.com/python-trio/sniffio",
+      "title": "Sniff out which async library your code is running under"
+    },
+    "DATACLASSES-JSON": {
+      "href": "https://github.com/lidatong/dataclasses-json",
+      "title": "Easily serialize dataclasses to and from JSON."
+    },
+    "NB-CONDA-KERNELS": {
+      "href": "https://github.com/Anaconda-Platform/nb_conda_kernels",
+      "title": "Launch Jupyter kernels for any installed conda environment"
+    },
+    "CYTHON": {
+      "href": "https://cython.org/",
+      "title": "The Cython compiler for writing C extensions in the Python language."
+    },
+    "DISTLIB": {
+      "href": "https://github.com/pypa/distlib",
+      "title": "Distribution utilities"
+    },
+    "JEDI": {
+      "href": "https://github.com/davidhalter/jedi",
+      "title": "An autocompletion tool for Python that can be used for text editors."
+    },
+    "IPYKERNEL": {
+      "href": "https://ipython.org",
+      "title": "IPython Kernel for Jupyter"
+    },
+    "TRITON": {
+      "href": "https://github.com/openai/triton/",
+      "title": "A language and compiler for custom Deep Learning operations"
+    },
+    "CFFI": {
+      "href": "http://cffi.readthedocs.org",
+      "title": "Foreign Function Interface for Python calling C code."
+    },
+    "DATASETS": {
+      "href": "https://github.com/huggingface/datasets",
+      "title": "HuggingFace community-driven open-source library of datasets"
+    },
+    "PYSOCKS": {
+      "href": "https://github.com/Anorov/PySocks",
+      "title": "A Python SOCKS client module. See https://github.com/Anorov/PySocks for more information."
+    },
+    "ITABLES": {
+      "href": "https://mwouts.github.io/itables/",
+      "title": "Pandas and Polar DataFrames as interactive DataTables"
+    },
+    "YPY-WEBSOCKET": {
+      "href": "https://github.com/y-crdt/ypy-websocket",
+      "title": "WebSocket connector for Ypy"
+    },
+    "CRYPTOGRAPHY": {
+      "href": "https://github.com/pyca/cryptography",
+      "title": "cryptography is a package which provides cryptographic recipes and primitives to Python developers."
+    },
+    "MISTUNE": {
+      "href": "https://github.com/lepture/mistune",
+      "title": "A sane Markdown parser with useful plugins and renderers"
+    },
+    "LINKIFY-IT-PY": {
+      "href": "https://github.com/tsutsu3/linkify-it-py",
+      "title": "Links recognition library with FULL unicode support."
+    },
+    "HATCH": {
+      "href": "https://hatch.pypa.io/latest/",
+      "title": "Modern, extensible Python project management"
+    },
+    "PYLINT": {
+      "href": "https://pylint.readthedocs.io/en/latest/",
+      "title": "python code static checker"
+    },
+    "PYFLAKES": {
+      "href": "https://github.com/PyCQA/pyflakes",
+      "title": "passive checker of Python programs"
+    },
+    "THREADPOOLCTL": {
+      "href": "https://github.com/joblib/threadpoolctl",
+      "title": "threadpoolctl"
+    },
+    "TYPING-UTILS": {
+      "href": "https://github.com/bojiang/typing_utils",
+      "title": "utils to inspect Python type annotations"
+    },
+    "IMPORTLIB-RESOURCES": {
+      "href": "https://github.com/python/importlib_resources",
+      "title": "Read resources from Python packages"
+    },
+    "MUNKRES": {
+      "href": "https://software.clapper.org/munkres/",
+      "title": "Munkres (Hungarian) algorithm for the Assignment Problem"
+    },
+    "PYTZ": {
+      "href": "http://pythonhosted.org/pytz",
+      "title": "World timezone definitions, modern and historical"
+    },
+    "COVERAGE": {
+      "href": "https://github.com/nedbat/coveragepy",
+      "title": "Code coverage measurement for Python"
+    },
+    "PYCALPHAD": {
+      "href": "https://pycalphad.org/",
+      "title": "CALPHAD tools for designing thermodynamic models, calculating phase diagrams and investigating phase equilibria."
+    },
+    "NUMPY": {
+      "href": "https://numpy.org",
+      "title": "Fundamental package for array computing in Python"
+    },
+    "MATPLOTLIB-INLINE": {
+      "href": "https://github.com/ipython/matplotlib-inline",
+      "title": "Inline Matplotlib backend for Jupyter"
+    },
+    "TOKENIZERS": {
+      "href": "https://github.com/huggingface/tokenizers",
+      "title": null
+    },
+    "NBCLASSIC": {
+      "href": "https://github.com/jupyter/nbclassic",
+      "title": "Jupyter Notebook as a Jupyter Server extension."
+    },
+    "H11": {
+      "href": "https://github.com/python-hyper/h11",
+      "title": "A pure-Python, bring-your-own-I/O implementation of HTTP/1.1"
+    },
+    "TRAITLETS": {
+      "href": "https://github.com/ipython/traitlets",
+      "title": "Traitlets Python configuration system"
+    },
+    "TOML": {
+      "href": "https://github.com/uiri/toml",
+      "title": "Python Library for Tom's Obvious, Minimal Language"
+    },
+    "JINJA2": {
+      "href": "https://palletsprojects.com/p/jinja/",
+      "title": "A very fast and expressive template engine."
+    },
+    "CERTIFI": {
+      "href": "https://github.com/certifi/python-certifi",
+      "title": "Python package for providing Mozilla's CA Bundle."
+    },
+    "DASK": {
+      "href": "https://github.com/dask/dask/",
+      "title": "Parallel PyData with Task Scheduling"
+    },
+    "URLLIB3": {
+      "href": "https://github.com/urllib3/urllib3/blob/main/CHANGES.rst",
+      "title": "HTTP library with thread-safe connection pooling, file post, and more."
+    },
+    "TYPING-INSPECT": {
+      "href": "https://github.com/ilevkivskyi/typing_inspect",
+      "title": "Runtime inspection utilities for typing module."
+    },
+    "SCIKIT-LEARN": {
+      "href": "https://scikit-learn.org",
+      "title": "A set of python modules for machine learning and data mining"
+    },
+    "IDNA": {
+      "href": "https://github.com/kjd/idna/blob/master/HISTORY.rst",
+      "title": "Internationalized Domain Names in Applications (IDNA)"
+    },
+    "ITSDANGEROUS": {
+      "href": "https://palletsprojects.com/p/itsdangerous/",
+      "title": "Safely pass data to untrusted environments and back."
+    },
+    "SQLALCHEMY": {
+      "href": "https://www.sqlalchemy.org",
+      "title": "Database Abstraction Library"
+    },
+    "RFC3986-VALIDATOR": {
+      "href": "https://github.com/naimetti/rfc3986-validator",
+      "title": "Pure python rfc3986 validator"
+    },
+    "ISODURATION": {
+      "href": "https://github.com/bolsote/isoduration",
+      "title": "Operations with ISO 8601 durations"
+    },
+    "MIDGY": {
+      "href": "https://github.com/deathbeds/midgy#readme",
+      "title": "run markdown as python code"
+    },
+    "POLARS": {
+      "href": "https://www.pola.rs/",
+      "title": "Blazingly fast DataFrame library"
+    },
+    "UJSON": {
+      "href": "https://github.com/ultrajson/ultrajson",
+      "title": "Ultra fast JSON encoder and decoder for Python"
+    },
+    "TORCHAUDIO": {
+      "href": "https://github.com/pytorch/audio",
+      "title": "An audio package for PyTorch"
+    },
+    "PYGMENTS": {
+      "href": "https://pygments.org",
+      "title": "Pygments is a syntax highlighting package written in Python."
+    },
+    "TOMLI": {
+      "href": "https://github.com/hukkin/tomli/blob/master/CHANGELOG.md",
+      "title": "A lil' TOML parser"
+    },
+    "RUNTYPE": {
+      "href": "https://github.com/erezsh/runtype",
+      "title": "Type dispatch and validation for run-time Python"
+    },
+    "BUILD": {
+      "href": "https://pypa-build.readthedocs.io/en/stable/changelog.html",
+      "title": "A simple, correct Python build frontend"
+    },
+    "WIDGETSNBEXTENSION": {
+      "href": "http://jupyter.org",
+      "title": "Jupyter interactive widgets for Jupyter Notebook"
+    },
+    "ROPE": {
+      "href": "https://github.com/python-rope/rope",
+      "title": "a python refactoring library..."
+    },
+    "IPYTHON": {
+      "href": "https://ipython.org",
+      "title": "IPython: Productive Interactive Computing"
+    },
+    "REQUESTS-CACHE": {
+      "href": "https://github.com/requests-cache/requests-cache",
+      "title": "A persistent cache for python requests"
+    },
+    "COBBLE": {
+      "href": "http://github.com/mwilliamson/python-cobble",
+      "title": "Create data objects"
+    },
+    "FROZENLIST": {
+      "href": "https://github.com/aio-libs/frozenlist",
+      "title": "A list-like structure which implements collections.abc.MutableSequence"
+    },
+    "PYZMQ": {
+      "href": "https://pyzmq.readthedocs.org",
+      "title": "Python bindings for 0MQ"
+    },
+    "JEEPNEY": {
+      "href": "https://gitlab.com/takluyver/jeepney",
+      "title": "Low-level, pure Python DBus protocol wrapper."
+    },
+    "TONYFAST": {
+      "href": "https://github.com/deathbeds/pidgy#readme",
+      "title": "calligrams"
+    },
+    "SENTENCEPIECE": {
+      "href": "https://github.com/google/sentencepiece",
+      "title": "SentencePiece python wrapper"
+    },
+    "FQDN": {
+      "href": "https://github.com/ypcrts/fqdn",
+      "title": "Validates fully-qualified domain names against RFC 1123, so that they are acceptable to modern bowsers"
+    },
+    "IMPORTNB": {
+      "href": "https://github.com/deathbeds/importnb#readme",
+      "title": "import jupyter notebooks as python modules and scripts."
+    },
+    "COMM": {
+      "href": "https://github.com/ipython/comm",
+      "title": "Jupyter Python Comm implementation, for usage in ipykernel, xeus-python etc."
+    },
+    "JUPYTERLAB-PYGMENTS": {
+      "href": "https://github.com/jupyterlab/jupyterlab_pygments",
+      "title": "Pygments theme using JupyterLab CSS variables"
+    },
+    "LANGCHAIN-COMMUNITY": {
+      "href": "https://github.com/langchain-ai/langchain",
+      "title": "Community contributed LangChain integrations."
+    },
+    "AIOITERTOOLS": {
+      "href": "https://aioitertools.omnilib.dev",
+      "title": "itertools and builtins for AsyncIO and mixed iterables"
+    },
+    "JUPYTER_CORE": {
+      "href": "https://jupyter.org",
+      "title": "Jupyter core package. A base package on which Jupyter projects rely."
+    },
+    "NVIDIA-NVTX-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "NVIDIA Tools Extension"
+    },
+    "NBFORMAT": {
+      "href": "https://jupyter.org",
+      "title": "The Jupyter Notebook format"
+    },
+    "URI-TEMPLATE": {
+      "href": "https://github.com/plinss/uri_template/",
+      "title": "RFC 6570 URI Template Processor"
+    },
+    "BACKPORTS.FUNCTOOLS-LRU-CACHE": {
+      "href": "https://github.com/jaraco/backports.functools_lru_cache",
+      "title": "Backport of functools.lru_cache"
+    },
+    "PYTHON-DOCX": {
+      "href": "https://github.com/python-openxml/python-docx/blob/master/HISTORY.rst",
+      "title": "Create, read, and update Microsoft Word .docx files."
+    },
+    "RPDS-PY": {
+      "href": "https://github.com/crate-py/rpds",
+      "title": "Python bindings to Rust's persistent data structures (rpds)"
+    },
+    "PYRSISTENT": {
+      "href": "https://github.com/tobgu/pyrsistent/",
+      "title": "Persistent/Functional/Immutable data structures"
+    },
+    "BACKCALL": {
+      "href": "https://github.com/takluyver/backcall",
+      "title": "Specifications for callback functions passed in to an API"
+    },
+    "IPYWIDGETS": {
+      "href": "http://jupyter.org",
+      "title": "Jupyter interactive widgets"
+    },
+    "JUPYTERLAB-DECK": {
+      "href": "https://github.com/deathbeds/jupyterlab-deck/issues",
+      "title": "A lightweight presentation mode for JupyterLab."
+    },
+    "TOMLI_W": {
+      "href": "https://github.com/hukkin/tomli-w/blob/master/CHANGELOG.md",
+      "title": "A lil' TOML writer"
+    },
+    "TEXT-UNIDECODE": {
+      "href": "https://github.com/kmike/text-unidecode/",
+      "title": "The most basic Text::Unidecode port"
+    },
+    "PYPARSING": {
+      "href": "https://github.com/pyparsing/pyparsing/",
+      "title": "pyparsing module - Classes and methods to define and execute parsing grammars"
+    },
+    "GREENLET": {
+      "href": "https://greenlet.readthedocs.io/",
+      "title": "Lightweight in-process concurrent programming"
+    },
+    "MULTIDICT": {
+      "href": "https://github.com/aio-libs/multidict",
+      "title": "multidict implementation"
+    },
+    "JUPYTERLAB-WIDGETS": {
+      "href": "https://github.com/jupyter-widgets/ipywidgets",
+      "title": "Jupyter interactive widgets for JupyterLab"
+    },
+    "WEBSOCKET-CLIENT": {
+      "href": "https://github.com/websocket-client/websocket-client.git",
+      "title": "WebSocket client for Python with low level API options"
+    },
+    "ANYIO": {
+      "href": "https://anyio.readthedocs.io/en/latest/",
+      "title": "High level compatibility layer for multiple asynchronous event loop implementations"
+    },
+    "NVIDIA-CUDA-NVRTC-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "NVRTC native runtime libraries"
+    },
+    "LANGCHAIN": {
+      "href": "https://github.com/langchain-ai/langchain",
+      "title": "Building applications with LLMs through composability"
+    },
+    "PLUGGY": {
+      "href": "https://github.com/pytest-dev/pluggy",
+      "title": "plugin and hook calling mechanisms for python"
+    },
+    "NVIDIA-CUBLAS-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUBLAS native runtime libraries"
+    },
+    "NBCLIENT": {
+      "href": "https://nbclient.readthedocs.io",
+      "title": "A client library for executing notebooks. Formerly nbconvert's ExecutePreprocessor."
+    },
+    "PIP": {
+      "href": "https://pip.pypa.io/",
+      "title": "The PyPA recommended tool for installing Python packages."
+    },
+    "DISTRO": {
+      "href": "https://github.com/python-distro/distro",
+      "title": "Distro - an OS platform information API"
+    },
+    "HTML5LIB": {
+      "href": "https://github.com/html5lib/html5lib-python",
+      "title": "HTML parser based on the WHATWG HTML specification"
+    },
+    "NVIDIA-CUDA-RUNTIME-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUDA Runtime native Libraries"
+    },
+    "JUPYTER-EVENTS": {
+      "href": "http://jupyter.org",
+      "title": "Jupyter Event System library"
+    },
+    "PROMETHEUS-CLIENT": {
+      "href": "https://github.com/prometheus/client_python",
+      "title": "Python client for the Prometheus monitoring system."
+    },
+    "AIOSQLITE": {
+      "href": "https://aiosqlite.omnilib.dev",
+      "title": "asyncio bridge to the standard sqlite3 module"
+    },
+    "TRANSFORMERS": {
+      "href": "https://github.com/huggingface/transformers",
+      "title": "State-of-the-art Machine Learning for JAX, PyTorch and TensorFlow"
+    },
+    "USERPATH": {
+      "href": "https://github.com/sponsors/ofek",
+      "title": "Cross-platform tool for adding locations to the user PATH"
+    },
+    "MARKUPSAFE": {
+      "href": "https://palletsprojects.com/p/markupsafe/",
+      "title": "Safely add untrusted strings to HTML/XML markup."
+    },
+    "BLACK": {
+      "href": "https://github.com/psf/black/blob/main/CHANGES.md",
+      "title": "The uncompromising code formatter."
+    },
+    "LANGSMITH": {
+      "href": "https://smith.langchain.com/",
+      "title": "Client library to connect to the LangSmith LLM Tracing and Evaluation Platform."
+    },
+    "JUPYTER_SERVER": {
+      "href": "https://jupyter-server.readthedocs.io",
+      "title": "The backend\u2014i.e. core services, APIs, and REST endpoints\u2014to Jupyter web applications."
+    },
+    "SEABORN": {
+      "href": "http://seaborn.pydata.org",
+      "title": "Statistical data visualization"
+    },
+    "PYMONGO": {
+      "href": "http://github.com/mongodb/mongo-python-driver",
+      "title": "Python driver for MongoDB &lt;http://www.mongodb.org&gt;"
+    },
+    "DEBUGPY": {
+      "href": "https://aka.ms/debugpy",
+      "title": "An implementation of the Debug Adapter Protocol for Python"
+    },
+    "PYPERCLIP": {
+      "href": "https://github.com/asweigart/pyperclip",
+      "title": "A cross-platform clipboard module for Python. (Only handles plain text for now.)"
+    },
+    "ARROW": {
+      "href": "https://arrow.readthedocs.io",
+      "title": "Better dates &amp; times for Python"
+    },
+    "LANGCHAIN-OPENAI": {
+      "href": "https://github.com/langchain-ai/langchain",
+      "title": "An integration package connecting OpenAI and LangChain"
+    },
+    "PANDOCFILTERS": {
+      "href": "http://github.com/jgm/pandocfilters",
+      "title": "Utilities for writing pandoc filters in python"
+    },
+    "AIOHTTP-CLIENT-CACHE": {
+      "href": "https://github.com/requests-cache/aiohttp-client-cache",
+      "title": "Persistent cache for aiohttp requests"
+    },
+    "PSUTIL": {
+      "href": "https://github.com/giampaolo/psutil",
+      "title": "Cross-platform lib for process and system monitoring in Python."
+    },
+    "MULTIPROCESS": {
+      "href": "https://github.com/uqfoundation/multiprocess",
+      "title": "better multiprocessing and multithreading in Python"
+    },
+    "SNAKEVIZ": {
+      "href": "https://jiffyclub.github.io/snakeviz/",
+      "title": "A web-based viewer for Python profiler output"
+    },
+    "EXCEPTIONGROUP": {
+      "href": "https://github.com/agronholm/exceptiongroup/blob/main/CHANGES.rst",
+      "title": "Backport of PEP 654 (exception groups)"
+    },
+    "REGEX": {
+      "href": "https://github.com/mrabarnett/mrab-regex",
+      "title": "Alternative regular expression module, to replace re."
+    },
+    "ORJSON": {
+      "href": "https://github.com/ijl/orjson",
+      "title": "Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy"
+    },
+    "PYTHON-JSON-LOGGER": {
+      "href": "http://github.com/madzak/python-json-logger",
+      "title": "A python library adding a json log formatter"
+    },
+    "ARGS": {
+      "href": "https://github.com/kennethreitz/args",
+      "title": "Command Arguments for Humans."
+    },
+    "JSONPOINTER": {
+      "href": "https://github.com/stefankoegl/python-json-pointer",
+      "title": "Identify specific nodes in a JSON document (RFC 6901) "
+    },
+    "SOUPSIEVE": {
+      "href": "https://github.com/facelessuser/soupsieve",
+      "title": "A modern CSS selector implementation for Beautiful Soup."
+    },
+    "RUFF": {
+      "href": "https://docs.astral.sh/ruff",
+      "title": "An extremely fast Python linter and code formatter, written in Rust."
+    },
+    "DECORATOR": {
+      "href": "https://github.com/micheles/decorator",
+      "title": "Decorators for Humans"
+    },
+    "GITDB": {
+      "href": "https://github.com/gitpython-developers/gitdb",
+      "title": "Git Object Database"
+    },
+    "H2": {
+      "href": "https://github.com/python-hyper/h2",
+      "title": "HTTP/2 State-Machine based protocol implementation"
+    },
+    "EXECNET": {
+      "href": "https://execnet.readthedocs.io/en/latest/",
+      "title": "execnet: rapid multi-Python deployment"
+    },
+    "PYTEST-COV": {
+      "href": "https://github.com/pytest-dev/pytest-cov",
+      "title": "Pytest plugin for measuring coverage."
+    },
+    "HYPERFRAME": {
+      "href": "https://github.com/python-hyper/hyperframe/",
+      "title": "HTTP/2 framing layer for Python"
+    },
+    "TIKTOKEN": {
+      "href": "https://github.com/openai/tiktoken",
+      "title": "tiktoken is a fast BPE tokeniser for use with OpenAI's models"
+    },
+    "REDIS": {
+      "href": "https://github.com/redis/redis-py",
+      "title": "Python client for Redis database and key-value store"
+    },
+    "TINYDB": {
+      "href": "https://github.com/msiemens/tinydb",
+      "title": "TinyDB is a tiny, document oriented database optimized for your happiness :)"
+    },
+    "PLYER": {
+      "href": "https://plyer.readthedocs.org/en/latest/",
+      "title": "Platform-independent wrapper for platform-dependent APIs"
+    },
+    "BLEACH": {
+      "href": "https://github.com/mozilla/bleach",
+      "title": "An easy safelist-based HTML-sanitizing tool."
+    },
+    "TZDATA": {
+      "href": "https://github.com/python/tzdata",
+      "title": "Provider of IANA time zone data"
+    },
+    "GITPYTHON": {
+      "href": "https://github.com/gitpython-developers/GitPython",
+      "title": "GitPython is a Python library used to interact with Git repositories"
+    },
+    "DOCSTRING-TO-MARKDOWN": {
+      "href": "UNKNOWN",
+      "title": "On the fly conversion of Python docstrings to markdown"
+    },
+    "JARACO.CLASSES": {
+      "href": "https://github.com/jaraco/jaraco.classes",
+      "title": "Utility functions for Python class constructs"
+    },
+    "PYDANTIC_CORE": {
+      "href": "https://github.com/pydantic/pydantic-core",
+      "title": null
+    },
+    "JUPYTERLAB": {
+      "href": "https://jupyter.org",
+      "title": "JupyterLab computational environment"
+    },
+    "ASTROID": {
+      "href": "https://pylint.readthedocs.io/projects/astroid/en/latest/",
+      "title": "An abstract syntax tree for Python with inference support."
+    },
+    "EXECUTING": {
+      "href": "https://github.com/alexmojaki/executing",
+      "title": "Get the currently executing AST node of a frame, and other information"
+    },
+    "FONTTOOLS": {
+      "href": "http://github.com/fonttools/fonttools",
+      "title": "Tools to manipulate font files"
+    },
+    "MCCABE": {
+      "href": "https://github.com/pycqa/mccabe",
+      "title": "McCabe checker, plugin for flake8"
+    },
+    "TERMCOLOR": {
+      "href": "https://github.com/termcolor/termcolor/releases",
+      "title": "ANSI color formatting for output in terminal"
+    },
+    "TROVE-CLASSIFIERS": {
+      "href": "https://github.com/pypa/trove-classifiers",
+      "title": "Canonical source for classifiers on PyPI (pypi.org)."
+    },
+    "CLOUDPICKLE": {
+      "href": "https://github.com/cloudpipe/cloudpickle",
+      "title": "Extended pickling support for Python objects"
+    },
+    "ISORT": {
+      "href": "https://pycqa.github.io/isort/",
+      "title": "A Python utility / library to sort Python imports."
+    },
+    "PYTHON-LSP-JSONRPC": {
+      "href": "https://github.com/python-lsp/python-lsp-jsonrpc",
+      "title": "JSON RPC 2.0 server library"
+    },
+    "PROTOBUF": {
+      "href": "https://developers.google.com/protocol-buffers/",
+      "title": null
+    },
+    "PYPROJECT_HOOKS": {
+      "href": "https://pyproject-hooks.readthedocs.io/en/latest/changelog.html",
+      "title": "Wrappers to call pyproject.toml-based build backend hooks."
+    },
+    "FLIT": {
+      "href": "https://flit.pypa.io/en/stable/history.html",
+      "title": "A simple packaging tool for simple packages."
+    },
+    "BOTOCORE": {
+      "href": "https://github.com/boto/botocore",
+      "title": "Low-level, data-driven core of boto 3."
+    },
+    "KIWISOLVER": {
+      "href": "https://github.com/nucleic/kiwi",
+      "title": "A fast implementation of the Cassowary constraint solver"
+    },
+    "PYTHON-DATEUTIL": {
+      "href": "https://github.com/dateutil/dateutil",
+      "title": "Extensions to the standard Python datetime module"
+    },
+    "NETWORKX": {
+      "href": "https://networkx.org/",
+      "title": "Python package for creating and manipulating graphs and networks"
+    },
+    "PYTEST-SUGAR": {
+      "href": "https://github.com/Teemu/pytest-sugar",
+      "title": "pytest-sugar is a plugin for pytest that changes the default look and feel of pytest (e.g. progressbar, show tests that fail instantly)."
+    },
+    "ARGON2-CFFI": {
+      "href": "https://github.com/hynek/argon2-cffi/blob/main/CHANGELOG.md",
+      "title": "The secure Argon2 password hashing algorithm."
+    },
+    "LXML": {
+      "href": "https://lxml.de/",
+      "title": "Powerful and Pythonic XML processing library combining libxml2/libxslt with the ElementTree API."
+    },
+    "SEND2TRASH": {
+      "href": "https://github.com/arsenetar/send2trash",
+      "title": "Send file to trash natively under Mac OS X, Windows and Linux"
+    },
+    "SETUPTOOLS": {
+      "href": "https://github.com/pypa/setuptools",
+      "title": "Easily download, build, install, upgrade, and uninstall Python packages"
+    },
+    "PINT": {
+      "href": "https://github.com/hgrecco/pint",
+      "title": "Physical quantities module"
+    },
+    "SECRETSTORAGE": {
+      "href": "https://github.com/mitya57/secretstorage",
+      "title": "Python bindings to FreeDesktop.org Secret Service API"
+    },
+    "NEST-ASYNCIO": {
+      "href": "https://github.com/erdewit/nest_asyncio",
+      "title": "Patch asyncio to allow nested event loops"
+    },
+    "NVIDIA-CURAND-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CURAND native runtime libraries"
+    },
+    "JSONSCHEMA": {
+      "href": "https://python-jsonschema.readthedocs.io/",
+      "title": "An implementation of JSON Schema validation for Python"
+    },
+    "ATTRS": {
+      "href": "https://www.attrs.org/",
+      "title": "Classes Without Boilerplate"
+    },
+    "HTTPX": {
+      "href": "https://github.com/encode/httpx/blob/master/CHANGELOG.md",
+      "title": "The next generation HTTP client."
+    },
+    "ACCESSIBLE-PYGMENTS": {
+      "href": "https://github.com/Quansight-Labs/accessible-pygments",
+      "title": "A collection of accessible pygments styles"
+    },
+    "AIOBOTO3": {
+      "href": "https://github.com/terrycain/aioboto3",
+      "title": "Async boto3 wrapper"
+    },
+    "NBVAL": {
+      "href": "https://github.com/computationalmodelling/nbval",
+      "title": "A py.test plugin to validate Jupyter notebooks"
+    },
+    "MYPY": {
+      "href": "https://www.mypy-lang.org/",
+      "title": "Optional static typing for Python"
+    },
+    "DEFUSEDXML": {
+      "href": "https://github.com/tiran/defusedxml",
+      "title": "XML bomb protection for Python stdlib modules"
+    },
+    "LANGCHAIN-CORE": {
+      "href": "https://github.com/langchain-ai/langchain",
+      "title": "Building applications with LLMs through composability"
+    },
+    "PYCPARSER": {
+      "href": "https://github.com/eliben/pycparser",
+      "title": "C parser in Python"
+    },
+    "PTYPROCESS": {
+      "href": "https://github.com/pexpect/ptyprocess",
+      "title": "Run a subprocess in a pseudo terminal"
+    },
+    "WHEEL": {
+      "href": "https://wheel.readthedocs.io/",
+      "title": "A built-package format for Python"
+    },
+    "REQUESTS": {
+      "href": "https://requests.readthedocs.io",
+      "title": "Python HTTP for Humans."
+    },
+    "WORDCLOUD": {
+      "href": "https://github.com/amueller/word_cloud",
+      "title": "A little word cloud generator"
+    },
+    "APPDIRS": {
+      "href": "http://github.com/ActiveState/appdirs",
+      "title": "A small Python module for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+    },
+    "PYTEST-METADATA": {
+      "href": "https://github.com/pytest-dev/pytest-metadata",
+      "title": "pytest plugin for test session metadata"
+    },
+    "FLAKE8": {
+      "href": "https://github.com/pycqa/flake8",
+      "title": "the modular source code checker: pep8 pyflakes and co"
+    },
+    "DOCUTILS": {
+      "href": "https://docutils.sourceforge.io/",
+      "title": "Docutils -- Python Documentation Utilities"
+    },
+    "IMPORTLIB-METADATA": {
+      "href": "https://github.com/python/importlib_metadata",
+      "title": "Read metadata from Python packages"
+    },
+    "PYTHON-SLUGIFY": {
+      "href": "https://github.com/un33k/python-slugify",
+      "title": "A Python slugify application that also handles Unicode"
+    },
+    "MPMATH": {
+      "href": "http://mpmath.org/",
+      "title": "Python library for arbitrary-precision floating-point arithmetic"
+    },
+    "TORCH": {
+      "href": "https://pytorch.org/",
+      "title": "Tensors and Dynamic neural networks in Python with strong GPU acceleration"
+    },
+    "PYGRAPHVIZ": {
+      "href": "http://pygraphviz.github.io",
+      "title": "Python interface to Graphviz"
+    },
+    "HATCHLING": {
+      "href": "https://hatch.pypa.io/latest/",
+      "title": "Modern, extensible Python build backend"
+    },
+    "NVIDIA-CUDA-CUPTI-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUDA profiling tools runtime libs."
+    },
+    "PILLOW": {
+      "href": "https://python-pillow.org",
+      "title": "Python Imaging Library (Fork)"
+    },
+    "CONTOURPY": {
+      "href": "https://github.com/contourpy/contourpy",
+      "title": "Python library for calculating contours of 2D quadrilateral grids"
+    },
+    "HYPOTHESIS-JSONSCHEMA": {
+      "href": "https://github.com/Zac-HD/hypothesis-jsonschema",
+      "title": "Generate test data from JSON schemata with Hypothesis"
+    },
+    "EDITABLES": {
+      "href": "https://editables.readthedocs.io",
+      "title": "Editable installations"
+    },
+    "HUGGINGFACE-HUB": {
+      "href": "https://github.com/huggingface/huggingface_hub",
+      "title": "Client library to download and publish models, datasets and other repos on the huggingface.co hub"
+    },
+    "MYPY-EXTENSIONS": {
+      "href": "https://github.com/python/mypy_extensions",
+      "title": "Type system extensions for programs checked with the mypy type checker."
+    },
+    "PEXPECT": {
+      "href": "https://pexpect.readthedocs.io/",
+      "title": "Pexpect allows easy control of interactive console applications."
+    },
+    "VIRTUALENV": {
+      "href": "https://virtualenv.pypa.io",
+      "title": "Virtual Python Environment builder"
+    },
+    "TOMLKIT": {
+      "href": "https://github.com/sdispater/tomlkit",
+      "title": "Style preserving TOML library"
+    },
+    "MORE-ITERTOOLS": {
+      "href": "https://github.com/more-itertools/more-itertools",
+      "title": "More routines for operating on iterables, beyond itertools"
+    },
+    "FAKER": {
+      "href": "https://github.com/joke2k/faker",
+      "title": "Faker is a Python package that generates fake data for you."
+    },
+    "SYMENGINE": {
+      "href": "https://github.com/symengine/symengine.py",
+      "title": "Python library providing wrappers to SymEngine"
+    },
+    "PYTHON-LSP-SERVER": {
+      "href": "https://github.com/python-lsp/python-lsp-server",
+      "title": "Python Language Server for the Language Server Protocol"
+    },
+    "BLINKER": {
+      "href": "https://discord.gg/pallets",
+      "title": "Fast, simple object-to-object and broadcast signaling"
+    },
+    "HTML5VALIDATOR": {
+      "href": "https://github.com/svenkreiss/html5validator",
+      "title": "Validate HTML5 files."
+    },
+    "FUNCPARSERLIB": {
+      "href": "https://funcparserlib.pirx.ru",
+      "title": "Recursive descent parsing library based on functional combinators"
+    },
+    "PYTHON-DOTENV": {
+      "href": "https://github.com/theskumar/python-dotenv",
+      "title": "Read key-value pairs from a .env file and set them as environment variables"
+    },
+    "UNIDECODE": {
+      "href": "UNKNOWN",
+      "title": "ASCII transliterations of Unicode text"
+    },
+    "PYYAML": {
+      "href": "https://pyyaml.org/",
+      "title": "YAML parser and emitter for Python"
+    },
+    "NVIDIA-CUDNN-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "cuDNN runtime libraries"
+    },
+    "GMPY2": {
+      "href": "https://github.com/aleaxit/gmpy",
+      "title": "gmpy2 interface to GMP/MPIR, MPFR, and MPC for Python 2.7 and 3.5+"
+    },
+    "PKGUTIL_RESOLVE_NAME": {
+      "href": "https://github.com/graingert/pkgutil-resolve-name",
+      "title": "Resolve a name to an object."
+    },
+    "MDIT-PY-PLUGINS": {
+      "href": "https://mdit-py-plugins.readthedocs.io",
+      "title": "Collection of plugins for markdown-it-py"
+    },
+    "SAFETENSORS": {
+      "href": "https://github.com/huggingface/safetensors",
+      "title": null
+    },
+    "EMAIL-VALIDATOR": {
+      "href": "https://github.com/JoshData/python-email-validator",
+      "title": "A robust email address syntax and deliverability validation library."
+    },
+    "FILELOCK": {
+      "href": "https://py-filelock.readthedocs.io",
+      "title": "A platform independent file lock."
+    },
+    "Y-PY": {
+      "href": "https://github.com/y-crdt/ypy",
+      "title": "Python bindings for the Y-CRDT built from yrs (Rust)"
+    },
+    "JUPYTER-YDOC": {
+      "href": "https://jupyter.org",
+      "title": "Document structures for collaborative editing using Ypy"
+    },
+    "PYTEST": {
+      "href": "https://docs.pytest.org/en/latest/",
+      "title": "pytest: simple powerful testing with Python"
+    },
+    "HTTPCORE": {
+      "href": "https://www.encode.io/httpcore",
+      "title": "A minimal low-level HTTP client."
+    },
+    "PYARROW-HOTFIX": {
+      "href": "https://github.com/pitrou/pyarrow-hotfix#readme",
+      "title": null
+    },
+    "OPENAI": {
+      "href": "https://github.com/openai/openai-python",
+      "title": "The official Python library for the openai API"
+    },
+    "HPACK": {
+      "href": "https://github.com/python-hyper/hpack",
+      "title": "Pure-Python HPACK header compression"
+    },
+    "WEBCOLORS": {
+      "href": "https://webcolors.readthedocs.io",
+      "title": "A library for working with the color formats defined by HTML and CSS."
+    },
+    "WEBENCODINGS": {
+      "href": "https://github.com/SimonSapin/python-webencodings",
+      "title": "Character encoding aliases for legacy web content"
+    },
+    "MDURL": {
+      "href": "https://github.com/executablebooks/mdurl",
+      "title": "Markdown URL utilities"
+    },
+    "UNICODE-SLUGIFY": {
+      "href": "http://github.com/mozilla/unicode-slugify",
+      "title": "A slug generator that turns strings into unicode slugs."
+    },
+    "JUPYTER_SERVER_YDOC": {
+      "href": "https://jupyter.org",
+      "title": "A Jupyter Server Extension Providing Y Documents."
+    },
+    "FASTJSONSCHEMA": {
+      "href": "https://github.com/horejsek/python-fastjsonschema",
+      "title": "Fastest Python implementation of JSON schema"
+    },
+    "DEVTOOLS": {
+      "href": "https://github.com/samuelcolvin/python-devtools",
+      "title": "Python's missing debug print command, and more."
+    },
+    "COLORAMA": {
+      "href": "https://github.com/tartley/colorama",
+      "title": "Cross-platform colored terminal text."
+    },
+    "SCIPY": {
+      "href": "https://scipy.org/",
+      "title": "Fundamental algorithms for scientific computing in Python"
+    },
+    "TYPING_EXTENSIONS": {
+      "href": "https://github.com/python/typing_extensions/issues",
+      "title": "Backported and Experimental Type Hints for Python 3.8+"
+    },
+    "REFERENCING": {
+      "href": "https://referencing.readthedocs.io/",
+      "title": "JSON Referencing + Python"
+    },
+    "IPYTHON-GENUTILS": {
+      "href": "http://ipython.org",
+      "title": "Vestigial utilities from IPython"
+    },
+    "SIX": {
+      "href": "https://github.com/benjaminp/six",
+      "title": "Python 2 and 3 compatibility utilities"
+    },
+    "TOOLZ": {
+      "href": "https://github.com/pytoolz/toolz/",
+      "title": "List processing tools and functional utilities"
+    },
+    "WCWIDTH": {
+      "href": "https://github.com/jquast/wcwidth",
+      "title": "Measures the displayed width of unicode strings in a terminal"
+    },
+    "JSONPATCH": {
+      "href": "https://github.com/stefankoegl/python-json-patch",
+      "title": "Apply JSON-Patches (RFC 6902) "
+    },
+    "JUPYTERLAB_SERVER": {
+      "href": "https://jupyterlab-server.readthedocs.io",
+      "title": "A set of server components for JupyterLab and JupyterLab like applications."
+    },
+    "PYTEST-XDIST": {
+      "href": "https://github.com/pytest-dev/pytest-xdist",
+      "title": "pytest xdist plugin for distributed testing, most importantly across multiple CPUs"
+    },
+    "JSON5": {
+      "href": "https://github.com/dpranke/pyjson5",
+      "title": "A Python implementation of the JSON5 data format."
+    },
+    "AUTOPEP8": {
+      "href": "https://github.com/hhatto/autopep8",
+      "title": "A tool that automatically formats Python code to conform to the PEP 8 style guide"
+    },
+    "MARSHMALLOW": {
+      "href": "https://marshmallow.readthedocs.io/en/latest/changelog.html",
+      "title": "A lightweight library for converting complex datatypes to and from native Python datatypes."
+    },
+    "DOITOML": {
+      "href": "https://github.com/deathbeds/doitoml/issues",
+      "title": "Load declarative tasks for doit from TOML, JSON, YAML, and other files."
+    },
+    "TERMINADO": {
+      "href": "https://github.com/jupyter/terminado",
+      "title": "Tornado websocket backend for the Xterm.js Javascript terminal emulator library."
+    },
+    "BABEL": {
+      "href": "https://babel.pocoo.org/",
+      "title": "Internationalization utilities"
+    },
+    "SNOWBALLSTEMMER": {
+      "href": "https://github.com/snowballstem/snowball",
+      "title": "This package provides 29 stemmers for 28 languages generated from Snowball algorithms."
+    },
+    "YAPF": {
+      "href": "https://github.com/google/yapf",
+      "title": "A formatter for Python code"
+    },
+    "KEYRING": {
+      "href": "https://github.com/jaraco/keyring",
+      "title": "Store and access your passwords safely."
+    },
+    "PLATFORMDIRS": {
+      "href": "https://platformdirs.readthedocs.io",
+      "title": "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+    },
+    "NVIDIA-CUSOLVER-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUDA solver native runtime libraries"
+    },
+    "TORCHVISION": {
+      "href": "https://github.com/pytorch/vision",
+      "title": "image and video datasets and models for torch deep learning"
+    },
+    "PIDGY": {
+      "href": "https://github.com/deathbeds/pidgy",
+      "title": "literate programming in ipython"
+    },
+    "JOBLIB": {
+      "href": "https://joblib.readthedocs.io",
+      "title": "Lightweight pipelining with Python functions"
+    },
+    "JMESPATH": {
+      "href": "https://github.com/jmespath/jmespath.py",
+      "title": "JSON Matching Expressions"
+    },
+    "JUPYTERLAB-LSP": {
+      "href": "https://github.com/jupyter-lsp/jupyterlab-lsp/issues",
+      "title": "Coding assistance for JupyterLab with Language Server Protocol"
+    },
+    "TORNADO": {
+      "href": "http://www.tornadoweb.org/",
+      "title": "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
+    },
+    "ASYNC-LRU": {
+      "href": "https://github.com/aio-libs/async-lru",
+      "title": "Simple LRU cache for asyncio"
+    },
+    "PYTEST-HTML": {
+      "href": "https://github.com/pytest-dev/pytest-html",
+      "title": "pytest plugin for generating HTML reports"
+    },
+    "URL-NORMALIZE": {
+      "href": "https://github.com/niksite/url-normalize",
+      "title": "URL normalization for Python"
+    },
+    "WHATTHEPATCH": {
+      "href": "https://github.com/cscorley/whatthepatch",
+      "title": "A patch parsing and application library."
+    },
+    "CLICK": {
+      "href": "https://palletsprojects.com/p/click/",
+      "title": "Composable command line interface toolkit"
+    },
+    "STACK-DATA": {
+      "href": "http://github.com/alexmojaki/stack_data",
+      "title": "Extract data from python stack frames and tracebacks for informative displays"
+    },
+    "SORTEDCONTAINERS": {
+      "href": "http://www.grantjenks.com/docs/sortedcontainers/",
+      "title": "Sorted Containers -- Sorted List, Sorted Dict, Sorted Set"
+    },
+    "PYCODESTYLE": {
+      "href": "https://pycodestyle.pycqa.org/",
+      "title": "Python style guide checker"
+    },
+    "MARKDOWN-IT-PY": {
+      "href": "https://markdown-it-py.readthedocs.io",
+      "title": "Python port of markdown-it. Markdown parsing, done right!"
+    },
+    "NVIDIA-CUSPARSE-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUSPARSE native runtime libraries"
+    },
+    "NVIDIA-NCCL-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "NVIDIA Collective Communication Library (NCCL) Runtime"
+    },
+    "BOTO3": {
+      "href": "https://github.com/boto/boto3",
+      "title": "The AWS SDK for Python"
+    },
+    "SHELLINGHAM": {
+      "href": "https://github.com/sarugaku/shellingham",
+      "title": "Tool to Detect Surrounding Shell"
+    },
+    "PYARROW": {
+      "href": "https://arrow.apache.org/",
+      "title": "Python library for Apache Arrow"
+    },
+    "DOIT": {
+      "href": "http://pydoit.org",
+      "title": "doit - Automation Tool"
+    },
+    "HY": {
+      "href": "http://hylang.org/",
+      "title": "A Lisp dialect embedded in Python"
+    },
+    "AIOHTTP": {
+      "href": "https://github.com/aio-libs/aiohttp",
+      "title": "Async http client/server framework (asyncio)"
+    },
+    "PICKLESHARE": {
+      "href": "https://github.com/pickleshare/pickleshare",
+      "title": "Tiny 'shelve'-like database with concurrency support"
+    },
+    "LANGCHAIN-TEXT-SPLITTERS": {
+      "href": "https://github.com/langchain-ai/langchain",
+      "title": "LangChain text splitting utilities"
+    },
+    "ARGON2-CFFI-BINDINGS": {
+      "href": "https://github.com/hynek/argon2-cffi-bindings",
+      "title": "Low-level CFFI bindings for Argon2"
+    },
+    "PROMPT-TOOLKIT": {
+      "href": "https://github.com/prompt-toolkit/python-prompt-toolkit",
+      "title": "Library for building powerful interactive command lines in Python"
+    },
+    "WRAPT": {
+      "href": "https://github.com/GrahamDumpleton/wrapt",
+      "title": "Module for decorators, wrappers and monkey patching."
+    },
+    "PYDANTIC": {
+      "href": "https://github.com/pydantic/pydantic",
+      "title": "Data validation using Python type hints"
+    },
+    "SETUPTOOLS-SCM": {
+      "href": "https://setuptools-scm.readthedocs.io/",
+      "title": "the blessed package to manage your versions by scm tags"
+    },
+    "NBCONVERT": {
+      "href": "https://jupyter.org",
+      "title": "Converting Jupyter Notebooks (.ipynb files) to other formats.  Output formats include asciidoc, html, latex, markdown, pdf, py, rst, script.  nbconvert can be used both as a Python library (`import nbconvert`) or as a command line tool (invoked as `jupyter nbconvert ...`)."
+    },
+    "MAMMOTH": {
+      "href": "https://github.com/mwilliamson/python-mammoth",
+      "title": "Convert Word documents from docx to simple and clean HTML and Markdown"
+    },
+    "DILL": {
+      "href": "https://github.com/uqfoundation/dill",
+      "title": "serialize all of Python"
+    },
+    "S3TRANSFER": {
+      "href": "https://github.com/boto/s3transfer",
+      "title": "An Amazon S3 Transfer Manager"
+    },
+    "PYTEST-PLAYWRIGHT": {
+      "href": "https://github.com/microsoft/playwright-pytest",
+      "title": "A pytest wrapper with fixtures for Playwright to automate web browsers"
+    },
+    "HYPERLINK": {
+      "href": "https://github.com/python-hyper/hyperlink",
+      "title": "A featureful, immutable, and correct URL for Python."
+    },
+    "JUPYTER_SERVER_FILEID": {
+      "href": "https://github.com/jupyter-server/jupyter_server_fileid",
+      "title": null
+    },
+    "INICONFIG": {
+      "href": "https://github.com/pytest-dev/iniconfig",
+      "title": "brain-dead simple config-ini parsing"
+    },
+    "YARL": {
+      "href": "https://github.com/aio-libs/yarl",
+      "title": "Yet another URL library"
+    },
+    "HYPOTHESIS": {
+      "href": "https://hypothesis.works",
+      "title": "A library for property-based testing"
+    },
+    "AIOFILES": {
+      "href": "https://github.com/Tinche/aiofiles",
+      "title": "File support for asyncio."
+    },
+    "NVIDIA-CUFFT-CU11": {
+      "href": "https://developer.nvidia.com/cuda-zone",
+      "title": "CUFFT native runtime libraries"
+    },
+    "BEAUTIFULSOUP4": {
+      "href": "https://www.crummy.com/software/BeautifulSoup/bs4/download/",
+      "title": "Screen-scraping library"
+    },
+    "MOTOR": {
+      "href": "https://github.com/mongodb/motor/",
+      "title": "Non-blocking MongoDB driver for Tornado or asyncio"
+    },
+    "CYCLER": {
+      "href": "https://matplotlib.org/cycler/",
+      "title": "Composable style cycles"
+    },
+    "JUPYTER_CLIENT": {
+      "href": "https://jupyter.org",
+      "title": "Jupyter protocol implementation and client libraries"
+    },
+    "FLASK": {
+      "href": "https://flask.palletsprojects.com/changes/",
+      "title": "A simple framework for building complex web applications."
+    },
+    "FSSPEC": {
+      "href": "http://github.com/fsspec/filesystem_spec",
+      "title": "File-system specification"
+    },
+    "DNSPYTHON": {
+      "href": "https://www.dnspython.org",
+      "title": "DNS toolkit"
+    },
+    "AIOSIGNAL": {
+      "href": "https://github.com/aio-libs/aiosignal",
+      "title": "aiosignal: a list of registered asynchronous callbacks"
+    },
+    "UC-MICRO-PY": {
+      "href": "https://github.com/tsutsu3/uc.micro-py",
+      "title": "Micro subset of unicode data files for linkify-it-py projects."
+    },
+    "CHARSET-NORMALIZER": {
+      "href": "https://github.com/Ousret/charset_normalizer",
+      "title": "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
+    },
+    "PARTD": {
+      "href": "http://github.com/dask/partd/",
+      "title": "Appendable key-value storage"
+    },
+    "AIOBOTOCORE": {
+      "href": "https://github.com/aio-libs/aiobotocore",
+      "title": "Async client for aws services using botocore and aiohttp"
+    },
+    "XARRAY": {
+      "href": "https://docs.xarray.dev",
+      "title": "N-D labeled arrays and datasets in Python"
+    }
+  }
+}
+</code></pre>
+        </details>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell markdown" data-index="8" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="8" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+        8
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-8-executed">
+         unexecuted
+        </span>
+        <span id="cell-8-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-8-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-8-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-8-exec-label" class="nb-toolbar" hidden id="cell-8" name="cell-8">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-8-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-8-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">this leads me think that i want more general way of including methods and classes. maybe inline code or footnotes hold a place for this information.</textarea>
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>this leads me think that i want more general way of including methods and classes. maybe inline code or footnotes hold a place for this information.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-8-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-8" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-8-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>this leads me think that i want more general way of including methods and classes. maybe inline code or footnotes hold a place for this information.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-8-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        this leads me think that i want more general way of including methods and classes. maybe inline code or footnotes hold a place for this information.
+       </p>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2024-04-28-scroll-position.html" rel="next">
+    listening for scroll position
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      accessibility settings
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        notebook layout
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        font settings
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="120%">
+            large
+           </option>
+           <option value="150%">
+            x-large
+           </option>
+           <option value="200%">
+            xx-large
+           </option>
+           <option value="300%">
+            xxx-large
+           </option>
+           <option value="400%">
+            xxxx-large
+           </option>
+           <option value="500%">
+            xxxxx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        sound settings
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     notebook help
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      definitions
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme(value = null) {
+    value = document.forms.settings.elements["color-scheme"].value;
+    let DARK = value == "dark";
+    let opposite = DARK ? "light" : "dark";
+    document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-highlight`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    BODY.classList.toggle("dark", DARK);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+function toggleActive() {
+    if (document.forms.notebook.elements.edit?.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+function fullScreen() {
+    if (!document.fullscreenElement) {
+        document.querySelector("main").requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        entry.target.style.width = "";
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        entry.target.style.width = `${Math.floor(width)}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
+    }
+
+}
+
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>
