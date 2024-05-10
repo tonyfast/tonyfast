@@ -1,0 +1,4230 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxiv/2024-05-08-stream.html">
+      
+      
+        <link rel="prev" href="2024-05-09-videos.html">
+      
+      
+        <link rel="next" href="2024-05-06-stream.html">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.21">
+    
+    
+      
+        <title>markdown as an accessible, literate programming language - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.66ac8b77.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="markdown as an accessible, literate programming language - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-05-08-stream.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxiv/2024-05-08-stream.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="markdown as an accessible, literate programming language - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-05-08-stream.png" >
+      
+    
+    
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#markdown-as-an-accessible-literate-programming-language" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              markdown as an accessible, literate programming language
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    run in jupyterlite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-09-videos.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an html webcam player
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    markdown as an accessible, literate programming language
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2024-05-08-stream.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    markdown as an accessible, literate programming language
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#live-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      live code
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-06-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    listening to sounds of data visualizations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-29-enrich-refs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    enriching markdown links with access to current python distributions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-28-scroll-position.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 28 scroll position
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-23-Untitled42.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    untitled42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-18-a-simple-clock.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the bones of a clock
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-windchime.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    wind chime table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-visual-table-indicator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    non-numerical dataframes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-15-llm-workflow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 15 llm workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-12-word-cloud.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    word clouds are the wedding font of visualization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-11-3d-html-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3d plots from html tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-08-table-plots.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    html tables in figures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-06-dl-dict.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    definition lists as dictionaries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-04-nbconvert-html-screen-reader.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader improvements to nbconvert html exporter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-03-markdown-lists-to-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turning markdown lists to python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-26-accessible-documentation-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    assistive documentation data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-23-updating-ipython-config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ipython profile updates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-itables-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader experiences with static and interactive tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-documentation-as-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    documentation as software and data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-20-exec-mast-nb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    executing the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-15-screen-tests.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisiting nbviewer/nbconvert screen reader experiences
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-13-notebooks-for-all-march-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks for all community summary
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-12-nbconvert-a11y-pres.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-11-NOA.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Astronomy Notebooks for All
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-06-mast-revisit.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisit building the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-astropy-table-repr.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    astropy tables as semantic tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-traceback-figure-tables.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using tables to structure tracebacks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-04-semantic-outputs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    improved output semantic for python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-a11y-list-string.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using microdata and semantic html to represent python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-notebook-accessibility-workshop.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks and accessibility workshop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-28-histograms-sucks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    histograms suck
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-lunr-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating accessible search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-bash-midgy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding shell and css fence directives to midgy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-multiindex-aria.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding aria to long or wide tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-21-build-docs-pd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    build the site docs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-20-multiindex-html.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    proper html tables with multiple indexes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-15-pandas-table-names.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a study of pandas dataframes with different levels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-05-aiohttp-pandas-accessor.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding an http attribrute to pandas series
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-25-mast-a11y-notebooks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    transforming mast notebooks into nbconvert templates.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-20-colgroup-schema.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic representation of columns based on schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-05-docx-to-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    convertin a docx into a structured dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-20-interactive-html-validation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    interactive w3c validation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    slicing and dicing accessibility violations with exception groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-13-jupyter-community-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    It's the Community Call Y'all
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    generating higher resolution exceptions for the vnu validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-03-axe-rules-topology.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    axe testing codes as dataframes and exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-11-14-w3c-validator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running the w3c validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful display outputs for notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-23-semantic-lits.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful lists
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-10-semantic-code-blocks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    accessibile semantics for python code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-03-pandas-accessors.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pandas</code> accessors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the string is a samp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a semantic dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-21-v7-aom.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    jupyter notebook v7 remediations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-pycascades-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-04-computational-notebooks-history.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a sprint through history toward computional notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-28-community-demo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pidgy</code> literate computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-19-semantic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic notebook structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pipes are common sugar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-whoosh-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    use <code>whoosh</code> to search cells/articles on disk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    including development builds in jupyter lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting a dependency graph from <code>importlib_metadata</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cleaner integration of <code>pidgy</code> &amp; <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-16-inspector-hack.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    customizing the <code>IPython</code> contextual help
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    where do all the good links go?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-tree-sitter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    getting start with tree sitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-giscus-comments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding giscus comments to this blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-extensible-metadata.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extensible metadata in the notebook format
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-duckdb-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    full text search for notebooks and files using duckdb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-10-rara-gtfo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    restart and run all or it didn't happen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-09-notebooks-states.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    three states of python in a notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-07-pidgy-voila.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running <code>pidgy</code> in <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>tfoot</code> in dataframes for more information
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-using-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    diagrams in jupyter and mkdocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering dataframes for screen readers with <code>pandas</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-01-strawberry-server.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WIP: strawberry jupyter server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a template for exporting markdownish notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    configuration files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>typer</code> in ipython magics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>mkdocs</code> plugin for jupyter notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analyzing <code>pyproject.toml</code> configurations of popular projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>jupyterlite</code> blog integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering a notebook with <code>pyscript</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    integrating <code>typer</code> into the blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>doit</code> integration - a <code>mkdocs</code> example
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    automating blog posts to work with jupyter-lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    retreiving my issue activity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-15-html-tags-study.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    all the tags i could be using
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-13-github-api-stats.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting info from the github statistics api
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    exploring many <code>pyproject.toml configs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    formatting markdown it tokens as python <code>doctests</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making <code>__main__</code> a <code>__package__</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    unravel directories of notebooks with <code>dask</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-async-import.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    asynchronous imports in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fumbling around with <code>pluggy</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inferring linked data from <code>IPython</code> run times.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking axe-core from python playwright
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    post processing html accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    literate computing - interactive literate programming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    when markdown and python collide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making meeting links
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turn some text into a mobius surface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-05-dask-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    searching notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxiv/2024-05-08-stream.ipynb" title="edit.link.title" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxiv/2024-05-08-stream.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxiv/2024-05-08-stream.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="markdown-as-an-accessible-literate-programming-language">markdown as an accessible, literate programming language<a class="headerlink" href="#markdown-as-an-accessible-literate-programming-language" title="Permanent link">¤</a></h1>
+<p>death to psuedocode, long live psuedocode.</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">allow</span><span class="o">=</span><span class="s2">&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;</span> <span class="n">allowfullscreen</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="n">frameborder</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;315&quot;</span> <span class="n">referrerpolicy</span><span class="o">=</span><span class="s2">&quot;strict-origin-when-cross-origin&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://www.youtube.com/embed/rmgJ5oNxQDA?si=xSpkJS5-fRSKcmok&quot;</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;YouTube video player&quot;</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;560&quot;</span><span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/rmgJ5oNxQDA?si=xSpkJS5-fRSKcmok" title="YouTube video player" width="560"></iframe>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span> 
+<span class="n">these</span> <span class="n">are</span> <span class="n">links</span> <span class="n">we</span> <span class="n">collected</span> <span class="n">talking</span> <span class="n">about</span> <span class="n">calligraphy</span> <span class="ow">and</span> <span class="n">code</span><span class="o">.</span>
+
+        <span class="n">links</span> <span class="o">=</span> <span class="n">Series</span>\
+<span class="o">-</span> <span class="p">[</span><span class="n">patron</span> <span class="n">saint</span> <span class="n">of</span> <span class="n">yak</span> <span class="n">shaves</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">yakshav</span><span class="o">.</span><span class="n">es</span><span class="o">/</span><span class="n">the</span><span class="o">-</span><span class="n">patron</span><span class="o">-</span><span class="n">saint</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">yakshaves</span><span class="o">/</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">quanta</span> <span class="n">magazine</span><span class="p">:</span> <span class="n">The</span> <span class="n">Computer</span> <span class="n">Scientist</span> <span class="n">Who</span> <span class="n">Can</span><span class="err">’</span><span class="n">t</span> <span class="n">Stop</span> <span class="n">Telling</span> <span class="n">Stories</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">quantamagazine</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">computer</span><span class="o">-</span><span class="n">scientist</span><span class="o">-</span><span class="n">donald</span><span class="o">-</span><span class="n">knuth</span><span class="o">-</span><span class="n">cant</span><span class="o">-</span><span class="n">stop</span><span class="o">-</span><span class="n">telling</span><span class="o">-</span><span class="n">stories</span><span class="o">-</span><span class="mi">20200416</span><span class="o">/</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">literate</span> <span class="n">programming</span><span class="p">](</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">literateprogramming</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">knuthweb</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">Understanding</span> <span class="n">Computer</span> <span class="n">Programming</span> <span class="k">as</span> <span class="n">a</span> <span class="n">Literacy</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">licsjournal</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="n">LiCS</span><span class="o">/</span><span class="n">article</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="mi">794</span><span class="o">/</span><span class="mi">609</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">science</span> <span class="n">vs</span> <span class="n">literature</span><span class="p">](</span><span class="c1">#)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">the</span> <span class="n">letter</span> <span class="n">s</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gwern</span><span class="o">.</span><span class="n">net</span><span class="o">/</span><span class="n">doc</span><span class="o">/</span><span class="n">design</span><span class="o">/</span><span class="n">typography</span><span class="o">/</span><span class="mi">1980</span><span class="o">-</span><span class="n">knuth</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+<span class="o">-</span> <span class="p">[</span><span class="n">the</span> <span class="n">unravelled</span> <span class="n">calligram</span> <span class="o">-</span> <span class="n">foucault</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">monoskop</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="mi">9</span><span class="o">/</span><span class="mi">99</span><span class="o">/</span><span class="n">Foucault_Michel_This_Is_Not_a_Pipe</span><span class="o">.</span><span class="n">pdf</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><p>these are links we collected talking about calligraphy and code.</p>
+<pre><code>    links = Series\
+</code></pre>
+<ul>
+<li><a href="https://yakshav.es/the-patron-saint-of-yakshaves/">patron saint of yak shaves</a></li>
+<li><a href="https://www.quantamagazine.org/computer-scientist-donald-knuth-cant-stop-telling-stories-20200416/">quanta magazine: The Computer Scientist Who Can’t Stop Telling Stories</a></li>
+<li><a href="http://www.literateprogramming.com/knuthweb.pdf">literate programming</a></li>
+<li><a href="https://licsjournal.org/index.php/LiCS/article/view/794/609">Understanding Computer Programming as a Literacy</a></li>
+<li><a href="#">science vs literature</a></li>
+<li><a href="https://gwern.net/doc/design/typography/1980-knuth.pdf">the letter s</a></li>
+<li><a href="https://monoskop.org/images/9/99/Foucault_Michel_This_Is_Not_a_Pipe.pdf">the unravelled calligram - foucault</a></li>
+</ul>
+</div>
+
+<p>&gt; There is, finally between science and literature, a third margin which science must reconquer, that of <b>pleasure</b>.</p>
+<blockquote>
+My hope is that the ability to make explanations more nat-
+ural will cause more programmers to discover the joys
+of literate programming, because I believe it’s quite a
+<b>pleasure</b> to combine verbal and mathematical skills; but
+perhaps I’m hoping for too much.
+</blockquote>
+<figure>
+
+![](https://i.pinimg.com/736x/cb/51/33/cb5133c2406fd5ee52b9cc437a618174.jpg)
+
+<figcaption>
+
+calligraphy by [herman zapf](https://en.wikipedia.org/wiki/Hermann_Zapf)
+
+</figcaption>
+</figure>
+
+<h2 id="live-code">live code<a class="headerlink" href="#live-code" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">to_vars</span><span class="p">(</span><span class="n">row</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">pipe</span><span class="p">(</span>
+        <span class="p">{</span><span class="s2">&quot;index&quot;</span><span class="p">:</span> <span class="n">row</span><span class="o">.</span><span class="n">name</span><span class="p">}</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">(</span><span class="n">row</span><span class="p">),</span>
+        <span class="nb">dict</span><span class="o">.</span><span class="n">items</span><span class="p">,</span>
+        <span class="nb">map</span><span class="p">(</span><span class="s2">&quot;--</span><span class="si">%s</span><span class="s2">: </span><span class="si">%f</span><span class="s2">;&quot;</span><span class="o">.</span><span class="fm">__mod__</span><span class="p">),</span> <span class="s2">&quot; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">Index</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">360</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;index&quot;</span><span class="p">))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+        <span class="n">sin</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">),</span>
+        <span class="n">cos</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">cos</span><span class="p">),</span>
+    <span class="p">)</span>
+
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="c1">#dance {</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">50</span><span class="n">vw</span><span class="p">;</span>
+    <span class="n">tr</span> <span class="p">{</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">td</span><span class="p">,</span> <span class="n">th</span> <span class="p">{</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+        <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+        <span class="n">transform</span><span class="p">:</span> <span class="n">translateX</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">this</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span><span class="o">%</span><span class="p">));</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">table</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;dance&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">caption</span><span class="o">&gt;</span><span class="n">waves</span><span class="o">&lt;/</span><span class="n">caption</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">thead</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">names</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">column</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;/</span><span class="n">thead</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">tbody</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">()</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;</span><span class="n">tr</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;{{to_vars(row)}}&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">th</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">}}</span><span class="o">&lt;/</span><span class="n">th</span><span class="o">&gt;</span>
+    <span class="p">{</span><span class="o">%</span> <span class="k">for</span> <span class="n">column</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">%</span><span class="p">}</span><span class="o">&lt;</span><span class="n">td</span> <span class="n">style</span><span class="o">=</span><span class="s2">&quot;--this: var(--{{column}});&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">row</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">column</span><span class="p">]}}</span><span class="o">&lt;/</span><span class="n">td</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">tr</span><span class="o">&gt;</span><span class="p">{</span><span class="o">%</span> <span class="n">endfor</span> <span class="o">%</span><span class="p">}</span>
+    <span class="o">&lt;/</span><span class="n">tbody</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">table</span><span class="o">&gt;</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><pre><code>df = DataFrame(index=Index(range(360), name="index"))
+df = df.assign(
+    sin=(df.index * numpy.pi / 180).map(numpy.sin),
+    cos=(df.index * numpy.pi / 180).map(numpy.cos),
+)
+</code></pre>
+<style>
+#dance {
+    width: 50vw;
+    tr {
+        display: flex;
+    }
+    td, th {
+        display: block;
+        position: relative;
+        transform: translateX(calc(var(--this) * 100%));
+    }
+}
+</style>
+<table id="dance">
+<caption>waves</caption>
+<thead><th>index</th><th>sin</th><th>cos</th></thead>
+<tbody><tr style="--index: 0.000000; --sin: 0.000000; --cos: 1.000000;">
+<th>0</th>
+<td style="--this: var(--sin);">0.0</td><td style="--this: var(--cos);">1.0</td>
+</tr><tr style="--index: 1.000000; --sin: 0.017452; --cos: 0.999848;">
+<th>1</th>
+<td style="--this: var(--sin);">0.01745240643728351</td><td style="--this: var(--cos);">0.9998476951563913</td>
+</tr><tr style="--index: 2.000000; --sin: 0.034899; --cos: 0.999391;">
+<th>2</th>
+<td style="--this: var(--sin);">0.03489949670250097</td><td style="--this: var(--cos);">0.9993908270190958</td>
+</tr><tr style="--index: 3.000000; --sin: 0.052336; --cos: 0.998630;">
+<th>3</th>
+<td style="--this: var(--sin);">0.05233595624294383</td><td style="--this: var(--cos);">0.9986295347545738</td>
+</tr><tr style="--index: 4.000000; --sin: 0.069756; --cos: 0.997564;">
+<th>4</th>
+<td style="--this: var(--sin);">0.0697564737441253</td><td style="--this: var(--cos);">0.9975640502598242</td>
+</tr><tr style="--index: 5.000000; --sin: 0.087156; --cos: 0.996195;">
+<th>5</th>
+<td style="--this: var(--sin);">0.08715574274765817</td><td style="--this: var(--cos);">0.9961946980917455</td>
+</tr><tr style="--index: 6.000000; --sin: 0.104528; --cos: 0.994522;">
+<th>6</th>
+<td style="--this: var(--sin);">0.10452846326765346</td><td style="--this: var(--cos);">0.9945218953682733</td>
+</tr><tr style="--index: 7.000000; --sin: 0.121869; --cos: 0.992546;">
+<th>7</th>
+<td style="--this: var(--sin);">0.12186934340514748</td><td style="--this: var(--cos);">0.992546151641322</td>
+</tr><tr style="--index: 8.000000; --sin: 0.139173; --cos: 0.990268;">
+<th>8</th>
+<td style="--this: var(--sin);">0.13917310096006544</td><td style="--this: var(--cos);">0.9902680687415704</td>
+</tr><tr style="--index: 9.000000; --sin: 0.156434; --cos: 0.987688;">
+<th>9</th>
+<td style="--this: var(--sin);">0.15643446504023087</td><td style="--this: var(--cos);">0.9876883405951378</td>
+</tr><tr style="--index: 10.000000; --sin: 0.173648; --cos: 0.984808;">
+<th>10</th>
+<td style="--this: var(--sin);">0.17364817766693033</td><td style="--this: var(--cos);">0.984807753012208</td>
+</tr><tr style="--index: 11.000000; --sin: 0.190809; --cos: 0.981627;">
+<th>11</th>
+<td style="--this: var(--sin);">0.1908089953765448</td><td style="--this: var(--cos);">0.981627183447664</td>
+</tr><tr style="--index: 12.000000; --sin: 0.207912; --cos: 0.978148;">
+<th>12</th>
+<td style="--this: var(--sin);">0.20791169081775931</td><td style="--this: var(--cos);">0.9781476007338057</td>
+</tr><tr style="--index: 13.000000; --sin: 0.224951; --cos: 0.974370;">
+<th>13</th>
+<td style="--this: var(--sin);">0.224951054343865</td><td style="--this: var(--cos);">0.9743700647852352</td>
+</tr><tr style="--index: 14.000000; --sin: 0.241922; --cos: 0.970296;">
+<th>14</th>
+<td style="--this: var(--sin);">0.24192189559966773</td><td style="--this: var(--cos);">0.9702957262759965</td>
+</tr><tr style="--index: 15.000000; --sin: 0.258819; --cos: 0.965926;">
+<th>15</th>
+<td style="--this: var(--sin);">0.25881904510252074</td><td style="--this: var(--cos);">0.9659258262890683</td>
+</tr><tr style="--index: 16.000000; --sin: 0.275637; --cos: 0.961262;">
+<th>16</th>
+<td style="--this: var(--sin);">0.27563735581699916</td><td style="--this: var(--cos);">0.9612616959383189</td>
+</tr><tr style="--index: 17.000000; --sin: 0.292372; --cos: 0.956305;">
+<th>17</th>
+<td style="--this: var(--sin);">0.29237170472273677</td><td style="--this: var(--cos);">0.9563047559630354</td>
+</tr><tr style="--index: 18.000000; --sin: 0.309017; --cos: 0.951057;">
+<th>18</th>
+<td style="--this: var(--sin);">0.3090169943749474</td><td style="--this: var(--cos);">0.9510565162951535</td>
+</tr><tr style="--index: 19.000000; --sin: 0.325568; --cos: 0.945519;">
+<th>19</th>
+<td style="--this: var(--sin);">0.32556815445715664</td><td style="--this: var(--cos);">0.9455185755993168</td>
+</tr><tr style="--index: 20.000000; --sin: 0.342020; --cos: 0.939693;">
+<th>20</th>
+<td style="--this: var(--sin);">0.3420201433256687</td><td style="--this: var(--cos);">0.9396926207859084</td>
+</tr><tr style="--index: 21.000000; --sin: 0.358368; --cos: 0.933580;">
+<th>21</th>
+<td style="--this: var(--sin);">0.35836794954530027</td><td style="--this: var(--cos);">0.9335804264972017</td>
+</tr><tr style="--index: 22.000000; --sin: 0.374607; --cos: 0.927184;">
+<th>22</th>
+<td style="--this: var(--sin);">0.374606593415912</td><td style="--this: var(--cos);">0.9271838545667874</td>
+</tr><tr style="--index: 23.000000; --sin: 0.390731; --cos: 0.920505;">
+<th>23</th>
+<td style="--this: var(--sin);">0.3907311284892737</td><td style="--this: var(--cos);">0.9205048534524404</td>
+</tr><tr style="--index: 24.000000; --sin: 0.406737; --cos: 0.913545;">
+<th>24</th>
+<td style="--this: var(--sin);">0.40673664307580015</td><td style="--this: var(--cos);">0.9135454576426009</td>
+</tr><tr style="--index: 25.000000; --sin: 0.422618; --cos: 0.906308;">
+<th>25</th>
+<td style="--this: var(--sin);">0.42261826174069944</td><td style="--this: var(--cos);">0.9063077870366499</td>
+</tr><tr style="--index: 26.000000; --sin: 0.438371; --cos: 0.898794;">
+<th>26</th>
+<td style="--this: var(--sin);">0.4383711467890774</td><td style="--this: var(--cos);">0.898794046299167</td>
+</tr><tr style="--index: 27.000000; --sin: 0.453990; --cos: 0.891007;">
+<th>27</th>
+<td style="--this: var(--sin);">0.45399049973954675</td><td style="--this: var(--cos);">0.8910065241883679</td>
+</tr><tr style="--index: 28.000000; --sin: 0.469472; --cos: 0.882948;">
+<th>28</th>
+<td style="--this: var(--sin);">0.4694715627858908</td><td style="--this: var(--cos);">0.882947592858927</td>
+</tr><tr style="--index: 29.000000; --sin: 0.484810; --cos: 0.874620;">
+<th>29</th>
+<td style="--this: var(--sin);">0.48480962024633706</td><td style="--this: var(--cos);">0.8746197071393957</td>
+</tr><tr style="--index: 30.000000; --sin: 0.500000; --cos: 0.866025;">
+<th>30</th>
+<td style="--this: var(--sin);">0.49999999999999994</td><td style="--this: var(--cos);">0.8660254037844387</td>
+</tr><tr style="--index: 31.000000; --sin: 0.515038; --cos: 0.857167;">
+<th>31</th>
+<td style="--this: var(--sin);">0.5150380749100542</td><td style="--this: var(--cos);">0.8571673007021123</td>
+</tr><tr style="--index: 32.000000; --sin: 0.529919; --cos: 0.848048;">
+<th>32</th>
+<td style="--this: var(--sin);">0.5299192642332049</td><td style="--this: var(--cos);">0.848048096156426</td>
+</tr><tr style="--index: 33.000000; --sin: 0.544639; --cos: 0.838671;">
+<th>33</th>
+<td style="--this: var(--sin);">0.5446390350150271</td><td style="--this: var(--cos);">0.838670567945424</td>
+</tr><tr style="--index: 34.000000; --sin: 0.559193; --cos: 0.829038;">
+<th>34</th>
+<td style="--this: var(--sin);">0.5591929034707469</td><td style="--this: var(--cos);">0.8290375725550416</td>
+</tr><tr style="--index: 35.000000; --sin: 0.573576; --cos: 0.819152;">
+<th>35</th>
+<td style="--this: var(--sin);">0.573576436351046</td><td style="--this: var(--cos);">0.8191520442889918</td>
+</tr><tr style="--index: 36.000000; --sin: 0.587785; --cos: 0.809017;">
+<th>36</th>
+<td style="--this: var(--sin);">0.5877852522924731</td><td style="--this: var(--cos);">0.8090169943749475</td>
+</tr><tr style="--index: 37.000000; --sin: 0.601815; --cos: 0.798636;">
+<th>37</th>
+<td style="--this: var(--sin);">0.6018150231520483</td><td style="--this: var(--cos);">0.7986355100472928</td>
+</tr><tr style="--index: 38.000000; --sin: 0.615661; --cos: 0.788011;">
+<th>38</th>
+<td style="--this: var(--sin);">0.6156614753256582</td><td style="--this: var(--cos);">0.788010753606722</td>
+</tr><tr style="--index: 39.000000; --sin: 0.629320; --cos: 0.777146;">
+<th>39</th>
+<td style="--this: var(--sin);">0.6293203910498374</td><td style="--this: var(--cos);">0.7771459614569709</td>
+</tr><tr style="--index: 40.000000; --sin: 0.642788; --cos: 0.766044;">
+<th>40</th>
+<td style="--this: var(--sin);">0.6427876096865393</td><td style="--this: var(--cos);">0.766044443118978</td>
+</tr><tr style="--index: 41.000000; --sin: 0.656059; --cos: 0.754710;">
+<th>41</th>
+<td style="--this: var(--sin);">0.6560590289905072</td><td style="--this: var(--cos);">0.7547095802227721</td>
+</tr><tr style="--index: 42.000000; --sin: 0.669131; --cos: 0.743145;">
+<th>42</th>
+<td style="--this: var(--sin);">0.6691306063588582</td><td style="--this: var(--cos);">0.7431448254773942</td>
+</tr><tr style="--index: 43.000000; --sin: 0.681998; --cos: 0.731354;">
+<th>43</th>
+<td style="--this: var(--sin);">0.6819983600624985</td><td style="--this: var(--cos);">0.7313537016191706</td>
+</tr><tr style="--index: 44.000000; --sin: 0.694658; --cos: 0.719340;">
+<th>44</th>
+<td style="--this: var(--sin);">0.6946583704589973</td><td style="--this: var(--cos);">0.7193398003386512</td>
+</tr><tr style="--index: 45.000000; --sin: 0.707107; --cos: 0.707107;">
+<th>45</th>
+<td style="--this: var(--sin);">0.7071067811865475</td><td style="--this: var(--cos);">0.7071067811865476</td>
+</tr><tr style="--index: 46.000000; --sin: 0.719340; --cos: 0.694658;">
+<th>46</th>
+<td style="--this: var(--sin);">0.7193398003386511</td><td style="--this: var(--cos);">0.6946583704589974</td>
+</tr><tr style="--index: 47.000000; --sin: 0.731354; --cos: 0.681998;">
+<th>47</th>
+<td style="--this: var(--sin);">0.7313537016191705</td><td style="--this: var(--cos);">0.6819983600624985</td>
+</tr><tr style="--index: 48.000000; --sin: 0.743145; --cos: 0.669131;">
+<th>48</th>
+<td style="--this: var(--sin);">0.7431448254773941</td><td style="--this: var(--cos);">0.6691306063588582</td>
+</tr><tr style="--index: 49.000000; --sin: 0.754710; --cos: 0.656059;">
+<th>49</th>
+<td style="--this: var(--sin);">0.754709580222772</td><td style="--this: var(--cos);">0.6560590289905073</td>
+</tr><tr style="--index: 50.000000; --sin: 0.766044; --cos: 0.642788;">
+<th>50</th>
+<td style="--this: var(--sin);">0.766044443118978</td><td style="--this: var(--cos);">0.6427876096865394</td>
+</tr><tr style="--index: 51.000000; --sin: 0.777146; --cos: 0.629320;">
+<th>51</th>
+<td style="--this: var(--sin);">0.7771459614569708</td><td style="--this: var(--cos);">0.6293203910498375</td>
+</tr><tr style="--index: 52.000000; --sin: 0.788011; --cos: 0.615661;">
+<th>52</th>
+<td style="--this: var(--sin);">0.788010753606722</td><td style="--this: var(--cos);">0.6156614753256583</td>
+</tr><tr style="--index: 53.000000; --sin: 0.798636; --cos: 0.601815;">
+<th>53</th>
+<td style="--this: var(--sin);">0.7986355100472928</td><td style="--this: var(--cos);">0.6018150231520484</td>
+</tr><tr style="--index: 54.000000; --sin: 0.809017; --cos: 0.587785;">
+<th>54</th>
+<td style="--this: var(--sin);">0.8090169943749475</td><td style="--this: var(--cos);">0.5877852522924731</td>
+</tr><tr style="--index: 55.000000; --sin: 0.819152; --cos: 0.573576;">
+<th>55</th>
+<td style="--this: var(--sin);">0.8191520442889918</td><td style="--this: var(--cos);">0.5735764363510462</td>
+</tr><tr style="--index: 56.000000; --sin: 0.829038; --cos: 0.559193;">
+<th>56</th>
+<td style="--this: var(--sin);">0.8290375725550417</td><td style="--this: var(--cos);">0.5591929034707468</td>
+</tr><tr style="--index: 57.000000; --sin: 0.838671; --cos: 0.544639;">
+<th>57</th>
+<td style="--this: var(--sin);">0.8386705679454239</td><td style="--this: var(--cos);">0.5446390350150272</td>
+</tr><tr style="--index: 58.000000; --sin: 0.848048; --cos: 0.529919;">
+<th>58</th>
+<td style="--this: var(--sin);">0.848048096156426</td><td style="--this: var(--cos);">0.5299192642332049</td>
+</tr><tr style="--index: 59.000000; --sin: 0.857167; --cos: 0.515038;">
+<th>59</th>
+<td style="--this: var(--sin);">0.8571673007021122</td><td style="--this: var(--cos);">0.5150380749100544</td>
+</tr><tr style="--index: 60.000000; --sin: 0.866025; --cos: 0.500000;">
+<th>60</th>
+<td style="--this: var(--sin);">0.8660254037844386</td><td style="--this: var(--cos);">0.5000000000000001</td>
+</tr><tr style="--index: 61.000000; --sin: 0.874620; --cos: 0.484810;">
+<th>61</th>
+<td style="--this: var(--sin);">0.8746197071393957</td><td style="--this: var(--cos);">0.4848096202463371</td>
+</tr><tr style="--index: 62.000000; --sin: 0.882948; --cos: 0.469472;">
+<th>62</th>
+<td style="--this: var(--sin);">0.8829475928589269</td><td style="--this: var(--cos);">0.46947156278589086</td>
+</tr><tr style="--index: 63.000000; --sin: 0.891007; --cos: 0.453990;">
+<th>63</th>
+<td style="--this: var(--sin);">0.8910065241883678</td><td style="--this: var(--cos);">0.4539904997395468</td>
+</tr><tr style="--index: 64.000000; --sin: 0.898794; --cos: 0.438371;">
+<th>64</th>
+<td style="--this: var(--sin);">0.898794046299167</td><td style="--this: var(--cos);">0.43837114678907746</td>
+</tr><tr style="--index: 65.000000; --sin: 0.906308; --cos: 0.422618;">
+<th>65</th>
+<td style="--this: var(--sin);">0.9063077870366499</td><td style="--this: var(--cos);">0.42261826174069944</td>
+</tr><tr style="--index: 66.000000; --sin: 0.913545; --cos: 0.406737;">
+<th>66</th>
+<td style="--this: var(--sin);">0.9135454576426009</td><td style="--this: var(--cos);">0.4067366430758002</td>
+</tr><tr style="--index: 67.000000; --sin: 0.920505; --cos: 0.390731;">
+<th>67</th>
+<td style="--this: var(--sin);">0.9205048534524403</td><td style="--this: var(--cos);">0.39073112848927394</td>
+</tr><tr style="--index: 68.000000; --sin: 0.927184; --cos: 0.374607;">
+<th>68</th>
+<td style="--this: var(--sin);">0.9271838545667874</td><td style="--this: var(--cos);">0.37460659341591196</td>
+</tr><tr style="--index: 69.000000; --sin: 0.933580; --cos: 0.358368;">
+<th>69</th>
+<td style="--this: var(--sin);">0.9335804264972017</td><td style="--this: var(--cos);">0.3583679495453004</td>
+</tr><tr style="--index: 70.000000; --sin: 0.939693; --cos: 0.342020;">
+<th>70</th>
+<td style="--this: var(--sin);">0.9396926207859083</td><td style="--this: var(--cos);">0.3420201433256688</td>
+</tr><tr style="--index: 71.000000; --sin: 0.945519; --cos: 0.325568;">
+<th>71</th>
+<td style="--this: var(--sin);">0.9455185755993167</td><td style="--this: var(--cos);">0.32556815445715676</td>
+</tr><tr style="--index: 72.000000; --sin: 0.951057; --cos: 0.309017;">
+<th>72</th>
+<td style="--this: var(--sin);">0.9510565162951535</td><td style="--this: var(--cos);">0.30901699437494745</td>
+</tr><tr style="--index: 73.000000; --sin: 0.956305; --cos: 0.292372;">
+<th>73</th>
+<td style="--this: var(--sin);">0.9563047559630354</td><td style="--this: var(--cos);">0.29237170472273677</td>
+</tr><tr style="--index: 74.000000; --sin: 0.961262; --cos: 0.275637;">
+<th>74</th>
+<td style="--this: var(--sin);">0.9612616959383189</td><td style="--this: var(--cos);">0.27563735581699916</td>
+</tr><tr style="--index: 75.000000; --sin: 0.965926; --cos: 0.258819;">
+<th>75</th>
+<td style="--this: var(--sin);">0.9659258262890683</td><td style="--this: var(--cos);">0.25881904510252074</td>
+</tr><tr style="--index: 76.000000; --sin: 0.970296; --cos: 0.241922;">
+<th>76</th>
+<td style="--this: var(--sin);">0.9702957262759965</td><td style="--this: var(--cos);">0.2419218955996679</td>
+</tr><tr style="--index: 77.000000; --sin: 0.974370; --cos: 0.224951;">
+<th>77</th>
+<td style="--this: var(--sin);">0.9743700647852352</td><td style="--this: var(--cos);">0.22495105434386492</td>
+</tr><tr style="--index: 78.000000; --sin: 0.978148; --cos: 0.207912;">
+<th>78</th>
+<td style="--this: var(--sin);">0.9781476007338056</td><td style="--this: var(--cos);">0.20791169081775945</td>
+</tr><tr style="--index: 79.000000; --sin: 0.981627; --cos: 0.190809;">
+<th>79</th>
+<td style="--this: var(--sin);">0.981627183447664</td><td style="--this: var(--cos);">0.19080899537654492</td>
+</tr><tr style="--index: 80.000000; --sin: 0.984808; --cos: 0.173648;">
+<th>80</th>
+<td style="--this: var(--sin);">0.984807753012208</td><td style="--this: var(--cos);">0.17364817766693041</td>
+</tr><tr style="--index: 81.000000; --sin: 0.987688; --cos: 0.156434;">
+<th>81</th>
+<td style="--this: var(--sin);">0.9876883405951378</td><td style="--this: var(--cos);">0.15643446504023092</td>
+</tr><tr style="--index: 82.000000; --sin: 0.990268; --cos: 0.139173;">
+<th>82</th>
+<td style="--this: var(--sin);">0.9902680687415703</td><td style="--this: var(--cos);">0.1391731009600657</td>
+</tr><tr style="--index: 83.000000; --sin: 0.992546; --cos: 0.121869;">
+<th>83</th>
+<td style="--this: var(--sin);">0.992546151641322</td><td style="--this: var(--cos);">0.12186934340514749</td>
+</tr><tr style="--index: 84.000000; --sin: 0.994522; --cos: 0.104528;">
+<th>84</th>
+<td style="--this: var(--sin);">0.9945218953682733</td><td style="--this: var(--cos);">0.10452846326765346</td>
+</tr><tr style="--index: 85.000000; --sin: 0.996195; --cos: 0.087156;">
+<th>85</th>
+<td style="--this: var(--sin);">0.9961946980917455</td><td style="--this: var(--cos);">0.08715574274765814</td>
+</tr><tr style="--index: 86.000000; --sin: 0.997564; --cos: 0.069756;">
+<th>86</th>
+<td style="--this: var(--sin);">0.9975640502598242</td><td style="--this: var(--cos);">0.06975647374412546</td>
+</tr><tr style="--index: 87.000000; --sin: 0.998630; --cos: 0.052336;">
+<th>87</th>
+<td style="--this: var(--sin);">0.9986295347545738</td><td style="--this: var(--cos);">0.052335956242943966</td>
+</tr><tr style="--index: 88.000000; --sin: 0.999391; --cos: 0.034899;">
+<th>88</th>
+<td style="--this: var(--sin);">0.9993908270190958</td><td style="--this: var(--cos);">0.03489949670250108</td>
+</tr><tr style="--index: 89.000000; --sin: 0.999848; --cos: 0.017452;">
+<th>89</th>
+<td style="--this: var(--sin);">0.9998476951563913</td><td style="--this: var(--cos);">0.017452406437283376</td>
+</tr><tr style="--index: 90.000000; --sin: 1.000000; --cos: 0.000000;">
+<th>90</th>
+<td style="--this: var(--sin);">1.0</td><td style="--this: var(--cos);">6.123233995736766e-17</td>
+</tr><tr style="--index: 91.000000; --sin: 0.999848; --cos: -0.017452;">
+<th>91</th>
+<td style="--this: var(--sin);">0.9998476951563913</td><td style="--this: var(--cos);">-0.017452406437283477</td>
+</tr><tr style="--index: 92.000000; --sin: 0.999391; --cos: -0.034899;">
+<th>92</th>
+<td style="--this: var(--sin);">0.9993908270190958</td><td style="--this: var(--cos);">-0.03489949670250073</td>
+</tr><tr style="--index: 93.000000; --sin: 0.998630; --cos: -0.052336;">
+<th>93</th>
+<td style="--this: var(--sin);">0.9986295347545738</td><td style="--this: var(--cos);">-0.05233595624294362</td>
+</tr><tr style="--index: 94.000000; --sin: 0.997564; --cos: -0.069756;">
+<th>94</th>
+<td style="--this: var(--sin);">0.9975640502598242</td><td style="--this: var(--cos);">-0.06975647374412533</td>
+</tr><tr style="--index: 95.000000; --sin: 0.996195; --cos: -0.087156;">
+<th>95</th>
+<td style="--this: var(--sin);">0.9961946980917455</td><td style="--this: var(--cos);">-0.08715574274765824</td>
+</tr><tr style="--index: 96.000000; --sin: 0.994522; --cos: -0.104528;">
+<th>96</th>
+<td style="--this: var(--sin);">0.9945218953682734</td><td style="--this: var(--cos);">-0.10452846326765333</td>
+</tr><tr style="--index: 97.000000; --sin: 0.992546; --cos: -0.121869;">
+<th>97</th>
+<td style="--this: var(--sin);">0.9925461516413221</td><td style="--this: var(--cos);">-0.12186934340514737</td>
+</tr><tr style="--index: 98.000000; --sin: 0.990268; --cos: -0.139173;">
+<th>98</th>
+<td style="--this: var(--sin);">0.9902680687415704</td><td style="--this: var(--cos);">-0.13917310096006535</td>
+</tr><tr style="--index: 99.000000; --sin: 0.987688; --cos: -0.156434;">
+<th>99</th>
+<td style="--this: var(--sin);">0.9876883405951377</td><td style="--this: var(--cos);">-0.15643446504023104</td>
+</tr><tr style="--index: 100.000000; --sin: 0.984808; --cos: -0.173648;">
+<th>100</th>
+<td style="--this: var(--sin);">0.984807753012208</td><td style="--this: var(--cos);">-0.1736481776669303</td>
+</tr><tr style="--index: 101.000000; --sin: 0.981627; --cos: -0.190809;">
+<th>101</th>
+<td style="--this: var(--sin);">0.981627183447664</td><td style="--this: var(--cos);">-0.1908089953765448</td>
+</tr><tr style="--index: 102.000000; --sin: 0.978148; --cos: -0.207912;">
+<th>102</th>
+<td style="--this: var(--sin);">0.9781476007338057</td><td style="--this: var(--cos);">-0.20791169081775912</td>
+</tr><tr style="--index: 103.000000; --sin: 0.974370; --cos: -0.224951;">
+<th>103</th>
+<td style="--this: var(--sin);">0.9743700647852352</td><td style="--this: var(--cos);">-0.2249510543438648</td>
+</tr><tr style="--index: 104.000000; --sin: 0.970296; --cos: -0.241922;">
+<th>104</th>
+<td style="--this: var(--sin);">0.9702957262759965</td><td style="--this: var(--cos);">-0.24192189559966779</td>
+</tr><tr style="--index: 105.000000; --sin: 0.965926; --cos: -0.258819;">
+<th>105</th>
+<td style="--this: var(--sin);">0.9659258262890683</td><td style="--this: var(--cos);">-0.25881904510252085</td>
+</tr><tr style="--index: 106.000000; --sin: 0.961262; --cos: -0.275637;">
+<th>106</th>
+<td style="--this: var(--sin);">0.9612616959383189</td><td style="--this: var(--cos);">-0.27563735581699905</td>
+</tr><tr style="--index: 107.000000; --sin: 0.956305; --cos: -0.292372;">
+<th>107</th>
+<td style="--this: var(--sin);">0.9563047559630355</td><td style="--this: var(--cos);">-0.29237170472273666</td>
+</tr><tr style="--index: 108.000000; --sin: 0.951057; --cos: -0.309017;">
+<th>108</th>
+<td style="--this: var(--sin);">0.9510565162951536</td><td style="--this: var(--cos);">-0.30901699437494734</td>
+</tr><tr style="--index: 109.000000; --sin: 0.945519; --cos: -0.325568;">
+<th>109</th>
+<td style="--this: var(--sin);">0.9455185755993168</td><td style="--this: var(--cos);">-0.3255681544571564</td>
+</tr><tr style="--index: 110.000000; --sin: 0.939693; --cos: -0.342020;">
+<th>110</th>
+<td style="--this: var(--sin);">0.9396926207859084</td><td style="--this: var(--cos);">-0.3420201433256687</td>
+</tr><tr style="--index: 111.000000; --sin: 0.933580; --cos: -0.358368;">
+<th>111</th>
+<td style="--this: var(--sin);">0.9335804264972017</td><td style="--this: var(--cos);">-0.35836794954530027</td>
+</tr><tr style="--index: 112.000000; --sin: 0.927184; --cos: -0.374607;">
+<th>112</th>
+<td style="--this: var(--sin);">0.9271838545667874</td><td style="--this: var(--cos);">-0.37460659341591207</td>
+</tr><tr style="--index: 113.000000; --sin: 0.920505; --cos: -0.390731;">
+<th>113</th>
+<td style="--this: var(--sin);">0.9205048534524404</td><td style="--this: var(--cos);">-0.3907311284892736</td>
+</tr><tr style="--index: 114.000000; --sin: 0.913545; --cos: -0.406737;">
+<th>114</th>
+<td style="--this: var(--sin);">0.913545457642601</td><td style="--this: var(--cos);">-0.40673664307580004</td>
+</tr><tr style="--index: 115.000000; --sin: 0.906308; --cos: -0.422618;">
+<th>115</th>
+<td style="--this: var(--sin);">0.90630778703665</td><td style="--this: var(--cos);">-0.42261826174069933</td>
+</tr><tr style="--index: 116.000000; --sin: 0.898794; --cos: -0.438371;">
+<th>116</th>
+<td style="--this: var(--sin);">0.8987940462991669</td><td style="--this: var(--cos);">-0.4383711467890775</td>
+</tr><tr style="--index: 117.000000; --sin: 0.891007; --cos: -0.453990;">
+<th>117</th>
+<td style="--this: var(--sin);">0.8910065241883679</td><td style="--this: var(--cos);">-0.4539904997395467</td>
+</tr><tr style="--index: 118.000000; --sin: 0.882948; --cos: -0.469472;">
+<th>118</th>
+<td style="--this: var(--sin);">0.8829475928589271</td><td style="--this: var(--cos);">-0.46947156278589053</td>
+</tr><tr style="--index: 119.000000; --sin: 0.874620; --cos: -0.484810;">
+<th>119</th>
+<td style="--this: var(--sin);">0.8746197071393959</td><td style="--this: var(--cos);">-0.484809620246337</td>
+</tr><tr style="--index: 120.000000; --sin: 0.866025; --cos: -0.500000;">
+<th>120</th>
+<td style="--this: var(--sin);">0.8660254037844387</td><td style="--this: var(--cos);">-0.4999999999999998</td>
+</tr><tr style="--index: 121.000000; --sin: 0.857167; --cos: -0.515038;">
+<th>121</th>
+<td style="--this: var(--sin);">0.8571673007021123</td><td style="--this: var(--cos);">-0.5150380749100543</td>
+</tr><tr style="--index: 122.000000; --sin: 0.848048; --cos: -0.529919;">
+<th>122</th>
+<td style="--this: var(--sin);">0.8480480961564261</td><td style="--this: var(--cos);">-0.5299192642332048</td>
+</tr><tr style="--index: 123.000000; --sin: 0.838671; --cos: -0.544639;">
+<th>123</th>
+<td style="--this: var(--sin);">0.8386705679454239</td><td style="--this: var(--cos);">-0.5446390350150271</td>
+</tr><tr style="--index: 124.000000; --sin: 0.829038; --cos: -0.559193;">
+<th>124</th>
+<td style="--this: var(--sin);">0.8290375725550417</td><td style="--this: var(--cos);">-0.5591929034707467</td>
+</tr><tr style="--index: 125.000000; --sin: 0.819152; --cos: -0.573576;">
+<th>125</th>
+<td style="--this: var(--sin);">0.819152044288992</td><td style="--this: var(--cos);">-0.5735764363510458</td>
+</tr><tr style="--index: 126.000000; --sin: 0.809017; --cos: -0.587785;">
+<th>126</th>
+<td style="--this: var(--sin);">0.8090169943749475</td><td style="--this: var(--cos);">-0.587785252292473</td>
+</tr><tr style="--index: 127.000000; --sin: 0.798636; --cos: -0.601815;">
+<th>127</th>
+<td style="--this: var(--sin);">0.7986355100472927</td><td style="--this: var(--cos);">-0.6018150231520484</td>
+</tr><tr style="--index: 128.000000; --sin: 0.788011; --cos: -0.615661;">
+<th>128</th>
+<td style="--this: var(--sin);">0.788010753606722</td><td style="--this: var(--cos);">-0.6156614753256583</td>
+</tr><tr style="--index: 129.000000; --sin: 0.777146; --cos: -0.629320;">
+<th>129</th>
+<td style="--this: var(--sin);">0.777145961456971</td><td style="--this: var(--cos);">-0.6293203910498373</td>
+</tr><tr style="--index: 130.000000; --sin: 0.766044; --cos: -0.642788;">
+<th>130</th>
+<td style="--this: var(--sin);">0.766044443118978</td><td style="--this: var(--cos);">-0.6427876096865394</td>
+</tr><tr style="--index: 131.000000; --sin: 0.754710; --cos: -0.656059;">
+<th>131</th>
+<td style="--this: var(--sin);">0.7547095802227718</td><td style="--this: var(--cos);">-0.6560590289905075</td>
+</tr><tr style="--index: 132.000000; --sin: 0.743145; --cos: -0.669131;">
+<th>132</th>
+<td style="--this: var(--sin);">0.7431448254773942</td><td style="--this: var(--cos);">-0.6691306063588582</td>
+</tr><tr style="--index: 133.000000; --sin: 0.731354; --cos: -0.681998;">
+<th>133</th>
+<td style="--this: var(--sin);">0.7313537016191706</td><td style="--this: var(--cos);">-0.6819983600624984</td>
+</tr><tr style="--index: 134.000000; --sin: 0.719340; --cos: -0.694658;">
+<th>134</th>
+<td style="--this: var(--sin);">0.7193398003386514</td><td style="--this: var(--cos);">-0.694658370458997</td>
+</tr><tr style="--index: 135.000000; --sin: 0.707107; --cos: -0.707107;">
+<th>135</th>
+<td style="--this: var(--sin);">0.7071067811865476</td><td style="--this: var(--cos);">-0.7071067811865475</td>
+</tr><tr style="--index: 136.000000; --sin: 0.694658; --cos: -0.719340;">
+<th>136</th>
+<td style="--this: var(--sin);">0.6946583704589971</td><td style="--this: var(--cos);">-0.7193398003386512</td>
+</tr><tr style="--index: 137.000000; --sin: 0.681998; --cos: -0.731354;">
+<th>137</th>
+<td style="--this: var(--sin);">0.6819983600624986</td><td style="--this: var(--cos);">-0.7313537016191705</td>
+</tr><tr style="--index: 138.000000; --sin: 0.669131; --cos: -0.743145;">
+<th>138</th>
+<td style="--this: var(--sin);">0.6691306063588583</td><td style="--this: var(--cos);">-0.743144825477394</td>
+</tr><tr style="--index: 139.000000; --sin: 0.656059; --cos: -0.754710;">
+<th>139</th>
+<td style="--this: var(--sin);">0.6560590289905073</td><td style="--this: var(--cos);">-0.754709580222772</td>
+</tr><tr style="--index: 140.000000; --sin: 0.642788; --cos: -0.766044;">
+<th>140</th>
+<td style="--this: var(--sin);">0.6427876096865395</td><td style="--this: var(--cos);">-0.7660444431189779</td>
+</tr><tr style="--index: 141.000000; --sin: 0.629320; --cos: -0.777146;">
+<th>141</th>
+<td style="--this: var(--sin);">0.6293203910498377</td><td style="--this: var(--cos);">-0.7771459614569707</td>
+</tr><tr style="--index: 142.000000; --sin: 0.615661; --cos: -0.788011;">
+<th>142</th>
+<td style="--this: var(--sin);">0.6156614753256584</td><td style="--this: var(--cos);">-0.7880107536067219</td>
+</tr><tr style="--index: 143.000000; --sin: 0.601815; --cos: -0.798636;">
+<th>143</th>
+<td style="--this: var(--sin);">0.6018150231520482</td><td style="--this: var(--cos);">-0.7986355100472929</td>
+</tr><tr style="--index: 144.000000; --sin: 0.587785; --cos: -0.809017;">
+<th>144</th>
+<td style="--this: var(--sin);">0.5877852522924732</td><td style="--this: var(--cos);">-0.8090169943749473</td>
+</tr><tr style="--index: 145.000000; --sin: 0.573576; --cos: -0.819152;">
+<th>145</th>
+<td style="--this: var(--sin);">0.5735764363510464</td><td style="--this: var(--cos);">-0.8191520442889916</td>
+</tr><tr style="--index: 146.000000; --sin: 0.559193; --cos: -0.829038;">
+<th>146</th>
+<td style="--this: var(--sin);">0.5591929034707469</td><td style="--this: var(--cos);">-0.8290375725550416</td>
+</tr><tr style="--index: 147.000000; --sin: 0.544639; --cos: -0.838671;">
+<th>147</th>
+<td style="--this: var(--sin);">0.544639035015027</td><td style="--this: var(--cos);">-0.8386705679454242</td>
+</tr><tr style="--index: 148.000000; --sin: 0.529919; --cos: -0.848048;">
+<th>148</th>
+<td style="--this: var(--sin);">0.5299192642332049</td><td style="--this: var(--cos);">-0.848048096156426</td>
+</tr><tr style="--index: 149.000000; --sin: 0.515038; --cos: -0.857167;">
+<th>149</th>
+<td style="--this: var(--sin);">0.5150380749100544</td><td style="--this: var(--cos);">-0.8571673007021122</td>
+</tr><tr style="--index: 150.000000; --sin: 0.500000; --cos: -0.866025;">
+<th>150</th>
+<td style="--this: var(--sin);">0.49999999999999994</td><td style="--this: var(--cos);">-0.8660254037844387</td>
+</tr><tr style="--index: 151.000000; --sin: 0.484810; --cos: -0.874620;">
+<th>151</th>
+<td style="--this: var(--sin);">0.48480962024633717</td><td style="--this: var(--cos);">-0.8746197071393957</td>
+</tr><tr style="--index: 152.000000; --sin: 0.469472; --cos: -0.882948;">
+<th>152</th>
+<td style="--this: var(--sin);">0.4694715627858911</td><td style="--this: var(--cos);">-0.8829475928589268</td>
+</tr><tr style="--index: 153.000000; --sin: 0.453990; --cos: -0.891007;">
+<th>153</th>
+<td style="--this: var(--sin);">0.45399049973954686</td><td style="--this: var(--cos);">-0.8910065241883678</td>
+</tr><tr style="--index: 154.000000; --sin: 0.438371; --cos: -0.898794;">
+<th>154</th>
+<td style="--this: var(--sin);">0.4383711467890773</td><td style="--this: var(--cos);">-0.898794046299167</td>
+</tr><tr style="--index: 155.000000; --sin: 0.422618; --cos: -0.906308;">
+<th>155</th>
+<td style="--this: var(--sin);">0.4226182617406995</td><td style="--this: var(--cos);">-0.9063077870366499</td>
+</tr><tr style="--index: 156.000000; --sin: 0.406737; --cos: -0.913545;">
+<th>156</th>
+<td style="--this: var(--sin);">0.40673664307580043</td><td style="--this: var(--cos);">-0.9135454576426008</td>
+</tr><tr style="--index: 157.000000; --sin: 0.390731; --cos: -0.920505;">
+<th>157</th>
+<td style="--this: var(--sin);">0.39073112848927416</td><td style="--this: var(--cos);">-0.9205048534524402</td>
+</tr><tr style="--index: 158.000000; --sin: 0.374607; --cos: -0.927184;">
+<th>158</th>
+<td style="--this: var(--sin);">0.37460659341591224</td><td style="--this: var(--cos);">-0.9271838545667873</td>
+</tr><tr style="--index: 159.000000; --sin: 0.358368; --cos: -0.933580;">
+<th>159</th>
+<td style="--this: var(--sin);">0.3583679495453002</td><td style="--this: var(--cos);">-0.9335804264972017</td>
+</tr><tr style="--index: 160.000000; --sin: 0.342020; --cos: -0.939693;">
+<th>160</th>
+<td style="--this: var(--sin);">0.3420201433256689</td><td style="--this: var(--cos);">-0.9396926207859083</td>
+</tr><tr style="--index: 161.000000; --sin: 0.325568; --cos: -0.945519;">
+<th>161</th>
+<td style="--this: var(--sin);">0.32556815445715703</td><td style="--this: var(--cos);">-0.9455185755993167</td>
+</tr><tr style="--index: 162.000000; --sin: 0.309017; --cos: -0.951057;">
+<th>162</th>
+<td style="--this: var(--sin);">0.3090169943749475</td><td style="--this: var(--cos);">-0.9510565162951535</td>
+</tr><tr style="--index: 163.000000; --sin: 0.292372; --cos: -0.956305;">
+<th>163</th>
+<td style="--this: var(--sin);">0.29237170472273705</td><td style="--this: var(--cos);">-0.9563047559630354</td>
+</tr><tr style="--index: 164.000000; --sin: 0.275637; --cos: -0.961262;">
+<th>164</th>
+<td style="--this: var(--sin);">0.27563735581699966</td><td style="--this: var(--cos);">-0.9612616959383187</td>
+</tr><tr style="--index: 165.000000; --sin: 0.258819; --cos: -0.965926;">
+<th>165</th>
+<td style="--this: var(--sin);">0.258819045102521</td><td style="--this: var(--cos);">-0.9659258262890682</td>
+</tr><tr style="--index: 166.000000; --sin: 0.241922; --cos: -0.970296;">
+<th>166</th>
+<td style="--this: var(--sin);">0.24192189559966773</td><td style="--this: var(--cos);">-0.9702957262759965</td>
+</tr><tr style="--index: 167.000000; --sin: 0.224951; --cos: -0.974370;">
+<th>167</th>
+<td style="--this: var(--sin);">0.22495105434386478</td><td style="--this: var(--cos);">-0.9743700647852352</td>
+</tr><tr style="--index: 168.000000; --sin: 0.207912; --cos: -0.978148;">
+<th>168</th>
+<td style="--this: var(--sin);">0.20791169081775931</td><td style="--this: var(--cos);">-0.9781476007338057</td>
+</tr><tr style="--index: 169.000000; --sin: 0.190809; --cos: -0.981627;">
+<th>169</th>
+<td style="--this: var(--sin);">0.19080899537654497</td><td style="--this: var(--cos);">-0.981627183447664</td>
+</tr><tr style="--index: 170.000000; --sin: 0.173648; --cos: -0.984808;">
+<th>170</th>
+<td style="--this: var(--sin);">0.17364817766693028</td><td style="--this: var(--cos);">-0.984807753012208</td>
+</tr><tr style="--index: 171.000000; --sin: 0.156434; --cos: -0.987688;">
+<th>171</th>
+<td style="--this: var(--sin);">0.15643446504023098</td><td style="--this: var(--cos);">-0.9876883405951377</td>
+</tr><tr style="--index: 172.000000; --sin: 0.139173; --cos: -0.990268;">
+<th>172</th>
+<td style="--this: var(--sin);">0.13917310096006574</td><td style="--this: var(--cos);">-0.9902680687415703</td>
+</tr><tr style="--index: 173.000000; --sin: 0.121869; --cos: -0.992546;">
+<th>173</th>
+<td style="--this: var(--sin);">0.12186934340514755</td><td style="--this: var(--cos);">-0.992546151641322</td>
+</tr><tr style="--index: 174.000000; --sin: 0.104528; --cos: -0.994522;">
+<th>174</th>
+<td style="--this: var(--sin);">0.10452846326765373</td><td style="--this: var(--cos);">-0.9945218953682733</td>
+</tr><tr style="--index: 175.000000; --sin: 0.087156; --cos: -0.996195;">
+<th>175</th>
+<td style="--this: var(--sin);">0.08715574274765864</td><td style="--this: var(--cos);">-0.9961946980917455</td>
+</tr><tr style="--index: 176.000000; --sin: 0.069756; --cos: -0.997564;">
+<th>176</th>
+<td style="--this: var(--sin);">0.06975647374412552</td><td style="--this: var(--cos);">-0.9975640502598242</td>
+</tr><tr style="--index: 177.000000; --sin: 0.052336; --cos: -0.998630;">
+<th>177</th>
+<td style="--this: var(--sin);">0.05233595624294381</td><td style="--this: var(--cos);">-0.9986295347545738</td>
+</tr><tr style="--index: 178.000000; --sin: 0.034899; --cos: -0.999391;">
+<th>178</th>
+<td style="--this: var(--sin);">0.0348994967025007</td><td style="--this: var(--cos);">-0.9993908270190958</td>
+</tr><tr style="--index: 179.000000; --sin: 0.017452; --cos: -0.999848;">
+<th>179</th>
+<td style="--this: var(--sin);">0.01745240643728344</td><td style="--this: var(--cos);">-0.9998476951563913</td>
+</tr><tr style="--index: 180.000000; --sin: 0.000000; --cos: -1.000000;">
+<th>180</th>
+<td style="--this: var(--sin);">1.2246467991473532e-16</td><td style="--this: var(--cos);">-1.0</td>
+</tr><tr style="--index: 181.000000; --sin: -0.017452; --cos: -0.999848;">
+<th>181</th>
+<td style="--this: var(--sin);">-0.017452406437283192</td><td style="--this: var(--cos);">-0.9998476951563913</td>
+</tr><tr style="--index: 182.000000; --sin: -0.034899; --cos: -0.999391;">
+<th>182</th>
+<td style="--this: var(--sin);">-0.0348994967025009</td><td style="--this: var(--cos);">-0.9993908270190958</td>
+</tr><tr style="--index: 183.000000; --sin: -0.052336; --cos: -0.998630;">
+<th>183</th>
+<td style="--this: var(--sin);">-0.052335956242943564</td><td style="--this: var(--cos);">-0.9986295347545738</td>
+</tr><tr style="--index: 184.000000; --sin: -0.069756; --cos: -0.997564;">
+<th>184</th>
+<td style="--this: var(--sin);">-0.06975647374412483</td><td style="--this: var(--cos);">-0.9975640502598243</td>
+</tr><tr style="--index: 185.000000; --sin: -0.087156; --cos: -0.996195;">
+<th>185</th>
+<td style="--this: var(--sin);">-0.08715574274765794</td><td style="--this: var(--cos);">-0.9961946980917455</td>
+</tr><tr style="--index: 186.000000; --sin: -0.104528; --cos: -0.994522;">
+<th>186</th>
+<td style="--this: var(--sin);">-0.10452846326765305</td><td style="--this: var(--cos);">-0.9945218953682734</td>
+</tr><tr style="--index: 187.000000; --sin: -0.121869; --cos: -0.992546;">
+<th>187</th>
+<td style="--this: var(--sin);">-0.12186934340514774</td><td style="--this: var(--cos);">-0.992546151641322</td>
+</tr><tr style="--index: 188.000000; --sin: -0.139173; --cos: -0.990268;">
+<th>188</th>
+<td style="--this: var(--sin);">-0.13917310096006552</td><td style="--this: var(--cos);">-0.9902680687415703</td>
+</tr><tr style="--index: 189.000000; --sin: -0.156434; --cos: -0.987688;">
+<th>189</th>
+<td style="--this: var(--sin);">-0.15643446504023073</td><td style="--this: var(--cos);">-0.9876883405951378</td>
+</tr><tr style="--index: 190.000000; --sin: -0.173648; --cos: -0.984808;">
+<th>190</th>
+<td style="--this: var(--sin);">-0.17364817766693047</td><td style="--this: var(--cos);">-0.984807753012208</td>
+</tr><tr style="--index: 191.000000; --sin: -0.190809; --cos: -0.981627;">
+<th>191</th>
+<td style="--this: var(--sin);">-0.19080899537654472</td><td style="--this: var(--cos);">-0.981627183447664</td>
+</tr><tr style="--index: 192.000000; --sin: -0.207912; --cos: -0.978148;">
+<th>192</th>
+<td style="--this: var(--sin);">-0.20791169081775907</td><td style="--this: var(--cos);">-0.9781476007338057</td>
+</tr><tr style="--index: 193.000000; --sin: -0.224951; --cos: -0.974370;">
+<th>193</th>
+<td style="--this: var(--sin);">-0.22495105434386498</td><td style="--this: var(--cos);">-0.9743700647852352</td>
+</tr><tr style="--index: 194.000000; --sin: -0.241922; --cos: -0.970296;">
+<th>194</th>
+<td style="--this: var(--sin);">-0.2419218955996675</td><td style="--this: var(--cos);">-0.9702957262759965</td>
+</tr><tr style="--index: 195.000000; --sin: -0.258819; --cos: -0.965926;">
+<th>195</th>
+<td style="--this: var(--sin);">-0.25881904510252035</td><td style="--this: var(--cos);">-0.9659258262890684</td>
+</tr><tr style="--index: 196.000000; --sin: -0.275637; --cos: -0.961262;">
+<th>196</th>
+<td style="--this: var(--sin);">-0.275637355816999</td><td style="--this: var(--cos);">-0.9612616959383189</td>
+</tr><tr style="--index: 197.000000; --sin: -0.292372; --cos: -0.956305;">
+<th>197</th>
+<td style="--this: var(--sin);">-0.2923717047227364</td><td style="--this: var(--cos);">-0.9563047559630355</td>
+</tr><tr style="--index: 198.000000; --sin: -0.309017; --cos: -0.951057;">
+<th>198</th>
+<td style="--this: var(--sin);">-0.30901699437494773</td><td style="--this: var(--cos);">-0.9510565162951535</td>
+</tr><tr style="--index: 199.000000; --sin: -0.325568; --cos: -0.945519;">
+<th>199</th>
+<td style="--this: var(--sin);">-0.32556815445715676</td><td style="--this: var(--cos);">-0.9455185755993167</td>
+</tr><tr style="--index: 200.000000; --sin: -0.342020; --cos: -0.939693;">
+<th>200</th>
+<td style="--this: var(--sin);">-0.34202014332566866</td><td style="--this: var(--cos);">-0.9396926207859084</td>
+</tr><tr style="--index: 201.000000; --sin: -0.358368; --cos: -0.933580;">
+<th>201</th>
+<td style="--this: var(--sin);">-0.35836794954530043</td><td style="--this: var(--cos);">-0.9335804264972017</td>
+</tr><tr style="--index: 202.000000; --sin: -0.374607; --cos: -0.927184;">
+<th>202</th>
+<td style="--this: var(--sin);">-0.374606593415912</td><td style="--this: var(--cos);">-0.9271838545667874</td>
+</tr><tr style="--index: 203.000000; --sin: -0.390731; --cos: -0.920505;">
+<th>203</th>
+<td style="--this: var(--sin);">-0.39073112848927355</td><td style="--this: var(--cos);">-0.9205048534524404</td>
+</tr><tr style="--index: 204.000000; --sin: -0.406737; --cos: -0.913545;">
+<th>204</th>
+<td style="--this: var(--sin);">-0.4067366430757998</td><td style="--this: var(--cos);">-0.9135454576426011</td>
+</tr><tr style="--index: 205.000000; --sin: -0.422618; --cos: -0.906308;">
+<th>205</th>
+<td style="--this: var(--sin);">-0.4226182617406993</td><td style="--this: var(--cos);">-0.90630778703665</td>
+</tr><tr style="--index: 206.000000; --sin: -0.438371; --cos: -0.898794;">
+<th>206</th>
+<td style="--this: var(--sin);">-0.43837114678907707</td><td style="--this: var(--cos);">-0.8987940462991671</td>
+</tr><tr style="--index: 207.000000; --sin: -0.453990; --cos: -0.891007;">
+<th>207</th>
+<td style="--this: var(--sin);">-0.45399049973954625</td><td style="--this: var(--cos);">-0.8910065241883681</td>
+</tr><tr style="--index: 208.000000; --sin: -0.469472; --cos: -0.882948;">
+<th>208</th>
+<td style="--this: var(--sin);">-0.46947156278589086</td><td style="--this: var(--cos);">-0.8829475928589269</td>
+</tr><tr style="--index: 209.000000; --sin: -0.484810; --cos: -0.874620;">
+<th>209</th>
+<td style="--this: var(--sin);">-0.48480962024633695</td><td style="--this: var(--cos);">-0.8746197071393959</td>
+</tr><tr style="--index: 210.000000; --sin: -0.500000; --cos: -0.866025;">
+<th>210</th>
+<td style="--this: var(--sin);">-0.5000000000000001</td><td style="--this: var(--cos);">-0.8660254037844386</td>
+</tr><tr style="--index: 211.000000; --sin: -0.515038; --cos: -0.857167;">
+<th>211</th>
+<td style="--this: var(--sin);">-0.5150380749100542</td><td style="--this: var(--cos);">-0.8571673007021123</td>
+</tr><tr style="--index: 212.000000; --sin: -0.529919; --cos: -0.848048;">
+<th>212</th>
+<td style="--this: var(--sin);">-0.5299192642332048</td><td style="--this: var(--cos);">-0.8480480961564261</td>
+</tr><tr style="--index: 213.000000; --sin: -0.544639; --cos: -0.838671;">
+<th>213</th>
+<td style="--this: var(--sin);">-0.5446390350150271</td><td style="--this: var(--cos);">-0.838670567945424</td>
+</tr><tr style="--index: 214.000000; --sin: -0.559193; --cos: -0.829038;">
+<th>214</th>
+<td style="--this: var(--sin);">-0.5591929034707467</td><td style="--this: var(--cos);">-0.8290375725550418</td>
+</tr><tr style="--index: 215.000000; --sin: -0.573576; --cos: -0.819152;">
+<th>215</th>
+<td style="--this: var(--sin);">-0.5735764363510458</td><td style="--this: var(--cos);">-0.819152044288992</td>
+</tr><tr style="--index: 216.000000; --sin: -0.587785; --cos: -0.809017;">
+<th>216</th>
+<td style="--this: var(--sin);">-0.587785252292473</td><td style="--this: var(--cos);">-0.8090169943749476</td>
+</tr><tr style="--index: 217.000000; --sin: -0.601815; --cos: -0.798636;">
+<th>217</th>
+<td style="--this: var(--sin);">-0.601815023152048</td><td style="--this: var(--cos);">-0.798635510047293</td>
+</tr><tr style="--index: 218.000000; --sin: -0.615661; --cos: -0.788011;">
+<th>218</th>
+<td style="--this: var(--sin);">-0.6156614753256578</td><td style="--this: var(--cos);">-0.7880107536067222</td>
+</tr><tr style="--index: 219.000000; --sin: -0.629320; --cos: -0.777146;">
+<th>219</th>
+<td style="--this: var(--sin);">-0.6293203910498376</td><td style="--this: var(--cos);">-0.7771459614569708</td>
+</tr><tr style="--index: 220.000000; --sin: -0.642788; --cos: -0.766044;">
+<th>220</th>
+<td style="--this: var(--sin);">-0.6427876096865393</td><td style="--this: var(--cos);">-0.766044443118978</td>
+</tr><tr style="--index: 221.000000; --sin: -0.656059; --cos: -0.754710;">
+<th>221</th>
+<td style="--this: var(--sin);">-0.6560590289905074</td><td style="--this: var(--cos);">-0.7547095802227719</td>
+</tr><tr style="--index: 222.000000; --sin: -0.669131; --cos: -0.743145;">
+<th>222</th>
+<td style="--this: var(--sin);">-0.6691306063588582</td><td style="--this: var(--cos);">-0.7431448254773942</td>
+</tr><tr style="--index: 223.000000; --sin: -0.681998; --cos: -0.731354;">
+<th>223</th>
+<td style="--this: var(--sin);">-0.6819983600624984</td><td style="--this: var(--cos);">-0.7313537016191706</td>
+</tr><tr style="--index: 224.000000; --sin: -0.694658; --cos: -0.719340;">
+<th>224</th>
+<td style="--this: var(--sin);">-0.6946583704589974</td><td style="--this: var(--cos);">-0.7193398003386511</td>
+</tr><tr style="--index: 225.000000; --sin: -0.707107; --cos: -0.707107;">
+<th>225</th>
+<td style="--this: var(--sin);">-0.7071067811865475</td><td style="--this: var(--cos);">-0.7071067811865477</td>
+</tr><tr style="--index: 226.000000; --sin: -0.719340; --cos: -0.694658;">
+<th>226</th>
+<td style="--this: var(--sin);">-0.7193398003386509</td><td style="--this: var(--cos);">-0.6946583704589976</td>
+</tr><tr style="--index: 227.000000; --sin: -0.731354; --cos: -0.681998;">
+<th>227</th>
+<td style="--this: var(--sin);">-0.7313537016191701</td><td style="--this: var(--cos);">-0.6819983600624989</td>
+</tr><tr style="--index: 228.000000; --sin: -0.743145; --cos: -0.669131;">
+<th>228</th>
+<td style="--this: var(--sin);">-0.743144825477394</td><td style="--this: var(--cos);">-0.6691306063588585</td>
+</tr><tr style="--index: 229.000000; --sin: -0.754710; --cos: -0.656059;">
+<th>229</th>
+<td style="--this: var(--sin);">-0.7547095802227717</td><td style="--this: var(--cos);">-0.6560590289905076</td>
+</tr><tr style="--index: 230.000000; --sin: -0.766044; --cos: -0.642788;">
+<th>230</th>
+<td style="--this: var(--sin);">-0.7660444431189779</td><td style="--this: var(--cos);">-0.6427876096865395</td>
+</tr><tr style="--index: 231.000000; --sin: -0.777146; --cos: -0.629320;">
+<th>231</th>
+<td style="--this: var(--sin);">-0.7771459614569711</td><td style="--this: var(--cos);">-0.6293203910498372</td>
+</tr><tr style="--index: 232.000000; --sin: -0.788011; --cos: -0.615661;">
+<th>232</th>
+<td style="--this: var(--sin);">-0.7880107536067221</td><td style="--this: var(--cos);">-0.6156614753256581</td>
+</tr><tr style="--index: 233.000000; --sin: -0.798636; --cos: -0.601815;">
+<th>233</th>
+<td style="--this: var(--sin);">-0.7986355100472928</td><td style="--this: var(--cos);">-0.6018150231520483</td>
+</tr><tr style="--index: 234.000000; --sin: -0.809017; --cos: -0.587785;">
+<th>234</th>
+<td style="--this: var(--sin);">-0.8090169943749473</td><td style="--this: var(--cos);">-0.5877852522924732</td>
+</tr><tr style="--index: 235.000000; --sin: -0.819152; --cos: -0.573576;">
+<th>235</th>
+<td style="--this: var(--sin);">-0.8191520442889916</td><td style="--this: var(--cos);">-0.5735764363510464</td>
+</tr><tr style="--index: 236.000000; --sin: -0.829038; --cos: -0.559193;">
+<th>236</th>
+<td style="--this: var(--sin);">-0.8290375725550414</td><td style="--this: var(--cos);">-0.5591929034707472</td>
+</tr><tr style="--index: 237.000000; --sin: -0.838671; --cos: -0.544639;">
+<th>237</th>
+<td style="--this: var(--sin);">-0.838670567945424</td><td style="--this: var(--cos);">-0.544639035015027</td>
+</tr><tr style="--index: 238.000000; --sin: -0.848048; --cos: -0.529919;">
+<th>238</th>
+<td style="--this: var(--sin);">-0.848048096156426</td><td style="--this: var(--cos);">-0.529919264233205</td>
+</tr><tr style="--index: 239.000000; --sin: -0.857167; --cos: -0.515038;">
+<th>239</th>
+<td style="--this: var(--sin);">-0.8571673007021121</td><td style="--this: var(--cos);">-0.5150380749100545</td>
+</tr><tr style="--index: 240.000000; --sin: -0.866025; --cos: -0.500000;">
+<th>240</th>
+<td style="--this: var(--sin);">-0.8660254037844384</td><td style="--this: var(--cos);">-0.5000000000000004</td>
+</tr><tr style="--index: 241.000000; --sin: -0.874620; --cos: -0.484810;">
+<th>241</th>
+<td style="--this: var(--sin);">-0.874619707139396</td><td style="--this: var(--cos);">-0.48480962024633684</td>
+</tr><tr style="--index: 242.000000; --sin: -0.882948; --cos: -0.469472;">
+<th>242</th>
+<td style="--this: var(--sin);">-0.882947592858927</td><td style="--this: var(--cos);">-0.46947156278589075</td>
+</tr><tr style="--index: 243.000000; --sin: -0.891007; --cos: -0.453990;">
+<th>243</th>
+<td style="--this: var(--sin);">-0.8910065241883678</td><td style="--this: var(--cos);">-0.4539904997395469</td>
+</tr><tr style="--index: 244.000000; --sin: -0.898794; --cos: -0.438371;">
+<th>244</th>
+<td style="--this: var(--sin);">-0.8987940462991668</td><td style="--this: var(--cos);">-0.43837114678907774</td>
+</tr><tr style="--index: 245.000000; --sin: -0.906308; --cos: -0.422618;">
+<th>245</th>
+<td style="--this: var(--sin);">-0.9063077870366497</td><td style="--this: var(--cos);">-0.42261826174069994</td>
+</tr><tr style="--index: 246.000000; --sin: -0.913545; --cos: -0.406737;">
+<th>246</th>
+<td style="--this: var(--sin);">-0.913545457642601</td><td style="--this: var(--cos);">-0.4067366430758001</td>
+</tr><tr style="--index: 247.000000; --sin: -0.920505; --cos: -0.390731;">
+<th>247</th>
+<td style="--this: var(--sin);">-0.9205048534524403</td><td style="--this: var(--cos);">-0.3907311284892738</td>
+</tr><tr style="--index: 248.000000; --sin: -0.927184; --cos: -0.374607;">
+<th>248</th>
+<td style="--this: var(--sin);">-0.9271838545667873</td><td style="--this: var(--cos);">-0.3746065934159123</td>
+</tr><tr style="--index: 249.000000; --sin: -0.933580; --cos: -0.358368;">
+<th>249</th>
+<td style="--this: var(--sin);">-0.9335804264972016</td><td style="--this: var(--cos);">-0.3583679495453007</td>
+</tr><tr style="--index: 250.000000; --sin: -0.939693; --cos: -0.342020;">
+<th>250</th>
+<td style="--this: var(--sin);">-0.9396926207859082</td><td style="--this: var(--cos);">-0.3420201433256694</td>
+</tr><tr style="--index: 251.000000; --sin: -0.945519; --cos: -0.325568;">
+<th>251</th>
+<td style="--this: var(--sin);">-0.9455185755993168</td><td style="--this: var(--cos);">-0.32556815445715664</td>
+</tr><tr style="--index: 252.000000; --sin: -0.951057; --cos: -0.309017;">
+<th>252</th>
+<td style="--this: var(--sin);">-0.9510565162951535</td><td style="--this: var(--cos);">-0.30901699437494756</td>
+</tr><tr style="--index: 253.000000; --sin: -0.956305; --cos: -0.292372;">
+<th>253</th>
+<td style="--this: var(--sin);">-0.9563047559630353</td><td style="--this: var(--cos);">-0.2923717047227371</td>
+</tr><tr style="--index: 254.000000; --sin: -0.961262; --cos: -0.275637;">
+<th>254</th>
+<td style="--this: var(--sin);">-0.961261695938319</td><td style="--this: var(--cos);">-0.2756373558169989</td>
+</tr><tr style="--index: 255.000000; --sin: -0.965926; --cos: -0.258819;">
+<th>255</th>
+<td style="--this: var(--sin);">-0.9659258262890683</td><td style="--this: var(--cos);">-0.25881904510252063</td>
+</tr><tr style="--index: 256.000000; --sin: -0.970296; --cos: -0.241922;">
+<th>256</th>
+<td style="--this: var(--sin);">-0.9702957262759965</td><td style="--this: var(--cos);">-0.24192189559966779</td>
+</tr><tr style="--index: 257.000000; --sin: -0.974370; --cos: -0.224951;">
+<th>257</th>
+<td style="--this: var(--sin);">-0.9743700647852351</td><td style="--this: var(--cos);">-0.22495105434386525</td>
+</tr><tr style="--index: 258.000000; --sin: -0.978148; --cos: -0.207912;">
+<th>258</th>
+<td style="--this: var(--sin);">-0.9781476007338056</td><td style="--this: var(--cos);">-0.2079116908177598</td>
+</tr><tr style="--index: 259.000000; --sin: -0.981627; --cos: -0.190809;">
+<th>259</th>
+<td style="--this: var(--sin);">-0.9816271834476639</td><td style="--this: var(--cos);">-0.19080899537654547</td>
+</tr><tr style="--index: 260.000000; --sin: -0.984808; --cos: -0.173648;">
+<th>260</th>
+<td style="--this: var(--sin);">-0.984807753012208</td><td style="--this: var(--cos);">-0.17364817766693033</td>
+</tr><tr style="--index: 261.000000; --sin: -0.987688; --cos: -0.156434;">
+<th>261</th>
+<td style="--this: var(--sin);">-0.9876883405951377</td><td style="--this: var(--cos);">-0.15643446504023104</td>
+</tr><tr style="--index: 262.000000; --sin: -0.990268; --cos: -0.139173;">
+<th>262</th>
+<td style="--this: var(--sin);">-0.9902680687415704</td><td style="--this: var(--cos);">-0.13917310096006494</td>
+</tr><tr style="--index: 263.000000; --sin: -0.992546; --cos: -0.121869;">
+<th>263</th>
+<td style="--this: var(--sin);">-0.9925461516413221</td><td style="--this: var(--cos);">-0.12186934340514717</td>
+</tr><tr style="--index: 264.000000; --sin: -0.994522; --cos: -0.104528;">
+<th>264</th>
+<td style="--this: var(--sin);">-0.9945218953682734</td><td style="--this: var(--cos);">-0.10452846326765336</td>
+</tr><tr style="--index: 265.000000; --sin: -0.996195; --cos: -0.087156;">
+<th>265</th>
+<td style="--this: var(--sin);">-0.9961946980917455</td><td style="--this: var(--cos);">-0.08715574274765825</td>
+</tr><tr style="--index: 266.000000; --sin: -0.997564; --cos: -0.069756;">
+<th>266</th>
+<td style="--this: var(--sin);">-0.9975640502598242</td><td style="--this: var(--cos);">-0.06975647374412558</td>
+</tr><tr style="--index: 267.000000; --sin: -0.998630; --cos: -0.052336;">
+<th>267</th>
+<td style="--this: var(--sin);">-0.9986295347545738</td><td style="--this: var(--cos);">-0.052335956242944306</td>
+</tr><tr style="--index: 268.000000; --sin: -0.999391; --cos: -0.034899;">
+<th>268</th>
+<td style="--this: var(--sin);">-0.9993908270190957</td><td style="--this: var(--cos);">-0.03489949670250165</td>
+</tr><tr style="--index: 269.000000; --sin: -0.999848; --cos: -0.017452;">
+<th>269</th>
+<td style="--this: var(--sin);">-0.9998476951563913</td><td style="--this: var(--cos);">-0.017452406437283498</td>
+</tr><tr style="--index: 270.000000; --sin: -1.000000; --cos: -0.000000;">
+<th>270</th>
+<td style="--this: var(--sin);">-1.0</td><td style="--this: var(--cos);">-1.8369701987210297e-16</td>
+</tr><tr style="--index: 271.000000; --sin: -0.999848; --cos: 0.017452;">
+<th>271</th>
+<td style="--this: var(--sin);">-0.9998476951563913</td><td style="--this: var(--cos);">0.01745240643728313</td>
+</tr><tr style="--index: 272.000000; --sin: -0.999391; --cos: 0.034899;">
+<th>272</th>
+<td style="--this: var(--sin);">-0.9993908270190958</td><td style="--this: var(--cos);">0.03489949670250128</td>
+</tr><tr style="--index: 273.000000; --sin: -0.998630; --cos: 0.052336;">
+<th>273</th>
+<td style="--this: var(--sin);">-0.9986295347545738</td><td style="--this: var(--cos);">0.052335956242943946</td>
+</tr><tr style="--index: 274.000000; --sin: -0.997564; --cos: 0.069756;">
+<th>274</th>
+<td style="--this: var(--sin);">-0.9975640502598243</td><td style="--this: var(--cos);">0.06975647374412522</td>
+</tr><tr style="--index: 275.000000; --sin: -0.996195; --cos: 0.087156;">
+<th>275</th>
+<td style="--this: var(--sin);">-0.9961946980917455</td><td style="--this: var(--cos);">0.08715574274765789</td>
+</tr><tr style="--index: 276.000000; --sin: -0.994522; --cos: 0.104528;">
+<th>276</th>
+<td style="--this: var(--sin);">-0.9945218953682734</td><td style="--this: var(--cos);">0.10452846326765299</td>
+</tr><tr style="--index: 277.000000; --sin: -0.992546; --cos: 0.121869;">
+<th>277</th>
+<td style="--this: var(--sin);">-0.992546151641322</td><td style="--this: var(--cos);">0.12186934340514768</td>
+</tr><tr style="--index: 278.000000; --sin: -0.990268; --cos: 0.139173;">
+<th>278</th>
+<td style="--this: var(--sin);">-0.9902680687415704</td><td style="--this: var(--cos);">0.13917310096006547</td>
+</tr><tr style="--index: 279.000000; --sin: -0.987688; --cos: 0.156434;">
+<th>279</th>
+<td style="--this: var(--sin);">-0.9876883405951378</td><td style="--this: var(--cos);">0.15643446504023067</td>
+</tr><tr style="--index: 280.000000; --sin: -0.984808; --cos: 0.173648;">
+<th>280</th>
+<td style="--this: var(--sin);">-0.9848077530122081</td><td style="--this: var(--cos);">0.17364817766692997</td>
+</tr><tr style="--index: 281.000000; --sin: -0.981627; --cos: 0.190809;">
+<th>281</th>
+<td style="--this: var(--sin);">-0.9816271834476641</td><td style="--this: var(--cos);">0.19080899537654425</td>
+</tr><tr style="--index: 282.000000; --sin: -0.978148; --cos: 0.207912;">
+<th>282</th>
+<td style="--this: var(--sin);">-0.9781476007338058</td><td style="--this: var(--cos);">0.20791169081775857</td>
+</tr><tr style="--index: 283.000000; --sin: -0.974370; --cos: 0.224951;">
+<th>283</th>
+<td style="--this: var(--sin);">-0.9743700647852352</td><td style="--this: var(--cos);">0.22495105434386492</td>
+</tr><tr style="--index: 284.000000; --sin: -0.970296; --cos: 0.241922;">
+<th>284</th>
+<td style="--this: var(--sin);">-0.9702957262759966</td><td style="--this: var(--cos);">0.24192189559966745</td>
+</tr><tr style="--index: 285.000000; --sin: -0.965926; --cos: 0.258819;">
+<th>285</th>
+<td style="--this: var(--sin);">-0.9659258262890682</td><td style="--this: var(--cos);">0.25881904510252113</td>
+</tr><tr style="--index: 286.000000; --sin: -0.961262; --cos: 0.275637;">
+<th>286</th>
+<td style="--this: var(--sin);">-0.9612616959383188</td><td style="--this: var(--cos);">0.2756373558169994</td>
+</tr><tr style="--index: 287.000000; --sin: -0.956305; --cos: 0.292372;">
+<th>287</th>
+<td style="--this: var(--sin);">-0.9563047559630354</td><td style="--this: var(--cos);">0.2923717047227367</td>
+</tr><tr style="--index: 288.000000; --sin: -0.951057; --cos: 0.309017;">
+<th>288</th>
+<td style="--this: var(--sin);">-0.9510565162951536</td><td style="--this: var(--cos);">0.30901699437494723</td>
+</tr><tr style="--index: 289.000000; --sin: -0.945519; --cos: 0.325568;">
+<th>289</th>
+<td style="--this: var(--sin);">-0.945518575599317</td><td style="--this: var(--cos);">0.3255681544571563</td>
+</tr><tr style="--index: 290.000000; --sin: -0.939693; --cos: 0.342020;">
+<th>290</th>
+<td style="--this: var(--sin);">-0.9396926207859085</td><td style="--this: var(--cos);">0.34202014332566816</td>
+</tr><tr style="--index: 291.000000; --sin: -0.933580; --cos: 0.358368;">
+<th>291</th>
+<td style="--this: var(--sin);">-0.9335804264972021</td><td style="--this: var(--cos);">0.35836794954529955</td>
+</tr><tr style="--index: 292.000000; --sin: -0.927184; --cos: 0.374607;">
+<th>292</th>
+<td style="--this: var(--sin);">-0.9271838545667874</td><td style="--this: var(--cos);">0.37460659341591196</td>
+</tr><tr style="--index: 293.000000; --sin: -0.920505; --cos: 0.390731;">
+<th>293</th>
+<td style="--this: var(--sin);">-0.9205048534524405</td><td style="--this: var(--cos);">0.3907311284892735</td>
+</tr><tr style="--index: 294.000000; --sin: -0.913545; --cos: 0.406737;">
+<th>294</th>
+<td style="--this: var(--sin);">-0.9135454576426008</td><td style="--this: var(--cos);">0.40673664307580054</td>
+</tr><tr style="--index: 295.000000; --sin: -0.906308; --cos: 0.422618;">
+<th>295</th>
+<td style="--this: var(--sin);">-0.9063077870366499</td><td style="--this: var(--cos);">0.4226182617406996</td>
+</tr><tr style="--index: 296.000000; --sin: -0.898794; --cos: 0.438371;">
+<th>296</th>
+<td style="--this: var(--sin);">-0.898794046299167</td><td style="--this: var(--cos);">0.4383711467890774</td>
+</tr><tr style="--index: 297.000000; --sin: -0.891007; --cos: 0.453990;">
+<th>297</th>
+<td style="--this: var(--sin);">-0.891006524188368</td><td style="--this: var(--cos);">0.45399049973954664</td>
+</tr><tr style="--index: 298.000000; --sin: -0.882948; --cos: 0.469472;">
+<th>298</th>
+<td style="--this: var(--sin);">-0.8829475928589271</td><td style="--this: var(--cos);">0.4694715627858904</td>
+</tr><tr style="--index: 299.000000; --sin: -0.874620; --cos: 0.484810;">
+<th>299</th>
+<td style="--this: var(--sin);">-0.8746197071393961</td><td style="--this: var(--cos);">0.4848096202463365</td>
+</tr><tr style="--index: 300.000000; --sin: -0.866025; --cos: 0.500000;">
+<th>300</th>
+<td style="--this: var(--sin);">-0.8660254037844386</td><td style="--this: var(--cos);">0.5000000000000001</td>
+</tr><tr style="--index: 301.000000; --sin: -0.857167; --cos: 0.515038;">
+<th>301</th>
+<td style="--this: var(--sin);">-0.8571673007021123</td><td style="--this: var(--cos);">0.5150380749100542</td>
+</tr><tr style="--index: 302.000000; --sin: -0.848048; --cos: 0.529919;">
+<th>302</th>
+<td style="--this: var(--sin);">-0.8480480961564262</td><td style="--this: var(--cos);">0.5299192642332047</td>
+</tr><tr style="--index: 303.000000; --sin: -0.838671; --cos: 0.544639;">
+<th>303</th>
+<td style="--this: var(--sin);">-0.8386705679454243</td><td style="--this: var(--cos);">0.5446390350150266</td>
+</tr><tr style="--index: 304.000000; --sin: -0.829038; --cos: 0.559193;">
+<th>304</th>
+<td style="--this: var(--sin);">-0.8290375725550421</td><td style="--this: var(--cos);">0.5591929034707462</td>
+</tr><tr style="--index: 305.000000; --sin: -0.819152; --cos: 0.573576;">
+<th>305</th>
+<td style="--this: var(--sin);">-0.8191520442889918</td><td style="--this: var(--cos);">0.573576436351046</td>
+</tr><tr style="--index: 306.000000; --sin: -0.809017; --cos: 0.587785;">
+<th>306</th>
+<td style="--this: var(--sin);">-0.8090169943749476</td><td style="--this: var(--cos);">0.5877852522924729</td>
+</tr><tr style="--index: 307.000000; --sin: -0.798636; --cos: 0.601815;">
+<th>307</th>
+<td style="--this: var(--sin);">-0.798635510047293</td><td style="--this: var(--cos);">0.6018150231520479</td>
+</tr><tr style="--index: 308.000000; --sin: -0.788011; --cos: 0.615661;">
+<th>308</th>
+<td style="--this: var(--sin);">-0.7880107536067218</td><td style="--this: var(--cos);">0.6156614753256585</td>
+</tr><tr style="--index: 309.000000; --sin: -0.777146; --cos: 0.629320;">
+<th>309</th>
+<td style="--this: var(--sin);">-0.7771459614569708</td><td style="--this: var(--cos);">0.6293203910498375</td>
+</tr><tr style="--index: 310.000000; --sin: -0.766044; --cos: 0.642788;">
+<th>310</th>
+<td style="--this: var(--sin);">-0.7660444431189781</td><td style="--this: var(--cos);">0.6427876096865393</td>
+</tr><tr style="--index: 311.000000; --sin: -0.754710; --cos: 0.656059;">
+<th>311</th>
+<td style="--this: var(--sin);">-0.7547095802227722</td><td style="--this: var(--cos);">0.656059028990507</td>
+</tr><tr style="--index: 312.000000; --sin: -0.743145; --cos: 0.669131;">
+<th>312</th>
+<td style="--this: var(--sin);">-0.7431448254773946</td><td style="--this: var(--cos);">0.6691306063588578</td>
+</tr><tr style="--index: 313.000000; --sin: -0.731354; --cos: 0.681998;">
+<th>313</th>
+<td style="--this: var(--sin);">-0.731353701619171</td><td style="--this: var(--cos);">0.681998360062498</td>
+</tr><tr style="--index: 314.000000; --sin: -0.719340; --cos: 0.694658;">
+<th>314</th>
+<td style="--this: var(--sin);">-0.7193398003386517</td><td style="--this: var(--cos);">0.6946583704589966</td>
+</tr><tr style="--index: 315.000000; --sin: -0.707107; --cos: 0.707107;">
+<th>315</th>
+<td style="--this: var(--sin);">-0.7071067811865477</td><td style="--this: var(--cos);">0.7071067811865474</td>
+</tr><tr style="--index: 316.000000; --sin: -0.694658; --cos: 0.719340;">
+<th>316</th>
+<td style="--this: var(--sin);">-0.6946583704589976</td><td style="--this: var(--cos);">0.7193398003386509</td>
+</tr><tr style="--index: 317.000000; --sin: -0.681998; --cos: 0.731354;">
+<th>317</th>
+<td style="--this: var(--sin);">-0.6819983600624983</td><td style="--this: var(--cos);">0.7313537016191707</td>
+</tr><tr style="--index: 318.000000; --sin: -0.669131; --cos: 0.743145;">
+<th>318</th>
+<td style="--this: var(--sin);">-0.6691306063588581</td><td style="--this: var(--cos);">0.7431448254773942</td>
+</tr><tr style="--index: 319.000000; --sin: -0.656059; --cos: 0.754710;">
+<th>319</th>
+<td style="--this: var(--sin);">-0.6560590289905074</td><td style="--this: var(--cos);">0.7547095802227719</td>
+</tr><tr style="--index: 320.000000; --sin: -0.642788; --cos: 0.766044;">
+<th>320</th>
+<td style="--this: var(--sin);">-0.6427876096865396</td><td style="--this: var(--cos);">0.7660444431189778</td>
+</tr><tr style="--index: 321.000000; --sin: -0.629320; --cos: 0.777146;">
+<th>321</th>
+<td style="--this: var(--sin);">-0.6293203910498378</td><td style="--this: var(--cos);">0.7771459614569706</td>
+</tr><tr style="--index: 322.000000; --sin: -0.615661; --cos: 0.788011;">
+<th>322</th>
+<td style="--this: var(--sin);">-0.6156614753256588</td><td style="--this: var(--cos);">0.7880107536067216</td>
+</tr><tr style="--index: 323.000000; --sin: -0.601815; --cos: 0.798636;">
+<th>323</th>
+<td style="--this: var(--sin);">-0.6018150231520483</td><td style="--this: var(--cos);">0.7986355100472928</td>
+</tr><tr style="--index: 324.000000; --sin: -0.587785; --cos: 0.809017;">
+<th>324</th>
+<td style="--this: var(--sin);">-0.5877852522924734</td><td style="--this: var(--cos);">0.8090169943749473</td>
+</tr><tr style="--index: 325.000000; --sin: -0.573576; --cos: 0.819152;">
+<th>325</th>
+<td style="--this: var(--sin);">-0.5735764363510465</td><td style="--this: var(--cos);">0.8191520442889916</td>
+</tr><tr style="--index: 326.000000; --sin: -0.559193; --cos: 0.829038;">
+<th>326</th>
+<td style="--this: var(--sin);">-0.5591929034707473</td><td style="--this: var(--cos);">0.8290375725550414</td>
+</tr><tr style="--index: 327.000000; --sin: -0.544639; --cos: 0.838671;">
+<th>327</th>
+<td style="--this: var(--sin);">-0.544639035015027</td><td style="--this: var(--cos);">0.838670567945424</td>
+</tr><tr style="--index: 328.000000; --sin: -0.529919; --cos: 0.848048;">
+<th>328</th>
+<td style="--this: var(--sin);">-0.5299192642332058</td><td style="--this: var(--cos);">0.8480480961564254</td>
+</tr><tr style="--index: 329.000000; --sin: -0.515038; --cos: 0.857167;">
+<th>329</th>
+<td style="--this: var(--sin);">-0.5150380749100545</td><td style="--this: var(--cos);">0.8571673007021121</td>
+</tr><tr style="--index: 330.000000; --sin: -0.500000; --cos: 0.866025;">
+<th>330</th>
+<td style="--this: var(--sin);">-0.5000000000000004</td><td style="--this: var(--cos);">0.8660254037844384</td>
+</tr><tr style="--index: 331.000000; --sin: -0.484810; --cos: 0.874620;">
+<th>331</th>
+<td style="--this: var(--sin);">-0.4848096202463369</td><td style="--this: var(--cos);">0.8746197071393959</td>
+</tr><tr style="--index: 332.000000; --sin: -0.469472; --cos: 0.882948;">
+<th>332</th>
+<td style="--this: var(--sin);">-0.4694715627858908</td><td style="--this: var(--cos);">0.8829475928589269</td>
+</tr><tr style="--index: 333.000000; --sin: -0.453990; --cos: 0.891007;">
+<th>333</th>
+<td style="--this: var(--sin);">-0.45399049973954697</td><td style="--this: var(--cos);">0.8910065241883678</td>
+</tr><tr style="--index: 334.000000; --sin: -0.438371; --cos: 0.898794;">
+<th>334</th>
+<td style="--this: var(--sin);">-0.438371146789077</td><td style="--this: var(--cos);">0.8987940462991671</td>
+</tr><tr style="--index: 335.000000; --sin: -0.422618; --cos: 0.906308;">
+<th>335</th>
+<td style="--this: var(--sin);">-0.4226182617407</td><td style="--this: var(--cos);">0.9063077870366497</td>
+</tr><tr style="--index: 336.000000; --sin: -0.406737; --cos: 0.913545;">
+<th>336</th>
+<td style="--this: var(--sin);">-0.40673664307580015</td><td style="--this: var(--cos);">0.913545457642601</td>
+</tr><tr style="--index: 337.000000; --sin: -0.390731; --cos: 0.920505;">
+<th>337</th>
+<td style="--this: var(--sin);">-0.3907311284892747</td><td style="--this: var(--cos);">0.9205048534524399</td>
+</tr><tr style="--index: 338.000000; --sin: -0.374607; --cos: 0.927184;">
+<th>338</th>
+<td style="--this: var(--sin);">-0.37460659341591235</td><td style="--this: var(--cos);">0.9271838545667873</td>
+</tr><tr style="--index: 339.000000; --sin: -0.358368; --cos: 0.933580;">
+<th>339</th>
+<td style="--this: var(--sin);">-0.35836794954530077</td><td style="--this: var(--cos);">0.9335804264972015</td>
+</tr><tr style="--index: 340.000000; --sin: -0.342020; --cos: 0.939693;">
+<th>340</th>
+<td style="--this: var(--sin);">-0.3420201433256686</td><td style="--this: var(--cos);">0.9396926207859084</td>
+</tr><tr style="--index: 341.000000; --sin: -0.325568; --cos: 0.945519;">
+<th>341</th>
+<td style="--this: var(--sin);">-0.32556815445715753</td><td style="--this: var(--cos);">0.9455185755993165</td>
+</tr><tr style="--index: 342.000000; --sin: -0.309017; --cos: 0.951057;">
+<th>342</th>
+<td style="--this: var(--sin);">-0.3090169943749476</td><td style="--this: var(--cos);">0.9510565162951535</td>
+</tr><tr style="--index: 343.000000; --sin: -0.292372; --cos: 0.956305;">
+<th>343</th>
+<td style="--this: var(--sin);">-0.29237170472273627</td><td style="--this: var(--cos);">0.9563047559630357</td>
+</tr><tr style="--index: 344.000000; --sin: -0.275637; --cos: 0.961262;">
+<th>344</th>
+<td style="--this: var(--sin);">-0.2756373558169998</td><td style="--this: var(--cos);">0.9612616959383187</td>
+</tr><tr style="--index: 345.000000; --sin: -0.258819; --cos: 0.965926;">
+<th>345</th>
+<td style="--this: var(--sin);">-0.2588190451025207</td><td style="--this: var(--cos);">0.9659258262890683</td>
+</tr><tr style="--index: 346.000000; --sin: -0.241922; --cos: 0.970296;">
+<th>346</th>
+<td style="--this: var(--sin);">-0.24192189559966787</td><td style="--this: var(--cos);">0.9702957262759965</td>
+</tr><tr style="--index: 347.000000; --sin: -0.224951; --cos: 0.974370;">
+<th>347</th>
+<td style="--this: var(--sin);">-0.22495105434386534</td><td style="--this: var(--cos);">0.9743700647852351</td>
+</tr><tr style="--index: 348.000000; --sin: -0.207912; --cos: 0.978148;">
+<th>348</th>
+<td style="--this: var(--sin);">-0.20791169081775987</td><td style="--this: var(--cos);">0.9781476007338056</td>
+</tr><tr style="--index: 349.000000; --sin: -0.190809; --cos: 0.981627;">
+<th>349</th>
+<td style="--this: var(--sin);">-0.19080899537654467</td><td style="--this: var(--cos);">0.981627183447664</td>
+</tr><tr style="--index: 350.000000; --sin: -0.173648; --cos: 0.984808;">
+<th>350</th>
+<td style="--this: var(--sin);">-0.17364817766693127</td><td style="--this: var(--cos);">0.9848077530122079</td>
+</tr><tr style="--index: 351.000000; --sin: -0.156434; --cos: 0.987688;">
+<th>351</th>
+<td style="--this: var(--sin);">-0.15643446504023112</td><td style="--this: var(--cos);">0.9876883405951377</td>
+</tr><tr style="--index: 352.000000; --sin: -0.139173; --cos: 0.990268;">
+<th>352</th>
+<td style="--this: var(--sin);">-0.13917310096006588</td><td style="--this: var(--cos);">0.9902680687415703</td>
+</tr><tr style="--index: 353.000000; --sin: -0.121869; --cos: 0.992546;">
+<th>353</th>
+<td style="--this: var(--sin);">-0.12186934340514811</td><td style="--this: var(--cos);">0.992546151641322</td>
+</tr><tr style="--index: 354.000000; --sin: -0.104528; --cos: 0.994522;">
+<th>354</th>
+<td style="--this: var(--sin);">-0.10452846326765342</td><td style="--this: var(--cos);">0.9945218953682733</td>
+</tr><tr style="--index: 355.000000; --sin: -0.087156; --cos: 0.996195;">
+<th>355</th>
+<td style="--this: var(--sin);">-0.08715574274765832</td><td style="--this: var(--cos);">0.9961946980917455</td>
+</tr><tr style="--index: 356.000000; --sin: -0.069756; --cos: 0.997564;">
+<th>356</th>
+<td style="--this: var(--sin);">-0.06975647374412476</td><td style="--this: var(--cos);">0.9975640502598243</td>
+</tr><tr style="--index: 357.000000; --sin: -0.052336; --cos: 0.998630;">
+<th>357</th>
+<td style="--this: var(--sin);">-0.05233595624294437</td><td style="--this: var(--cos);">0.9986295347545738</td>
+</tr><tr style="--index: 358.000000; --sin: -0.034899; --cos: 0.999391;">
+<th>358</th>
+<td style="--this: var(--sin);">-0.034899496702500823</td><td style="--this: var(--cos);">0.9993908270190958</td>
+</tr><tr style="--index: 359.000000; --sin: -0.017452; --cos: 0.999848;">
+<th>359</th>
+<td style="--this: var(--sin);">-0.01745240643728445</td><td style="--this: var(--cos);">0.9998476951563913</td>
+</tr>
+</tbody>
+</table></div>
+
+<div class="highlight"><pre><span></span><code>    <span class="k">def</span> <span class="nf">attrs</span><span class="p">(</span><span class="nb">str</span><span class="p">):</span>
+        <span class="n">soup</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span><span class="s2">&quot;bs4&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">attrs</span> <span class="o">|</span> <span class="p">{</span><span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">soup</span><span class="o">.</span><span class="n">a</span><span class="o">.</span><span class="n">string</span><span class="p">}</span>
+    <span class="n">links</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+        <span class="n">attrs</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>href</th>
+<th>text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>https://yakshav.es/the-patron-saint-of-yakshaves/</td>
+<td>patron saint of yak shaves</td>
+</tr>
+<tr>
+<th>1</th>
+<td>https://www.quantamagazine.org/computer-scient...</td>
+<td>quanta magazine: The Computer Scientist Who Ca...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>http://www.literateprogramming.com/knuthweb.pdf</td>
+<td>literate programming</td>
+</tr>
+<tr>
+<th>3</th>
+<td>https://licsjournal.org/index.php/LiCS/article...</td>
+<td>Understanding Computer Programming as a Literacy</td>
+</tr>
+<tr>
+<th>4</th>
+<td>#</td>
+<td>science vs literature</td>
+</tr>
+<tr>
+<th>5</th>
+<td>https://gwern.net/doc/design/typography/1980-k...</td>
+<td>the letter s</td>
+</tr>
+<tr>
+<th>6</th>
+<td>https://monoskop.org/images/9/99/Foucault_Mich...</td>
+<td>the unravelled calligram - foucault</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">we</span> <span class="n">can</span> <span class="n">save</span> <span class="nb">complex</span> <span class="n">markdown</span> <span class="n">objects</span> <span class="k">as</span> <span class="n">variables</span>
+
+        <span class="n">table_source</span><span class="o">=</span>\
+<span class="o">|</span>    <span class="o">|</span> <span class="n">href</span>                                                                                               <span class="o">|</span> <span class="n">text</span>                                                                   <span class="o">|</span>
+<span class="o">|---</span><span class="p">:</span><span class="o">|</span><span class="p">:</span><span class="o">---------------------------------------------------------------------------------------------------|</span><span class="p">:</span><span class="o">-----------------------------------------------------------------------|</span>
+<span class="o">|</span>  <span class="mi">0</span> <span class="o">|</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">yakshav</span><span class="o">.</span><span class="n">es</span><span class="o">/</span><span class="n">the</span><span class="o">-</span><span class="n">patron</span><span class="o">-</span><span class="n">saint</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">yakshaves</span><span class="o">/</span>                                                  <span class="o">|</span> <span class="n">patron</span> <span class="n">saint</span> <span class="n">of</span> <span class="n">yak</span> <span class="n">shaves</span>                                             <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">1</span> <span class="o">|</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">quantamagazine</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">computer</span><span class="o">-</span><span class="n">scientist</span><span class="o">-</span><span class="n">donald</span><span class="o">-</span><span class="n">knuth</span><span class="o">-</span><span class="n">cant</span><span class="o">-</span><span class="n">stop</span><span class="o">-</span><span class="n">telling</span><span class="o">-</span><span class="n">stories</span><span class="o">-</span><span class="mi">20200416</span><span class="o">/</span> <span class="o">|</span> <span class="n">quanta</span> <span class="n">magazine</span><span class="p">:</span> <span class="n">The</span> <span class="n">Computer</span> <span class="n">Scientist</span> <span class="n">Who</span> <span class="n">Can</span><span class="err">’</span><span class="n">t</span> <span class="n">Stop</span> <span class="n">Telling</span> <span class="n">Stories</span> <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">2</span> <span class="o">|</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">literateprogramming</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">knuthweb</span><span class="o">.</span><span class="n">pdf</span>                                                    <span class="o">|</span> <span class="n">literate</span> <span class="n">programming</span>                                                   <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">3</span> <span class="o">|</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">licsjournal</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">php</span><span class="o">/</span><span class="n">LiCS</span><span class="o">/</span><span class="n">article</span><span class="o">/</span><span class="n">view</span><span class="o">/</span><span class="mi">794</span><span class="o">/</span><span class="mi">609</span>                                        <span class="o">|</span> <span class="n">Understanding</span> <span class="n">Computer</span> <span class="n">Programming</span> <span class="k">as</span> <span class="n">a</span> <span class="n">Literacy</span>                       <span class="o">|</span>
+<span class="o">|</span>  <span class="mi">4</span> <span class="o">|</span> <span class="c1">#                                                                                                  | science vs literature                                                  |</span>
+<span class="o">|</span>  <span class="mi">5</span> <span class="o">|</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gwern</span><span class="o">.</span><span class="n">net</span><span class="o">/</span><span class="n">doc</span><span class="o">/</span><span class="n">design</span><span class="o">/</span><span class="n">typography</span><span class="o">/</span><span class="mi">1980</span><span class="o">-</span><span class="n">knuth</span><span class="o">.</span><span class="n">pdf</span>                                             <span class="o">|</span> <span class="n">the</span> <span class="n">letter</span> <span class="n">s</span>                                                           <span class="o">|</span>
+
+
+
+<span class="n">then</span> <span class="n">we</span> <span class="n">can</span> <span class="n">recover</span> <span class="n">the</span> <span class="n">data</span> <span class="kn">from</span> <span class="nn">markdown</span> <span class="ow">and</span> <span class="n">mark</span> <span class="n">it</span> <span class="n">useful</span> <span class="n">without</span> <span class="n">redundant</span> <span class="n">work</span><span class="o">.</span>
+
+        <span class="n">pipe</span><span class="p">(</span>
+            <span class="n">table_source</span><span class="p">,</span>
+            <span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">,</span>
+            <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">,</span>
+            <span class="n">pandas</span><span class="o">.</span><span class="n">read_html</span><span class="p">,</span>
+            <span class="n">first</span>
+        <span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>Unnamed: 0</th>
+<th>href</th>
+<th>text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>0</td>
+<td>https://yakshav.es/the-patron-saint-of-yakshaves/</td>
+<td>patron saint of yak shaves</td>
+</tr>
+<tr>
+<th>1</th>
+<td>1</td>
+<td>https://www.quantamagazine.org/computer-scient...</td>
+<td>quanta magazine: The Computer Scientist Who Ca...</td>
+</tr>
+<tr>
+<th>2</th>
+<td>2</td>
+<td>http://www.literateprogramming.com/knuthweb.pdf</td>
+<td>literate programming</td>
+</tr>
+<tr>
+<th>3</th>
+<td>3</td>
+<td>https://licsjournal.org/index.php/LiCS/article...</td>
+<td>Understanding Computer Programming as a Literacy</td>
+</tr>
+<tr>
+<th>4</th>
+<td>4</td>
+<td>#</td>
+<td>science vs literature</td>
+</tr>
+<tr>
+<th>5</th>
+<td>5</td>
+<td>https://gwern.net/doc/design/typography/1980-k...</td>
+<td>the letter s</td>
+</tr>
+</tbody>
+</table>
+</div></div>
+<div class="output_html rendered_html output_subarea"><p>we can save complex markdown objects as variables</p>
+<pre><code>    table_source=\
+</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:right"></th>
+<th style="text-align:left">href</th>
+<th style="text-align:left">text</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">0</td>
+<td style="text-align:left"><a href="https://yakshav.es/the-patron-saint-of-yakshaves/">https://yakshav.es/the-patron-saint-of-yakshaves/</a></td>
+<td style="text-align:left">patron saint of yak shaves</td>
+</tr>
+<tr>
+<td style="text-align:right">1</td>
+<td style="text-align:left"><a href="https://www.quantamagazine.org/computer-scientist-donald-knuth-cant-stop-telling-stories-20200416/">https://www.quantamagazine.org/computer-scientist-donald-knuth-cant-stop-telling-stories-20200416/</a></td>
+<td style="text-align:left">quanta magazine: The Computer Scientist Who Can’t Stop Telling Stories</td>
+</tr>
+<tr>
+<td style="text-align:right">2</td>
+<td style="text-align:left"><a href="http://www.literateprogramming.com/knuthweb.pdf">http://www.literateprogramming.com/knuthweb.pdf</a></td>
+<td style="text-align:left">literate programming</td>
+</tr>
+<tr>
+<td style="text-align:right">3</td>
+<td style="text-align:left"><a href="https://licsjournal.org/index.php/LiCS/article/view/794/609">https://licsjournal.org/index.php/LiCS/article/view/794/609</a></td>
+<td style="text-align:left">Understanding Computer Programming as a Literacy</td>
+</tr>
+<tr>
+<td style="text-align:right">4</td>
+<td style="text-align:left">#</td>
+<td style="text-align:left">science vs literature</td>
+</tr>
+<tr>
+<td style="text-align:right">5</td>
+<td style="text-align:left"><a href="https://gwern.net/doc/design/typography/1980-knuth.pdf">https://gwern.net/doc/design/typography/1980-knuth.pdf</a></td>
+<td style="text-align:left">the letter s</td>
+</tr>
+</tbody>
+</table>
+<p>then we can recover the data from markdown and mark it useful without redundant work.</p>
+<pre><code>    pipe(
+        table_source,
+        shell.tangle.parser.parser.render,
+        io.StringIO,
+        pandas.read_html,
+        first
+    )</code></pre>
+</div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.a7c05c9e.min.js"></script>
+      
+    
+  </body>
+</html>
