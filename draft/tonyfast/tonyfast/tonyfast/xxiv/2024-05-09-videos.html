@@ -796,6 +796,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
     <nav>
      <ol>
       <li>
+       <a href="2024-05-11-stream.html">
+        stream drawing words with video elements
+       </a>
+      </li>
+      <li>
        <a href="2024-05-09-videos.html">
         an html webcam player
        </a>
@@ -926,13 +931,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
@@ -941,13 +946,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-01-notebook-accessibility-workshop.html">
-        notebooks and accessibility workshop
+       <a href="2024-03-01-a11y-list-string.ipynb.html">
+        using microdata and semantic html to represent python objects
        </a>
       </li>
       <li>
-       <a href="2024-03-01-a11y-list-string.ipynb.html">
-        using microdata and semantic html to represent python objects
+       <a href="2024-03-01-notebook-accessibility-workshop.html">
+        notebooks and accessibility workshop
        </a>
       </li>
       <li>
@@ -961,13 +966,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
@@ -1365,10 +1370,10 @@ recently i tried tried compositing my stream using more native html features rat
        cells
       </dt>
       <dd id="nb-ct-total">
-       3 total
+       2 total
       </dd>
       <dd id="nb-ct-code">
-       2 code
+       1 code
       </dd>
       <dd>
       </dd>
@@ -1376,7 +1381,7 @@ recently i tried tried compositing my stream using more native html features rat
        state
       </dt>
       <dd id="nb-state">
-       executed out of order
+       executed in order
       </dd>
       <dt>
        kernel
@@ -1625,7 +1630,7 @@ recently i tried tried compositing my stream using more native html features rat
          [
         </span>
         <span id="cell-2-exec-label">
-         52
+         1
         </span>
         <span aria-hidden="true">
          ]
@@ -1717,8 +1722,8 @@ we iterate through any elements on the page and update the media devices availab
 Array.from(document.getElementsByClassName("webcam")).forEach(
     (form) =&gt; {
         let [video] = form.getElementsByTagName("video");
-        let camera = form.querySelector("[name=camera]");
-        let direction = form.querySelector("[name=direction]");
+        let camera = form.elements.camera;
+        let direction = form.elements.direction;
         if (!navigator.mediaDevices?.enumerateDevices) {
           console.log("enumerateDevices() not supported.");
         } else {
@@ -1818,8 +1823,8 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
 <span class="n">Array</span><span class="o">.</span><span class="n">from</span><span class="p">(</span><span class="n">document</span><span class="o">.</span><span class="n">getElementsByClassName</span><span class="p">(</span><span class="s2">"webcam"</span><span class="p">))</span><span class="o">.</span><span class="n">forEach</span><span class="p">(</span>
     <span class="p">(</span><span class="n">form</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
         <span class="n">let</span> <span class="p">[</span><span class="n">video</span><span class="p">]</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">getElementsByTagName</span><span class="p">(</span><span class="s2">"video"</span><span class="p">);</span>
-        <span class="n">let</span> <span class="n">camera</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">"[name=camera]"</span><span class="p">);</span>
-        <span class="n">let</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">querySelector</span><span class="p">(</span><span class="s2">"[name=direction]"</span><span class="p">);</span>
+        <span class="n">let</span> <span class="n">camera</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">camera</span><span class="p">;</span>
+        <span class="n">let</span> <span class="n">direction</span> <span class="o">=</span> <span class="n">form</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">direction</span><span class="p">;</span>
         <span class="k">if</span> <span class="p">(</span><span class="err">!</span><span class="n">navigator</span><span class="o">.</span><span class="n">mediaDevices</span><span class="err">?</span><span class="o">.</span><span class="n">enumerateDevices</span><span class="p">)</span> <span class="p">{</span>
           <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s2">"enumerateDevices() not supported."</span><span class="p">);</span>
         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
@@ -1889,7 +1894,7 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
           [
          </span>
          <span>
-          52
+          1
          </span>
          <span aria-hidden="true">
           ]
@@ -1997,8 +2002,8 @@ user intervention is needed to give access to a camera.
         <pre><code class="js">Array.from(document.getElementsByClassName("webcam")).forEach(
     (form) =&gt; {
         let [video] = form.getElementsByTagName("video");
-        let camera = form.querySelector("[name=camera]");
-        let direction = form.querySelector("[name=direction]");
+        let camera = form.elements.camera;
+        let direction = form.elements.direction;
         if (!navigator.mediaDevices?.enumerateDevices) {
           console.log("enumerateDevices() not supported.");
         } else {
@@ -2045,8 +2050,8 @@ user intervention is needed to give access to a camera.
 Array.from(document.getElementsByClassName("webcam")).forEach(
     (form) => {
         let [video] = form.getElementsByTagName("video");
-        let camera = form.querySelector("[name=camera]");
-        let direction = form.querySelector("[name=direction]");
+        let camera = form.elements.camera;
+        let direction = form.elements.direction;
         if (!navigator.mediaDevices?.enumerateDevices) {
           console.log("enumerateDevices() not supported.");
         } else {
@@ -2079,102 +2084,14 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="0" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
-        3
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-3-executed">
-         unexecuted
-        </span>
-        <span id="cell-3-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-3-exec-label">
-         None
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-3-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-3-exec-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-3-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-3-end" role="none">
-      </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="0"></textarea>
-       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-3-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-3-loc" role="none">
-       0
-      </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-       </fieldset>
-      </td>
-     </tr>
     </tbody>
    </table>
   </main>
   <footer>
+   <a href="2024-05-11-stream.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;stream drawing words with video elements
+   </a>
+   <br>
    <a href="2024-05-08-stream.html" rel="next">
     markdown as an accessible, literate programming language
     <span aria-hidden="true">
