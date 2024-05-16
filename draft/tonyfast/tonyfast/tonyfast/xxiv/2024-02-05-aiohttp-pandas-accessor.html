@@ -932,13 +932,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -967,13 +967,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1112,13 +1112,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1147,13 +1147,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1192,13 +1192,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1287,13 +1287,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1465,34 +1465,34 @@ and awaitables.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1572,7 +1572,7 @@ and awaitables.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="9"># adding an http attribrute to pandas series
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="9"># adding an http attribrute to pandas series
 
 i really like fluent programming styles which is why i love using pandas objects as first class citizens in my programs.
 i've been adding accessors to pandas over time to improve my practice. they do things like jinja templates, subprocess calls,
@@ -1679,7 +1679,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    import midgy
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    import midgy
     from nobook.utils import *
     from nobook.utils import Accessor, SERIES, INDEX, loads
     from functools import partial</textarea>
@@ -1730,6 +1730,8 @@ we ignore the dataframe case in this notebook and work off the series case.|
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1779,7 +1781,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="1">use `aiohttpx` as an async aware http requests tool with a caching client for edge buzz buzz.</textarea>
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="1">use `aiohttpx` as an async aware http requests tool with a caching client for edge buzz buzz.</textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>use <span class="sb">`aiohttpx`</span> as an async aware http requests tool with a caching client for edge buzz buzz.
@@ -1862,7 +1864,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="26">    class _http(Accessor, types=SERIES | INDEX, name="http"):
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="26">    class _http(Accessor, types=SERIES | INDEX, name="http"):
         def __init__(self, object):
             import aiohttp, aiohttp_client_cache
             super().__init__(object)
@@ -1957,6 +1959,8 @@ we ignore the dataframe case in this notebook and work off the series case.|
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2006,7 +2010,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">example grabbing data about my gist history.</textarea>
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="1">example grabbing data about my gist history.</textarea>
        <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>example grabbing data about my gist history.
@@ -2085,7 +2089,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="6">    gists = (
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="6">    gists = (
         await (
             "https://api.github.com/users/tonyfast/gists" + Index(range(1, 5)).map("?page={}".format)
         ).http.get("application/json")
@@ -2141,8 +2145,9 @@ we ignore the dataframe case in this notebook and work off the series case.|
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -2153,320 +2158,321 @@ we ignore the dataframe case in this notebook and work off the series case.|
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             filename
-            </th>
-            <th>
-             type
-            </th>
-            <th>
-             language
-            </th>
-            <th>
-             raw_url
-            </th>
-            <th>
-             size
-            </th>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <th>
-             id
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th rowspan="5" valign="top">
-             https://api.github.com/users/tonyfast/gists?page=1
-            </th>
-            <th>
-             90c41d4994f75c594db804aeba56fc26
-            </th>
-            <th>
-             first_and_second_laws_of_thermodynamics.ipynb
-            </th>
-            <td>
-             first_and_second_laws_of_thermodynamics.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/90...
-            </td>
-            <td>
-             20469
-            </td>
-           </tr>
-           <tr>
-            <th>
-             aa3b16c5a284150e3d727a843b6cefec
-            </th>
-            <th>
-             axe_types.py
-            </th>
-            <td>
-             axe_types.py
-            </td>
-            <td>
-             application/x-python
-            </td>
-            <td>
-             Python
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/aa...
-            </td>
-            <td>
-             8442
-            </td>
-           </tr>
-           <tr>
-            <th>
-             713ae6c57602c0f85d011421b20d5ea0
-            </th>
-            <th>
-             BinaryExamples.ipynb
-            </th>
-            <td>
-             BinaryExamples.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/71...
-            </td>
-            <td>
-             352154
-            </td>
-           </tr>
-           <tr>
-            <th>
-             c004044b4fe641735031ecf2069cf595
-            </th>
-            <th>
-             aom.json
-            </th>
-            <td>
-             aom.json
-            </td>
-            <td>
-             application/json
-            </td>
-            <td>
-             JSON
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/c0...
-            </td>
-            <td>
-             52330
-            </td>
-           </tr>
-           <tr>
-            <th>
-             e17946facd998a931527467d646cc822
-            </th>
-            <th>
-             README.md
-            </th>
-            <td>
-             README.md
-            </td>
-            <td>
-             text/markdown
-            </td>
-            <td>
-             Markdown
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/e1...
-            </td>
-            <td>
-             3044
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th rowspan="5" valign="top">
-             https://api.github.com/users/tonyfast/gists?page=4
-            </th>
-            <th>
-             cfb55f41f5452ef33ec6fbb4e0bda991
-            </th>
-            <th>
-             doctest-myst.ipynb
-            </th>
-            <td>
-             doctest-myst.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/cf...
-            </td>
-            <td>
-             5731
-            </td>
-           </tr>
-           <tr>
-            <th>
-             357b09758b5fb0f31fd2c0e7f7cf3967
-            </th>
-            <th>
-             readme.ipynb
-            </th>
-            <td>
-             readme.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/35...
-            </td>
-            <td>
-             1117725
-            </td>
-           </tr>
-           <tr>
-            <th>
-             e0468f0decb0a454d8fae4de8511d794
-            </th>
-            <th>
-             df-df-api.ipynb
-            </th>
-            <td>
-             df-df-api.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/e0...
-            </td>
-            <td>
-             22500
-            </td>
-           </tr>
-           <tr>
-            <th>
-             292377ff60690bff0bf866e93a36eaf2
-            </th>
-            <th>
-             reprish.ipynb
-            </th>
-            <td>
-             reprish.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/29...
-            </td>
-            <td>
-             6115
-            </td>
-           </tr>
-           <tr>
-            <th>
-             c72d948631f3d38702d2876942ceb57e
-            </th>
-            <th>
-             custom_repr.ipynb
-            </th>
-            <td>
-             custom_repr.ipynb
-            </td>
-            <td>
-             text/plain
-            </td>
-            <td>
-             Jupyter Notebook
-            </td>
-            <td>
-             https://gist.githubusercontent.com/tonyfast/c7...
-            </td>
-            <td>
-             62577
-            </td>
-           </tr>
-          </tbody>
-         </table>
-         <p>
-          149 rows &times; 5 columns
-         </p>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              filename
+             </th>
+             <th>
+              type
+             </th>
+             <th>
+              language
+             </th>
+             <th>
+              raw_url
+             </th>
+             <th>
+              size
+             </th>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <th>
+              id
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th rowspan="5" valign="top">
+              https://api.github.com/users/tonyfast/gists?page=1
+             </th>
+             <th>
+              90c41d4994f75c594db804aeba56fc26
+             </th>
+             <th>
+              first_and_second_laws_of_thermodynamics.ipynb
+             </th>
+             <td>
+              first_and_second_laws_of_thermodynamics.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/90...
+             </td>
+             <td>
+              20469
+             </td>
+            </tr>
+            <tr>
+             <th>
+              aa3b16c5a284150e3d727a843b6cefec
+             </th>
+             <th>
+              axe_types.py
+             </th>
+             <td>
+              axe_types.py
+             </td>
+             <td>
+              application/x-python
+             </td>
+             <td>
+              Python
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/aa...
+             </td>
+             <td>
+              8442
+             </td>
+            </tr>
+            <tr>
+             <th>
+              713ae6c57602c0f85d011421b20d5ea0
+             </th>
+             <th>
+              BinaryExamples.ipynb
+             </th>
+             <td>
+              BinaryExamples.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/71...
+             </td>
+             <td>
+              352154
+             </td>
+            </tr>
+            <tr>
+             <th>
+              c004044b4fe641735031ecf2069cf595
+             </th>
+             <th>
+              aom.json
+             </th>
+             <td>
+              aom.json
+             </td>
+             <td>
+              application/json
+             </td>
+             <td>
+              JSON
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/c0...
+             </td>
+             <td>
+              52330
+             </td>
+            </tr>
+            <tr>
+             <th>
+              e17946facd998a931527467d646cc822
+             </th>
+             <th>
+              README.md
+             </th>
+             <td>
+              README.md
+             </td>
+             <td>
+              text/markdown
+             </td>
+             <td>
+              Markdown
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/e1...
+             </td>
+             <td>
+              3044
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th rowspan="5" valign="top">
+              https://api.github.com/users/tonyfast/gists?page=4
+             </th>
+             <th>
+              cfb55f41f5452ef33ec6fbb4e0bda991
+             </th>
+             <th>
+              doctest-myst.ipynb
+             </th>
+             <td>
+              doctest-myst.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/cf...
+             </td>
+             <td>
+              5731
+             </td>
+            </tr>
+            <tr>
+             <th>
+              357b09758b5fb0f31fd2c0e7f7cf3967
+             </th>
+             <th>
+              readme.ipynb
+             </th>
+             <td>
+              readme.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/35...
+             </td>
+             <td>
+              1117725
+             </td>
+            </tr>
+            <tr>
+             <th>
+              e0468f0decb0a454d8fae4de8511d794
+             </th>
+             <th>
+              df-df-api.ipynb
+             </th>
+             <td>
+              df-df-api.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/e0...
+             </td>
+             <td>
+              22500
+             </td>
+            </tr>
+            <tr>
+             <th>
+              292377ff60690bff0bf866e93a36eaf2
+             </th>
+             <th>
+              reprish.ipynb
+             </th>
+             <td>
+              reprish.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/29...
+             </td>
+             <td>
+              6115
+             </td>
+            </tr>
+            <tr>
+             <th>
+              c72d948631f3d38702d2876942ceb57e
+             </th>
+             <th>
+              custom_repr.ipynb
+             </th>
+             <td>
+              custom_repr.ipynb
+             </td>
+             <td>
+              text/plain
+             </td>
+             <td>
+              Jupyter Notebook
+             </td>
+             <td>
+              https://gist.githubusercontent.com/tonyfast/c7...
+             </td>
+             <td>
+              62577
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p>
+           149 rows &times; 5 columns
+          </p>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2517,7 +2523,7 @@ we ignore the dataframe case in this notebook and work off the series case.|
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="4">## conclusion
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="4">## conclusion
 
 * this is the densest i've ever writtent his practice. i love it.
 * `aiohttp` includes a server that could also be attached to the dataframe to serve it; imagine `df.serve()`.</textarea>
@@ -3671,6 +3677,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

@@ -931,13 +931,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -966,13 +966,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1111,13 +1111,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1146,13 +1146,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1191,13 +1191,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1286,13 +1286,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1541,21 +1541,33 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <p>
    </p>
    <li>
@@ -1603,18 +1615,6 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
     </li>
    </ul>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1694,7 +1694,7 @@ we'll follow Paul J Adam's instructions for making Simple Data Tables.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="4"># rendering dataframes for screen readers with `pandas`
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="4"># rendering dataframes for screen readers with `pandas`
 
 in the document we'll explore what it takes to make `pandas.DataFrame`s accessible.
 we'll follow [Paul J Adam's](https://pauljadam.com) instructions for making [Simple Data Tables](https://pauljadam.com/demos/data-tables.html#heading1).</textarea>
@@ -1797,7 +1797,7 @@ we'll follow
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="6">    
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="6">    
     %reload_ext pidgy
     import pandas.io.formats.style, bs4, pytest
     shell.weave.reactive = False
@@ -1852,13 +1852,15 @@ we'll follow
           ]
          </span>
         </legend>
-        <div hidden>
-         <pre><code>%reload_ext pidgy
+        <div>
+         <div hidden>
+          <pre><code>%reload_ext pidgy
 import pandas.io.formats.style, bs4, pytest
 shell.weave.reactive = False
 shell.weave.use_async = False
 soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
 </code></pre>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -1910,7 +1912,7 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="4">    (df := pandas.DataFrame(
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="4">    (df := pandas.DataFrame(
         columns=pandas.Index(list("ABC")), 
         index=pandas.Index(range(2), name="index"))
     ).style.set_caption("the basic dataframe &lt;var&gt;df&lt;/var&gt; we use for explanation in this document. ")</textarea>
@@ -1961,82 +1963,84 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
           ]
          </span>
         </legend>
-        <style type="text/css">
-        </style>
-        <table id="T_9bec1">
-         <caption>
-          the basic dataframe
-          <var>
-           df
-          </var>
-          we use for explanation in this document.
-         </caption>
-         <thead>
-          <tr>
-           <th class="blank level0">
-            &nbsp;
-           </th>
-           <th class="col_heading level0 col0" id="T_9bec1_level0_col0">
-            A
-           </th>
-           <th class="col_heading level0 col1" id="T_9bec1_level0_col1">
-            B
-           </th>
-           <th class="col_heading level0 col2" id="T_9bec1_level0_col2">
-            C
-           </th>
-          </tr>
-          <tr>
-           <th class="index_name level0">
-            index
-           </th>
-           <th class="blank col0">
-            &nbsp;
-           </th>
-           <th class="blank col1">
-            &nbsp;
-           </th>
-           <th class="blank col2">
-            &nbsp;
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th class="row_heading level0 row0" id="T_9bec1_level0_row0">
-            0
-           </th>
-           <td class="data row0 col0" id="T_9bec1_row0_col0">
-            nan
-           </td>
-           <td class="data row0 col1" id="T_9bec1_row0_col1">
-            nan
-           </td>
-           <td class="data row0 col2" id="T_9bec1_row0_col2">
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th class="row_heading level0 row1" id="T_9bec1_level0_row1">
-            1
-           </th>
-           <td class="data row1 col0" id="T_9bec1_row1_col0">
-            nan
-           </td>
-           <td class="data row1 col1" id="T_9bec1_row1_col1">
-            nan
-           </td>
-           <td class="data row1 col2" id="T_9bec1_row1_col2">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <pre><code>(df := pandas.DataFrame(
+        <div>
+         <style type="text/css">
+         </style>
+         <table id="T_9bec1">
+          <caption>
+           the basic dataframe
+           <var>
+            df
+           </var>
+           we use for explanation in this document.
+          </caption>
+          <thead>
+           <tr>
+            <th class="blank level0">
+             &nbsp;
+            </th>
+            <th class="col_heading level0 col0" id="T_9bec1_level0_col0">
+             A
+            </th>
+            <th class="col_heading level0 col1" id="T_9bec1_level0_col1">
+             B
+            </th>
+            <th class="col_heading level0 col2" id="T_9bec1_level0_col2">
+             C
+            </th>
+           </tr>
+           <tr>
+            <th class="index_name level0">
+             index
+            </th>
+            <th class="blank col0">
+             &nbsp;
+            </th>
+            <th class="blank col1">
+             &nbsp;
+            </th>
+            <th class="blank col2">
+             &nbsp;
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th class="row_heading level0 row0" id="T_9bec1_level0_row0">
+             0
+            </th>
+            <td class="data row0 col0" id="T_9bec1_row0_col0">
+             nan
+            </td>
+            <td class="data row0 col1" id="T_9bec1_row0_col1">
+             nan
+            </td>
+            <td class="data row0 col2" id="T_9bec1_row0_col2">
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th class="row_heading level0 row1" id="T_9bec1_level0_row1">
+             1
+            </th>
+            <td class="data row1 col0" id="T_9bec1_row1_col0">
+             nan
+            </td>
+            <td class="data row1 col1" id="T_9bec1_row1_col1">
+             nan
+            </td>
+            <td class="data row1 col2" id="T_9bec1_row1_col2">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <pre><code>(df := pandas.DataFrame(
     columns=pandas.Index(list("ABC")), 
     index=pandas.Index(range(2), name="index"))
 ).style.set_caption("the basic dataframe &lt;var&gt;df&lt;/var&gt; we use for explanation in this document. ")
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2087,7 +2091,7 @@ soup = lambda x: bs4.BeautifulSoup(x, features="html.parser")
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="6">`df` is a basic `pandas.DataFrame` because:    
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="6">`df` is a basic `pandas.DataFrame` because:    
     
 * it has ONE row level 
 * it has ONE column level 
@@ -2142,27 +2146,29 @@ we do not need to consider the contents of the cells for the recommendations we 
           ]
          </span>
         </legend>
-        <p>
-         <code>
-          df
-         </code>
-         is a basic
-         <code>
-          pandas.DataFrame
-         </code>
-         because:
-        </p>
-        <ul>
-         <li>
-          it has ONE row level
-         </li>
-         <li>
-          it has ONE column level
-         </li>
-        </ul>
-        <p>
-         we do not need to consider the contents of the cells for the recommendations we are implementing.
-        </p>
+        <div>
+         <p>
+          <code>
+           df
+          </code>
+          is a basic
+          <code>
+           pandas.DataFrame
+          </code>
+          because:
+         </p>
+         <ul>
+          <li>
+           it has ONE row level
+          </li>
+          <li>
+           it has ONE column level
+          </li>
+         </ul>
+         <p>
+          we do not need to consider the contents of the cells for the recommendations we are implementing.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2213,7 +2219,7 @@ we do not need to consider the contents of the cells for the recommendations we 
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying best practices  to pandas</textarea>
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="1">## applying best practices  to pandas</textarea>
        <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">## applying best practices  to pandas</span>
@@ -2258,11 +2264,13 @@ we do not need to consider the contents of the cells for the recommendations we 
           ]
          </span>
         </legend>
-        <h2 id="applying-best-practices--to-pandas">
-         <a href="#applying-best-practices--to-pandas">
-          applying best practices  to pandas
-         </a>
-        </h2>
+        <div>
+         <h2 id="applying-best-practices--to-pandas">
+          <a href="#applying-best-practices--to-pandas">
+           applying best practices  to pandas
+          </a>
+         </h2>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2313,7 +2321,7 @@ we do not need to consider the contents of the cells for the recommendations we 
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="4">### 1. Title of data table is inside the `&lt;caption&gt;` element.
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="4">### 1. Title of data table is inside the `&lt;caption&gt;` element.
 
 the caption is dependent on the data and effects the visual appearance of the table. 
 it is context dependent up to the author to supply.&lt;/caption&gt;</textarea>
@@ -2364,16 +2372,18 @@ it is context dependent up to the author to supply.&lt;/caption&gt;</textarea>
           ]
          </span>
         </legend>
-        <h3 id="1-title-of-data-table-is-inside-the-caption-element">
-         <a href="#1-title-of-data-table-is-inside-the-caption-element">
-          1. Title of data table is inside the
-          element.
-         </a>
-        </h3>
-        <p>
-         the caption is dependent on the data and effects the visual appearance of the table.
+        <div>
+         <h3 id="1-title-of-data-table-is-inside-the-caption-element">
+          <a href="#1-title-of-data-table-is-inside-the-caption-element">
+           1. Title of data table is inside the
+           element.
+          </a>
+         </h3>
+         <p>
+          the caption is dependent on the data and effects the visual appearance of the table.
 it is context dependent up to the author to supply.
-        </p>
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2424,7 +2434,7 @@ it is context dependent up to the author to supply.
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="4">    def assert_has_caption(object):
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="4">    def assert_has_caption(object):
         caption = soup(object).select_one("table caption")
         assert caption and caption.string.strip(), "table is missing a &lt;caption&gt;"
     # with pytest.raises(AssertionError): assert_has_caption(df._repr_html_())&lt;/caption&gt;</textarea>
@@ -2475,11 +2485,13 @@ it is context dependent up to the author to supply.
           ]
          </span>
         </legend>
-        <pre><code>def assert_has_caption(object):
+        <div>
+         <pre><code>def assert_has_caption(object):
     caption = soup(object).select_one("table caption")
     assert caption and caption.string.strip(), "table is missing a &lt;caption&gt;"
 # with pytest.raises(AssertionError): assert_has_caption(df._repr_html_())
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2529,7 +2541,7 @@ it is context dependent up to the author to supply.
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="3">the caption can be set using the `pandas.DataFrame.style.set_caption` method.
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="3">the caption can be set using the `pandas.DataFrame.style.set_caption` method.
 the result is a `pandas.io.formats.style.Styler` object that let's us modify how the
 instance is displayed.</textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
@@ -2622,7 +2634,7 @@ instance is displayed.
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">`set_caption` user the `pandas.DataFrame.style` attribute to set a caption</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">`set_caption` user the `pandas.DataFrame.style` attribute to set a caption</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="err">`</span><span class="n">set_caption</span><span class="err">`</span> <span class="n">user</span> <span class="n">the</span> <span class="err">`</span><span class="n">pandas</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">style</span><span class="err">`</span> <span class="n">attribute</span> <span class="n">to</span> <span class="nb">set</span> <span class="n">a</span> <span class="n">caption</span>
@@ -2667,16 +2679,18 @@ instance is displayed.
           ]
          </span>
         </legend>
-        <p>
-         <code>
-          set_caption
-         </code>
-         user the
-         <code>
-          pandas.DataFrame.style
-         </code>
-         attribute to set a caption
-        </p>
+        <div>
+         <p>
+          <code>
+           set_caption
+          </code>
+          user the
+          <code>
+           pandas.DataFrame.style
+          </code>
+          attribute to set a caption
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2727,7 +2741,7 @@ instance is displayed.
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="5">    def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="5">    def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
         return df.style.set_caption(caption)
     
 after we have a styler we are working with a subset of pandas operations.
@@ -2780,13 +2794,15 @@ the styler should be the last stop for the data.</textarea>
           ]
          </span>
         </legend>
-        <pre><code>def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
+        <div>
+         <pre><code>def set_caption(df, caption) -&gt; pandas.io.formats.style.Styler:
     return df.style.set_caption(caption)
 </code></pre>
-        <p>
-         after we have a styler we are working with a subset of pandas operations.
+         <p>
+          after we have a styler we are working with a subset of pandas operations.
 the styler should be the last stop for the data.
-        </p>
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2837,7 +2853,7 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="7">the `&lt;table&gt;` below demonstrates how the `&lt;caption&gt;` appears on a `captioned` `pandas.DataFrame`.
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="7">the `&lt;table&gt;` below demonstrates how the `&lt;caption&gt;` appears on a `captioned` `pandas.DataFrame`.
 
 {{captioned}}
     
@@ -2894,95 +2910,97 @@ the styler should be the last stop for the data.
           ]
          </span>
         </legend>
-        <p>
-         the
-         <code>
-          &lt;table&gt;
-         </code>
-         below demonstrates how the
-         <code>
-          &lt;caption&gt;
-         </code>
-         appears on a
-         <code>
-          captioned
-         </code>
-         <code>
-          pandas.DataFrame
-         </code>
-         .
-        </p>
-        <style type="text/css">
-        </style>
-        <table id="T_595b7">
-         <caption>
-          a value-less dataframe with columns and row indexes
-         </caption>
-         <thead>
-          <tr>
-           <th class="blank level0">
-            &nbsp;
-           </th>
-           <th class="col_heading level0 col0" id="T_595b7_level0_col0">
-            A
-           </th>
-           <th class="col_heading level0 col1" id="T_595b7_level0_col1">
-            B
-           </th>
-           <th class="col_heading level0 col2" id="T_595b7_level0_col2">
-            C
-           </th>
-          </tr>
-          <tr>
-           <th class="index_name level0">
-            index
-           </th>
-           <th class="blank col0">
-            &nbsp;
-           </th>
-           <th class="blank col1">
-            &nbsp;
-           </th>
-           <th class="blank col2">
-            &nbsp;
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th class="row_heading level0 row0" id="T_595b7_level0_row0">
-            0
-           </th>
-           <td class="data row0 col0" id="T_595b7_row0_col0">
-            nan
-           </td>
-           <td class="data row0 col1" id="T_595b7_row0_col1">
-            nan
-           </td>
-           <td class="data row0 col2" id="T_595b7_row0_col2">
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th class="row_heading level0 row1" id="T_595b7_level0_row1">
-            1
-           </th>
-           <td class="data row1 col0" id="T_595b7_row1_col0">
-            nan
-           </td>
-           <td class="data row1 col1" id="T_595b7_row1_col1">
-            nan
-           </td>
-           <td class="data row1 col2" id="T_595b7_row1_col2">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <pre><code>assert_has_caption(
+        <div>
+         <p>
+          the
+          <code>
+           &lt;table&gt;
+          </code>
+          below demonstrates how the
+          <code>
+           &lt;caption&gt;
+          </code>
+          appears on a
+          <code>
+           captioned
+          </code>
+          <code>
+           pandas.DataFrame
+          </code>
+          .
+         </p>
+         <style type="text/css">
+         </style>
+         <table id="T_595b7">
+          <caption>
+           a value-less dataframe with columns and row indexes
+          </caption>
+          <thead>
+           <tr>
+            <th class="blank level0">
+             &nbsp;
+            </th>
+            <th class="col_heading level0 col0" id="T_595b7_level0_col0">
+             A
+            </th>
+            <th class="col_heading level0 col1" id="T_595b7_level0_col1">
+             B
+            </th>
+            <th class="col_heading level0 col2" id="T_595b7_level0_col2">
+             C
+            </th>
+           </tr>
+           <tr>
+            <th class="index_name level0">
+             index
+            </th>
+            <th class="blank col0">
+             &nbsp;
+            </th>
+            <th class="blank col1">
+             &nbsp;
+            </th>
+            <th class="blank col2">
+             &nbsp;
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th class="row_heading level0 row0" id="T_595b7_level0_row0">
+             0
+            </th>
+            <td class="data row0 col0" id="T_595b7_row0_col0">
+             nan
+            </td>
+            <td class="data row0 col1" id="T_595b7_row0_col1">
+             nan
+            </td>
+            <td class="data row0 col2" id="T_595b7_row0_col2">
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th class="row_heading level0 row1" id="T_595b7_level0_row1">
+             1
+            </th>
+            <td class="data row1 col0" id="T_595b7_row1_col0">
+             nan
+            </td>
+            <td class="data row1 col1" id="T_595b7_row1_col1">
+             nan
+            </td>
+            <td class="data row1 col2" id="T_595b7_row1_col2">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <pre><code>assert_has_caption(
     captioned := set_caption(df, "a value-less dataframe with columns and row indexes")._repr_html_()
 );
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3033,7 +3051,7 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="5">#### `pandas.io.formats.style.Styler`
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="5">#### `pandas.io.formats.style.Styler`
 
 `pandas.io.formats.style.Styler` gives a different html representation that `_repr_html_`
 
@@ -3087,24 +3105,26 @@ the styler should be the last stop for the data.
           ]
          </span>
         </legend>
-        <h4 id="pandas-io-formats-style-styler">
-         <a href="#pandas-io-formats-style-styler">
+        <div>
+         <h4 id="pandas-io-formats-style-styler">
+          <a href="#pandas-io-formats-style-styler">
+           <code>
+            pandas.io.formats.style.Styler
+           </code>
+          </a>
+         </h4>
+         <p>
           <code>
            pandas.io.formats.style.Styler
           </code>
-         </a>
-        </h4>
-        <p>
-         <code>
-          pandas.io.formats.style.Styler
-         </code>
-         gives a different html representation that
-         <code>
-          _repr_html_
-         </code>
-        </p>
-        <pre><code>assert df.style.to_html() != df.to_html()
+          gives a different html representation that
+          <code>
+           _repr_html_
+          </code>
+         </p>
+         <pre><code>assert df.style.to_html() != df.to_html()
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3155,7 +3175,7 @@ the styler should be the last stop for the data.
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="3">### 2. Column headers are inside `&lt;th scope="col"&gt;` elements.
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="3">### 2. Column headers are inside `&lt;th scope="col"&gt;` elements.
 
 the `scope` property improves navigation for screen readers when used properly.&lt;/th&gt;</textarea>
        <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
@@ -3204,19 +3224,21 @@ the `scope` property improves navigation for screen readers when used properly.&
           ]
          </span>
         </legend>
-        <h3 id="2-column-headers-are-inside-th-scope-col-elements">
-         <a href="#2-column-headers-are-inside-th-scope-col-elements">
-          2. Column headers are inside
-          elements.
-         </a>
-        </h3>
-        <p>
-         the
-         <code>
-          scope
-         </code>
-         property improves navigation for screen readers when used properly.
-        </p>
+        <div>
+         <h3 id="2-column-headers-are-inside-th-scope-col-elements">
+          <a href="#2-column-headers-are-inside-th-scope-col-elements">
+           2. Column headers are inside
+           elements.
+          </a>
+         </h3>
+         <p>
+          the
+          <code>
+           scope
+          </code>
+          property improves navigation for screen readers when used properly.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3267,7 +3289,7 @@ the `scope` property improves navigation for screen readers when used properly.&
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="5">    def assert_has_col_scope(object, selector="thead tr th"):
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="5">    def assert_has_col_scope(object, selector="thead tr th"):
 for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scope="col"`
         
         assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
@@ -3320,25 +3342,27 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
           ]
          </span>
         </legend>
-        <pre><code>def assert_has_col_scope(object, selector="thead tr th"):
+        <div>
+         <pre><code>def assert_has_col_scope(object, selector="thead tr th"):
 </code></pre>
-        <p>
-         for basic frames, all the
-         <code>
-          &lt;th&gt;
-         </code>
-         tags in
-         <code>
-          &lt;thead&gt;
-         </code>
-         should have
-         <code>
-          scope="col"
-         </code>
-        </p>
-        <pre><code>    assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
+         <p>
+          for basic frames, all the
+          <code>
+           &lt;th&gt;
+          </code>
+          tags in
+          <code>
+           &lt;thead&gt;
+          </code>
+          should have
+          <code>
+           scope="col"
+          </code>
+         </p>
+         <pre><code>    assert all(th.attrs.get("scope") in {"col", "colgroup"} for th in soup(object).select(selector)), "&lt;th&gt; is missing `scope='col'`"
 # with pytest.raises(AssertionError): assert_has_col_scope(captioned)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3389,7 +3413,7 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def set_col_scope(object, selector="thead tr th"):
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def set_col_scope(object, selector="thead tr th"):
 `set_col_scope` automatically remediates missing columns `scope`s
         
         for th in (object := soup(object)).select(selector):
@@ -3444,22 +3468,24 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
           ]
          </span>
         </legend>
-        <pre><code>def set_col_scope(object, selector="thead tr th"):
+        <div>
+         <pre><code>def set_col_scope(object, selector="thead tr th"):
 </code></pre>
-        <p>
-         <code>
-          set_col_scope
-         </code>
-         automatically remediates missing columns
-         <code>
-          scope
-         </code>
-         s
-        </p>
-        <pre><code>    for th in (object := soup(object)).select(selector):
+         <p>
+          <code>
+           set_col_scope
+          </code>
+          automatically remediates missing columns
+          <code>
+           scope
+          </code>
+          s
+         </p>
+         <pre><code>    for th in (object := soup(object)).select(selector):
         th.attrs.setdefault("scope", "col")
     return str(object)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3510,7 +3536,7 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="3">these `scope` has no visual effect, however we can use `assert_has_col_scope` to verify the scope is correct.
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="3">these `scope` has no visual effect, however we can use `assert_has_col_scope` to verify the scope is correct.
 
     assert_has_col_scope(col_scoped := set_col_scope(captioned));</textarea>
        <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
@@ -3559,19 +3585,21 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
           ]
          </span>
         </legend>
-        <p>
-         these
-         <code>
-          scope
-         </code>
-         has no visual effect, however we can use
-         <code>
-          assert_has_col_scope
-         </code>
-         to verify the scope is correct.
-        </p>
-        <pre><code>assert_has_col_scope(col_scoped := set_col_scope(captioned));
+        <div>
+         <p>
+          these
+          <code>
+           scope
+          </code>
+          has no visual effect, however we can use
+          <code>
+           assert_has_col_scope
+          </code>
+          to verify the scope is correct.
+         </p>
+         <pre><code>assert_has_col_scope(col_scoped := set_col_scope(captioned));
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3622,7 +3650,7 @@ for basic frames, all the `&lt;th&gt;` tags in `&lt;thead&gt;` should have `scop
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="4">### 3. Row headers are inside `&lt;th scope="row"&gt;` elements.
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="4">### 3. Row headers are inside `&lt;th scope="row"&gt;` elements.
 
 similar to `scope="col"`, the `&lt;th&gt;` elements in the body require `scope="row"`;
 basically every `&lt;th&gt;` needs the scope property.&lt;/th&gt;&lt;/th&gt;&lt;/th&gt;</textarea>
@@ -3673,32 +3701,34 @@ basically every `&lt;th&gt;` needs the scope property.&lt;/th&gt;&lt;/th&gt;&lt;
           ]
          </span>
         </legend>
-        <h3 id="3-row-headers-are-inside-th-scope-row-elements">
-         <a href="#3-row-headers-are-inside-th-scope-row-elements">
-          3. Row headers are inside
-          elements.
-         </a>
-        </h3>
-        <p>
-         similar to
-         <code>
-          scope="col"
-         </code>
-         , the
-         <code>
-          &lt;th&gt;
-         </code>
-         elements in the body require
-         <code>
-          scope="row"
-         </code>
-         ;
+        <div>
+         <h3 id="3-row-headers-are-inside-th-scope-row-elements">
+          <a href="#3-row-headers-are-inside-th-scope-row-elements">
+           3. Row headers are inside
+           elements.
+          </a>
+         </h3>
+         <p>
+          similar to
+          <code>
+           scope="col"
+          </code>
+          , the
+          <code>
+           &lt;th&gt;
+          </code>
+          elements in the body require
+          <code>
+           scope="row"
+          </code>
+          ;
 basically every
-         <code>
-          &lt;th&gt;
-         </code>
-         needs the scope property.
-        </p>
+          <code>
+           &lt;th&gt;
+          </code>
+          needs the scope property.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3749,7 +3779,7 @@ basically every
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="4">    def assert_has_row_scope(object, selector="tbody tr th"):
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="4">    def assert_has_row_scope(object, selector="tbody tr th"):
         assert all(th.attrs.get("scope") in {"row", "rowgroup"} for th in soup(object).select(selector)),\
         "&lt;th&gt; is missing `scope='col'`"
     # with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)&lt;/th&gt;</textarea>
@@ -3800,11 +3830,13 @@ basically every
           ]
          </span>
         </legend>
-        <pre><code>def assert_has_row_scope(object, selector="tbody tr th"):
+        <div>
+         <pre><code>def assert_has_row_scope(object, selector="tbody tr th"):
     assert all(th.attrs.get("scope") in {"row", "rowgroup"} for th in soup(object).select(selector)),\
     "&lt;th&gt; is missing `scope='col'`"
 # with pytest.raises(AssertionError): assert_has_row_scope(col_scoped)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3855,7 +3887,7 @@ basically every
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="6">    def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="6">    def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
 like the columns, we can deterministically add `scope="row"`
 
         for th in (object := soup(object)).select(selector):
@@ -3910,18 +3942,20 @@ like the columns, we can deterministically add `scope="row"`
           ]
          </span>
         </legend>
-        <pre><code>def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
+        <div>
+         <pre><code>def set_row_scope(object, selector="tbody tr th, tfoot tr th"):
 </code></pre>
-        <p>
-         like the columns, we can deterministically add
-         <code>
-          scope="row"
-         </code>
-        </p>
-        <pre><code>    for th in (object := soup(object)).select(selector):
+         <p>
+          like the columns, we can deterministically add
+          <code>
+           scope="row"
+          </code>
+         </p>
+         <pre><code>    for th in (object := soup(object)).select(selector):
         th.attrs.setdefault("scope", "row")
     return str(object)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3972,7 +4006,7 @@ like the columns, we can deterministically add `scope="row"`
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="3">we use `set_row_scope` to verify the `scope` because, again, there aren't any visual effects to these changes.
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-20" id="cell-20-source" name="source" readonly rows="3">we use `set_row_scope` to verify the `scope` because, again, there aren't any visual effects to these changes.
 
     assert_has_row_scope(row_scoped := set_row_scope(col_scoped))</textarea>
        <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
@@ -4021,19 +4055,21 @@ like the columns, we can deterministically add `scope="row"`
           ]
          </span>
         </legend>
-        <p>
-         we use
-         <code>
-          set_row_scope
-         </code>
-         to verify the
-         <code>
-          scope
-         </code>
-         because, again, there aren't any visual effects to these changes.
-        </p>
-        <pre><code>assert_has_row_scope(row_scoped := set_row_scope(col_scoped))
+        <div>
+         <p>
+          we use
+          <code>
+           set_row_scope
+          </code>
+          to verify the
+          <code>
+           scope
+          </code>
+          because, again, there aren't any visual effects to these changes.
+         </p>
+         <pre><code>assert_has_row_scope(row_scoped := set_row_scope(col_scoped))
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4084,7 +4120,7 @@ like the columns, we can deterministically add `scope="row"`
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="4">### 4. Avoid using blank header cells.
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-21" id="cell-21-source" name="source" readonly rows="4">### 4. Avoid using blank header cells.
 
 this instruction to yield a best practice to __name the dataframe index__.
 without a name, the index `&lt;th&gt;` will always be empty.&lt;/th&gt;</textarea>
@@ -4135,23 +4171,25 @@ without a name, the index `&lt;th&gt;` will always be empty.&lt;/th&gt;</textare
           ]
          </span>
         </legend>
-        <h3 id="4-avoid-using-blank-header-cells">
-         <a href="#4-avoid-using-blank-header-cells">
-          4. Avoid using blank header cells.
-         </a>
-        </h3>
-        <p>
-         this instruction to yield a best practice to
-         <strong>
-          name the dataframe index
-         </strong>
-         .
+        <div>
+         <h3 id="4-avoid-using-blank-header-cells">
+          <a href="#4-avoid-using-blank-header-cells">
+           4. Avoid using blank header cells.
+          </a>
+         </h3>
+         <p>
+          this instruction to yield a best practice to
+          <strong>
+           name the dataframe index
+          </strong>
+          .
 without a name, the index
-         <code>
-          &lt;th&gt;
-         </code>
-         will always be empty.
-        </p>
+          <code>
+           &lt;th&gt;
+          </code>
+          will always be empty.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4202,7 +4240,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="2">    def assert_no_blank_header(body):
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-22" id="cell-22-source" name="source" readonly rows="2">    def assert_no_blank_header(body):
         assert all(th.string.strip() for th in soup(body).select("th")), "there is a blank &lt;th&gt;"&lt;/th&gt;</textarea>
        <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -4249,9 +4287,11 @@ without a name, the index
           ]
          </span>
         </legend>
-        <pre><code>def assert_no_blank_header(body):
+        <div>
+         <pre><code>def assert_no_blank_header(body):
     assert all(th.string.strip() for th in soup(body).select("th")), "there is a blank &lt;th&gt;"
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4302,7 +4342,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    # with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</textarea>
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    # with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</textarea>
        <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="c1"># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)</span>
@@ -4347,8 +4387,10 @@ without a name, the index
           ]
          </span>
         </legend>
-        <pre><code># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)
+        <div>
+         <pre><code># with pytest.raises(AssertionError): assert_no_blank_header(row_scoped)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4399,7 +4441,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">`pandas` requires some upstream work to satisfy this instruction.</textarea>
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-24" id="cell-24-source" name="source" readonly rows="1">`pandas` requires some upstream work to satisfy this instruction.</textarea>
        <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="err">`</span><span class="n">pandas</span><span class="err">`</span> <span class="n">requires</span> <span class="n">some</span> <span class="n">upstream</span> <span class="n">work</span> <span class="n">to</span> <span class="n">satisfy</span> <span class="n">this</span> <span class="n">instruction</span><span class="o">.</span>
@@ -4444,12 +4486,14 @@ without a name, the index
           ]
          </span>
         </legend>
-        <p>
-         <code>
-          pandas
-         </code>
-         requires some upstream work to satisfy this instruction.
-        </p>
+        <div>
+         <p>
+          <code>
+           pandas
+          </code>
+          requires some upstream work to satisfy this instruction.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4500,7 +4544,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="11">    def set_squashed_th(body):
+       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-25" id="cell-25-source" name="source" readonly rows="11">    def set_squashed_th(body):
 `set_squashed_th` squashes the table column names. this method on works for the most basic dataframes.
         
         table = soup(body)
@@ -4565,15 +4609,16 @@ without a name, the index
           ]
          </span>
         </legend>
-        <pre><code>def set_squashed_th(body):
+        <div>
+         <pre><code>def set_squashed_th(body):
 </code></pre>
-        <p>
-         <code>
-          set_squashed_th
-         </code>
-         squashes the table column names. this method on works for the most basic dataframes.
-        </p>
-        <pre><code>    table = soup(body)
+         <p>
+          <code>
+           set_squashed_th
+          </code>
+          squashes the table column names. this method on works for the most basic dataframes.
+         </p>
+         <pre><code>    table = soup(body)
     tr = bs4.Tag(name="tr")
     col, row = table.select("thead tr")
     for top, bottom in zip(col.select("th"), row.select("th")):
@@ -4582,6 +4627,7 @@ without a name, the index
     table.select_one("thead").replace_with(thead)
     return str(table)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4632,7 +4678,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="5">the frame below doesn't have empty `&lt;th&gt;` elements and is denser.
+       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-26" id="cell-26-source" name="source" readonly rows="5">the frame below doesn't have empty `&lt;th&gt;` elements and is denser.
 
 {{squashed_th}}
     
@@ -4685,68 +4731,70 @@ without a name, the index
           ]
          </span>
         </legend>
-        <p>
-         the frame below doesn't have empty
-         <code>
-          &lt;th&gt;
-         </code>
-         elements and is denser.
-        </p>
-        <style type="text/css">
-        </style>
-        <table id="T_595b7">
-         <caption>
-          a value-less dataframe with columns and row indexes
-         </caption>
-         <thead>
-          <tr>
-           <th class="index_name level0" scope="col">
-            index
-           </th>
-           <th class="col_heading level0 col0" id="T_595b7_level0_col0" scope="col">
-            A
-           </th>
-           <th class="col_heading level0 col1" id="T_595b7_level0_col1" scope="col">
-            B
-           </th>
-           <th class="col_heading level0 col2" id="T_595b7_level0_col2" scope="col">
-            C
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th class="row_heading level0 row0" id="T_595b7_level0_row0" scope="row">
-            0
-           </th>
-           <td class="data row0 col0" id="T_595b7_row0_col0">
-            nan
-           </td>
-           <td class="data row0 col1" id="T_595b7_row0_col1">
-            nan
-           </td>
-           <td class="data row0 col2" id="T_595b7_row0_col2">
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th class="row_heading level0 row1" id="T_595b7_level0_row1" scope="row">
-            1
-           </th>
-           <td class="data row1 col0" id="T_595b7_row1_col0">
-            nan
-           </td>
-           <td class="data row1 col1" id="T_595b7_row1_col1">
-            nan
-           </td>
-           <td class="data row1 col2" id="T_595b7_row1_col2">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <pre><code>assert_no_blank_header(squashed_th := set_squashed_th(row_scoped))
+        <div>
+         <p>
+          the frame below doesn't have empty
+          <code>
+           &lt;th&gt;
+          </code>
+          elements and is denser.
+         </p>
+         <style type="text/css">
+         </style>
+         <table id="T_595b7">
+          <caption>
+           a value-less dataframe with columns and row indexes
+          </caption>
+          <thead>
+           <tr>
+            <th class="index_name level0" scope="col">
+             index
+            </th>
+            <th class="col_heading level0 col0" id="T_595b7_level0_col0" scope="col">
+             A
+            </th>
+            <th class="col_heading level0 col1" id="T_595b7_level0_col1" scope="col">
+             B
+            </th>
+            <th class="col_heading level0 col2" id="T_595b7_level0_col2" scope="col">
+             C
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th class="row_heading level0 row0" id="T_595b7_level0_row0" scope="row">
+             0
+            </th>
+            <td class="data row0 col0" id="T_595b7_row0_col0">
+             nan
+            </td>
+            <td class="data row0 col1" id="T_595b7_row0_col1">
+             nan
+            </td>
+            <td class="data row0 col2" id="T_595b7_row0_col2">
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th class="row_heading level0 row1" id="T_595b7_level0_row1" scope="row">
+             1
+            </th>
+            <td class="data row1 col0" id="T_595b7_row1_col0">
+             nan
+            </td>
+            <td class="data row1 col1" id="T_595b7_row1_col1">
+             nan
+            </td>
+            <td class="data row1 col2" id="T_595b7_row1_col2">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <pre><code>assert_no_blank_header(squashed_th := set_squashed_th(row_scoped))
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4797,7 +4845,7 @@ without a name, the index
       <td class="nb-end" hidden id="cell-27-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="4">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
+       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-27" id="cell-27-source" name="source" readonly rows="4">### 5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
 
 the naming of columns is a context specific screen reader feature.
 authors would have to add this information themselves.</textarea>
@@ -4848,15 +4896,17 @@ authors would have to add this information themselves.</textarea>
           ]
          </span>
         </legend>
-        <h3 id="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
-         <a href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
-          5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
-         </a>
-        </h3>
-        <p>
-         the naming of columns is a context specific screen reader feature.
+        <div>
+         <h3 id="5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
+          <a href="#5-header-cells-with-text-abbreviations-that-need-expansion-use-the-title-attribute-with-the-expanded-text-set-as-the-value">
+           5. Header cells with text abbreviations that need expansion use the title attribute with the expanded text set as the value.
+          </a>
+         </h3>
+         <p>
+          the naming of columns is a context specific screen reader feature.
 authors would have to add this information themselves.
-        </p>
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4907,7 +4957,7 @@ authors would have to add this information themselves.
       <td class="nb-end" hidden id="cell-28-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="11">    titles = dict(A="apple", B="banana", C="carrot")
+       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-28" id="cell-28-source" name="source" readonly rows="11">    titles = dict(A="apple", B="banana", C="carrot")
     def set_header_titles(body, titles=titles):
 `set_header_titles` is a method that includes the name of the abbreviation in the `title`.
         
@@ -4972,30 +5022,32 @@ authors would have to add this information themselves.
           ]
          </span>
         </legend>
-        <pre><code>titles = dict(A="apple", B="banana", C="carrot")
+        <div>
+         <pre><code>titles = dict(A="apple", B="banana", C="carrot")
 def set_header_titles(body, titles=titles):
 </code></pre>
-        <p>
-         <code>
-          set_header_titles
-         </code>
-         is a method that includes the name of the abbreviation in the
-         <code>
-          title
-         </code>
-         .
-        </p>
-        <pre><code>    for th in (body := soup(body)).select("thead tr th"):
+         <p>
+          <code>
+           set_header_titles
+          </code>
+          is a method that includes the name of the abbreviation in the
+          <code>
+           title
+          </code>
+          .
+         </p>
+         <pre><code>    for th in (body := soup(body)).select("thead tr th"):
         name = th.string.strip()
         if name in titles:
             th.attrs["title"] = titles[name]
     return str(body)
 </code></pre>
-        <blockquote>
-         <p>
-          a real dataset would make more sense in this example.
-         </p>
-        </blockquote>
+         <blockquote>
+          <p>
+           a real dataset would make more sense in this example.
+          </p>
+         </blockquote>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5046,7 +5098,7 @@ def set_header_titles(body, titles=titles):
       <td class="nb-end" hidden id="cell-29-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="1">    titled = set_header_titles(squashed_th, titles)</textarea>
+       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-29" id="cell-29-source" name="source" readonly rows="1">    titled = set_header_titles(squashed_th, titles)</textarea>
        <div aria-labelledby="cell-29-in-label cell-29-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">titled</span> <span class="o">=</span> <span class="n">set_header_titles</span><span class="p">(</span><span class="n">squashed_th</span><span class="p">,</span> <span class="n">titles</span><span class="p">)</span>
@@ -5091,8 +5143,10 @@ def set_header_titles(body, titles=titles):
           ]
          </span>
         </legend>
-        <pre><code>titled = set_header_titles(squashed_th, titles)
+        <div>
+         <pre><code>titled = set_header_titles(squashed_th, titles)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5143,7 +5197,7 @@ def set_header_titles(body, titles=titles):
       <td class="nb-end" hidden id="cell-30-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-30-in-label cell-30-exec-label nb-source-label" class="nb-source" form="cell-30" id="cell-30-source" name="source" readonly rows="9">    def strip_class_ids(body):
+       <textarea aria-labelledby="cell-30-in-label cell-30-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-30" id="cell-30-source" name="source" readonly rows="9">    def strip_class_ids(body):
 `pandas` adds classes and ids to elements that for the sake of this discussion are superfluous.
 
         for e in (body := soup(body)).select("td, th"): 
@@ -5204,21 +5258,23 @@ def set_header_titles(body, titles=titles):
           ]
          </span>
         </legend>
-        <pre><code>def strip_class_ids(body):
+        <div>
+         <pre><code>def strip_class_ids(body):
 </code></pre>
-        <p>
-         <code>
-          pandas
-         </code>
-         adds classes and ids to elements that for the sake of this discussion are superfluous.
-        </p>
-        <pre><code>    for e in (body := soup(body)).select("td, th"): 
+         <p>
+          <code>
+           pandas
+          </code>
+          adds classes and ids to elements that for the sake of this discussion are superfluous.
+         </p>
+         <pre><code>    for e in (body := soup(body)).select("td, th"): 
         e.attrs.pop("id", None)
         e.attrs.pop("class", None)
 
     return str(body)
 final = strip_class_ids(titled)
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5269,7 +5325,7 @@ final = strip_class_ids(titled)
       <td class="nb-end" hidden id="cell-31-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-31-in-label cell-31-exec-label nb-source-label" class="nb-source" form="cell-31" id="cell-31-source" name="source" readonly rows="6">## inconsistencies in labelled indexes
+       <textarea aria-labelledby="cell-31-in-label cell-31-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-31" id="cell-31-source" name="source" readonly rows="6">## inconsistencies in labelled indexes
 
 everything goes to hell with `named_column` which as a column name.
 
@@ -5324,21 +5380,23 @@ everything goes to hell with `named_column` which as a column name.
           ]
          </span>
         </legend>
-        <h2 id="inconsistencies-in-labelled-indexes">
-         <a href="#inconsistencies-in-labelled-indexes">
-          inconsistencies in labelled indexes
-         </a>
-        </h2>
-        <p>
-         everything goes to hell with
-         <code>
-          named_column
-         </code>
-         which as a column name.
-        </p>
-        <pre><code>named_column = df.copy()
+        <div>
+         <h2 id="inconsistencies-in-labelled-indexes">
+          <a href="#inconsistencies-in-labelled-indexes">
+           inconsistencies in labelled indexes
+          </a>
+         </h2>
+         <p>
+          everything goes to hell with
+          <code>
+           named_column
+          </code>
+          which as a column name.
+         </p>
+         <pre><code>named_column = df.copy()
 named_column.columns.name = "letters"
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5389,7 +5447,7 @@ named_column.columns.name = "letters"
       <td class="nb-end" hidden id="cell-32-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-32-in-label cell-32-exec-label nb-source-label" class="nb-source" form="cell-32" id="cell-32-source" name="source" readonly rows="9">### column and index names
+       <textarea aria-labelledby="cell-32-in-label cell-32-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-32" id="cell-32-source" name="source" readonly rows="9">### column and index names
 
 consider the case of `df2` where the `df2.columns` is named and `df2.index` is not. 
     
@@ -5450,103 +5508,105 @@ ensurely a proper experience for screen readers will require extra markup to gro
           ]
          </span>
         </legend>
-        <h3 id="column-and-index-names">
-         <a href="#column-and-index-names">
-          column and index names
-         </a>
-        </h3>
-        <p>
-         consider the case of
-         <code>
-          df2
-         </code>
-         where the
-         <code>
-          df2.columns
-         </code>
-         is named and
-         <code>
-          df2.index
-         </code>
-         is not.
-        </p>
-        <style type="text/css">
-        </style>
-        <table id="T_8b93e">
-         <caption>
-          <p>
-           the
-           <code>
-            named_column
-           </code>
-           dataframe with a column name
-          </p>
-         </caption>
-         <thead>
-          <tr>
-           <th class="index_name level0">
-            letters
-           </th>
-           <th class="col_heading level0 col0" id="T_8b93e_level0_col0">
-            A
-           </th>
-           <th class="col_heading level0 col1" id="T_8b93e_level0_col1">
-            B
-           </th>
-           <th class="col_heading level0 col2" id="T_8b93e_level0_col2">
-            C
-           </th>
-          </tr>
-          <tr>
-           <th class="index_name level0">
-            index
-           </th>
-           <th class="blank col0">
-            &nbsp;
-           </th>
-           <th class="blank col1">
-            &nbsp;
-           </th>
-           <th class="blank col2">
-            &nbsp;
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th class="row_heading level0 row0" id="T_8b93e_level0_row0">
-            0
-           </th>
-           <td class="data row0 col0" id="T_8b93e_row0_col0">
-            nan
-           </td>
-           <td class="data row0 col1" id="T_8b93e_row0_col1">
-            nan
-           </td>
-           <td class="data row0 col2" id="T_8b93e_row0_col2">
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th class="row_heading level0 row1" id="T_8b93e_level0_row1">
-            1
-           </th>
-           <td class="data row1 col0" id="T_8b93e_row1_col0">
-            nan
-           </td>
-           <td class="data row1 col1" id="T_8b93e_row1_col1">
-            nan
-           </td>
-           <td class="data row1 col2" id="T_8b93e_row1_col2">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <p>
-         screenreader visitors may struggle to interpret the meaning of "letters" relative to the index.
+        <div>
+         <h3 id="column-and-index-names">
+          <a href="#column-and-index-names">
+           column and index names
+          </a>
+         </h3>
+         <p>
+          consider the case of
+          <code>
+           df2
+          </code>
+          where the
+          <code>
+           df2.columns
+          </code>
+          is named and
+          <code>
+           df2.index
+          </code>
+          is not.
+         </p>
+         <style type="text/css">
+         </style>
+         <table id="T_8b93e">
+          <caption>
+           <p>
+            the
+            <code>
+             named_column
+            </code>
+            dataframe with a column name
+           </p>
+          </caption>
+          <thead>
+           <tr>
+            <th class="index_name level0">
+             letters
+            </th>
+            <th class="col_heading level0 col0" id="T_8b93e_level0_col0">
+             A
+            </th>
+            <th class="col_heading level0 col1" id="T_8b93e_level0_col1">
+             B
+            </th>
+            <th class="col_heading level0 col2" id="T_8b93e_level0_col2">
+             C
+            </th>
+           </tr>
+           <tr>
+            <th class="index_name level0">
+             index
+            </th>
+            <th class="blank col0">
+             &nbsp;
+            </th>
+            <th class="blank col1">
+             &nbsp;
+            </th>
+            <th class="blank col2">
+             &nbsp;
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th class="row_heading level0 row0" id="T_8b93e_level0_row0">
+             0
+            </th>
+            <td class="data row0 col0" id="T_8b93e_row0_col0">
+             nan
+            </td>
+            <td class="data row0 col1" id="T_8b93e_row0_col1">
+             nan
+            </td>
+            <td class="data row0 col2" id="T_8b93e_row0_col2">
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th class="row_heading level0 row1" id="T_8b93e_level0_row1">
+             1
+            </th>
+            <td class="data row1 col0" id="T_8b93e_row1_col0">
+             nan
+            </td>
+            <td class="data row1 col1" id="T_8b93e_row1_col1">
+             nan
+            </td>
+            <td class="data row1 col2" id="T_8b93e_row1_col2">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <p>
+          screenreader visitors may struggle to interpret the meaning of "letters" relative to the index.
 ensurely a proper experience for screen readers will require extra markup to group the `
-        </p>
+         </p>
+        </div>
        </fieldset>
       </td>
       <th>
@@ -5600,7 +5660,7 @@ ensurely a proper experience for screen readers will require extra markup to gro
       <td class="nb-end" hidden id="cell-33-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-33-in-label cell-33-exec-label nb-source-label" class="nb-source" form="cell-33" id="cell-33-source" name="source" readonly rows="11">### column name and no index name
+       <textarea aria-labelledby="cell-33-in-label cell-33-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-33" id="cell-33-source" name="source" readonly rows="11">### column name and no index name
 
     named_column_no_index = named_column.copy()
     named_column_no_index.index.name = None
@@ -5665,90 +5725,92 @@ it this example we can see how instructions in 2 and 3 differ.&lt;/th&gt;</texta
           ]
          </span>
         </legend>
-        <h3 id="column-name-and-no-index-name">
-         <a href="#column-name-and-no-index-name">
-          column name and no index name
-         </a>
-        </h3>
-        <pre><code>named_column_no_index = named_column.copy()
+        <div>
+         <h3 id="column-name-and-no-index-name">
+          <a href="#column-name-and-no-index-name">
+           column name and no index name
+          </a>
+         </h3>
+         <pre><code>named_column_no_index = named_column.copy()
 named_column_no_index.index.name = None
 </code></pre>
-        <style type="text/css">
-        </style>
-        <table id="T_3d1a0">
-         <caption>
-          <p>
-           the
-           <code>
-            named_column_no_index
-           </code>
-           dataframe with a column name and without an index name
-          </p>
-         </caption>
-         <thead>
-          <tr>
-           <th class="index_name level0">
-            letters
-           </th>
-           <th class="col_heading level0 col0" id="T_3d1a0_level0_col0">
-            A
-           </th>
-           <th class="col_heading level0 col1" id="T_3d1a0_level0_col1">
-            B
-           </th>
-           <th class="col_heading level0 col2" id="T_3d1a0_level0_col2">
-            C
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th class="row_heading level0 row0" id="T_3d1a0_level0_row0">
-            0
-           </th>
-           <td class="data row0 col0" id="T_3d1a0_row0_col0">
-            nan
-           </td>
-           <td class="data row0 col1" id="T_3d1a0_row0_col1">
-            nan
-           </td>
-           <td class="data row0 col2" id="T_3d1a0_row0_col2">
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th class="row_heading level0 row1" id="T_3d1a0_level0_row1">
-            1
-           </th>
-           <td class="data row1 col0" id="T_3d1a0_row1_col0">
-            nan
-           </td>
-           <td class="data row1 col1" id="T_3d1a0_row1_col1">
-            nan
-           </td>
-           <td class="data row1 col2" id="T_3d1a0_row1_col2">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <p>
-         in this conformation, it is possible for a screen reader to misinterpet
-         <code>
-          letters
-         </code>
-         as the name of the index column.
+         <style type="text/css">
+         </style>
+         <table id="T_3d1a0">
+          <caption>
+           <p>
+            the
+            <code>
+             named_column_no_index
+            </code>
+            dataframe with a column name and without an index name
+           </p>
+          </caption>
+          <thead>
+           <tr>
+            <th class="index_name level0">
+             letters
+            </th>
+            <th class="col_heading level0 col0" id="T_3d1a0_level0_col0">
+             A
+            </th>
+            <th class="col_heading level0 col1" id="T_3d1a0_level0_col1">
+             B
+            </th>
+            <th class="col_heading level0 col2" id="T_3d1a0_level0_col2">
+             C
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th class="row_heading level0 row0" id="T_3d1a0_level0_row0">
+             0
+            </th>
+            <td class="data row0 col0" id="T_3d1a0_row0_col0">
+             nan
+            </td>
+            <td class="data row0 col1" id="T_3d1a0_row0_col1">
+             nan
+            </td>
+            <td class="data row0 col2" id="T_3d1a0_row0_col2">
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th class="row_heading level0 row1" id="T_3d1a0_level0_row1">
+             1
+            </th>
+            <td class="data row1 col0" id="T_3d1a0_row1_col0">
+             nan
+            </td>
+            <td class="data row1 col1" id="T_3d1a0_row1_col1">
+             nan
+            </td>
+            <td class="data row1 col2" id="T_3d1a0_row1_col2">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <p>
+          in this conformation, it is possible for a screen reader to misinterpet
+          <code>
+           letters
+          </code>
+          as the name of the index column.
 when the column index is named, like
-         <code>
-          letters
-         </code>
-         , the entry should be
-         <code>
-          &lt;th scope="row"&gt;
-         </code>
-         .
+          <code>
+           letters
+          </code>
+          , the entry should be
+          <code>
+           &lt;th scope="row"&gt;
+          </code>
+          .
 it this example we can see how instructions in 2 and 3 differ.
-        </p>
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5798,7 +5860,7 @@ it this example we can see how instructions in 2 and 3 differ.
       <td class="nb-end" hidden id="cell-34-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-34-in-label cell-34-exec-label nb-source-label" class="nb-source" form="cell-34" id="cell-34-source" name="source" readonly rows="1">## conclusions</textarea>
+       <textarea aria-labelledby="cell-34-in-label cell-34-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-34" id="cell-34-source" name="source" readonly rows="1">## conclusions</textarea>
        <div aria-labelledby="cell-34-in-label cell-34-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## conclusions</span>
@@ -5879,7 +5941,7 @@ it this example we can see how instructions in 2 and 3 differ.
       <td class="nb-end" hidden id="cell-35-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-35-in-label cell-35-exec-label nb-source-label" class="nb-source" form="cell-35" id="cell-35-source" name="source" readonly rows="21">for basic dataframes, two practices can be enforced without knowledge of the data:
+       <textarea aria-labelledby="cell-35-in-label cell-35-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-35" id="cell-35-source" name="source" readonly rows="21">for basic dataframes, two practices can be enforced without knowledge of the data:
 
 - [x] Column headers are inside &lt;th scope="col"&gt; elements.
 - [x] Row headers are inside &lt;th scope="row"&gt; elements.
@@ -5964,14 +6026,16 @@ some conventions we can extract from this study is:
           ]
          </span>
         </legend>
-        <p>
-         for basic dataframes, two practices can be enforced without knowledge of the data:
-        </p>
-        <ul>
-         <li>
-          [x] Column headers are inside
-         </li>
-        </ul>
+        <div>
+         <p>
+          for basic dataframes, two practices can be enforced without knowledge of the data:
+         </p>
+         <ul>
+          <li>
+           [x] Column headers are inside
+          </li>
+         </ul>
+        </div>
        </fieldset>
       </td>
       <th scope="col">
@@ -6033,7 +6097,7 @@ some conventions we can extract from this study is:
       <td class="nb-end" hidden id="cell-36-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-36-in-label cell-36-exec-label nb-source-label" class="nb-source" form="cell-36" id="cell-36-source" name="source" readonly rows="18">### final frame
+       <textarea aria-labelledby="cell-36-in-label cell-36-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-36" id="cell-36-source" name="source" readonly rows="18">### final frame
 
 our final dataframe has:
 
@@ -6112,106 +6176,107 @@ our final dataframe has:
           ]
          </span>
         </legend>
-        <h3 id="final-frame">
-         <a href="#final-frame">
-          final frame
-         </a>
-        </h3>
-        <p>
-         our final dataframe has:
-        </p>
-        <ul>
-         <li>
-          [x]
-          <code>
-           &lt;caption&gt;
-          </code>
-         </li>
-         <li>
-          [x]
-          <code>
-           &lt;th scope="col"&gt;
-          </code>
-         </li>
-         <li>
-          [x]
-          <code>
-           &lt;th scope="row"&gt;
-          </code>
-         </li>
-         <li>
-          [x] no empty
-          <code>
-           &lt;th&gt;
-          </code>
-         </li>
-         <li>
-          [x]
-          <code>
-           &lt;th title&gt;
-          </code>
-          for abbreviations
-         </li>
-        </ul>
-        <style type="text/css">
-        </style>
-        <table id="T_595b7">
-         <caption>
-          a value-less dataframe with columns and row indexes
-         </caption>
-         <thead>
-          <tr>
-           <th scope="col">
-            index
-           </th>
-           <th scope="col" title="apple">
-            A
-           </th>
-           <th scope="col" title="banana">
-            B
-           </th>
-           <th scope="col" title="carrot">
-            C
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th scope="row">
-            0
-           </th>
-           <td>
-            nan
-           </td>
-           <td>
-            nan
-           </td>
-           <td>
-            nan
-           </td>
-          </tr>
-          <tr>
-           <th scope="row">
-            1
-           </th>
-           <td>
-            nan
-           </td>
-           <td>
-            nan
-           </td>
-           <td>
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <h3 id="final-html-source">
-         <a href="#final-html-source">
-          final html source
-         </a>
-        </h3>
-        <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">&gt;</span>
+        <div>
+         <h3 id="final-frame">
+          <a href="#final-frame">
+           final frame
+          </a>
+         </h3>
+         <p>
+          our final dataframe has:
+         </p>
+         <ul>
+          <li>
+           [x]
+           <code>
+            &lt;caption&gt;
+           </code>
+          </li>
+          <li>
+           [x]
+           <code>
+            &lt;th scope="col"&gt;
+           </code>
+          </li>
+          <li>
+           [x]
+           <code>
+            &lt;th scope="row"&gt;
+           </code>
+          </li>
+          <li>
+           [x] no empty
+           <code>
+            &lt;th&gt;
+           </code>
+          </li>
+          <li>
+           [x]
+           <code>
+            &lt;th title&gt;
+           </code>
+           for abbreviations
+          </li>
+         </ul>
+         <style type="text/css">
+         </style>
+         <table id="T_595b7">
+          <caption>
+           a value-less dataframe with columns and row indexes
+          </caption>
+          <thead>
+           <tr>
+            <th scope="col">
+             index
+            </th>
+            <th scope="col" title="apple">
+             A
+            </th>
+            <th scope="col" title="banana">
+             B
+            </th>
+            <th scope="col" title="carrot">
+             C
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th scope="row">
+             0
+            </th>
+            <td>
+             nan
+            </td>
+            <td>
+             nan
+            </td>
+            <td>
+             nan
+            </td>
+           </tr>
+           <tr>
+            <th scope="row">
+             1
+            </th>
+            <td>
+             nan
+            </td>
+            <td>
+             nan
+            </td>
+            <td>
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <h3 id="final-html-source">
+          <a href="#final-html-source">
+           final html source
+          </a>
+         </h3>
+         <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">style</span> <span class="na">type</span><span class="o">=</span><span class="s">"text/css"</span><span class="p">&gt;</span>
 <span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">table</span> <span class="na">id</span><span class="o">=</span><span class="s">"T_595b7"</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">caption</span><span class="p">&gt;</span>a value-less dataframe with columns and row indexes<span class="p">&lt;/</span><span class="nt">caption</span><span class="p">&gt;</span>
@@ -6233,6 +6298,7 @@ our final dataframe has:
 <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
 </code></pre></div>
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6283,7 +6349,7 @@ our final dataframe has:
       <td class="nb-end" hidden id="cell-37-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-37-in-label cell-37-exec-label nb-source-label" class="nb-source" form="cell-37" id="cell-37-source" name="source" readonly rows="5">### about the `scope` attribute
+       <textarea aria-labelledby="cell-37-in-label cell-37-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-37" id="cell-37-source" name="source" readonly rows="5">### about the `scope` attribute
 
 &lt;q cite="https://www.w3schools.com/tags/att_scope.asp"&gt;The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.&lt;/q&gt;
 
@@ -6336,24 +6402,26 @@ our final dataframe has:
           ]
          </span>
         </legend>
-        <h3 id="about-the-scope-attribute">
-         <a href="#about-the-scope-attribute">
-          about the
-          attribute
-         </a>
-        </h3>
-        <p>
-         <q cite="https://www.w3schools.com/tags/att_scope.asp">
-          The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.
-         </q>
-        </p>
-        <p>
-         <q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid">
-          The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient.
-          <q>
+        <div>
+         <h3 id="about-the-scope-attribute">
+          <a href="#about-the-scope-attribute">
+           about the
+           attribute
+          </a>
+         </h3>
+         <p>
+          <q cite="https://www.w3schools.com/tags/att_scope.asp">
+           The scope attribute specifies whether a header cell is a header for a column, row, or group of columns or rows.
           </q>
-         </q>
-        </p>
+         </p>
+         <p>
+          <q cite="https://dequeuniversity.com/rules/axe/4.0/scope-attr-valid">
+           The scope attribute makes table navigation much easier for screen reader users, provided that it is used correctly. Incorrectly used, scope can make table navigation much harder and less efficient.
+           <q>
+           </q>
+          </q>
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6403,7 +6471,7 @@ our final dataframe has:
       <td class="nb-end" hidden id="cell-38-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-38-in-label cell-38-exec-label nb-source-label" class="nb-source" form="cell-38" id="cell-38-source" name="source" readonly rows="6">### links
+       <textarea aria-labelledby="cell-38-in-label cell-38-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-38" id="cell-38-source" name="source" readonly rows="6">### links
 
 * https://pandas.pydata.org/docs/user_guide/style.html
 * https://pauljadam.com/demos/data-tables.html
@@ -7569,6 +7637,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

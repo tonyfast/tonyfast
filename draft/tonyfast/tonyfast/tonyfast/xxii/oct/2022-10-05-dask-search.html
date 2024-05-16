@@ -905,13 +905,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -940,13 +940,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1085,13 +1085,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1120,13 +1120,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1165,13 +1165,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1260,13 +1260,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1458,34 +1458,34 @@ in this notebook, we build tooling to search notebooks and think about the quest
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1565,7 +1565,7 @@ in this notebook, we build tooling to search notebooks and think about the quest
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="11"># searching notebooks
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="11"># searching notebooks
 
 sorry haters. notebooks are here to stay. their growth and adoption means that they'll present newer problems.
 one forthcoming challenge with notebooks and their adoption is the ability to search notebooks
@@ -1677,7 +1677,7 @@ in this notebook, we build tooling to search notebooks and think about the quest
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="5">## notebook schema
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="5">## notebook schema
 
 one of the reasons we can search notebooks is their consistent structure defined by the `nbformat` `SCHEMA`.
 the schema provides both a description of the document format along with type information about the
@@ -1778,7 +1778,7 @@ notebook data.
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="2">    import nbformat.v4, jsonref, IPython.display as SOME
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="2">    import nbformat.v4, jsonref, IPython.display as SOME
     COMPACT = nbformat.validator._get_schema_json(nbformat.v4)    </textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1825,6 +1825,8 @@ notebook data.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1874,7 +1876,7 @@ notebook data.
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="2">the `COMPACT` should be expanded to allow for easier access the components of the schema.
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="2">the `COMPACT` should be expanded to allow for easier access the components of the schema.
 if we don't that we need to really on the implicit structure of the schema document.</textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1960,7 +1962,7 @@ if we don't that we need to really on the implicit structure of the schema docum
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="2">    SCHEMA = jsonref.JsonRef.replace_refs(COMPACT)
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="2">    SCHEMA = jsonref.JsonRef.replace_refs(COMPACT)
     SOME.JSON(SCHEMA, root=SCHEMA["description"]);</textarea>
        <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2007,6 +2009,8 @@ if we don't that we need to really on the implicit structure of the schema docum
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2056,7 +2060,7 @@ if we don't that we need to really on the implicit structure of the schema docum
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="3">for this demonstration we are going to avoid anything dealing with the top level metadata. 
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="3">for this demonstration we are going to avoid anything dealing with the top level metadata. 
 our goal is to explore the contents of cells and think about the questions we may ask on the cell
 sources and outputs.</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
@@ -2140,7 +2144,7 @@ sources and outputs.
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="3">### cell schema
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="3">### cell schema
 
 below we extra the expected `CELL` keys from the `SCHEMA`</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
@@ -2235,7 +2239,7 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="7">    CELL, CELLS = SCHEMA["properties"]["cells"], {"nid"}
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="7">    CELL, CELLS = SCHEMA["properties"]["cells"], {"nid"}
     for s in CELL["items"]["oneOf"]:
         CELLS.update(s.get("properties", ""))
     CELLS = sorted(CELLS)
@@ -2292,7 +2296,9 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
           ]
          </span>
         </legend>
-        <pre class="plain">"the expected cell keys are ['attachments', 'cell_type', 'execution_count', 'id', 'metadata', 'nid', 'outputs', 'source']"</pre>
+        <div>
+         <pre class="plain">"the expected cell keys are ['attachments', 'cell_type', 'execution_count', 'id', 'metadata', 'nid', 'outputs', 'source']"</pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2342,7 +2348,7 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">## loading our notebook data.</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">## loading our notebook data.</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## loading our notebook data.</span>
@@ -2422,7 +2428,7 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="2">we're going to use `dask` to accelerate our efforts.
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="2">we're going to use `dask` to accelerate our efforts.
 `dask` will help us looking across files in a fast way, and we can speak dataframes natively.</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2511,7 +2517,7 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="1">    import dask.dataframe, pandas, jsonref, json; from dask import delayed; from pathlib import Path</textarea>
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="1">    import dask.dataframe, pandas, jsonref, json; from dask import delayed; from pathlib import Path</textarea>
        <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="kn">import</span> <span class="nn">dask.dataframe</span><span class="o">,</span> <span class="nn">pandas</span><span class="o">,</span> <span class="nn">jsonref</span><span class="o">,</span> <span class="nn">json</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">dask</span> <span class="kn">import</span> <span class="n">delayed</span><span class="p">;</span> <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -2556,6 +2562,8 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2605,7 +2613,7 @@ below we extra the expected <span class="sb">`CELL`</span> keys from the <span c
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="2">our dataframe is going to be constructed from a bunch of parallel files reads.
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="2">our dataframe is going to be constructed from a bunch of parallel files reads.
 each file is passed through `get_cell` to return a `pandas.DataFrame`.</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2695,7 +2703,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="25">    def get_cell(path):
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="25">    def get_cell(path):
         with open(path) as file:
             if str(path).endswith((".ipynb",)):
                 cells = json.load(file)["cells"]
@@ -2788,6 +2796,8 @@ each file is passed through
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2837,7 +2847,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">`get_cells` loads, tidies, and separates cells, outputs and metadata</textarea>
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="1">`get_cells` loads, tidies, and separates cells, outputs and metadata</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="sb">`get_cells`</span> loads, tidies, and separates cells, outputs and metadata
@@ -2919,7 +2929,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def get_delayeds(dir, recursive=False):
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    def get_delayeds(dir, recursive=False):
         dir = Path(dir)
         files = (recursive and dir.rglob or dir.glob)("*.ipynb")
         return dask.dataframe.from_delayed(
@@ -2974,6 +2984,8 @@ each file is passed through
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3024,7 +3036,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="7">    def get_cells(dir=None, recursive=False):
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="7">    def get_cells(dir=None, recursive=False):
         return get_delayeds(dir or Path.cwd(), recursive).pipe(
             lambda df: (df, df.pop("outputs"), df.pop("metadata"))
         )
@@ -3081,18 +3093,19 @@ each file is passed through
           ]
          </span>
         </legend>
-        <pre class="stdout">
+        <div>
+         <pre class="stdout">
 <code>True
 </code>
 </pre>
-        <div>
-         <strong>
-          Dask DataFrame Structure:
-         </strong>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <strong>
+           Dask DataFrame Structure:
+          </strong>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3103,166 +3116,167 @@ each file is passed through
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             attachments
-            </th>
-            <th>
-             cell_type
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             id
-            </th>
-            <th>
-             nid
-            </th>
-            <th>
-             source
-            </th>
-           </tr>
-           <tr>
-            <th>
-             npartitions=8
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-            </th>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         Dask Name: drop_by_shallow_copy, 32 tasks
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              attachments
+             </th>
+             <th>
+              cell_type
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              id
+             </th>
+             <th>
+              nid
+             </th>
+             <th>
+              source
+             </th>
+            </tr>
+            <tr>
+             <th>
+              npartitions=8
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+             </th>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          Dask Name: drop_by_shallow_copy, 32 tasks
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3313,7 +3327,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">find cells with imports in them</textarea>
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="1">find cells with imports in them</textarea>
        <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>find cells with imports in them
@@ -3392,7 +3406,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="1">    if L: cells[cells.source.str.match("\s*import\s+.*")].compute().T.pipe(display)</textarea>
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="1">    if L: cells[cells.source.str.match("\s*import\s+.*")].compute().T.pipe(display)</textarea>
        <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">if</span> <span class="n">L</span><span class="p">:</span> <span class="n">cells</span><span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">"\s*import\s+.*"</span><span class="p">)]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
@@ -3438,8 +3452,9 @@ each file is passed through
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3450,132 +3465,133 @@ each file is passed through
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-             path
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-06-24-.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             attachments
-            </th>
-            <td>
-             None
-            </td>
-            <td>
-             None
-            </td>
-            <td>
-             None
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             cell_type
-            </th>
-            <td>
-             code
-            </td>
-            <td>
-             code
-            </td>
-            <td>
-             code
-            </td>
-            <td>
-             code
-            </td>
-           </tr>
-           <tr>
-            <th>
-             execution_count
-            </th>
-            <td>
-             9.0
-            </td>
-            <td>
-             2.0
-            </td>
-            <td>
-             7.0
-            </td>
-            <td>
-             6.0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             id
-            </th>
-            <td>
-             c744325a-8f73-4428-b381-c1f4ee5fdb06
-            </td>
-            <td>
-             ba46c5ef-78e6-48b2-bee3-cd6be3606fe5
-            </td>
-            <td>
-             ab6ff11f-a7d1-4e59-9fdd-cac7313a7cf4
-            </td>
-            <td>
-             5d3d2316-b2b0-4f47-ad0d-9b677b1f7e6a
-            </td>
-           </tr>
-           <tr>
-            <th>
-             nid
-            </th>
-            <td>
-             6
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             52
-            </td>
-            <td>
-             126
-            </td>
-           </tr>
-           <tr>
-            <th>
-             source
-            </th>
-            <td>
-             \n    import graphviz\n    hommage = graph...
-            </td>
-            <td>
-             import functools, abc
-            </td>
-            <td>
-             import sys
-            </td>
-            <td>
-             import urllib
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+              path
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-06-24-.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              attachments
+             </th>
+             <td>
+              None
+             </td>
+             <td>
+              None
+             </td>
+             <td>
+              None
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              cell_type
+             </th>
+             <td>
+              code
+             </td>
+             <td>
+              code
+             </td>
+             <td>
+              code
+             </td>
+             <td>
+              code
+             </td>
+            </tr>
+            <tr>
+             <th>
+              execution_count
+             </th>
+             <td>
+              9.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              7.0
+             </td>
+             <td>
+              6.0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              id
+             </th>
+             <td>
+              c744325a-8f73-4428-b381-c1f4ee5fdb06
+             </td>
+             <td>
+              ba46c5ef-78e6-48b2-bee3-cd6be3606fe5
+             </td>
+             <td>
+              ab6ff11f-a7d1-4e59-9fdd-cac7313a7cf4
+             </td>
+             <td>
+              5d3d2316-b2b0-4f47-ad0d-9b677b1f7e6a
+             </td>
+            </tr>
+            <tr>
+             <th>
+              nid
+             </th>
+             <td>
+              6
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              52
+             </td>
+             <td>
+              126
+             </td>
+            </tr>
+            <tr>
+             <th>
+              source
+             </th>
+             <td>
+              \n    import graphviz\n    hommage = graph...
+             </td>
+             <td>
+              import functools, abc
+             </td>
+             <td>
+              import sys
+             </td>
+             <td>
+              import urllib
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3626,7 +3642,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">find some urls?</textarea>
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="1">find some urls?</textarea>
        <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>find some urls?
@@ -3705,7 +3721,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="1">    if L: cells.source.str.extract("(http[s]://\S+)").dropna().compute().T.pipe(display)</textarea>
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-20" id="cell-20-source" name="source" readonly rows="1">    if L: cells.source.str.extract("(http[s]://\S+)").dropna().compute().T.pipe(display)</textarea>
        <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">if</span> <span class="n">L</span><span class="p">:</span> <span class="n">cells</span><span class="o">.</span><span class="n">source</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="s2">"(http[s]://\S+)"</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">display</span><span class="p">)</span>
@@ -3751,8 +3767,9 @@ each file is passed through
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3763,95 +3780,96 @@ each file is passed through
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-             path
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-06-28-.ipynb
-            </th>
-            <th>
-             ../../2022-04-12-.ipynb
-            </th>
-            <th>
-             ../../2022-04-12-.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-            <th>
-             ../../2022-03-06-schemata-scratch.ipynb
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             https://raw.githubusercontent.com/SchemaStore/...
-            </td>
-            <td>
-             https://joss.theoj.org/papers/in/Jupyter%20Not...
-            </td>
-            <td>
-             https://raw.githubusercontent.com/SchemaStore/...
-            </td>
-            <td>
-             https://raw.githubusercontent.com/jupyter/nbfo...
-            </td>
-            <td>
-             https://c.tenor.com/JHjG5vxW9zIAAAAd/missy-ell...
-            </td>
-            <td>
-             https://github.com/jupyterlab/lumino",
-            </td>
-            <td>
-             https://github.com/jupyterlab/jupyterlab@master",
-            </td>
-            <td>
-             https://json-schema.org/draft/next/meta/valida...
-            </td>
-            <td>
-             https://json-schema.org/draft/2020-12/schema']
-            </td>
-            <td>
-             https://json-schema.org/draft/2020-12/schema"]
-            </td>
-            <td>
-             https://test.json-schema.org/dynamic-resolutio...
-            </td>
-            <td>
-             https://avatars.githubusercontent.com/u/423627...
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+              path
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-06-28-.ipynb
+             </th>
+             <th>
+              ../../2022-04-12-.ipynb
+             </th>
+             <th>
+              ../../2022-04-12-.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+             <th>
+              ../../2022-03-06-schemata-scratch.ipynb
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              https://raw.githubusercontent.com/SchemaStore/...
+             </td>
+             <td>
+              https://joss.theoj.org/papers/in/Jupyter%20Not...
+             </td>
+             <td>
+              https://raw.githubusercontent.com/SchemaStore/...
+             </td>
+             <td>
+              https://raw.githubusercontent.com/jupyter/nbfo...
+             </td>
+             <td>
+              https://c.tenor.com/JHjG5vxW9zIAAAAd/missy-ell...
+             </td>
+             <td>
+              https://github.com/jupyterlab/lumino",
+             </td>
+             <td>
+              https://github.com/jupyterlab/jupyterlab@master",
+             </td>
+             <td>
+              https://json-schema.org/draft/next/meta/valida...
+             </td>
+             <td>
+              https://json-schema.org/draft/2020-12/schema']
+             </td>
+             <td>
+              https://json-schema.org/draft/2020-12/schema"]
+             </td>
+             <td>
+              https://test.json-schema.org/dynamic-resolutio...
+             </td>
+             <td>
+              https://avatars.githubusercontent.com/u/423627...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3902,7 +3920,7 @@ each file is passed through
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="5">## `break`
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-21" id="cell-21-source" name="source" readonly rows="5">## `break`
 
 what storage
 integrate with contents manager
@@ -3997,7 +4015,7 @@ what queries
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="1">working on this notebook revealed an issue with importnb's json parser than needs some care.</textarea>
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-22" id="cell-22-source" name="source" readonly rows="1">working on this notebook revealed an issue with importnb's json parser than needs some care.</textarea>
        <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>working on this notebook revealed an issue with importnb's json parser than needs some care.
@@ -4075,7 +4093,7 @@ what queries
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">this document is code and can be used with the statement `from tonyfast import search`</textarea>
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-23" id="cell-23-source" name="source" readonly rows="1">this document is code and can be used with the statement `from tonyfast import search`</textarea>
        <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>this document is code and can be used with the statement <span class="sb">`from tonyfast import search`</span>
@@ -4156,7 +4174,7 @@ what queries
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="0"></textarea>
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-24" id="cell-24-source" name="source" readonly rows="0"></textarea>
        <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>
@@ -5284,6 +5302,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

@@ -752,34 +752,34 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="none">
      <tr hidden role="region">
       <th role="none" scope="col">
@@ -859,7 +859,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1">&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-02-05-pipings.html"&gt;pipes are common sugar&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;</textarea>
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="1">&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-02-05-pipings.html"&gt;pipes are common sugar&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;</textarea>
        <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>&lt;nav&gt;&lt;ul&gt;&lt;li&gt;&lt;a href="2023-02-05-pipings.html"&gt;pipes are common sugar&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/nav&gt;
@@ -1985,6 +1985,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

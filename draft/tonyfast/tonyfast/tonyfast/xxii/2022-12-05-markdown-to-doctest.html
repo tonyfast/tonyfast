@@ -904,13 +904,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -939,13 +939,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1084,13 +1084,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1119,13 +1119,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1164,13 +1164,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1259,13 +1259,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1428,34 +1428,34 @@ but it was designed as a [literate programming] tool.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1535,7 +1535,7 @@ but it was designed as a [literate programming] tool.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># formatting markdown it tokens as python `doctests`</textarea>
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># formatting markdown it tokens as python `doctests`</textarea>
        <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># formatting markdown it tokens as python `doctests`</span>
@@ -1615,7 +1615,7 @@ but it was designed as a [literate programming] tool.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="10">`midgy` is a tool i've been crafting that translates markdown to valid python.
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="10">`midgy` is a tool i've been crafting that translates markdown to valid python.
 this concept might sound perculiar from a programming perspective,
 but it was designed as a [literate programming] tool.
 
@@ -1753,7 +1753,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="2">    import midgy, doctest, unittest, typing
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="2">    import midgy, doctest, unittest, typing
     from textwrap import dedent</textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1800,6 +1800,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1849,7 +1851,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="1">write some sample doctests to parse</textarea>
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="1">write some sample doctests to parse</textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>write some sample doctests to parse
@@ -1928,7 +1930,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="10">    def a_testable_function():
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="10">    def a_testable_function():
         """
         &gt;&gt;&gt; range(1)
         range(0, 1)
@@ -1991,6 +1993,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2040,7 +2044,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">verify that these tests pass. `doctest.testmod` runs `doctest` on the `__main__` module.</textarea>
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1">verify that these tests pass. `doctest.testmod` runs `doctest` on the `__main__` module.</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>verify that these tests pass. <span class="sb">`doctest.testmod`</span> runs <span class="sb">`doctest`</span> on the <span class="sb">`__main__`</span> module.
@@ -2131,7 +2135,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    doctest.testmod(optionflags=doctest.ELLIPSIS)</textarea>
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    doctest.testmod(optionflags=doctest.ELLIPSIS)</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">doctest</span><span class="o">.</span><span class="n">testmod</span><span class="p">(</span><span class="n">optionflags</span><span class="o">=</span><span class="n">doctest</span><span class="o">.</span><span class="n">ELLIPSIS</span><span class="p">)</span>
@@ -2176,7 +2180,9 @@ we make this addition because
           ]
          </span>
         </legend>
-        <pre class="plain">TestResults(failed=0, attempted=2)</pre>
+        <div>
+         <pre class="plain">TestResults(failed=0, attempted=2)</pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2226,7 +2232,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">make some `markdown_it` tokens from the doctests.</textarea>
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="1">make some `markdown_it` tokens from the doctests.</textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>make some <span class="sb">`markdown_it`</span> tokens from the doctests.
@@ -2309,7 +2315,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">    (tokens := (parser := midgy.Python()).parse(a_testable_function.__doc__))</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">    (tokens := (parser := midgy.Python()).parse(a_testable_function.__doc__))</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="p">(</span><span class="n">tokens</span> <span class="o">:=</span> <span class="p">(</span><span class="n">parser</span> <span class="o">:=</span> <span class="n">midgy</span><span class="o">.</span><span class="n">Python</span><span class="p">())</span><span class="o">.</span><span class="n">parse</span><span class="p">(</span><span class="n">a_testable_function</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">))</span>
@@ -2354,8 +2360,10 @@ we make this addition because
           ]
          </span>
         </legend>
-        <pre class="plain">[Token(type='code_block', tag='code', nesting=0, attrs={}, map=[1, 3], level=0, children=None, content='    &gt;&gt;&gt; range(1)\n    range(0, 1)\n', markup='', info='', meta={'first_indent': 4, 'last_indent': 4, 'min_indent': 4, 'is_magic': False, 'is_doctest': True, 'input': [1, 2], 'output': [2, 3]}, block=True, hidden=False),
+        <div>
+         <pre class="plain">[Token(type='code_block', tag='code', nesting=0, attrs={}, map=[1, 3], level=0, children=None, content='    &gt;&gt;&gt; range(1)\n    range(0, 1)\n', markup='', info='', meta={'first_indent': 4, 'last_indent': 4, 'min_indent': 4, 'is_magic': False, 'is_doctest': True, 'input': [1, 2], 'output': [2, 3]}, block=True, hidden=False),
  Token(type='code_block', tag='code', nesting=0, attrs={}, map=[4, 8], level=0, children=None, content='    &gt;&gt;&gt; assert False\n    Traceback (most recent call last):\n    ...\n    AssertionError\n', markup='', info='', meta={'first_indent': 4, 'last_indent': 4, 'min_indent': 4, 'is_magic': False, 'is_doctest': True, 'input': [4, 5], 'output': [5, 8]}, block=True, hidden=False)]</pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2405,7 +2413,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">`get_example_from_token` translates a markdown token to a `doctest`</textarea>
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="1">`get_example_from_token` translates a markdown token to a `doctest`</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="sb">`get_example_from_token`</span> translates a markdown token to a <span class="sb">`doctest`</span>
@@ -2490,7 +2498,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="9">    def get_example_from_token(token) -&gt; typing.Iterable[doctest.Example]:
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="9">    def get_example_from_token(token) -&gt; typing.Iterable[doctest.Example]:
         m = doctest.DocTestParser._EXAMPLE_RE.match(token.content)
         want = dedent(m.group("want"))
         exc = doctest.DocTestParser._EXCEPTION_RE.match(want)
@@ -2551,6 +2559,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2600,7 +2610,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">`get_examples_from_tokens` aggregates the `doctest.Example`s</textarea>
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="1">`get_examples_from_tokens` aggregates the `doctest.Example`s</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="sb">`get_examples_from_tokens`</span> aggregates the <span class="sb">`doctest.Example`</span>s
@@ -2686,7 +2696,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="5">    def get_examples_from_tokens(tokens) -&gt; typing.Iterable[doctest.Example]:
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="5">    def get_examples_from_tokens(tokens) -&gt; typing.Iterable[doctest.Example]:
         for token in tokens:
             if token.meta.get("is_doctest"):
                 yield from get_example_from_token(token)
@@ -2739,6 +2749,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2788,7 +2800,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">finally we generate a `unittest.TestSuite`</textarea>
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="1">finally we generate a `unittest.TestSuite`</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>finally we generate a <span class="sb">`unittest.TestSuite`</span>
@@ -2870,7 +2882,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="8">    def get_suite_from_tokens(tokens) -&gt; unittest.TestSuite:
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="8">    def get_suite_from_tokens(tokens) -&gt; unittest.TestSuite:
         suite = unittest.TestSuite()            
         for example in get_examples_from_tokens(tokens):
             suite.addTest(doctest.DocTestCase(
@@ -2929,6 +2941,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2979,7 +2993,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="3">    def run_suite(suite=(suite:=get_suite_from_tokens(tokens))) -&gt; unittest.TestResult:
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="3">    def run_suite(suite=(suite:=get_suite_from_tokens(tokens))) -&gt; unittest.TestResult:
         suite.run(result:= unittest.TestResult())
         return result</textarea>
        <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
@@ -3028,6 +3042,8 @@ we make this addition because
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3077,7 +3093,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">run our generated `doctest` suite to verify that it doesn't fail.</textarea>
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="1">run our generated `doctest` suite to verify that it doesn't fail.</textarea>
        <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>run our generated <span class="sb">`doctest`</span> suite to verify that it doesn't fail.
@@ -3160,7 +3176,7 @@ we make this addition because
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="1">    run_suite(suite)</textarea>
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="1">    run_suite(suite)</textarea>
        <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">run_suite</span><span class="p">(</span><span class="n">suite</span><span class="p">)</span>
@@ -3205,7 +3221,9 @@ we make this addition because
           ]
          </span>
         </legend>
-        <pre class="plain">&lt;unittest.result.TestResult run=2 errors=0 failures=0&gt;</pre>
+        <div>
+         <pre class="plain">&lt;unittest.result.TestResult run=2 errors=0 failures=0&gt;</pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4308,6 +4326,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

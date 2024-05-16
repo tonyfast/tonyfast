@@ -932,13 +932,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -967,13 +967,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1112,13 +1112,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1147,13 +1147,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1192,13 +1192,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1287,13 +1287,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1465,34 +1465,34 @@ we need to supplement the table elements with aria to ensure an accessible exper
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1572,7 +1572,7 @@ we need to supplement the table elements with aria to ensure an accessible exper
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="7"># adding aria to long or wide tables
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="7"># adding aria to long or wide tables
 
 sometimes tables are large and truncated by default to save screen and disc real estate.
 when this happens, we break the meaning of the columns/row ordering to assistive technology.
@@ -1673,7 +1673,7 @@ we need to supplement the table elements with aria to ensure an accessible exper
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    import pandas, bs4, enum, numpy, midgy, functools
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    import pandas, bs4, enum, numpy, midgy, functools
     get_ipython().display_formatter.formatters["text/html"].for_type(bs4.BeautifulSoup, str);</textarea>
        <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1720,7 +1720,8 @@ we need to supplement the table elements with aria to ensure an accessible exper
           ]
          </span>
         </legend>
-        <pre class="stdout">
+        <div>
+         <pre class="stdout">
 <code>/tmp/ipykernel_18771/1227099998.py:1: DeprecationWarning: 
 Pyarrow will become a required dependency of pandas in the next major release of pandas (pandas 3.0),
 (to allow more performant data types, such as the Arrow string type, and better interoperability with other libraries)
@@ -1731,6 +1732,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
   import pandas, bs4, enum, numpy, midgy, functools
 </code>
 </pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1781,7 +1783,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="6">%%
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="6">%%
 &lt;style&gt;
 :is(.jp-OutputArea-output.jp-RenderedHTMLCommon, .nb-outputs) :is(td,th) {
     border: 1px solid;
@@ -1836,11 +1838,13 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
           ]
          </span>
         </legend>
-        <style>
-         :is(.jp-OutputArea-output.jp-RenderedHTMLCommon, .nb-outputs) :is(td,th) {
+        <div>
+         <style>
+          :is(.jp-OutputArea-output.jp-RenderedHTMLCommon, .nb-outputs) :is(td,th) {
     border: 1px solid;
 }
-        </style>
+         </style>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1890,7 +1894,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="1">get an aria marked up, non-uniform table.</textarea>
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="1">get an aria marked up, non-uniform table.</textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>get an aria marked up, non-uniform table.
@@ -1969,7 +1973,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="14">    def get_table(df, ARIA=True, caption=None):
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="14">    def get_table(df, ARIA=True, caption=None):
         soup = bs4.BeautifulSoup(features="lxml")
         ROWS, COLS = any(df.index.names), any(df.columns.names)
         WIDE = (df.shape[1] + 1) &gt; pandas.options.display.max_columns
@@ -2040,6 +2044,8 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2090,7 +2096,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="23">    def get_thead(df, table, col_ranges, WIDE=False, ARIA=False, LONG=False):
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="23">    def get_thead(df, table, col_ranges, WIDE=False, ARIA=False, LONG=False):
         ROWS, COLS = any(df.index.names), any(df.columns.names)
         col_center = col_ranges[1].start - col_ranges[0].stop
         for col_level, col_name in enumerate(df.columns.names):
@@ -2179,6 +2185,8 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2228,7 +2236,7 @@ please provide us feedback at https://github.com/pandas-dev/pandas/issues/54466
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="3">one of the confusions that will be encountered is that 
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="3">one of the confusions that will be encountered is that 
 natural row and column indexing of tidy data frames will be inconsistent with those announced by assistive technology.
 assistive technology indexes tables starting from</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
@@ -2313,7 +2321,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="2">    def row_major_at_rows(df): return df.columns.nlevels + len(df) 
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="2">    def row_major_at_rows(df): return df.columns.nlevels + len(df) 
     def row_major_at_cols(df): return df.index.nlevels + int(any(df.columns.names)) + len(df.columns) </textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2360,6 +2368,8 @@ assistive technology indexes tables starting from
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2409,7 +2419,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">we present a potentational solution provide more information in the caption that may alert screen readers to the mismatch.</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">we present a potentational solution provide more information in the caption that may alert screen readers to the mismatch.</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>we present a potentational solution provide more information in the caption that may alert screen readers to the mismatch.
@@ -2488,7 +2498,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="8">    def get_caption(df):
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="8">    def get_caption(df):
         dl = new("dl", role="presentation")
         dl.append(new("dt", "rows")), dl.append(new("dd", str(len(df))))
         dl.append(new("dt", "columns")), dl.append(new("dd", str(len(df.columns))))
@@ -2547,6 +2557,8 @@ assistive technology indexes tables starting from
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2596,7 +2608,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="1">iterate through the rows of data and append them to the table</textarea>
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="1">iterate through the rows of data and append them to the table</textarea>
        <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>iterate through the rows of data and append them to the table
@@ -2675,7 +2687,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="22">    def get_tbody(df, table, col_ranges, row_ranges, WIDE=False, ARIA=False, LONG=False):
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="22">    def get_tbody(df, table, col_ranges, row_ranges, WIDE=False, ARIA=False, LONG=False):
         ROWS, COLS = any(df.index.names), any(df.columns.names)
         row_center = row_ranges[1].start - row_ranges[0].stop
         col_center = col_ranges[1].start - col_ranges[0].stop
@@ -2762,6 +2774,8 @@ assistive technology indexes tables starting from
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2811,7 +2825,7 @@ assistive technology indexes tables starting from
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="2">`pandas.options.display.max_columns, pandas.options.display.max_rows` determine the ranges of values that are presented to the visitor.
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="2">`pandas.options.display.max_columns, pandas.options.display.max_rows` determine the ranges of values that are presented to the visitor.
 this work implements special logic for spanning multiple rows and columns for truncated data.</textarea>
        <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2896,7 +2910,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="8">    def get_frame_bounds(df, WIDE=False, LONG=False):
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="8">    def get_frame_bounds(df, WIDE=False, LONG=False):
         a, b, c, d = len(df.columns), len(df.columns), len(df), len(df)
         if WIDE: a = pandas.options.display.max_columns//2; b -=  a
         if LONG: c = pandas.options.display.max_rows//2; d -= c
@@ -2955,6 +2969,8 @@ this work implements special logic for spanning multiple rows and columns for tr
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3004,7 +3020,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="1">to provide the proper mark up for large tables we need to be rigorous about use of ARIA: `rowindex` `colindex` `rowspan` `colspan`.</textarea>
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="1">to provide the proper mark up for large tables we need to be rigorous about use of ARIA: `rowindex` `colindex` `rowspan` `colspan`.</textarea>
        <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>to provide the proper mark up for large tables we need to be rigorous about use of ARIA: <span class="sb">`rowindex`</span> <span class="sb">`colindex`</span> <span class="sb">`rowspan`</span> <span class="sb">`colspan`</span>.
@@ -3096,7 +3112,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="13">    def new(tag, 
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="13">    def new(tag, 
             string=None,rowindex=None, colindex=None, rowcount=None, colcount=None,rowspan=None,colspan=None,scope=None,
             *, soup=bs4.BeautifulSoup(features="lxml"), **attrs):
         """create a new beautiful soup with table and aria properties"""
@@ -3165,6 +3181,8 @@ this work implements special logic for spanning multiple rows and columns for tr
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3214,7 +3232,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">sample data</textarea>
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="1">sample data</textarea>
        <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>sample data
@@ -3293,7 +3311,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    index = pandas.MultiIndex.from_product([["A", "Z"], ["M", "N", "O"], [1, 2, 3]], names=[*"JKL"])
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    index = pandas.MultiIndex.from_product([["A", "Z"], ["M", "N", "O"], [1, 2, 3]], names=[*"JKL"])
     (df := pandas.DataFrame(columns=index, index=index).rename_axis(columns=[10, 100, 1000]).head())
     single = df.droplevel((0, 1), 0).droplevel((0, 1), 1).rename_axis(None, axis=1).rename_axis(None, axis=0)
     wide = pandas.concat([pandas.concat([df]*10, axis=1)]*20)
@@ -3349,8 +3367,9 @@ this work implements special logic for spanning multiple rows and columns for tr
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3365,209 +3384,210 @@ this work implements special logic for spanning multiple rows and columns for tr
     .dataframe thead tr:last-of-type th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             10
-            </th>
-            <th colspan="2" halign="left">
-             A
-            </th>
-            <th>
-             ...
-            </th>
-            <th colspan="2" halign="left">
-             Z
-            </th>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             100
-            </th>
-            <th colspan="2" halign="left">
-             M
-            </th>
-            <th>
-             ...
-            </th>
-            <th colspan="2" halign="left">
-             O
-            </th>
-           </tr>
-           <tr>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             1000
-            </th>
-            <th>
-             1
-            </th>
-            <th>
-             2
-            </th>
-            <th>
-             ...
-            </th>
-            <th>
-             2
-            </th>
-            <th>
-             3
-            </th>
-           </tr>
-           <tr>
-            <th>
-             J
-            </th>
-            <th>
-             K
-            </th>
-            <th>
-             L
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th rowspan="5" valign="top">
-             A
-            </th>
-            <th rowspan="2" valign="top">
-             M
-            </th>
-            <th>
-             1
-            </th>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th rowspan="2" valign="top">
-             N
-            </th>
-            <th>
-             1
-            </th>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-           </tr>
-          </tbody>
-         </table>
-         <p>
-          100 rows &times; 180 columns
-         </p>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              10
+             </th>
+             <th colspan="2" halign="left">
+              A
+             </th>
+             <th>
+              ...
+             </th>
+             <th colspan="2" halign="left">
+              Z
+             </th>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              100
+             </th>
+             <th colspan="2" halign="left">
+              M
+             </th>
+             <th>
+              ...
+             </th>
+             <th colspan="2" halign="left">
+              O
+             </th>
+            </tr>
+            <tr>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              1000
+             </th>
+             <th>
+              1
+             </th>
+             <th>
+              2
+             </th>
+             <th>
+              ...
+             </th>
+             <th>
+              2
+             </th>
+             <th>
+              3
+             </th>
+            </tr>
+            <tr>
+             <th>
+              J
+             </th>
+             <th>
+              K
+             </th>
+             <th>
+              L
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th rowspan="5" valign="top">
+              A
+             </th>
+             <th rowspan="2" valign="top">
+              M
+             </th>
+             <th>
+              1
+             </th>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th rowspan="2" valign="top">
+              N
+             </th>
+             <th>
+              1
+             </th>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p>
+           100 rows &times; 180 columns
+          </p>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3619,7 +3639,7 @@ this work implements special logic for spanning multiple rows and columns for tr
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="18">%%
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="18">%%
 &lt;style&gt;
 /**inline flex the dl block display and force it cause jupyter is aggressive.**/
 table&gt;caption dl {
@@ -3698,8 +3718,9 @@ dl &gt; dt, dl &gt; dd {
           ]
          </span>
         </legend>
-        <style>
-         /**inline flex the dl block display and force it cause jupyter is aggressive.**/
+        <div>
+         <style>
+          /**inline flex the dl block display and force it cause jupyter is aggressive.**/
 table>caption dl {
     display: inline-flex !important;
     justify-content: flex-start;
@@ -3714,7 +3735,8 @@ dl > dt, dl > dd {
     float: unset !important;
     padding-right: 1rem !important;
 }
-        </style>
+         </style>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3764,7 +3786,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="1">HIDDEN and EMPTY are used for visual verification of the technique.</textarea>
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-20" id="cell-20-source" name="source" readonly rows="1">HIDDEN and EMPTY are used for visual verification of the technique.</textarea>
        <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>HIDDEN and EMPTY are used for visual verification of the technique.
@@ -3843,7 +3865,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="1">    HIDDEN, EMPTY = "hidden",  "empty"</textarea>
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-21" id="cell-21-source" name="source" readonly rows="1">    HIDDEN, EMPTY = "hidden",  "empty"</textarea>
        <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">HIDDEN</span><span class="p">,</span> <span class="n">EMPTY</span> <span class="o">=</span> <span class="s2">"hidden"</span><span class="p">,</span>  <span class="s2">"empty"</span>
@@ -3888,6 +3910,8 @@ dl > dt, dl > dd {
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3938,7 +3962,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="1">    with options: display(get_table(wide, "a smaller table representation with hidden rows and columns."))</textarea>
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-22" id="cell-22-source" name="source" readonly rows="1">    with options: display(get_table(wide, "a smaller table representation with hidden rows and columns."))</textarea>
        <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">with</span> <span class="n">options</span><span class="p">:</span> <span class="n">display</span><span class="p">(</span><span class="n">get_table</span><span class="p">(</span><span class="n">wide</span><span class="p">,</span> <span class="s2">"a smaller table representation with hidden rows and columns."</span><span class="p">))</span>
@@ -3983,259 +4007,261 @@ dl > dt, dl > dd {
           ]
          </span>
         </legend>
-        <table aria-colcount="184" aria-rowcount="103">
-         <caption>
-          <dl role="presentation">
-           <dt>
-            rows
-           </dt>
-           <dd>
-            100
-           </dd>
-           <dt>
-            columns
-           </dt>
-           <dd>
-            180
-           </dd>
-           <dt>
-            indexes:
-           </dt>
-           <dd>
-            <dl role="presentation">
-             <dt>
-              rows
-             </dt>
-             <dd>
-              3
-             </dd>
-             <dt>
-              columns
-             </dt>
-             <dd>
-              3
-             </dd>
-            </dl>
-           </dd>
-          </dl>
-         </caption>
-         <tbody>
-          <tr aria-rowindex="1">
-           <th aria-colindex="1" rowspan="3" scope="col">
-            J
-           </th>
-           <th aria-colindex="2" rowspan="3" scope="col">
-            K
-           </th>
-           <th aria-colindex="3" rowspan="3" scope="col">
-            L
-           </th>
-           <th aria-colindex="4" scope="row">
-            10
-           </th>
-           <th aria-colindex="5" scope="col">
-            A
-           </th>
-           <th aria-colindex="6" scope="col">
-            A
-           </th>
-           <th aria-colindex="7" aria-colspan="176">
-            hidden
-           </th>
-           <th aria-colindex="183" scope="col">
-            Z
-           </th>
-           <th aria-colindex="184" scope="col">
-            Z
-           </th>
-          </tr>
-          <tr aria-rowindex="2">
-           <th aria-colindex="4" scope="row">
-            100
-           </th>
-           <th aria-colindex="5" scope="col">
-            M
-           </th>
-           <th aria-colindex="6" scope="col">
-            M
-           </th>
-           <th aria-colindex="7" aria-colspan="176">
-            hidden
-           </th>
-           <th aria-colindex="183" scope="col">
-            O
-           </th>
-           <th aria-colindex="184" scope="col">
-            O
-           </th>
-          </tr>
-          <tr aria-rowindex="3">
-           <th aria-colindex="4" scope="row">
-            1000
-           </th>
-           <th aria-colindex="5" scope="col">
-            1
-           </th>
-           <th aria-colindex="6" scope="col">
-            2
-           </th>
-           <th aria-colindex="7" aria-colspan="176">
-            hidden
-           </th>
-           <th aria-colindex="183" scope="col">
-            2
-           </th>
-           <th aria-colindex="184" scope="col">
-            3
-           </th>
-          </tr>
-          <tr aria-rowindex="4">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7" aria-colspan="176">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="5">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7" aria-colspan="176">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="6" aria-rowspan="96">
-           <th aria-colindex="1">
-            hidden
-           </th>
-           <th aria-colindex="2">
-            hidden
-           </th>
-           <th aria-colindex="3">
-            hidden
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            hidden
-           </td>
-           <td aria-colindex="6">
-            hidden
-           </td>
-           <td aria-colindex="7" aria-colspan="176" aria-rowspan="96">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            hidden
-           </td>
-           <td aria-colindex="184">
-            hidden
-           </td>
-          </tr>
-          <tr aria-rowindex="102">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7" aria-colspan="176">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="103">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7" aria-colspan="176">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
+        <div>
+         <table aria-colcount="184" aria-rowcount="103">
+          <caption>
+           <dl role="presentation">
+            <dt>
+             rows
+            </dt>
+            <dd>
+             100
+            </dd>
+            <dt>
+             columns
+            </dt>
+            <dd>
+             180
+            </dd>
+            <dt>
+             indexes:
+            </dt>
+            <dd>
+             <dl role="presentation">
+              <dt>
+               rows
+              </dt>
+              <dd>
+               3
+              </dd>
+              <dt>
+               columns
+              </dt>
+              <dd>
+               3
+              </dd>
+             </dl>
+            </dd>
+           </dl>
+          </caption>
+          <tbody>
+           <tr aria-rowindex="1">
+            <th aria-colindex="1" rowspan="3" scope="col">
+             J
+            </th>
+            <th aria-colindex="2" rowspan="3" scope="col">
+             K
+            </th>
+            <th aria-colindex="3" rowspan="3" scope="col">
+             L
+            </th>
+            <th aria-colindex="4" scope="row">
+             10
+            </th>
+            <th aria-colindex="5" scope="col">
+             A
+            </th>
+            <th aria-colindex="6" scope="col">
+             A
+            </th>
+            <th aria-colindex="7" aria-colspan="176">
+             hidden
+            </th>
+            <th aria-colindex="183" scope="col">
+             Z
+            </th>
+            <th aria-colindex="184" scope="col">
+             Z
+            </th>
+           </tr>
+           <tr aria-rowindex="2">
+            <th aria-colindex="4" scope="row">
+             100
+            </th>
+            <th aria-colindex="5" scope="col">
+             M
+            </th>
+            <th aria-colindex="6" scope="col">
+             M
+            </th>
+            <th aria-colindex="7" aria-colspan="176">
+             hidden
+            </th>
+            <th aria-colindex="183" scope="col">
+             O
+            </th>
+            <th aria-colindex="184" scope="col">
+             O
+            </th>
+           </tr>
+           <tr aria-rowindex="3">
+            <th aria-colindex="4" scope="row">
+             1000
+            </th>
+            <th aria-colindex="5" scope="col">
+             1
+            </th>
+            <th aria-colindex="6" scope="col">
+             2
+            </th>
+            <th aria-colindex="7" aria-colspan="176">
+             hidden
+            </th>
+            <th aria-colindex="183" scope="col">
+             2
+            </th>
+            <th aria-colindex="184" scope="col">
+             3
+            </th>
+           </tr>
+           <tr aria-rowindex="4">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7" aria-colspan="176">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="5">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7" aria-colspan="176">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="6" aria-rowspan="96">
+            <th aria-colindex="1">
+             hidden
+            </th>
+            <th aria-colindex="2">
+             hidden
+            </th>
+            <th aria-colindex="3">
+             hidden
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             hidden
+            </td>
+            <td aria-colindex="6">
+             hidden
+            </td>
+            <td aria-colindex="7" aria-colspan="176" aria-rowspan="96">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             hidden
+            </td>
+            <td aria-colindex="184">
+             hidden
+            </td>
+           </tr>
+           <tr aria-rowindex="102">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7" aria-colspan="176">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="103">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7" aria-colspan="176">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4286,7 +4312,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    with pandas.option_context("display.max_rows", 10, "display.max_columns", 10): display(get_table(wide))</textarea>
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-23" id="cell-23-source" name="source" readonly rows="1">    with pandas.option_context("display.max_rows", 10, "display.max_columns", 10): display(get_table(wide))</textarea>
        <div aria-labelledby="cell-23-in-label cell-23-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">with</span> <span class="n">pandas</span><span class="o">.</span><span class="n">option_context</span><span class="p">(</span><span class="s2">"display.max_rows"</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="s2">"display.max_columns"</span><span class="p">,</span> <span class="mi">10</span><span class="p">):</span> <span class="n">display</span><span class="p">(</span><span class="n">get_table</span><span class="p">(</span><span class="n">wide</span><span class="p">))</span>
@@ -4331,685 +4357,687 @@ dl > dt, dl > dd {
           ]
          </span>
         </legend>
-        <table aria-colcount="184" aria-rowcount="103">
-         <caption>
-          <dl role="presentation">
-           <dt>
-            rows
-           </dt>
-           <dd>
-            100
-           </dd>
-           <dt>
-            columns
-           </dt>
-           <dd>
-            180
-           </dd>
-           <dt>
-            indexes:
-           </dt>
-           <dd>
-            <dl role="presentation">
-             <dt>
-              rows
-             </dt>
-             <dd>
-              3
-             </dd>
-             <dt>
-              columns
-             </dt>
-             <dd>
-              3
-             </dd>
-            </dl>
-           </dd>
-          </dl>
-         </caption>
-         <tbody>
-          <tr aria-rowindex="1">
-           <th aria-colindex="1" rowspan="3" scope="col">
-            J
-           </th>
-           <th aria-colindex="2" rowspan="3" scope="col">
-            K
-           </th>
-           <th aria-colindex="3" rowspan="3" scope="col">
-            L
-           </th>
-           <th aria-colindex="4" scope="row">
-            10
-           </th>
-           <th aria-colindex="5" scope="col">
-            A
-           </th>
-           <th aria-colindex="6" scope="col">
-            A
-           </th>
-           <th aria-colindex="7" scope="col">
-            A
-           </th>
-           <th aria-colindex="8" scope="col">
-            A
-           </th>
-           <th aria-colindex="9" scope="col">
-            A
-           </th>
-           <th aria-colindex="10" aria-colspan="170">
-            hidden
-           </th>
-           <th aria-colindex="180" scope="col">
-            Z
-           </th>
-           <th aria-colindex="181" scope="col">
-            Z
-           </th>
-           <th aria-colindex="182" scope="col">
-            Z
-           </th>
-           <th aria-colindex="183" scope="col">
-            Z
-           </th>
-           <th aria-colindex="184" scope="col">
-            Z
-           </th>
-          </tr>
-          <tr aria-rowindex="2">
-           <th aria-colindex="4" scope="row">
-            100
-           </th>
-           <th aria-colindex="5" scope="col">
-            M
-           </th>
-           <th aria-colindex="6" scope="col">
-            M
-           </th>
-           <th aria-colindex="7" scope="col">
-            M
-           </th>
-           <th aria-colindex="8" scope="col">
-            N
-           </th>
-           <th aria-colindex="9" scope="col">
-            N
-           </th>
-           <th aria-colindex="10" aria-colspan="170">
-            hidden
-           </th>
-           <th aria-colindex="180" scope="col">
-            N
-           </th>
-           <th aria-colindex="181" scope="col">
-            N
-           </th>
-           <th aria-colindex="182" scope="col">
-            O
-           </th>
-           <th aria-colindex="183" scope="col">
-            O
-           </th>
-           <th aria-colindex="184" scope="col">
-            O
-           </th>
-          </tr>
-          <tr aria-rowindex="3">
-           <th aria-colindex="4" scope="row">
-            1000
-           </th>
-           <th aria-colindex="5" scope="col">
-            1
-           </th>
-           <th aria-colindex="6" scope="col">
-            2
-           </th>
-           <th aria-colindex="7" scope="col">
-            3
-           </th>
-           <th aria-colindex="8" scope="col">
-            1
-           </th>
-           <th aria-colindex="9" scope="col">
-            2
-           </th>
-           <th aria-colindex="10" aria-colspan="170">
-            hidden
-           </th>
-           <th aria-colindex="180" scope="col">
-            2
-           </th>
-           <th aria-colindex="181" scope="col">
-            3
-           </th>
-           <th aria-colindex="182" scope="col">
-            1
-           </th>
-           <th aria-colindex="183" scope="col">
-            2
-           </th>
-           <th aria-colindex="184" scope="col">
-            3
-           </th>
-          </tr>
-          <tr aria-rowindex="4">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="5">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="6">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            3
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="7">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="8">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="9" aria-rowspan="90">
-           <th aria-colindex="1">
-            hidden
-           </th>
-           <th aria-colindex="2">
-            hidden
-           </th>
-           <th aria-colindex="3">
-            hidden
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            hidden
-           </td>
-           <td aria-colindex="6">
-            hidden
-           </td>
-           <td aria-colindex="7">
-            hidden
-           </td>
-           <td aria-colindex="8">
-            hidden
-           </td>
-           <td aria-colindex="9">
-            hidden
-           </td>
-           <td aria-colindex="10" aria-colspan="170" aria-rowspan="90">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            hidden
-           </td>
-           <td aria-colindex="181">
-            hidden
-           </td>
-           <td aria-colindex="182">
-            hidden
-           </td>
-           <td aria-colindex="183">
-            hidden
-           </td>
-           <td aria-colindex="184">
-            hidden
-           </td>
-          </tr>
-          <tr aria-rowindex="99">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="100">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="101">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            M
-           </th>
-           <th aria-colindex="3" scope="row">
-            3
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="102">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            1
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-          <tr aria-rowindex="103">
-           <th aria-colindex="1" scope="row">
-            A
-           </th>
-           <th aria-colindex="2" scope="row">
-            N
-           </th>
-           <th aria-colindex="3" scope="row">
-            2
-           </th>
-           <td aria-colindex="4">
-            empty
-           </td>
-           <td aria-colindex="5">
-            nan
-           </td>
-           <td aria-colindex="6">
-            nan
-           </td>
-           <td aria-colindex="7">
-            nan
-           </td>
-           <td aria-colindex="8">
-            nan
-           </td>
-           <td aria-colindex="9">
-            nan
-           </td>
-           <td aria-colindex="10" aria-colspan="170">
-            hidden
-           </td>
-           <td aria-colindex="180">
-            nan
-           </td>
-           <td aria-colindex="181">
-            nan
-           </td>
-           <td aria-colindex="182">
-            nan
-           </td>
-           <td aria-colindex="183">
-            nan
-           </td>
-           <td aria-colindex="184">
-            nan
-           </td>
-          </tr>
-         </tbody>
-        </table>
+        <div>
+         <table aria-colcount="184" aria-rowcount="103">
+          <caption>
+           <dl role="presentation">
+            <dt>
+             rows
+            </dt>
+            <dd>
+             100
+            </dd>
+            <dt>
+             columns
+            </dt>
+            <dd>
+             180
+            </dd>
+            <dt>
+             indexes:
+            </dt>
+            <dd>
+             <dl role="presentation">
+              <dt>
+               rows
+              </dt>
+              <dd>
+               3
+              </dd>
+              <dt>
+               columns
+              </dt>
+              <dd>
+               3
+              </dd>
+             </dl>
+            </dd>
+           </dl>
+          </caption>
+          <tbody>
+           <tr aria-rowindex="1">
+            <th aria-colindex="1" rowspan="3" scope="col">
+             J
+            </th>
+            <th aria-colindex="2" rowspan="3" scope="col">
+             K
+            </th>
+            <th aria-colindex="3" rowspan="3" scope="col">
+             L
+            </th>
+            <th aria-colindex="4" scope="row">
+             10
+            </th>
+            <th aria-colindex="5" scope="col">
+             A
+            </th>
+            <th aria-colindex="6" scope="col">
+             A
+            </th>
+            <th aria-colindex="7" scope="col">
+             A
+            </th>
+            <th aria-colindex="8" scope="col">
+             A
+            </th>
+            <th aria-colindex="9" scope="col">
+             A
+            </th>
+            <th aria-colindex="10" aria-colspan="170">
+             hidden
+            </th>
+            <th aria-colindex="180" scope="col">
+             Z
+            </th>
+            <th aria-colindex="181" scope="col">
+             Z
+            </th>
+            <th aria-colindex="182" scope="col">
+             Z
+            </th>
+            <th aria-colindex="183" scope="col">
+             Z
+            </th>
+            <th aria-colindex="184" scope="col">
+             Z
+            </th>
+           </tr>
+           <tr aria-rowindex="2">
+            <th aria-colindex="4" scope="row">
+             100
+            </th>
+            <th aria-colindex="5" scope="col">
+             M
+            </th>
+            <th aria-colindex="6" scope="col">
+             M
+            </th>
+            <th aria-colindex="7" scope="col">
+             M
+            </th>
+            <th aria-colindex="8" scope="col">
+             N
+            </th>
+            <th aria-colindex="9" scope="col">
+             N
+            </th>
+            <th aria-colindex="10" aria-colspan="170">
+             hidden
+            </th>
+            <th aria-colindex="180" scope="col">
+             N
+            </th>
+            <th aria-colindex="181" scope="col">
+             N
+            </th>
+            <th aria-colindex="182" scope="col">
+             O
+            </th>
+            <th aria-colindex="183" scope="col">
+             O
+            </th>
+            <th aria-colindex="184" scope="col">
+             O
+            </th>
+           </tr>
+           <tr aria-rowindex="3">
+            <th aria-colindex="4" scope="row">
+             1000
+            </th>
+            <th aria-colindex="5" scope="col">
+             1
+            </th>
+            <th aria-colindex="6" scope="col">
+             2
+            </th>
+            <th aria-colindex="7" scope="col">
+             3
+            </th>
+            <th aria-colindex="8" scope="col">
+             1
+            </th>
+            <th aria-colindex="9" scope="col">
+             2
+            </th>
+            <th aria-colindex="10" aria-colspan="170">
+             hidden
+            </th>
+            <th aria-colindex="180" scope="col">
+             2
+            </th>
+            <th aria-colindex="181" scope="col">
+             3
+            </th>
+            <th aria-colindex="182" scope="col">
+             1
+            </th>
+            <th aria-colindex="183" scope="col">
+             2
+            </th>
+            <th aria-colindex="184" scope="col">
+             3
+            </th>
+           </tr>
+           <tr aria-rowindex="4">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="5">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="6">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             3
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="7">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="8">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="9" aria-rowspan="90">
+            <th aria-colindex="1">
+             hidden
+            </th>
+            <th aria-colindex="2">
+             hidden
+            </th>
+            <th aria-colindex="3">
+             hidden
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             hidden
+            </td>
+            <td aria-colindex="6">
+             hidden
+            </td>
+            <td aria-colindex="7">
+             hidden
+            </td>
+            <td aria-colindex="8">
+             hidden
+            </td>
+            <td aria-colindex="9">
+             hidden
+            </td>
+            <td aria-colindex="10" aria-colspan="170" aria-rowspan="90">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             hidden
+            </td>
+            <td aria-colindex="181">
+             hidden
+            </td>
+            <td aria-colindex="182">
+             hidden
+            </td>
+            <td aria-colindex="183">
+             hidden
+            </td>
+            <td aria-colindex="184">
+             hidden
+            </td>
+           </tr>
+           <tr aria-rowindex="99">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="100">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="101">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             M
+            </th>
+            <th aria-colindex="3" scope="row">
+             3
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="102">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             1
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+           <tr aria-rowindex="103">
+            <th aria-colindex="1" scope="row">
+             A
+            </th>
+            <th aria-colindex="2" scope="row">
+             N
+            </th>
+            <th aria-colindex="3" scope="row">
+             2
+            </th>
+            <td aria-colindex="4">
+             empty
+            </td>
+            <td aria-colindex="5">
+             nan
+            </td>
+            <td aria-colindex="6">
+             nan
+            </td>
+            <td aria-colindex="7">
+             nan
+            </td>
+            <td aria-colindex="8">
+             nan
+            </td>
+            <td aria-colindex="9">
+             nan
+            </td>
+            <td aria-colindex="10" aria-colspan="170">
+             hidden
+            </td>
+            <td aria-colindex="180">
+             nan
+            </td>
+            <td aria-colindex="181">
+             nan
+            </td>
+            <td aria-colindex="182">
+             nan
+            </td>
+            <td aria-colindex="183">
+             nan
+            </td>
+            <td aria-colindex="184">
+             nan
+            </td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5059,7 +5087,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="1">## notes/discussion</textarea>
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-24" id="cell-24-source" name="source" readonly rows="1">## notes/discussion</textarea>
        <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## notes/discussion</span>
@@ -5139,7 +5167,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="1">an array be a special case for tables where headings aren't needed. a table with no rows or columns headings will reveal a nice array.</textarea>
+       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-25" id="cell-25-source" name="source" readonly rows="1">an array be a special case for tables where headings aren't needed. a table with no rows or columns headings will reveal a nice array.</textarea>
        <div aria-labelledby="cell-25-in-label cell-25-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>an array be a special case for tables where headings aren't needed. a table with no rows or columns headings will reveal a nice array.
@@ -5217,7 +5245,7 @@ dl > dt, dl > dd {
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="1">this example is a most complex axis case and does not include grouping. </textarea>
+       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-26" id="cell-26-source" name="source" readonly rows="1">this example is a most complex axis case and does not include grouping. </textarea>
        <div aria-labelledby="cell-26-in-label cell-26-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>this example is a most complex axis case and does not include grouping. 
@@ -5257,8 +5285,8 @@ dl > dt, dl > dd {
     &lt;histograms suck
    </a>
    <br>
-   <a href="2024-02-26-lunr-search.html" rel="next">
-    creating accessible search
+   <a href="2024-02-26-bash-midgy.html" rel="next">
+    adding shell and css fence directives to midgy
     <span aria-hidden="true">
      &gt;
     </span>
@@ -6348,6 +6376,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

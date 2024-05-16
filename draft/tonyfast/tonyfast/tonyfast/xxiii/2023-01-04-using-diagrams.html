@@ -903,13 +903,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -938,13 +938,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1083,13 +1083,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1118,13 +1118,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1163,13 +1163,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1258,13 +1258,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1514,34 +1514,34 @@ we can use it in three places relative to this content:
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1621,7 +1621,7 @@ we can use it in three places relative to this content:
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="13"># diagrams in jupyter and mkdocs
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="13"># diagrams in jupyter and mkdocs
 
 [mermaid] has emerged as a community standard for diagrams.
 we can use it in three places relative to this content:
@@ -1760,7 +1760,7 @@ we can use it in three places relative to this content:
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="4">    
     %reload_ext pidgy
     import requests, requests_cache, bs4
     requests_cache.install_cache(backend="filesystem")</textarea>
@@ -1811,6 +1811,8 @@ we can use it in three places relative to this content:
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1861,7 +1863,7 @@ we can use it in three places relative to this content:
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="7">from the `root` page, using `beautifulsoup4` as an intermediary, we can discover that mermaid
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="7">from the `root` page, using `beautifulsoup4` as an intermediary, we can discover that mermaid
 supports {{len(kinds)}} chart syntaxes.
 
 ```python
@@ -1919,22 +1921,24 @@ kinds = set(x.attrs["href"]for x in soup.select("a") if x.attrs["href"].startswi
           ]
          </span>
         </legend>
-        <p>
-         from the
-         <code>
-          root
-         </code>
-         page, using
-         <code>
-          beautifulsoup4
-         </code>
-         as an intermediary, we can discover that mermaid
+        <div>
+         <p>
+          from the
+          <code>
+           root
+          </code>
+          page, using
+          <code>
+           beautifulsoup4
+          </code>
+          as an intermediary, we can discover that mermaid
 supports 13 chart syntaxes.
-        </p>
-        <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">((</span><span class="n">root</span> <span class="o">:=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://mermaid.js.org/syntax/classDiagram.html"</span><span class="p">))</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
+         </p>
+         <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="n">soup</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">((</span><span class="n">root</span> <span class="o">:=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"https://mermaid.js.org/syntax/classDiagram.html"</span><span class="p">))</span><span class="o">.</span><span class="n">text</span><span class="p">,</span> <span class="s2">"html.parser"</span><span class="p">)</span>
 <span class="n">kinds</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"href"</span><span class="p">]</span><span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"a"</span><span class="p">)</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">"href"</span><span class="p">]</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">"/syntax"</span><span class="p">,)))</span>
 </code></pre></div>
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1984,7 +1988,7 @@ supports 13 chart syntaxes.
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="1">extracting the syntaxes to build one master chart.</textarea>
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="1">extracting the syntaxes to build one master chart.</textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>extracting the syntaxes to build one master chart.
@@ -2063,7 +2067,7 @@ supports 13 chart syntaxes.
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="5">```python
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="5">```python
 baseurl = root.url.rsplit("/", 2)[0]
 syntaxes = {baseurl + x for x in kinds}
 responses = {x: requests.get(x) for x in syntaxes}
@@ -2117,11 +2121,13 @@ responses = {x: requests.get(x) for x in syntaxes}
           ]
          </span>
         </legend>
-        <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="n">baseurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <div>
+         <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="n">baseurl</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">url</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">"/"</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 <span class="n">syntaxes</span> <span class="o">=</span> <span class="p">{</span><span class="n">baseurl</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">kinds</span><span class="p">}</span>
 <span class="n">responses</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">syntaxes</span><span class="p">}</span>
 </code></pre></div>
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2172,7 +2178,7 @@ responses = {x: requests.get(x) for x in syntaxes}
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="15">```python
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="15">```python
 def strip_front_matter(x):
     fence = ('---',)
     if x.startswith(fence):
@@ -2245,7 +2251,8 @@ def strip_front_matter(x):
           ]
          </span>
         </legend>
-        <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">strip_front_matter</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <div>
+         <pre><code class="python"><div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">strip_front_matter</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
     <span class="n">fence</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'---'</span><span class="p">,)</span>
     <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">fence</span><span class="p">):</span>
         <span class="n">y</span> <span class="o">=</span> <span class="kc">None</span>
@@ -2259,6 +2266,7 @@ def strip_front_matter(x):
     <span class="k">return</span> <span class="n">x</span>
 </code></pre></div>
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2309,7 +2317,7 @@ def strip_front_matter(x):
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="11">## all the diagram styles collection programmatically
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="11">## all the diagram styles collection programmatically
 
 {% for syntax in syntaxes %}
 {% set page = bs4.BeautifulSoup(responses.get(syntax).text, features="html.parser") %}
@@ -2374,17 +2382,18 @@ def strip_front_matter(x):
           ]
          </span>
         </legend>
-        <h2 id="all-the-diagram-styles-collection-programmatically">
-         <a href="#all-the-diagram-styles-collection-programmatically">
-          all the diagram styles collection programmatically
-         </a>
-        </h2>
-        <h3 id="mindmap">
-         <a href="#mindmap">
-          Mindmap
-         </a>
-        </h3>
-        <pre><code>mindmap
+        <div>
+         <h2 id="all-the-diagram-styles-collection-programmatically">
+          <a href="#all-the-diagram-styles-collection-programmatically">
+           all the diagram styles collection programmatically
+          </a>
+         </h2>
+         <h3 id="mindmap">
+          <a href="#mindmap">
+           Mindmap
+          </a>
+         </h3>
+         <pre><code>mindmap
   root((mindmap))
     Origins
       Long history
@@ -2404,12 +2413,12 @@ def strip_front_matter(x):
 
 
 </code></pre>
-        <h3 id="c4-diagrams">
-         <a href="#c4-diagrams">
-          C4 Diagrams
-         </a>
-        </h3>
-        <pre><code>C4Context
+         <h3 id="c4-diagrams">
+          <a href="#c4-diagrams">
+           C4 Diagrams
+          </a>
+         </h3>
+         <pre><code>C4Context
   title System Context diagram for Internet Banking System
   Enterprise_Boundary(b0, "BankBoundary0") {
     Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
@@ -2455,22 +2464,22 @@ def strip_front_matter(x):
 
 
 </code></pre>
-        <h3 id="examples">
-         <a href="#examples">
-          Examples
-         </a>
-        </h3>
-        <pre><code>pie title NETFLIX
+         <h3 id="examples">
+          <a href="#examples">
+           Examples
+          </a>
+         </h3>
+         <pre><code>pie title NETFLIX
          "Time spent looking for movie" : 90
          "Time spent watching it" : 10
 
 </code></pre>
-        <h3 id="user-journey-diagram">
-         <a href="#user-journey-diagram">
-          User Journey Diagram
-         </a>
-        </h3>
-        <pre><code>journey
+         <h3 id="user-journey-diagram">
+          <a href="#user-journey-diagram">
+           User Journey Diagram
+          </a>
+         </h3>
+         <pre><code>journey
     title My working day
     section Go to work
       Make tea: 5: Me
@@ -2481,23 +2490,23 @@ def strip_front_matter(x):
       Sit down: 5: Me
 
 </code></pre>
-        <h3 id="sequence-diagrams">
-         <a href="#sequence-diagrams">
-          Sequence diagrams
-         </a>
-        </h3>
-        <pre><code>sequenceDiagram
+         <h3 id="sequence-diagrams">
+          <a href="#sequence-diagrams">
+           Sequence diagrams
+          </a>
+         </h3>
+         <pre><code>sequenceDiagram
     Alice-&gt;&gt;John: Hello John, how are you?
     John--&gt;&gt;Alice: Great!
     Alice-)John: See you later!
 
 </code></pre>
-        <h3 id="requirement-diagram">
-         <a href="#requirement-diagram">
-          Requirement Diagram
-         </a>
-        </h3>
-        <pre><code>requirementDiagram
+         <h3 id="requirement-diagram">
+          <a href="#requirement-diagram">
+           Requirement Diagram
+          </a>
+         </h3>
+         <pre><code>requirementDiagram
 
 requirement test_req {
 id: 1
@@ -2513,43 +2522,43 @@ type: simulation
 test_entity - satisfies -&gt; test_req
 
 </code></pre>
-        <h3 id="flowcharts-basic-syntax">
-         <a href="#flowcharts-basic-syntax">
-          Flowcharts - Basic Syntax
-         </a>
-        </h3>
-        <pre><code>flowchart LR
+         <h3 id="flowcharts-basic-syntax">
+          <a href="#flowcharts-basic-syntax">
+           Flowcharts - Basic Syntax
+          </a>
+         </h3>
+         <pre><code>flowchart LR
     id
 
 </code></pre>
-        <h3 id="entity-relationship-diagrams">
-         <a href="#entity-relationship-diagrams">
-          Entity Relationship Diagrams
-         </a>
-        </h3>
-        <pre><code>erDiagram
+         <h3 id="entity-relationship-diagrams">
+          <a href="#entity-relationship-diagrams">
+           Entity Relationship Diagrams
+          </a>
+         </h3>
+         <pre><code>erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
     CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
 
 </code></pre>
-        <h3 id="pie-chart-diagrams">
-         <a href="#pie-chart-diagrams">
-          Pie chart diagrams
-         </a>
-        </h3>
-        <pre><code>pie title Pets adopted by volunteers
+         <h3 id="pie-chart-diagrams">
+          <a href="#pie-chart-diagrams">
+           Pie chart diagrams
+          </a>
+         </h3>
+         <pre><code>pie title Pets adopted by volunteers
     "Dogs" : 386
     "Cats" : 85
     "Rats" : 15
 
 </code></pre>
-        <h3 id="state-diagrams">
-         <a href="#state-diagrams">
-          State diagrams
-         </a>
-        </h3>
-        <pre><code>stateDiagram-v2
+         <h3 id="state-diagrams">
+          <a href="#state-diagrams">
+           State diagrams
+          </a>
+         </h3>
+         <pre><code>stateDiagram-v2
     [*] --&gt; Still
     Still --&gt; [*]
 
@@ -2559,12 +2568,12 @@ test_entity - satisfies -&gt; test_req
     Crash --&gt; [*]
 
 </code></pre>
-        <h3 id="gitgraph-diagrams">
-         <a href="#gitgraph-diagrams">
-          Gitgraph Diagrams
-         </a>
-        </h3>
-        <pre><code>gitGraph
+         <h3 id="gitgraph-diagrams">
+          <a href="#gitgraph-diagrams">
+           Gitgraph Diagrams
+          </a>
+         </h3>
+         <pre><code>gitGraph
    commit
    commit
    branch develop
@@ -2577,12 +2586,12 @@ test_entity - satisfies -&gt; test_req
    commit
 
 </code></pre>
-        <h3 id="class-diagrams">
-         <a href="#class-diagrams">
-          Class diagrams
-         </a>
-        </h3>
-        <pre><code>classDiagram
+         <h3 id="class-diagrams">
+          <a href="#class-diagrams">
+           Class diagrams
+          </a>
+         </h3>
+         <pre><code>classDiagram
     note "From Duck till Zebra"
     Animal &lt;|-- Duck
     note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
@@ -2607,12 +2616,12 @@ test_entity - satisfies -&gt; test_req
     }
 
 </code></pre>
-        <h3 id="gantt-diagrams">
-         <a href="#gantt-diagrams">
-          Gantt diagrams
-         </a>
-        </h3>
-        <pre><code>gantt
+         <h3 id="gantt-diagrams">
+          <a href="#gantt-diagrams">
+           Gantt diagrams
+          </a>
+         </h3>
+         <pre><code>gantt
     title A Gantt Diagram
     dateFormat  YYYY-MM-DD
     section Section
@@ -2623,6 +2632,7 @@ test_entity - satisfies -&gt; test_req
     another task      : 24d
 
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2673,7 +2683,7 @@ test_entity - satisfies -&gt; test_req
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="5">the following demos are not working, but {{len(syntaxes)-3}}/{{len(syntaxes)}} demos in one place ain't bad.
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="5">the following demos are not working, but {{len(syntaxes)-3}}/{{len(syntaxes)}} demos in one place ain't bad.
 
 - [ ] C4 Diagrams
 - [ ] Class diagrams (these work the mkdocs version)
@@ -2726,20 +2736,22 @@ test_entity - satisfies -&gt; test_req
           ]
          </span>
         </legend>
-        <p>
-         the following demos are not working, but 10/13 demos in one place ain't bad.
-        </p>
-        <ul>
-         <li>
-          [ ] C4 Diagrams
-         </li>
-         <li>
-          [ ] Class diagrams (these work the mkdocs version)
-         </li>
-         <li>
-          [ ] Mindmap
-         </li>
-        </ul>
+        <div>
+         <p>
+          the following demos are not working, but 10/13 demos in one place ain't bad.
+         </p>
+         <ul>
+          <li>
+           [ ] C4 Diagrams
+          </li>
+          <li>
+           [ ] Class diagrams (these work the mkdocs version)
+          </li>
+          <li>
+           [ ] Mindmap
+          </li>
+         </ul>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2790,7 +2802,7 @@ test_entity - satisfies -&gt; test_req
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="9">## why did mermaid win?
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="9">## why did mermaid win?
 
 i &lt;3 `graphviz` and i'm curius why mermaid one.
 graphviz is over 30 years old and written in c, but maybe the javascript was enough to win.
@@ -2851,28 +2863,30 @@ i hope to explore this question further when i read the [graphviz authors take][
           ]
          </span>
         </legend>
-        <h2 id="why-did-mermaid-win">
-         <a href="#why-did-mermaid-win">
-          why did mermaid win?
-         </a>
-        </h2>
-        <p>
-         i &lt;3
-         <code>
-          graphviz
-         </code>
-         and i'm curius why mermaid one.
+        <div>
+         <h2 id="why-did-mermaid-win">
+          <a href="#why-did-mermaid-win">
+           why did mermaid win?
+          </a>
+         </h2>
+         <p>
+          i &lt;3
+          <code>
+           graphviz
+          </code>
+          and i'm curius why mermaid one.
 graphviz is over 30 years old and written in c, but maybe the javascript was enough to win.
 does wasm change the game?
-        </p>
-        <p>
-         i hope to explore this question further when i read the
-         <a href="https://forum.graphviz.org/t/github-adding-support-for-mermaid-diagrams/998">
-          graphviz authors take
-         </a>
-         .
-        </p>
-        &lt; /&gt;
+         </p>
+         <p>
+          i hope to explore this question further when i read the
+          <a href="https://forum.graphviz.org/t/github-adding-support-for-mermaid-diagrams/998">
+           graphviz authors take
+          </a>
+          .
+         </p>
+         &lt; /&gt;
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2923,7 +2937,7 @@ does wasm change the game?
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="3">## appendix
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="3">## appendix
 
 &gt; weird thing: i was only able to get mermaid to work when the title for the document did not have mermaid in it.</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
@@ -2972,16 +2986,18 @@ does wasm change the game?
           ]
          </span>
         </legend>
-        <h2 id="appendix">
-         <a href="#appendix">
-          appendix
-         </a>
-        </h2>
-        <blockquote>
-         <p>
-          weird thing: i was only able to get mermaid to work when the title for the document did not have mermaid in it.
-         </p>
-        </blockquote>
+        <div>
+         <h2 id="appendix">
+          <a href="#appendix">
+           appendix
+          </a>
+         </h2>
+         <blockquote>
+          <p>
+           weird thing: i was only able to get mermaid to work when the title for the document did not have mermaid in it.
+          </p>
+         </blockquote>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4084,6 +4100,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

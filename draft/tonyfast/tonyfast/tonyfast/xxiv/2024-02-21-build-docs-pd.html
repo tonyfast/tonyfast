@@ -931,13 +931,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -966,13 +966,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1111,13 +1111,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1146,13 +1146,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1191,13 +1191,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1286,13 +1286,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1454,34 +1454,34 @@ nbformat at the primary interface for multimedia content.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1561,7 +1561,7 @@ nbformat at the primary interface for multimedia content.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># build the site docs
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># build the site docs
 
 building documentation with `nbconvert` and dataframes. this approach treats document as data using the
 `nbformat` at the primary interface for multimedia content.
@@ -1670,7 +1670,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    import tonyfast.utils, pandas, json, nbconvert, nbformat, operator, bs4, anyio, pathlib, re, os
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="2">    import tonyfast.utils, pandas, json, nbconvert, nbformat, operator, bs4, anyio, pathlib, re, os
     __import__("nest_asyncio").apply()</textarea>
        <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -1717,6 +1717,8 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1767,7 +1769,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="19">    if MAIN := __name__ == "__main__":
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="19">    if MAIN := __name__ == "__main__":
         class Config:
             dir = pathlib.Path(globals().get("__file_") or "2024-02-21-build-docs-pd.ipynb").absolute().parent.parent.parent
             paths = ["tonyfast"]
@@ -1848,6 +1850,8 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1897,7 +1901,7 @@ the following is an example rendering https://tonyfast.github.io/tonyfast/draft/
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="5">load in all the notebooks
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="5">load in all the notebooks
 
 find all the notebooks resembling a post.
 we are skipping the work needing to be done on the indexes and readmes.
@@ -1989,7 +1993,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="6">    df = (
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="6">    df = (
         Config.dir / pandas.Index(Config.paths)
     ).rename("directory").path(
     ).glob("**/[0-9][0-9][0-9][0-9]-*.ipynb", recursive=True).apath().pipe(
@@ -2044,6 +2048,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2093,7 +2099,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">remove checkpoint files.</textarea>
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1">remove checkpoint files.</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>remove checkpoint files.
@@ -2172,7 +2178,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    df = df.loc[~df.astype(str).str.contains("checkpoint")].pipe(pandas.Index).rename("file")</textarea>
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    df = df.loc[~df.astype(str).str.contains("checkpoint")].pipe(pandas.Index).rename("file")</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s2">"checkpoint"</span><span class="p">)]</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Index</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"file"</span><span class="p">)</span>
@@ -2217,6 +2223,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2266,7 +2274,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">extract the date from the title. this can later be enriched with git information</textarea>
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="1">extract the date from the title. this can later be enriched with git information</textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>extract the date from the title. this can later be enriched with git information
@@ -2345,7 +2353,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="4">    TITLE = "(?P&lt;year&gt;[0-9]{4})-(?P&lt;month&gt;[0-9]{2})-(?P&lt;day&gt;[0-9]{1,2})-(?P&lt;slug&gt;.+)"
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="4">    TITLE = "(?P&lt;year&gt;[0-9]{4})-(?P&lt;month&gt;[0-9]{2})-(?P&lt;day&gt;[0-9]{1,2})-(?P&lt;slug&gt;.+)"
     df = df.apath.stem.str.extract(TITLE).set_index(df).dropna(how="all")
     df["date"] = pandas.to_datetime(df.year +"-"+ df.month +"-"+ df.day)
     df = df.sort_values("date", ascending=False)&lt;/slug&gt;&lt;/day&gt;&lt;/month&gt;&lt;/year&gt;</textarea>
@@ -2396,6 +2404,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2445,7 +2455,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="1">read in all the notebooks</textarea>
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="1">read in all the notebooks</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>read in all the notebooks
@@ -2524,7 +2534,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    df = (await df.index.apath.read_text()).apply(json.loads)\
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    df = (await df.index.apath.read_text()).apply(json.loads)\
     .rename("nb").apply(nbformat.from_dict).pipe(df.join)
     if not FILE:
         df = df.head(10)
@@ -2578,8 +2588,9 @@ indexes and readmes use different exporter configurations than content notebooks
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -2590,282 +2601,283 @@ indexes and readmes use different exporter configurations than content notebooks
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             year
-            </th>
-            <th>
-             month
-            </th>
-            <th>
-             day
-            </th>
-            <th>
-             slug
-            </th>
-            <th>
-             date
-            </th>
-            <th>
-             nb
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             15
-            </td>
-            <td>
-             screen-tests
-            </td>
-            <td>
-             2024-03-15
-            </td>
-            <td>
-             {'cells': [{'attachments': {}, 'cell_type': 'm...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             13
-            </td>
-            <td>
-             notebooks-for-all-march-call
-            </td>
-            <td>
-             2024-03-13
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '11...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-12-nbconvert-a11y-pres.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             12
-            </td>
-            <td>
-             nbconvert-a11y-pres
-            </td>
-            <td>
-             2024-03-12
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '39...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-11-NOA.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             11
-            </td>
-            <td>
-             NOA
-            </td>
-            <td>
-             2024-03-11
-            </td>
-            <td>
-             {'cells': [{'attachments': {'8ea12e8f-45e6-4ea...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-06-mast-revisit.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             06
-            </td>
-            <td>
-             mast-revisit
-            </td>
-            <td>
-             2024-03-06
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '55...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-traceback-figure-tables.ipynb.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             05
-            </td>
-            <td>
-             traceback-figure-tables.ipynb
-            </td>
-            <td>
-             2024-03-05
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '93...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-astropy-table-repr.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             05
-            </td>
-            <td>
-             astropy-table-repr
-            </td>
-            <td>
-             2024-03-05
-            </td>
-            <td>
-             {'cells': [{'attachments': {'edb162e8-136d-437...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-04-semantic-outputs.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             04
-            </td>
-            <td>
-             semantic-outputs
-            </td>
-            <td>
-             2024-03-04
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '25...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             01
-            </td>
-            <td>
-             a11y-list-string.ipynb
-            </td>
-            <td>
-             2024-03-01
-            </td>
-            <td>
-             {'cells': [{'attachments': {'931392ee-8c73-455...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-notebook-accessibility-workshop.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             01
-            </td>
-            <td>
-             notebook-accessibility-workshop
-            </td>
-            <td>
-             2024-03-01
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '34...
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              year
+             </th>
+             <th>
+              month
+             </th>
+             <th>
+              day
+             </th>
+             <th>
+              slug
+             </th>
+             <th>
+              date
+             </th>
+             <th>
+              nb
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              15
+             </td>
+             <td>
+              screen-tests
+             </td>
+             <td>
+              2024-03-15
+             </td>
+             <td>
+              {'cells': [{'attachments': {}, 'cell_type': 'm...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              13
+             </td>
+             <td>
+              notebooks-for-all-march-call
+             </td>
+             <td>
+              2024-03-13
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '11...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-12-nbconvert-a11y-pres.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              12
+             </td>
+             <td>
+              nbconvert-a11y-pres
+             </td>
+             <td>
+              2024-03-12
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '39...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-11-NOA.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              11
+             </td>
+             <td>
+              NOA
+             </td>
+             <td>
+              2024-03-11
+             </td>
+             <td>
+              {'cells': [{'attachments': {'8ea12e8f-45e6-4ea...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-06-mast-revisit.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              06
+             </td>
+             <td>
+              mast-revisit
+             </td>
+             <td>
+              2024-03-06
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '55...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-traceback-figure-tables.ipynb.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              05
+             </td>
+             <td>
+              traceback-figure-tables.ipynb
+             </td>
+             <td>
+              2024-03-05
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '93...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-astropy-table-repr.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              05
+             </td>
+             <td>
+              astropy-table-repr
+             </td>
+             <td>
+              2024-03-05
+             </td>
+             <td>
+              {'cells': [{'attachments': {'edb162e8-136d-437...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-04-semantic-outputs.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              04
+             </td>
+             <td>
+              semantic-outputs
+             </td>
+             <td>
+              2024-03-04
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '25...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              01
+             </td>
+             <td>
+              a11y-list-string.ipynb
+             </td>
+             <td>
+              2024-03-01
+             </td>
+             <td>
+              {'cells': [{'attachments': {'931392ee-8c73-455...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-notebook-accessibility-workshop.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              01
+             </td>
+             <td>
+              notebook-accessibility-workshop
+             </td>
+             <td>
+              2024-03-01
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '34...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2916,7 +2928,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">the notebooks require preparation before they can transform to html</textarea>
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="1">the notebooks require preparation before they can transform to html</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>the notebooks require preparation before they can transform to html
@@ -2995,7 +3007,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="11">    MIDGY = re.compile("^\%\%[\s+,(pidgy),(midgy)]")
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="11">    MIDGY = re.compile("^\%\%[\s+,(pidgy),(midgy)]")
 
     def prepare_cell(cell):
         """make inplace changes to the notebook that carried through the publishing process"""
@@ -3060,6 +3072,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3110,7 +3124,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="3">    cells = df.nb.itemgetter("cells").enumerate("index").apply(prepare_cell).series()
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="3">    cells = df.nb.itemgetter("cells").enumerate("index").apply(prepare_cell).series()
     code = cells.loc[cells.cell_type.eq("code"), :]
     _idgy = code[code.source.str.contains("\s*%(?:re)load_ext\s+[pm]idgy")]</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
@@ -3159,6 +3173,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3209,7 +3225,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    df.loc[_idgy.index.get_level_values(0).drop_duplicates()].apply(
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="6">    df.loc[_idgy.index.get_level_values(0).drop_duplicates()].apply(
         lambda x: [
             y["metadata"].setdefault("jupyter", {}).setdefault("source_hidden", True)
             for y in x.loc["nb"]["cells"] if y["cell_type"] == "code"
@@ -3264,6 +3280,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3314,7 +3332,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="7">    def render_markdown_output(output):
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="7">    def render_markdown_output(output):
         if "data" in output:
             if "text/markdown" in output["data"]:
                 md = Config.exporter.environment.globals["markdown"](output["data"]["text/markdown"])
@@ -3371,6 +3389,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3421,7 +3441,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="11">    outputs = cells.outputs.dropna().enumerate("output").dropna()
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="11">    outputs = cells.outputs.dropna().enumerate("output").dropna()
     outputs.apply(render_markdown_output);
     markdowns = cells[cells.cell_type.eq("markdown")].apply(
         lambda s: operator.setitem(
@@ -3486,6 +3506,8 @@ indexes and readmes use different exporter configurations than content notebooks
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3535,7 +3557,7 @@ indexes and readmes use different exporter configurations than content notebooks
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="2">screate intermediate representations of markdown. when we handle this work before templating we can use partial information from the outcome
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="2">screate intermediate representations of markdown. when we handle this work before templating we can use partial information from the outcome
 to build the table of contents and relative links.</textarea>
        <div aria-labelledby="cell-18-in-label cell-18-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -3617,7 +3639,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="9">    html = pandas.concat(
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="9">    html = pandas.concat(
         [
             markdowns,
             outputs.itemgetter("data").dropna().itemgetter("text/html").dropna().to_frame("html"),
@@ -3678,6 +3700,8 @@ to build the table of contents and relative links.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3727,7 +3751,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="1">extract the headings from each cell</textarea>
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-20" id="cell-20-source" name="source" readonly rows="1">extract the headings from each cell</textarea>
        <div aria-labelledby="cell-20-in-label cell-20-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>extract the headings from each cell
@@ -3806,7 +3830,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="2">    html["h"] = html.soup.methodcaller("select", "h1,h2,h3,h4,h5,h6")
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-21" id="cell-21-source" name="source" readonly rows="2">    html["h"] = html.soup.methodcaller("select", "h1,h2,h3,h4,h5,h6")
     h = html.h.enumerate("h").dropna()</textarea>
        <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -3853,6 +3877,8 @@ to build the table of contents and relative links.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3902,7 +3928,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-22-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" form="cell-22" id="cell-22-source" name="source" readonly rows="1">expand the headings into features on the dataframe</textarea>
+       <textarea aria-labelledby="cell-22-in-label cell-22-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-22" id="cell-22-source" name="source" readonly rows="1">expand the headings into features on the dataframe</textarea>
        <div aria-labelledby="cell-22-in-label cell-22-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>expand the headings into features on the dataframe
@@ -3981,7 +4007,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-23-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" form="cell-23" id="cell-23-source" name="source" readonly rows="5">    h = h.to_frame("h").assign(
+       <textarea aria-labelledby="cell-23-in-label cell-23-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-23" id="cell-23-source" name="source" readonly rows="5">    h = h.to_frame("h").assign(
         level=h.attrgetter("name").str.lstrip("h").astype(int),
         string=h.attrgetter("text").str.rstrip("&para;"),
         id=h.attrgetter("attrs").itemgetter("id")
@@ -4035,8 +4061,9 @@ to build the table of contents and relative links.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4047,175 +4074,176 @@ to build the table of contents and relative links.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             h
-            </th>
-            <th>
-             level
-            </th>
-            <th>
-             string
-            </th>
-            <th>
-             id
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-             index
-            </th>
-            <th>
-             output
-            </th>
-            <th>
-             h
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th rowspan="5" valign="top">
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [using microdata and semantic html to represen...
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             using microdata and semantic html to represent...
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing constants]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing constants
-            </td>
-            <td>
-             representing-constants
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing strings]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing strings
-            </td>
-            <td>
-             representing-strings
-            </td>
-           </tr>
-           <tr>
-            <th>
-             6
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing numbers]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing numbers
-            </td>
-            <td>
-             representing-numbers
-            </td>
-           </tr>
-           <tr>
-            <th>
-             7
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing containers]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing containers
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              h
+             </th>
+             <th>
+              level
+             </th>
+             <th>
+              string
+             </th>
+             <th>
+              id
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+              index
+             </th>
+             <th>
+              output
+             </th>
+             <th>
+              h
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th rowspan="5" valign="top">
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [using microdata and semantic html to represen...
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              using microdata and semantic html to represent...
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing constants]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing constants
+             </td>
+             <td>
+              representing-constants
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing strings]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing strings
+             </td>
+             <td>
+              representing-strings
+             </td>
+            </tr>
+            <tr>
+             <th>
+              6
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing numbers]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing numbers
+             </td>
+             <td>
+              representing-numbers
+             </td>
+            </tr>
+            <tr>
+             <th>
+              7
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing containers]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing containers
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -4266,7 +4294,7 @@ to build the table of contents and relative links.
       <td class="nb-end" hidden id="cell-24-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" form="cell-24" id="cell-24-source" name="source" readonly rows="2">extract the document title from the headings. _we should probably extract a description too. 
+       <textarea aria-labelledby="cell-24-in-label cell-24-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-24" id="cell-24-source" name="source" readonly rows="2">extract the document title from the headings. _we should probably extract a description too. 
 adding description to the meta is good for accessibility when choosing tabs.</textarea>
        <div aria-labelledby="cell-24-in-label cell-24-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -4348,7 +4376,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-25-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" form="cell-25" id="cell-25-source" name="source" readonly rows="1">    h</textarea>
+       <textarea aria-labelledby="cell-25-in-label cell-25-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-25" id="cell-25-source" name="source" readonly rows="1">    h</textarea>
        <div aria-labelledby="cell-25-in-label cell-25-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">h</span>
@@ -4394,8 +4422,9 @@ adding description to the meta is good for accessibility when choosing tabs.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4406,325 +4435,326 @@ adding description to the meta is good for accessibility when choosing tabs.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-             h
-            </th>
-            <th>
-             level
-            </th>
-            <th>
-             string
-            </th>
-            <th>
-             id
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-             index
-            </th>
-            <th>
-             output
-            </th>
-            <th>
-             h
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th rowspan="5" valign="top">
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [using microdata and semantic html to represen...
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             using microdata and semantic html to represent...
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing constants]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing constants
-            </td>
-            <td>
-             representing-constants
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing strings]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing strings
-            </td>
-            <td>
-             representing-strings
-            </td>
-           </tr>
-           <tr>
-            <th>
-             6
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing numbers]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing numbers
-            </td>
-            <td>
-             representing-numbers
-            </td>
-           </tr>
-           <tr>
-            <th>
-             7
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [representing containers]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             representing containers
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th rowspan="3" valign="top">
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [notebooks for all community summary]
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             notebooks for all community summary
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [full video]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             full video
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [clips]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             clips
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th rowspan="2" valign="top">
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
-            </th>
-            <th>
-             0
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [revisiting nbviewer/nbconvert screen reader e...
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             revisiting nbviewer/nbconvert screen reader ex...
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <th>
-             -1
-            </th>
-            <th>
-             0
-            </th>
-            <td>
-             [creating an accessible version of the document]
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             creating an accessible version of the document
-            </td>
-            <td>
-             None
-            </td>
-           </tr>
-          </tbody>
-         </table>
-         <p>
-          78 rows &times; 4 columns
-         </p>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+              h
+             </th>
+             <th>
+              level
+             </th>
+             <th>
+              string
+             </th>
+             <th>
+              id
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+              index
+             </th>
+             <th>
+              output
+             </th>
+             <th>
+              h
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th rowspan="5" valign="top">
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [using microdata and semantic html to represen...
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              using microdata and semantic html to represent...
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing constants]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing constants
+             </td>
+             <td>
+              representing-constants
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing strings]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing strings
+             </td>
+             <td>
+              representing-strings
+             </td>
+            </tr>
+            <tr>
+             <th>
+              6
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing numbers]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing numbers
+             </td>
+             <td>
+              representing-numbers
+             </td>
+            </tr>
+            <tr>
+             <th>
+              7
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [representing containers]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              representing containers
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th rowspan="3" valign="top">
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [notebooks for all community summary]
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              notebooks for all community summary
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [full video]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              full video
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [clips]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              clips
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th rowspan="2" valign="top">
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
+             </th>
+             <th>
+              0
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [revisiting nbviewer/nbconvert screen reader e...
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              revisiting nbviewer/nbconvert screen reader ex...
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <th>
+              -1
+             </th>
+             <th>
+              0
+             </th>
+             <td>
+              [creating an accessible version of the document]
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              creating an accessible version of the document
+             </td>
+             <td>
+              None
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p>
+           78 rows &times; 4 columns
+          </p>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -4776,7 +4806,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-26-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" form="cell-26" id="cell-26-source" name="source" readonly rows="4">    df.assign(title=h.groupby(h.index.get_level_values("file")).apply(
+       <textarea aria-labelledby="cell-26-in-label cell-26-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-26" id="cell-26-source" name="source" readonly rows="4">    df.assign(title=h.groupby(h.index.get_level_values("file")).apply(
         lambda s: s.sort_values("level").string.iloc[0]
     ))
               </textarea>
@@ -4828,8 +4858,9 @@ adding description to the meta is good for accessibility when choosing tabs.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4840,317 +4871,318 @@ adding description to the meta is good for accessibility when choosing tabs.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             year
-            </th>
-            <th>
-             month
-            </th>
-            <th>
-             day
-            </th>
-            <th>
-             slug
-            </th>
-            <th>
-             date
-            </th>
-            <th>
-             nb
-            </th>
-            <th>
-             title
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             15
-            </td>
-            <td>
-             screen-tests
-            </td>
-            <td>
-             2024-03-15
-            </td>
-            <td>
-             {'cells': [{'attachments': {}, 'cell_type': 'm...
-            </td>
-            <td>
-             revisiting nbviewer/nbconvert screen reader ex...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             13
-            </td>
-            <td>
-             notebooks-for-all-march-call
-            </td>
-            <td>
-             2024-03-13
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '11...
-            </td>
-            <td>
-             notebooks for all community summary
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-12-nbconvert-a11y-pres.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             12
-            </td>
-            <td>
-             nbconvert-a11y-pres
-            </td>
-            <td>
-             2024-03-12
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '39...
-            </td>
-            <td>
-             semantically meaningful notebooks
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-11-NOA.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             11
-            </td>
-            <td>
-             NOA
-            </td>
-            <td>
-             2024-03-11
-            </td>
-            <td>
-             {'cells': [{'attachments': {'8ea12e8f-45e6-4ea...
-            </td>
-            <td>
-             Astronomy Notebooks for All
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-06-mast-revisit.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             06
-            </td>
-            <td>
-             mast-revisit
-            </td>
-            <td>
-             2024-03-06
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '55...
-            </td>
-            <td>
-             revisit building the mast notebooks
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-traceback-figure-tables.ipynb.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             05
-            </td>
-            <td>
-             traceback-figure-tables.ipynb
-            </td>
-            <td>
-             2024-03-05
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '93...
-            </td>
-            <td>
-             using tables to structure tracebacks
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-astropy-table-repr.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             05
-            </td>
-            <td>
-             astropy-table-repr
-            </td>
-            <td>
-             2024-03-05
-            </td>
-            <td>
-             {'cells': [{'attachments': {'edb162e8-136d-437...
-            </td>
-            <td>
-             astropy tables as semantic tables
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-04-semantic-outputs.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             04
-            </td>
-            <td>
-             semantic-outputs
-            </td>
-            <td>
-             2024-03-04
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '25...
-            </td>
-            <td>
-             improved output semantic for python objects
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             01
-            </td>
-            <td>
-             a11y-list-string.ipynb
-            </td>
-            <td>
-             2024-03-01
-            </td>
-            <td>
-             {'cells': [{'attachments': {'931392ee-8c73-455...
-            </td>
-            <td>
-             using microdata and semantic html to represent...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-notebook-accessibility-workshop.ipynb
-            </th>
-            <td>
-             2024
-            </td>
-            <td>
-             03
-            </td>
-            <td>
-             01
-            </td>
-            <td>
-             notebook-accessibility-workshop
-            </td>
-            <td>
-             2024-03-01
-            </td>
-            <td>
-             {'cells': [{'cell_type': 'markdown', 'id': '34...
-            </td>
-            <td>
-             notebooks and accessibility workshop
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              year
+             </th>
+             <th>
+              month
+             </th>
+             <th>
+              day
+             </th>
+             <th>
+              slug
+             </th>
+             <th>
+              date
+             </th>
+             <th>
+              nb
+             </th>
+             <th>
+              title
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-15-screen-tests.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              15
+             </td>
+             <td>
+              screen-tests
+             </td>
+             <td>
+              2024-03-15
+             </td>
+             <td>
+              {'cells': [{'attachments': {}, 'cell_type': 'm...
+             </td>
+             <td>
+              revisiting nbviewer/nbconvert screen reader ex...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-13-notebooks-for-all-march-call.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              13
+             </td>
+             <td>
+              notebooks-for-all-march-call
+             </td>
+             <td>
+              2024-03-13
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '11...
+             </td>
+             <td>
+              notebooks for all community summary
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-12-nbconvert-a11y-pres.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              12
+             </td>
+             <td>
+              nbconvert-a11y-pres
+             </td>
+             <td>
+              2024-03-12
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '39...
+             </td>
+             <td>
+              semantically meaningful notebooks
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-11-NOA.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              11
+             </td>
+             <td>
+              NOA
+             </td>
+             <td>
+              2024-03-11
+             </td>
+             <td>
+              {'cells': [{'attachments': {'8ea12e8f-45e6-4ea...
+             </td>
+             <td>
+              Astronomy Notebooks for All
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-06-mast-revisit.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              06
+             </td>
+             <td>
+              mast-revisit
+             </td>
+             <td>
+              2024-03-06
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '55...
+             </td>
+             <td>
+              revisit building the mast notebooks
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-traceback-figure-tables.ipynb.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              05
+             </td>
+             <td>
+              traceback-figure-tables.ipynb
+             </td>
+             <td>
+              2024-03-05
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '93...
+             </td>
+             <td>
+              using tables to structure tracebacks
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-05-astropy-table-repr.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              05
+             </td>
+             <td>
+              astropy-table-repr
+             </td>
+             <td>
+              2024-03-05
+             </td>
+             <td>
+              {'cells': [{'attachments': {'edb162e8-136d-437...
+             </td>
+             <td>
+              astropy tables as semantic tables
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-04-semantic-outputs.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              04
+             </td>
+             <td>
+              semantic-outputs
+             </td>
+             <td>
+              2024-03-04
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '25...
+             </td>
+             <td>
+              improved output semantic for python objects
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-a11y-list-string.ipynb.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              01
+             </td>
+             <td>
+              a11y-list-string.ipynb
+             </td>
+             <td>
+              2024-03-01
+             </td>
+             <td>
+              {'cells': [{'attachments': {'931392ee-8c73-455...
+             </td>
+             <td>
+              using microdata and semantic html to represent...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              /home/tbone/Documents/tonyfast/tonyfast/xxiv/2024-03-01-notebook-accessibility-workshop.ipynb
+             </th>
+             <td>
+              2024
+             </td>
+             <td>
+              03
+             </td>
+             <td>
+              01
+             </td>
+             <td>
+              notebook-accessibility-workshop
+             </td>
+             <td>
+              2024-03-01
+             </td>
+             <td>
+              {'cells': [{'cell_type': 'markdown', 'id': '34...
+             </td>
+             <td>
+              notebooks and accessibility workshop
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -5202,7 +5234,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-27-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" form="cell-27" id="cell-27-source" name="source" readonly rows="3">    df = df.assign(title=h.groupby(h.index.get_level_values("file")).apply(
+       <textarea aria-labelledby="cell-27-in-label cell-27-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-27" id="cell-27-source" name="source" readonly rows="3">    df = df.assign(title=h.groupby(h.index.get_level_values("file")).apply(
         lambda s: s.sort_values("level").string.iloc[0]
     ).rename("title"))</textarea>
        <div aria-labelledby="cell-27-in-label cell-27-exec-label" aria-roledescription="highlighted" role="group">
@@ -5251,6 +5283,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5301,7 +5335,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-28-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" form="cell-28" id="cell-28-source" name="source" readonly rows="3">    df = df.assign(description=html.soup.methodcaller("select_one", "p").dropna().attrgetter("text").groupby(
+       <textarea aria-labelledby="cell-28-in-label cell-28-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-28" id="cell-28-source" name="source" readonly rows="3">    df = df.assign(description=html.soup.methodcaller("select_one", "p").dropna().attrgetter("text").groupby(
         "file"
     ).apply(lambda x: x.sort_index().iloc[0]).rename("description").reindex(df.index))</textarea>
        <div aria-labelledby="cell-28-in-label cell-28-exec-label" aria-roledescription="highlighted" role="group">
@@ -5350,6 +5384,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5400,7 +5436,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-29-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" form="cell-29" id="cell-29-source" name="source" readonly rows="6">    df.apply(
+       <textarea aria-labelledby="cell-29-in-label cell-29-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-29" id="cell-29-source" name="source" readonly rows="6">    df.apply(
         lambda x: (
             x.title and x.loc["nb"].metadata.setdefault("title", x.title),
             x.description and x.loc["nb"].metadata.setdefault("description", x.description)
@@ -5455,6 +5491,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5504,7 +5542,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-30-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-30-in-label cell-30-exec-label nb-source-label" class="nb-source" form="cell-30" id="cell-30-source" name="source" readonly rows="1">make a table of contents `details &gt; nav &gt; ol` for a dataframe</textarea>
+       <textarea aria-labelledby="cell-30-in-label cell-30-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-30" id="cell-30-source" name="source" readonly rows="1">make a table of contents `details &gt; nav &gt; ol` for a dataframe</textarea>
        <div aria-labelledby="cell-30-in-label cell-30-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>make a table of contents <span class="sb">`details &gt; nav &gt; ol`</span> for a dataframe
@@ -5587,7 +5625,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-31-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-31-in-label cell-31-exec-label nb-source-label" class="nb-source" form="cell-31" id="cell-31-source" name="source" readonly rows="23">    def make_toc(df):        
+       <textarea aria-labelledby="cell-31-in-label cell-31-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-31" id="cell-31-source" name="source" readonly rows="23">    def make_toc(df):        
         toc = bs4.BeautifulSoup(features="lxml")
         toc.append(nav := toc.new_tag("nav"))
         nav.append(ol := toc.new_tag("ol"))
@@ -5676,6 +5714,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5725,7 +5765,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-32-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-32-in-label cell-32-exec-label nb-source-label" class="nb-source" form="cell-32" id="cell-32-source" name="source" readonly rows="1">generate the table of contents for each file we have indexed</textarea>
+       <textarea aria-labelledby="cell-32-in-label cell-32-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-32" id="cell-32-source" name="source" readonly rows="1">generate the table of contents for each file we have indexed</textarea>
        <div aria-labelledby="cell-32-in-label cell-32-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>generate the table of contents for each file we have indexed
@@ -5804,7 +5844,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-33-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-33-in-label cell-33-exec-label nb-source-label" class="nb-source" form="cell-33" id="cell-33-source" name="source" readonly rows="1">    df = df.assign(toc=h.groupby(h.index.get_level_values("file")).apply(make_toc).apply(str))</textarea>
+       <textarea aria-labelledby="cell-33-in-label cell-33-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-33" id="cell-33-source" name="source" readonly rows="1">    df = df.assign(toc=h.groupby(h.index.get_level_values("file")).apply(make_toc).apply(str))</textarea>
        <div aria-labelledby="cell-33-in-label cell-33-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">toc</span><span class="o">=</span><span class="n">h</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">h</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="s2">"file"</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">make_toc</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span>
@@ -5849,6 +5889,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5898,7 +5940,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-34-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-34-in-label cell-34-exec-label nb-source-label" class="nb-source" form="cell-34" id="cell-34-source" name="source" readonly rows="1">determine the location of the html version of the file.</textarea>
+       <textarea aria-labelledby="cell-34-in-label cell-34-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-34" id="cell-34-source" name="source" readonly rows="1">determine the location of the html version of the file.</textarea>
        <div aria-labelledby="cell-34-in-label cell-34-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>determine the location of the html version of the file.
@@ -5977,7 +6019,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-35-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-35-in-label cell-35-exec-label nb-source-label" class="nb-source" form="cell-35" id="cell-35-source" name="source" readonly rows="3">    df = df.assign(target=(await (
+       <textarea aria-labelledby="cell-35-in-label cell-35-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-35" id="cell-35-source" name="source" readonly rows="3">    df = df.assign(target=(await (
         Config.target / df.index.apath.relative_to(Config.dir)
     ).apath().apath.with_suffix(".html").apath.absolute()).values)</textarea>
        <div aria-labelledby="cell-35-in-label cell-35-exec-label" aria-roledescription="highlighted" role="group">
@@ -6026,6 +6068,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6076,7 +6120,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-36-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-36-in-label cell-36-exec-label nb-source-label" class="nb-source" form="cell-36" id="cell-36-source" name="source" readonly rows="3">    df = df.assign(**pandas.DataFrame([
+       <textarea aria-labelledby="cell-36-in-label cell-36-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-36" id="cell-36-source" name="source" readonly rows="3">    df = df.assign(**pandas.DataFrame([
             [None] + df.index.values[:-1].tolist(), df.index.values, df.index.values[1:].tolist() + [None]
     ], index=["prev", "file", "next"]).T.set_index("file"))</textarea>
        <div aria-labelledby="cell-36-in-label cell-36-exec-label" aria-roledescription="highlighted" role="group">
@@ -6125,6 +6169,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6175,7 +6221,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-37-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-37-in-label cell-37-exec-label nb-source-label" class="nb-source" form="cell-37" id="cell-37-source" name="source" readonly rows="11">    def relative_path(source, target):
+       <textarea aria-labelledby="cell-37-in-label cell-37-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-37" id="cell-37-source" name="source" readonly rows="11">    def relative_path(source, target):
         """compute a relative path from source to target"""
         if target:
             common = []
@@ -6240,6 +6286,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6289,7 +6337,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-38-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-38-in-label cell-38-exec-label nb-source-label" class="nb-source" form="cell-38" id="cell-38-source" name="source" readonly rows="1">generate the footer that contains the previous and next links </textarea>
+       <textarea aria-labelledby="cell-38-in-label cell-38-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-38" id="cell-38-source" name="source" readonly rows="1">generate the footer that contains the previous and next links </textarea>
        <div aria-labelledby="cell-38-in-label cell-38-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>generate the footer that contains the previous and next links 
@@ -6368,7 +6416,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-39-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-39-in-label cell-39-exec-label nb-source-label" class="nb-source" form="cell-39" id="cell-39-source" name="source" readonly rows="7">    df = df.assign(
+       <textarea aria-labelledby="cell-39-in-label cell-39-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-39" id="cell-39-source" name="source" readonly rows="7">    df = df.assign(
         footer = df.apply(
                 lambda s: (s.prev and F"""&lt;a href="{relative_path(s.target, df.loc[s.prev].target)}" rel="prev&gt;&lt;span aria-hidden=" true"=""&gt;&lt;{df.loc[s.prev].title}&lt;/a&gt;&lt;br/&gt;""" or "")
                 + (s.next and F"""&lt;a href="{relative_path(s.target, df.loc[s.next].target)}" rel="next"&gt;{df.loc[s.next].title} &lt;span aria-hidden="true"&gt;&gt;&lt;/span&gt;&lt;/a&gt;&lt;br/&gt;""" or ""),
@@ -6425,6 +6473,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6475,7 +6525,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-40-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-40-in-label cell-40-exec-label nb-source-label" class="nb-source" form="cell-40" id="cell-40-source" name="source" readonly rows="2">    me = """&lt;p&gt;&lt;a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank"&gt;@tonyfast&lt;/a&gt;s notebooks&lt;/p&gt;"""</textarea>
+       <textarea aria-labelledby="cell-40-in-label cell-40-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-40" id="cell-40-source" name="source" readonly rows="2">    me = """&lt;p&gt;&lt;a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank"&gt;@tonyfast&lt;/a&gt;s notebooks&lt;/p&gt;"""</textarea>
        <div aria-labelledby="cell-40-in-label cell-40-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">me</span> <span class="o">=</span> <span class="s2">"""&lt;p&gt;&lt;a href="https://github.com/tonyfast" rel="me" style="font-size: bigger;"</span>
@@ -6521,6 +6571,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6571,7 +6623,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-41-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-41-in-label cell-41-exec-label nb-source-label" class="nb-source" form="cell-41" id="cell-41-source" name="source" readonly rows="7">    df = df.assign(
+       <textarea aria-labelledby="cell-41-in-label cell-41-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-41" id="cell-41-source" name="source" readonly rows="7">    df = df.assign(
         header = df.apply(
         lambda s: me + "&lt;details&gt;&lt;summary&gt;site navigation&lt;/summary&gt;&lt;nav&gt;&lt;ol&gt;%s&lt;/ol&gt;&lt;/nav&gt;&lt;/details&gt;"% "".join(
             F"""&lt;li&gt;&lt;a href="{relative_path(s.target, t.target)}"&gt;{t.title}&lt;/a&gt;&lt;/li&gt;"""
@@ -6628,6 +6680,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6678,7 +6732,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-42-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-42-in-label cell-42-exec-label nb-source-label" class="nb-source" form="cell-42" id="cell-42-source" name="source" readonly rows="2">    await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
+       <textarea aria-labelledby="cell-42-in-label cell-42-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-42" id="cell-42-source" name="source" readonly rows="2">    await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
     </textarea>
        <div aria-labelledby="cell-42-in-label cell-42-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -6725,6 +6779,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6775,7 +6831,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-43-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-43-in-label cell-43-exec-label nb-source-label" class="nb-source" form="cell-43" id="cell-43-source" name="source" readonly rows="2">    df["html"] = await df[["nb"]].apply(
+       <textarea aria-labelledby="cell-43-in-label cell-43-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-43" id="cell-43-source" name="source" readonly rows="2">    df["html"] = await df[["nb"]].apply(
         lambda s: from_notebook_node(s["nb"], dict(toc=df.toc.loc[s.name], footer=df.loc[s.name].footer, header=df.loc[s.name].header)), axis=1).gather()</textarea>
        <div aria-labelledby="cell-43-in-label cell-43-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -6822,6 +6878,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6872,7 +6930,7 @@ adding description to the meta is good for accessibility when choosing tabs.
       <td class="nb-end" hidden id="cell-44-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-44-in-label cell-44-exec-label nb-source-label" class="nb-source" form="cell-44" id="cell-44-source" name="source" readonly rows="9">    if 0 or FILE:
+       <textarea aria-labelledby="cell-44-in-label cell-44-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-44" id="cell-44-source" name="source" readonly rows="9">    if 0 or FILE:
         await df.target.apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);
         await df.apply(
             lambda s: print(F"""writing {s.target.as_uri()}""") or s.target.write_text(str(s.loc["html"])), axis=1
@@ -6933,7 +6991,8 @@ adding description to the meta is good for accessibility when choosing tabs.
           ]
          </span>
         </legend>
-        <iframe height="600" srcdoc="&lt;!DOCTYPE html&gt;
+        <div>
+         <iframe height="600" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
  &lt;head&gt;
   &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -9668,7 +9727,7 @@ setStyle(&quot;initialize saved settings.&quot;)
  &lt;/body&gt;
 &lt;/html&gt;
 " width="100%/">
-         &lt;iframe height="600" srcdoc="&amp;lt;!DOCTYPE html&amp;gt;
+          &lt;iframe height="600" srcdoc="&amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
  &amp;lt;head&amp;gt;
   &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
@@ -12476,7 +12535,8 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
  &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
 " width="100%/"&gt;
-        </iframe>
+         </iframe>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -12527,7 +12587,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       <td class="nb-end" hidden id="cell-45-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-45-in-label cell-45-exec-label nb-source-label" class="nb-source" form="cell-45" id="cell-45-source" name="source" readonly rows="5">    readmes = df.groupby(df.target.apath.parent / "index.html").apply(
+       <textarea aria-labelledby="cell-45-in-label cell-45-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-45" id="cell-45-source" name="source" readonly rows="5">    readmes = df.groupby(df.target.apath.parent / "index.html").apply(
         (top_toc := lambda x: x.apply(
           lambda y: F"""&lt;li&gt;&lt;a href="{relative_path(y.target.parent / " index.html",="" y.target)}"=""&gt;{y.loc["title"]}&lt;/a&gt;&lt;/li&gt;""", axis=1
         ).pipe(lambda df: "&lt;nav&gt;&lt;ul&gt;{}&lt;/ul&gt;&lt;/nav&gt;".format("".join(df.values))))
@@ -12580,6 +12640,8 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -12630,7 +12692,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       <td class="nb-end" hidden id="cell-46-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-46-in-label cell-46-exec-label nb-source-label" class="nb-source" form="cell-46" id="cell-46-source" name="source" readonly rows="1">    readmes = readmes.assign(target=Config.target / readmes.index.apath.relative_to(Config.dir))</textarea>
+       <textarea aria-labelledby="cell-46-in-label cell-46-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-46" id="cell-46-source" name="source" readonly rows="1">    readmes = readmes.assign(target=Config.target / readmes.index.apath.relative_to(Config.dir))</textarea>
        <div aria-labelledby="cell-46-in-label cell-46-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">readmes</span> <span class="o">=</span> <span class="n">readmes</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">target</span> <span class="o">/</span> <span class="n">readmes</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">apath</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">Config</span><span class="o">.</span><span class="n">dir</span><span class="p">))</span>
@@ -12675,6 +12737,8 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -12725,7 +12789,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       <td class="nb-end" hidden id="cell-47-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-47-in-label cell-47-exec-label nb-source-label" class="nb-source" form="cell-47" id="cell-47-source" name="source" readonly rows="1">    await readmes.target.apath().apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);</textarea>
+       <textarea aria-labelledby="cell-47-in-label cell-47-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-47" id="cell-47-source" name="source" readonly rows="1">    await readmes.target.apath().apath.parent.drop_duplicates().apath.mkdir(exist_ok=True, parents=True);</textarea>
        <div aria-labelledby="cell-47-in-label cell-47-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="k">await</span> <span class="n">readmes</span><span class="o">.</span><span class="n">target</span><span class="o">.</span><span class="n">apath</span><span class="p">()</span><span class="o">.</span><span class="n">apath</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">apath</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">);</span>
@@ -12770,6 +12834,8 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -12820,7 +12886,7 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
       <td class="nb-end" hidden id="cell-48-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-48-in-label cell-48-exec-label nb-source-label" class="nb-source" form="cell-48" id="cell-48-source" name="source" readonly rows="27">    content = readmes.nb.apply(
+       <textarea aria-labelledby="cell-48-in-label cell-48-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-48" id="cell-48-source" name="source" readonly rows="27">    content = readmes.nb.apply(
         from_notebook_node, exporter=(
             toc_exporter := nbconvert.get_exporter("a11y")(
                 exclude_input_prompt=True, 
@@ -12917,7 +12983,8 @@ setStyle(&amp;quot;initialize saved settings.&amp;quot;)
           ]
          </span>
         </legend>
-        <iframe height="600" srcdoc="&lt;!DOCTYPE html&gt;
+        <div>
+         <iframe height="600" srcdoc="&lt;!DOCTYPE html&gt;
 &lt;html lang=&quot;en&quot;&gt;
  &lt;head&gt;
   &lt;meta charset=&quot;utf-8&quot;&gt;
@@ -14300,7 +14367,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
  &lt;/body&gt;
 &lt;/html&gt;
 " width="100%/">
-         &lt;iframe height="600" srcdoc="&amp;lt;!DOCTYPE html&amp;gt;
+          &lt;iframe height="600" srcdoc="&amp;lt;!DOCTYPE html&amp;gt;
 &amp;lt;html lang=&amp;quot;en&amp;quot;&amp;gt;
  &amp;lt;head&amp;gt;
   &amp;lt;meta charset=&amp;quot;utf-8&amp;quot;&amp;gt;
@@ -15683,7 +15750,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
  &amp;lt;/body&amp;gt;
 &amp;lt;/html&amp;gt;
 " width="100%/"&gt;
-        </iframe>
+         </iframe>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -15734,7 +15802,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <td class="nb-end" hidden id="cell-49-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-49-in-label cell-49-exec-label nb-source-label" class="nb-source" form="cell-49" id="cell-49-source" name="source" readonly rows="0"></textarea>
+       <textarea aria-labelledby="cell-49-in-label cell-49-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-49" id="cell-49-source" name="source" readonly rows="0"></textarea>
        <div aria-labelledby="cell-49-in-label cell-49-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>
@@ -15776,6 +15844,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -15783,8 +15853,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
    </table>
   </main>
   <footer>
-   <a href="2024-02-26-bash-midgy.html" rel="prev&gt;&lt;span aria-hidden=" true">
-    &lt;adding shell and css fence directives to midgy
+   <a href="2024-02-26-lunr-search.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;creating accessible search
    </a>
    <br>
    <a href="2024-02-20-multiindex-html.html" rel="next">
@@ -16878,6 +16948,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

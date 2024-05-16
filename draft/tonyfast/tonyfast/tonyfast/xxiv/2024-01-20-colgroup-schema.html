@@ -932,13 +932,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -967,13 +967,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1112,13 +1112,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1147,13 +1147,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1192,13 +1192,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1287,13 +1287,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1456,34 +1456,34 @@ that allow for bulk operations on column styles.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1563,7 +1563,7 @@ that allow for bulk operations on column styles.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="5"># semantic representation of columns based on schema
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="5"># semantic representation of columns based on schema
 
 schema may define the columnar properties of a table.
 that can be canonically presented using the `colgroup` and `col` elements
@@ -1665,7 +1665,7 @@ that allow for bulk operations on column styles.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="15">make a schema with subschema
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="15">make a schema with subschema
 
     (schema := tomli.loads("".join(
 
@@ -1738,15 +1738,16 @@ that allow for bulk operations on column styles.
           ]
          </span>
         </legend>
-        <pre class="plain">{'allOf': [{'$ref': '#/$defs/A'}, {'$ref': '#/$defs/B'}],
+        <div>
+         <pre class="plain">{'allOf': [{'$ref': '#/$defs/A'}, {'$ref': '#/$defs/B'}],
  '$defs': {'A': {'properties': {'foo': {}, 'bar': {}}},
   'B': {'properties': {'baz': {}}}}}</pre>
-        <p>
-         make a schema with subschema
-        </p>
-        <pre><code>(schema := tomli.loads("".join(
+         <p>
+          make a schema with subschema
+         </p>
+         <pre><code>(schema := tomli.loads("".join(
 </code></pre>
-        <pre><code class="toml"><div class="highlight"><pre><span></span><code><span class="k">[[allOf]]</span>
+         <pre><code class="toml"><div class="highlight"><pre><span></span><code><span class="k">[[allOf]]</span>
 <span class="s2">"$ref"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#/$defs/A"</span>
 <span class="k">[[allOf]]</span>
 <span class="s2">"$ref"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"#/$defs/B"</span>
@@ -1755,8 +1756,9 @@ that allow for bulk operations on column styles.
 <span class="k">[</span><span class="s2">"$defs"</span><span class="k">.B.properties.baz]</span>
 </code></pre></div>
 </code></pre>
-        <pre><code>.splitlines(1)[1:-1])))
+         <pre><code>.splitlines(1)[1:-1])))
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1807,7 +1809,7 @@ that allow for bulk operations on column styles.
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="22">the form we create uses `colgroup` and `col` elements as demonstrated next
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="22">the form we create uses `colgroup` and `col` elements as demonstrated next
 
 ```html
 {{table.prettify()}}
@@ -1894,18 +1896,19 @@ and it is generated directly from schema using the following code generate examp
           ]
          </span>
         </legend>
-        <p>
-         the form we create uses
-         <code>
-          colgroup
-         </code>
-         and
-         <code>
-          col
-         </code>
-         elements as demonstrated next
-        </p>
-        <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
+        <div>
+         <p>
+          the form we create uses
+          <code>
+           colgroup
+          </code>
+          and
+          <code>
+           col
+          </code>
+          elements as demonstrated next
+         </p>
+         <pre><code class="html"><div class="highlight"><pre><span></span><code><span class="p">&lt;</span><span class="nt">table</span><span class="p">&gt;</span>
  <span class="p">&lt;</span><span class="nt">colgroup</span><span class="p">&gt;</span>
   <span class="p">&lt;</span><span class="nt">col</span> <span class="na">id</span><span class="o">=</span><span class="s">"/$defs/A"</span> <span class="na">span</span><span class="o">=</span><span class="s">"2"</span><span class="p">/&gt;</span>
   <span class="p">&lt;</span><span class="nt">col</span> <span class="na">id</span><span class="o">=</span><span class="s">"/$defs/B"</span> <span class="na">span</span><span class="o">=</span><span class="s">"1"</span><span class="p">/&gt;</span>
@@ -1918,18 +1921,18 @@ and it is generated directly from schema using the following code generate examp
 <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
 </code></pre></div>
 </code></pre>
-        <p>
-         and it is generated directly from schema using the following code generate example
-         <code>
-          colgroup
-         </code>
-         and
-         <code>
-          col
-         </code>
-         elements
-        </p>
-        <pre><code>import bs4, jsonpointer
+         <p>
+          and it is generated directly from schema using the following code generate example
+          <code>
+           colgroup
+          </code>
+          and
+          <code>
+           col
+          </code>
+          elements
+         </p>
+         <pre><code>import bs4, jsonpointer
 soup = bs4.BeautifulSoup(features="html5lib")
 soup.append(table := soup.new_tag("table"))
 table.append(colgroup := soup.new_tag("colgroup"))
@@ -1943,6 +1946,7 @@ for s in schema["allOf"]:
         props.append(x := soup.new_tag("col"))
         x.attrs.update(id=jsonpointer.JsonPointer.from_parts(ref.split("/")[1:] + ["properties", k]))
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3045,6 +3049,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

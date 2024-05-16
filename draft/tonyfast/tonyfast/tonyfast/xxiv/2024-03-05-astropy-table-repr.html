@@ -931,13 +931,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -966,13 +966,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1111,13 +1111,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1146,13 +1146,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1191,13 +1191,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1286,13 +1286,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1454,34 +1454,34 @@ we reuse our accessible table repr on the pandas version of the table. with this
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1561,7 +1561,7 @@ we reuse our accessible table repr on the pandas version of the table. with this
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># astropy tables as semantic tables
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># astropy tables as semantic tables
 
 astropy tables carry a lot of information. the default representation violates html standards.
 we reuse our accessible table repr on the pandas version of the table. with this installed, astropy tables are accessible.
@@ -1659,7 +1659,7 @@ we reuse our accessible table repr on the pandas version of the table. with this
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="8">%matplotlib inline
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="8">%matplotlib inline
 import astropy
 from astropy.coordinates import SkyCoord
 from astroquery.mast import Observations
@@ -1718,8 +1718,9 @@ from nbconvert_a11y.outputs import BeautifulSoup
           ]
          </span>
         </legend>
-        <style>
-         /* css to accompany the semantic outputs.py
+        <div>
+         <style>
+          /* css to accompany the semantic outputs.py
 
 these styles make the semantic html appear like python styled reprs.
 prettifying python combines content and style, but with html
@@ -1883,7 +1884,8 @@ table[itemtype$=ndarray] {
 .jp-RenderedHTMLCommon tr {
     padding: unset;
 }
-        </style>
+         </style>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1933,7 +1935,7 @@ table[itemtype$=ndarray] {
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="1">Below are the helper functions we will call for plotting purposes later in the notebook.</textarea>
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="1">Below are the helper functions we will call for plotting purposes later in the notebook.</textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>Below are the helper functions we will call for plotting purposes later in the notebook.
@@ -2012,7 +2014,7 @@ table[itemtype$=ndarray] {
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="9"># We will pass in the coordinates as a Sky Coord object
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="9"># We will pass in the coordinates as a Sky Coord object
 coordinates = SkyCoord(289.0979, -29.3370, unit="deg")
 
 obs = Observations.query_criteria(coordinates=coordinates,
@@ -2074,338 +2076,340 @@ obs</textarea>
          </span>
         </legend>
         <div>
-         <i>
-          Table masked=True length=1
-         </i>
-         <table class="table-striped table-bordered table-condensed" id="table139835922942192">
-          <thead>
-           <tr>
-            <th>
-             intentType
-            </th>
-            <th>
-             obs_collection
-            </th>
-            <th>
-             provenance_name
-            </th>
-            <th>
-             instrument_name
-            </th>
-            <th>
-             project
-            </th>
-            <th>
-             filters
-            </th>
-            <th>
-             wavelength_region
-            </th>
-            <th>
-             target_name
-            </th>
-            <th>
-             target_classification
-            </th>
-            <th>
-             obs_id
-            </th>
-            <th>
-             s_ra
-            </th>
-            <th>
-             s_dec
-            </th>
-            <th>
-             dataproduct_type
-            </th>
-            <th>
-             proposal_pi
-            </th>
-            <th>
-             calib_level
-            </th>
-            <th>
-             t_min
-            </th>
-            <th>
-             t_max
-            </th>
-            <th>
-             t_exptime
-            </th>
-            <th>
-             em_min
-            </th>
-            <th>
-             em_max
-            </th>
-            <th>
-             obs_title
-            </th>
-            <th>
-             t_obs_release
-            </th>
-            <th>
-             proposal_id
-            </th>
-            <th>
-             proposal_type
-            </th>
-            <th>
-             sequence_number
-            </th>
-            <th>
-             s_region
-            </th>
-            <th>
-             jpegURL
-            </th>
-            <th>
-             dataURL
-            </th>
-            <th>
-             dataRights
-            </th>
-            <th>
-             mtFlag
-            </th>
-            <th>
-             srcDen
-            </th>
-            <th>
-             obsid
-            </th>
-            <th>
-             objID
-            </th>
-            <th>
-             objID1
-            </th>
-            <th>
-             distance
-            </th>
-           </tr>
-          </thead>
-          <thead>
-           <tr>
-            <th>
-             str7
-            </th>
-            <th>
-             str4
-            </th>
-            <th>
-             str4
-            </th>
-            <th>
-             str10
-            </th>
-            <th>
-             str4
-            </th>
-            <th>
-             str4
-            </th>
-            <th>
-             str7
-            </th>
-            <th>
-             str8
-            </th>
-            <th>
-             str1
-            </th>
-            <th>
-             str25
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             str5
-            </th>
-            <th>
-             str17
-            </th>
-            <th>
-             int64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             str1
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             str3
-            </th>
-            <th>
-             str1
-            </th>
-            <th>
-             int64
-            </th>
-            <th>
-             str117
-            </th>
-            <th>
-             str1
-            </th>
-            <th>
-             str1
-            </th>
-            <th>
-             str6
-            </th>
-            <th>
-             bool
-            </th>
-            <th>
-             float64
-            </th>
-            <th>
-             str8
-            </th>
-            <th>
-             str9
-            </th>
-            <th>
-             str9
-            </th>
-            <th>
-             float64
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <td>
-             science
-            </td>
-            <td>
-             HLSP
-            </td>
-            <td>
-             TICA
-            </td>
-            <td>
-             Photometer
-            </td>
-            <td>
-             TESS
-            </td>
-            <td>
-             TESS
-            </td>
-            <td>
-             Optical
-            </td>
-            <td>
-             TICA FFI
-            </td>
-            <td>
-             --
-            </td>
-            <td>
-             hlsp_tica_s0027-cam1-ccd4
-            </td>
-            <td>
-             292.5180823224232
-            </td>
-            <td>
-             -33.62274382166828
-            </td>
-            <td>
-             image
-            </td>
-            <td>
-             Michael Fausnaugh
-            </td>
-            <td>
-             3
-            </td>
-            <td>
-             59035.77807636512
-            </td>
-            <td>
-             59060.13917620387
-            </td>
-            <td>
-             475.2
-            </td>
-            <td>
-             600.0
-            </td>
-            <td>
-             1000.0
-            </td>
-            <td>
-             --
-            </td>
-            <td>
-             59246.0
-            </td>
-            <td>
-             N/A
-            </td>
-            <td>
-             --
-            </td>
-            <td>
-             27
-            </td>
-            <td>
-             POLYGON 298.489297 -26.919235 301.396094 -38.579035 285.694884 -40.219585 285.275975 -28.732615 298.489297 -26.919235
-            </td>
-            <td>
-             --
-            </td>
-            <td>
-             --
-            </td>
-            <td>
-             PUBLIC
-            </td>
-            <td>
-             False
-            </td>
-            <td>
-             nan
-            </td>
-            <td>
-             96814766
-            </td>
-            <td>
-             185636258
-            </td>
-            <td>
-             185636258
-            </td>
-            <td>
-             0.0
-            </td>
-           </tr>
-          </tbody>
-         </table>
+         <div>
+          <i>
+           Table masked=True length=1
+          </i>
+          <table class="table-striped table-bordered table-condensed" id="table139835922942192">
+           <thead>
+            <tr>
+             <th>
+              intentType
+             </th>
+             <th>
+              obs_collection
+             </th>
+             <th>
+              provenance_name
+             </th>
+             <th>
+              instrument_name
+             </th>
+             <th>
+              project
+             </th>
+             <th>
+              filters
+             </th>
+             <th>
+              wavelength_region
+             </th>
+             <th>
+              target_name
+             </th>
+             <th>
+              target_classification
+             </th>
+             <th>
+              obs_id
+             </th>
+             <th>
+              s_ra
+             </th>
+             <th>
+              s_dec
+             </th>
+             <th>
+              dataproduct_type
+             </th>
+             <th>
+              proposal_pi
+             </th>
+             <th>
+              calib_level
+             </th>
+             <th>
+              t_min
+             </th>
+             <th>
+              t_max
+             </th>
+             <th>
+              t_exptime
+             </th>
+             <th>
+              em_min
+             </th>
+             <th>
+              em_max
+             </th>
+             <th>
+              obs_title
+             </th>
+             <th>
+              t_obs_release
+             </th>
+             <th>
+              proposal_id
+             </th>
+             <th>
+              proposal_type
+             </th>
+             <th>
+              sequence_number
+             </th>
+             <th>
+              s_region
+             </th>
+             <th>
+              jpegURL
+             </th>
+             <th>
+              dataURL
+             </th>
+             <th>
+              dataRights
+             </th>
+             <th>
+              mtFlag
+             </th>
+             <th>
+              srcDen
+             </th>
+             <th>
+              obsid
+             </th>
+             <th>
+              objID
+             </th>
+             <th>
+              objID1
+             </th>
+             <th>
+              distance
+             </th>
+            </tr>
+           </thead>
+           <thead>
+            <tr>
+             <th>
+              str7
+             </th>
+             <th>
+              str4
+             </th>
+             <th>
+              str4
+             </th>
+             <th>
+              str10
+             </th>
+             <th>
+              str4
+             </th>
+             <th>
+              str4
+             </th>
+             <th>
+              str7
+             </th>
+             <th>
+              str8
+             </th>
+             <th>
+              str1
+             </th>
+             <th>
+              str25
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              str5
+             </th>
+             <th>
+              str17
+             </th>
+             <th>
+              int64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              str1
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              str3
+             </th>
+             <th>
+              str1
+             </th>
+             <th>
+              int64
+             </th>
+             <th>
+              str117
+             </th>
+             <th>
+              str1
+             </th>
+             <th>
+              str1
+             </th>
+             <th>
+              str6
+             </th>
+             <th>
+              bool
+             </th>
+             <th>
+              float64
+             </th>
+             <th>
+              str8
+             </th>
+             <th>
+              str9
+             </th>
+             <th>
+              str9
+             </th>
+             <th>
+              float64
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <td>
+              science
+             </td>
+             <td>
+              HLSP
+             </td>
+             <td>
+              TICA
+             </td>
+             <td>
+              Photometer
+             </td>
+             <td>
+              TESS
+             </td>
+             <td>
+              TESS
+             </td>
+             <td>
+              Optical
+             </td>
+             <td>
+              TICA FFI
+             </td>
+             <td>
+              --
+             </td>
+             <td>
+              hlsp_tica_s0027-cam1-ccd4
+             </td>
+             <td>
+              292.5180823224232
+             </td>
+             <td>
+              -33.62274382166828
+             </td>
+             <td>
+              image
+             </td>
+             <td>
+              Michael Fausnaugh
+             </td>
+             <td>
+              3
+             </td>
+             <td>
+              59035.77807636512
+             </td>
+             <td>
+              59060.13917620387
+             </td>
+             <td>
+              475.2
+             </td>
+             <td>
+              600.0
+             </td>
+             <td>
+              1000.0
+             </td>
+             <td>
+              --
+             </td>
+             <td>
+              59246.0
+             </td>
+             <td>
+              N/A
+             </td>
+             <td>
+              --
+             </td>
+             <td>
+              27
+             </td>
+             <td>
+              POLYGON 298.489297 -26.919235 301.396094 -38.579035 285.694884 -40.219585 285.275975 -28.732615 298.489297 -26.919235
+             </td>
+             <td>
+              --
+             </td>
+             <td>
+              --
+             </td>
+             <td>
+              PUBLIC
+             </td>
+             <td>
+              False
+             </td>
+             <td>
+              nan
+             </td>
+             <td>
+              96814766
+             </td>
+             <td>
+              185636258
+             </td>
+             <td>
+              185636258
+             </td>
+             <td>
+              0.0
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2457,7 +2461,7 @@ obs</textarea>
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="8">import astropy.table
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="8">import astropy.table
 from nbconvert_a11y.outputs import BeautifulSoup
 from nbconvert_a11y.tables import repr_semantic, get_table, SHOW_INDEX, repr_semantic_update
 @repr_semantic.register(astropy.table.Table)
@@ -2516,6 +2520,8 @@ repr_semantic_update()</textarea>
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2566,7 +2572,7 @@ repr_semantic_update()</textarea>
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">    obs</textarea>
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1">    obs</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">obs</span>
@@ -2611,216 +2617,218 @@ repr_semantic_update()</textarea>
           ]
          </span>
         </legend>
-        <table colcount="35" id="139835938018112" itemscope itemtype="astropy.table.table:Table" rowcount="2">
-         <caption>
-          Table masked=True length=1
-          <dl role="presentation">
-           <dt>
-            rows
-           </dt>
-           <dd>
-            1
-           </dd>
-           <dt>
-            columns
-           </dt>
-           <dd>
-            35
-           </dd>
-           <dt>
-            indexes
-           </dt>
-           <dd>
-            <dl role="presentation">
-             <dt>
-              rows
-             </dt>
-             <dd>
-              0
-             </dd>
-             <dt>
-              columns
-             </dt>
-             <dd>
-              1
-             </dd>
-            </dl>
-           </dd>
-          </dl>
-         </caption>
-         <tbody>
-          <tr aria-rowindex="1">
-           <th aria-colindex="2" scope="col">
-            intentType
-           </th>
-           <th aria-colindex="3" scope="col">
-            obs_collection
-           </th>
-           <th aria-colindex="4" scope="col">
-            provenance_name
-           </th>
-           <th aria-colindex="5" scope="col">
-            instrument_name
-           </th>
-           <th aria-colindex="6" scope="col">
-            project
-           </th>
-           <th aria-colindex="7" scope="col">
-            filters
-           </th>
-           <th aria-colindex="8" scope="col">
-            wavelength_region
-           </th>
-           <th aria-colindex="9" scope="col">
-            target_name
-           </th>
-           <th aria-colindex="10" scope="col">
-            target_classification
-           </th>
-           <th aria-colindex="11" scope="col">
-            obs_id
-           </th>
-           <th aria-colindex="12" aria-colspan="15">
-            hidden
-           </th>
-           <th aria-colindex="27" scope="col">
-            s_region
-           </th>
-           <th aria-colindex="28" scope="col">
-            jpegURL
-           </th>
-           <th aria-colindex="29" scope="col">
-            dataURL
-           </th>
-           <th aria-colindex="30" scope="col">
-            dataRights
-           </th>
-           <th aria-colindex="31" scope="col">
-            mtFlag
-           </th>
-           <th aria-colindex="32" scope="col">
-            srcDen
-           </th>
-           <th aria-colindex="33" scope="col">
-            obsid
-           </th>
-           <th aria-colindex="34" scope="col">
-            objID
-           </th>
-           <th aria-colindex="35" scope="col">
-            objID1
-           </th>
-           <th aria-colindex="36" scope="col">
-            distance
-           </th>
-          </tr>
-          <tr aria-rowindex="2">
-           <td aria-colindex="1">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             science
-            </samp>
-           </td>
-           <td aria-colindex="2">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             HLSP
-            </samp>
-           </td>
-           <td aria-colindex="3">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             TICA
-            </samp>
-           </td>
-           <td aria-colindex="4">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             Photometer
-            </samp>
-           </td>
-           <td aria-colindex="5">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             TESS
-            </samp>
-           </td>
-           <td aria-colindex="6">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             TESS
-            </samp>
-           </td>
-           <td aria-colindex="7">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             Optical
-            </samp>
-           </td>
-           <td aria-colindex="8">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             TICA FFI
-            </samp>
-           </td>
-           <td aria-colindex="9">
-            <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
-             nan
-            </data>
-           </td>
-           <td aria-colindex="10">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             hlsp_tica_s0027-cam1-ccd4
-            </samp>
-           </td>
-           <td aria-colindex="11" aria-colspan="15">
-            hidden
-           </td>
-           <td aria-colindex="26">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             POLYGON 298.489297 -26.919235 301.396094 -38.579035 285.694884 -40.219585 285.275975 -28.732615 298.489297 -26.919235
-            </samp>
-           </td>
-           <td aria-colindex="27">
-            <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
-             nan
-            </data>
-           </td>
-           <td aria-colindex="28">
-            <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
-             nan
-            </data>
-           </td>
-           <td aria-colindex="29">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             PUBLIC
-            </samp>
-           </td>
-           <td aria-colindex="30">
-            <data class="kc" value="false">
-             False
-            </data>
-           </td>
-           <td aria-colindex="31">
-            <data class="mf" itemscope itemtype="numpy:float64" style="--val: nan;">
-             nan
-            </data>
-           </td>
-           <td aria-colindex="32">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             96814766
-            </samp>
-           </td>
-           <td aria-colindex="33">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             185636258
-            </samp>
-           </td>
-           <td aria-colindex="34">
-            <samp class="s2" itemscope itemtype="builtins:str">
-             185636258
-            </samp>
-           </td>
-           <td aria-colindex="35">
-            <data class="mf" itemscope itemtype="numpy:float64" style="--val: 0.0;">
-             0.0
-            </data>
-           </td>
-          </tr>
-         </tbody>
-        </table>
+        <div>
+         <table colcount="35" id="139835938018112" itemscope itemtype="astropy.table.table:Table" rowcount="2">
+          <caption>
+           Table masked=True length=1
+           <dl role="presentation">
+            <dt>
+             rows
+            </dt>
+            <dd>
+             1
+            </dd>
+            <dt>
+             columns
+            </dt>
+            <dd>
+             35
+            </dd>
+            <dt>
+             indexes
+            </dt>
+            <dd>
+             <dl role="presentation">
+              <dt>
+               rows
+              </dt>
+              <dd>
+               0
+              </dd>
+              <dt>
+               columns
+              </dt>
+              <dd>
+               1
+              </dd>
+             </dl>
+            </dd>
+           </dl>
+          </caption>
+          <tbody>
+           <tr aria-rowindex="1">
+            <th aria-colindex="2" scope="col">
+             intentType
+            </th>
+            <th aria-colindex="3" scope="col">
+             obs_collection
+            </th>
+            <th aria-colindex="4" scope="col">
+             provenance_name
+            </th>
+            <th aria-colindex="5" scope="col">
+             instrument_name
+            </th>
+            <th aria-colindex="6" scope="col">
+             project
+            </th>
+            <th aria-colindex="7" scope="col">
+             filters
+            </th>
+            <th aria-colindex="8" scope="col">
+             wavelength_region
+            </th>
+            <th aria-colindex="9" scope="col">
+             target_name
+            </th>
+            <th aria-colindex="10" scope="col">
+             target_classification
+            </th>
+            <th aria-colindex="11" scope="col">
+             obs_id
+            </th>
+            <th aria-colindex="12" aria-colspan="15">
+             hidden
+            </th>
+            <th aria-colindex="27" scope="col">
+             s_region
+            </th>
+            <th aria-colindex="28" scope="col">
+             jpegURL
+            </th>
+            <th aria-colindex="29" scope="col">
+             dataURL
+            </th>
+            <th aria-colindex="30" scope="col">
+             dataRights
+            </th>
+            <th aria-colindex="31" scope="col">
+             mtFlag
+            </th>
+            <th aria-colindex="32" scope="col">
+             srcDen
+            </th>
+            <th aria-colindex="33" scope="col">
+             obsid
+            </th>
+            <th aria-colindex="34" scope="col">
+             objID
+            </th>
+            <th aria-colindex="35" scope="col">
+             objID1
+            </th>
+            <th aria-colindex="36" scope="col">
+             distance
+            </th>
+           </tr>
+           <tr aria-rowindex="2">
+            <td aria-colindex="1">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              science
+             </samp>
+            </td>
+            <td aria-colindex="2">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              HLSP
+             </samp>
+            </td>
+            <td aria-colindex="3">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              TICA
+             </samp>
+            </td>
+            <td aria-colindex="4">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              Photometer
+             </samp>
+            </td>
+            <td aria-colindex="5">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              TESS
+             </samp>
+            </td>
+            <td aria-colindex="6">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              TESS
+             </samp>
+            </td>
+            <td aria-colindex="7">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              Optical
+             </samp>
+            </td>
+            <td aria-colindex="8">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              TICA FFI
+             </samp>
+            </td>
+            <td aria-colindex="9">
+             <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
+              nan
+             </data>
+            </td>
+            <td aria-colindex="10">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              hlsp_tica_s0027-cam1-ccd4
+             </samp>
+            </td>
+            <td aria-colindex="11" aria-colspan="15">
+             hidden
+            </td>
+            <td aria-colindex="26">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              POLYGON 298.489297 -26.919235 301.396094 -38.579035 285.694884 -40.219585 285.275975 -28.732615 298.489297 -26.919235
+             </samp>
+            </td>
+            <td aria-colindex="27">
+             <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
+              nan
+             </data>
+            </td>
+            <td aria-colindex="28">
+             <data class="mf" itemscope itemtype="builtins:float" style="--val: nan;">
+              nan
+             </data>
+            </td>
+            <td aria-colindex="29">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              PUBLIC
+             </samp>
+            </td>
+            <td aria-colindex="30">
+             <data class="kc" value="false">
+              False
+             </data>
+            </td>
+            <td aria-colindex="31">
+             <data class="mf" itemscope itemtype="numpy:float64" style="--val: nan;">
+              nan
+             </data>
+            </td>
+            <td aria-colindex="32">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              96814766
+             </samp>
+            </td>
+            <td aria-colindex="33">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              185636258
+             </samp>
+            </td>
+            <td aria-colindex="34">
+             <samp class="s2" itemscope itemtype="builtins:str">
+              185636258
+             </samp>
+            </td>
+            <td aria-colindex="35">
+             <data class="mf" itemscope itemtype="numpy:float64" style="--val: 0.0;">
+              0.0
+             </data>
+            </td>
+           </tr>
+          </tbody>
+         </table>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2828,12 +2836,12 @@ repr_semantic_update()</textarea>
    </table>
   </main>
   <footer>
-   <a href="2024-03-06-mast-revisit.html" rel="prev&gt;&lt;span aria-hidden=" true">
-    &lt;revisit building the mast notebooks
+   <a href="2024-03-05-traceback-figure-tables.ipynb.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;using tables to structure tracebacks
    </a>
    <br>
-   <a href="2024-03-05-traceback-figure-tables.ipynb.html" rel="next">
-    using tables to structure tracebacks
+   <a href="2024-03-04-semantic-outputs.html" rel="next">
+    improved output semantic for python objects
     <span aria-hidden="true">
      &gt;
     </span>
@@ -3923,6 +3931,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}

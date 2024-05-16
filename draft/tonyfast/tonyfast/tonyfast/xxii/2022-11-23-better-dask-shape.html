@@ -906,13 +906,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -941,13 +941,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1086,13 +1086,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1121,13 +1121,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1166,13 +1166,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1261,13 +1261,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1446,34 +1446,34 @@ of notebooks to dask.dataframe
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1553,7 +1553,7 @@ of notebooks to dask.dataframe
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># unravel directories of notebooks with `dask`</textarea>
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="1"># unravel directories of notebooks with `dask`</textarea>
        <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gh"># unravel directories of notebooks with `dask`</span>
@@ -1633,7 +1633,7 @@ of notebooks to dask.dataframe
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="8">this is another pass at using `dask` to load notebooks with the ultimate intent to search them.
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="8">this is another pass at using `dask` to load notebooks with the ultimate intent to search them.
 in [searching-notebooks](oct/2022-10-05-dask-search.ipynb), i first approach this task with some
 keen `pandas` skills that we not so kind in the `dask` land.
 this document takes another pass at using clearer expressions to ravel a bunch
@@ -1757,7 +1757,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="3">    import pandas, json, jsonpointer, orjson, dask.dataframe; from pathlib import Path
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="3">    import pandas, json, jsonpointer, orjson, dask.dataframe; from pathlib import Path
     from toolz.curried import *
     XXX = __name__ == "__main__" and "__file__" not in locals()</textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
@@ -1806,6 +1806,8 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1855,7 +1857,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="4">## if you know the shape then define it
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="4">## if you know the shape then define it
 
 `dask` truly prefers explicit dtypes while `pandas` is more flexible.
 `meta` holds our shape information for the cells, outputs, and displays</textarea>
@@ -1956,7 +1958,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="23">    class meta: 
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="23">    class meta: 
         O = "object"
         ANY = None, O
         NB = [("cells", O), ("metadata", O), ("nbformat", int), ("nbformat_minor", int)]
@@ -2045,6 +2047,8 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2094,7 +2098,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">off to the races as we load some data from our local files.</textarea>
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1">off to the races as we load some data from our local files.</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>off to the races as we load some data from our local files.
@@ -2173,7 +2177,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    WHERE = Path("oct")</textarea>
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="1">    WHERE = Path("oct")</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">WHERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="s2">"oct"</span><span class="p">)</span>
@@ -2218,6 +2222,8 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2267,7 +2273,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="1">the files we include start and remain our index. in prior iterations, there were a few set index operations, but we don't want to be opening files to do this cause that is costly. we'll store other metadata on the dataframe as we unpack the notebook shapes.</textarea>
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="1">the files we include start and remain our index. in prior iterations, there were a few set index operations, but we don't want to be opening files to do this cause that is costly. we'll store other metadata on the dataframe as we unpack the notebook shapes.</textarea>
        <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>the files we include start and remain our index. in prior iterations, there were a few set index operations, but we don't want to be opening files to do this cause that is costly. we'll store other metadata on the dataframe as we unpack the notebook shapes.
@@ -2346,7 +2352,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="6">    def get_files(WHERE=WHERE):
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="6">    def get_files(WHERE=WHERE):
         return dask.bag.from_sequence(
             dict(file=str(x)) for x in WHERE.glob("*.ipynb")
         ).to_dataframe().set_index("file")
@@ -2402,13 +2408,14 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
          </span>
         </legend>
         <div>
-         <strong>
-          Dask DataFrame Structure:
-         </strong>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <strong>
+           Dask DataFrame Structure:
+          </strong>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -2419,50 +2426,51 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-           </tr>
-           <tr>
-            <th>
-             npartitions=20
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-06-github-open-source-stats.ipynb
-            </th>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         Dask Name: sort_index, 8 graph layers
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+            </tr>
+            <tr>
+             <th>
+              npartitions=20
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-06-github-open-source-stats.ipynb
+             </th>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          Dask Name: sort_index, 8 graph layers
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2513,7 +2521,7 @@ direct queries, export to parquet, export to sqlite, export to duckdb, arrow..
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="2">`contents` loads our files in to a dataframe containg real cell contents.
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="2">`contents` loads our files in to a dataframe containg real cell contents.
 each row is a file.</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2598,7 +2606,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    def get_contents_from_files(files):
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="5">    def get_contents_from_files(files):
         return  files.index.to_series().apply(
             compose_left(Path, Path.read_text, orjson.loads, partial(
                 get_series, new=meta.new_nb)), meta=meta.NB)
@@ -2652,13 +2660,14 @@ each row is a file.
          </span>
         </legend>
         <div>
-         <strong>
-          Dask DataFrame Structure:
-         </strong>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <strong>
+           Dask DataFrame Structure:
+          </strong>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -2669,130 +2678,131 @@ each row is a file.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             cells
-            </th>
-            <th>
-             metadata
-            </th>
-            <th>
-             nbformat
-            </th>
-            <th>
-             nbformat_minor
-            </th>
-           </tr>
-           <tr>
-            <th>
-             npartitions=20
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             int64
-            </td>
-            <td>
-             int64
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-06-github-open-source-stats.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         Dask Name: apply, 11 graph layers
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              cells
+             </th>
+             <th>
+              metadata
+             </th>
+             <th>
+              nbformat
+             </th>
+             <th>
+              nbformat_minor
+             </th>
+            </tr>
+            <tr>
+             <th>
+              npartitions=20
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              int64
+             </td>
+             <td>
+              int64
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-06-github-open-source-stats.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          Dask Name: apply, 11 graph layers
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2843,7 +2853,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">the `cells` are built by exploding the rows of the `contents`</textarea>
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="1">the `cells` are built by exploding the rows of the `contents`</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>the <span class="sb">`cells`</span> are built by exploding the rows of the <span class="sb">`contents`</span>
@@ -2929,7 +2939,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="7">    def get_cells_from_contents(contents):
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="7">    def get_cells_from_contents(contents):
         cells = contents.cells
         cells = cells.apply(enumerate_list, meta=meta.ANY)
         return cells.explode().apply(get_series, key="source", new=meta.new_cell, meta=meta.CELL)
@@ -2987,13 +2997,14 @@ each row is a file.
          </span>
         </legend>
         <div>
-         <strong>
-          Dask DataFrame Structure:
-         </strong>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <strong>
+           Dask DataFrame Structure:
+          </strong>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3004,170 +3015,171 @@ each row is a file.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             cell_type
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             id
-            </th>
-            <th>
-             outputs
-            </th>
-            <th>
-             source
-            </th>
-            <th>
-             cell_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             npartitions=20
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             object
-            </td>
-            <td>
-             int64
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             int64
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-06-github-open-source-stats.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         Dask Name: drop_by_shallow_copy, 16 graph layers
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              cell_type
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              id
+             </th>
+             <th>
+              outputs
+             </th>
+             <th>
+              source
+             </th>
+             <th>
+              cell_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              npartitions=20
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              object
+             </td>
+             <td>
+              int64
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              int64
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-06-github-open-source-stats.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          Dask Name: drop_by_shallow_copy, 16 graph layers
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3218,7 +3230,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">new we deal will outputs that include display_data, stdout, and stderr.</textarea>
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="1">new we deal will outputs that include display_data, stdout, and stderr.</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>new we deal will outputs that include display_data, stdout, and stderr.
@@ -3297,7 +3309,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="11">    def get_outputs_from_cells(cells):
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="11">    def get_outputs_from_cells(cells):
         outputs = cells["outputs cell_ct".split()].dropna(subset="outputs")
         outputs.outputs = outputs.outputs.apply(enumerate_list, key="output_ct", meta=meta.ANY)
         outputs = outputs.explode("outputs").dropna(subset="outputs")
@@ -3363,13 +3375,14 @@ each row is a file.
          </span>
         </legend>
         <div>
-         <strong>
-          Dask DataFrame Structure:
-         </strong>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <strong>
+           Dask DataFrame Structure:
+          </strong>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3380,210 +3393,211 @@ each row is a file.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             data
-            </th>
-            <th>
-             ename
-            </th>
-            <th>
-             evalue
-            </th>
-            <th>
-             text
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             output_type
-            </th>
-            <th>
-             output_ct
-            </th>
-            <th>
-             cell_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             npartitions=20
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             int64
-            </td>
-            <td>
-             object
-            </td>
-            <td>
-             int64
-            </td>
-            <td>
-             int64
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-06-github-open-source-stats.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         Dask Name: drop_by_shallow_copy, 2 graph layers
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              data
+             </th>
+             <th>
+              ename
+             </th>
+             <th>
+              evalue
+             </th>
+             <th>
+              text
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              output_type
+             </th>
+             <th>
+              output_ct
+             </th>
+             <th>
+              cell_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              npartitions=20
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              int64
+             </td>
+             <td>
+              object
+             </td>
+             <td>
+              int64
+             </td>
+             <td>
+              int64
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-06-github-open-source-stats.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          Dask Name: drop_by_shallow_copy, 2 graph layers
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3634,7 +3648,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="1">separating the different standard out/error displays from the rich display data. there is probably more to for managing the different types of outputs from the different reprs.</textarea>
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="1">separating the different standard out/error displays from the rich display data. there is probably more to for managing the different types of outputs from the different reprs.</textarea>
        <div aria-labelledby="cell-16-in-label cell-16-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>separating the different standard out/error displays from the rich display data. there is probably more to for managing the different types of outputs from the different reprs.
@@ -3713,7 +3727,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="11">    def get_display_data_from_outputs(outputs):
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="11">    def get_display_data_from_outputs(outputs):
         display_data = outputs["data execution_count output_type cell_ct output_ct".split()].dropna(subset="data")
         display_data["data"] = display_data["data"].apply(compose_left(dict.items, list), meta=meta.ANY)
         display_data = display_data.explode("data").dropna(subset="data")
@@ -3779,8 +3793,9 @@ each row is a file.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3791,308 +3806,309 @@ each row is a file.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             type
-            </th>
-            <th>
-             value
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             output_type
-            </th>
-            <th>
-             cell_ct
-            </th>
-            <th>
-             output_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             ["the expected cell keys are ['attachments', '...
-            </td>
-            <td>
-             3.0
-            </td>
-            <td>
-             execute_result
-            </td>
-            <td>
-             7
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/html
-            </td>
-            <td>
-             [&lt;div&gt;&lt;strong&gt;Dask DataFrame Structure:&lt;/stron...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             15
-            </td>
-            <td>
-             1
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [Dask DataFrame Structure:\n,               at...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             15
-            </td>
-            <td>
-             1
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/html
-            </td>
-            <td>
-             [&lt;div&gt;\n, &lt;style scoped&gt;\n,     .dataframe tbo...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             17
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [path                                       .....
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             17
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             ...
-            </th>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             application/vnd.jupyter.widget-view+json
-            </td>
-            <td>
-             {'model_id': 'cd4f96b3078c4adf851d419b9c8e7885...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             4
-            </td>
-            <td>
-             1
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [HTML(value='&lt;pre&gt;&lt;code&gt;importlib._bootstrap_e...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             4
-            </td>
-            <td>
-             1
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [([], 1)]
-            </td>
-            <td>
-             4.0
-            </td>
-            <td>
-             execute_result
-            </td>
-            <td>
-             5
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [([], 16)]
-            </td>
-            <td>
-             5.0
-            </td>
-            <td>
-             execute_result
-            </td>
-            <td>
-             7
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/test_nbconvert_html5.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [([], 5)]
-            </td>
-            <td>
-             6.0
-            </td>
-            <td>
-             execute_result
-            </td>
-            <td>
-             9
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-          </tbody>
-         </table>
-         <p>
-          173 rows &times; 6 columns
-         </p>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              type
+             </th>
+             <th>
+              value
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              output_type
+             </th>
+             <th>
+              cell_ct
+             </th>
+             <th>
+              output_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              ["the expected cell keys are ['attachments', '...
+             </td>
+             <td>
+              3.0
+             </td>
+             <td>
+              execute_result
+             </td>
+             <td>
+              7
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/html
+             </td>
+             <td>
+              [&lt;div&gt;&lt;strong&gt;Dask DataFrame Structure:&lt;/stron...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              15
+             </td>
+             <td>
+              1
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [Dask DataFrame Structure:\n,               at...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              15
+             </td>
+             <td>
+              1
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/html
+             </td>
+             <td>
+              [&lt;div&gt;\n, &lt;style scoped&gt;\n,     .dataframe tbo...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              17
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [path                                       .....
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              17
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              ...
+             </th>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+             <td>
+              ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              application/vnd.jupyter.widget-view+json
+             </td>
+             <td>
+              {'model_id': 'cd4f96b3078c4adf851d419b9c8e7885...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              4
+             </td>
+             <td>
+              1
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [HTML(value='&lt;pre&gt;&lt;code&gt;importlib._bootstrap_e...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              4
+             </td>
+             <td>
+              1
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [([], 1)]
+             </td>
+             <td>
+              4.0
+             </td>
+             <td>
+              execute_result
+             </td>
+             <td>
+              5
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [([], 16)]
+             </td>
+             <td>
+              5.0
+             </td>
+             <td>
+              execute_result
+             </td>
+             <td>
+              7
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/test_nbconvert_html5.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [([], 5)]
+             </td>
+             <td>
+              6.0
+             </td>
+             <td>
+              execute_result
+             </td>
+             <td>
+              9
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+           </tbody>
+          </table>
+          <p>
+           173 rows &times; 6 columns
+          </p>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -4143,7 +4159,7 @@ each row is a file.
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="5">## where to go from
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="5">## where to go from
 
 * extend to other files. the notebook format is a hypermedia document format.
 * save to different formats. initially we think about parquet, while in theory from this dataframe
@@ -4241,7 +4257,7 @@ we could go further an imagine it being the seed for documentation.
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="1">    XXX and display(*(x.sample(frac=.1).compute().sample(5) for x in (cells, outputs, display_data)))</textarea>
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="1">    XXX and display(*(x.sample(frac=.1).compute().sample(5) for x in (cells, outputs, display_data)))</textarea>
        <div aria-labelledby="cell-19-in-label cell-19-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">XXX</span> <span class="ow">and</span> <span class="n">display</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">frac</span><span class="o">=</span><span class="mf">.1</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">cells</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="n">display_data</span><span class="p">)))</span>
@@ -4287,8 +4303,9 @@ we could go further an imagine it being the seed for documentation.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4299,170 +4316,170 @@ we could go further an imagine it being the seed for documentation.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             cell_type
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             id
-            </th>
-            <th>
-             outputs
-            </th>
-            <th>
-             source
-            </th>
-            <th>
-             cell_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-29-metadata-formatter.ipynb
-            </th>
-            <td>
-             markdown
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             50d9dcf9-18f4-4eb7-9a9a-cc3e14b3b2e2
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             #### dataframes
-            </td>
-            <td>
-             16
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-06-github-open-source-stats.ipynb
-            </th>
-            <td>
-             code
-            </td>
-            <td>
-             197.0
-            </td>
-            <td>
-             af8301f0-8a28-4350-87fa-a728867ccf67
-            </td>
-            <td>
-             []
-            </td>
-            <td>
-             %reload_ext doit
-            </td>
-            <td>
-             6
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-21-markdown-future.ipynb
-            </th>
-            <td>
-             code
-            </td>
-            <td>
-             5.0
-            </td>
-            <td>
-             21fa2ad9-23f9-4868-9cb7-3bb87b69c542
-            </td>
-            <td>
-             [{'data': {'text/markdown': ['# tangle (code) ...
-            </td>
-            <td>
-             # tangle (code) and weave (display)\n\n    kni...
-            </td>
-            <td>
-             7
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-19-mobius-text.ipynb
-            </th>
-            <td>
-             code
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             55228766-71c2-48f0-819f-afab637a4867
-            </td>
-            <td>
-             []
-            </td>
-            <td>
-            </td>
-            <td>
-             18
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-27-axe-core-playwright-python.ipynb
-            </th>
-            <td>
-             code
-            </td>
-            <td>
-             17.0
-            </td>
-            <td>
-             6e7cb333-6cc3-4c73-b256-382bcb3e9c2c
-            </td>
-            <td>
-             []
-            </td>
-            <td>
-             async def injectAxe(page): \n    await page.ev...
-            </td>
-            <td>
-             9
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              cell_type
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              id
+             </th>
+             <th>
+              outputs
+             </th>
+             <th>
+              source
+             </th>
+             <th>
+              cell_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-29-metadata-formatter.ipynb
+             </th>
+             <td>
+              markdown
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              50d9dcf9-18f4-4eb7-9a9a-cc3e14b3b2e2
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              #### dataframes
+             </td>
+             <td>
+              16
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-06-github-open-source-stats.ipynb
+             </th>
+             <td>
+              code
+             </td>
+             <td>
+              197.0
+             </td>
+             <td>
+              af8301f0-8a28-4350-87fa-a728867ccf67
+             </td>
+             <td>
+              []
+             </td>
+             <td>
+              %reload_ext doit
+             </td>
+             <td>
+              6
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-21-markdown-future.ipynb
+             </th>
+             <td>
+              code
+             </td>
+             <td>
+              5.0
+             </td>
+             <td>
+              21fa2ad9-23f9-4868-9cb7-3bb87b69c542
+             </td>
+             <td>
+              [{'data': {'text/markdown': ['# tangle (code) ...
+             </td>
+             <td>
+              # tangle (code) and weave (display)\n\n    kni...
+             </td>
+             <td>
+              7
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-19-mobius-text.ipynb
+             </th>
+             <td>
+              code
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              55228766-71c2-48f0-819f-afab637a4867
+             </td>
+             <td>
+              []
+             </td>
+             <td>
+             </td>
+             <td>
+              18
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-27-axe-core-playwright-python.ipynb
+             </th>
+             <td>
+              code
+             </td>
+             <td>
+              17.0
+             </td>
+             <td>
+              6e7cb333-6cc3-4c73-b256-382bcb3e9c2c
+             </td>
+             <td>
+              []
+             </td>
+             <td>
+              async def injectAxe(page): \n    await page.ev...
+             </td>
+             <td>
+              9
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4473,212 +4490,212 @@ we could go further an imagine it being the seed for documentation.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             data
-            </th>
-            <th>
-             ename
-            </th>
-            <th>
-             evalue
-            </th>
-            <th>
-             text
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             output_type
-            </th>
-            <th>
-             output_ct
-            </th>
-            <th>
-             cell_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-21-markdown-future.ipynb
-            </th>
-            <td>
-             {'text/markdown': ['i'm not saying importing m...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             0
-            </td>
-            <td>
-             17
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-17--Copy1.ipynb
-            </th>
-            <td>
-             {'application/vnd.jupyter.widget-view+json': {...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             0
-            </td>
-            <td>
-             6
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-21-markdown-future.ipynb
-            </th>
-            <td>
-             {'text/markdown': ['```mermaid
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              data
+             </th>
+             <th>
+              ename
+             </th>
+             <th>
+              evalue
+             </th>
+             <th>
+              text
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              output_type
+             </th>
+             <th>
+              output_ct
+             </th>
+             <th>
+              cell_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-21-markdown-future.ipynb
+             </th>
+             <td>
+              {'text/markdown': ['i'm not saying importing m...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              0
+             </td>
+             <td>
+              17
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-17--Copy1.ipynb
+             </th>
+             <td>
+              {'application/vnd.jupyter.widget-view+json': {...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              0
+             </td>
+             <td>
+              6
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-21-markdown-future.ipynb
+             </th>
+             <td>
+              {'text/markdown': ['```mermaid
 ', 'flowchart L...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             16
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-29-.ipynb
-            </th>
-            <td>
-             NaN
-            </td>
-            <td>
-             AttributeError
-            </td>
-            <td>
-             'dict' object has no attribute 'breaks'
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             error
-            </td>
-            <td>
-             1
-            </td>
-            <td>
-             12
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-21-pidgy-displays.ipynb
-            </th>
-            <td>
-             {'application/vnd.jupyter.widget-view+json': {...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             0
-            </td>
-            <td>
-             17
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              16
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-29-.ipynb
+             </th>
+             <td>
+              NaN
+             </td>
+             <td>
+              AttributeError
+             </td>
+             <td>
+              'dict' object has no attribute 'breaks'
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              error
+             </td>
+             <td>
+              1
+             </td>
+             <td>
+              12
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-21-pidgy-displays.ipynb
+             </th>
+             <td>
+              {'application/vnd.jupyter.widget-view+json': {...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              0
+             </td>
+             <td>
+              17
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4689,167 +4706,168 @@ we could go further an imagine it being the seed for documentation.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             type
-            </th>
-            <th>
-             value
-            </th>
-            <th>
-             execution_count
-            </th>
-            <th>
-             output_type
-            </th>
-            <th>
-             cell_ct
-            </th>
-            <th>
-             output_ct
-            </th>
-           </tr>
-           <tr>
-            <th>
-             file
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-            <th>
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             oct/2022-10-05-dask-search.ipynb
-            </th>
-            <td>
-             text/html
-            </td>
-            <td>
-             [&lt;div&gt;\n, &lt;style scoped&gt;\n,     .dataframe tbo...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             19
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-21-1.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [HTML(value='&lt;pre&gt;&lt;code&gt;__&lt;/code&gt;&lt;/pre&gt;\n')]
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             2
-            </td>
-            <td>
-             1
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-29-.ipynb
-            </th>
-            <td>
-             application/vnd.jupyter.widget-view+json
-            </td>
-            <td>
-             {'model_id': 'fa05bd5e43cc4785834b4b87ec154fbe...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             11
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-11-17--Copy1.ipynb
-            </th>
-            <td>
-             text/plain
-            </td>
-            <td>
-             [HTML(value='&lt;pre&gt;&lt;code&gt;notebooks = pandas.con...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             5
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-           <tr>
-            <th>
-             oct/2022-10-21-markdown-future.ipynb
-            </th>
-            <td>
-             text/markdown
-            </td>
-            <td>
-             [## literate computing with literary machines ...
-            </td>
-            <td>
-             NaN
-            </td>
-            <td>
-             display_data
-            </td>
-            <td>
-             5
-            </td>
-            <td>
-             0
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              type
+             </th>
+             <th>
+              value
+             </th>
+             <th>
+              execution_count
+             </th>
+             <th>
+              output_type
+             </th>
+             <th>
+              cell_ct
+             </th>
+             <th>
+              output_ct
+             </th>
+            </tr>
+            <tr>
+             <th>
+              file
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              oct/2022-10-05-dask-search.ipynb
+             </th>
+             <td>
+              text/html
+             </td>
+             <td>
+              [&lt;div&gt;\n, &lt;style scoped&gt;\n,     .dataframe tbo...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              19
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-21-1.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [HTML(value='&lt;pre&gt;&lt;code&gt;__&lt;/code&gt;&lt;/pre&gt;\n')]
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              2
+             </td>
+             <td>
+              1
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-29-.ipynb
+             </th>
+             <td>
+              application/vnd.jupyter.widget-view+json
+             </td>
+             <td>
+              {'model_id': 'fa05bd5e43cc4785834b4b87ec154fbe...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              11
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-11-17--Copy1.ipynb
+             </th>
+             <td>
+              text/plain
+             </td>
+             <td>
+              [HTML(value='&lt;pre&gt;&lt;code&gt;notebooks = pandas.con...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              5
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              oct/2022-10-21-markdown-future.ipynb
+             </th>
+             <td>
+              text/markdown
+             </td>
+             <td>
+              [## literate computing with literary machines ...
+             </td>
+             <td>
+              NaN
+             </td>
+             <td>
+              display_data
+             </td>
+             <td>
+              5
+             </td>
+             <td>
+              0
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -4901,7 +4919,7 @@ we could go further an imagine it being the seed for documentation.
       <td class="nb-end" hidden id="cell-20-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" form="cell-20" id="cell-20-source" name="source" readonly rows="11">    from dataclasses import dataclass, field
+       <textarea aria-labelledby="cell-20-in-label cell-20-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-20" id="cell-20-source" name="source" readonly rows="11">    from dataclasses import dataclass, field
     @dataclass
     class Contents:
         dir: Path = field(default_factory=Path.cwd)
@@ -4966,6 +4984,8 @@ we could go further an imagine it being the seed for documentation.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5016,7 +5036,7 @@ we could go further an imagine it being the seed for documentation.
       <td class="nb-end" hidden id="cell-21-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" form="cell-21" id="cell-21-source" name="source" readonly rows="0"></textarea>
+       <textarea aria-labelledby="cell-21-in-label cell-21-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-21" id="cell-21-source" name="source" readonly rows="0"></textarea>
        <div aria-labelledby="cell-21-in-label cell-21-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>
@@ -5058,6 +5078,8 @@ we could go further an imagine it being the seed for documentation.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -6160,6 +6182,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

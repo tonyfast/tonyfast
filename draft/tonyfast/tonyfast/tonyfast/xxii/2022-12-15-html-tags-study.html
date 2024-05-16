@@ -905,13 +905,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -940,13 +940,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1085,13 +1085,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1120,13 +1120,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1165,13 +1165,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1260,13 +1260,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1498,34 +1498,34 @@ that i'm not aware of, or forgot about.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1605,7 +1605,7 @@ that i'm not aware of, or forgot about.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="8"># all the tags i could be using
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="8"># all the tags i could be using
 
 i'm interested in how we write about code,
 and i think we should use standards in as many places as possible.
@@ -1708,7 +1708,7 @@ that i'm not aware of, or forgot about.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="5">## motivation
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="5">## motivation
 
 this exercise is useful for me because i like to write in markdown
 which has a limited design affordances.
@@ -1801,7 +1801,7 @@ since markdown is a superset of html we can reuse standard tags as design units 
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="13">### a concrete example is the `&lt;var&gt;&lt;/var&gt;` tag 
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="13">### a concrete example is the `&lt;var&gt;&lt;/var&gt;` tag 
 
 &gt; The &lt;var&gt; HTML element represents the name of a variable in a mathematical expression or a programming context. It's typically presented using an italicized version of the current typeface, although that behavior is browser-dependent. &lt;cite&gt;[The Var Text element][var]&lt;/cite&gt;
     
@@ -1945,7 +1945,7 @@ to style variables defined within a program.
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="5">    
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="5">    
     %reload_ext pidgy
     import pandas, requests
     pandas.options
@@ -1998,6 +1998,8 @@ to style variables defined within a program.
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2048,7 +2050,7 @@ to style variables defined within a program.
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="25">### style choices
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="25">### style choices
 
 while toying with the document i realize that some folks might be caught up 
 by style inconsistencies with the tags.
@@ -2141,20 +2143,21 @@ a:link {
           ]
          </span>
         </legend>
-        <h3 id="style-choices">
-         <a href="#style-choices">
-          style choices
-         </a>
-        </h3>
-        <p>
-         while toying with the document i realize that some folks might be caught up
+        <div>
+         <h3 id="style-choices">
+          <a href="#style-choices">
+           style choices
+          </a>
+         </h3>
+         <p>
+          while toying with the document i realize that some folks might be caught up
 by style inconsistencies with the tags.
 i'm changing some styles used in this document.
 the goal of this is semantic consistency so style matters less today.
-        </p>
-        <pre><code>style=\
+         </p>
+         <pre><code>style=\
 </code></pre>
-        <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="nt">var</span><span class="w"> </span><span class="p">{</span>
+         <pre><code class="css"><div class="highlight"><pre><span></span><code><span class="nt">var</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="k">font-family</span><span class="p">:</span><span class="w"> </span><span class="kc">monospace</span><span class="p">;</span>
 <span class="w">    </span><span class="n">whitespace</span><span class="p">:</span><span class="w"> </span><span class="kc">pre</span><span class="p">;</span>
 <span class="w">    </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span>
@@ -2168,8 +2171,8 @@ the goal of this is semantic consistency so style matters less today.
 <span class="p">}</span>
 </code></pre></div>
 </code></pre>
-        <style>
-         var {
+         <style>
+          var {
     font-family: monospace;
     whitespace: pre;
     font-weight: bold;
@@ -2184,7 +2187,8 @@ a:link {
 ```
 <style>
 {{style.splitlines(True)[1:-1] | join}}
-        </style>
+         </style>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2234,7 +2238,7 @@ a:link {
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="1">## our resources</textarea>
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1">## our resources</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## our resources</span>
@@ -2315,7 +2319,7 @@ a:link {
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="9">we are going to explore documentation from &lt;var&gt;mdn&lt;/var&gt; and &lt;var&gt;w3schools&lt;/var&gt;
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="9">we are going to explore documentation from &lt;var&gt;mdn&lt;/var&gt; and &lt;var&gt;w3schools&lt;/var&gt;
 because they are popular resources that populated the query &lt;quote&gt;all the html tags&lt;/quote&gt;.
 
     mdn,w3schools=filter(any, (
@@ -2376,35 +2380,37 @@ https://www.w3schools.com/TAGS/default.asp
           ]
          </span>
         </legend>
-        <p>
-         we are going to explore documentation from
-         <var>
-          mdn
-         </var>
-         and
-         <var>
-          w3schools
-         </var>
-         because they are popular resources that populated the query
-         <quote>
-          all the html tags
-         </quote>
-         .
-        </p>
-        <pre><code>mdn,w3schools=filter(any, (
+        <div>
+         <p>
+          we are going to explore documentation from
+          <var>
+           mdn
+          </var>
+          and
+          <var>
+           w3schools
+          </var>
+          because they are popular resources that populated the query
+          <quote>
+           all the html tags
+          </quote>
+          .
+         </p>
+         <pre><code>mdn,w3schools=filter(any, (
 </code></pre>
-        <p>
-         <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">
-          https://developer.mozilla.org/en-US/docs/Web/HTML/Element
-         </a>
-        </p>
-        <p>
-         <a href="https://www.w3schools.com/TAGS/default.asp">
-          https://www.w3schools.com/TAGS/default.asp
-         </a>
-        </p>
-        <pre><code>).splitlines())
+         <p>
+          <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element">
+           https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+          </a>
+         </p>
+         <p>
+          <a href="https://www.w3schools.com/TAGS/default.asp">
+           https://www.w3schools.com/TAGS/default.asp
+          </a>
+         </p>
+         <pre><code>).splitlines())
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2455,7 +2461,7 @@ https://www.w3schools.com/TAGS/default.asp
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="20">### choosing a resource
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="20">### choosing a resource
 
 we are going to refer to the &lt;var&gt;mdn&lt;/var&gt; docs:
 * &lt;var&gt;mdn&lt;/var&gt; has more description
@@ -2538,51 +2544,53 @@ between the two resources there are {{len(AB)}} tags to explore.
           ]
          </span>
         </legend>
-        <h3 id="choosing-a-resource">
-         <a href="#choosing-a-resource">
-          choosing a resource
-         </a>
-        </h3>
-        <p>
-         we are going to refer to the
-         <var>
-          mdn
-         </var>
-         docs:
-        </p>
-        <ul>
-         <li>
+        <div>
+         <h3 id="choosing-a-resource">
+          <a href="#choosing-a-resource">
+           choosing a resource
+          </a>
+         </h3>
+         <p>
+          we are going to refer to the
           <var>
            mdn
           </var>
-          has more description
-         </li>
-         <li>
-          the
-          <var>
-           mdn
-          </var>
-          docs have 20 more tags defined.
+          docs:
+         </p>
+         <ul>
+          <li>
+           <var>
+            mdn
+           </var>
+           has more description
+          </li>
+          <li>
+           the
+           <var>
+            mdn
+           </var>
+           docs have 20 more tags defined.
 after further inspection these may be mostly deprecated tags.
-         </li>
-         <li>
-          <var>
-           mdn
-          </var>
-          breaks their tables into groups
-         </li>
-        </ul>
-        <p>
-         between the two resources there are 139 tags to explore.
-        </p>
-        <div hidden>
-         <pre><code>A = pandas.concat(dfs := pandas.read_html(io.StringIO(requests.get(mdn).text))).set_index("Element")
+          </li>
+          <li>
+           <var>
+            mdn
+           </var>
+           breaks their tables into groups
+          </li>
+         </ul>
+         <p>
+          between the two resources there are 139 tags to explore.
+         </p>
+         <div hidden>
+          <pre><code>A = pandas.concat(dfs := pandas.read_html(io.StringIO(requests.get(mdn).text))).set_index("Element")
 B = pandas.concat(pandas.read_html(io.StringIO(requests.get(w3schools).text))).set_index("Tag")
 AB = A["Description"].to_frame("mdn").join(
     B["Description"].rename("w3schools"), how="outer"
 )
 mdn_extras = AB["mdn"].index.symmetric_difference(AB["w3schools"].dropna().index).to_frame().index
 </code></pre>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -2634,7 +2642,7 @@ mdn_extras = AB["mdn"].index.symmetric_difference(AB["w3schools"].dropna().index
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">## the tags</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">## the tags</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="c1">## the tags</span>
@@ -2679,11 +2687,13 @@ mdn_extras = AB["mdn"].index.symmetric_difference(AB["w3schools"].dropna().index
           ]
          </span>
         </legend>
-        <h2 id="the-tags">
-         <a href="#the-tags">
-          the tags
-         </a>
-        </h2>
+        <div>
+         <h2 id="the-tags">
+          <a href="#the-tags">
+           the tags
+          </a>
+         </h2>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2734,7 +2744,7 @@ mdn_extras = AB["mdn"].index.symmetric_difference(AB["w3schools"].dropna().index
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="8">### the `html` tag
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="8">### the `html` tag
 
 &lt;cite&gt;[Using the language attribute on the HTML element]&lt;/cite&gt; requires the `lang` attribute to be defined.
 otherwise, most automated testing with fail.
@@ -2793,28 +2803,29 @@ otherwise, most automated testing with fail.
           ]
          </span>
         </legend>
-        <h3 id="the-html-tag">
-         <a href="#the-html-tag">
-          the
-          tag
-         </a>
-        </h3>
-        <p>
-         <cite>
-          <a href="https://www.w3.org/WAI/WCAG22/Techniques/html/H57">
-           Using the language attribute on the HTML element
-          </a>
-         </cite>
-         requires the
-         <code>
-          lang
-         </code>
-         attribute to be defined.
-otherwise, most automated testing with fail.
-        </p>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <h3 id="the-html-tag">
+          <a href="#the-html-tag">
+           the
+           tag
+          </a>
+         </h3>
+         <p>
+          <cite>
+           <a href="https://www.w3.org/WAI/WCAG22/Techniques/html/H57">
+            Using the language attribute on the HTML element
+           </a>
+          </cite>
+          requires the
+          <code>
+           lang
+          </code>
+          attribute to be defined.
+otherwise, most automated testing with fail.
+         </p>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 <pre><code>.dataframe tbody tr th {
@@ -2825,36 +2836,37 @@ otherwise, most automated testing with fail.
     text-align: right;
 }
 </code></pre>
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;html&gt;
-            </td>
-            <td>
-             The &lt;html&gt; HTML element represents the root (t...
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;html&gt;
+             </td>
+             <td>
+              The &lt;html&gt; HTML element represents the root (t...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         &lt; /&gt;
         </div>
-        &lt; /&gt;
        </fieldset>
       </td>
      </tr>
@@ -2905,7 +2917,7 @@ otherwise, most automated testing with fail.
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="10">### document tags
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="10">### document tags
 
 there is nothing fun and new here. 
 i do need to visit the recommendations for the `&lt;meta/&gt;` for others reasons.
@@ -2968,29 +2980,30 @@ for accessibility reasons we need to include `&lt;title&gt;` because it is the d
           ]
          </span>
         </legend>
-        <h3 id="document-tags">
-         <a href="#document-tags">
-          document tags
-         </a>
-        </h3>
-        <p>
-         there is nothing fun and new here.
-i do need to visit the recommendations for the
-         <code>
-          &lt;meta&gt;
-         </code>
-         for others reasons.
-        </p>
-        <p>
-         for accessibility reasons we need to include
-         <code>
-          &lt;title&gt;
-         </code>
-         because it is the document title.
-        </p>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <h3 id="document-tags">
+          <a href="#document-tags">
+           document tags
+          </a>
+         </h3>
+         <p>
+          there is nothing fun and new here.
+i do need to visit the recommendations for the
+          <code>
+           &lt;meta&gt;
+          </code>
+          for others reasons.
+         </p>
+         <p>
+          for accessibility reasons we need to include
+          <code>
+           &lt;title&gt;
+          </code>
+          because it is the document title.
+         </p>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 <pre><code>.dataframe tbody tr th {
@@ -3001,91 +3014,92 @@ i do need to visit the recommendations for the
     text-align: right;
 }
 </code></pre>
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;base&gt;
-            </td>
-            <td>
-             The &lt;base&gt; HTML element specifies the base URL...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;head&gt;
-            </td>
-            <td>
-             The &lt;head&gt; HTML element contains machine-reada...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             &lt;link&gt;
-            </td>
-            <td>
-             The &lt;link&gt; HTML element specifies relationship...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             3
-            </th>
-            <td>
-             &lt;meta&gt;
-            </td>
-            <td>
-             The &lt;meta&gt; HTML element represents Metadata th...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <td>
-             &lt;style&gt;
-            </td>
-            <td>
-             The &lt;style&gt; HTML element contains style inform...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <td>
-             &lt;title&gt;
-            </td>
-            <td>
-             The &lt;title&gt; HTML element defines the document'...
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;base&gt;
+             </td>
+             <td>
+              The &lt;base&gt; HTML element specifies the base URL...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;head&gt;
+             </td>
+             <td>
+              The &lt;head&gt; HTML element contains machine-reada...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              &lt;link&gt;
+             </td>
+             <td>
+              The &lt;link&gt; HTML element specifies relationship...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              3
+             </th>
+             <td>
+              &lt;meta&gt;
+             </td>
+             <td>
+              The &lt;meta&gt; HTML element represents Metadata th...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <td>
+              &lt;style&gt;
+             </td>
+             <td>
+              The &lt;style&gt; HTML element contains style inform...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <td>
+              &lt;title&gt;
+             </td>
+             <td>
+              The &lt;title&gt; HTML element defines the document'...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         &lt; /&gt;
         </div>
-        &lt; /&gt;
        </fieldset>
       </td>
      </tr>
@@ -3136,7 +3150,7 @@ i do need to visit the recommendations for the
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="2">    
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="2">    
     dfs[2]; # skip the body tag</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -3183,6 +3197,8 @@ i do need to visit the recommendations for the
           ]
          </span>
         </legend>
+        <div>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3233,7 +3249,7 @@ i do need to visit the recommendations for the
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="6">### content sections
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="6">### content sections
 
 the `&lt;header&gt;` element might be practial to utilize within markdown.
 there are probably geo situations where address would be useful too.
@@ -3288,22 +3304,23 @@ there are probably geo situations where address would be useful too.
           ]
          </span>
         </legend>
-        <h3 id="content-sections">
-         <a href="#content-sections">
-          content sections
-         </a>
-        </h3>
-        <p>
-         the
-         <code>
-          &lt;header&gt;
-         </code>
-         element might be practial to utilize within markdown.
-there are probably geo situations where address would be useful too.
-        </p>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <h3 id="content-sections">
+          <a href="#content-sections">
+           content sections
+          </a>
+         </h3>
+         <p>
+          the
+          <code>
+           &lt;header&gt;
+          </code>
+          element might be practial to utilize within markdown.
+there are probably geo situations where address would be useful too.
+         </p>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 <pre><code>.dataframe tbody tr th {
@@ -3314,122 +3331,123 @@ there are probably geo situations where address would be useful too.
     text-align: right;
 }
 </code></pre>
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;address&gt;
-            </td>
-            <td>
-             The &lt;address&gt; HTML element indicates that the ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;article&gt;
-            </td>
-            <td>
-             The &lt;article&gt; HTML element represents a self-c...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             &lt;aside&gt;
-            </td>
-            <td>
-             The &lt;aside&gt; HTML element represents a portion ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             3
-            </th>
-            <td>
-             &lt;footer&gt;
-            </td>
-            <td>
-             The &lt;footer&gt; HTML element represents a footer ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <td>
-             &lt;header&gt;
-            </td>
-            <td>
-             The &lt;header&gt; HTML element represents introduct...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <td>
-             &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;
-            </td>
-            <td>
-             The &lt;h1&gt; to &lt;h6&gt; HTML elements represent six l...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             6
-            </th>
-            <td>
-             &lt;main&gt;
-            </td>
-            <td>
-             The &lt;main&gt; HTML element represents the dominan...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             7
-            </th>
-            <td>
-             &lt;nav&gt;
-            </td>
-            <td>
-             The &lt;nav&gt; HTML element represents a section of...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             8
-            </th>
-            <td>
-             &lt;section&gt;
-            </td>
-            <td>
-             The &lt;section&gt; HTML element represents a generi...
-            </td>
-           </tr>
-          </tbody>
-         </table>
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;address&gt;
+             </td>
+             <td>
+              The &lt;address&gt; HTML element indicates that the ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;article&gt;
+             </td>
+             <td>
+              The &lt;article&gt; HTML element represents a self-c...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              &lt;aside&gt;
+             </td>
+             <td>
+              The &lt;aside&gt; HTML element represents a portion ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              3
+             </th>
+             <td>
+              &lt;footer&gt;
+             </td>
+             <td>
+              The &lt;footer&gt; HTML element represents a footer ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <td>
+              &lt;header&gt;
+             </td>
+             <td>
+              The &lt;header&gt; HTML element represents introduct...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <td>
+              &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt;, &lt;h6&gt;
+             </td>
+             <td>
+              The &lt;h1&gt; to &lt;h6&gt; HTML elements represent six l...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              6
+             </th>
+             <td>
+              &lt;main&gt;
+             </td>
+             <td>
+              The &lt;main&gt; HTML element represents the dominan...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              7
+             </th>
+             <td>
+              &lt;nav&gt;
+             </td>
+             <td>
+              The &lt;nav&gt; HTML element represents a section of...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              8
+             </th>
+             <td>
+              &lt;section&gt;
+             </td>
+             <td>
+              The &lt;section&gt; HTML element represents a generi...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
         </div>
        </fieldset>
       </td>
@@ -3481,7 +3499,7 @@ there are probably geo situations where address would be useful too.
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="3">### text content
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="3">### text content
     
     dfs[4]</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
@@ -3531,8 +3549,9 @@ there are probably geo situations where address would be useful too.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -3543,185 +3562,186 @@ there are probably geo situations where address would be useful too.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;blockquote&gt;
-            </td>
-            <td>
-             The &lt;blockquote&gt; HTML element indicates that t...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;dd&gt;
-            </td>
-            <td>
-             The &lt;dd&gt; HTML element provides the description...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             &lt;div&gt;
-            </td>
-            <td>
-             The &lt;div&gt; HTML element is the generic containe...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             3
-            </th>
-            <td>
-             &lt;dl&gt;
-            </td>
-            <td>
-             The &lt;dl&gt; HTML element represents a description...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <td>
-             &lt;dt&gt;
-            </td>
-            <td>
-             The &lt;dt&gt; HTML element specifies a term in a de...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <td>
-             &lt;figcaption&gt;
-            </td>
-            <td>
-             The &lt;figcaption&gt; HTML element represents a cap...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             6
-            </th>
-            <td>
-             &lt;figure&gt;
-            </td>
-            <td>
-             The &lt;figure&gt; HTML element represents self-cont...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             7
-            </th>
-            <td>
-             &lt;hr&gt;
-            </td>
-            <td>
-             The &lt;hr&gt; HTML element represents a thematic br...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             8
-            </th>
-            <td>
-             &lt;li&gt;
-            </td>
-            <td>
-             The &lt;li&gt; HTML element is used to represent an ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             9
-            </th>
-            <td>
-             &lt;menu&gt;
-            </td>
-            <td>
-             The &lt;menu&gt; HTML element is described in the HT...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             10
-            </th>
-            <td>
-             &lt;ol&gt;
-            </td>
-            <td>
-             The &lt;ol&gt; HTML element represents an ordered li...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             11
-            </th>
-            <td>
-             &lt;p&gt;
-            </td>
-            <td>
-             The &lt;p&gt; HTML element represents a paragraph. P...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             12
-            </th>
-            <td>
-             &lt;pre&gt;
-            </td>
-            <td>
-             The &lt;pre&gt; HTML element represents preformatted...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             13
-            </th>
-            <td>
-             &lt;ul&gt;
-            </td>
-            <td>
-             The &lt;ul&gt; HTML element represents an unordered ...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <h3 id="text-content">
-         <a href="#text-content">
-          text content
-         </a>
-        </h3>
-        <pre><code>dfs[4]
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;blockquote&gt;
+             </td>
+             <td>
+              The &lt;blockquote&gt; HTML element indicates that t...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;dd&gt;
+             </td>
+             <td>
+              The &lt;dd&gt; HTML element provides the description...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              &lt;div&gt;
+             </td>
+             <td>
+              The &lt;div&gt; HTML element is the generic containe...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              3
+             </th>
+             <td>
+              &lt;dl&gt;
+             </td>
+             <td>
+              The &lt;dl&gt; HTML element represents a description...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <td>
+              &lt;dt&gt;
+             </td>
+             <td>
+              The &lt;dt&gt; HTML element specifies a term in a de...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <td>
+              &lt;figcaption&gt;
+             </td>
+             <td>
+              The &lt;figcaption&gt; HTML element represents a cap...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              6
+             </th>
+             <td>
+              &lt;figure&gt;
+             </td>
+             <td>
+              The &lt;figure&gt; HTML element represents self-cont...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              7
+             </th>
+             <td>
+              &lt;hr&gt;
+             </td>
+             <td>
+              The &lt;hr&gt; HTML element represents a thematic br...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              8
+             </th>
+             <td>
+              &lt;li&gt;
+             </td>
+             <td>
+              The &lt;li&gt; HTML element is used to represent an ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              9
+             </th>
+             <td>
+              &lt;menu&gt;
+             </td>
+             <td>
+              The &lt;menu&gt; HTML element is described in the HT...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              10
+             </th>
+             <td>
+              &lt;ol&gt;
+             </td>
+             <td>
+              The &lt;ol&gt; HTML element represents an ordered li...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              11
+             </th>
+             <td>
+              &lt;p&gt;
+             </td>
+             <td>
+              The &lt;p&gt; HTML element represents a paragraph. P...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              12
+             </th>
+             <td>
+              &lt;pre&gt;
+             </td>
+             <td>
+              The &lt;pre&gt; HTML element represents preformatted...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              13
+             </th>
+             <td>
+              &lt;ul&gt;
+             </td>
+             <td>
+              The &lt;ul&gt; HTML element represents an unordered ...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <h3 id="text-content">
+          <a href="#text-content">
+           text content
+          </a>
+         </h3>
+         <pre><code>dfs[4]
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3772,7 +3792,7 @@ there are probably geo situations where address would be useful too.
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="7">### inline text content
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="7">### inline text content
 
 * a variable could be an: `a, abbr, dfn, mark, ruby, var`
 * there are different references to coded objects like: `var, code, samp` 
@@ -3829,37 +3849,39 @@ there are probably geo situations where address would be useful too.
           ]
          </span>
         </legend>
-        <h3 id="inline-text-content">
-         <a href="#inline-text-content">
-          inline text content
-         </a>
-        </h3>
-        <ul>
-         <li>
-          <p>
-           a variable could be an:
-           <code>
-            a, abbr, dfn, mark, ruby, var
-           </code>
-          </p>
-         </li>
-         <li>
-          <p>
-           there are different references to coded objects like:
-           <code>
-            var, code, samp
-           </code>
-          </p>
-          <ul>
-           <li>
-            these differentiations can help an author give more semantic meaning
-           </li>
-          </ul>
-          <p>
-           dfs[5]
-          </p>
-         </li>
-        </ul>
+        <div>
+         <h3 id="inline-text-content">
+          <a href="#inline-text-content">
+           inline text content
+          </a>
+         </h3>
+         <ul>
+          <li>
+           <p>
+            a variable could be an:
+            <code>
+             a, abbr, dfn, mark, ruby, var
+            </code>
+           </p>
+          </li>
+          <li>
+           <p>
+            there are different references to coded objects like:
+            <code>
+             var, code, samp
+            </code>
+           </p>
+           <ul>
+            <li>
+             these differentiations can help an author give more semantic meaning
+            </li>
+           </ul>
+           <p>
+            dfs[5]
+           </p>
+          </li>
+         </ul>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3910,7 +3932,7 @@ there are probably geo situations where address would be useful too.
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="3">in a literate programming, it seems possible that we layer inline tags together
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="3">in a literate programming, it seems possible that we layer inline tags together
 
 &lt;mark&gt;&lt;a href="#"&gt;&lt;dfn&gt;&lt;var&gt;my variable&lt;/var&gt;&lt;/dfn&gt;&lt;/a&gt;&lt;/mark&gt; is an example with layers.
 </textarea>
@@ -3960,21 +3982,23 @@ there are probably geo situations where address would be useful too.
           ]
          </span>
         </legend>
-        <p>
-         in a literate programming, it seems possible that we layer inline tags together
-        </p>
-        <p>
-         <mark>
-          <a href="#">
-           <dfn>
-            <var>
-             my variable
-            </var>
-           </dfn>
-          </a>
-         </mark>
-         is an example with layers.
-        </p>
+        <div>
+         <p>
+          in a literate programming, it seems possible that we layer inline tags together
+         </p>
+         <p>
+          <mark>
+           <a href="#">
+            <dfn>
+             <var>
+              my variable
+             </var>
+            </dfn>
+           </a>
+          </mark>
+          is an example with layers.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4025,7 +4049,7 @@ there are probably geo situations where address would be useful too.
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="5">### multimedia/embeds
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="5">### multimedia/embeds
 
 don't forget your alt text.
 
@@ -4079,8 +4103,9 @@ don't forget your alt text.
          </span>
         </legend>
         <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4091,93 +4116,93 @@ don't forget your alt text.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;area&gt;
-            </td>
-            <td>
-             The &lt;area&gt; HTML element defines an area inside...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;audio&gt;
-            </td>
-            <td>
-             The &lt;audio&gt; HTML element is used to embed soun...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             &lt;img&gt;
-            </td>
-            <td>
-             The &lt;img&gt; HTML element embeds an image into th...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             3
-            </th>
-            <td>
-             &lt;map&gt;
-            </td>
-            <td>
-             The &lt;map&gt; HTML element is used with area eleme...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <td>
-             &lt;track&gt;
-            </td>
-            <td>
-             The &lt;track&gt; HTML element is used as a child of...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <td>
-             &lt;video&gt;
-            </td>
-            <td>
-             The &lt;video&gt; HTML element embeds a media player...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;area&gt;
+             </td>
+             <td>
+              The &lt;area&gt; HTML element defines an area inside...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;audio&gt;
+             </td>
+             <td>
+              The &lt;audio&gt; HTML element is used to embed soun...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              &lt;img&gt;
+             </td>
+             <td>
+              The &lt;img&gt; HTML element embeds an image into th...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              3
+             </th>
+             <td>
+              &lt;map&gt;
+             </td>
+             <td>
+              The &lt;map&gt; HTML element is used with area eleme...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <td>
+              &lt;track&gt;
+             </td>
+             <td>
+              The &lt;track&gt; HTML element is used as a child of...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <td>
+              &lt;video&gt;
+             </td>
+             <td>
+              The &lt;video&gt; HTML element embeds a media player...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4188,93 +4213,93 @@ don't forget your alt text.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;embed&gt;
-            </td>
-            <td>
-             The &lt;embed&gt; HTML element embeds external conte...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;iframe&gt;
-            </td>
-            <td>
-             The &lt;iframe&gt; HTML element represents a nested ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             2
-            </th>
-            <td>
-             &lt;object&gt;
-            </td>
-            <td>
-             The &lt;object&gt; HTML element represents an extern...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             3
-            </th>
-            <td>
-             &lt;picture&gt;
-            </td>
-            <td>
-             The &lt;picture&gt; HTML element contains zero or mo...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             4
-            </th>
-            <td>
-             &lt;portal&gt;
-            </td>
-            <td>
-             The &lt;portal&gt; HTML element enables the embeddin...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             5
-            </th>
-            <td>
-             &lt;source&gt;
-            </td>
-            <td>
-             The &lt;source&gt; HTML element specifies multiple m...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <div>
-         <style scoped>
-          .dataframe tbody tr th:only-of-type {
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;embed&gt;
+             </td>
+             <td>
+              The &lt;embed&gt; HTML element embeds external conte...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;iframe&gt;
+             </td>
+             <td>
+              The &lt;iframe&gt; HTML element represents a nested ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2
+             </th>
+             <td>
+              &lt;object&gt;
+             </td>
+             <td>
+              The &lt;object&gt; HTML element represents an extern...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              3
+             </th>
+             <td>
+              &lt;picture&gt;
+             </td>
+             <td>
+              The &lt;picture&gt; HTML element contains zero or mo...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              4
+             </th>
+             <td>
+              &lt;portal&gt;
+             </td>
+             <td>
+              The &lt;portal&gt; HTML element enables the embeddin...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              5
+             </th>
+             <td>
+              &lt;source&gt;
+             </td>
+             <td>
+              The &lt;source&gt; HTML element specifies multiple m...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
         vertical-align: middle;
     }
 
@@ -4285,56 +4310,57 @@ don't forget your alt text.
     .dataframe thead th {
         text-align: right;
     }
-         </style>
-         <table border="1" class="dataframe">
-          <thead>
-           <tr style="text-align: right;">
-            <th>
-            </th>
-            <th>
-             Element
-            </th>
-            <th>
-             Description
-            </th>
-           </tr>
-          </thead>
-          <tbody>
-           <tr>
-            <th>
-             0
-            </th>
-            <td>
-             &lt;svg&gt;
-            </td>
-            <td>
-             The svg element is a container that defines a ...
-            </td>
-           </tr>
-           <tr>
-            <th>
-             1
-            </th>
-            <td>
-             &lt;math&gt;
-            </td>
-            <td>
-             The top-level element in MathML is &lt;math&gt;. Eve...
-            </td>
-           </tr>
-          </tbody>
-         </table>
-        </div>
-        <h3 id="multimedia-embeds">
-         <a href="#multimedia-embeds">
-          multimedia/embeds
-         </a>
-        </h3>
-        <p>
-         don't forget your alt text.
-        </p>
-        <pre><code>return dfs[6], dfs[7], dfs[8]
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              Element
+             </th>
+             <th>
+              Description
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              0
+             </th>
+             <td>
+              &lt;svg&gt;
+             </td>
+             <td>
+              The svg element is a container that defines a ...
+             </td>
+            </tr>
+            <tr>
+             <th>
+              1
+             </th>
+             <td>
+              &lt;math&gt;
+             </td>
+             <td>
+              The top-level element in MathML is &lt;math&gt;. Eve...
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+         <h3 id="multimedia-embeds">
+          <a href="#multimedia-embeds">
+           multimedia/embeds
+          </a>
+         </h3>
+         <p>
+          don't forget your alt text.
+         </p>
+         <pre><code>return dfs[6], dfs[7], dfs[8]
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -5437,6 +5463,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

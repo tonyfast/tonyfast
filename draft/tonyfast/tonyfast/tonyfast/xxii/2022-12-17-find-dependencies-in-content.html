@@ -904,13 +904,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="../xxiv/2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -939,13 +939,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="../xxiv/2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="../xxiv/2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="../xxiv/2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1084,13 +1084,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1119,13 +1119,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1164,13 +1164,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1259,13 +1259,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1466,34 +1466,34 @@ to work when we are in jupyterlite.
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1573,7 +1573,7 @@ to work when we are in jupyterlite.
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="5"># automating blog posts to work with jupyter-lite
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="5"># automating blog posts to work with jupyter-lite
 
 there is a rare occasion that i write notebooks completely in lite.
 most often i write in a conventional environment then need to ammend the content
@@ -1667,7 +1667,7 @@ to work when we are in jupyterlite.
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="1">    %reload_ext pidgy</textarea>
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="1">    %reload_ext pidgy</textarea>
        <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="o">%</span><span class="n">reload_ext</span> <span class="n">pidgy</span>
@@ -1712,8 +1712,10 @@ to work when we are in jupyterlite.
           ]
          </span>
         </legend>
-        <pre><code>%reload_ext pidgy
+        <div>
+         <pre><code>%reload_ext pidgy
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1764,7 +1766,7 @@ to work when we are in jupyterlite.
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" form="cell-3" id="cell-3-source" name="source" readonly rows="18">## what do we need to do to make a post work in lite?
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="18">## what do we need to do to make a post work in lite?
 
 * explicitly defined dependencies.
 
@@ -1844,51 +1846,53 @@ to work when we are in jupyterlite.
           ]
          </span>
         </legend>
-        <h2 id="what-do-we-need-to-do-to-make-a-post-work-in-lite">
-         <a href="#what-do-we-need-to-do-to-make-a-post-work-in-lite">
-          what do we need to do to make a post work in lite?
-         </a>
-        </h2>
-        <ul>
-         <li>
-          <p>
-           explicitly defined dependencies.
-          </p>
-          <p>
-           working on a virtual file system is different than your standard file system.
+        <div>
+         <h2 id="what-do-we-need-to-do-to-make-a-post-work-in-lite">
+          <a href="#what-do-we-need-to-do-to-make-a-post-work-in-lite">
+           what do we need to do to make a post work in lite?
+          </a>
+         </h2>
+         <ul>
+          <li>
+           <p>
+            explicitly defined dependencies.
+           </p>
+           <p>
+            working on a virtual file system is different than your standard file system.
 normally we don't have to define our environment each time,
 but independent of a real file system - in the browser - we need to install packages each time.
-          </p>
-         </li>
-         <li>
-          <p>
-           patching shit
-          </p>
-          <p>
-           if we use requests then we should used
-           <a href="https://github.com/koenvo/pyodide-http">
-            https://github.com/koenvo/pyodide-http
-           </a>
-          </p>
-         </li>
-         <li>
-          <p>
-           dealing with
-           <code>
-            pidgy
-           </code>
-           and extensions.
-          </p>
-         </li>
-         <li>
-          <p>
-           some packages won't work in lite so we will throw a warning when we know this fo
-          </p>
-          <p>
-           we can infer this information or provide it explicitly in the metadata
-          </p>
-         </li>
-        </ul>
+           </p>
+          </li>
+          <li>
+           <p>
+            patching shit
+           </p>
+           <p>
+            if we use requests then we should used
+            <a href="https://github.com/koenvo/pyodide-http">
+             https://github.com/koenvo/pyodide-http
+            </a>
+           </p>
+          </li>
+          <li>
+           <p>
+            dealing with
+            <code>
+             pidgy
+            </code>
+            and extensions.
+           </p>
+          </li>
+          <li>
+           <p>
+            some packages won't work in lite so we will throw a warning when we know this fo
+           </p>
+           <p>
+            we can infer this information or provide it explicitly in the metadata
+           </p>
+          </li>
+         </ul>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -1939,7 +1943,7 @@ but independent of a real file system - in the browser - we need to install pack
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" form="cell-4" id="cell-4-source" name="source" readonly rows="1">sometimes i forget imports</textarea>
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="1">sometimes i forget imports</textarea>
        <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="n">sometimes</span> <span class="n">i</span> <span class="n">forget</span> <span class="n">imports</span>
@@ -1984,9 +1988,11 @@ but independent of a real file system - in the browser - we need to install pack
           ]
          </span>
         </legend>
-        <p>
-         sometimes i forget imports
-        </p>
+        <div>
+         <p>
+          sometimes i forget imports
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2037,7 +2043,7 @@ but independent of a real file system - in the browser - we need to install pack
       <td class="nb-end" hidden id="cell-5-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" form="cell-5" id="cell-5-source" name="source" readonly rows="3">## [`depfinder`](https://github.com/ericdill/depfinder) to find packages in a notebook for python
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="3">## [`depfinder`](https://github.com/ericdill/depfinder) to find packages in a notebook for python
 
 some of my personal style choices might fail like when i use `__import__`, maybe this is a way to cut dependencies from the list.</textarea>
        <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
@@ -2086,22 +2092,24 @@ some of my personal style choices might fail like when i use `__import__`, maybe
           ]
          </span>
         </legend>
-        <h2 id="depfinder-to-find-packages-in-a-notebook-for-python">
-         <a href="#depfinder-to-find-packages-in-a-notebook-for-python">
-          <a href="https://github.com/ericdill/depfinder">
-           <code>
-            depfinder
-           </code>
+        <div>
+         <h2 id="depfinder-to-find-packages-in-a-notebook-for-python">
+          <a href="#depfinder-to-find-packages-in-a-notebook-for-python">
+           <a href="https://github.com/ericdill/depfinder">
+            <code>
+             depfinder
+            </code>
+           </a>
           </a>
-         </a>
-        </h2>
-        <p>
-         some of my personal style choices might fail like when i use
-         <code>
-          __import__
-         </code>
-         , maybe this is a way to cut dependencies from the list.
-        </p>
+         </h2>
+         <p>
+          some of my personal style choices might fail like when i use
+          <code>
+           __import__
+          </code>
+          , maybe this is a way to cut dependencies from the list.
+         </p>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2152,7 +2160,7 @@ some of my personal style choices might fail like when i use `__import__`, maybe
       <td class="nb-end" hidden id="cell-6-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" form="cell-6" id="cell-6-source" name="source" readonly rows="3">    from pathlib import Path
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="3">    from pathlib import Path
     import depfinder, pandas
     __import__("requests_cache").install_cache()</textarea>
        <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
@@ -2201,10 +2209,12 @@ some of my personal style choices might fail like when i use `__import__`, maybe
           ]
          </span>
         </legend>
-        <pre><code>from pathlib import Path
+        <div>
+         <pre><code>from pathlib import Path
 import depfinder, pandas
 __import__("requests_cache").install_cache()
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2255,7 +2265,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-7-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" form="cell-7" id="cell-7-source" name="source" readonly rows="2">    def get_files(dir="", glob="*.ipynb") -&gt; pandas.Index:
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="2">    def get_files(dir="", glob="*.ipynb") -&gt; pandas.Index:
         return pandas.Index(Path(dir).rglob(glob)).rename("files")</textarea>
        <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2302,9 +2312,11 @@ __import__("requests_cache").install_cache()
           ]
          </span>
         </legend>
-        <pre><code>def get_files(dir="", glob="*.ipynb") -&gt; pandas.Index:
+        <div>
+         <pre><code>def get_files(dir="", glob="*.ipynb") -&gt; pandas.Index:
     return pandas.Index(Path(dir).rglob(glob)).rename("files")
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2355,7 +2367,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-8-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" form="cell-8" id="cell-8-source" name="source" readonly rows="7">    def get_cells(files: pandas.Index) -&gt; pandas.DataFrame:
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="7">    def get_cells(files: pandas.Index) -&gt; pandas.DataFrame:
         df = (
             files.to_series().apply(Path.read_text)
             .apply(json.loads).apply(pandas.Series)
@@ -2412,7 +2424,8 @@ __import__("requests_cache").install_cache()
           ]
          </span>
         </legend>
-        <pre><code>def get_cells(files: pandas.Index) -&gt; pandas.DataFrame:
+        <div>
+         <pre><code>def get_cells(files: pandas.Index) -&gt; pandas.DataFrame:
     df = (
         files.to_series().apply(Path.read_text)
         .apply(json.loads).apply(pandas.Series)
@@ -2420,6 +2433,7 @@ __import__("requests_cache").install_cache()
     )
     return df.join(get_has_pidgy(df))
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2469,7 +2483,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" form="cell-9" id="cell-9-source" name="source" readonly rows="1">### can haz pidgy?</textarea>
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">### can haz pidgy?</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### can haz pidgy?</span>
@@ -2549,7 +2563,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" form="cell-10" id="cell-10-source" name="source" readonly rows="2">some of these posts are in `pidgy`, i'll use `%reload_ext pidgy` when that is the situation.
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="2">some of these posts are in `pidgy`, i'll use `%reload_ext pidgy` when that is the situation.
 peek in the `cells` to find `pidgy` notebooks.</textarea>
        <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
@@ -2647,7 +2661,7 @@ peek in the
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" form="cell-11" id="cell-11-source" name="source" readonly rows="4">    def get_has_pidgy(cells):
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="4">    def get_has_pidgy(cells):
         return cells[cells.cell_type.eq("code")].source.apply("".join).groupby(
             pandas.Grouper(level=0)
         ).apply(lambda df: df.str.contains("%[re]*load_ext pidgy").any()).rename("pidgy")</textarea>
@@ -2698,11 +2712,13 @@ peek in the
           ]
          </span>
         </legend>
-        <pre><code>def get_has_pidgy(cells):
+        <div>
+         <pre><code>def get_has_pidgy(cells):
     return cells[cells.cell_type.eq("code")].source.apply("".join).groupby(
         pandas.Grouper(level=0)
     ).apply(lambda df: df.str.contains("%[re]*load_ext pidgy").any()).rename("pidgy")
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2753,7 +2769,7 @@ peek in the
       <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" form="cell-12" id="cell-12-source" name="source" readonly rows="1">    cells = get_cells(get_files())</textarea>
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="1">    cells = get_cells(get_files())</textarea>
        <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>    <span class="n">cells</span> <span class="o">=</span> <span class="n">get_cells</span><span class="p">(</span><span class="n">get_files</span><span class="p">())</span>
@@ -2798,8 +2814,10 @@ peek in the
           ]
          </span>
         </legend>
-        <pre><code>cells = get_cells(get_files())
+        <div>
+         <pre><code>cells = get_cells(get_files())
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2850,7 +2868,7 @@ peek in the
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" form="cell-13" id="cell-13-source" name="source" readonly rows="12">### get the imports
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="12">### get the imports
     def get_import(row: pandas.Series) -&gt; dict:
 `get_import` normalizes the cell source code for analysis by `depfinder`.
 this method catches those situations or returns the attributes of `depfinder.inspection.ImportFinder`
@@ -2917,28 +2935,29 @@ this method catches those situations or returns the attributes of `depfinder.ins
           ]
          </span>
         </legend>
-        <h3 id="get-the-imports">
-         <a href="#get-the-imports">
-          get the imports
-         </a>
-        </h3>
-        <pre><code>def get_import(row: pandas.Series) -&gt; dict:
+        <div>
+         <h3 id="get-the-imports">
+          <a href="#get-the-imports">
+           get the imports
+          </a>
+         </h3>
+         <pre><code>def get_import(row: pandas.Series) -&gt; dict:
 </code></pre>
-        <p>
-         <code>
-          get_import
-         </code>
-         normalizes the cell source code for analysis by
-         <code>
-          depfinder
-         </code>
-         .
+         <p>
+          <code>
+           get_import
+          </code>
+          normalizes the cell source code for analysis by
+          <code>
+           depfinder
+          </code>
+          .
 this method catches those situations or returns the attributes of
-         <code>
-          depfinder.inspection.ImportFinder
-         </code>
-        </p>
-        <pre><code>    source = "".join(row.source)
+          <code>
+           depfinder.inspection.ImportFinder
+          </code>
+         </p>
+         <pre><code>    source = "".join(row.source)
     if row.pidgy:
         source = midgy.python.Python().render(source)
     try:
@@ -2946,6 +2965,7 @@ this method catches those situations or returns the attributes of
     except BaseException as e:
         return None
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -2995,7 +3015,7 @@ this method catches those situations or returns the attributes of
       <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" form="cell-14" id="cell-14-source" name="source" readonly rows="1">### evaluate the sources</textarea>
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="1">### evaluate the sources</textarea>
        <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">### evaluate the sources</span>
@@ -3076,7 +3096,7 @@ this method catches those situations or returns the attributes of
       <td class="nb-end" hidden id="cell-15-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" form="cell-15" id="cell-15-source" name="source" readonly rows="3">    import depfinder, pandas, midgy
+       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="3">    import depfinder, pandas, midgy
     __import__("requests_cache").install_cache()
     &Oslash; = __name__ == "__main__" and "__file__" not in locals()</textarea>
        <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
@@ -3125,10 +3145,12 @@ this method catches those situations or returns the attributes of
           ]
          </span>
         </legend>
-        <pre><code>import depfinder, pandas, midgy
+        <div>
+         <pre><code>import depfinder, pandas, midgy
 __import__("requests_cache").install_cache()
 &Oslash; = __name__ == "__main__" and "__file__" not in locals()
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3179,7 +3201,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-16-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" form="cell-16" id="cell-16-source" name="source" readonly rows="8">    def get_modules(cells):
+       <textarea aria-labelledby="cell-16-in-label cell-16-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-16" id="cell-16-source" name="source" readonly rows="8">    def get_modules(cells):
         return (
             (
                 results:=
@@ -3238,7 +3260,8 @@ __import__("requests_cache").install_cache()
           ]
          </span>
         </legend>
-        <pre><code>def get_modules(cells):
+        <div>
+         <pre><code>def get_modules(cells):
     return (
         (
             results:=
@@ -3247,6 +3270,7 @@ __import__("requests_cache").install_cache()
         )[results.columns[results.columns.str.endswith("_modules")]]
     )
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3296,7 +3320,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-17-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" form="cell-17" id="cell-17-source" name="source" readonly rows="1">a snapshot of the modules import within the content</textarea>
+       <textarea aria-labelledby="cell-17-in-label cell-17-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-17" id="cell-17-source" name="source" readonly rows="1">a snapshot of the modules import within the content</textarea>
        <div aria-labelledby="cell-17-in-label cell-17-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code>a snapshot of the modules import within the content
@@ -3375,7 +3399,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-18-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    if &Oslash;:
+       <textarea aria-labelledby="cell-18-in-label cell-18-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-18" id="cell-18-source" name="source" readonly rows="6">    if &Oslash;:
         (cells := get_cells(get_files()))
         (cells := cells.join(get_modules(cells)))
         modules = cells[cells.columns[cells.columns.str.endswith("_modules")]]
@@ -3430,562 +3454,564 @@ __import__("requests_cache").install_cache()
           ]
          </span>
         </legend>
-        <table border="1" class="dataframe">
-         <thead>
-          <tr style="text-align: right;">
-           <th>
-           </th>
-           <th>
-            pandas
-           </th>
-           <th>
-            pathlib
-           </th>
-           <th>
-            requests
-           </th>
-           <th>
-            tonyfast
-           </th>
-           <th>
-            IPython
-           </th>
-           <th>
-            json
-           </th>
-           <th>
-            midgy
-           </th>
-           <th>
-            functools
-           </th>
-           <th>
-            toolz
-           </th>
-           <th>
-            re
-           </th>
-           <th>
-            depfinder
-           </th>
-           <th>
-            shlex
-           </th>
-           <th>
-            importnb
-           </th>
-           <th>
-            dataclasses
-           </th>
-           <th>
-            typer
-           </th>
-           <th>
-            pidgy
-           </th>
-           <th>
-            nbconvert
-           </th>
-           <th>
-            ipywidgets
-           </th>
-           <th>
-            info
-           </th>
-           <th>
-            textwrap
-           </th>
-           <th>
-            typing
-           </th>
-           <th>
-            traitlets
-           </th>
-           <th>
-            doit
-           </th>
-           <th>
-            dask
-           </th>
-           <th>
-            pluggy
-           </th>
-           <th>
-            sys
-           </th>
-           <th>
-            requests_cache
-           </th>
-           <th>
-            jsonref
-           </th>
-           <th>
-            playwright
-           </th>
-           <th>
-            nbformat
-           </th>
-           <th>
-            inspect
-           </th>
-           <th>
-            types
-           </th>
-           <th>
-            ast
-           </th>
-           <th>
-            uritemplate
-           </th>
-           <th>
-            __
-           </th>
-           <th>
-            jinja2
-           </th>
-           <th>
-            numpy
-           </th>
-           <th>
-            io
-           </th>
-           <th>
-            gc
-           </th>
-           <th>
-            pyld
-           </th>
-           <th>
-            orjson
-           </th>
-           <th>
-            jsonpointer
-           </th>
-           <th>
-            urllib.parse
-           </th>
-           <th>
-            linecache
-           </th>
-           <th>
-            operator
-           </th>
-           <th>
-            poser
-           </th>
-           <th>
-            matplotlib
-           </th>
-           <th>
-            rich
-           </th>
-           <th>
-            mpl_toolkits
-           </th>
-           <th>
-            importlib
-           </th>
-           <th>
-            anyio
-           </th>
-           <th>
-            unittest.mock
-           </th>
-           <th>
-            __static_notebook_tags
-           </th>
-           <th>
-            nbconvert_html5
-           </th>
-           <th>
-            bs4
-           </th>
-           <th>
-            mkdocs
-           </th>
-           <th>
-            icalendar
-           </th>
-           <th>
-            yaml
-           </th>
-           <th>
-            hvplot
-           </th>
-           <th>
-            jupyter_core
-           </th>
-           <th>
-            shutil
-           </th>
-           <th>
-            arrow
-           </th>
-           <th>
-            __11_12_async_import
-           </th>
-           <th>
-            doctest
-           </th>
-           <th>
-            unittest
-           </th>
-           <th>
-            __09_pyproject_analysis
-           </th>
-           <th>
-            html
-           </th>
-           <th>
-            tomli
-           </th>
-           <th>
-            pytest
-           </th>
-           <th>
-            __12_09_pyproject_analysis
-           </th>
-           <th>
-            warnings
-           </th>
-           <th>
-            _022_10_21_markdown_future
-           </th>
-           <th>
-            a_little_markdown_program
-           </th>
-           <th>
-            click
-           </th>
-           <th>
-            markdown
-           </th>
-           <th>
-            sympy
-           </th>
-           <th>
-            __better_dask_shape
-           </th>
-           <th>
-            asyncio
-           </th>
-           <th>
-            dis
-           </th>
-           <th>
-            traceback
-           </th>
-           <th>
-            micropip
-           </th>
-           <th>
-            __pycache__
-           </th>
-           <th>
-            ibis
-           </th>
-           <th>
-            duckdb
-           </th>
-           <th>
-            pyarrow
-           </th>
-           <th>
-            nest_asyncio
-           </th>
-           <th>
-            collections
-           </th>
-           <th>
-            abc
-           </th>
-           <th>
-            tqdm
-           </th>
-          </tr>
-         </thead>
-         <tbody>
-          <tr>
-           <th>
-            0
-           </th>
-           <td>
-            41
-           </td>
-           <td>
-            30
-           </td>
-           <td>
-            14
-           </td>
-           <td>
-            14
-           </td>
-           <td>
-            14
-           </td>
-           <td>
-            13
-           </td>
-           <td>
-            12
-           </td>
-           <td>
-            12
-           </td>
-           <td>
-            11
-           </td>
-           <td>
-            10
-           </td>
-           <td>
-            10
-           </td>
-           <td>
-            7
-           </td>
-           <td>
-            7
-           </td>
-           <td>
-            7
-           </td>
-           <td>
-            7
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            6
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            5
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            4
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            3
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            2
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-           <td>
-            1
-           </td>
-          </tr>
-         </tbody>
-        </table>
-        <pre><code>if &Oslash;:
+        <div>
+         <table border="1" class="dataframe">
+          <thead>
+           <tr style="text-align: right;">
+            <th>
+            </th>
+            <th>
+             pandas
+            </th>
+            <th>
+             pathlib
+            </th>
+            <th>
+             requests
+            </th>
+            <th>
+             tonyfast
+            </th>
+            <th>
+             IPython
+            </th>
+            <th>
+             json
+            </th>
+            <th>
+             midgy
+            </th>
+            <th>
+             functools
+            </th>
+            <th>
+             toolz
+            </th>
+            <th>
+             re
+            </th>
+            <th>
+             depfinder
+            </th>
+            <th>
+             shlex
+            </th>
+            <th>
+             importnb
+            </th>
+            <th>
+             dataclasses
+            </th>
+            <th>
+             typer
+            </th>
+            <th>
+             pidgy
+            </th>
+            <th>
+             nbconvert
+            </th>
+            <th>
+             ipywidgets
+            </th>
+            <th>
+             info
+            </th>
+            <th>
+             textwrap
+            </th>
+            <th>
+             typing
+            </th>
+            <th>
+             traitlets
+            </th>
+            <th>
+             doit
+            </th>
+            <th>
+             dask
+            </th>
+            <th>
+             pluggy
+            </th>
+            <th>
+             sys
+            </th>
+            <th>
+             requests_cache
+            </th>
+            <th>
+             jsonref
+            </th>
+            <th>
+             playwright
+            </th>
+            <th>
+             nbformat
+            </th>
+            <th>
+             inspect
+            </th>
+            <th>
+             types
+            </th>
+            <th>
+             ast
+            </th>
+            <th>
+             uritemplate
+            </th>
+            <th>
+             __
+            </th>
+            <th>
+             jinja2
+            </th>
+            <th>
+             numpy
+            </th>
+            <th>
+             io
+            </th>
+            <th>
+             gc
+            </th>
+            <th>
+             pyld
+            </th>
+            <th>
+             orjson
+            </th>
+            <th>
+             jsonpointer
+            </th>
+            <th>
+             urllib.parse
+            </th>
+            <th>
+             linecache
+            </th>
+            <th>
+             operator
+            </th>
+            <th>
+             poser
+            </th>
+            <th>
+             matplotlib
+            </th>
+            <th>
+             rich
+            </th>
+            <th>
+             mpl_toolkits
+            </th>
+            <th>
+             importlib
+            </th>
+            <th>
+             anyio
+            </th>
+            <th>
+             unittest.mock
+            </th>
+            <th>
+             __static_notebook_tags
+            </th>
+            <th>
+             nbconvert_html5
+            </th>
+            <th>
+             bs4
+            </th>
+            <th>
+             mkdocs
+            </th>
+            <th>
+             icalendar
+            </th>
+            <th>
+             yaml
+            </th>
+            <th>
+             hvplot
+            </th>
+            <th>
+             jupyter_core
+            </th>
+            <th>
+             shutil
+            </th>
+            <th>
+             arrow
+            </th>
+            <th>
+             __11_12_async_import
+            </th>
+            <th>
+             doctest
+            </th>
+            <th>
+             unittest
+            </th>
+            <th>
+             __09_pyproject_analysis
+            </th>
+            <th>
+             html
+            </th>
+            <th>
+             tomli
+            </th>
+            <th>
+             pytest
+            </th>
+            <th>
+             __12_09_pyproject_analysis
+            </th>
+            <th>
+             warnings
+            </th>
+            <th>
+             _022_10_21_markdown_future
+            </th>
+            <th>
+             a_little_markdown_program
+            </th>
+            <th>
+             click
+            </th>
+            <th>
+             markdown
+            </th>
+            <th>
+             sympy
+            </th>
+            <th>
+             __better_dask_shape
+            </th>
+            <th>
+             asyncio
+            </th>
+            <th>
+             dis
+            </th>
+            <th>
+             traceback
+            </th>
+            <th>
+             micropip
+            </th>
+            <th>
+             __pycache__
+            </th>
+            <th>
+             ibis
+            </th>
+            <th>
+             duckdb
+            </th>
+            <th>
+             pyarrow
+            </th>
+            <th>
+             nest_asyncio
+            </th>
+            <th>
+             collections
+            </th>
+            <th>
+             abc
+            </th>
+            <th>
+             tqdm
+            </th>
+           </tr>
+          </thead>
+          <tbody>
+           <tr>
+            <th>
+             0
+            </th>
+            <td>
+             41
+            </td>
+            <td>
+             30
+            </td>
+            <td>
+             14
+            </td>
+            <td>
+             14
+            </td>
+            <td>
+             14
+            </td>
+            <td>
+             13
+            </td>
+            <td>
+             12
+            </td>
+            <td>
+             12
+            </td>
+            <td>
+             11
+            </td>
+            <td>
+             10
+            </td>
+            <td>
+             10
+            </td>
+            <td>
+             7
+            </td>
+            <td>
+             7
+            </td>
+            <td>
+             7
+            </td>
+            <td>
+             7
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             6
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             5
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             4
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             3
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             2
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+            <td>
+             1
+            </td>
+           </tr>
+          </tbody>
+         </table>
+         <pre><code>if &Oslash;:
     (cells := get_cells(get_files()))
     (cells := cells.join(get_modules(cells)))
     modules = cells[cells.columns[cells.columns.str.endswith("_modules")]]
     modules = modules.stack().apply(list).apply(pandas.Series, dtype="O").stack()
     return HTML(modules.value_counts().to_frame().T.to_html())
 </code></pre>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -4035,7 +4061,7 @@ __import__("requests_cache").install_cache()
       <td class="nb-end" hidden id="cell-19-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" form="cell-19" id="cell-19-source" name="source" readonly rows="4">## todo
+       <textarea aria-labelledby="cell-19-in-label cell-19-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-19" id="cell-19-source" name="source" readonly rows="4">## todo
 
 * inject the imports back into the notebooks. where though?
 * find magics</textarea>
@@ -5182,6 +5208,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
  </body>
 </html>

@@ -931,13 +931,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-03-05-astropy-table-repr.html">
-        astropy tables as semantic tables
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
        </a>
       </li>
       <li>
-       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
-        using tables to structure tracebacks
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
        </a>
       </li>
       <li>
@@ -966,13 +966,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="2024-02-26-lunr-search.html">
-        creating accessible search
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
        </a>
       </li>
       <li>
-       <a href="2024-02-26-bash-midgy.html">
-        adding shell and css fence directives to midgy
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
        </a>
       </li>
       <li>
@@ -1111,13 +1111,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-lite-build.html">
-        including development builds in jupyter lite
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
-        extracting a dependency graph from importlib_metadata
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
        </a>
       </li>
       <li>
@@ -1146,13 +1146,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-extensible-metadata.html">
-        extensible metadata in the notebook format
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
        </a>
       </li>
       <li>
-       <a href="../xxiii/2023-01-11-duckdb-search.html">
-        full text search for notebooks and files using duckdb
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
        </a>
       </li>
       <li>
@@ -1191,13 +1191,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-markdownish-notebook.html">
-        a template for exporting markdownish notebooks
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-12-31-jupyter-config-files.html">
-        configuration files
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
        </a>
       </li>
       <li>
@@ -1286,13 +1286,13 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-async-import.html">
-        asynchronous imports in python
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
        </a>
       </li>
       <li>
-       <a href="../xxii/2022-11-12-pluggy-experiments.html">
-        fumbling around with pluggy
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
        </a>
       </li>
       <li>
@@ -1454,34 +1454,34 @@ recently i tried tried compositing my stream using more native html features rat
    </dialog>
   </header>
   <main>
-   <form name="notebook">
-    <fieldset>
-     <legend>
-      cell ordering
-     </legend>
-     <input id="sort-asc" name="sorted" type="radio" value="ascending">
-     <label for="sort-asc">
-      ascending
-     </label>
-     <input id="sort-desc" name="sorted" type="radio" value="descending">
-     <label for="sort-desc">
-      descending
-     </label>
-    </fieldset>
-   </form>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <div class="thebe-activate">
+     Activate
+    </div>
+    <form name="notebook">
+     <fieldset name="kernel">
+      <div class="thebe-status">
+      </div>
+     </fieldset>
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
    <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
-    <colgroup>
-     <col class="nb-index">
-     <col class="nb-execution_count">
-     <col class="nb-cell_type">
-     <col class="nb-toolbar">
-     <col class="nb-started_at">
-     <col class="nb-completed_at">
-     <col class="nb-source">
-     <col class="nb-loc">
-     <col class="nb-metadata">
-     <col class="nb-outputs">
-    </colgroup>
     <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
      <tr hidden role="listitem">
       <th role="none" scope="col">
@@ -1561,7 +1561,7 @@ recently i tried tried compositing my stream using more native html features rat
       <td class="nb-end" hidden id="cell-1-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># an html webcam player
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="6"># an html webcam player
 
 i like having control of my software and knowing what is going on.
 recently i tried tried compositing my stream using more native html features rather than configuring obs. i really liked how it felt and wanted to explore video capabilities more.
@@ -1659,7 +1659,7 @@ recently i tried tried compositing my stream using more native html features rat
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" form="cell-2" id="cell-2-source" name="source" readonly rows="99">%%
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="99">%%
 our `video` is represented as a `form` to give easier access form data in the javascript.
 
 {{one.data}}
@@ -1900,38 +1900,39 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
           ]
          </span>
         </legend>
-        <p>
-         our
-         <code>
-          video
-         </code>
-         is represented as a
-         <code>
-          form
-         </code>
-         to give easier access form data in the javascript.
-        </p>
-        <form class="webcam" name="one">
-         <label for="camera">
-          cameras
-         </label>
-         <select name="camera">
-         </select>
-         <select name="direction">
-          <option value="user">
-           forward
-          </option>
-          <option value="environment">
-           back
-          </option>
-         </select>
-         <br>
-         <video autoplay>
-         </video>
-        </form>
-        <pre><code>    one=\
+        <div>
+         <p>
+          our
+          <code>
+           video
+          </code>
+          is represented as a
+          <code>
+           form
+          </code>
+          to give easier access form data in the javascript.
+         </p>
+         <form class="webcam" name="one">
+          <label for="camera">
+           cameras
+          </label>
+          <select name="camera">
+          </select>
+          <select name="direction">
+           <option value="user">
+            forward
+           </option>
+           <option value="environment">
+            back
+           </option>
+          </select>
+          <br>
+          <video autoplay>
+          </video>
+         </form>
+         <pre><code>    one=\
 </code></pre>
-        <pre><code class="html">&lt;form name=one class=webcam&gt;
+         <pre><code class="html">&lt;form name=one class=webcam&gt;
     &lt;label for=camera&gt;cameras&lt;/label&gt;
     &lt;select name=camera&gt;&lt;/select&gt; 
     &lt;select name=direction&gt;
@@ -1942,30 +1943,30 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
     &lt;video autoplay&gt;&lt;/video&gt;
 &lt;/form&gt;
 </code></pre>
-        <p>
-         we make two videos to demonstrate this works for multiple video streams, and we could add a screen share.
-        </p>
-        <form class="webcam" name="two">
-         <label for="camera">
-          cameras
-         </label>
-         <select name="camera">
-         </select>
-         <select name="direction">
-          <option value="user">
-           forward
-          </option>
-          <option value="environment">
-           back
-          </option>
-         </select>
-         <br>
-         <video autoplay>
-         </video>
-        </form>
-        <pre><code>    two=\
+         <p>
+          we make two videos to demonstrate this works for multiple video streams, and we could add a screen share.
+         </p>
+         <form class="webcam" name="two">
+          <label for="camera">
+           cameras
+          </label>
+          <select name="camera">
+          </select>
+          <select name="direction">
+           <option value="user">
+            forward
+           </option>
+           <option value="environment">
+            back
+           </option>
+          </select>
+          <br>
+          <video autoplay>
+          </video>
+         </form>
+         <pre><code>    two=\
 </code></pre>
-        <pre><code class="html">&lt;form name=two class=webcam&gt;
+         <pre><code class="html">&lt;form name=two class=webcam&gt;
     &lt;label for=camera&gt;cameras&lt;/label&gt;
     &lt;select name=camera&gt;&lt;/select&gt; 
     &lt;select name=direction&gt;
@@ -1976,13 +1977,13 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
     &lt;video autoplay&gt;&lt;/video&gt;
 &lt;/form&gt;
 </code></pre>
-        <p>
-         our javascript needs update the avaiable cameras dynamically.
+         <p>
+          our javascript needs update the avaiable cameras dynamically.
 user intervention is needed to give access to a camera.
-        </p>
-        <pre><code>    updateVideoSources=\
+         </p>
+         <pre><code>    updateVideoSources=\
 </code></pre>
-        <pre><code class="js">function updateVideoSources(device, camera){
+         <pre><code class="js">function updateVideoSources(device, camera){
     if (device.kind == "videoinput") {
       let option = document.createElement('option');
       if (!camera.querySelector(`[value="${device.deviceId}"]`)){
@@ -1994,12 +1995,12 @@ user intervention is needed to give access to a camera.
 }
 
 </code></pre>
-        <p>
-         we iterate through any elements on the page and update the media devices available while adding hooks for updating sources.
-        </p>
-        <pre><code>    webcams=\
+         <p>
+          we iterate through any elements on the page and update the media devices available while adding hooks for updating sources.
+         </p>
+         <pre><code>    webcams=\
 </code></pre>
-        <pre><code class="js">Array.from(document.getElementsByClassName("webcam")).forEach(
+         <pre><code class="js">Array.from(document.getElementsByClassName("webcam")).forEach(
     (form) =&gt; {
         let [video] = form.getElementsByTagName("video");
         let camera = form.elements.camera;
@@ -2033,8 +2034,8 @@ user intervention is needed to give access to a camera.
     }
 )
 </code></pre>
-        <script>
-         function updateVideoSources(device, camera){
+         <script>
+          function updateVideoSources(device, camera){
     if (device.kind == "videoinput") {
       let option = document.createElement('option');
       if (!camera.querySelector(`[value="${device.deviceId}"]`)){
@@ -2080,7 +2081,8 @@ Array.from(document.getElementsByClassName("webcam")).forEach(
         direction.addEventListener("change", change);
     }
 )
-        </script>
+         </script>
+        </div>
        </fieldset>
       </td>
      </tr>
@@ -3183,6 +3185,27 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
 }, false);
+  </script>
+  <script type="text/x-thebe-config">
+   {
+    requestKernel: true,
+    selector: ".code textarea[name=source]",
+    outputSelector: "fieldset.nb-outputs > div",
+    stripOutputPrompts: true,
+    binderOptions: {
+      repo: "binder-examples/requirements",
+    },
+    codeMirrorConfig: {
+        matchBrackets: true,
+    },
+    mountActivateWidget: true,
+    mountStatusWidget: true,
+    mountRunAllButton: false,
+    mountRestartButton: false,
+    mountRestartAllButton: false,
+  }
+  </script>
+  <script src="https://unpkg.com/thebe@latest/lib/index.js">
   </script>
   <script type="application/vnd.jupyter.widget-state+json">
    {"state": {}, "version_major": 2, "version_minor": 0}
