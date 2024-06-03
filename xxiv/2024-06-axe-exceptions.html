@@ -1,0 +1,4169 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxiv/2024-06-axe-exceptions.html">
+      
+      
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.25">
+    
+    
+      
+        <title>build python exceptions from axe rules - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="build python exceptions from axe rules - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-06-axe-exceptions.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxiv/2024-06-axe-exceptions.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="build python exceptions from axe rules - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-06-axe-exceptions.png" >
+      
+    
+    
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#build-python-exceptions-from-axe-rules" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              build python exceptions from axe rules
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    run in jupyterlite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-02-equal-access-checker.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking the ibm equal access checker from python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-11-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    stream drawing words with video elements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-09-videos.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an html webcam player
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-08-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    markdown as an accessible, literate programming language
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-06-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    listening to sounds of data visualizations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-29-enrich-refs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    enriching markdown links with access to current python distributions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-28-scroll-position.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 28 scroll position
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-23-Untitled42.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    untitled42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-18-a-simple-clock.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the bones of a clock
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-windchime.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    wind chime table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-visual-table-indicator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    non-numerical dataframes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-15-llm-workflow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 15 llm workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-12-word-cloud.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    word clouds are the wedding font of visualization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-11-3d-html-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3d plots from html tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-08-table-plots.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    html tables in figures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-06-dl-dict.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    definition lists as dictionaries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-04-nbconvert-html-screen-reader.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader improvements to nbconvert html exporter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-03-markdown-lists-to-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turning markdown lists to python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-26-accessible-documentation-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    assistive documentation data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-23-updating-ipython-config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ipython profile updates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-documentation-as-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    documentation as software and data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-itables-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader experiences with static and interactive tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-20-exec-mast-nb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    executing the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-15-screen-tests.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisiting nbviewer/nbconvert screen reader experiences
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-13-notebooks-for-all-march-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks for all community summary
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-12-nbconvert-a11y-pres.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-11-NOA.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Astronomy Notebooks for All
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-06-mast-revisit.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisit building the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-traceback-figure-tables.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using tables to structure tracebacks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-astropy-table-repr.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    astropy tables as semantic tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-04-semantic-outputs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    improved output semantic for python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-notebook-accessibility-workshop.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks and accessibility workshop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-a11y-list-string.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using microdata and semantic html to represent python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-28-histograms-sucks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    histograms suck
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-multiindex-aria.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding aria to long or wide tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-bash-midgy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding shell and css fence directives to midgy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-lunr-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating accessible search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-21-build-docs-pd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    build the site docs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-20-multiindex-html.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    proper html tables with multiple indexes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-15-pandas-table-names.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a study of pandas dataframes with different levels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-05-aiohttp-pandas-accessor.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding an http attribrute to pandas series
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-25-mast-a11y-notebooks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    transforming mast notebooks into nbconvert templates.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-20-colgroup-schema.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic representation of columns based on schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-05-docx-to-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    convertin a docx into a structured dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-20-interactive-html-validation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    interactive w3c validation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    slicing and dicing accessibility violations with exception groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-13-jupyter-community-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    It's the Community Call Y'all
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    generating higher resolution exceptions for the vnu validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-03-axe-rules-topology.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    axe testing codes as dataframes and exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-11-14-w3c-validator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running the w3c validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful display outputs for notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-23-semantic-lits.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful lists
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-10-semantic-code-blocks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    accessibile semantics for python code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-03-pandas-accessors.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pandas</code> accessors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the string is a samp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a semantic dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-21-v7-aom.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    jupyter notebook v7 remediations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-pycascades-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-04-computational-notebooks-history.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a sprint through history toward computional notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-28-community-demo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pidgy</code> literate computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-19-semantic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic notebook structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pipes are common sugar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-whoosh-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    use <code>whoosh</code> to search cells/articles on disk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    including development builds in jupyter lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting a dependency graph from <code>importlib_metadata</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cleaner integration of <code>pidgy</code> &amp; <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-16-inspector-hack.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    customizing the <code>IPython</code> contextual help
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    where do all the good links go?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-tree-sitter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    getting start with tree sitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-giscus-comments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding giscus comments to this blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-duckdb-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    full text search for notebooks and files using duckdb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-extensible-metadata.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extensible metadata in the notebook format
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-10-rara-gtfo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    restart and run all or it didn't happen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-09-notebooks-states.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    three states of python in a notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-07-pidgy-voila.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running <code>pidgy</code> in <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-using-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    diagrams in jupyter and mkdocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>tfoot</code> in dataframes for more information
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering dataframes for screen readers with <code>pandas</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-01-strawberry-server.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WIP: strawberry jupyter server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    configuration files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a template for exporting markdownish notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>typer</code> in ipython magics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>mkdocs</code> plugin for jupyter notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analyzing <code>pyproject.toml</code> configurations of popular projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>jupyterlite</code> blog integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering a notebook with <code>pyscript</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    integrating <code>typer</code> into the blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>doit</code> integration - a <code>mkdocs</code> example
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    automating blog posts to work with jupyter-lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    retreiving my issue activity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-15-html-tags-study.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    all the tags i could be using
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-13-github-api-stats.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting info from the github statistics api
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    exploring many <code>pyproject.toml configs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    formatting markdown it tokens as python <code>doctests</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making <code>__main__</code> a <code>__package__</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    unravel directories of notebooks with <code>dask</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-async-import.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    asynchronous imports in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fumbling around with <code>pluggy</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inferring linked data from <code>IPython</code> run times.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking axe-core from python playwright
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    post processing html accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    literate computing - interactive literate programming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    when markdown and python collide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making meeting links
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turn some text into a mobius surface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-05-dask-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    searching notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxiv/2024-06-axe-exceptions.ipynb" title="edit.link.title" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxiv/2024-06-axe-exceptions.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxiv/2024-06-axe-exceptions.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="build-python-exceptions-from-axe-rules">build python exceptions from axe rules<a class="headerlink" href="#build-python-exceptions-from-axe-rules" title="Permanent link">¤</a></h1>
+<p>i need better axe integration for testing with python systems. in the past i have inferred, or dynamically derived classes for the axe exceptions. the dynamic approach is wrong, our exceptions should be deterministic and closed work. this notebook derive the process for extracting axe rules.</p>
+<h2 id="get-the-list-of-rules-from-axe-in-node">get the list of rules from <code>axe</code> in node<a class="headerlink" href="#get-the-list-of-rules-from-axe-in-node" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span><span class="n">file</span> <span class="n">get_axe_rules</span><span class="o">.</span><span class="n">mjs</span>
+<span class="kn">import</span> <span class="nn">axe</span> <span class="kn">from</span> <span class="s2">&quot;axe-core&quot;</span><span class="p">;</span>
+
+<span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">JSON</span><span class="o">.</span><span class="n">stringify</span><span class="p">(</span><span class="n">axe</span><span class="o">.</span><span class="n">getRules</span><span class="p">(),</span> <span class="n">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>Overwriting get_axe_rules.mjs
+</pre>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="n">rules</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">subprocess</span><span class="o">.</span><span class="n">check_output</span><span class="p">(</span><span class="n">shlex</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;node get_axe_rules.mjs&quot;</span><span class="p">)))</span>
+<span class="n">DataFrame</span><span class="p">(</span><span class="n">rules</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><div>
+<style scoped="">
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+<thead>
+<tr style="text-align: right;">
+<th></th>
+<th>ruleId</th>
+<th>description</th>
+<th>help</th>
+<th>helpUrl</th>
+<th>tags</th>
+<th>actIds</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th>0</th>
+<td>accesskeys</td>
+<td>Ensures every accesskey attribute value is unique</td>
+<td>accesskey attribute value should be unique</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/acce...</td>
+<td>[cat.keyboard, best-practice]</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>1</th>
+<td>area-alt</td>
+<td>Ensures &lt;area&gt; elements of image maps have alt...</td>
+<td>Active &lt;area&gt; elements must have alternate text</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/area...</td>
+<td>[cat.text-alternatives, wcag2a, wcag244, wcag4...</td>
+<td>[c487ae]</td>
+</tr>
+<tr>
+<th>2</th>
+<td>aria-allowed-attr</td>
+<td>Ensures an element's role supports its ARIA at...</td>
+<td>Elements must only use supported ARIA attributes</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/aria...</td>
+<td>[cat.aria, wcag2a, wcag412, EN-301-549, EN-9.4...</td>
+<td>[5c01ea]</td>
+</tr>
+<tr>
+<th>3</th>
+<td>aria-allowed-role</td>
+<td>Ensures role attribute has an appropriate valu...</td>
+<td>ARIA role should be appropriate for the element</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/aria...</td>
+<td>[cat.aria, best-practice]</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>4</th>
+<td>aria-braille-equivalent</td>
+<td>Ensure aria-braillelabel and aria-brailleroled...</td>
+<td>aria-braille attributes must have a non-braill...</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/aria...</td>
+<td>[cat.aria, wcag2a, wcag412, EN-301-549, EN-9.4...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr>
+<th>98</th>
+<td>td-has-header</td>
+<td>Ensure that each non-empty data cell in a &lt;tab...</td>
+<td>Non-empty &lt;td&gt; elements in larger &lt;table&gt; must...</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/td-h...</td>
+<td>[cat.tables, experimental, wcag2a, wcag131, se...</td>
+<td>NaN</td>
+</tr>
+<tr>
+<th>99</th>
+<td>td-headers-attr</td>
+<td>Ensure that each cell in a table that uses the...</td>
+<td>Table cells that use the headers attribute mus...</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/td-h...</td>
+<td>[cat.tables, wcag2a, wcag131, section508, sect...</td>
+<td>[a25f45]</td>
+</tr>
+<tr>
+<th>100</th>
+<td>th-has-data-cells</td>
+<td>Ensure that &lt;th&gt; elements and elements with ro...</td>
+<td>Table headers in a data table must refer to da...</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/th-h...</td>
+<td>[cat.tables, wcag2a, wcag131, section508, sect...</td>
+<td>[d0f69e]</td>
+</tr>
+<tr>
+<th>101</th>
+<td>valid-lang</td>
+<td>Ensures lang attributes have valid values</td>
+<td>lang attribute must have a valid value</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/vali...</td>
+<td>[cat.language, wcag2aa, wcag312, TTv5, TT11.b,...</td>
+<td>[de46e4]</td>
+</tr>
+<tr>
+<th>102</th>
+<td>video-caption</td>
+<td>Ensures &lt;video&gt; elements have captions</td>
+<td>&lt;video&gt; elements must have captions</td>
+<td>https://dequeuniversity.com/rules/axe/4.8/vide...</td>
+<td>[cat.text-alternatives, wcag2a, wcag122, secti...</td>
+<td>[eac66b]</td>
+</tr>
+</tbody>
+</table>
+<p>103 rows × 6 columns</p>
+</div></div>
+
+<h2 id="using-test-frameworks-as-base-classes">using test frameworks as base classes<a class="headerlink" href="#using-test-frameworks-as-base-classes" title="Permanent link">¤</a></h2>
+<p>tags define testing frameworks. there is finite set of tags smaller than the number of rules.</p>
+<div class="highlight"><pre><span></span><code><span class="n">tags</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
+    <span class="n">tags</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">rule</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="p">())</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tag_to_class_name</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;transform a tag name into valid python&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;TT&quot;</span><span class="p">,</span> <span class="s2">&quot;EN&quot;</span><span class="p">,</span> <span class="s2">&quot;section508&quot;</span><span class="p">)):</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;._&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">):</span>
+        <span class="n">tag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">tag</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;-_&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">tag_to_class</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;convert an axe tag to a python class&quot;&quot;&quot;</span>
+
+    <span class="k">return</span> <span class="sa">F</span><span class="s2">&quot;&quot;&quot;class </span><span class="si">{</span><span class="n">tag_to_class_name</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span><span class="si">}</span><span class="s2">: ...&quot;&quot;&quot;</span>
+</code></pre></div>
+<h4 id="generate-all-the-classes-for-the-base-tags">generate all the classes for the base tags<a class="headerlink" href="#generate-all-the-classes-for-the-base-tags" title="Permanent link">¤</a></h4>
+<p>create classes for all the tags</p>
+<div class="highlight"><pre><span></span><code><span class="n">body</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+<span class="n">had_cats</span> <span class="o">=</span> <span class="n">cats</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tags</span><span class="p">):</span>
+    <span class="n">py</span> <span class="o">=</span> <span class="n">tag_to_class</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span>
+    <span class="n">cats</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;cat&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">had_cats</span> <span class="ow">and</span> <span class="n">cats</span><span class="p">:</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;class cat:&quot;</span><span class="p">)</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">cats</span><span class="p">:</span>
+        <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span>    
+    <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">py</span><span class="p">)</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">had_cats</span> <span class="o">=</span> <span class="n">cats</span>
+
+<span class="k">assert</span> <span class="nb">compile</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">getvalue</span><span class="p">(),</span> <span class="s2">&quot;test&quot;</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">),</span> <span class="s2">&quot;the python code is not valid&quot;</span>
+</code></pre></div>
+<h2 id="generate-the-base-classes-for-each-possible-rule">generate the base classes for each possible rule<a class="headerlink" href="#generate-the-base-classes-for-each-possible-rule" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">rule_to_class</span><span class="p">(</span><span class="n">ruleId</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">help</span><span class="p">,</span> <span class="n">helpUrl</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;create python code from a rule payload&quot;&quot;&quot;</span>
+    <span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;object&quot;</span>
+    <span class="k">if</span> <span class="n">tags</span><span class="p">:</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">tag_to_class_name</span><span class="p">,</span> <span class="n">tags</span><span class="p">))</span>
+    <span class="k">return</span> <span class="sa">F</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">class </span><span class="si">{</span><span class="n">ruleId_to_name</span><span class="p">(</span><span class="n">ruleId</span><span class="p">)</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">base</span><span class="si">}</span><span class="s2">):</span>
+<span class="s2">    </span><span class="se">\&quot;\&quot;\&quot;</span><span class="si">{</span><span class="n">description</span><span class="si">}</span>
+
+<span class="si">{</span><span class="n">help</span><span class="si">}</span>
+
+<span class="si">{</span><span class="n">helpUrl</span><span class="si">}</span><span class="se">\&quot;\&quot;\&quot;</span>
+
+<span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+    <span class="c1"># the helpurl will be clickable in a few contexts</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ruleId_to_name</span><span class="p">(</span><span class="n">ruleId</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">ruleId</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="o">*</span><span class="s2">&quot;-_&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">rule</span> <span class="ow">in</span> <span class="n">rules</span><span class="p">:</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">rule_to_class</span><span class="p">(</span><span class="o">**</span><span class="n">rule</span><span class="p">))</span>
+    <span class="n">body</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">*</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">assert</span> <span class="nb">compile</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">getvalue</span><span class="p">(),</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;exec&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="nb">print</span><span class="p">(</span><span class="n">body</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>class ACT: ...
+
+class EN_301_549: ...
+
+class EN_9_1_1_1: ...
+
+class EN_9_1_2_1: ...
+
+class EN_9_1_2_2: ...
+
+class EN_9_1_3_1: ...
+
+class EN_9_1_3_4: ...
+
+class EN_9_1_3_5: ...
+
+class EN_9_1_4_1: ...
+
+class EN_9_1_4_12: ...
+
+class EN_9_1_4_2: ...
+
+class EN_9_1_4_3: ...
+
+class EN_9_1_4_4: ...
+
+class EN_9_2_1_1: ...
+
+class EN_9_2_2_1: ...
+
+class EN_9_2_2_2: ...
+
+class EN_9_2_4_1: ...
+
+class EN_9_2_4_2: ...
+
+class EN_9_2_4_4: ...
+
+class EN_9_2_5_3: ...
+
+class EN_9_3_1_1: ...
+
+class EN_9_3_1_2: ...
+
+class EN_9_3_3_2: ...
+
+class EN_9_4_1_2: ...
+
+class TT11_a: ...
+
+class TT11_b: ...
+
+class TT12_a: ...
+
+class TT12_d: ...
+
+class TT13_a: ...
+
+class TT13_c: ...
+
+class TT14_b: ...
+
+class TT17_a: ...
+
+class TT2_a: ...
+
+class TT2_b: ...
+
+class TT4_a: ...
+
+class TT5_c: ...
+
+class TT6_a: ...
+
+class TT7_a: ...
+
+class TT7_b: ...
+
+class TT8_a: ...
+
+class TT9_a: ...
+
+class TTv5: ...
+
+class best_practice: ...
+
+class cat:
+
+    class aria: ...
+
+    class color: ...
+
+    class forms: ...
+
+    class keyboard: ...
+
+    class language: ...
+
+    class name_role_value: ...
+
+    class parsing: ...
+
+    class semantics: ...
+
+    class sensory_and_visual_cues: ...
+
+    class structure: ...
+
+    class tables: ...
+
+    class text_alternatives: ...
+
+    class time_and_media: ...
+
+class deprecated: ...
+
+class experimental: ...
+
+class review_item: ...
+
+class section508: ...
+
+class section508_22_a: ...
+
+class section508_22_f: ...
+
+class section508_22_g: ...
+
+class section508_22_i: ...
+
+class section508_22_j: ...
+
+class section508_22_n: ...
+
+class section508_22_o: ...
+
+class wcag111: ...
+
+class wcag121: ...
+
+class wcag122: ...
+
+class wcag131: ...
+
+class wcag134: ...
+
+class wcag135: ...
+
+class wcag141: ...
+
+class wcag1412: ...
+
+class wcag142: ...
+
+class wcag143: ...
+
+class wcag144: ...
+
+class wcag146: ...
+
+class wcag211: ...
+
+class wcag21a: ...
+
+class wcag21aa: ...
+
+class wcag221: ...
+
+class wcag222: ...
+
+class wcag224: ...
+
+class wcag22aa: ...
+
+class wcag241: ...
+
+class wcag242: ...
+
+class wcag244: ...
+
+class wcag249: ...
+
+class wcag253: ...
+
+class wcag258: ...
+
+class wcag2a: ...
+
+class wcag2a_obsolete: ...
+
+class wcag2aa: ...
+
+class wcag2aaa: ...
+
+class wcag311: ...
+
+class wcag312: ...
+
+class wcag325: ...
+
+class wcag332: ...
+
+class wcag411: ...
+
+class wcag412: ...
+
+
+
+class accesskeys(keyboard, best_practice):
+    """Ensures every accesskey attribute value is unique
+
+accesskey attribute value should be unique
+
+https://dequeuniversity.com/rules/axe/4.8/accesskeys?application=axeAPI"""
+
+
+
+class area_alt(text_alternatives, wcag2a, wcag244, wcag412, section508, section508_22_a, TTv5, TT6_a, EN_301_549, EN_9_2_4_4, EN_9_4_1_2, ACT):
+    """Ensures &lt;area&gt; elements of image maps have alternate text
+
+Active &lt;area&gt; elements must have alternate text
+
+https://dequeuniversity.com/rules/axe/4.8/area-alt?application=axeAPI"""
+
+
+
+class aria_allowed_attr(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures an element's role supports its ARIA attributes
+
+Elements must only use supported ARIA attributes
+
+https://dequeuniversity.com/rules/axe/4.8/aria-allowed-attr?application=axeAPI"""
+
+
+
+class aria_allowed_role(aria, best_practice):
+    """Ensures role attribute has an appropriate value for the element
+
+ARIA role should be appropriate for the element
+
+https://dequeuniversity.com/rules/axe/4.8/aria-allowed-role?application=axeAPI"""
+
+
+
+class aria_braille_equivalent(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensure aria-braillelabel and aria-brailleroledescription have a non-braille equivalent
+
+aria-braille attributes must have a non-braille equivalent
+
+https://dequeuniversity.com/rules/axe/4.8/aria-braille-equivalent?application=axeAPI"""
+
+
+
+class aria_command_name(aria, wcag2a, wcag412, TTv5, TT6_a, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures every ARIA button, link and menuitem has an accessible name
+
+ARIA commands must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-command-name?application=axeAPI"""
+
+
+
+class aria_conditional_attr(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures ARIA attributes are used as described in the specification of the element's role
+
+ARIA attributes must be used as specified for the element's role
+
+https://dequeuniversity.com/rules/axe/4.8/aria-conditional-attr?application=axeAPI"""
+
+
+
+class aria_deprecated_role(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures elements do not use deprecated roles
+
+Deprecated ARIA roles must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/aria-deprecated-role?application=axeAPI"""
+
+
+
+class aria_dialog_name(aria, best_practice):
+    """Ensures every ARIA dialog and alertdialog node has an accessible name
+
+ARIA dialog and alertdialog nodes should have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-dialog-name?application=axeAPI"""
+
+
+
+class aria_hidden_body(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures aria-hidden="true" is not present on the document body.
+
+aria-hidden="true" must not be present on the document body
+
+https://dequeuniversity.com/rules/axe/4.8/aria-hidden-body?application=axeAPI"""
+
+
+
+class aria_hidden_focus(name_role_value, wcag2a, wcag412, TTv5, TT6_a, EN_301_549, EN_9_4_1_2):
+    """Ensures aria-hidden elements are not focusable nor contain focusable elements
+
+ARIA hidden element must not be focusable or contain focusable elements
+
+https://dequeuniversity.com/rules/axe/4.8/aria-hidden-focus?application=axeAPI"""
+
+
+
+class aria_input_field_name(aria, wcag2a, wcag412, TTv5, TT5_c, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures every ARIA input field has an accessible name
+
+ARIA input fields must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-input-field-name?application=axeAPI"""
+
+
+
+class aria_meter_name(aria, wcag2a, wcag111, EN_301_549, EN_9_1_1_1):
+    """Ensures every ARIA meter node has an accessible name
+
+ARIA meter nodes must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-meter-name?application=axeAPI"""
+
+
+
+class aria_progressbar_name(aria, wcag2a, wcag111, EN_301_549, EN_9_1_1_1):
+    """Ensures every ARIA progressbar node has an accessible name
+
+ARIA progressbar nodes must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-progressbar-name?application=axeAPI"""
+
+
+
+class aria_prohibited_attr(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures ARIA attributes are not prohibited for an element's role
+
+Elements must only use permitted ARIA attributes
+
+https://dequeuniversity.com/rules/axe/4.8/aria-prohibited-attr?application=axeAPI"""
+
+
+
+class aria_required_attr(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures elements with ARIA roles have all required ARIA attributes
+
+Required ARIA attributes must be provided
+
+https://dequeuniversity.com/rules/axe/4.8/aria-required-attr?application=axeAPI"""
+
+
+
+class aria_required_children(aria, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures elements with an ARIA role that require child roles contain them
+
+Certain ARIA roles must contain particular children
+
+https://dequeuniversity.com/rules/axe/4.8/aria-required-children?application=axeAPI"""
+
+
+
+class aria_required_parent(aria, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures elements with an ARIA role that require parent roles are contained by them
+
+Certain ARIA roles must be contained by particular parents
+
+https://dequeuniversity.com/rules/axe/4.8/aria-required-parent?application=axeAPI"""
+
+
+
+class aria_roledescription(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2, deprecated):
+    """Ensure aria-roledescription is only used on elements with an implicit or explicit role
+
+aria-roledescription must be on elements with a semantic role
+
+https://dequeuniversity.com/rules/axe/4.8/aria-roledescription?application=axeAPI"""
+
+
+
+class aria_roles(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures all elements with a role attribute use a valid value
+
+ARIA roles used must conform to valid values
+
+https://dequeuniversity.com/rules/axe/4.8/aria-roles?application=axeAPI"""
+
+
+
+class aria_text(aria, best_practice):
+    """Ensures role="text" is used on elements with no focusable descendants
+
+"role=text" should have no focusable descendants
+
+https://dequeuniversity.com/rules/axe/4.8/aria-text?application=axeAPI"""
+
+
+
+class aria_toggle_field_name(aria, wcag2a, wcag412, TTv5, TT5_c, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures every ARIA toggle field has an accessible name
+
+ARIA toggle fields must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-toggle-field-name?application=axeAPI"""
+
+
+
+class aria_tooltip_name(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures every ARIA tooltip node has an accessible name
+
+ARIA tooltip nodes must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-tooltip-name?application=axeAPI"""
+
+
+
+class aria_treeitem_name(aria, best_practice):
+    """Ensures every ARIA treeitem node has an accessible name
+
+ARIA treeitem nodes should have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/aria-treeitem-name?application=axeAPI"""
+
+
+
+class aria_valid_attr_value(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures all ARIA attributes have valid values
+
+ARIA attributes must conform to valid values
+
+https://dequeuniversity.com/rules/axe/4.8/aria-valid-attr-value?application=axeAPI"""
+
+
+
+class aria_valid_attr(aria, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures attributes that begin with aria- are valid ARIA attributes
+
+ARIA attributes must conform to valid names
+
+https://dequeuniversity.com/rules/axe/4.8/aria-valid-attr?application=axeAPI"""
+
+
+
+class audio_caption(time_and_media, wcag2a, wcag121, EN_301_549, EN_9_1_2_1, section508, section508_22_a, deprecated):
+    """Ensures &lt;audio&gt; elements have captions
+
+&lt;audio&gt; elements must have a captions track
+
+https://dequeuniversity.com/rules/axe/4.8/audio-caption?application=axeAPI"""
+
+
+
+class autocomplete_valid(forms, wcag21aa, wcag135, EN_301_549, EN_9_1_3_5, ACT):
+    """Ensure the autocomplete attribute is correct and suitable for the form field
+
+autocomplete attribute must be used correctly
+
+https://dequeuniversity.com/rules/axe/4.8/autocomplete-valid?application=axeAPI"""
+
+
+
+class avoid_inline_spacing(structure, wcag21aa, wcag1412, EN_301_549, EN_9_1_4_12, ACT):
+    """Ensure that text spacing set through style attributes can be adjusted with custom stylesheets
+
+Inline text spacing must be adjustable with custom stylesheets
+
+https://dequeuniversity.com/rules/axe/4.8/avoid-inline-spacing?application=axeAPI"""
+
+
+
+class blink(time_and_media, wcag2a, wcag222, section508, section508_22_j, TTv5, TT2_b, EN_301_549, EN_9_2_2_2):
+    """Ensures &lt;blink&gt; elements are not used
+
+&lt;blink&gt; elements are deprecated and must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/blink?application=axeAPI"""
+
+
+
+class button_name(name_role_value, wcag2a, wcag412, section508, section508_22_a, TTv5, TT6_a, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures buttons have discernible text
+
+Buttons must have discernible text
+
+https://dequeuniversity.com/rules/axe/4.8/button-name?application=axeAPI"""
+
+
+
+class bypass(keyboard, wcag2a, wcag241, section508, section508_22_o, TTv5, TT9_a, EN_301_549, EN_9_2_4_1):
+    """Ensures each page has at least one mechanism for a user to bypass navigation and jump straight to the content
+
+Page must have means to bypass repeated blocks
+
+https://dequeuniversity.com/rules/axe/4.8/bypass?application=axeAPI"""
+
+
+
+class color_contrast_enhanced(color, wcag2aaa, wcag146, ACT):
+    """Ensures the contrast between foreground and background colors meets WCAG 2 AAA enhanced contrast ratio thresholds
+
+Elements must meet enhanced color contrast ratio thresholds
+
+https://dequeuniversity.com/rules/axe/4.8/color-contrast-enhanced?application=axeAPI"""
+
+
+
+class color_contrast(color, wcag2aa, wcag143, TTv5, TT13_c, EN_301_549, EN_9_1_4_3, ACT):
+    """Ensures the contrast between foreground and background colors meets WCAG 2 AA minimum contrast ratio thresholds
+
+Elements must meet minimum color contrast ratio thresholds
+
+https://dequeuniversity.com/rules/axe/4.8/color-contrast?application=axeAPI"""
+
+
+
+class css_orientation_lock(structure, wcag134, wcag21aa, EN_301_549, EN_9_1_3_4, experimental):
+    """Ensures content is not locked to any specific display orientation, and the content is operable in all display orientations
+
+CSS Media queries must not lock display orientation
+
+https://dequeuniversity.com/rules/axe/4.8/css-orientation-lock?application=axeAPI"""
+
+
+
+class definition_list(structure, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures &lt;dl&gt; elements are structured correctly
+
+&lt;dl&gt; elements must only directly contain properly-ordered &lt;dt&gt; and &lt;dd&gt; groups, &lt;script&gt;, &lt;template&gt; or &lt;div&gt; elements
+
+https://dequeuniversity.com/rules/axe/4.8/definition-list?application=axeAPI"""
+
+
+
+class dlitem(structure, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures &lt;dt&gt; and &lt;dd&gt; elements are contained by a &lt;dl&gt;
+
+&lt;dt&gt; and &lt;dd&gt; elements must be contained by a &lt;dl&gt;
+
+https://dequeuniversity.com/rules/axe/4.8/dlitem?application=axeAPI"""
+
+
+
+class document_title(text_alternatives, wcag2a, wcag242, TTv5, TT12_a, EN_301_549, EN_9_2_4_2, ACT):
+    """Ensures each HTML document contains a non-empty &lt;title&gt; element
+
+Documents must have &lt;title&gt; element to aid in navigation
+
+https://dequeuniversity.com/rules/axe/4.8/document-title?application=axeAPI"""
+
+
+
+class duplicate_id_active(parsing, wcag2a_obsolete, wcag411, deprecated):
+    """Ensures every id attribute value of active elements is unique
+
+IDs of active elements must be unique
+
+https://dequeuniversity.com/rules/axe/4.8/duplicate-id-active?application=axeAPI"""
+
+
+
+class duplicate_id_aria(parsing, wcag2a, wcag412, EN_301_549, EN_9_4_1_2):
+    """Ensures every id attribute value used in ARIA and in labels is unique
+
+IDs used in ARIA and labels must be unique
+
+https://dequeuniversity.com/rules/axe/4.8/duplicate-id-aria?application=axeAPI"""
+
+
+
+class duplicate_id(parsing, wcag2a_obsolete, wcag411, deprecated):
+    """Ensures every id attribute value is unique
+
+id attribute value must be unique
+
+https://dequeuniversity.com/rules/axe/4.8/duplicate-id?application=axeAPI"""
+
+
+
+class empty_heading(name_role_value, best_practice):
+    """Ensures headings have discernible text
+
+Headings should not be empty
+
+https://dequeuniversity.com/rules/axe/4.8/empty-heading?application=axeAPI"""
+
+
+
+class empty_table_header(name_role_value, best_practice):
+    """Ensures table headers have discernible text
+
+Table header text should not be empty
+
+https://dequeuniversity.com/rules/axe/4.8/empty-table-header?application=axeAPI"""
+
+
+
+class focus_order_semantics(keyboard, best_practice, experimental):
+    """Ensures elements in the focus order have a role appropriate for interactive content
+
+Elements in the focus order should have an appropriate role
+
+https://dequeuniversity.com/rules/axe/4.8/focus-order-semantics?application=axeAPI"""
+
+
+
+class form_field_multiple_labels(forms, wcag2a, wcag332, TTv5, TT5_c, EN_301_549, EN_9_3_3_2):
+    """Ensures form field does not have multiple label elements
+
+Form field must not have multiple label elements
+
+https://dequeuniversity.com/rules/axe/4.8/form-field-multiple-labels?application=axeAPI"""
+
+
+
+class frame_focusable_content(keyboard, wcag2a, wcag211, TTv5, TT4_a, EN_301_549, EN_9_2_1_1):
+    """Ensures &lt;frame&gt; and &lt;iframe&gt; elements with focusable content do not have tabindex=-1
+
+Frames with focusable content must not have tabindex=-1
+
+https://dequeuniversity.com/rules/axe/4.8/frame-focusable-content?application=axeAPI"""
+
+
+
+class frame_tested(structure, best_practice, review_item):
+    """Ensures &lt;iframe&gt; and &lt;frame&gt; elements contain the axe-core script
+
+Frames should be tested with axe-core
+
+https://dequeuniversity.com/rules/axe/4.8/frame-tested?application=axeAPI"""
+
+
+
+class frame_title_unique(text_alternatives, wcag2a, wcag412, TTv5, TT12_d, EN_301_549, EN_9_4_1_2):
+    """Ensures &lt;iframe&gt; and &lt;frame&gt; elements contain a unique title attribute
+
+Frames must have a unique title attribute
+
+https://dequeuniversity.com/rules/axe/4.8/frame-title-unique?application=axeAPI"""
+
+
+
+class frame_title(text_alternatives, wcag2a, wcag412, section508, section508_22_i, TTv5, TT12_d, EN_301_549, EN_9_4_1_2):
+    """Ensures &lt;iframe&gt; and &lt;frame&gt; elements have an accessible name
+
+Frames must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/frame-title?application=axeAPI"""
+
+
+
+class heading_order(semantics, best_practice):
+    """Ensures the order of headings is semantically correct
+
+Heading levels should only increase by one
+
+https://dequeuniversity.com/rules/axe/4.8/heading-order?application=axeAPI"""
+
+
+
+class hidden_content(structure, best_practice, experimental, review_item):
+    """Informs users about hidden content.
+
+Hidden content on the page should be analyzed
+
+https://dequeuniversity.com/rules/axe/4.8/hidden-content?application=axeAPI"""
+
+
+
+class html_has_lang(language, wcag2a, wcag311, TTv5, TT11_a, EN_301_549, EN_9_3_1_1, ACT):
+    """Ensures every HTML document has a lang attribute
+
+&lt;html&gt; element must have a lang attribute
+
+https://dequeuniversity.com/rules/axe/4.8/html-has-lang?application=axeAPI"""
+
+
+
+class html_lang_valid(language, wcag2a, wcag311, TTv5, TT11_a, EN_301_549, EN_9_3_1_1, ACT):
+    """Ensures the lang attribute of the &lt;html&gt; element has a valid value
+
+&lt;html&gt; element must have a valid value for the lang attribute
+
+https://dequeuniversity.com/rules/axe/4.8/html-lang-valid?application=axeAPI"""
+
+
+
+class html_xml_lang_mismatch(language, wcag2a, wcag311, EN_301_549, EN_9_3_1_1, ACT):
+    """Ensure that HTML elements with both valid lang and xml:lang attributes agree on the base language of the page
+
+HTML elements with lang and xml:lang must have the same base language
+
+https://dequeuniversity.com/rules/axe/4.8/html-xml-lang-mismatch?application=axeAPI"""
+
+
+
+class identical_links_same_purpose(semantics, wcag2aaa, wcag249):
+    """Ensure that links with the same accessible name serve a similar purpose
+
+Links with the same name must have a similar purpose
+
+https://dequeuniversity.com/rules/axe/4.8/identical-links-same-purpose?application=axeAPI"""
+
+
+
+class image_alt(text_alternatives, wcag2a, wcag111, section508, section508_22_a, TTv5, TT7_a, TT7_b, EN_301_549, EN_9_1_1_1, ACT):
+    """Ensures &lt;img&gt; elements have alternate text or a role of none or presentation
+
+Images must have alternate text
+
+https://dequeuniversity.com/rules/axe/4.8/image-alt?application=axeAPI"""
+
+
+
+class image_redundant_alt(text_alternatives, best_practice):
+    """Ensure image alternative is not repeated as text
+
+Alternative text of images should not be repeated as text
+
+https://dequeuniversity.com/rules/axe/4.8/image-redundant-alt?application=axeAPI"""
+
+
+
+class input_button_name(name_role_value, wcag2a, wcag412, section508, section508_22_a, TTv5, TT5_c, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures input buttons have discernible text
+
+Input buttons must have discernible text
+
+https://dequeuniversity.com/rules/axe/4.8/input-button-name?application=axeAPI"""
+
+
+
+class input_image_alt(text_alternatives, wcag2a, wcag111, wcag412, section508, section508_22_a, TTv5, TT7_a, EN_301_549, EN_9_1_1_1, EN_9_4_1_2, ACT):
+    """Ensures &lt;input type="image"&gt; elements have alternate text
+
+Image buttons must have alternate text
+
+https://dequeuniversity.com/rules/axe/4.8/input-image-alt?application=axeAPI"""
+
+
+
+class label_content_name_mismatch(semantics, wcag21a, wcag253, EN_301_549, EN_9_2_5_3, experimental):
+    """Ensures that elements labelled through their content must have their visible text as part of their accessible name
+
+Elements must have their visible text as part of their accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/label-content-name-mismatch?application=axeAPI"""
+
+
+
+class label_title_only(forms, best_practice):
+    """Ensures that every form element has a visible label and is not solely labeled using hidden labels, or the title or aria-describedby attributes
+
+Form elements should have a visible label
+
+https://dequeuniversity.com/rules/axe/4.8/label-title-only?application=axeAPI"""
+
+
+
+class label(forms, wcag2a, wcag412, section508, section508_22_n, TTv5, TT5_c, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures every form element has a label
+
+Form elements must have labels
+
+https://dequeuniversity.com/rules/axe/4.8/label?application=axeAPI"""
+
+
+
+class landmark_banner_is_top_level(semantics, best_practice):
+    """Ensures the banner landmark is at top level
+
+Banner landmark should not be contained in another landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-banner-is-top-level?application=axeAPI"""
+
+
+
+class landmark_complementary_is_top_level(semantics, best_practice):
+    """Ensures the complementary landmark or aside is at top level
+
+Aside should not be contained in another landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-complementary-is-top-level?application=axeAPI"""
+
+
+
+class landmark_contentinfo_is_top_level(semantics, best_practice):
+    """Ensures the contentinfo landmark is at top level
+
+Contentinfo landmark should not be contained in another landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-contentinfo-is-top-level?application=axeAPI"""
+
+
+
+class landmark_main_is_top_level(semantics, best_practice):
+    """Ensures the main landmark is at top level
+
+Main landmark should not be contained in another landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-main-is-top-level?application=axeAPI"""
+
+
+
+class landmark_no_duplicate_banner(semantics, best_practice):
+    """Ensures the document has at most one banner landmark
+
+Document should not have more than one banner landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-no-duplicate-banner?application=axeAPI"""
+
+
+
+class landmark_no_duplicate_contentinfo(semantics, best_practice):
+    """Ensures the document has at most one contentinfo landmark
+
+Document should not have more than one contentinfo landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-no-duplicate-contentinfo?application=axeAPI"""
+
+
+
+class landmark_no_duplicate_main(semantics, best_practice):
+    """Ensures the document has at most one main landmark
+
+Document should not have more than one main landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-no-duplicate-main?application=axeAPI"""
+
+
+
+class landmark_one_main(semantics, best_practice):
+    """Ensures the document has a main landmark
+
+Document should have one main landmark
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-one-main?application=axeAPI"""
+
+
+
+class landmark_unique(semantics, best_practice):
+    """Landmarks should have a unique role or role/label/title (i.e. accessible name) combination
+
+Ensures landmarks are unique
+
+https://dequeuniversity.com/rules/axe/4.8/landmark-unique?application=axeAPI"""
+
+
+
+class link_in_text_block(color, wcag2a, wcag141, TTv5, TT13_a, EN_301_549, EN_9_1_4_1):
+    """Ensure links are distinguished from surrounding text in a way that does not rely on color
+
+Links must be distinguishable without relying on color
+
+https://dequeuniversity.com/rules/axe/4.8/link-in-text-block?application=axeAPI"""
+
+
+
+class link_name(name_role_value, wcag2a, wcag244, wcag412, section508, section508_22_a, TTv5, TT6_a, EN_301_549, EN_9_2_4_4, EN_9_4_1_2, ACT):
+    """Ensures links have discernible text
+
+Links must have discernible text
+
+https://dequeuniversity.com/rules/axe/4.8/link-name?application=axeAPI"""
+
+
+
+class list(structure, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures that lists are structured correctly
+
+&lt;ul&gt; and &lt;ol&gt; must only directly contain &lt;li&gt;, &lt;script&gt; or &lt;template&gt; elements
+
+https://dequeuniversity.com/rules/axe/4.8/list?application=axeAPI"""
+
+
+
+class listitem(structure, wcag2a, wcag131, EN_301_549, EN_9_1_3_1):
+    """Ensures &lt;li&gt; elements are used semantically
+
+&lt;li&gt; elements must be contained in a &lt;ul&gt; or &lt;ol&gt;
+
+https://dequeuniversity.com/rules/axe/4.8/listitem?application=axeAPI"""
+
+
+
+class marquee(parsing, wcag2a, wcag222, TTv5, TT2_b, EN_301_549, EN_9_2_2_2):
+    """Ensures &lt;marquee&gt; elements are not used
+
+&lt;marquee&gt; elements are deprecated and must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/marquee?application=axeAPI"""
+
+
+
+class meta_refresh_no_exceptions(time_and_media, wcag2aaa, wcag224, wcag325):
+    """Ensures &lt;meta http-equiv="refresh"&gt; is not used for delayed refresh
+
+Delayed refresh must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/meta-refresh-no-exceptions?application=axeAPI"""
+
+
+
+class meta_refresh(time_and_media, wcag2a, wcag221, TTv5, TT8_a, EN_301_549, EN_9_2_2_1):
+    """Ensures &lt;meta http-equiv="refresh"&gt; is not used for delayed refresh
+
+Delayed refresh under 20 hours must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/meta-refresh?application=axeAPI"""
+
+
+
+class meta_viewport_large(sensory_and_visual_cues, best_practice):
+    """Ensures &lt;meta name="viewport"&gt; can scale a significant amount
+
+Users should be able to zoom and scale the text up to 500%
+
+https://dequeuniversity.com/rules/axe/4.8/meta-viewport-large?application=axeAPI"""
+
+
+
+class meta_viewport(sensory_and_visual_cues, wcag2aa, wcag144, EN_301_549, EN_9_1_4_4, ACT):
+    """Ensures &lt;meta name="viewport"&gt; does not disable text scaling and zooming
+
+Zooming and scaling must not be disabled
+
+https://dequeuniversity.com/rules/axe/4.8/meta-viewport?application=axeAPI"""
+
+
+
+class nested_interactive(keyboard, wcag2a, wcag412, TTv5, TT6_a, EN_301_549, EN_9_4_1_2):
+    """Ensures interactive controls are not nested as they are not always announced by screen readers or can cause focus problems for assistive technologies
+
+Interactive controls must not be nested
+
+https://dequeuniversity.com/rules/axe/4.8/nested-interactive?application=axeAPI"""
+
+
+
+class no_autoplay_audio(time_and_media, wcag2a, wcag142, TTv5, TT2_a, EN_301_549, EN_9_1_4_2, ACT):
+    """Ensures &lt;video&gt; or &lt;audio&gt; elements do not autoplay audio for more than 3 seconds without a control mechanism to stop or mute the audio
+
+&lt;video&gt; or &lt;audio&gt; elements must not play automatically
+
+https://dequeuniversity.com/rules/axe/4.8/no-autoplay-audio?application=axeAPI"""
+
+
+
+class object_alt(text_alternatives, wcag2a, wcag111, section508, section508_22_a, EN_301_549, EN_9_1_1_1):
+    """Ensures &lt;object&gt; elements have alternate text
+
+&lt;object&gt; elements must have alternate text
+
+https://dequeuniversity.com/rules/axe/4.8/object-alt?application=axeAPI"""
+
+
+
+class p_as_heading(semantics, wcag2a, wcag131, EN_301_549, EN_9_1_3_1, experimental):
+    """Ensure bold, italic text and font-size is not used to style &lt;p&gt; elements as a heading
+
+Styled &lt;p&gt; elements must not be used as headings
+
+https://dequeuniversity.com/rules/axe/4.8/p-as-heading?application=axeAPI"""
+
+
+
+class page_has_heading_one(semantics, best_practice):
+    """Ensure that the page, or at least one of its frames contains a level-one heading
+
+Page should contain a level-one heading
+
+https://dequeuniversity.com/rules/axe/4.8/page-has-heading-one?application=axeAPI"""
+
+
+
+class presentation_role_conflict(aria, best_practice, ACT):
+    """Elements marked as presentational should not have global ARIA or tabindex to ensure all screen readers ignore them
+
+Ensure elements marked as presentational are consistently ignored
+
+https://dequeuniversity.com/rules/axe/4.8/presentation-role-conflict?application=axeAPI"""
+
+
+
+class region(keyboard, best_practice):
+    """Ensures all page content is contained by landmarks
+
+All page content should be contained by landmarks
+
+https://dequeuniversity.com/rules/axe/4.8/region?application=axeAPI"""
+
+
+
+class role_img_alt(text_alternatives, wcag2a, wcag111, section508, section508_22_a, TTv5, TT7_a, EN_301_549, EN_9_1_1_1, ACT):
+    """Ensures [role="img"] elements have alternate text
+
+[role="img"] elements must have an alternative text
+
+https://dequeuniversity.com/rules/axe/4.8/role-img-alt?application=axeAPI"""
+
+
+
+class scope_attr_valid(tables, best_practice):
+    """Ensures the scope attribute is used correctly on tables
+
+scope attribute should be used correctly
+
+https://dequeuniversity.com/rules/axe/4.8/scope-attr-valid?application=axeAPI"""
+
+
+
+class scrollable_region_focusable(keyboard, wcag2a, wcag211, TTv5, TT4_a, EN_301_549, EN_9_2_1_1):
+    """Ensure elements that have scrollable content are accessible by keyboard
+
+Scrollable region must have keyboard access
+
+https://dequeuniversity.com/rules/axe/4.8/scrollable-region-focusable?application=axeAPI"""
+
+
+
+class select_name(forms, wcag2a, wcag412, section508, section508_22_n, TTv5, TT5_c, EN_301_549, EN_9_4_1_2, ACT):
+    """Ensures select element has an accessible name
+
+Select element must have an accessible name
+
+https://dequeuniversity.com/rules/axe/4.8/select-name?application=axeAPI"""
+
+
+
+class server_side_image_map(text_alternatives, wcag2a, wcag211, section508, section508_22_f, TTv5, TT4_a, EN_301_549, EN_9_2_1_1):
+    """Ensures that server-side image maps are not used
+
+Server-side image maps must not be used
+
+https://dequeuniversity.com/rules/axe/4.8/server-side-image-map?application=axeAPI"""
+
+
+
+class skip_link(keyboard, best_practice):
+    """Ensure all skip links have a focusable target
+
+The skip-link target should exist and be focusable
+
+https://dequeuniversity.com/rules/axe/4.8/skip-link?application=axeAPI"""
+
+
+
+class svg_img_alt(text_alternatives, wcag2a, wcag111, section508, section508_22_a, TTv5, TT7_a, EN_301_549, EN_9_1_1_1, ACT):
+    """Ensures &lt;svg&gt; elements with an img, graphics-document or graphics-symbol role have an accessible text
+
+&lt;svg&gt; elements with an img role must have an alternative text
+
+https://dequeuniversity.com/rules/axe/4.8/svg-img-alt?application=axeAPI"""
+
+
+
+class tabindex(keyboard, best_practice):
+    """Ensures tabindex attribute values are not greater than 0
+
+Elements should not have tabindex greater than zero
+
+https://dequeuniversity.com/rules/axe/4.8/tabindex?application=axeAPI"""
+
+
+
+class table_duplicate_name(tables, best_practice):
+    """Ensure the &lt;caption&gt; element does not contain the same text as the summary attribute
+
+tables should not have the same summary and caption
+
+https://dequeuniversity.com/rules/axe/4.8/table-duplicate-name?application=axeAPI"""
+
+
+
+class table_fake_caption(tables, experimental, wcag2a, wcag131, section508, section508_22_g, EN_301_549, EN_9_1_3_1):
+    """Ensure that tables with a caption use the &lt;caption&gt; element.
+
+Data or header cells must not be used to give caption to a data table.
+
+https://dequeuniversity.com/rules/axe/4.8/table-fake-caption?application=axeAPI"""
+
+
+
+class target_size(sensory_and_visual_cues, wcag22aa, wcag258):
+    """Ensure touch target have sufficient size and space
+
+All touch targets must be 24px large, or leave sufficient space
+
+https://dequeuniversity.com/rules/axe/4.8/target-size?application=axeAPI"""
+
+
+
+class td_has_header(tables, experimental, wcag2a, wcag131, section508, section508_22_g, TTv5, TT14_b, EN_301_549, EN_9_1_3_1):
+    """Ensure that each non-empty data cell in a &lt;table&gt; larger than 3 by 3  has one or more table headers
+
+Non-empty &lt;td&gt; elements in larger &lt;table&gt; must have an associated table header
+
+https://dequeuniversity.com/rules/axe/4.8/td-has-header?application=axeAPI"""
+
+
+
+class td_headers_attr(tables, wcag2a, wcag131, section508, section508_22_g, TTv5, TT14_b, EN_301_549, EN_9_1_3_1):
+    """Ensure that each cell in a table that uses the headers attribute refers only to other cells in that table
+
+Table cells that use the headers attribute must only refer to cells in the same table
+
+https://dequeuniversity.com/rules/axe/4.8/td-headers-attr?application=axeAPI"""
+
+
+
+class th_has_data_cells(tables, wcag2a, wcag131, section508, section508_22_g, TTv5, TT14_b, EN_301_549, EN_9_1_3_1):
+    """Ensure that &lt;th&gt; elements and elements with role=columnheader/rowheader have data cells they describe
+
+Table headers in a data table must refer to data cells
+
+https://dequeuniversity.com/rules/axe/4.8/th-has-data-cells?application=axeAPI"""
+
+
+
+class valid_lang(language, wcag2aa, wcag312, TTv5, TT11_b, EN_301_549, EN_9_3_1_2, ACT):
+    """Ensures lang attributes have valid values
+
+lang attribute must have a valid value
+
+https://dequeuniversity.com/rules/axe/4.8/valid-lang?application=axeAPI"""
+
+
+
+class video_caption(text_alternatives, wcag2a, wcag122, section508, section508_22_a, TTv5, TT17_a, EN_301_549, EN_9_1_2_2):
+    """Ensures &lt;video&gt; elements have captions
+
+&lt;video&gt; elements must have captions
+
+https://dequeuniversity.com/rules/axe/4.8/video-caption?application=axeAPI"""
+
+
+
+
+</pre>
+</div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.081f42fc.min.js"></script>
+      
+    
+  </body>
+</html>
