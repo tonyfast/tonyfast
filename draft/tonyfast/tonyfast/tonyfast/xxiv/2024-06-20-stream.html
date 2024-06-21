@@ -1393,10 +1393,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        cells
       </dt>
       <dd id="nb-ct-total">
-       15 total
+       14 total
       </dd>
       <dd id="nb-ct-code">
-       11 code
+       10 code
       </dd>
       <dd>
       </dd>
@@ -1404,7 +1404,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        state
       </dt>
       <dd id="nb-state">
-       executed in order
+       executed out of order
       </dd>
       <dt>
        kernel
@@ -1436,13 +1436,13 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       85
+       78
       </dd>
       <dt>
        outputs
       </dt>
       <dd id="nb-ct-outputs">
-       13
+       11
       </dd>
      </dl>
     </details>
@@ -2604,7 +2604,7 @@ Khalid describes intpretting data using [be my eyes](https://www.bemyeyes.com/),
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="26" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="8" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
         11
@@ -2622,7 +2622,7 @@ Khalid describes intpretting data using [be my eyes](https://www.bemyeyes.com/),
          [
         </span>
         <span id="cell-11-exec-label">
-         7
+         8
         </span>
         <span aria-hidden="true">
          ]
@@ -2651,32 +2651,14 @@ Khalid describes intpretting data using [be my eyes](https://www.bemyeyes.com/),
       <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="26">%%
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="8">%%
 loading the correlated crypto data
 
     df = pandas.read_csv(
         "crypto_data_correlation_2022-04-01_to_2024-03-31_normalised.csv"
     ).set_index("Date")
     df.columns = df.columns.str.rstrip("-USD")
-    display(df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024"))
-
-visual styling to make the table appear as a heatmap. this needs more design, but the gist is there.
-
-```html
-&lt;style&gt;
-#crypto {
-    td {
-        background-color: rgba(
-            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
-        );
-        font-size: 0px;
-        &amp;:hover {
-            font-size: 1em;
-        }
-    }
-}
-&lt;/style&gt;
-```</textarea>
+    df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</textarea>
        <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">%%</span>
@@ -2686,25 +2668,7 @@ visual styling to make the table appear as a heatmap. this needs more design, bu
         <span class="s2">"crypto_data_correlation_2022-04-01_to_2024-03-31_normalised.csv"</span>
     <span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"-USD"</span><span class="p">)</span>
-    <span class="n">display</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">"a subset of the crypto time series from 2022 to 2024"</span><span class="p">))</span>
-
-<span class="n">visual</span> <span class="n">styling</span> <span class="n">to</span> <span class="n">make</span> <span class="n">the</span> <span class="n">table</span> <span class="n">appear</span> <span class="k">as</span> <span class="n">a</span> <span class="n">heatmap</span><span class="o">.</span> <span class="n">this</span> <span class="n">needs</span> <span class="n">more</span> <span class="n">design</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">gist</span> <span class="ow">is</span> <span class="n">there</span><span class="o">.</span>
-
-<span class="err">```</span><span class="n">html</span>
-<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
-<span class="c1">#crypto {</span>
-    <span class="n">td</span> <span class="p">{</span>
-        <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span>
-            <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span>
-        <span class="p">);</span>
-        <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
-        <span class="o">&amp;</span><span class="p">:</span><span class="n">hover</span> <span class="p">{</span>
-            <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">1</span><span class="n">em</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
-<span class="err">```</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">"a subset of the crypto time series from 2022 to 2024"</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -2725,1335 +2689,14 @@ visual styling to make the table appear as a heatmap. this needs more design, bu
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-11-loc" role="none">
-       26
-      </td>
-      <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
-        3 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="3">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          7
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-         <table aria-colcount="35" aria-rowcount="731" style="--ETH-min: 0.0;--XLM-min: 0.0;--BCH-min: 0.0;--DASH-min: 0.0;--NEO-min: 0.0;--MANA-min: 0.0;--AGIX-min: 0.0;--TON-min: 0.0;--AAVE-min: 0.0;--MKR-min: 0.0;--ETH-max: 1.0;--XLM-max: 1.0;--BCH-max: 1.0;--DASH-max: 1.0;--NEO-max: 1.0;--MANA-max: 1.0;--AGIX-max: 1.0;--TON-max: 1.0;--AAVE-max: 1.0;--MKR-max: 1.0;">
-          <caption>
-           a subset of the crypto time series from 2022 to 2024
-          </caption>
-          <thead role="rowgroup">
-           <tr role="row">
-            <th aria-colindex="1" aria-rowindex="1" rowspan="1" scope="col">
-             Date
-            </th>
-            <th aria-colindex="2" aria-rowindex="1" role="colheader" scope="col">
-             ETH
-            </th>
-            <th aria-colindex="3" aria-rowindex="1" role="colheader" scope="col">
-             XLM
-            </th>
-            <th aria-colindex="4" aria-rowindex="1" role="colheader" scope="col">
-             BCH
-            </th>
-            <th aria-colindex="5" aria-rowindex="1" role="colheader" scope="col">
-             DASH
-            </th>
-            <th aria-colindex="6" aria-rowindex="1" role="colheader" scope="col">
-             NEO
-            </th>
-            <td aria-colindex="7" aria-rowindex="1">
-             ...
-            </td>
-            <th aria-colindex="31" aria-rowindex="1" role="colheader" scope="col">
-             MANA
-            </th>
-            <th aria-colindex="32" aria-rowindex="1" role="colheader" scope="col">
-             AGIX
-            </th>
-            <th aria-colindex="33" aria-rowindex="1" role="colheader" scope="col">
-             TON
-            </th>
-            <th aria-colindex="34" aria-rowindex="1" role="colheader" scope="col">
-             AAVE
-            </th>
-            <th aria-colindex="35" aria-rowindex="1" role="colheader" scope="col">
-             MKR
-            </th>
-           </tr>
-          </thead>
-          <tbody role="rowgroup">
-           <tr role="row" style='--Date: "2022-04-01";--ETH: 0.7992413569829757;--XLM: 0.9727847670072304;--BCH: 0.540045990941609;--DASH: 0.9538959440075476;--NEO: 0.9982315286635132;--MANA: 0.9700668215347584;--AGIX: 0.0921803271579961;--TON: 0.9466122197715624;--AAVE: 1.0;--MKR: 0.5480557391555481;'>
-            <th aria-colindex="1" aria-rowindex="2" role="rowheader" scope="row">
-             2022-04-01
-            </th>
-            <td aria-colindex="2" aria-rowindex="2" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="3" aria-rowindex="2" role="cell">
-             0.97
-            </td>
-            <td aria-colindex="4" aria-rowindex="2" role="cell">
-             0.54
-            </td>
-            <td aria-colindex="5" aria-rowindex="2" role="cell">
-             0.95
-            </td>
-            <td aria-colindex="6" aria-rowindex="2" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="7" aria-rowindex="2" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="2" role="cell">
-             0.97
-            </td>
-            <td aria-colindex="32" aria-rowindex="2" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="33" aria-rowindex="2" role="cell">
-             0.95
-            </td>
-            <td aria-colindex="34" aria-rowindex="2" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="35" aria-rowindex="2" role="cell">
-             0.55
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-02";--ETH: 0.7977792026603057;--XLM: 0.977468348393102;--BCH: 0.5332929073420862;--DASH: 0.945211354114999;--NEO: 0.975648835123646;--MANA: 0.9666511074494852;--AGIX: 0.0914158388636589;--TON: 1.0;--AAVE: 0.9577540853072568;--MKR: 0.5305087210375158;'>
-            <th aria-colindex="1" aria-rowindex="3" role="rowheader" scope="row">
-             2022-04-02
-            </th>
-            <td aria-colindex="2" aria-rowindex="3" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="3" aria-rowindex="3" role="cell">
-             0.98
-            </td>
-            <td aria-colindex="4" aria-rowindex="3" role="cell">
-             0.53
-            </td>
-            <td aria-colindex="5" aria-rowindex="3" role="cell">
-             0.95
-            </td>
-            <td aria-colindex="6" aria-rowindex="3" role="cell">
-             0.98
-            </td>
-            <td aria-colindex="7" aria-rowindex="3" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="3" role="cell">
-             0.97
-            </td>
-            <td aria-colindex="32" aria-rowindex="3" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="33" aria-rowindex="3" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="34" aria-rowindex="3" role="cell">
-             0.96
-            </td>
-            <td aria-colindex="35" aria-rowindex="3" role="cell">
-             0.53
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-03";--ETH: 0.8230896557110432;--XLM: 1.0;--BCH: 0.5435938259142641;--DASH: 0.995439761805444;--NEO: 1.0;--MANA: 1.0;--AGIX: 0.0996355422324143;--TON: 0.9449797182077304;--AAVE: 0.9866037728541548;--MKR: 0.5458424282519464;'>
-            <th aria-colindex="1" aria-rowindex="4" role="rowheader" scope="row">
-             2022-04-03
-            </th>
-            <td aria-colindex="2" aria-rowindex="4" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="3" aria-rowindex="4" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="4" aria-rowindex="4" role="cell">
-             0.54
-            </td>
-            <td aria-colindex="5" aria-rowindex="4" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="6" aria-rowindex="4" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="7" aria-rowindex="4" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="4" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="32" aria-rowindex="4" role="cell">
-             0.10
-            </td>
-            <td aria-colindex="33" aria-rowindex="4" role="cell">
-             0.94
-            </td>
-            <td aria-colindex="34" aria-rowindex="4" role="cell">
-             0.99
-            </td>
-            <td aria-colindex="35" aria-rowindex="4" role="cell">
-             0.55
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-04";--ETH: 0.8225714700623743;--XLM: 0.9704400122496708;--BCH: 0.5380339768047206;--DASH: 1.0;--NEO: 0.9597239926795692;--MANA: 0.9735958614401836;--AGIX: 0.0982563624655127;--TON: 0.8730213632817753;--AAVE: 0.964086075819586;--MKR: 0.59272777602601;'>
-            <th aria-colindex="1" aria-rowindex="5" role="rowheader" scope="row">
-             2022-04-04
-            </th>
-            <td aria-colindex="2" aria-rowindex="5" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="3" aria-rowindex="5" role="cell">
-             0.97
-            </td>
-            <td aria-colindex="4" aria-rowindex="5" role="cell">
-             0.54
-            </td>
-            <td aria-colindex="5" aria-rowindex="5" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="6" aria-rowindex="5" role="cell">
-             0.96
-            </td>
-            <td aria-colindex="7" aria-rowindex="5" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="5" role="cell">
-             0.97
-            </td>
-            <td aria-colindex="32" aria-rowindex="5" role="cell">
-             0.10
-            </td>
-            <td aria-colindex="33" aria-rowindex="5" role="cell">
-             0.87
-            </td>
-            <td aria-colindex="34" aria-rowindex="5" role="cell">
-             0.96
-            </td>
-            <td aria-colindex="35" aria-rowindex="5" role="cell">
-             0.59
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-05";--ETH: 0.7869529998585159;--XLM: 0.9293248431145296;--BCH: 0.5195660106771502;--DASH: 0.9455351555124462;--NEO: 0.89809619373835;--MANA: 0.9330405741546738;--AGIX: 0.0922002516857104;--TON: 0.847427289261348;--AAVE: 0.8758943249582715;--MKR: 0.5536567907866345;'>
-            <th aria-colindex="1" aria-rowindex="6" role="rowheader" scope="row">
-             2022-04-05
-            </th>
-            <td aria-colindex="2" aria-rowindex="6" role="cell">
-             0.79
-            </td>
-            <td aria-colindex="3" aria-rowindex="6" role="cell">
-             0.93
-            </td>
-            <td aria-colindex="4" aria-rowindex="6" role="cell">
-             0.52
-            </td>
-            <td aria-colindex="5" aria-rowindex="6" role="cell">
-             0.95
-            </td>
-            <td aria-colindex="6" aria-rowindex="6" role="cell">
-             0.90
-            </td>
-            <td aria-colindex="7" aria-rowindex="6" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="6" role="cell">
-             0.93
-            </td>
-            <td aria-colindex="32" aria-rowindex="6" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="33" aria-rowindex="6" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="34" aria-rowindex="6" role="cell">
-             0.88
-            </td>
-            <td aria-colindex="35" aria-rowindex="6" role="cell">
-             0.55
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-06";--ETH: 0.7088158160874756;--XLM: 0.7971730098922065;--BCH: 0.4539859164742162;--DASH: 0.823613445582139;--NEO: 0.7495518987958678;--MANA: 0.840411294973588;--AGIX: 0.081073139680962;--TON: 0.7284105615023739;--AAVE: 0.7246090533794071;--MKR: 0.4767990731986254;'>
-            <th aria-colindex="1" aria-rowindex="7" role="rowheader" scope="row">
-             2022-04-06
-            </th>
-            <td aria-colindex="2" aria-rowindex="7" role="cell">
-             0.71
-            </td>
-            <td aria-colindex="3" aria-rowindex="7" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="4" aria-rowindex="7" role="cell">
-             0.45
-            </td>
-            <td aria-colindex="5" aria-rowindex="7" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="6" aria-rowindex="7" role="cell">
-             0.75
-            </td>
-            <td aria-colindex="7" aria-rowindex="7" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="7" role="cell">
-             0.84
-            </td>
-            <td aria-colindex="32" aria-rowindex="7" role="cell">
-             0.08
-            </td>
-            <td aria-colindex="33" aria-rowindex="7" role="cell">
-             0.73
-            </td>
-            <td aria-colindex="34" aria-rowindex="7" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="35" aria-rowindex="7" role="cell">
-             0.48
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-07";--ETH: 0.7288570155013345;--XLM: 0.8546594265046927;--BCH: 0.4647038767482429;--DASH: 0.8499179819222143;--NEO: 0.7838345457240883;--MANA: 0.875241198542524;--AGIX: 0.0896263809631605;--TON: 0.7688050115049022;--AAVE: 0.781426556895401;--MKR: 0.4788065786837846;'>
-            <th aria-colindex="1" aria-rowindex="8" role="rowheader" scope="row">
-             2022-04-07
-            </th>
-            <td aria-colindex="2" aria-rowindex="8" role="cell">
-             0.73
-            </td>
-            <td aria-colindex="3" aria-rowindex="8" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="4" aria-rowindex="8" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="5" aria-rowindex="8" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="6" aria-rowindex="8" role="cell">
-             0.78
-            </td>
-            <td aria-colindex="7" aria-rowindex="8" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="8" role="cell">
-             0.88
-            </td>
-            <td aria-colindex="32" aria-rowindex="8" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="33" aria-rowindex="8" role="cell">
-             0.77
-            </td>
-            <td aria-colindex="34" aria-rowindex="8" role="cell">
-             0.78
-            </td>
-            <td aria-colindex="35" aria-rowindex="8" role="cell">
-             0.48
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-08";--ETH: 0.7154488625270834;--XLM: 0.787100669200463;--BCH: 0.4394769233247108;--DASH: 0.7939756968124102;--NEO: 0.7196974234761724;--MANA: 0.8143961186198173;--AGIX: 0.0843996891267866;--TON: 0.7232199418009383;--AAVE: 0.6836595552990522;--MKR: 0.4712925747148279;'>
-            <th aria-colindex="1" aria-rowindex="9" role="rowheader" scope="row">
-             2022-04-08
-            </th>
-            <td aria-colindex="2" aria-rowindex="9" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="3" aria-rowindex="9" role="cell">
-             0.79
-            </td>
-            <td aria-colindex="4" aria-rowindex="9" role="cell">
-             0.44
-            </td>
-            <td aria-colindex="5" aria-rowindex="9" role="cell">
-             0.79
-            </td>
-            <td aria-colindex="6" aria-rowindex="9" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="7" aria-rowindex="9" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="9" role="cell">
-             0.81
-            </td>
-            <td aria-colindex="32" aria-rowindex="9" role="cell">
-             0.08
-            </td>
-            <td aria-colindex="33" aria-rowindex="9" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="34" aria-rowindex="9" role="cell">
-             0.68
-            </td>
-            <td aria-colindex="35" aria-rowindex="9" role="cell">
-             0.47
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-09";--ETH: 0.7381780010209973;--XLM: 0.806937896244355;--BCH: 0.4446148587499072;--DASH: 0.8305798194543356;--NEO: 0.7508833126438315;--MANA: 0.8437952272894017;--AGIX: 0.0827327252874018;--TON: 0.7322976750183652;--AAVE: 0.6901755026032551;--MKR: 0.4884458846602986;'>
-            <th aria-colindex="1" aria-rowindex="10" role="rowheader" scope="row">
-             2022-04-09
-            </th>
-            <td aria-colindex="2" aria-rowindex="10" role="cell">
-             0.74
-            </td>
-            <td aria-colindex="3" aria-rowindex="10" role="cell">
-             0.81
-            </td>
-            <td aria-colindex="4" aria-rowindex="10" role="cell">
-             0.44
-            </td>
-            <td aria-colindex="5" aria-rowindex="10" role="cell">
-             0.83
-            </td>
-            <td aria-colindex="6" aria-rowindex="10" role="cell">
-             0.75
-            </td>
-            <td aria-colindex="7" aria-rowindex="10" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="10" role="cell">
-             0.84
-            </td>
-            <td aria-colindex="32" aria-rowindex="10" role="cell">
-             0.08
-            </td>
-            <td aria-colindex="33" aria-rowindex="10" role="cell">
-             0.73
-            </td>
-            <td aria-colindex="34" aria-rowindex="10" role="cell">
-             0.69
-            </td>
-            <td aria-colindex="35" aria-rowindex="10" role="cell">
-             0.49
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2022-04-10";--ETH: 0.7218901913999576;--XLM: 0.7877757573735262;--BCH: 0.4349643784999641;--DASH: 0.8033383558199519;--NEO: 0.7125012211070012;--MANA: 0.8164702921428602;--AGIX: 0.086715277712757;--TON: 0.7227048101111541;--AAVE: 0.6544344806804594;--MKR: 0.4678917454848545;'>
-            <th aria-colindex="1" aria-rowindex="11" role="rowheader" scope="row">
-             2022-04-10
-            </th>
-            <td aria-colindex="2" aria-rowindex="11" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="3" aria-rowindex="11" role="cell">
-             0.79
-            </td>
-            <td aria-colindex="4" aria-rowindex="11" role="cell">
-             0.43
-            </td>
-            <td aria-colindex="5" aria-rowindex="11" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="6" aria-rowindex="11" role="cell">
-             0.71
-            </td>
-            <td aria-colindex="7" aria-rowindex="11" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="11" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="32" aria-rowindex="11" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="33" aria-rowindex="11" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="34" aria-rowindex="11" role="cell">
-             0.65
-            </td>
-            <td aria-colindex="35" aria-rowindex="11" role="cell">
-             0.47
-            </td>
-           </tr>
-          </tbody>
-          <tbody role="rowgroup">
-           <tr role="row">
-            <th colspan="1" rowspan="710">
-             ...
-            </th>
-            <td colspan="5" rowspan="710">
-             ...
-            </td>
-            <td>
-             ...
-            </td>
-            <td colspan="5" rowspan="710">
-             ...
-            </td>
-           </tr>
-          </tbody>
-          <tbody role="rowgroup">
-           <tr role="row" style='--Date: "2024-03-21";--ETH: 0.8133779254780789;--XLM: 0.3741169164512367;--BCH: 0.6105524618944338;--DASH: 0.1013155012249676;--NEO: 0.4021886667978736;--MANA: 0.1484091881921638;--AGIX: 0.7420494110803872;--TON: 0.3957928667177897;--AAVE: 0.3778118098275237;--MKR: 0.8857513644317219;'>
-            <th aria-colindex="1" aria-rowindex="722" role="rowheader" scope="row">
-             2024-03-21
-            </th>
-            <td aria-colindex="2" aria-rowindex="722" role="cell">
-             0.81
-            </td>
-            <td aria-colindex="3" aria-rowindex="722" role="cell">
-             0.37
-            </td>
-            <td aria-colindex="4" aria-rowindex="722" role="cell">
-             0.61
-            </td>
-            <td aria-colindex="5" aria-rowindex="722" role="cell">
-             0.10
-            </td>
-            <td aria-colindex="6" aria-rowindex="722" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="7" aria-rowindex="722" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="722" role="cell">
-             0.15
-            </td>
-            <td aria-colindex="32" aria-rowindex="722" role="cell">
-             0.74
-            </td>
-            <td aria-colindex="33" aria-rowindex="722" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="34" aria-rowindex="722" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="35" aria-rowindex="722" role="cell">
-             0.89
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-22";--ETH: 0.7615350483130454;--XLM: 0.3431283393724653;--BCH: 0.6426834730574926;--DASH: 0.0944487937324939;--NEO: 0.378728209619756;--MANA: 0.1441480012857037;--AGIX: 0.7236146926436253;--TON: 0.4074996373322758;--AAVE: 0.3532449368919409;--MKR: 0.8068868183500617;'>
-            <th aria-colindex="1" aria-rowindex="723" role="rowheader" scope="row">
-             2024-03-22
-            </th>
-            <td aria-colindex="2" aria-rowindex="723" role="cell">
-             0.76
-            </td>
-            <td aria-colindex="3" aria-rowindex="723" role="cell">
-             0.34
-            </td>
-            <td aria-colindex="4" aria-rowindex="723" role="cell">
-             0.64
-            </td>
-            <td aria-colindex="5" aria-rowindex="723" role="cell">
-             0.09
-            </td>
-            <td aria-colindex="6" aria-rowindex="723" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="7" aria-rowindex="723" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="723" role="cell">
-             0.14
-            </td>
-            <td aria-colindex="32" aria-rowindex="723" role="cell">
-             0.72
-            </td>
-            <td aria-colindex="33" aria-rowindex="723" role="cell">
-             0.41
-            </td>
-            <td aria-colindex="34" aria-rowindex="723" role="cell">
-             0.35
-            </td>
-            <td aria-colindex="35" aria-rowindex="723" role="cell">
-             0.81
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-23";--ETH: 0.7624807649300502;--XLM: 0.3718987182710916;--BCH: 0.6901643815492521;--DASH: 0.1014320894291332;--NEO: 0.3888352183374067;--MANA: 0.1485196711476167;--AGIX: 0.7389125075117642;--TON: 0.3889373427197848;--AAVE: 0.3678109205992312;--MKR: 0.7849901297929059;'>
-            <th aria-colindex="1" aria-rowindex="724" role="rowheader" scope="row">
-             2024-03-23
-            </th>
-            <td aria-colindex="2" aria-rowindex="724" role="cell">
-             0.76
-            </td>
-            <td aria-colindex="3" aria-rowindex="724" role="cell">
-             0.37
-            </td>
-            <td aria-colindex="4" aria-rowindex="724" role="cell">
-             0.69
-            </td>
-            <td aria-colindex="5" aria-rowindex="724" role="cell">
-             0.10
-            </td>
-            <td aria-colindex="6" aria-rowindex="724" role="cell">
-             0.39
-            </td>
-            <td aria-colindex="7" aria-rowindex="724" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="724" role="cell">
-             0.15
-            </td>
-            <td aria-colindex="32" aria-rowindex="724" role="cell">
-             0.74
-            </td>
-            <td aria-colindex="33" aria-rowindex="724" role="cell">
-             0.39
-            </td>
-            <td aria-colindex="34" aria-rowindex="724" role="cell">
-             0.37
-            </td>
-            <td aria-colindex="35" aria-rowindex="724" role="cell">
-             0.78
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-24";--ETH: 0.8008959439399719;--XLM: 0.3849185966806698;--BCH: 0.7426350025633793;--DASH: 0.1134595663910895;--NEO: 0.4157244180092183;--MANA: 0.1558692296331128;--AGIX: 0.8001267263738714;--TON: 0.4215742362615172;--AAVE: 0.3845943115351865;--MKR: 0.816449097737217;'>
-            <th aria-colindex="1" aria-rowindex="725" role="rowheader" scope="row">
-             2024-03-24
-            </th>
-            <td aria-colindex="2" aria-rowindex="725" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="3" aria-rowindex="725" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="4" aria-rowindex="725" role="cell">
-             0.74
-            </td>
-            <td aria-colindex="5" aria-rowindex="725" role="cell">
-             0.11
-            </td>
-            <td aria-colindex="6" aria-rowindex="725" role="cell">
-             0.42
-            </td>
-            <td aria-colindex="7" aria-rowindex="725" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="725" role="cell">
-             0.16
-            </td>
-            <td aria-colindex="32" aria-rowindex="725" role="cell">
-             0.80
-            </td>
-            <td aria-colindex="33" aria-rowindex="725" role="cell">
-             0.42
-            </td>
-            <td aria-colindex="34" aria-rowindex="725" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="35" aria-rowindex="725" role="cell">
-             0.82
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-25";--ETH: 0.8452356168573292;--XLM: 0.3950331528382647;--BCH: 0.7488185800675791;--DASH: 0.1223650195141001;--NEO: 0.4388425525807914;--MANA: 0.1614446947582762;--AGIX: 0.8385126265289292;--TON: 0.4824494213766181;--AAVE: 0.3961294844844454;--MKR: 0.8600388508501673;'>
-            <th aria-colindex="1" aria-rowindex="726" role="rowheader" scope="row">
-             2024-03-25
-            </th>
-            <td aria-colindex="2" aria-rowindex="726" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="3" aria-rowindex="726" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="4" aria-rowindex="726" role="cell">
-             0.75
-            </td>
-            <td aria-colindex="5" aria-rowindex="726" role="cell">
-             0.12
-            </td>
-            <td aria-colindex="6" aria-rowindex="726" role="cell">
-             0.44
-            </td>
-            <td aria-colindex="7" aria-rowindex="726" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="726" role="cell">
-             0.16
-            </td>
-            <td aria-colindex="32" aria-rowindex="726" role="cell">
-             0.84
-            </td>
-            <td aria-colindex="33" aria-rowindex="726" role="cell">
-             0.48
-            </td>
-            <td aria-colindex="34" aria-rowindex="726" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="35" aria-rowindex="726" role="cell">
-             0.86
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-26";--ETH: 0.844136001804036;--XLM: 0.4040747176021111;--BCH: 0.733908479464866;--DASH: 0.129855020070304;--NEO: 0.4619579072200185;--MANA: 0.1721357855689845;--AGIX: 0.8517177062344898;--TON: 0.4785002072229278;--AAVE: 0.415822670167866;--MKR: 0.8354769219471573;'>
-            <th aria-colindex="1" aria-rowindex="727" role="rowheader" scope="row">
-             2024-03-26
-            </th>
-            <td aria-colindex="2" aria-rowindex="727" role="cell">
-             0.84
-            </td>
-            <td aria-colindex="3" aria-rowindex="727" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="4" aria-rowindex="727" role="cell">
-             0.73
-            </td>
-            <td aria-colindex="5" aria-rowindex="727" role="cell">
-             0.13
-            </td>
-            <td aria-colindex="6" aria-rowindex="727" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="7" aria-rowindex="727" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="727" role="cell">
-             0.17
-            </td>
-            <td aria-colindex="32" aria-rowindex="727" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="33" aria-rowindex="727" role="cell">
-             0.48
-            </td>
-            <td aria-colindex="34" aria-rowindex="727" role="cell">
-             0.42
-            </td>
-            <td aria-colindex="35" aria-rowindex="727" role="cell">
-             0.84
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-27";--ETH: 0.8156963335167415;--XLM: 0.3774743932885313;--BCH: 0.8460093577027606;--DASH: 0.1216158505920404;--NEO: 0.4395705039274579;--MANA: 0.1613843628518787;--AGIX: 0.9326624855543738;--TON: 0.4447779601359169;--AAVE: 0.3855674219450137;--MKR: 0.8586407129435181;'>
-            <th aria-colindex="1" aria-rowindex="728" role="rowheader" scope="row">
-             2024-03-27
-            </th>
-            <td aria-colindex="2" aria-rowindex="728" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="3" aria-rowindex="728" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="4" aria-rowindex="728" role="cell">
-             0.85
-            </td>
-            <td aria-colindex="5" aria-rowindex="728" role="cell">
-             0.12
-            </td>
-            <td aria-colindex="6" aria-rowindex="728" role="cell">
-             0.44
-            </td>
-            <td aria-colindex="7" aria-rowindex="728" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="728" role="cell">
-             0.16
-            </td>
-            <td aria-colindex="32" aria-rowindex="728" role="cell">
-             0.93
-            </td>
-            <td aria-colindex="33" aria-rowindex="728" role="cell">
-             0.44
-            </td>
-            <td aria-colindex="34" aria-rowindex="728" role="cell">
-             0.39
-            </td>
-            <td aria-colindex="35" aria-rowindex="728" role="cell">
-             0.86
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-28";--ETH: 0.8356060399455427;--XLM: 0.4032971446491829;--BCH: 0.9011595117734752;--DASH: 0.1252952392223545;--NEO: 0.4646152619241397;--MANA: 0.16543357410332;--AGIX: 1.0;--TON: 0.4614491385289136;--AAVE: 0.4000814804808356;--MKR: 0.9635324232154115;'>
-            <th aria-colindex="1" aria-rowindex="729" role="rowheader" scope="row">
-             2024-03-28
-            </th>
-            <td aria-colindex="2" aria-rowindex="729" role="cell">
-             0.84
-            </td>
-            <td aria-colindex="3" aria-rowindex="729" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="4" aria-rowindex="729" role="cell">
-             0.90
-            </td>
-            <td aria-colindex="5" aria-rowindex="729" role="cell">
-             0.13
-            </td>
-            <td aria-colindex="6" aria-rowindex="729" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="7" aria-rowindex="729" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="729" role="cell">
-             0.17
-            </td>
-            <td aria-colindex="32" aria-rowindex="729" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="33" aria-rowindex="729" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="34" aria-rowindex="729" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="35" aria-rowindex="729" role="cell">
-             0.96
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-29";--ETH: 0.8195009698203537;--XLM: 0.4322845290063139;--BCH: 1.0;--DASH: 0.1387011588564941;--NEO: 0.4918880488232568;--MANA: 0.1682027673003837;--AGIX: 0.9444987106208051;--TON: 0.4594100295897118;--AAVE: 0.3987687156135623;--MKR: 0.9747110574386392;'>
-            <th aria-colindex="1" aria-rowindex="730" role="rowheader" scope="row">
-             2024-03-29
-            </th>
-            <td aria-colindex="2" aria-rowindex="730" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="3" aria-rowindex="730" role="cell">
-             0.43
-            </td>
-            <td aria-colindex="4" aria-rowindex="730" role="cell">
-             1.00
-            </td>
-            <td aria-colindex="5" aria-rowindex="730" role="cell">
-             0.14
-            </td>
-            <td aria-colindex="6" aria-rowindex="730" role="cell">
-             0.49
-            </td>
-            <td aria-colindex="7" aria-rowindex="730" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="730" role="cell">
-             0.17
-            </td>
-            <td aria-colindex="32" aria-rowindex="730" role="cell">
-             0.94
-            </td>
-            <td aria-colindex="33" aria-rowindex="730" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="34" aria-rowindex="730" role="cell">
-             0.40
-            </td>
-            <td aria-colindex="35" aria-rowindex="730" role="cell">
-             0.97
-            </td>
-           </tr>
-           <tr role="row" style='--Date: "2024-03-30";--ETH: 0.818244198800629;--XLM: 0.4106630248791459;--BCH: 0.953660453713974;--DASH: 0.1296184311526777;--NEO: 0.4596467409658605;--MANA: 0.1599963159389255;--AGIX: 0.9370494003319184;--TON: 0.4477202055492467;--AAVE: 0.380632195190534;--MKR: 1.0;'>
-            <th aria-colindex="1" aria-rowindex="731" role="rowheader" scope="row">
-             2024-03-30
-            </th>
-            <td aria-colindex="2" aria-rowindex="731" role="cell">
-             0.82
-            </td>
-            <td aria-colindex="3" aria-rowindex="731" role="cell">
-             0.41
-            </td>
-            <td aria-colindex="4" aria-rowindex="731" role="cell">
-             0.95
-            </td>
-            <td aria-colindex="5" aria-rowindex="731" role="cell">
-             0.13
-            </td>
-            <td aria-colindex="6" aria-rowindex="731" role="cell">
-             0.46
-            </td>
-            <td aria-colindex="7" aria-rowindex="731" role="cell">
-             ...
-            </td>
-            <td aria-colindex="31" aria-rowindex="731" role="cell">
-             0.16
-            </td>
-            <td aria-colindex="32" aria-rowindex="731" role="cell">
-             0.94
-            </td>
-            <td aria-colindex="33" aria-rowindex="731" role="cell">
-             0.45
-            </td>
-            <td aria-colindex="34" aria-rowindex="731" role="cell">
-             0.38
-            </td>
-            <td aria-colindex="35" aria-rowindex="731" role="cell">
-             1.00
-            </td>
-           </tr>
-          </tbody>
-          <tbody aria-hidden="true">
-           <tr role="row">
-            <th aria-colindex="1" aria-rowindex="1" rowspan="1" scope="col">
-             Date
-            </th>
-            <th aria-colindex="2" aria-rowindex="1" role="colheader" scope="col">
-             ETH
-            </th>
-            <th aria-colindex="3" aria-rowindex="1" role="colheader" scope="col">
-             XLM
-            </th>
-            <th aria-colindex="4" aria-rowindex="1" role="colheader" scope="col">
-             BCH
-            </th>
-            <th aria-colindex="5" aria-rowindex="1" role="colheader" scope="col">
-             DASH
-            </th>
-            <th aria-colindex="6" aria-rowindex="1" role="colheader" scope="col">
-             NEO
-            </th>
-            <td aria-colindex="7" aria-rowindex="1">
-             ...
-            </td>
-            <th aria-colindex="31" aria-rowindex="1" role="colheader" scope="col">
-             MANA
-            </th>
-            <th aria-colindex="32" aria-rowindex="1" role="colheader" scope="col">
-             AGIX
-            </th>
-            <th aria-colindex="33" aria-rowindex="1" role="colheader" scope="col">
-             TON
-            </th>
-            <th aria-colindex="34" aria-rowindex="1" role="colheader" scope="col">
-             AAVE
-            </th>
-            <th aria-colindex="35" aria-rowindex="1" role="colheader" scope="col">
-             MKR
-            </th>
-           </tr>
-          </tbody>
-          <tfoot role="rowgroup">
-           <tr role="row">
-            <th colspan="1">
-             count
-            </th>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-            <td role="colheader" scope="col">
-             730.00
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             mean
-            </th>
-            <td role="colheader" scope="col">
-             0.29
-            </td>
-            <td role="colheader" scope="col">
-             0.26
-            </td>
-            <td role="colheader" scope="col">
-             0.18
-            </td>
-            <td role="colheader" scope="col">
-             0.18
-            </td>
-            <td role="colheader" scope="col">
-             0.20
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.20
-            </td>
-            <td role="colheader" scope="col">
-             0.15
-            </td>
-            <td role="colheader" scope="col">
-             0.15
-            </td>
-            <td role="colheader" scope="col">
-             0.20
-            </td>
-            <td role="colheader" scope="col">
-             0.18
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             std
-            </th>
-            <td role="colheader" scope="col">
-             0.19
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.17
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.17
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.14
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             min
-            </th>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-            <td role="colheader" scope="col">
-             0.00
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             25%
-            </th>
-            <td role="colheader" scope="col">
-             0.18
-            </td>
-            <td role="colheader" scope="col">
-             0.13
-            </td>
-            <td role="colheader" scope="col">
-             0.05
-            </td>
-            <td role="colheader" scope="col">
-             0.07
-            </td>
-            <td role="colheader" scope="col">
-             0.10
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.10
-            </td>
-            <td role="colheader" scope="col">
-             0.05
-            </td>
-            <td role="colheader" scope="col">
-             0.01
-            </td>
-            <td role="colheader" scope="col">
-             0.09
-            </td>
-            <td role="colheader" scope="col">
-             0.08
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             50%
-            </th>
-            <td role="colheader" scope="col">
-             0.26
-            </td>
-            <td role="colheader" scope="col">
-             0.25
-            </td>
-            <td role="colheader" scope="col">
-             0.10
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.16
-            </td>
-            <td role="colheader" scope="col">
-             0.11
-            </td>
-            <td role="colheader" scope="col">
-             0.11
-            </td>
-            <td role="colheader" scope="col">
-             0.17
-            </td>
-            <td role="colheader" scope="col">
-             0.15
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             75%
-            </th>
-            <td role="colheader" scope="col">
-             0.34
-            </td>
-            <td role="colheader" scope="col">
-             0.32
-            </td>
-            <td role="colheader" scope="col">
-             0.28
-            </td>
-            <td role="colheader" scope="col">
-             0.24
-            </td>
-            <td role="colheader" scope="col">
-             0.27
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             0.27
-            </td>
-            <td role="colheader" scope="col">
-             0.19
-            </td>
-            <td role="colheader" scope="col">
-             0.20
-            </td>
-            <td role="colheader" scope="col">
-             0.27
-            </td>
-            <td role="colheader" scope="col">
-             0.23
-            </td>
-           </tr>
-           <tr role="row">
-            <th colspan="1">
-             max
-            </th>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td>
-             ...
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-            <td role="colheader" scope="col">
-             1.00
-            </td>
-           </tr>
-          </tfoot>
-         </table>
-         <style>
-          #crypto {
-    td {
-        background-color: rgba(
-            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
-        );
-        font-size: 0px;
-        &:hover {
-            font-size: 1em;
-        }
-    }
-}
-         </style>
-         <p>
-          loading the correlated crypto data
-         </p>
-         <pre><code>df = pandas.read_csv(
-    "crypto_data_correlation_2022-04-01_to_2024-03-31_normalised.csv"
-).set_index("Date")
-df.columns = df.columns.str.rstrip("-USD")
-display(df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024"))
-</code></pre>
-         <p>
-          visual styling to make the table appear as a heatmap. this needs more design, but the gist is there.
-         </p>
-         <pre><code class="html">&lt;style&gt;
-#crypto {
-    td {
-        background-color: rgba(
-            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
-        );
-        font-size: 0px;
-        &amp;:hover {
-            font-size: 1em;
-        }
-    }
-}
-&lt;/style&gt;
-</code></pre>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell code" data-index="12" data-loc="8" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-12-executed nb-code-label nb-cell-label cell-12-loc nb-loc-label cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
-        12
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-12-executed">
-         executed
-        </span>
-        <span id="cell-12-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-12-exec-label">
-         8
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-12-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-12-exec-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-12-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-12-end" role="none">
-      </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="8">%%
-loading the correlated crypto data
-
-    df = pandas.read_csv(
-        "crypto_data_correlation_2022-04-01_to_2024-03-31_normalised.csv"
-    ).set_index("Date")
-    df.columns = df.columns.str.rstrip("-USD")
-    df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</textarea>
-       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code><span class="o">%%</span>
-<span class="n">loading</span> <span class="n">the</span> <span class="n">correlated</span> <span class="n">crypto</span> <span class="n">data</span>
-
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="s2">"crypto_data_correlation_2022-04-01_to_2024-03-31_normalised.csv"</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"Date"</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">"-USD"</span><span class="p">)</span>
-    <span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">"a subset of the crypto time series from 2022 to 2024"</span><span class="p">)</span>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-12-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {'jupyter': {'source_hidden': True}}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-12-loc" role="none">
        8
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-12-outputs-len">
+       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
         2 outputs.
        </span>
        <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-12-outputs-label">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
          <span>
           Out
          </span>
@@ -5251,7 +3894,112 @@ df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</c
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell code" data-index="13" data-loc="5" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell code" data-index="12" data-loc="5" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="cell-12-executed nb-code-label nb-cell-label cell-12-loc nb-loc-label cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
+        12
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-12-executed">
+         executed
+        </span>
+        <span id="cell-12-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-12-exec-label">
+         9
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-12-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-12-exec-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-12-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-12-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="5">    table_config = Config(
+        data_visibility=Config.DataVisibility(max_rows=1000, max_cols=1000,), 
+        css=Config.Css(var_grouping=CssVarGrouping.cell),
+        summary_footer=False
+    )</textarea>
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>    <span class="n">table_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
+        <span class="n">data_visibility</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">DataVisibility</span><span class="p">(</span><span class="n">max_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_cols</span><span class="o">=</span><span class="mi">1000</span><span class="p">,),</span> 
+        <span class="n">css</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">Css</span><span class="p">(</span><span class="n">var_grouping</span><span class="o">=</span><span class="n">CssVarGrouping</span><span class="o">.</span><span class="n">cell</span><span class="p">),</span>
+        <span class="n">summary_footer</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-12-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-12-loc" role="none">
+       5
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-12-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-12-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          9
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell code" data-index="13" data-loc="26" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-13-executed nb-code-label nb-cell-label cell-13-loc nb-loc-label cell-13-outputs-len" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
         13
@@ -5269,7 +4017,7 @@ df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</c
          [
         </span>
         <span id="cell-13-exec-label">
-         9
+         10
         </span>
         <span aria-hidden="true">
          ]
@@ -5297,19 +4045,61 @@ df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</c
       </td>
       <td class="nb-end" hidden id="cell-13-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="5">    table_config = Config(
-        data_visibility=Config.DataVisibility(max_rows=1000, max_cols=1000,), 
-        css=Config.Css(var_grouping=CssVarGrouping.cell),
-        summary_footer=False
-    )</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="26">%%
+nonvisual representation of the pearson correlation coefficient of the currencies.
+
+    df.corr().pipe(
+        compose_left(show, display), config=table_config,
+        id="crypto", caption="correlation matrix of crypto cyrrencies. \
+        each element is the pearson correlation coefficient for the currency in the row and column"
+    )
+
+visual styling to make the table appear as a heatmap. this needs more design, but the gist is there.
+
+```html
+&lt;style&gt;
+#crypto {
+    td {
+        background-color: rgba(
+            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
+        );
+        font-size: 0px;
+        &amp;:hover {
+            font-size: 1em;
+        }
+    }
+}
+&lt;/style&gt;
+```</textarea>
        <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code>    <span class="n">table_config</span> <span class="o">=</span> <span class="n">Config</span><span class="p">(</span>
-        <span class="n">data_visibility</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">DataVisibility</span><span class="p">(</span><span class="n">max_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">max_cols</span><span class="o">=</span><span class="mi">1000</span><span class="p">,),</span> 
-        <span class="n">css</span><span class="o">=</span><span class="n">Config</span><span class="o">.</span><span class="n">Css</span><span class="p">(</span><span class="n">var_grouping</span><span class="o">=</span><span class="n">CssVarGrouping</span><span class="o">.</span><span class="n">cell</span><span class="p">),</span>
-        <span class="n">summary_footer</span><span class="o">=</span><span class="kc">False</span>
+         <pre><span></span><code><span class="o">%%</span>
+<span class="n">nonvisual</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">pearson</span> <span class="n">correlation</span> <span class="n">coefficient</span> <span class="n">of</span> <span class="n">the</span> <span class="n">currencies</span><span class="o">.</span>
+
+    <span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span>
+        <span class="n">compose_left</span><span class="p">(</span><span class="n">show</span><span class="p">,</span> <span class="n">display</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">table_config</span><span class="p">,</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s2">"crypto"</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">"correlation matrix of crypto cyrrencies. </span><span class="se">\</span>
+<span class="s2">        each element is the pearson correlation coefficient for the currency in the row and column"</span>
     <span class="p">)</span>
+
+<span class="n">visual</span> <span class="n">styling</span> <span class="n">to</span> <span class="n">make</span> <span class="n">the</span> <span class="n">table</span> <span class="n">appear</span> <span class="k">as</span> <span class="n">a</span> <span class="n">heatmap</span><span class="o">.</span> <span class="n">this</span> <span class="n">needs</span> <span class="n">more</span> <span class="n">design</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">gist</span> <span class="ow">is</span> <span class="n">there</span><span class="o">.</span>
+
+<span class="err">```</span><span class="n">html</span>
+<span class="o">&lt;</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="c1">#crypto {</span>
+    <span class="n">td</span> <span class="p">{</span>
+        <span class="n">background</span><span class="o">-</span><span class="n">color</span><span class="p">:</span> <span class="n">rgba</span><span class="p">(</span>
+            <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">val</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">),</span> <span class="mi">1</span>
+        <span class="p">);</span>
+        <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+        <span class="o">&amp;</span><span class="p">:</span><span class="n">hover</span> <span class="p">{</span>
+            <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">1</span><span class="n">em</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">&lt;/</span><span class="n">style</span><span class="o">&gt;</span>
+<span class="err">```</span>
 </code></pre>
         </div>
        </div>
@@ -5324,131 +4114,20 @@ df.pipe(show, caption="a subset of the crypto time series from 2022 to 2024")</c
           Close
          </button>
          <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-13-loc" role="none">
-       5
-      </td>
-      <td class="nb-outputs" hidden role="none">
-       <span class="nb-outputs visually-hidden" id="cell-13-outputs-len">
-        0 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-13-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          9
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell code" data-index="14" data-loc="8" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-14-executed nb-code-label nb-cell-label cell-14-loc nb-loc-label cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
-        14
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-14-executed">
-         executed
-        </span>
-        <span id="cell-14-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-14-exec-label">
-         10
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-14-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-14-exec-label" class="nb-toolbar" hidden id="cell-14" name="cell-14">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-14-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-14-end" role="none">
-      </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="8">%%
-nonvisual representation of the pearson correlation coefficient of the currencies.
-
-    df.corr().pipe(
-        compose_left(get_table, str, HTML), config=table_config,
-        id="crypto", caption="correlation matrix of crypto cyrrencies. \
-        each element is the pearson correlation coefficient for the currency in the row and column"
-    )</textarea>
-       <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code><span class="o">%%</span>
-<span class="n">nonvisual</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">pearson</span> <span class="n">correlation</span> <span class="n">coefficient</span> <span class="n">of</span> <span class="n">the</span> <span class="n">currencies</span><span class="o">.</span>
-
-    <span class="n">df</span><span class="o">.</span><span class="n">corr</span><span class="p">()</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span>
-        <span class="n">compose_left</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">HTML</span><span class="p">),</span> <span class="n">config</span><span class="o">=</span><span class="n">table_config</span><span class="p">,</span>
-        <span class="nb">id</span><span class="o">=</span><span class="s2">"crypto"</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="s2">"correlation matrix of crypto cyrrencies. </span><span class="se">\</span>
-<span class="s2">        each element is the pearson correlation coefficient for the currency in the row and column"</span>
-    <span class="p">)</span>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-14-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-14" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-14-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
         {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
       </td>
-      <td class="nb-loc" hidden id="cell-14-loc" role="none">
-       8
+      <td class="nb-loc" hidden id="cell-13-loc" role="none">
+       26
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-14-outputs-len">
-        2 outputs.
+       <span class="nb-outputs visually-hidden" id="cell-13-outputs-len">
+        3 outputs.
        </span>
-       <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-14-outputs-label">
+       <fieldset class="nb-outputs" data-outputs="3">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-13-outputs-label">
          <span>
           Out
          </span>
@@ -9326,36 +8005,67 @@ nonvisual representation of the pearson correlation coefficient of the currencie
            </tr>
           </tbody>
          </table>
+         <style>
+          #crypto {
+    td {
+        background-color: rgba(
+            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
+        );
+        font-size: 0px;
+        &:hover {
+            font-size: 1em;
+        }
+    }
+}
+         </style>
          <p>
           nonvisual representation of the pearson correlation coefficient of the currencies.
          </p>
          <pre><code>df.corr().pipe(
-    compose_left(get_table, str, HTML), config=table_config,
+    compose_left(show, display), config=table_config,
     id="crypto", caption="correlation matrix of crypto cyrrencies. \
     each element is the pearson correlation coefficient for the currency in the row and column"
-)</code></pre>
+)
+</code></pre>
+         <p>
+          visual styling to make the table appear as a heatmap. this needs more design, but the gist is there.
+         </p>
+         <pre><code class="html">&lt;style&gt;
+#crypto {
+    td {
+        background-color: rgba(
+            calc(var(--val) * 255), calc(var(--val) * 255), calc(var(--val) * 255), 1
+        );
+        font-size: 0px;
+        &amp;:hover {
+            font-size: 1em;
+        }
+    }
+}
+&lt;/style&gt;
+</code></pre>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 15 cell-15-cell_type" aria-posinset="15" class="cell code" data-index="15" data-loc="26" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 14 cell-14-cell_type" aria-posinset="14" class="cell code" data-index="14" data-loc="26" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-15-executed nb-code-label nb-cell-label cell-15-loc nb-loc-label cell-15-outputs-len" aria-labelledby="nb-cell-label 15" class="nb-anchor visually-hidden" href="#15" id="15">
-        15
+       <a aria-describedby="cell-14-executed nb-code-label nb-cell-label cell-14-loc nb-loc-label cell-14-outputs-len" aria-labelledby="nb-cell-label 14" class="nb-anchor visually-hidden" href="#14" id="14">
+        14
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
-        <span hidden id="cell-15-executed">
+        <span hidden id="cell-14-executed">
          executed
         </span>
-        <span id="cell-15-in-label">
+        <span id="cell-14-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span id="cell-15-exec-label">
+        <span id="cell-14-exec-label">
          11
         </span>
         <span aria-hidden="true">
@@ -9364,12 +8074,12 @@ nonvisual representation of the pearson correlation coefficient of the currencie
        </label>
       </td>
       <td class="nb-cell_type" hidden role="none">
-       <label id="cell-15-cell_type">
+       <label id="cell-14-cell_type">
         code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-15-exec-label" class="nb-toolbar" hidden id="cell-15" name="cell-15">
+       <form aria-labelledby="cell-14-exec-label" class="nb-toolbar" hidden id="cell-14" name="cell-14">
         <fieldset>
          <legend>
           actions
@@ -9380,12 +8090,12 @@ nonvisual representation of the pearson correlation coefficient of the currencie
         </fieldset>
        </form>
       </td>
-      <td class="nb-start" hidden id="cell-15-start" role="none">
+      <td class="nb-start" hidden id="cell-14-start" role="none">
       </td>
-      <td class="nb-end" hidden id="cell-15-end" role="none">
+      <td class="nb-end" hidden id="cell-14-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-15-in-label cell-15-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-15" id="cell-15-source" name="source" readonly rows="26">%%
+       <textarea aria-labelledby="cell-14-in-label cell-14-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-14" id="cell-14-source" name="source" readonly rows="26">%%
 ## audible, visual and tactile dataframe accessibility
 
 &lt;dl&gt;
@@ -9411,7 +8121,7 @@ nonvisual representation of the pearson correlation coefficient of the currencie
 * https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-02-20-multiindex-html.html
 * https://www.highcharts.com/docs/accessibility/patterns-and-contrast
 * https://github.com/Chartability/POUR-CAF</textarea>
-       <div aria-labelledby="cell-15-in-label cell-15-exec-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-14-in-label cell-14-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">%%</span>
 <span class="c1">## audible, visual and tactile dataframe accessibility</span>
@@ -9444,10 +8154,10 @@ nonvisual representation of the pearson correlation coefficient of the currencie
        </div>
       </td>
       <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-15-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-15" name="metadata" onclick="openDialog()">
+       <button aria-controls="cell-14-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-14" name="metadata" onclick="openDialog()">
         metadata
        </button>
-       <dialog id="cell-15-metadata">
+       <dialog id="cell-14-metadata">
         <form>
          <button formmethod="dialog">
           Close
@@ -9458,15 +8168,15 @@ nonvisual representation of the pearson correlation coefficient of the currencie
         </form>
        </dialog>
       </td>
-      <td class="nb-loc" hidden id="cell-15-loc" role="none">
+      <td class="nb-loc" hidden id="cell-14-loc" role="none">
        26
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-15-outputs-len">
+       <span class="nb-outputs visually-hidden" id="cell-14-outputs-len">
         1 outputs.
        </span>
        <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-15-outputs-label">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-14-outputs-label">
          <span>
           Out
          </span>
