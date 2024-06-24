@@ -1,19 +1,25 @@
 # ℹ️ about tonyfast
 
-tonyfast is a freelance developer, designer, and scientist with significant experience in open source and science software. they are a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
+tonyfast is a designer, developer, and scientist with expertise in open source scientific software and accessibility. they are a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
 
 * [📓 notebooks][Notebooks]
 * [💀 deathbeds][deathbeds]
 * [💻 github][Github]
-* [💼 linkedin][Linkedin] 
+* [💼 linkedin][Linkedin]
+* [📹 youtube][youtube]
 
 ## 🛠️ current projects
 
-* [materialsgenomefoundation] strategic planning lead for an open materials science economy
-* [nbconvert-a11y] né [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers.
-* <span alt="i have to defer this work until i am properly resourced">~~[project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]~~</span>
+* [nbconvert-a11y] accessible reference implementations for jupyter computational notebooks.
 * writing experiments with literate programs and computational essays on [my blog][notebooks].
+* a custom [accessible documentation system](https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-06-20-stream.html) based on dataframes
 * [`pidgy`][pidgy], [`midgy`][midgy], and [`importnb`][importnb] literate computing tools.
+
+## recent projects
+
+* [notebooks for all] collaboration with [Space Telescope Science Institute] improving the accessibility of static notebooks through collaboration with designers and compensated disabled testers
+* [materialsgenomefoundation] strategic planning lead for an open materials science economy
+* <span alt="i have to defer this work until i am properly resourced">~~[project jupyter accessibility working group], [jupyter triage], and [jupyter community calls]~~</span>
 
 
 <details markdown>
@@ -126,3 +132,4 @@ currently this project features:
 [lite]: https://tonyfast.github.io/tonyfast/run/lab/
 [calligrams]: https://nbviewer.org/gist/tonyfast/a1c50b9e2ff6385492245859ca34b053 "a presentation on the text and form of data presentations"
 [nbconvert-a11y]: https://github.com/deathbeds/nbconvert-a11y "accessibility templates, tests, and documentation about computational notebooks"
+[youtube]: https://www.youtube.com/channel/UCtsAWbavubGOYJ6ulVnzHDQ
