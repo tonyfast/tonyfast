@@ -1,0 +1,3660 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxiv/2024-07-11-activity-log.html">
+      
+      
+        <link rel="prev" href="../index.html">
+      
+      
+        <link rel="next" href="2024-07-09-testing-ux.html">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.28">
+    
+    
+      
+        <title>notifying changes in computational notebooks - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.6543a935.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="notifying changes in computational notebooks - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-07-11-activity-log.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxiv/2024-07-11-activity-log.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="notifying changes in computational notebooks - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-07-11-activity-log.png" >
+      
+    
+    
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#notifying-changes-in-computational-notebooks" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              notifying changes in computational notebooks
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    run in jupyterlite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    notifying changes in computational notebooks
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2024-07-11-activity-log.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    notifying changes in computational notebooks
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-dataframe-about-our-synthetic-scenario" class="md-nav__link">
+    <span class="md-ellipsis">
+      creating a dataframe about our synthetic scenario
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessible-table-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      accessible table components
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#styling" class="md-nav__link">
+    <span class="md-ellipsis">
+      styling
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-09-testing-ux.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gluing to together interactive ux with automated testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-07-venn-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a three component venn diagram in css
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-03-axes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making figure axes from grouped table headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-02-blobs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a table of blobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-02-libsass.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using libsass in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-26-first-line-plot.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating a line plot from a table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-20-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    nonvisual data frames and heat maps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-10-html-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an enhanced html magic with the ability to test for violations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-06-relative-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    activating relative imports in an interactive notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-04-axe-testing-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    python interface for handling axe accessibility tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-02-equal-access-checker.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking the ibm equal access checker from python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-11-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    stream drawing words with video elements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-09-videos.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an html webcam player
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-08-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    markdown as an accessible, literate programming language
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-06-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    listening to sounds of data visualizations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-29-enrich-refs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    enriching markdown links with access to current python distributions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-28-scroll-position.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 28 scroll position
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-23-Untitled42.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    untitled42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-18-a-simple-clock.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the bones of a clock
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-visual-table-indicator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    non-numerical dataframes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-windchime.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    wind chime table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-15-llm-workflow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 15 llm workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-12-word-cloud.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    word clouds are the wedding font of visualization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-11-3d-html-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3d plots from html tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-08-table-plots.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    html tables in figures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-06-dl-dict.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    definition lists as dictionaries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-04-nbconvert-html-screen-reader.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader improvements to nbconvert html exporter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-03-markdown-lists-to-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turning markdown lists to python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-26-accessible-documentation-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    assistive documentation data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-23-updating-ipython-config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ipython profile updates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-documentation-as-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    documentation as software and data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-itables-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader experiences with static and interactive tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-20-exec-mast-nb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    executing the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-15-screen-tests.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisiting nbviewer/nbconvert screen reader experiences
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-13-notebooks-for-all-march-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks for all community summary
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-12-nbconvert-a11y-pres.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-11-NOA.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Astronomy Notebooks for All
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-06-mast-revisit.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisit building the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-astropy-table-repr.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    astropy tables as semantic tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-traceback-figure-tables.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using tables to structure tracebacks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-04-semantic-outputs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    improved output semantic for python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-a11y-list-string.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using microdata and semantic html to represent python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-notebook-accessibility-workshop.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks and accessibility workshop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-28-histograms-sucks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    histograms suck
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-bash-midgy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding shell and css fence directives to midgy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-multiindex-aria.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding aria to long or wide tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-lunr-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating accessible search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-21-build-docs-pd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    build the site docs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-20-multiindex-html.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    proper html tables with multiple indexes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-15-pandas-table-names.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a study of pandas dataframes with different levels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-05-aiohttp-pandas-accessor.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding an http attribrute to pandas series
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-25-mast-a11y-notebooks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    transforming mast notebooks into nbconvert templates.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-20-colgroup-schema.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic representation of columns based on schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-05-docx-to-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    convertin a docx into a structured dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-20-interactive-html-validation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    interactive w3c validation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    slicing and dicing accessibility violations with exception groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-13-jupyter-community-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    It's the Community Call Y'all
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    generating higher resolution exceptions for the vnu validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-03-axe-rules-topology.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    axe testing codes as dataframes and exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-11-14-w3c-validator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running the w3c validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful display outputs for notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-23-semantic-lits.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful lists
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-10-semantic-code-blocks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    accessibile semantics for python code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-03-pandas-accessors.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pandas</code> accessors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the string is a samp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a semantic dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-21-v7-aom.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    jupyter notebook v7 remediations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-pycascades-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-04-computational-notebooks-history.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a sprint through history toward computional notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-28-community-demo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pidgy</code> literate computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-19-semantic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic notebook structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pipes are common sugar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-whoosh-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    use <code>whoosh</code> to search cells/articles on disk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting a dependency graph from <code>importlib_metadata</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    including development builds in jupyter lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cleaner integration of <code>pidgy</code> &amp; <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-16-inspector-hack.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    customizing the <code>IPython</code> contextual help
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    where do all the good links go?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-tree-sitter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    getting start with tree sitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-giscus-comments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding giscus comments to this blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-extensible-metadata.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extensible metadata in the notebook format
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-duckdb-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    full text search for notebooks and files using duckdb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-10-rara-gtfo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    restart and run all or it didn't happen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-09-notebooks-states.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    three states of python in a notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-07-pidgy-voila.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running <code>pidgy</code> in <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-using-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    diagrams in jupyter and mkdocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>tfoot</code> in dataframes for more information
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering dataframes for screen readers with <code>pandas</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-01-strawberry-server.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WIP: strawberry jupyter server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a template for exporting markdownish notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    configuration files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>typer</code> in ipython magics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>mkdocs</code> plugin for jupyter notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analyzing <code>pyproject.toml</code> configurations of popular projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>jupyterlite</code> blog integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering a notebook with <code>pyscript</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    integrating <code>typer</code> into the blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>doit</code> integration - a <code>mkdocs</code> example
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    automating blog posts to work with jupyter-lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    retreiving my issue activity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-15-html-tags-study.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    all the tags i could be using
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-13-github-api-stats.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting info from the github statistics api
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    exploring many <code>pyproject.toml configs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    formatting markdown it tokens as python <code>doctests</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making <code>__main__</code> a <code>__package__</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    unravel directories of notebooks with <code>dask</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fumbling around with <code>pluggy</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-async-import.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    asynchronous imports in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inferring linked data from <code>IPython</code> run times.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking axe-core from python playwright
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    post processing html accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    when markdown and python collide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    literate computing - interactive literate programming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making meeting links
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turn some text into a mobius surface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-05-dask-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    searching notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxiv/2024-07-11-activity-log.ipynb" title="edit.link.title" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxiv/2024-07-11-activity-log.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxiv/2024-07-11-activity-log.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="notifying-changes-in-computational-notebooks">notifying changes in computational notebooks<a class="headerlink" href="#notifying-changes-in-computational-notebooks" title="Permanent link">¤</a></h1>
+<p>blind and low vision jupyter users frequently ask for audible (non-visual) announcements about changes to the state of the document. this demand introduces a new visual and nonvisual feature to computational notebooks that notify any user of an update.</p>
+<p>this feature request starts as a nonvisual componment, but quickly we realize that a visual component would be assistive to all users.</p>
+<p>options for notifications: toast (visual), aria-live</p>
+<p><a href="#log">demo!</a></p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nbconvert_a11y.tables</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">new</span>
+<span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">midgy</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">Python</span><span class="p">()</span>
+</code></pre></div>
+<p><a href="https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels">https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels</a></p>
+<p>screen reader users should be able to configure aria live settings.
+a BVI developer may want to hear debug messages.s</p>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="c1">## creating a scenario that would be announced in a log</span>
+
+    <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">FATAL</span><span class="p">,</span> <span class="n">CRITICAL</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">,</span> <span class="n">WARN</span><span class="p">,</span> <span class="n">INFO</span><span class="p">,</span> <span class="n">DEBUG</span>
+    <span class="n">FATAL</span> <span class="o">/</span> <span class="n">CRITICAL</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">,</span> <span class="n">WARN</span><span class="p">,</span> <span class="n">INFO</span><span class="p">,</span> <span class="n">DEBUG</span><span class="p">;</span>
+
+    <span class="n">activities</span> <span class="o">=</span>\
+<span class="mf">1.</span> <span class="n">info</span>
+    <span class="p">:</span> <span class="n">starting</span> <span class="n">python</span> <span class="n">kernel</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">show</span> <span class="n">kernel</span> <span class="n">info</span>
+<span class="mf">2.</span> <span class="n">info</span>
+    <span class="p">:</span> <span class="n">python</span> <span class="n">kernel</span> <span class="n">started</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">execute</span> <span class="n">cells</span>
+<span class="mf">3.</span> <span class="n">info</span>
+    <span class="p">:</span> <span class="n">cell</span> <span class="mi">2</span> <span class="n">executed</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">cancel</span> <span class="n">cell</span> <span class="mi">2</span> <span class="n">execution</span>
+<span class="mf">4.</span> <span class="n">info</span>
+    <span class="p">:</span> <span class="n">cell</span> <span class="mi">2</span> <span class="n">finished</span> <span class="n">successfully</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">cell</span> <span class="n">output</span>
+<span class="mf">5.</span> <span class="n">info</span>
+    <span class="p">:</span> <span class="n">cell</span> <span class="mi">7</span> <span class="n">executed</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">cancel</span> <span class="n">cell</span> <span class="mi">7</span> <span class="n">execution</span>
+<span class="mf">6.</span> <span class="n">error</span>
+    <span class="p">:</span> <span class="n">cell</span> <span class="mi">7</span> <span class="n">failed</span> <span class="k">with</span> <span class="ne">TypeError</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">jump</span> <span class="n">to</span> <span class="n">cell</span> <span class="mi">7</span> <span class="n">traceback</span>
+<span class="mf">7.</span> <span class="n">critical</span>
+    <span class="p">:</span> <span class="n">python</span> <span class="n">kernel</span> <span class="n">restarting</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">queue</span> <span class="n">cell</span> <span class="n">execution</span>
+<span class="mf">8.</span> <span class="n">critical</span>
+    <span class="p">:</span> <span class="n">python</span> <span class="n">kernel</span> <span class="n">restarted</span>
+    <span class="p">:</span> <span class="o">-</span> <span class="n">execute</span> <span class="n">cells</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><h2>creating a scenario that would be announced in a log</h2>
+<pre><code>from logging import FATAL, CRITICAL, ERROR, WARN, INFO, DEBUG
+FATAL / CRITICAL, ERROR, WARN, INFO, DEBUG;
+
+activities =\
+</code></pre>
+<ol>
+<li>
+<dl>
+<dt>info</dt>
+<dd>starting python kernel</dd>
+<dd>
+<ul>
+<li>show kernel info</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>info</dt>
+<dd>python kernel started</dd>
+<dd>
+<ul>
+<li>execute cells</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>info</dt>
+<dd>cell 2 executed</dd>
+<dd>
+<ul>
+<li>cancel cell 2 execution</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>info</dt>
+<dd>cell 2 finished successfully</dd>
+<dd>
+<ul>
+<li>jump to cell output</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>info</dt>
+<dd>cell 7 executed</dd>
+<dd>
+<ul>
+<li>cancel cell 7 execution</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>error</dt>
+<dd>cell 7 failed with TypeError</dd>
+<dd>
+<ul>
+<li>jump to cell 7 traceback</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>critical</dt>
+<dd>python kernel restarting</dd>
+<dd>
+<ul>
+<li>queue cell execution</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li>
+<dl>
+<dt>critical</dt>
+<dd>python kernel restarted</dd>
+<dd>
+<ul>
+<li>execute cells</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ol>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">we</span> <span class="n">need</span> <span class="n">to</span> <span class="nb">map</span> <span class="err">`</span><span class="n">logging</span><span class="err">`</span> <span class="n">level</span> <span class="n">messages</span> <span class="n">to</span> <span class="err">`</span><span class="n">aria</span><span class="o">-</span><span class="n">live</span><span class="err">`</span> <span class="o">.</span>
+
+    <span class="n">logging_roles</span> <span class="o">=</span>\
+<span class="err">```</span><span class="n">yaml</span>
+<span class="n">ERROR</span><span class="p">:</span> <span class="n">assertive</span>
+<span class="n">CRITICAL</span><span class="p">:</span> <span class="n">assertive</span>
+<span class="n">INFO</span><span class="p">:</span> <span class="n">polite</span>
+<span class="n">WARN</span><span class="p">:</span> <span class="n">none</span>
+<span class="n">DEBUG</span><span class="p">:</span> <span class="n">none</span>
+<span class="err">```</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><p>we need to map <code>logging</code> level messages to <code>aria-live</code> .</p>
+<pre><code>logging_roles =\
+</code></pre>
+<pre><code class="yaml">ERROR: assertive
+CRITICAL: assertive
+INFO: polite
+WARN: none
+DEBUG: none
+</code></pre>
+</div>
+
+<h2 id="creating-a-dataframe-about-our-synthetic-scenario">creating a dataframe about our synthetic scenario<a class="headerlink" href="#creating-a-dataframe-about-our-synthetic-scenario" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span>
+    <span class="n">activities</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;\s+:&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">),</span> 
+    <span class="n">partial</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;[0-9].\s+|\s-\s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">,</span> <span class="n">Series</span>
+<span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">pipe</span><span class="p">(</span>
+    <span class="s2">&quot;level message&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">partial</span><span class="p">(</span><span class="nb">zip</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="nb">dict</span><span class="p">,</span> 
+<span class="p">))</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;timestamp&quot;</span><span class="p">]</span> <span class="o">=</span><span class="n">df</span><span class="o">.</span><span class="n">level</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">cumsum</span><span class="p">()</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span>
+    <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span>
+<span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;live&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">logging_roles</span><span class="o">.</span><span class="n">get</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="s2">&quot;message&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="o">**</span><span class="n">df</span><span class="o">.</span><span class="n">message</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">pipe</span><span class="p">(</span>
+        <span class="s2">&quot;message action&quot;</span><span class="o">.</span><span class="n">split</span><span class="p">(),</span> <span class="n">partial</span><span class="p">(</span><span class="nb">zip</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)),</span> <span class="nb">dict</span><span class="p">,</span> 
+    <span class="p">))</span>
+<span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]</span>
+
+<span class="n">pipe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(),</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;information needed to construct an accessible table representation&quot;</span><span class="p">))</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><table aria-colcount="6" aria-rowcount="9" role="table" style='--level-min: "CRITICAL";--live-min: "assertive";--message-min: "cell 2 executed";--action-min: "cancel cell 2 execution";--id-min: 1220998b-f07d-4061-983d-69417a1c7df1;--level-max: "INFO";--live-max: "polite";--message-max: "starting python kernel";--action-max: "show kernel info";--id-max: f02cd379-a4e1-4121-8d92-e1573dbcb702;'>
+<caption>
+  information needed to construct an accessible table representation
+ </caption>
+<thead role="rowgroup">
+<tr role="row">
+<th aria-colindex="1" aria-rowindex="1" role="colheader" scope="col">
+    timestamp
+   </th>
+<th aria-colindex="2" aria-rowindex="1" role="colheader" scope="col">
+    level
+   </th>
+<th aria-colindex="3" aria-rowindex="1" role="colheader" scope="col">
+    live
+   </th>
+<th aria-colindex="4" aria-rowindex="1" role="colheader" scope="col">
+    message
+   </th>
+<th aria-colindex="5" aria-rowindex="1" role="colheader" scope="col">
+    action
+   </th>
+<th aria-colindex="6" aria-rowindex="1" role="colheader" scope="col">
+    id
+   </th>
+</tr>
+</thead>
+<tbody role="rowgroup">
+<tr role="row" style='--timestamp: 1970-01-01 00:00:01;--level: "INFO";--live: "polite";--message: "starting python kernel";--action: "show kernel info";--id: 95752cd2-b8d9-46ec-911a-9ea19aaa63be;'>
+<th aria-colindex="1" aria-rowindex="2" role="colheader" scope="col">
+    1970-01-01 00:00:01
+   </th>
+<td aria-colindex="2" aria-rowindex="2" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="2" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="2" role="cell">
+    starting python kernel
+   </td>
+<td aria-colindex="5" aria-rowindex="2" role="cell">
+    show kernel info
+   </td>
+<td aria-colindex="6" aria-rowindex="2" role="cell">
+    95752cd2-b8d9-46ec-911a-9ea19aaa63be
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:04;--level: "INFO";--live: "polite";--message: "python kernel started";--action: "execute cells";--id: f02cd379-a4e1-4121-8d92-e1573dbcb702;'>
+<th aria-colindex="1" aria-rowindex="3" role="colheader" scope="col">
+    1970-01-01 00:00:04
+   </th>
+<td aria-colindex="2" aria-rowindex="3" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="3" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="3" role="cell">
+    python kernel started
+   </td>
+<td aria-colindex="5" aria-rowindex="3" role="cell">
+    execute cells
+   </td>
+<td aria-colindex="6" aria-rowindex="3" role="cell">
+    f02cd379-a4e1-4121-8d92-e1573dbcb702
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:07;--level: "INFO";--live: "polite";--message: "cell 2 executed";--action: "cancel cell 2 execution";--id: 1be87cc3-2007-401d-a235-68bb9eb0ce9a;'>
+<th aria-colindex="1" aria-rowindex="4" role="colheader" scope="col">
+    1970-01-01 00:00:07
+   </th>
+<td aria-colindex="2" aria-rowindex="4" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="4" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="4" role="cell">
+    cell 2 executed
+   </td>
+<td aria-colindex="5" aria-rowindex="4" role="cell">
+    cancel cell 2 execution
+   </td>
+<td aria-colindex="6" aria-rowindex="4" role="cell">
+    1be87cc3-2007-401d-a235-68bb9eb0ce9a
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:12;--level: "INFO";--live: "polite";--message: "cell 2 finished successfully";--action: "jump to cell output";--id: 1220998b-f07d-4061-983d-69417a1c7df1;'>
+<th aria-colindex="1" aria-rowindex="5" role="colheader" scope="col">
+    1970-01-01 00:00:12
+   </th>
+<td aria-colindex="2" aria-rowindex="5" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="5" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="5" role="cell">
+    cell 2 finished successfully
+   </td>
+<td aria-colindex="5" aria-rowindex="5" role="cell">
+    jump to cell output
+   </td>
+<td aria-colindex="6" aria-rowindex="5" role="cell">
+    1220998b-f07d-4061-983d-69417a1c7df1
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:17;--level: "INFO";--live: "polite";--message: "cell 7 executed";--action: "cancel cell 7 execution";--id: 978e832a-5ecf-419f-bbe4-2920babb9a2f;'>
+<th aria-colindex="1" aria-rowindex="6" role="colheader" scope="col">
+    1970-01-01 00:00:17
+   </th>
+<td aria-colindex="2" aria-rowindex="6" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="6" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="6" role="cell">
+    cell 7 executed
+   </td>
+<td aria-colindex="5" aria-rowindex="6" role="cell">
+    cancel cell 7 execution
+   </td>
+<td aria-colindex="6" aria-rowindex="6" role="cell">
+    978e832a-5ecf-419f-bbe4-2920babb9a2f
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:26;--level: "ERROR";--live: "assertive";--message: "cell 7 failed with TypeError";--action: "jump to cell 7 traceback";--id: 556b95ea-34e6-46cc-b7b2-bbb7efd85e0a;'>
+<th aria-colindex="1" aria-rowindex="7" role="colheader" scope="col">
+    1970-01-01 00:00:26
+   </th>
+<td aria-colindex="2" aria-rowindex="7" role="cell">
+    ERROR
+   </td>
+<td aria-colindex="3" aria-rowindex="7" role="cell">
+    assertive
+   </td>
+<td aria-colindex="4" aria-rowindex="7" role="cell">
+    cell 7 failed with TypeError
+   </td>
+<td aria-colindex="5" aria-rowindex="7" role="cell">
+    jump to cell 7 traceback
+   </td>
+<td aria-colindex="6" aria-rowindex="7" role="cell">
+    556b95ea-34e6-46cc-b7b2-bbb7efd85e0a
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:35;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarting";--action: "queue cell execution";--id: 7e8baa0d-a555-4bdd-9ea8-63052a9d51fe;'>
+<th aria-colindex="1" aria-rowindex="8" role="colheader" scope="col">
+    1970-01-01 00:00:35
+   </th>
+<td aria-colindex="2" aria-rowindex="8" role="cell">
+    CRITICAL
+   </td>
+<td aria-colindex="3" aria-rowindex="8" role="cell">
+    assertive
+   </td>
+<td aria-colindex="4" aria-rowindex="8" role="cell">
+    python kernel restarting
+   </td>
+<td aria-colindex="5" aria-rowindex="8" role="cell">
+    queue cell execution
+   </td>
+<td aria-colindex="6" aria-rowindex="8" role="cell">
+    7e8baa0d-a555-4bdd-9ea8-63052a9d51fe
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:44;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarted";--action: "execute cells";--id: 13c17ac0-881b-42dd-8c7f-d0f3f8c13300;'>
+<th aria-colindex="1" aria-rowindex="9" role="colheader" scope="col">
+    1970-01-01 00:00:44
+   </th>
+<td aria-colindex="2" aria-rowindex="9" role="cell">
+    CRITICAL
+   </td>
+<td aria-colindex="3" aria-rowindex="9" role="cell">
+    assertive
+   </td>
+<td aria-colindex="4" aria-rowindex="9" role="cell">
+    python kernel restarted
+   </td>
+<td aria-colindex="5" aria-rowindex="9" role="cell">
+    execute cells
+   </td>
+<td aria-colindex="6" aria-rowindex="9" role="cell">
+    13c17ac0-881b-42dd-8c7f-d0f3f8c13300
+   </td>
+</tr>
+</tbody>
+<tbody aria-hidden="true" role="rowgroup">
+<tr role="row">
+<th aria-colindex="1" aria-rowindex="1" role="colheader" scope="col">
+    timestamp
+   </th>
+<th aria-colindex="2" aria-rowindex="1" role="colheader" scope="col">
+    level
+   </th>
+<th aria-colindex="3" aria-rowindex="1" role="colheader" scope="col">
+    live
+   </th>
+<th aria-colindex="4" aria-rowindex="1" role="colheader" scope="col">
+    message
+   </th>
+<th aria-colindex="5" aria-rowindex="1" role="colheader" scope="col">
+    action
+   </th>
+<th aria-colindex="6" aria-rowindex="1" role="colheader" scope="col">
+    id
+   </th>
+</tr>
+</tbody>
+<tfoot role="rowgroup">
+<tr role="row">
+<th aria-colindex="1" aria-colspan="1" aria-rowindex="10" colspan="1" role="rowheader" scope="row">
+    min
+   </th>
+<td aria-colindex="2" aria-rowindex="10" role="cell">
+    CRITICAL
+   </td>
+<td aria-colindex="3" aria-rowindex="10" role="cell">
+    assertive
+   </td>
+<td aria-colindex="4" aria-rowindex="10" role="cell">
+    cell 2 executed
+   </td>
+<td aria-colindex="5" aria-rowindex="10" role="cell">
+    cancel cell 2 execution
+   </td>
+<td aria-colindex="6" aria-rowindex="10" role="cell">
+    1220998b-f07d-4061-983d-69417a1c7df1
+   </td>
+</tr>
+<tr role="row">
+<th aria-colindex="1" aria-colspan="1" aria-rowindex="11" colspan="1" role="rowheader" scope="row">
+    max
+   </th>
+<td aria-colindex="2" aria-rowindex="11" role="cell">
+    INFO
+   </td>
+<td aria-colindex="3" aria-rowindex="11" role="cell">
+    polite
+   </td>
+<td aria-colindex="4" aria-rowindex="11" role="cell">
+    starting python kernel
+   </td>
+<td aria-colindex="5" aria-rowindex="11" role="cell">
+    show kernel info
+   </td>
+<td aria-colindex="6" aria-rowindex="11" role="cell">
+    f02cd379-a4e1-4121-8d92-e1573dbcb702
+   </td>
+</tr>
+</tfoot>
+</table>
+</div>
+
+<h2 id="accessible-table-components">accessible table components<a class="headerlink" href="#accessible-table-components" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time</span>
+
+<span class="k">def</span> <span class="nf">get_timestamp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">datetime</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()))</span>
+    <span class="c1"># t.append(s.name.strftime(&#39;%Y-%m-%d %X&#39;))</span>
+    <span class="n">t</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">t</span>
+</code></pre></div>
+<p>there are a lot of <a href="https://a11ysupport.io/tech/aria/aria-live_attribute">shenangins to consider when implementing aria live across browsers</a>.
+we take an html5 forward design approach and restrict ourselves to the nuance around the native output element;
+we take heavy advice from <a href="https://scottaohara.github.io/tests/html-output/">scott o'hara's html <code>output</code> analysis</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_message</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="nb">object</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">role</span><span class="o">=</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> 
+        <span class="n">onload</span><span class="o">=</span><span class="s2">&quot;alert(11);&quot;</span><span class="p">,</span>  <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-live&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">live</span><span class="p">,</span> <span class="s2">&quot;data-message&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">message</span><span class="p">}</span>
+    <span class="p">))</span>
+    <span class="c1"># object.append(s.message)</span>
+    <span class="k">return</span> <span class="nb">object</span>
+</code></pre></div>
+<p>aria live seems most reliable when the text is injected directly into the element</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_script</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">script</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;script&quot;</span><span class="p">)</span>
+    <span class="n">script</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;&quot;&quot; setTimeout(() =&amp;gt; </span><span class="se">{{</span>
+<span class="s2">            var out = document.getElementById(&quot;</span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;);</span>
+<span class="s2">            out.parentElement.parentElement.classList.remove(&quot;nv&quot;);</span>
+<span class="s2">            out.textContent = out.dataset.message</span><span class="se">}}</span><span class="s2">, </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">second</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">}</span><span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">script</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_priority</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;for&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]})</span>
+    <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">label</span>
+</code></pre></div>
+<p>a visual convention with toast notifications is to provide a call to action with a notification.
+we couple these visual concepts with non visual concepts.
+jupyter has toast notifications, but they would be compliments the activity log.
+the activity log is the domain of visual and nonvisual actions.</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_action</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="c1"># might return a link or a button</span>
+    <span class="n">butt</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;a&quot;</span> <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">action</span><span class="o">.</span><span class="n">startswith</span><span class="p">((</span><span class="s2">&quot;jump&quot;</span><span class="p">,))</span> <span class="k">else</span> <span class="s2">&quot;button&quot;</span><span class="p">)</span>
+    <span class="n">butt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">action</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">butt</span>
+</code></pre></div>
+<p>an example activity log <code>table</code> that reveals it self and has aria live capabilities.
+this is a first demonstration of a more robust activity log for visual and nonvisual users.
+the table operates as a keyboard navigable component on assistive technology.</p>
+<div class="highlight"><pre><span></span><code><span class="n">table</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span> <span class="o">:=</span> <span class="n">df</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">Series</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span>
+        <span class="n">priority</span><span class="o">=</span><span class="n">get_priority</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+        <span class="n">message</span><span class="o">=</span><span class="n">get_message</span><span class="p">(</span><span class="n">s</span><span class="p">),</span>
+        <span class="n">action</span><span class="o">=</span><span class="n">get_action</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> 
+        <span class="n">timestamp</span><span class="o">=</span><span class="n">get_timestamp</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">script</span><span class="o">=</span><span class="n">get_script</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="p">)),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">))</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;timestamp&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-labelledby&quot;</span><span class="p">:</span> <span class="s2">&quot;log-nm&quot;</span><span class="p">})</span>
+<span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;nv&quot;</span><span class="p">})</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">&quot;tr&quot;</span><span class="p">)];</span>
+</code></pre></div>
+<p>the table doesn't need to be seen, but it can not be removed from the visual domain otherwise announcements will be suppressed.
+we can use the <code>details</code> tag and the non visual css styling to address this.
+by wrapping all of the following in a region we expose a landmark for the activity log enhancing discovery.</p>
+<div class="highlight"><pre><span></span><code><span class="n">section</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;section&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;aria-labelledby&quot;</span><span class="p">:</span> <span class="s2">&quot;log-nm&quot;</span><span class="p">})</span>
+<span class="n">section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">details</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;details&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)))</span>
+<span class="n">details</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">summary</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;log-nm&quot;</span><span class="p">)))</span>
+<span class="n">summary</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;activity log&quot;</span><span class="p">)</span>
+<span class="n">section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="n">section</span>
+</code></pre></div>
+<h2 id="styling">styling<a class="headerlink" href="#styling" title="Permanent link">¤</a></h2>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="o">&lt;</span><span class="n">figure</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">figcaption</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">a</span> <span class="n">href</span><span class="o">=</span><span class="s2">&quot;https://www.tpgi.com/the-anatomy-of-visually-hidden/&quot;</span><span class="o">&gt;</span><span class="n">visually</span> <span class="n">hidden</span> <span class="n">css</span><span class="o">&lt;/</span><span class="n">a</span><span class="o">&gt;&lt;/</span><span class="n">figcaption</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">blockquote</span> <span class="n">cite</span><span class="o">=</span><span class="s2">&quot;https://www.tpgi.com/the-anatomy-of-visually-hidden/&quot;</span><span class="o">&gt;</span>
+
+    <span class="n">display</span>\
+<span class="err">```</span><span class="n">css</span>
+<span class="n">details</span><span class="p">:</span><span class="ow">not</span><span class="p">([</span><span class="nb">open</span><span class="p">])</span> <span class="o">+</span> <span class="n">table</span><span class="p">,</span> <span class="o">.</span><span class="n">nv</span> <span class="p">{</span>
+    <span class="n">clip</span><span class="p">:</span> <span class="n">rect</span><span class="p">(</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="n">clip</span><span class="o">-</span><span class="n">path</span><span class="p">:</span> <span class="n">inset</span><span class="p">(</span><span class="mi">50</span><span class="o">%</span><span class="p">);</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">1</span><span class="n">px</span><span class="p">;</span>
+    <span class="n">overflow</span><span class="p">:</span> <span class="n">hidden</span><span class="p">;</span>
+    <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+    <span class="n">white</span><span class="o">-</span><span class="n">space</span><span class="p">:</span> <span class="n">nowrap</span><span class="p">;</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">1</span><span class="n">px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">a</span><span class="p">[</span><span class="n">href</span><span class="o">=</span><span class="s2">&quot;#log&quot;</span><span class="p">]</span> <span class="p">{</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+    <span class="n">height</span><span class="p">:</span> <span class="mi">300</span><span class="n">px</span><span class="p">;</span>
+    <span class="n">width</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span><span class="p">;</span>
+    <span class="n">background</span><span class="p">:</span> <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">element</span><span class="p">(</span><span class="c1">#log);</span>
+    <span class="n">background</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="n">content</span><span class="p">;</span>
+    <span class="n">background</span><span class="o">-</span><span class="n">repeat</span><span class="p">:</span> <span class="n">no</span><span class="o">-</span><span class="n">repeat</span><span class="p">;</span>
+    <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">4</span><span class="n">rem</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="err">```</span>
+<span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
