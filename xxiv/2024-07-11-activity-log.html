@@ -460,6 +460,15 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#conclusion" class="md-nav__link">
+    <span class="md-ellipsis">
+      conclusion
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#styling" class="md-nav__link">
     <span class="md-ellipsis">
       styling
@@ -3035,21 +3044,26 @@
 <h1 id="notifying-changes-in-computational-notebooks">notifying changes in computational notebooks<a class="headerlink" href="#notifying-changes-in-computational-notebooks" title="Permanent link">¤</a></h1>
 <p>blind and low vision jupyter users frequently ask for audible (non-visual) announcements about changes to the state of the document. this demand introduces a new visual and nonvisual feature to computational notebooks that notify any user of an update.</p>
 <p>this feature request starts as a nonvisual componment, but quickly we realize that a visual component would be assistive to all users.</p>
-<p>options for notifications: toast (visual), aria-live</p>
-<p><a href="#log">demo!</a></p>
+<p><a href="https://www.scottohara.me/blog/2019/07/08/a-toast-to-a11y-toasts.html">toast components</a> are common patterns for these kinds of notifications, but there are accessibility challenges. one specific challenge is that the aria live message could be destroyed it is announced. this demands the need for a more persistent message, but not immortal. the time delay should be configurable on the order of minutes. </p>
+<p>another notification pattern to consider would use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API">notifications api</a>. this approach would be for escalated notifications, or tens of minute notifications. the os will handle the accessibility of these messages.</p>
+<p><a href="#log">jump to the demo</a></p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nbconvert_a11y.tables</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">new</span>
 <span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">midgy</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">Python</span><span class="p">()</span>
 </code></pre></div>
-<p><a href="https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels">https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels</a></p>
-<p>screen reader users should be able to configure aria live settings.
-a BVI developer may want to hear debug messages.s</p>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="c1">## creating a scenario that would be announced in a log</span>
 
+<span class="n">our</span> <span class="n">approach</span> <span class="n">maps</span> <span class="p">[</span><span class="n">logging</span> <span class="n">levels</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">stackoverflow</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">questions</span><span class="o">/</span><span class="mi">2031163</span><span class="o">/</span><span class="n">when</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">use</span><span class="o">-</span><span class="n">the</span><span class="o">-</span><span class="n">different</span><span class="o">-</span><span class="n">log</span><span class="o">-</span><span class="n">levels</span><span class="p">)</span> <span class="o">-</span> <span class="n">the</span> <span class="n">visual</span> <span class="n">log</span> <span class="o">-</span>
+<span class="n">to</span> <span class="p">[</span><span class="n">aria</span> <span class="n">live</span><span class="p">](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">sarasoueidan</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">blog</span><span class="o">/</span><span class="n">accessible</span><span class="o">-</span><span class="n">notifications</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">aria</span><span class="o">-</span><span class="n">live</span><span class="o">-</span><span class="n">regions</span><span class="o">-</span><span class="n">part</span><span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="p">)</span> <span class="n">values</span> <span class="o">-</span> <span class="n">the</span> <span class="n">nonvisual</span> <span class="n">log</span><span class="p">[</span><span class="o">^</span><span class="n">log</span><span class="p">]</span><span class="o">.</span>
+<span class="n">ultimately</span><span class="p">,</span> <span class="n">we</span> <span class="n">create</span> <span class="n">a</span> <span class="n">reference</span> <span class="n">visual</span> <span class="ow">and</span> <span class="n">non</span><span class="o">-</span><span class="n">visual</span> <span class="n">logging</span> <span class="n">component</span> <span class="n">that</span> <span class="n">will</span> <span class="n">provide</span> <span class="n">updates</span> <span class="n">to</span> <span class="n">assistive</span> <span class="n">technology</span><span class="o">.</span>
+
     <span class="kn">from</span> <span class="nn">logging</span> <span class="kn">import</span> <span class="n">FATAL</span><span class="p">,</span> <span class="n">CRITICAL</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">,</span> <span class="n">WARN</span><span class="p">,</span> <span class="n">INFO</span><span class="p">,</span> <span class="n">DEBUG</span>
     <span class="n">FATAL</span> <span class="o">/</span> <span class="n">CRITICAL</span><span class="p">,</span> <span class="n">ERROR</span><span class="p">,</span> <span class="n">WARN</span><span class="p">,</span> <span class="n">INFO</span><span class="p">,</span> <span class="n">DEBUG</span><span class="p">;</span>
+    <span class="n">activities</span><span class="p">:</span>\
+<span class="ow">is</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">actions</span> <span class="n">that</span> <span class="n">may</span> <span class="n">be</span> <span class="n">encountered</span> <span class="n">during</span> <span class="n">interactive</span> <span class="n">computing</span><span class="o">.</span>
+<span class="n">the</span> <span class="nb">list</span> <span class="n">provides</span> <span class="n">a</span> <span class="n">log</span> <span class="n">level</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="ow">and</span> <span class="n">call</span> <span class="n">to</span> <span class="n">action</span><span class="o">.</span>\
 
-    <span class="n">activities</span> <span class="o">=</span>\
+    <span class="o">=</span>\
 <span class="mf">1.</span> <span class="n">info</span>
     <span class="p">:</span> <span class="n">starting</span> <span class="n">python</span> <span class="n">kernel</span>
     <span class="p">:</span> <span class="o">-</span> <span class="n">show</span> <span class="n">kernel</span> <span class="n">info</span>
@@ -3074,12 +3088,20 @@ a BVI developer may want to hear debug messages.s</p>
 <span class="mf">8.</span> <span class="n">critical</span>
     <span class="p">:</span> <span class="n">python</span> <span class="n">kernel</span> <span class="n">restarted</span>
     <span class="p">:</span> <span class="o">-</span> <span class="n">execute</span> <span class="n">cells</span>
+
+<span class="p">[</span><span class="o">^</span><span class="n">log</span><span class="p">]:</span> <span class="err">`</span><span class="n">log</span><span class="err">`</span> <span class="ow">is</span> <span class="n">an</span> <span class="n">aria</span> <span class="n">role</span> <span class="n">meant</span> <span class="n">to</span> <span class="n">mimic</span> <span class="n">this</span> <span class="n">pattern</span><span class="o">.</span> <span class="n">support</span> <span class="ow">is</span> <span class="n">generally</span> <span class="n">better</span> <span class="k">for</span> <span class="err">`</span><span class="n">role</span><span class="o">=</span><span class="n">status</span><span class="err">`</span> <span class="ow">or</span> <span class="err">`</span><span class="n">role</span><span class="o">=</span><span class="n">alert</span><span class="err">`</span><span class="o">.</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea"><h2>creating a scenario that would be announced in a log</h2>
+<p>our approach maps <a href="https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels">logging levels</a> - the visual log -
+to <a href="https://www.sarasoueidan.com/blog/accessible-notifications-with-aria-live-regions-part-1/">aria live</a> values - the nonvisual log<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.
+ultimately, we create a reference visual and non-visual logging component that will provide updates to assistive technology.</p>
 <pre><code>from logging import FATAL, CRITICAL, ERROR, WARN, INFO, DEBUG
 FATAL / CRITICAL, ERROR, WARN, INFO, DEBUG;
-
-activities =\
+activities:\
+</code></pre>
+<p>is a list of actions that may be encountered during interactive computing.
+the list provides a log level, message, and call to action.\</p>
+<pre><code>=\
 </code></pre>
 <ol>
 <li>
@@ -3171,12 +3193,14 @@ activities =\
 </dl>
 </li>
 </ol>
+&lt;&gt;<p><code>log</code> is an aria role meant to mimic this pattern. support is generally better for <code>role=status</code> or <code>role=alert</code>.</p>
 </div>
 
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
-<span class="n">we</span> <span class="n">need</span> <span class="n">to</span> <span class="nb">map</span> <span class="err">`</span><span class="n">logging</span><span class="err">`</span> <span class="n">level</span> <span class="n">messages</span> <span class="n">to</span> <span class="err">`</span><span class="n">aria</span><span class="o">-</span><span class="n">live</span><span class="err">`</span> <span class="o">.</span>
+    <span class="n">logging_roles</span><span class="p">:</span>\
+<span class="ow">is</span> <span class="n">a</span> <span class="n">mapping</span> <span class="n">of</span> <span class="n">logging</span> <span class="n">levels</span> <span class="n">to</span> <span class="n">aria</span> <span class="n">live</span> <span class="n">roles</span><span class="o">.</span>\
 
-    <span class="n">logging_roles</span> <span class="o">=</span>\
+    <span class="o">=</span>\
 <span class="err">```</span><span class="n">yaml</span>
 <span class="n">ERROR</span><span class="p">:</span> <span class="n">assertive</span>
 <span class="n">CRITICAL</span><span class="p">:</span> <span class="n">assertive</span>
@@ -3184,9 +3208,13 @@ activities =\
 <span class="n">WARN</span><span class="p">:</span> <span class="n">none</span>
 <span class="n">DEBUG</span><span class="p">:</span> <span class="n">none</span>
 <span class="err">```</span>
+
+<span class="n">these</span> <span class="n">levels</span> <span class="n">should</span> <span class="n">be</span> <span class="n">configured</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">user</span> <span class="n">interface</span> <span class="n">especially</span> <span class="n">to</span> <span class="n">meet</span> <span class="n">the</span> <span class="n">needs</span> <span class="n">of</span> <span class="n">developers</span> <span class="n">using</span> <span class="n">assistive</span> <span class="n">technologies</span><span class="o">.</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea"><p>we need to map <code>logging</code> level messages to <code>aria-live</code> .</p>
-<pre><code>logging_roles =\
+<div class="output_html rendered_html output_subarea"><pre><code>logging_roles:\
+</code></pre>
+<p>is a mapping of logging levels to aria live roles.\</p>
+<pre><code>=\
 </code></pre>
 <pre><code class="yaml">ERROR: assertive
 CRITICAL: assertive
@@ -3194,10 +3222,16 @@ INFO: polite
 WARN: none
 DEBUG: none
 </code></pre>
+<p>these levels should be configured in the user interface especially to meet the needs of developers using assistive technologies.</p>
 </div>
 
 <h2 id="creating-a-dataframe-about-our-synthetic-scenario">creating a dataframe about our synthetic scenario<a class="headerlink" href="#creating-a-dataframe-about-our-synthetic-scenario" title="Permanent link">¤</a></h2>
-<div class="highlight"><pre><span></span><code><span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="o">&lt;</span><span class="n">details</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">summary</span><span class="o">&gt;</span><span class="n">dataframe</span> <span class="n">tidying</span><span class="o">&lt;/</span><span class="n">summary</span><span class="o">&gt;</span>
+
+<span class="err">```</span><span class="n">ipython</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span>
     <span class="n">activities</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;\s+:&quot;</span><span class="p">,</span> <span class="s2">&quot;:&quot;</span><span class="p">),</span> 
     <span class="n">partial</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">,</span> <span class="s2">&quot;[0-9].\s+|\s-\s&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="nb">str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">,</span> <span class="n">Series</span>
 <span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">]]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">pipe</span><span class="p">(</span>
@@ -3220,9 +3254,11 @@ DEBUG: none
 <span class="p">)</span>
 <span class="n">df</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))]</span>
 
-<span class="n">pipe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(),</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;information needed to construct an accessible table representation&quot;</span><span class="p">))</span>
+<span class="n">pipe</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">partial</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">Config</span><span class="p">(),</span> <span class="n">caption</span><span class="o">=</span><span class="s2">&quot;information needed to construct an accessible table representation&quot;</span><span class="p">),</span> <span class="n">display</span><span class="p">)</span>
+<span class="err">```</span>
+<span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea output_execute_result"><table aria-colcount="6" aria-rowcount="9" role="table" style='--level-min: "CRITICAL";--live-min: "assertive";--message-min: "cell 2 executed";--action-min: "cancel cell 2 execution";--id-min: 1220998b-f07d-4061-983d-69417a1c7df1;--level-max: "INFO";--live-max: "polite";--message-max: "starting python kernel";--action-max: "show kernel info";--id-max: f02cd379-a4e1-4121-8d92-e1573dbcb702;'>
+<div class="output_html rendered_html output_subarea"><table aria-colcount="6" aria-rowcount="11" role="table">
 <caption>
   information needed to construct an accessible table representation
  </caption>
@@ -3249,9 +3285,9 @@ DEBUG: none
 </tr>
 </thead>
 <tbody role="rowgroup">
-<tr role="row" style='--timestamp: 1970-01-01 00:00:01;--level: "INFO";--live: "polite";--message: "starting python kernel";--action: "show kernel info";--id: 95752cd2-b8d9-46ec-911a-9ea19aaa63be;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:06;--level: "INFO";--live: "polite";--message: "starting python kernel";--action: "show kernel info";--id: e1a85cab-418f-42d3-877f-dfdaba82f10d;'>
 <th aria-colindex="1" aria-rowindex="2" role="colheader" scope="col">
-    1970-01-01 00:00:01
+    1970-01-01 00:00:06
    </th>
 <td aria-colindex="2" aria-rowindex="2" role="cell">
     INFO
@@ -3266,12 +3302,12 @@ DEBUG: none
     show kernel info
    </td>
 <td aria-colindex="6" aria-rowindex="2" role="cell">
-    95752cd2-b8d9-46ec-911a-9ea19aaa63be
+    e1a85cab-418f-42d3-877f-dfdaba82f10d
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:04;--level: "INFO";--live: "polite";--message: "python kernel started";--action: "execute cells";--id: f02cd379-a4e1-4121-8d92-e1573dbcb702;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:14;--level: "INFO";--live: "polite";--message: "python kernel started";--action: "execute cells";--id: fd2d69e7-92d0-40a6-81b4-ea946c5ac708;'>
 <th aria-colindex="1" aria-rowindex="3" role="colheader" scope="col">
-    1970-01-01 00:00:04
+    1970-01-01 00:00:14
    </th>
 <td aria-colindex="2" aria-rowindex="3" role="cell">
     INFO
@@ -3286,12 +3322,12 @@ DEBUG: none
     execute cells
    </td>
 <td aria-colindex="6" aria-rowindex="3" role="cell">
-    f02cd379-a4e1-4121-8d92-e1573dbcb702
+    fd2d69e7-92d0-40a6-81b4-ea946c5ac708
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:07;--level: "INFO";--live: "polite";--message: "cell 2 executed";--action: "cancel cell 2 execution";--id: 1be87cc3-2007-401d-a235-68bb9eb0ce9a;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:24;--level: "INFO";--live: "polite";--message: "cell 2 executed";--action: "cancel cell 2 execution";--id: d72efb84-7fd8-4f23-8beb-0c245df92998;'>
 <th aria-colindex="1" aria-rowindex="4" role="colheader" scope="col">
-    1970-01-01 00:00:07
+    1970-01-01 00:00:24
    </th>
 <td aria-colindex="2" aria-rowindex="4" role="cell">
     INFO
@@ -3306,12 +3342,12 @@ DEBUG: none
     cancel cell 2 execution
    </td>
 <td aria-colindex="6" aria-rowindex="4" role="cell">
-    1be87cc3-2007-401d-a235-68bb9eb0ce9a
+    d72efb84-7fd8-4f23-8beb-0c245df92998
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:12;--level: "INFO";--live: "polite";--message: "cell 2 finished successfully";--action: "jump to cell output";--id: 1220998b-f07d-4061-983d-69417a1c7df1;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:29;--level: "INFO";--live: "polite";--message: "cell 2 finished successfully";--action: "jump to cell output";--id: 3976b44a-9fa6-408a-8672-f74c57372860;'>
 <th aria-colindex="1" aria-rowindex="5" role="colheader" scope="col">
-    1970-01-01 00:00:12
+    1970-01-01 00:00:29
    </th>
 <td aria-colindex="2" aria-rowindex="5" role="cell">
     INFO
@@ -3326,12 +3362,12 @@ DEBUG: none
     jump to cell output
    </td>
 <td aria-colindex="6" aria-rowindex="5" role="cell">
-    1220998b-f07d-4061-983d-69417a1c7df1
+    3976b44a-9fa6-408a-8672-f74c57372860
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:17;--level: "INFO";--live: "polite";--message: "cell 7 executed";--action: "cancel cell 7 execution";--id: 978e832a-5ecf-419f-bbe4-2920babb9a2f;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:33;--level: "INFO";--live: "polite";--message: "cell 7 executed";--action: "cancel cell 7 execution";--id: 6500b07a-749f-4aa6-af04-f797403f4fcb;'>
 <th aria-colindex="1" aria-rowindex="6" role="colheader" scope="col">
-    1970-01-01 00:00:17
+    1970-01-01 00:00:33
    </th>
 <td aria-colindex="2" aria-rowindex="6" role="cell">
     INFO
@@ -3346,12 +3382,12 @@ DEBUG: none
     cancel cell 7 execution
    </td>
 <td aria-colindex="6" aria-rowindex="6" role="cell">
-    978e832a-5ecf-419f-bbe4-2920babb9a2f
+    6500b07a-749f-4aa6-af04-f797403f4fcb
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:26;--level: "ERROR";--live: "assertive";--message: "cell 7 failed with TypeError";--action: "jump to cell 7 traceback";--id: 556b95ea-34e6-46cc-b7b2-bbb7efd85e0a;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:41;--level: "ERROR";--live: "assertive";--message: "cell 7 failed with TypeError";--action: "jump to cell 7 traceback";--id: bef39ce7-4091-46de-ba96-4a4b533ae9f9;'>
 <th aria-colindex="1" aria-rowindex="7" role="colheader" scope="col">
-    1970-01-01 00:00:26
+    1970-01-01 00:00:41
    </th>
 <td aria-colindex="2" aria-rowindex="7" role="cell">
     ERROR
@@ -3366,12 +3402,12 @@ DEBUG: none
     jump to cell 7 traceback
    </td>
 <td aria-colindex="6" aria-rowindex="7" role="cell">
-    556b95ea-34e6-46cc-b7b2-bbb7efd85e0a
+    bef39ce7-4091-46de-ba96-4a4b533ae9f9
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:35;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarting";--action: "queue cell execution";--id: 7e8baa0d-a555-4bdd-9ea8-63052a9d51fe;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:43;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarting";--action: "queue cell execution";--id: 5b5757dd-7e1f-4076-9b35-9dbbff26a897;'>
 <th aria-colindex="1" aria-rowindex="8" role="colheader" scope="col">
-    1970-01-01 00:00:35
+    1970-01-01 00:00:43
    </th>
 <td aria-colindex="2" aria-rowindex="8" role="cell">
     CRITICAL
@@ -3386,10 +3422,10 @@ DEBUG: none
     queue cell execution
    </td>
 <td aria-colindex="6" aria-rowindex="8" role="cell">
-    7e8baa0d-a555-4bdd-9ea8-63052a9d51fe
+    5b5757dd-7e1f-4076-9b35-9dbbff26a897
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:44;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarted";--action: "execute cells";--id: 13c17ac0-881b-42dd-8c7f-d0f3f8c13300;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:44;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarted";--action: "execute cells";--id: 3b290298-41f2-4bef-a3d3-de4070bd86fc;'>
 <th aria-colindex="1" aria-rowindex="9" role="colheader" scope="col">
     1970-01-01 00:00:44
    </th>
@@ -3406,7 +3442,43 @@ DEBUG: none
     execute cells
    </td>
 <td aria-colindex="6" aria-rowindex="9" role="cell">
-    13c17ac0-881b-42dd-8c7f-d0f3f8c13300
+    3b290298-41f2-4bef-a3d3-de4070bd86fc
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:47;--level: "";--live: None;--message: "";--action: "";--id: 2b32a677-085d-4806-aec0-07e7e0a298f3;'>
+<th aria-colindex="1" aria-rowindex="10" role="colheader" scope="col">
+    1970-01-01 00:00:47
+   </th>
+<td aria-colindex="2" aria-rowindex="10" role="cell">
+</td>
+<td aria-colindex="3" aria-rowindex="10" role="cell">
+    None
+   </td>
+<td aria-colindex="4" aria-rowindex="10" role="cell">
+</td>
+<td aria-colindex="5" aria-rowindex="10" role="cell">
+</td>
+<td aria-colindex="6" aria-rowindex="10" role="cell">
+    2b32a677-085d-4806-aec0-07e7e0a298f3
+   </td>
+</tr>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:53;--level: "[^LOG]";--live: None;--message: "`log` is an aria role meant to mimic this pattern. support is generally better for `role=status` or `role=alert`.";--action: "";--id: 4c6d9229-5c28-43e1-882b-91c660733a20;'>
+<th aria-colindex="1" aria-rowindex="11" role="colheader" scope="col">
+    1970-01-01 00:00:53
+   </th>
+<td aria-colindex="2" aria-rowindex="11" role="cell">
+    [^LOG]
+   </td>
+<td aria-colindex="3" aria-rowindex="11" role="cell">
+    None
+   </td>
+<td aria-colindex="4" aria-rowindex="11" role="cell">
+    `log` is an aria role meant to mimic this pattern. support is generally better for `role=status` or `role=alert`.
+   </td>
+<td aria-colindex="5" aria-rowindex="11" role="cell">
+</td>
+<td aria-colindex="6" aria-rowindex="11" role="cell">
+    4c6d9229-5c28-43e1-882b-91c660733a20
    </td>
 </tr>
 </tbody>
@@ -3432,52 +3504,39 @@ DEBUG: none
    </th>
 </tr>
 </tbody>
-<tfoot role="rowgroup">
-<tr role="row">
-<th aria-colindex="1" aria-colspan="1" aria-rowindex="10" colspan="1" role="rowheader" scope="row">
-    min
-   </th>
-<td aria-colindex="2" aria-rowindex="10" role="cell">
-    CRITICAL
-   </td>
-<td aria-colindex="3" aria-rowindex="10" role="cell">
-    assertive
-   </td>
-<td aria-colindex="4" aria-rowindex="10" role="cell">
-    cell 2 executed
-   </td>
-<td aria-colindex="5" aria-rowindex="10" role="cell">
-    cancel cell 2 execution
-   </td>
-<td aria-colindex="6" aria-rowindex="10" role="cell">
-    1220998b-f07d-4061-983d-69417a1c7df1
-   </td>
-</tr>
-<tr role="row">
-<th aria-colindex="1" aria-colspan="1" aria-rowindex="11" colspan="1" role="rowheader" scope="row">
-    max
-   </th>
-<td aria-colindex="2" aria-rowindex="11" role="cell">
-    INFO
-   </td>
-<td aria-colindex="3" aria-rowindex="11" role="cell">
-    polite
-   </td>
-<td aria-colindex="4" aria-rowindex="11" role="cell">
-    starting python kernel
-   </td>
-<td aria-colindex="5" aria-rowindex="11" role="cell">
-    show kernel info
-   </td>
-<td aria-colindex="6" aria-rowindex="11" role="cell">
-    f02cd379-a4e1-4121-8d92-e1573dbcb702
-   </td>
-</tr>
-</tfoot>
 </table>
 </div>
+<div class="output_html rendered_html output_subarea"><details>
+<summary>dataframe tidying</summary>
+<pre><code class="ipython">df = pipe(
+    activities, partial(re.sub, "\s+:", ":"), 
+    partial(re.sub, "[0-9].\s+|\s-\s", ""), str.splitlines, Series
+).str.partition(": ")[[0, 2]].rename(columns=pipe(
+    "level message".split(), partial(zip, range(0, 3, 2)), dict, 
+))
+
+df["timestamp"] =df.level.apply(
+    lambda x: random.randint(1, 10)
+).cumsum().pipe(
+    pandas.to_datetime, unit="s"
+)
+df = df.set_index("timestamp")
+df["level"] = df["level"].str.upper()
+
+df["live"] = df["level"].apply(logging_roles.get)
+df = df.drop(columns="message").assign(
+    **df.message.str.partition(":")[[0, 2]].rename(columns=pipe(
+        "message action".split(), partial(zip, range(0, 3, 2)), dict, 
+    ))
+)
+df["id"] = [uuid.uuid4() for _ in range(len(df))]
+
+pipe(df, partial(get_table, config=Config(), caption="information needed to construct an accessible table representation"), display)
+</code></pre>
+</details></div>
 
 <h2 id="accessible-table-components">accessible table components<a class="headerlink" href="#accessible-table-components" title="Permanent link">¤</a></h2>
+<p>create components that convert the wide data above to a user interface component that can be tested.</p>
 <div class="highlight"><pre><span></span><code><span class="c1"># https://developer.mozilla.org/en-US/docs/Web/HTML/Element/time</span>
 
 <span class="k">def</span> <span class="nf">get_timestamp</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
@@ -3488,7 +3547,7 @@ DEBUG: none
 </code></pre></div>
 <p>there are a lot of <a href="https://a11ysupport.io/tech/aria/aria-live_attribute">shenangins to consider when implementing aria live across browsers</a>.
 we take an html5 forward design approach and restrict ourselves to the nuance around the native output element;
-we take heavy advice from <a href="https://scottaohara.github.io/tests/html-output/">scott o'hara's html <code>output</code> analysis</a>.</p>
+we take heavy advice from <a href="https://scottaohara.github.io/tests/html-output/">scott o'hara's html <code>output</code> analysis</a>. </p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_message</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="nb">object</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;output&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span>
         <span class="n">role</span><span class="o">=</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">],</span> 
@@ -3497,7 +3556,7 @@ we take heavy advice from <a href="https://scottaohara.github.io/tests/html-outp
     <span class="c1"># object.append(s.message)</span>
     <span class="k">return</span> <span class="nb">object</span>
 </code></pre></div>
-<p>aria live seems most reliable when the text is injected directly into the element</p>
+<p>aria live seems most reliable when the text is injected directly into the element. to ensure <code>aria-live</code> announces we must create an output element THEN dynamically text content to trigger an announcement.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_script</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">script</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;script&quot;</span><span class="p">)</span>
     <span class="n">script</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;&quot;&quot; setTimeout(() =&amp;gt; </span><span class="se">{{</span>
@@ -3506,6 +3565,7 @@ we take heavy advice from <a href="https://scottaohara.github.io/tests/html-outp
 <span class="s2">            out.textContent = out.dataset.message</span><span class="se">}}</span><span class="s2">, </span><span class="si">{</span><span class="n">s</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">second</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">1000</span><span class="si">}</span><span class="s2">)&quot;&quot;&quot;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">script</span>
 </code></pre></div>
+<p><code>get_priority</code> is the visual log level.</p>
 <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">get_priority</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
     <span class="n">label</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;for&quot;</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;id&quot;</span><span class="p">]})</span>
     <span class="n">label</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">])</span>
@@ -3550,7 +3610,7 @@ by wrapping all of the following in a region we expose a landmark for the activi
    activity log
   </summary>
 </details>
-<table aria-colcount="5" aria-labelledby="log-nm" aria-rowcount="9" id="log" role="table">
+<table aria-colcount="5" aria-labelledby="log-nm" aria-rowcount="11" id="log" role="table">
 <thead role="rowgroup">
 <tr class="nv" role="row">
 <th aria-colindex="1" aria-rowindex="1" role="colheader" scope="col">
@@ -3571,22 +3631,22 @@ by wrapping all of the following in a region we expose a landmark for the activi
 </tr>
 </thead>
 <tbody role="rowgroup">
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:01"&gt;00:00:01&lt;/time&gt;;--priority: &lt;label for="95752cd2-b8d9-46ec-911a-9ea19aaa63be"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="starting python kernel" id="95752cd2-b8d9-46ec-911a-9ea19aaa63be" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;show kernel info&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("95752cd2-b8d9-46ec-911a-9ea19aaa63be");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:06"&gt;00:00:06&lt;/time&gt;;--priority: &lt;label for="e1a85cab-418f-42d3-877f-dfdaba82f10d"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="starting python kernel" id="e1a85cab-418f-42d3-877f-dfdaba82f10d" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;show kernel info&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("e1a85cab-418f-42d3-877f-dfdaba82f10d");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 1000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 6000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="2" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:01">
-      00:00:01
+<time datetime="1970-01-01T00:00:06">
+      00:00:06
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="2" role="cell">
-<label for="95752cd2-b8d9-46ec-911a-9ea19aaa63be">
+<label for="e1a85cab-418f-42d3-877f-dfdaba82f10d">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="2" role="cell">
-<output aria-live="polite" data-message="starting python kernel" id="95752cd2-b8d9-46ec-911a-9ea19aaa63be" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="starting python kernel" id="e1a85cab-418f-42d3-877f-dfdaba82f10d" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="2" role="cell">
@@ -3597,28 +3657,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="2" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("95752cd2-b8d9-46ec-911a-9ea19aaa63be");
+            var out = document.getElementById("e1a85cab-418f-42d3-877f-dfdaba82f10d");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 1000)
+            out.textContent = out.dataset.message}, 6000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:04"&gt;00:00:04&lt;/time&gt;;--priority: &lt;label for="f02cd379-a4e1-4121-8d92-e1573dbcb702"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="python kernel started" id="f02cd379-a4e1-4121-8d92-e1573dbcb702" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("f02cd379-a4e1-4121-8d92-e1573dbcb702");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:14"&gt;00:00:14&lt;/time&gt;;--priority: &lt;label for="fd2d69e7-92d0-40a6-81b4-ea946c5ac708"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="python kernel started" id="fd2d69e7-92d0-40a6-81b4-ea946c5ac708" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("fd2d69e7-92d0-40a6-81b4-ea946c5ac708");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 4000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 14000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="3" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:04">
-      00:00:04
+<time datetime="1970-01-01T00:00:14">
+      00:00:14
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="3" role="cell">
-<label for="f02cd379-a4e1-4121-8d92-e1573dbcb702">
+<label for="fd2d69e7-92d0-40a6-81b4-ea946c5ac708">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="3" role="cell">
-<output aria-live="polite" data-message="python kernel started" id="f02cd379-a4e1-4121-8d92-e1573dbcb702" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="python kernel started" id="fd2d69e7-92d0-40a6-81b4-ea946c5ac708" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="3" role="cell">
@@ -3629,28 +3689,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="3" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("f02cd379-a4e1-4121-8d92-e1573dbcb702");
+            var out = document.getElementById("fd2d69e7-92d0-40a6-81b4-ea946c5ac708");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 4000)
+            out.textContent = out.dataset.message}, 14000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:07"&gt;00:00:07&lt;/time&gt;;--priority: &lt;label for="1be87cc3-2007-401d-a235-68bb9eb0ce9a"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 executed" id="1be87cc3-2007-401d-a235-68bb9eb0ce9a" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 2 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("1be87cc3-2007-401d-a235-68bb9eb0ce9a");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:24"&gt;00:00:24&lt;/time&gt;;--priority: &lt;label for="d72efb84-7fd8-4f23-8beb-0c245df92998"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 executed" id="d72efb84-7fd8-4f23-8beb-0c245df92998" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 2 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("d72efb84-7fd8-4f23-8beb-0c245df92998");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 7000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 24000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="4" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:07">
-      00:00:07
+<time datetime="1970-01-01T00:00:24">
+      00:00:24
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="4" role="cell">
-<label for="1be87cc3-2007-401d-a235-68bb9eb0ce9a">
+<label for="d72efb84-7fd8-4f23-8beb-0c245df92998">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="4" role="cell">
-<output aria-live="polite" data-message="cell 2 executed" id="1be87cc3-2007-401d-a235-68bb9eb0ce9a" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 2 executed" id="d72efb84-7fd8-4f23-8beb-0c245df92998" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="4" role="cell">
@@ -3661,28 +3721,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="4" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("1be87cc3-2007-401d-a235-68bb9eb0ce9a");
+            var out = document.getElementById("d72efb84-7fd8-4f23-8beb-0c245df92998");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 7000)
+            out.textContent = out.dataset.message}, 24000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:12"&gt;00:00:12&lt;/time&gt;;--priority: &lt;label for="1220998b-f07d-4061-983d-69417a1c7df1"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 finished successfully" id="1220998b-f07d-4061-983d-69417a1c7df1" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell output&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("1220998b-f07d-4061-983d-69417a1c7df1");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:29"&gt;00:00:29&lt;/time&gt;;--priority: &lt;label for="3976b44a-9fa6-408a-8672-f74c57372860"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 finished successfully" id="3976b44a-9fa6-408a-8672-f74c57372860" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell output&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("3976b44a-9fa6-408a-8672-f74c57372860");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 12000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 29000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="5" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:12">
-      00:00:12
+<time datetime="1970-01-01T00:00:29">
+      00:00:29
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="5" role="cell">
-<label for="1220998b-f07d-4061-983d-69417a1c7df1">
+<label for="3976b44a-9fa6-408a-8672-f74c57372860">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="5" role="cell">
-<output aria-live="polite" data-message="cell 2 finished successfully" id="1220998b-f07d-4061-983d-69417a1c7df1" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 2 finished successfully" id="3976b44a-9fa6-408a-8672-f74c57372860" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="5" role="cell">
@@ -3693,28 +3753,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="5" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("1220998b-f07d-4061-983d-69417a1c7df1");
+            var out = document.getElementById("3976b44a-9fa6-408a-8672-f74c57372860");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 12000)
+            out.textContent = out.dataset.message}, 29000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:17"&gt;00:00:17&lt;/time&gt;;--priority: &lt;label for="978e832a-5ecf-419f-bbe4-2920babb9a2f"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 7 executed" id="978e832a-5ecf-419f-bbe4-2920babb9a2f" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 7 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("978e832a-5ecf-419f-bbe4-2920babb9a2f");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:33"&gt;00:00:33&lt;/time&gt;;--priority: &lt;label for="6500b07a-749f-4aa6-af04-f797403f4fcb"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 7 executed" id="6500b07a-749f-4aa6-af04-f797403f4fcb" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 7 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("6500b07a-749f-4aa6-af04-f797403f4fcb");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 17000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 33000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="6" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:17">
-      00:00:17
+<time datetime="1970-01-01T00:00:33">
+      00:00:33
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="6" role="cell">
-<label for="978e832a-5ecf-419f-bbe4-2920babb9a2f">
+<label for="6500b07a-749f-4aa6-af04-f797403f4fcb">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="6" role="cell">
-<output aria-live="polite" data-message="cell 7 executed" id="978e832a-5ecf-419f-bbe4-2920babb9a2f" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 7 executed" id="6500b07a-749f-4aa6-af04-f797403f4fcb" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="6" role="cell">
@@ -3725,28 +3785,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="6" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("978e832a-5ecf-419f-bbe4-2920babb9a2f");
+            var out = document.getElementById("6500b07a-749f-4aa6-af04-f797403f4fcb");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 17000)
+            out.textContent = out.dataset.message}, 33000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:26"&gt;00:00:26&lt;/time&gt;;--priority: &lt;label for="556b95ea-34e6-46cc-b7b2-bbb7efd85e0a"&gt;ERROR&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="cell 7 failed with TypeError" id="556b95ea-34e6-46cc-b7b2-bbb7efd85e0a" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell 7 traceback&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("556b95ea-34e6-46cc-b7b2-bbb7efd85e0a");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:41"&gt;00:00:41&lt;/time&gt;;--priority: &lt;label for="bef39ce7-4091-46de-ba96-4a4b533ae9f9"&gt;ERROR&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="cell 7 failed with TypeError" id="bef39ce7-4091-46de-ba96-4a4b533ae9f9" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell 7 traceback&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("bef39ce7-4091-46de-ba96-4a4b533ae9f9");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 26000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 41000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="7" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:26">
-      00:00:26
+<time datetime="1970-01-01T00:00:41">
+      00:00:41
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="7" role="cell">
-<label for="556b95ea-34e6-46cc-b7b2-bbb7efd85e0a">
+<label for="bef39ce7-4091-46de-ba96-4a4b533ae9f9">
       ERROR
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="7" role="cell">
-<output aria-live="assertive" data-message="cell 7 failed with TypeError" id="556b95ea-34e6-46cc-b7b2-bbb7efd85e0a" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="cell 7 failed with TypeError" id="bef39ce7-4091-46de-ba96-4a4b533ae9f9" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="7" role="cell">
@@ -3757,28 +3817,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="7" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("556b95ea-34e6-46cc-b7b2-bbb7efd85e0a");
+            var out = document.getElementById("bef39ce7-4091-46de-ba96-4a4b533ae9f9");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 26000)
+            out.textContent = out.dataset.message}, 41000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:35"&gt;00:00:35&lt;/time&gt;;--priority: &lt;label for="7e8baa0d-a555-4bdd-9ea8-63052a9d51fe"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarting" id="7e8baa0d-a555-4bdd-9ea8-63052a9d51fe" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;queue cell execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("7e8baa0d-a555-4bdd-9ea8-63052a9d51fe");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:43"&gt;00:00:43&lt;/time&gt;;--priority: &lt;label for="5b5757dd-7e1f-4076-9b35-9dbbff26a897"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarting" id="5b5757dd-7e1f-4076-9b35-9dbbff26a897" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;queue cell execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("5b5757dd-7e1f-4076-9b35-9dbbff26a897");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 35000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 43000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="8" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:35">
-      00:00:35
+<time datetime="1970-01-01T00:00:43">
+      00:00:43
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="8" role="cell">
-<label for="7e8baa0d-a555-4bdd-9ea8-63052a9d51fe">
+<label for="5b5757dd-7e1f-4076-9b35-9dbbff26a897">
       CRITICAL
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="8" role="cell">
-<output aria-live="assertive" data-message="python kernel restarting" id="7e8baa0d-a555-4bdd-9ea8-63052a9d51fe" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="python kernel restarting" id="5b5757dd-7e1f-4076-9b35-9dbbff26a897" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="8" role="cell">
@@ -3789,14 +3849,14 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="8" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("7e8baa0d-a555-4bdd-9ea8-63052a9d51fe");
+            var out = document.getElementById("5b5757dd-7e1f-4076-9b35-9dbbff26a897");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 35000)
+            out.textContent = out.dataset.message}, 43000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:44"&gt;00:00:44&lt;/time&gt;;--priority: &lt;label for="13c17ac0-881b-42dd-8c7f-d0f3f8c13300"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarted" id="13c17ac0-881b-42dd-8c7f-d0f3f8c13300" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("13c17ac0-881b-42dd-8c7f-d0f3f8c13300");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:44"&gt;00:00:44&lt;/time&gt;;--priority: &lt;label for="3b290298-41f2-4bef-a3d3-de4070bd86fc"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarted" id="3b290298-41f2-4bef-a3d3-de4070bd86fc" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("3b290298-41f2-4bef-a3d3-de4070bd86fc");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 44000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="9" role="colheader" scope="col">
@@ -3805,12 +3865,12 @@ by wrapping all of the following in a region we expose a landmark for the activi
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="9" role="cell">
-<label for="13c17ac0-881b-42dd-8c7f-d0f3f8c13300">
+<label for="3b290298-41f2-4bef-a3d3-de4070bd86fc">
       CRITICAL
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="9" role="cell">
-<output aria-live="assertive" data-message="python kernel restarted" id="13c17ac0-881b-42dd-8c7f-d0f3f8c13300" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="python kernel restarted" id="3b290298-41f2-4bef-a3d3-de4070bd86fc" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="9" role="cell">
@@ -3821,9 +3881,70 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="9" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("13c17ac0-881b-42dd-8c7f-d0f3f8c13300");
+            var out = document.getElementById("3b290298-41f2-4bef-a3d3-de4070bd86fc");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 44000)
+     </script>
+</td>
+</tr>
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:47"&gt;00:00:47&lt;/time&gt;;--priority: &lt;label for="2b32a677-085d-4806-aec0-07e7e0a298f3"&gt;&lt;/label&gt;;--message: &lt;output aria-live data-message="" id="2b32a677-085d-4806-aec0-07e7e0a298f3" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("2b32a677-085d-4806-aec0-07e7e0a298f3");
+            out.parentElement.parentElement.classList.remove("nv");
+            out.textContent = out.dataset.message}, 47000)&lt;/script&gt;;'>
+<th aria-colindex="1" aria-rowindex="10" role="colheader" scope="col">
+<time datetime="1970-01-01T00:00:47">
+      00:00:47
+     </time>
+</th>
+<td aria-colindex="2" aria-rowindex="10" role="cell">
+<label for="2b32a677-085d-4806-aec0-07e7e0a298f3">
+</label>
+</td>
+<td aria-colindex="3" aria-rowindex="10" role="cell">
+<output aria-live="" data-message="" id="2b32a677-085d-4806-aec0-07e7e0a298f3" onload="alert(11);" role="status">
+</output>
+</td>
+<td aria-colindex="4" aria-rowindex="10" role="cell">
+<button>
+</button>
+</td>
+<td aria-colindex="5" aria-rowindex="10" role="cell">
+<script>
+      setTimeout(() => {
+            var out = document.getElementById("2b32a677-085d-4806-aec0-07e7e0a298f3");
+            out.parentElement.parentElement.classList.remove("nv");
+            out.textContent = out.dataset.message}, 47000)
+     </script>
+</td>
+</tr>
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:53"&gt;00:00:53&lt;/time&gt;;--priority: &lt;label for="4c6d9229-5c28-43e1-882b-91c660733a20"&gt;[^LOG]&lt;/label&gt;;--message: &lt;output aria-live data-message="`log` is an aria role meant to mimic this pattern. support is generally better for `role=status` or `role=alert`." id="4c6d9229-5c28-43e1-882b-91c660733a20" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("4c6d9229-5c28-43e1-882b-91c660733a20");
+            out.parentElement.parentElement.classList.remove("nv");
+            out.textContent = out.dataset.message}, 53000)&lt;/script&gt;;'>
+<th aria-colindex="1" aria-rowindex="11" role="colheader" scope="col">
+<time datetime="1970-01-01T00:00:53">
+      00:00:53
+     </time>
+</th>
+<td aria-colindex="2" aria-rowindex="11" role="cell">
+<label for="4c6d9229-5c28-43e1-882b-91c660733a20">
+      [^LOG]
+     </label>
+</td>
+<td aria-colindex="3" aria-rowindex="11" role="cell">
+<output aria-live="" data-message="`log` is an aria role meant to mimic this pattern. support is generally better for `role=status` or `role=alert`." id="4c6d9229-5c28-43e1-882b-91c660733a20" onload="alert(11);" role="status">
+</output>
+</td>
+<td aria-colindex="4" aria-rowindex="11" role="cell">
+<button>
+</button>
+</td>
+<td aria-colindex="5" aria-rowindex="11" role="cell">
+<script>
+      setTimeout(() => {
+            var out = document.getElementById("4c6d9229-5c28-43e1-882b-91c660733a20");
+            out.parentElement.parentElement.classList.remove("nv");
+            out.textContent = out.dataset.message}, 53000)
      </script>
 </td>
 </tr>
@@ -3851,6 +3972,9 @@ by wrapping all of the following in a region we expose a landmark for the activi
 </section>
 </div>
 
+<h2 id="conclusion">conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¤</a></h2>
+<p>it might be possible to create toast like behavior with persistance using a table. the row of a table could have css applied to appear as a toast message before returning back to its table.</p>
+<p>the number of messages will grow, and it will be necessary to cull and throttle the messages. it will be important to do research into disabling/enabling aria live by changing attributes; in other words, it might be possible, in some stacks, to suppress a queued live message.</p>
 <h2 id="styling">styling<a class="headerlink" href="#styling" title="Permanent link">¤</a></h2>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="o">&lt;</span><span class="n">figure</span><span class="o">&gt;</span>
@@ -3860,7 +3984,7 @@ by wrapping all of the following in a region we expose a landmark for the activi
 
     <span class="n">display</span>\
 <span class="err">```</span><span class="n">css</span>
-<span class="n">details</span><span class="p">:</span><span class="ow">not</span><span class="p">([</span><span class="nb">open</span><span class="p">])</span> <span class="o">+</span> <span class="n">table</span><span class="p">,</span> <span class="o">.</span><span class="n">nv</span> <span class="p">{</span>
+<span class="n">details</span><span class="p">:</span><span class="ow">not</span><span class="p">([</span><span class="nb">open</span><span class="p">])</span> <span class="o">+</span> <span class="n">table</span><span class="p">,</span> <span class="o">.</span><span class="n">nv</span><span class="p">,</span> <span class="o">.</span><span class="n">non</span><span class="o">-</span><span class="n">visual</span> <span class="p">{</span>
     <span class="n">clip</span><span class="p">:</span> <span class="n">rect</span><span class="p">(</span><span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">);</span>
     <span class="n">clip</span><span class="o">-</span><span class="n">path</span><span class="p">:</span> <span class="n">inset</span><span class="p">(</span><span class="mi">50</span><span class="o">%</span><span class="p">);</span>
     <span class="n">height</span><span class="p">:</span> <span class="mi">1</span><span class="n">px</span><span class="p">;</span>
@@ -3869,6 +3993,7 @@ by wrapping all of the following in a region we expose a landmark for the activi
     <span class="n">white</span><span class="o">-</span><span class="n">space</span><span class="p">:</span> <span class="n">nowrap</span><span class="p">;</span>
     <span class="n">width</span><span class="p">:</span> <span class="mi">1</span><span class="n">px</span><span class="p">;</span>
 <span class="p">}</span>
+<span class="o">/**</span> <span class="n">demo</span> <span class="n">button</span> <span class="o">**/</span>
 <span class="n">a</span><span class="p">[</span><span class="n">href</span><span class="o">=</span><span class="s2">&quot;#log&quot;</span><span class="p">]</span> <span class="p">{</span>
     <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
     <span class="n">height</span><span class="p">:</span> <span class="mi">300</span><span class="n">px</span><span class="p">;</span>
@@ -3882,7 +4007,7 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <span class="o">&lt;/</span><span class="n">blockquote</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">figure</span><span class="o">&gt;</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea"><style>details:not([open]) + table, .nv {
+<div class="output_html rendered_html output_subarea"><style>details:not([open]) + table, .nv, .non-visual {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
     height: 1px;
@@ -3891,6 +4016,7 @@ by wrapping all of the following in a region we expose a landmark for the activi
     white-space: nowrap;
     width: 1px;
 }
+/** demo button **/
 a[href="#log"] {
     display: block;
     height: 300px;
@@ -3907,7 +4033,7 @@ a[href="#log"] {
 <blockquote cite="https://www.tpgi.com/the-anatomy-of-visually-hidden/">
 <pre><code>display\
 </code></pre>
-<pre><code class="css">details:not([open]) + table, .nv {
+<pre><code class="css">details:not([open]) + table, .nv, .non-visual {
     clip: rect(0 0 0 0);
     clip-path: inset(50%);
     height: 1px;
@@ -3916,6 +4042,7 @@ a[href="#log"] {
     white-space: nowrap;
     width: 1px;
 }
+/** demo button **/
 a[href="#log"] {
     display: block;
     height: 300px;
@@ -3928,9 +4055,6 @@ a[href="#log"] {
 </code></pre>
 </blockquote>
 </figure></div>
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
