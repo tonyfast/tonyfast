@@ -3046,16 +3046,11 @@
 <p>this feature request starts as a nonvisual componment, but quickly we realize that a visual component would be assistive to all users.</p>
 <p><a href="https://www.scottohara.me/blog/2019/07/08/a-toast-to-a11y-toasts.html">toast components</a> are common patterns for these kinds of notifications, but there are accessibility challenges. one specific challenge is that the aria live message could be destroyed it is announced. this demands the need for a more persistent message, but not immortal. the time delay should be configurable on the order of minutes. </p>
 <p>another notification pattern to consider would use the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Notifications_API/Using_the_Notifications_API">notifications api</a>. this approach would be for escalated notifications, or tens of minute notifications. the os will handle the accessibility of these messages.</p>
+<p>cf: <a href="https://github.com/jupyterlab/jupyterlab/issues/16145">https://github.com/jupyterlab/jupyterlab/issues/16145</a></p>
 <p><a href="#log">jump to the demo</a></p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nbconvert_a11y.tables</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">Config</span><span class="p">,</span> <span class="n">new</span>
 <span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">midgy</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">python</span><span class="o">.</span><span class="n">Python</span><span class="p">()</span>
 </code></pre></div>
-<div class="highlight"><pre><span></span><code><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">renderer</span><span class="o">.</span><span class="n">renderToken</span>
-</code></pre></div>
-<div class="output_text output_subarea output_execute_result">
-<pre>&lt;bound method RendererHTML.renderToken of &lt;midgy.tangle.RendererHTML object at 0x7bec641217d0&gt;&gt;</pre>
-</div>
-
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="c1">## creating a scenario that would be announced in a log</span>
 
@@ -3101,7 +3096,7 @@
 </code></pre></div>
 <div class="output_html rendered_html output_subarea"><h2>creating a scenario that would be announced in a log</h2>
 <p>our approach maps <a href="https://stackoverflow.com/questions/2031163/when-to-use-the-different-log-levels">logging levels</a> - the visual log -
-to <a href="https://www.sarasoueidan.com/blog/accessible-notifications-with-aria-live-regions-part-1/">aria live</a> values - the nonvisual log<sup class="footnote-ref"><a href="#fn4" id="fnref4">[4]</a></sup>.
+to <a href="https://www.sarasoueidan.com/blog/accessible-notifications-with-aria-live-regions-part-1/">aria live</a> values - the nonvisual log<sup class="footnote-ref"><a href="#fn2" id="fnref2">[2]</a></sup>.
 ultimately, we create a reference visual and non-visual logging component that will provide updates to assistive technology.</p>
 <pre><code>from logging import FATAL, CRITICAL, ERROR, WARN, INFO, DEBUG
 FATAL / CRITICAL, ERROR, WARN, INFO, DEBUG;
@@ -3267,7 +3262,7 @@ DEBUG: none
 <span class="err">```</span>
 <span class="o">&lt;/</span><span class="n">details</span><span class="o">&gt;</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea"><table aria-colcount="6" aria-rowcount="9" role="table" style='--level-min: "CRITICAL";--live-min: "assertive";--message-min: "cell 2 executed";--action-min: "cancel cell 2 execution";--id-min: 04f96597-d187-4ff7-ae3a-20b1d7599b48;--level-max: "INFO";--live-max: "polite";--message-max: "starting python kernel";--action-max: "show kernel info";--id-max: 92171474-75f5-43cc-9688-68dde980f4c4;'>
+<div class="output_html rendered_html output_subarea"><table aria-colcount="6" aria-rowcount="9" role="table" style='--level-min: "CRITICAL";--live-min: "assertive";--message-min: "cell 2 executed";--action-min: "cancel cell 2 execution";--id-min: 016d57fd-db18-4e1d-b301-710270df9967;--level-max: "INFO";--live-max: "polite";--message-max: "starting python kernel";--action-max: "show kernel info";--id-max: f3ed9dc3-ffaf-441f-bfef-2a52b0df4581;'>
 <caption>
   information needed to construct an accessible table representation
  </caption>
@@ -3294,9 +3289,9 @@ DEBUG: none
 </tr>
 </thead>
 <tbody role="rowgroup">
-<tr role="row" style='--timestamp: 1970-01-01 00:00:05;--level: "INFO";--live: "polite";--message: "starting python kernel";--action: "show kernel info";--id: 29b6e456-3e5b-4b56-9834-f8c0c7576c59;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:03;--level: "INFO";--live: "polite";--message: "starting python kernel";--action: "show kernel info";--id: b2959c31-624c-4804-bbb2-3f4f99592bc9;'>
 <th aria-colindex="1" aria-rowindex="2" role="colheader" scope="col">
-    1970-01-01 00:00:05
+    1970-01-01 00:00:03
    </th>
 <td aria-colindex="2" aria-rowindex="2" role="cell">
     INFO
@@ -3311,12 +3306,12 @@ DEBUG: none
     show kernel info
    </td>
 <td aria-colindex="6" aria-rowindex="2" role="cell">
-    29b6e456-3e5b-4b56-9834-f8c0c7576c59
+    b2959c31-624c-4804-bbb2-3f4f99592bc9
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:06;--level: "INFO";--live: "polite";--message: "python kernel started";--action: "execute cells";--id: 8b126569-8cb7-4290-ab84-ce5e2140be9f;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:05;--level: "INFO";--live: "polite";--message: "python kernel started";--action: "execute cells";--id: 0ee445a3-d6fb-4e66-9e75-f8e07fdc2865;'>
 <th aria-colindex="1" aria-rowindex="3" role="colheader" scope="col">
-    1970-01-01 00:00:06
+    1970-01-01 00:00:05
    </th>
 <td aria-colindex="2" aria-rowindex="3" role="cell">
     INFO
@@ -3331,10 +3326,10 @@ DEBUG: none
     execute cells
    </td>
 <td aria-colindex="6" aria-rowindex="3" role="cell">
-    8b126569-8cb7-4290-ab84-ce5e2140be9f
+    0ee445a3-d6fb-4e66-9e75-f8e07fdc2865
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:13;--level: "INFO";--live: "polite";--message: "cell 2 executed";--action: "cancel cell 2 execution";--id: 0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:13;--level: "INFO";--live: "polite";--message: "cell 2 executed";--action: "cancel cell 2 execution";--id: c37265dd-7e31-4d24-83e3-08a144c60463;'>
 <th aria-colindex="1" aria-rowindex="4" role="colheader" scope="col">
     1970-01-01 00:00:13
    </th>
@@ -3351,10 +3346,10 @@ DEBUG: none
     cancel cell 2 execution
    </td>
 <td aria-colindex="6" aria-rowindex="4" role="cell">
-    0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3
+    c37265dd-7e31-4d24-83e3-08a144c60463
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:23;--level: "INFO";--live: "polite";--message: "cell 2 finished successfully";--action: "jump to cell output";--id: 92171474-75f5-43cc-9688-68dde980f4c4;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:23;--level: "INFO";--live: "polite";--message: "cell 2 finished successfully";--action: "jump to cell output";--id: 016d57fd-db18-4e1d-b301-710270df9967;'>
 <th aria-colindex="1" aria-rowindex="5" role="colheader" scope="col">
     1970-01-01 00:00:23
    </th>
@@ -3371,12 +3366,12 @@ DEBUG: none
     jump to cell output
    </td>
 <td aria-colindex="6" aria-rowindex="5" role="cell">
-    92171474-75f5-43cc-9688-68dde980f4c4
+    016d57fd-db18-4e1d-b301-710270df9967
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:31;--level: "INFO";--live: "polite";--message: "cell 7 executed";--action: "cancel cell 7 execution";--id: 3cc96330-fbe3-4cdf-9284-bcca64a84eeb;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:29;--level: "INFO";--live: "polite";--message: "cell 7 executed";--action: "cancel cell 7 execution";--id: 6820c9f3-bd35-4198-b5b7-d7cce12dbdf8;'>
 <th aria-colindex="1" aria-rowindex="6" role="colheader" scope="col">
-    1970-01-01 00:00:31
+    1970-01-01 00:00:29
    </th>
 <td aria-colindex="2" aria-rowindex="6" role="cell">
     INFO
@@ -3391,12 +3386,12 @@ DEBUG: none
     cancel cell 7 execution
    </td>
 <td aria-colindex="6" aria-rowindex="6" role="cell">
-    3cc96330-fbe3-4cdf-9284-bcca64a84eeb
+    6820c9f3-bd35-4198-b5b7-d7cce12dbdf8
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:37;--level: "ERROR";--live: "assertive";--message: "cell 7 failed with TypeError";--action: "jump to cell 7 traceback";--id: 04f96597-d187-4ff7-ae3a-20b1d7599b48;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:35;--level: "ERROR";--live: "assertive";--message: "cell 7 failed with TypeError";--action: "jump to cell 7 traceback";--id: 7a3417d7-35fa-4dbf-97a9-640edf06cf25;'>
 <th aria-colindex="1" aria-rowindex="7" role="colheader" scope="col">
-    1970-01-01 00:00:37
+    1970-01-01 00:00:35
    </th>
 <td aria-colindex="2" aria-rowindex="7" role="cell">
     ERROR
@@ -3411,12 +3406,12 @@ DEBUG: none
     jump to cell 7 traceback
    </td>
 <td aria-colindex="6" aria-rowindex="7" role="cell">
-    04f96597-d187-4ff7-ae3a-20b1d7599b48
+    7a3417d7-35fa-4dbf-97a9-640edf06cf25
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:45;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarting";--action: "queue cell execution";--id: 3ec18cd6-7f9f-49a4-8705-eb2d0d86a934;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:36;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarting";--action: "queue cell execution";--id: 329deeaf-943a-4457-a524-d679d9119117;'>
 <th aria-colindex="1" aria-rowindex="8" role="colheader" scope="col">
-    1970-01-01 00:00:45
+    1970-01-01 00:00:36
    </th>
 <td aria-colindex="2" aria-rowindex="8" role="cell">
     CRITICAL
@@ -3431,12 +3426,12 @@ DEBUG: none
     queue cell execution
    </td>
 <td aria-colindex="6" aria-rowindex="8" role="cell">
-    3ec18cd6-7f9f-49a4-8705-eb2d0d86a934
+    329deeaf-943a-4457-a524-d679d9119117
    </td>
 </tr>
-<tr role="row" style='--timestamp: 1970-01-01 00:00:49;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarted";--action: "execute";--id: 1a422c4f-a947-4b0a-8499-2a819110e909;'>
+<tr role="row" style='--timestamp: 1970-01-01 00:00:37;--level: "CRITICAL";--live: "assertive";--message: "python kernel restarted";--action: "execute";--id: f3ed9dc3-ffaf-441f-bfef-2a52b0df4581;'>
 <th aria-colindex="1" aria-rowindex="9" role="colheader" scope="col">
-    1970-01-01 00:00:49
+    1970-01-01 00:00:37
    </th>
 <td aria-colindex="2" aria-rowindex="9" role="cell">
     CRITICAL
@@ -3451,7 +3446,7 @@ DEBUG: none
     execute
    </td>
 <td aria-colindex="6" aria-rowindex="9" role="cell">
-    1a422c4f-a947-4b0a-8499-2a819110e909
+    f3ed9dc3-ffaf-441f-bfef-2a52b0df4581
    </td>
 </tr>
 </tbody>
@@ -3495,7 +3490,7 @@ DEBUG: none
     cancel cell 2 execution
    </td>
 <td aria-colindex="6" aria-rowindex="10" role="cell">
-    04f96597-d187-4ff7-ae3a-20b1d7599b48
+    016d57fd-db18-4e1d-b301-710270df9967
    </td>
 </tr>
 <tr role="row">
@@ -3515,7 +3510,7 @@ DEBUG: none
     show kernel info
    </td>
 <td aria-colindex="6" aria-rowindex="11" role="cell">
-    92171474-75f5-43cc-9688-68dde980f4c4
+    f3ed9dc3-ffaf-441f-bfef-2a52b0df4581
    </td>
 </tr>
 </tfoot>
@@ -3646,22 +3641,22 @@ by wrapping all of the following in a region we expose a landmark for the activi
 </tr>
 </thead>
 <tbody role="rowgroup">
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:05"&gt;00:00:05&lt;/time&gt;;--priority: &lt;label for="29b6e456-3e5b-4b56-9834-f8c0c7576c59"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="starting python kernel" id="29b6e456-3e5b-4b56-9834-f8c0c7576c59" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;show kernel info&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("29b6e456-3e5b-4b56-9834-f8c0c7576c59");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:03"&gt;00:00:03&lt;/time&gt;;--priority: &lt;label for="b2959c31-624c-4804-bbb2-3f4f99592bc9"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="starting python kernel" id="b2959c31-624c-4804-bbb2-3f4f99592bc9" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;show kernel info&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("b2959c31-624c-4804-bbb2-3f4f99592bc9");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 5000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 3000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="2" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:05">
-      00:00:05
+<time datetime="1970-01-01T00:00:03">
+      00:00:03
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="2" role="cell">
-<label for="29b6e456-3e5b-4b56-9834-f8c0c7576c59">
+<label for="b2959c31-624c-4804-bbb2-3f4f99592bc9">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="2" role="cell">
-<output aria-live="polite" data-message="starting python kernel" id="29b6e456-3e5b-4b56-9834-f8c0c7576c59" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="starting python kernel" id="b2959c31-624c-4804-bbb2-3f4f99592bc9" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="2" role="cell">
@@ -3672,28 +3667,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="2" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("29b6e456-3e5b-4b56-9834-f8c0c7576c59");
+            var out = document.getElementById("b2959c31-624c-4804-bbb2-3f4f99592bc9");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 5000)
+            out.textContent = out.dataset.message}, 3000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:06"&gt;00:00:06&lt;/time&gt;;--priority: &lt;label for="8b126569-8cb7-4290-ab84-ce5e2140be9f"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="python kernel started" id="8b126569-8cb7-4290-ab84-ce5e2140be9f" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("8b126569-8cb7-4290-ab84-ce5e2140be9f");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:05"&gt;00:00:05&lt;/time&gt;;--priority: &lt;label for="0ee445a3-d6fb-4e66-9e75-f8e07fdc2865"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="python kernel started" id="0ee445a3-d6fb-4e66-9e75-f8e07fdc2865" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute cells&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("0ee445a3-d6fb-4e66-9e75-f8e07fdc2865");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 6000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 5000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="3" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:06">
-      00:00:06
+<time datetime="1970-01-01T00:00:05">
+      00:00:05
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="3" role="cell">
-<label for="8b126569-8cb7-4290-ab84-ce5e2140be9f">
+<label for="0ee445a3-d6fb-4e66-9e75-f8e07fdc2865">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="3" role="cell">
-<output aria-live="polite" data-message="python kernel started" id="8b126569-8cb7-4290-ab84-ce5e2140be9f" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="python kernel started" id="0ee445a3-d6fb-4e66-9e75-f8e07fdc2865" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="3" role="cell">
@@ -3704,14 +3699,14 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="3" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("8b126569-8cb7-4290-ab84-ce5e2140be9f");
+            var out = document.getElementById("0ee445a3-d6fb-4e66-9e75-f8e07fdc2865");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 6000)
+            out.textContent = out.dataset.message}, 5000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:13"&gt;00:00:13&lt;/time&gt;;--priority: &lt;label for="0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 executed" id="0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 2 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:13"&gt;00:00:13&lt;/time&gt;;--priority: &lt;label for="c37265dd-7e31-4d24-83e3-08a144c60463"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 executed" id="c37265dd-7e31-4d24-83e3-08a144c60463" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 2 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("c37265dd-7e31-4d24-83e3-08a144c60463");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 13000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="4" role="colheader" scope="col">
@@ -3720,12 +3715,12 @@ by wrapping all of the following in a region we expose a landmark for the activi
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="4" role="cell">
-<label for="0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3">
+<label for="c37265dd-7e31-4d24-83e3-08a144c60463">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="4" role="cell">
-<output aria-live="polite" data-message="cell 2 executed" id="0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 2 executed" id="c37265dd-7e31-4d24-83e3-08a144c60463" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="4" role="cell">
@@ -3736,14 +3731,14 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="4" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("0bf857cc-1f4f-42bc-94fb-7d9bc069d0b3");
+            var out = document.getElementById("c37265dd-7e31-4d24-83e3-08a144c60463");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 13000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:23"&gt;00:00:23&lt;/time&gt;;--priority: &lt;label for="92171474-75f5-43cc-9688-68dde980f4c4"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 finished successfully" id="92171474-75f5-43cc-9688-68dde980f4c4" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell output&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("92171474-75f5-43cc-9688-68dde980f4c4");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:23"&gt;00:00:23&lt;/time&gt;;--priority: &lt;label for="016d57fd-db18-4e1d-b301-710270df9967"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 2 finished successfully" id="016d57fd-db18-4e1d-b301-710270df9967" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell output&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("016d57fd-db18-4e1d-b301-710270df9967");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 23000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="5" role="colheader" scope="col">
@@ -3752,12 +3747,12 @@ by wrapping all of the following in a region we expose a landmark for the activi
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="5" role="cell">
-<label for="92171474-75f5-43cc-9688-68dde980f4c4">
+<label for="016d57fd-db18-4e1d-b301-710270df9967">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="5" role="cell">
-<output aria-live="polite" data-message="cell 2 finished successfully" id="92171474-75f5-43cc-9688-68dde980f4c4" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 2 finished successfully" id="016d57fd-db18-4e1d-b301-710270df9967" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="5" role="cell">
@@ -3768,28 +3763,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="5" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("92171474-75f5-43cc-9688-68dde980f4c4");
+            var out = document.getElementById("016d57fd-db18-4e1d-b301-710270df9967");
             out.parentElement.parentElement.classList.remove("nv");
             out.textContent = out.dataset.message}, 23000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:31"&gt;00:00:31&lt;/time&gt;;--priority: &lt;label for="3cc96330-fbe3-4cdf-9284-bcca64a84eeb"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 7 executed" id="3cc96330-fbe3-4cdf-9284-bcca64a84eeb" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 7 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("3cc96330-fbe3-4cdf-9284-bcca64a84eeb");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:29"&gt;00:00:29&lt;/time&gt;;--priority: &lt;label for="6820c9f3-bd35-4198-b5b7-d7cce12dbdf8"&gt;INFO&lt;/label&gt;;--message: &lt;output aria-live="polite" data-message="cell 7 executed" id="6820c9f3-bd35-4198-b5b7-d7cce12dbdf8" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;cancel cell 7 execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("6820c9f3-bd35-4198-b5b7-d7cce12dbdf8");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 31000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 29000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="6" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:31">
-      00:00:31
+<time datetime="1970-01-01T00:00:29">
+      00:00:29
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="6" role="cell">
-<label for="3cc96330-fbe3-4cdf-9284-bcca64a84eeb">
+<label for="6820c9f3-bd35-4198-b5b7-d7cce12dbdf8">
       INFO
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="6" role="cell">
-<output aria-live="polite" data-message="cell 7 executed" id="3cc96330-fbe3-4cdf-9284-bcca64a84eeb" onload="alert(11);" role="status">
+<output aria-live="polite" data-message="cell 7 executed" id="6820c9f3-bd35-4198-b5b7-d7cce12dbdf8" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="6" role="cell">
@@ -3800,28 +3795,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="6" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("3cc96330-fbe3-4cdf-9284-bcca64a84eeb");
+            var out = document.getElementById("6820c9f3-bd35-4198-b5b7-d7cce12dbdf8");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 31000)
+            out.textContent = out.dataset.message}, 29000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:37"&gt;00:00:37&lt;/time&gt;;--priority: &lt;label for="04f96597-d187-4ff7-ae3a-20b1d7599b48"&gt;ERROR&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="cell 7 failed with TypeError" id="04f96597-d187-4ff7-ae3a-20b1d7599b48" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell 7 traceback&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("04f96597-d187-4ff7-ae3a-20b1d7599b48");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:35"&gt;00:00:35&lt;/time&gt;;--priority: &lt;label for="7a3417d7-35fa-4dbf-97a9-640edf06cf25"&gt;ERROR&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="cell 7 failed with TypeError" id="7a3417d7-35fa-4dbf-97a9-640edf06cf25" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;a&gt;jump to cell 7 traceback&lt;/a&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("7a3417d7-35fa-4dbf-97a9-640edf06cf25");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 37000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 35000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="7" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:37">
-      00:00:37
+<time datetime="1970-01-01T00:00:35">
+      00:00:35
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="7" role="cell">
-<label for="04f96597-d187-4ff7-ae3a-20b1d7599b48">
+<label for="7a3417d7-35fa-4dbf-97a9-640edf06cf25">
       ERROR
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="7" role="cell">
-<output aria-live="assertive" data-message="cell 7 failed with TypeError" id="04f96597-d187-4ff7-ae3a-20b1d7599b48" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="cell 7 failed with TypeError" id="7a3417d7-35fa-4dbf-97a9-640edf06cf25" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="7" role="cell">
@@ -3832,28 +3827,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="7" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("04f96597-d187-4ff7-ae3a-20b1d7599b48");
+            var out = document.getElementById("7a3417d7-35fa-4dbf-97a9-640edf06cf25");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 37000)
+            out.textContent = out.dataset.message}, 35000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:45"&gt;00:00:45&lt;/time&gt;;--priority: &lt;label for="3ec18cd6-7f9f-49a4-8705-eb2d0d86a934"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarting" id="3ec18cd6-7f9f-49a4-8705-eb2d0d86a934" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;queue cell execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("3ec18cd6-7f9f-49a4-8705-eb2d0d86a934");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:36"&gt;00:00:36&lt;/time&gt;;--priority: &lt;label for="329deeaf-943a-4457-a524-d679d9119117"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarting" id="329deeaf-943a-4457-a524-d679d9119117" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;queue cell execution&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("329deeaf-943a-4457-a524-d679d9119117");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 45000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 36000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="8" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:45">
-      00:00:45
+<time datetime="1970-01-01T00:00:36">
+      00:00:36
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="8" role="cell">
-<label for="3ec18cd6-7f9f-49a4-8705-eb2d0d86a934">
+<label for="329deeaf-943a-4457-a524-d679d9119117">
       CRITICAL
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="8" role="cell">
-<output aria-live="assertive" data-message="python kernel restarting" id="3ec18cd6-7f9f-49a4-8705-eb2d0d86a934" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="python kernel restarting" id="329deeaf-943a-4457-a524-d679d9119117" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="8" role="cell">
@@ -3864,28 +3859,28 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="8" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("3ec18cd6-7f9f-49a4-8705-eb2d0d86a934");
+            var out = document.getElementById("329deeaf-943a-4457-a524-d679d9119117");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 45000)
+            out.textContent = out.dataset.message}, 36000)
      </script>
 </td>
 </tr>
-<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:49"&gt;00:00:49&lt;/time&gt;;--priority: &lt;label for="1a422c4f-a947-4b0a-8499-2a819110e909"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarted" id="1a422c4f-a947-4b0a-8499-2a819110e909" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
-            var out = document.getElementById("1a422c4f-a947-4b0a-8499-2a819110e909");
+<tr class="nv" role="row" style='--timestamp: &lt;time datetime="1970-01-01T00:00:37"&gt;00:00:37&lt;/time&gt;;--priority: &lt;label for="f3ed9dc3-ffaf-441f-bfef-2a52b0df4581"&gt;CRITICAL&lt;/label&gt;;--message: &lt;output aria-live="assertive" data-message="python kernel restarted" id="f3ed9dc3-ffaf-441f-bfef-2a52b0df4581" onload="alert(11);" role="status"&gt;&lt;/output&gt;;--action: &lt;button&gt;execute&lt;/button&gt;;--script: &lt;script&gt; setTimeout(() =&gt; {
+            var out = document.getElementById("f3ed9dc3-ffaf-441f-bfef-2a52b0df4581");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 49000)&lt;/script&gt;;'>
+            out.textContent = out.dataset.message}, 37000)&lt;/script&gt;;'>
 <th aria-colindex="1" aria-rowindex="9" role="colheader" scope="col">
-<time datetime="1970-01-01T00:00:49">
-      00:00:49
+<time datetime="1970-01-01T00:00:37">
+      00:00:37
      </time>
 </th>
 <td aria-colindex="2" aria-rowindex="9" role="cell">
-<label for="1a422c4f-a947-4b0a-8499-2a819110e909">
+<label for="f3ed9dc3-ffaf-441f-bfef-2a52b0df4581">
       CRITICAL
      </label>
 </td>
 <td aria-colindex="3" aria-rowindex="9" role="cell">
-<output aria-live="assertive" data-message="python kernel restarted" id="1a422c4f-a947-4b0a-8499-2a819110e909" onload="alert(11);" role="status">
+<output aria-live="assertive" data-message="python kernel restarted" id="f3ed9dc3-ffaf-441f-bfef-2a52b0df4581" onload="alert(11);" role="status">
 </output>
 </td>
 <td aria-colindex="4" aria-rowindex="9" role="cell">
@@ -3896,9 +3891,9 @@ by wrapping all of the following in a region we expose a landmark for the activi
 <td aria-colindex="5" aria-rowindex="9" role="cell">
 <script>
       setTimeout(() => {
-            var out = document.getElementById("1a422c4f-a947-4b0a-8499-2a819110e909");
+            var out = document.getElementById("f3ed9dc3-ffaf-441f-bfef-2a52b0df4581");
             out.parentElement.parentElement.classList.remove("nv");
-            out.textContent = out.dataset.message}, 49000)
+            out.textContent = out.dataset.message}, 37000)
      </script>
 </td>
 </tr>
