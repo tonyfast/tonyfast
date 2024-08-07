@@ -1,0 +1,4186 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   axes from pseudo elements
+  </title>
+  <meta content="making axes from psuedo elements is tricky.
+compounding rotations complicate them.
+things get fucked when rotations compound.
+in this drawing, the row pseudo elements form straight axes while
+inner psuedo elements can't be aligned at least with this rotation stacking." name="description">
+  <meta content="light" name="color-scheme">
+  <link href="https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@3.0.5/dist/css/sa11y.min.css" rel="stylesheet">
+  <script type="module">
+   import { Sa11y, Lang } from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/sa11y.esm.js';
+    import Sa11yLangEn from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/lang/enUS.js';
+    Lang.addI18n(Sa11yLangEn.strings);
+
+    // Instantiate
+    export const sa11y = new Sa11y({
+        checkRoot: "body",
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   @layer api, defaults, layout, cells, cell, sa11y;
+
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
+
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
+
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        float: left;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
+}
+
+
+@layer sally {
+
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
+}
+
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[data-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
+}
+
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
+}
+
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
+}
+
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+  </style>
+  <style id="nb-light-highlight" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-highlight" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa sticky">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <br>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button id="nb-fullscreen" onclick="fullScreen()">
+    fullscreen
+   </button>
+   <p>
+    <a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank">
+     @tonyfast
+    </a>
+    s notebooks
+   </p>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="2024-08-06-table-form.html">
+        options for plotting
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-06-pseudo-axes.html">
+        axes from pseudo elements
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-04-cp1919.html">
+        cp1919v1
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-02-3d-table.html">
+        finally, a 3d plot with axes
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-01-ddd.html">
+        direct transition from a table to a 3d plot
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-31-table-form.html">
+        the table region
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-30-table-blocks.html">
+        table blocks
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-22-clip-path.html">
+        css polygons from matrices
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-14-dr-dilettante.html">
+        dr dilettante
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-11-activity-log.html">
+        notifying changes in computational notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-09-testing-ux.html">
+        gluing to together interactive ux with automated testing
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-07-venn-diagrams.html">
+        a three component venn diagram in css
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-03-axes.html">
+        making figure axes from grouped table headers
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-02-blobs.html">
+        a table of blobs
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-02-libsass.html">
+        using libsass in python
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-26-first-line-plot.html">
+        creating a line plot from a table
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-20-stream.html">
+        nonvisual data frames and heat maps
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-10-html-magic.html">
+        an enhanced html magic with the ability to test for violations
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-06-relative-imports.html">
+        activating relative imports in an interactive notebook
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-04-axe-testing-python.html">
+        python interface for handling axe accessibility tests
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-02-equal-access-checker.html">
+        invoking the ibm equal access checker from python
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-11-stream.html">
+        stream drawing words with video elements
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-09-videos.html">
+        an html webcam player
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-08-stream.html">
+        markdown as an accessible, literate programming language
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-06-stream.html">
+        listening to sounds of data visualizations
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-29-enrich-refs.html">
+        enriching markdown links with access to current python distributions
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-28-scroll-position.html">
+        listening for scroll position
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-23-Untitled42.html">
+        untitled42
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-18-a-simple-clock.html">
+        the bones of a clock
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-visual-table-indicator.html">
+        non-numerical dataframes
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-15-llm-workflow.html">
+        integrating llms into my notebook worflows.
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-12-word-cloud.html">
+        word clouds are the wedding font of visualization
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-11-3d-html-table.html">
+        3d plots from html tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-08-table-plots.html">
+        html tables in figures
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-06-dl-dict.html">
+        definition lists as dictionaries
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-04-nbconvert-html-screen-reader.html">
+        screen reader improvements to nbconvert html exporter
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-03-markdown-lists-to-python.html">
+        turning markdown lists to python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-26-accessible-documentation-data.html">
+        assistive documentation data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-23-updating-ipython-config.html">
+        ipython profile updates
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-itables-stream.html">
+        screen reader experiences with static and interactive tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-documentation-as-data.html">
+        documentation as software and data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-20-exec-mast-nb.html">
+        executing the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-15-screen-tests.html">
+        revisiting nbviewer/nbconvert screen reader experiences
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-13-notebooks-for-all-march-call.html">
+        notebooks for all community summary
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-12-nbconvert-a11y-pres.html">
+        semantically meaningful notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-11-NOA.html">
+        Astronomy Notebooks for All
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-06-mast-revisit.html">
+        revisit building the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-04-semantic-outputs.html">
+        improved output semantic for python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-notebook-accessibility-workshop.html">
+        notebooks and accessibility workshop
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-a11y-list-string.ipynb.html">
+        using microdata and semantic html to represent python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-28-histograms-sucks.html">
+        histograms suck
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-multiindex-aria.html">
+        adding aria to long or wide tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-03-pandas-accessors.html">
+        pandas accessors
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-28-community-demo.html">
+        pidgy literate computing
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-18-voila-pidgy-integration.html">
+        cleaner integration of pidgy &amp; voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-16-inspector-hack.html">
+        customizing the IPython contextual help
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-07-pidgy-voila.html">
+        running pidgy in voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-tfoot-dataframe.html">
+        using tfoot in dataframes for more information
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+        rendering dataframes for screen readers with pandas
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        using typer in ipython magics
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        mkdocs plugin for jupyter notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        analyzing pyproject.toml configurations of popular projects
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        jupyterlite blog integration
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        rendering a notebook with pyscript
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        integrating typer into the blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        doit integration - a mkdocs example
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        exploring many pyproject.toml configs
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        formatting markdown it tokens as python doctests
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        making __main__ a __package__
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        unravel directories of notebooks with dask
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        inferring linked data from IPython run times.
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        what do we learn when we make colormaps from dataframes
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-lang nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       axes from pseudo elements
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       making axes from psuedo elements is tricky.
+compounding rotations complicate them.
+things get fucked when rotations compound.
+in this drawing, the row pseudo elements form straight axes while
+inner psuedo elements can't be aligned at least with this rotation stacking.
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       6 total
+      </dd>
+      <dd id="nb-ct-code">
+       3 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       kernel
+      </dt>
+      <dd>
+       Python [conda env:p311] *
+      </dd>
+      <dd>
+       <dl>
+        <dt>
+         language
+        </dt>
+        <dd id="nb-lang">
+         python
+        </dd>
+        <dt>
+         name
+        </dt>
+        <dd>
+         <samp>
+          <kbd>
+           conda-env-p311-py
+          </kbd>
+         </samp>
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       138
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       2
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#None">
+         axes from pseudo elements
+        </a>
+       </li>
+      </ol>
+     </nav>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:p311] *", "language": "python", "name": "conda-env-p311-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.11.3"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "axes from pseudo elements", "description": "making axes from psuedo elements is tricky.\ncompounding rotations complicate them.\nthings get fucked when rotations compound.\nin this drawing, the row pseudo elements form straight axes while\ninner psuedo elements can't be aligned at least with this rotation stacking."}
+    </form>
+   </dialog>
+  </header>
+  <main>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <form name="notebook">
+     ]
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="10" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-1-executed">
+         unexecuted
+        </span>
+        <span id="cell-1-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-1-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-exec-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="10"># axes from pseudo elements
+
+making axes from psuedo elements is tricky.
+compounding rotations complicate them.
+things get fucked when rotations compound.
+in this drawing, the row pseudo elements form straight axes while
+inner psuedo elements can't be aligned at least with this rotation stacking.
+
+adding a counter rotation to straightent he text will cause issues with all the axes.
+so far the easiest axis technique to pre bin the data into groups and use the heading elements as axis fodder. eg https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html</textarea>
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># axes from pseudo elements</span>
+
+making axes from psuedo elements is tricky.
+compounding rotations complicate them.
+things get fucked when rotations compound.
+in this drawing, the row pseudo elements form straight axes while
+inner psuedo elements can't be aligned at least with this rotation stacking.
+
+adding a counter rotation to straightent he text will cause issues with all the axes.
+so far the easiest axis technique to pre bin the data into groups and use the heading elements as axis fodder. eg https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h1 id="axes-from-pseudo-elements"><a href="#axes-from-pseudo-elements">axes from pseudo elements</a></h1>\n<p>making axes from psuedo elements is tricky.\ncompounding rotations complicate them.\nthings get fucked when rotations compound.\nin this drawing, the row pseudo elements form straight axes while\ninner psuedo elements can\'t be aligned at least with this rotation stacking.</p>\n<p>adding a counter rotation to straightent he text will cause issues with all the axes.\nso far the easiest axis technique to pre bin the data into groups and use the heading elements as axis fodder. eg <a href="https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html">https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html</a></p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       10
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="axes-from-pseudo-elements">
+        <a href="#axes-from-pseudo-elements">
+         axes from pseudo elements
+        </a>
+       </h1>
+       <p>
+        making axes from psuedo elements is tricky.
+compounding rotations complicate them.
+things get fucked when rotations compound.
+in this drawing, the row pseudo elements form straight axes while
+inner psuedo elements can't be aligned at least with this rotation stacking.
+       </p>
+       <p>
+        adding a counter rotation to straightent he text will cause issues with all the axes.
+so far the easiest axis technique to pre bin the data into groups and use the heading elements as axis fodder. eg
+        <a href="https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html">
+         https://tonyfast.github.io/tonyfast/draft/tonyfast/tonyfast/tonyfast/xxiv/2024-08-02-3d-table.html
+        </a>
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="8" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-2-executed">
+         executed
+        </span>
+        <span id="cell-2-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-2-exec-label">
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-exec-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="8">from nbconvert_a11y.repr import get_table
+
+df = DataFrame(numpy.random.randn(30, 3), None, list("xyz"))
+df.iloc[0] *= 0 
+df.iloc[-1] = df.iloc[:-1].mean()
+section = df.pipe(get_table, id="xyz")
+section.table.attrs.update(**{"class": "xyz"})
+section</textarea>
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="kn">from</span> <span class="nn">nbconvert_a11y.repr</span> <span class="kn">import</span> <span class="n">get_table</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="kc">None</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="s2">"xyz"</span><span class="p">))</span>
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*=</span> <span class="mi">0</span> 
+<span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">section</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">"xyz"</span><span class="p">)</span>
+<span class="n">section</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="s2">"class"</span><span class="p">:</span> <span class="s2">"xyz"</span><span class="p">})</span>
+<span class="n">section</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       8
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+         <section aria-labelledby="xyz-figcaption">
+          <figure>
+           <figcaption id="xyz-figcaption">
+           </figcaption>
+           <table aria-colcount="4" aria-rowcount="34" class="xyz" id="xyz" role="table" style="---0-min: 0; ---0-max: 29; ---0-diff: 29; ---0-magnitude: 2; --0-min: -2.6455; --0-max: 1.8547; --0-diff: 4.5002; --1-min: -2.0724; --1-max: 2.3901; --1-diff: 4.4625; --2-min: -1.8828; --2-max: 1.8488; --2-diff: 3.7316;">
+            <caption id="xyz-caption">
+             pandas dataframe with 30 rows, 3 columns with 1 index levels and 1 columns levels.
+            </caption>
+            <thead role="rowgroup">
+             <tr aria-selected="true" role="row">
+              <th aria-colindex="1" aria-current="true" aria-rowindex="1" aria-sort="ascending" role="cell" tabindex="1">
+               None
+              </th>
+              <th aria-colindex="2" aria-rowindex="1" role="cell">
+               'x'
+              </th>
+              <th aria-colindex="3" aria-rowindex="1" role="cell">
+               'y'
+              </th>
+              <th aria-colindex="4" aria-rowindex="1" role="cell">
+               'z'
+              </th>
+             </tr>
+            </thead>
+            <tbody role="rowgroup" style="--g: 0; ">
+             <tr role="row" style="---0: 0;  --0: 0.0000;  --1: 0.0000;  --2: -0.0000; ">
+              <th aria-colindex="1" aria-rowindex="2" aria-sort="descending" role="cell" scope="row">
+               0
+              </th>
+              <td aria-colindex="2" aria-rowindex="2" role="cell">
+               0.000
+              </td>
+              <td aria-colindex="3" aria-rowindex="2" role="cell">
+               0.000
+              </td>
+              <td aria-colindex="4" aria-rowindex="2" role="cell">
+               -0.000
+              </td>
+             </tr>
+             <tr role="row" style="---0: 1;  --0: -2.6455;  --1: -1.3280;  --2: 0.6243; ">
+              <th aria-colindex="1" aria-rowindex="3" aria-sort="ascending" role="cell" scope="row">
+               1
+              </th>
+              <td aria-colindex="2" aria-rowindex="3" role="cell">
+               -2.645
+              </td>
+              <td aria-colindex="3" aria-rowindex="3" role="cell">
+               -1.328
+              </td>
+              <td aria-colindex="4" aria-rowindex="3" role="cell">
+               0.624
+              </td>
+             </tr>
+             <tr role="row" style="---0: 2;  --0: -2.3475;  --1: 2.1864;  --2: -1.1500; ">
+              <th aria-colindex="1" aria-rowindex="4" role="cell" scope="row">
+               2
+              </th>
+              <td aria-colindex="2" aria-rowindex="4" role="cell">
+               -2.347
+              </td>
+              <td aria-colindex="3" aria-rowindex="4" role="cell">
+               2.186
+              </td>
+              <td aria-colindex="4" aria-rowindex="4" role="cell">
+               -1.150
+              </td>
+             </tr>
+             <tr role="row" style="---0: 3;  --0: -0.2198;  --1: 0.8372;  --2: -1.8828; ">
+              <th aria-colindex="1" aria-rowindex="5" role="cell" scope="row">
+               3
+              </th>
+              <td aria-colindex="2" aria-rowindex="5" role="cell">
+               -0.220
+              </td>
+              <td aria-colindex="3" aria-rowindex="5" role="cell">
+               0.837
+              </td>
+              <td aria-colindex="4" aria-rowindex="5" role="cell">
+               -1.883
+              </td>
+             </tr>
+             <tr role="row" style="---0: 4;  --0: 1.5757;  --1: -0.8269;  --2: -0.4993; ">
+              <th aria-colindex="1" aria-rowindex="6" role="cell" scope="row">
+               4
+              </th>
+              <td aria-colindex="2" aria-rowindex="6" role="cell">
+               1.576
+              </td>
+              <td aria-colindex="3" aria-rowindex="6" role="cell">
+               -0.827
+              </td>
+              <td aria-colindex="4" aria-rowindex="6" role="cell">
+               -0.499
+              </td>
+             </tr>
+             <tr role="row" style="---0: 5;  --0: 0.9417;  --1: -0.5622;  --2: 0.0432; ">
+              <th aria-colindex="1" aria-rowindex="7" role="cell" scope="row">
+               5
+              </th>
+              <td aria-colindex="2" aria-rowindex="7" role="cell">
+               0.942
+              </td>
+              <td aria-colindex="3" aria-rowindex="7" role="cell">
+               -0.562
+              </td>
+              <td aria-colindex="4" aria-rowindex="7" role="cell">
+               0.043
+              </td>
+             </tr>
+             <tr role="row" style="---0: 6;  --0: -0.3843;  --1: 0.3994;  --2: 1.1318; ">
+              <th aria-colindex="1" aria-rowindex="8" aria-sort="ascending" role="cell" scope="row">
+               6
+              </th>
+              <td aria-colindex="2" aria-rowindex="8" role="cell">
+               -0.384
+              </td>
+              <td aria-colindex="3" aria-rowindex="8" role="cell">
+               0.399
+              </td>
+              <td aria-colindex="4" aria-rowindex="8" role="cell">
+               1.132
+              </td>
+             </tr>
+             <tr role="row" style="---0: 7;  --0: 1.5413;  --1: -0.5157;  --2: -0.8889; ">
+              <th aria-colindex="1" aria-rowindex="9" aria-sort="descending" role="cell" scope="row">
+               7
+              </th>
+              <td aria-colindex="2" aria-rowindex="9" role="cell">
+               1.541
+              </td>
+              <td aria-colindex="3" aria-rowindex="9" role="cell">
+               -0.516
+              </td>
+              <td aria-colindex="4" aria-rowindex="9" role="cell">
+               -0.889
+              </td>
+             </tr>
+             <tr role="row" style="---0: 8;  --0: 0.5291;  --1: -0.1427;  --2: -0.2524; ">
+              <th aria-colindex="1" aria-rowindex="10" aria-sort="descending" role="cell" scope="row">
+               8
+              </th>
+              <td aria-colindex="2" aria-rowindex="10" role="cell">
+               0.529
+              </td>
+              <td aria-colindex="3" aria-rowindex="10" role="cell">
+               -0.143
+              </td>
+              <td aria-colindex="4" aria-rowindex="10" role="cell">
+               -0.252
+              </td>
+             </tr>
+             <tr role="row" style="---0: 9;  --0: -0.1790;  --1: -2.0724;  --2: -1.7145; ">
+              <th aria-colindex="1" aria-rowindex="11" role="cell" scope="row">
+               9
+              </th>
+              <td aria-colindex="2" aria-rowindex="11" role="cell">
+               -0.179
+              </td>
+              <td aria-colindex="3" aria-rowindex="11" role="cell">
+               -2.072
+              </td>
+              <td aria-colindex="4" aria-rowindex="11" role="cell">
+               -1.715
+              </td>
+             </tr>
+             <tr role="row" style="---0: 10;  --0: -0.5157;  --1: -0.1165;  --2: 0.9812; ">
+              <th aria-colindex="1" aria-rowindex="12" aria-sort="ascending" role="cell" scope="row">
+               10
+              </th>
+              <td aria-colindex="2" aria-rowindex="12" role="cell">
+               -0.516
+              </td>
+              <td aria-colindex="3" aria-rowindex="12" role="cell">
+               -0.117
+              </td>
+              <td aria-colindex="4" aria-rowindex="12" role="cell">
+               0.981
+              </td>
+             </tr>
+             <tr role="row" style="---0: 11;  --0: -0.3123;  --1: 0.0551;  --2: -1.2316; ">
+              <th aria-colindex="1" aria-rowindex="13" role="cell" scope="row">
+               11
+              </th>
+              <td aria-colindex="2" aria-rowindex="13" role="cell">
+               -0.312
+              </td>
+              <td aria-colindex="3" aria-rowindex="13" role="cell">
+               0.055
+              </td>
+              <td aria-colindex="4" aria-rowindex="13" role="cell">
+               -1.232
+              </td>
+             </tr>
+             <tr role="row" style="---0: 12;  --0: 1.7850;  --1: -0.0875;  --2: 0.3149; ">
+              <th aria-colindex="1" aria-rowindex="14" role="cell" scope="row">
+               12
+              </th>
+              <td aria-colindex="2" aria-rowindex="14" role="cell">
+               1.785
+              </td>
+              <td aria-colindex="3" aria-rowindex="14" role="cell">
+               -0.088
+              </td>
+              <td aria-colindex="4" aria-rowindex="14" role="cell">
+               0.315
+              </td>
+             </tr>
+             <tr role="row" style="---0: 13;  --0: 1.4655;  --1: -0.6077;  --2: 0.0767; ">
+              <th aria-colindex="1" aria-rowindex="15" role="cell" scope="row">
+               13
+              </th>
+              <td aria-colindex="2" aria-rowindex="15" role="cell">
+               1.465
+              </td>
+              <td aria-colindex="3" aria-rowindex="15" role="cell">
+               -0.608
+              </td>
+              <td aria-colindex="4" aria-rowindex="15" role="cell">
+               0.077
+              </td>
+             </tr>
+             <tr role="row" style="---0: 14;  --0: -1.4758;  --1: 0.1111;  --2: -0.7122; ">
+              <th aria-colindex="1" aria-rowindex="16" role="cell" scope="row">
+               14
+              </th>
+              <td aria-colindex="2" aria-rowindex="16" role="cell">
+               -1.476
+              </td>
+              <td aria-colindex="3" aria-rowindex="16" role="cell">
+               0.111
+              </td>
+              <td aria-colindex="4" aria-rowindex="16" role="cell">
+               -0.712
+              </td>
+             </tr>
+             <tr role="row" style="---0: 15;  --0: 0.1513;  --1: -0.5752;  --2: -0.5609; ">
+              <th aria-colindex="1" aria-rowindex="17" role="cell" scope="row">
+               15
+              </th>
+              <td aria-colindex="2" aria-rowindex="17" role="cell">
+               0.151
+              </td>
+              <td aria-colindex="3" aria-rowindex="17" role="cell">
+               -0.575
+              </td>
+              <td aria-colindex="4" aria-rowindex="17" role="cell">
+               -0.561
+              </td>
+             </tr>
+             <tr role="row" style="---0: 16;  --0: -0.6676;  --1: 1.1636;  --2: 1.8488; ">
+              <th aria-colindex="1" aria-rowindex="18" aria-sort="ascending" role="cell" scope="row">
+               16
+              </th>
+              <td aria-colindex="2" aria-rowindex="18" role="cell">
+               -0.668
+              </td>
+              <td aria-colindex="3" aria-rowindex="18" role="cell">
+               1.164
+              </td>
+              <td aria-colindex="4" aria-rowindex="18" role="cell">
+               1.849
+              </td>
+             </tr>
+             <tr role="row" style="---0: 17;  --0: -1.1271;  --1: -1.2048;  --2: 0.5128; ">
+              <th aria-colindex="1" aria-rowindex="19" role="cell" scope="row">
+               17
+              </th>
+              <td aria-colindex="2" aria-rowindex="19" role="cell">
+               -1.127
+              </td>
+              <td aria-colindex="3" aria-rowindex="19" role="cell">
+               -1.205
+              </td>
+              <td aria-colindex="4" aria-rowindex="19" role="cell">
+               0.513
+              </td>
+             </tr>
+             <tr role="row" style="---0: 18;  --0: 0.3119;  --1: 0.7097;  --2: -0.0539; ">
+              <th aria-colindex="1" aria-rowindex="20" role="cell" scope="row">
+               18
+              </th>
+              <td aria-colindex="2" aria-rowindex="20" role="cell">
+               0.312
+              </td>
+              <td aria-colindex="3" aria-rowindex="20" role="cell">
+               0.710
+              </td>
+              <td aria-colindex="4" aria-rowindex="20" role="cell">
+               -0.054
+              </td>
+             </tr>
+             <tr role="row" style="---0: 19;  --0: -0.3178;  --1: 0.5871;  --2: -1.0600; ">
+              <th aria-colindex="1" aria-rowindex="21" role="cell" scope="row">
+               19
+              </th>
+              <td aria-colindex="2" aria-rowindex="21" role="cell">
+               -0.318
+              </td>
+              <td aria-colindex="3" aria-rowindex="21" role="cell">
+               0.587
+              </td>
+              <td aria-colindex="4" aria-rowindex="21" role="cell">
+               -1.060
+              </td>
+             </tr>
+             <tr role="row" style="---0: 20;  --0: -0.8167;  --1: 0.4256;  --2: -0.4116; ">
+              <th aria-colindex="1" aria-rowindex="22" role="cell" scope="row">
+               20
+              </th>
+              <td aria-colindex="2" aria-rowindex="22" role="cell">
+               -0.817
+              </td>
+              <td aria-colindex="3" aria-rowindex="22" role="cell">
+               0.426
+              </td>
+              <td aria-colindex="4" aria-rowindex="22" role="cell">
+               -0.412
+              </td>
+             </tr>
+             <tr role="row" style="---0: 21;  --0: -0.5654;  --1: 2.3901;  --2: 0.5268; ">
+              <th aria-colindex="1" aria-rowindex="23" role="cell" scope="row">
+               21
+              </th>
+              <td aria-colindex="2" aria-rowindex="23" role="cell">
+               -0.565
+              </td>
+              <td aria-colindex="3" aria-rowindex="23" role="cell">
+               2.390
+              </td>
+              <td aria-colindex="4" aria-rowindex="23" role="cell">
+               0.527
+              </td>
+             </tr>
+             <tr role="row" style="---0: 22;  --0: 0.1959;  --1: -0.8251;  --2: -1.4139; ">
+              <th aria-colindex="1" aria-rowindex="24" aria-sort="descending" role="cell" scope="row">
+               22
+              </th>
+              <td aria-colindex="2" aria-rowindex="24" role="cell">
+               0.196
+              </td>
+              <td aria-colindex="3" aria-rowindex="24" role="cell">
+               -0.825
+              </td>
+              <td aria-colindex="4" aria-rowindex="24" role="cell">
+               -1.414
+              </td>
+             </tr>
+             <tr role="row" style="---0: 23;  --0: -0.8929;  --1: 1.0365;  --2: -0.5210; ">
+              <th aria-colindex="1" aria-rowindex="25" role="cell" scope="row">
+               23
+              </th>
+              <td aria-colindex="2" aria-rowindex="25" role="cell">
+               -0.893
+              </td>
+              <td aria-colindex="3" aria-rowindex="25" role="cell">
+               1.036
+              </td>
+              <td aria-colindex="4" aria-rowindex="25" role="cell">
+               -0.521
+              </td>
+             </tr>
+             <tr role="row" style="---0: 24;  --0: -1.5375;  --1: 0.1413;  --2: -1.2167; ">
+              <th aria-colindex="1" aria-rowindex="26" role="cell" scope="row">
+               24
+              </th>
+              <td aria-colindex="2" aria-rowindex="26" role="cell">
+               -1.537
+              </td>
+              <td aria-colindex="3" aria-rowindex="26" role="cell">
+               0.141
+              </td>
+              <td aria-colindex="4" aria-rowindex="26" role="cell">
+               -1.217
+              </td>
+             </tr>
+             <tr role="row" style="---0: 25;  --0: 0.5751;  --1: -0.9409;  --2: 1.4333; ">
+              <th aria-colindex="1" aria-rowindex="27" role="cell" scope="row">
+               25
+              </th>
+              <td aria-colindex="2" aria-rowindex="27" role="cell">
+               0.575
+              </td>
+              <td aria-colindex="3" aria-rowindex="27" role="cell">
+               -0.941
+              </td>
+              <td aria-colindex="4" aria-rowindex="27" role="cell">
+               1.433
+              </td>
+             </tr>
+             <tr role="row" style="---0: 26;  --0: -0.3681;  --1: 1.6296;  --2: 0.3160; ">
+              <th aria-colindex="1" aria-rowindex="28" role="cell" scope="row">
+               26
+              </th>
+              <td aria-colindex="2" aria-rowindex="28" role="cell">
+               -0.368
+              </td>
+              <td aria-colindex="3" aria-rowindex="28" role="cell">
+               1.630
+              </td>
+              <td aria-colindex="4" aria-rowindex="28" role="cell">
+               0.316
+              </td>
+             </tr>
+             <tr role="row" style="---0: 27;  --0: -1.3320;  --1: 1.4216;  --2: -0.4883; ">
+              <th aria-colindex="1" aria-rowindex="29" role="cell" scope="row">
+               27
+              </th>
+              <td aria-colindex="2" aria-rowindex="29" role="cell">
+               -1.332
+              </td>
+              <td aria-colindex="3" aria-rowindex="29" role="cell">
+               1.422
+              </td>
+              <td aria-colindex="4" aria-rowindex="29" role="cell">
+               -0.488
+              </td>
+             </tr>
+             <tr role="row" style="---0: 28;  --0: 1.8547;  --1: -0.9792;  --2: -0.1974; ">
+              <th aria-colindex="1" aria-rowindex="30" role="cell" scope="row">
+               28
+              </th>
+              <td aria-colindex="2" aria-rowindex="30" role="cell">
+               1.855
+              </td>
+              <td aria-colindex="3" aria-rowindex="30" role="cell">
+               -0.979
+              </td>
+              <td aria-colindex="4" aria-rowindex="30" role="cell">
+               -0.197
+              </td>
+             </tr>
+             <tr role="row" style="---0: 29;  --0: -0.1647;  --1: 0.0796;  --2: -0.2223; ">
+              <th aria-colindex="1" aria-rowindex="31" role="cell" scope="row">
+               29
+              </th>
+              <td aria-colindex="2" aria-rowindex="31" role="cell">
+               -0.165
+              </td>
+              <td aria-colindex="3" aria-rowindex="31" role="cell">
+               0.080
+              </td>
+              <td aria-colindex="4" aria-rowindex="31" role="cell">
+               -0.222
+              </td>
+             </tr>
+            </tbody>
+            <tfoot role="rowgroup">
+             <tr role="row" style="--0: -2.6455;  --1: -2.0724;  --2: -1.8828; ">
+              <th aria-colindex="1" aria-rowindex="32" colspan="1" role="cell">
+               min
+              </th>
+              <td aria-colindex="2" aria-rowindex="32" role="cell">
+               -2.645
+              </td>
+              <td aria-colindex="3" aria-rowindex="32" role="cell">
+               -2.072
+              </td>
+              <td aria-colindex="4" aria-rowindex="32" role="cell">
+               -1.883
+              </td>
+             </tr>
+             <tr role="row" style="--0: 1.8547;  --1: 2.3901;  --2: 1.8488; ">
+              <th aria-colindex="1" aria-rowindex="33" colspan="1" role="cell">
+               max
+              </th>
+              <td aria-colindex="2" aria-rowindex="33" role="cell">
+               1.855
+              </td>
+              <td aria-colindex="3" aria-rowindex="33" role="cell">
+               2.390
+              </td>
+              <td aria-colindex="4" aria-rowindex="33" role="cell">
+               1.849
+              </td>
+             </tr>
+             <tr role="row" style="--0: 4.5002;  --1: 4.4625;  --2: 3.7316; ">
+              <th aria-colindex="1" aria-rowindex="34" colspan="1" role="cell">
+               diff
+              </th>
+              <td aria-colindex="2" aria-rowindex="34" role="cell">
+               4.500
+              </td>
+              <td aria-colindex="3" aria-rowindex="34" role="cell">
+               4.462
+              </td>
+              <td aria-colindex="4" aria-rowindex="34" role="cell">
+               3.732
+              </td>
+             </tr>
+            </tfoot>
+           </table>
+          </figure>
+          <form aria-labelledby="xyz-figcaption" name="xyz">
+          </form>
+          <style id="xyz-style">
+           <style>
+   #xyz tr { --x: var(--0);
+--y: var(--1);
+--z: var(--2);
+ }
+          </style>
+          <script id="xyz-script">
+           function setScroll(table) {
+    console.log(table);
+    let y = (table.scrollTop) / (table.scrollHeight - table.clientHeight);
+    let x = (table.scrollLeft) / (table.scrollWidth - table.clientWidth);
+    table.style.setProperty("--scroll-y", y);
+    table.style.setProperty("--scroll-x", x);
+    table.dataset.scrollY = y;
+    table.dataset.scrollX = x;
+}
+  document.querySelectorAll("#xyz [data-scroll]").forEach(
+    (element) => {
+        element.onscroll = (element) => {setScroll(element.target)};
+    }
+)
+          </script>
+         </section>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="124" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-3-executed">
+         executed
+        </span>
+        <span id="cell-3-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-3-exec-label">
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-exec-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="124">%%
+
+```css
+.xyz {
+    --cx: 0px;
+    --cy: 0px;
+    --cz: 0px;
+    --t: 2s;
+    --rx: 20deg;
+    --ry: 15deg;
+    --rz: 10deg;
+    --w: 600px;
+    --h: 400px;
+    --d: 400px;
+    --distance: 20in;
+    --r: 
+        rotateX(var(--rx))
+        rotateY(var(--ry))
+        rotateZ(var(--rz))
+        ;
+    ---r: 
+        rotateZ(calc(-1 * var(--rz)))
+        rotateY(calc(-1 * var(--ry)))
+        rotateX(calc(-1 * var(--rx)))
+        ;
+    --_0: calc(-1 * var(--w) * var(--0-min) / var(--0-diff));
+    --_1: calc(-1 * var(--h) * var(--1-min) / var(--1-diff));
+    --_2: calc(-1 * var(--d) * var(--2-min) / var(--2-diff));
+    --center: var(--_0) var(--_1) var(--_2) ;
+    --origin: translate3d(var(--_0), var(--_1), var(--_2));
+    height: var(--h); width: var(--w);
+    tbody {
+        font-family: monospace;
+        border: dotted;
+        display: block;
+        position: relative;
+        height: var(--h); width: var(--w);
+        transform-style: preserve-3d;
+        transform-origin: var(--center);
+        transform: var(--r);
+        tr {
+            transform-origin: var(--center);
+            display: inline-block;
+            box-sizing: border-box;
+            background: unset !important;
+            position: absolute;
+            transform-style: preserve-3d;
+            --0-: calc((var(--0) - var(--0-min)) / var(--0-diff));
+            --1-: calc((var(--1) - var(--1-min)) / var(--1-diff));
+            --2-: calc((var(--2) - var(--2-min)) / var(--2-diff));
+            --d0: calc(var(--0-) * var(--w) - var(--_0));
+            --d1: calc(var(--1-) * var(--h) - var(--_1));
+            --d2: calc(var(--2-) * var(--d) - var(--_2));
+            --offset: translate3d(var(--d0), var(--d1), var(--d2));
+            ---offset: translate3d(
+                calc(-1 * var(--d0)), calc(-1 * var(--d1)), calc(-1 * var(--d2)));
+            transform: 
+                var(--offset)
+                var(--origin)
+                ;
+            &amp;:hover{
+                border: dashed;
+                th::before, th::after {
+                    border: solid green 2px;
+                }
+            }
+            &amp;::before, &amp;::after, &amp; th::before, &amp; th::after {
+                box-sizing: border-box;
+                position: absolute;
+                display: block;
+                width: 100%;
+                height: 100%;
+                color: red;
+                counter-reset: index var(---0);
+                content: counter(index);
+                text-align: left;
+                vertical-align: inherit;
+                transform-origin: var(--center);
+                
+            }
+            &amp;::before {
+                color: purple;
+                border-top: solid 2px;
+                transform:
+                    translateX(var(--d0))
+                    var(---offset)
+                    translateY(-100%)
+                    ;
+            }
+
+            &amp;::after {
+                color: blue;
+                border-left: solid 2px;
+                transform:
+                    translateY(-100%)
+                    translateZ(var(--d2))
+                    var(---offset)
+                    ;
+            }
+            &amp; th::before{
+                transform: 
+                    translateX(var(--d0))
+                    var(---offset)
+                    translateX(0%)
+                    ;
+                
+            }
+            &amp; th::after {
+                color: green;
+                transform:
+                    translateY(var(--d1))
+                    var(---offset)
+                    translateY(-100%)
+                ;
+            }
+        }
+    }
+}
+.jp-RenderedHTMLCommon td,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon tr {
+    padding: 0px;
+}
+```</textarea>
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="o">%%</span>
+
+<span class="err">```</span><span class="n">css</span>
+<span class="o">.</span><span class="n">xyz</span> <span class="p">{</span>
+    <span class="o">--</span><span class="n">cx</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">cy</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">cz</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">t</span><span class="p">:</span> <span class="mi">2</span><span class="n">s</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">rx</span><span class="p">:</span> <span class="mi">20</span><span class="n">deg</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">ry</span><span class="p">:</span> <span class="mi">15</span><span class="n">deg</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">rz</span><span class="p">:</span> <span class="mi">10</span><span class="n">deg</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">w</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">h</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">d</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">distance</span><span class="p">:</span> <span class="mi">20</span><span class="ow">in</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">r</span><span class="p">:</span> 
+        <span class="n">rotateX</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rx</span><span class="p">))</span>
+        <span class="n">rotateY</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">ry</span><span class="p">))</span>
+        <span class="n">rotateZ</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rz</span><span class="p">))</span>
+        <span class="p">;</span>
+    <span class="o">---</span><span class="n">r</span><span class="p">:</span> 
+        <span class="n">rotateZ</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rz</span><span class="p">)))</span>
+        <span class="n">rotateY</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">ry</span><span class="p">)))</span>
+        <span class="n">rotateX</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">rx</span><span class="p">)))</span>
+        <span class="p">;</span>
+    <span class="o">--</span><span class="n">_0</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+    <span class="o">--</span><span class="n">_1</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+    <span class="o">--</span><span class="n">_2</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+    <span class="o">--</span><span class="n">center</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_0</span><span class="p">)</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_1</span><span class="p">)</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_2</span><span class="p">)</span> <span class="p">;</span>
+    <span class="o">--</span><span class="n">origin</span><span class="p">:</span> <span class="n">translate3d</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_0</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_1</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_2</span><span class="p">));</span>
+    <span class="n">height</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span> <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span>
+    <span class="n">tbody</span> <span class="p">{</span>
+        <span class="n">font</span><span class="o">-</span><span class="n">family</span><span class="p">:</span> <span class="n">monospace</span><span class="p">;</span>
+        <span class="n">border</span><span class="p">:</span> <span class="n">dotted</span><span class="p">;</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+        <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+        <span class="n">height</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span> <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">preserve</span><span class="o">-</span><span class="mi">3</span><span class="n">d</span><span class="p">;</span>
+        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">center</span><span class="p">);</span>
+        <span class="n">transform</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">r</span><span class="p">);</span>
+        <span class="n">tr</span> <span class="p">{</span>
+            <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">center</span><span class="p">);</span>
+            <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+            <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="p">:</span> <span class="n">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+            <span class="n">background</span><span class="p">:</span> <span class="n">unset</span> <span class="err">!</span><span class="n">important</span><span class="p">;</span>
+            <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+            <span class="n">transform</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">preserve</span><span class="o">-</span><span class="mi">3</span><span class="n">d</span><span class="p">;</span>
+            <span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+            <span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+            <span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="n">diff</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">d0</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_0</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">d1</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_1</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">d2</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">2</span><span class="o">-</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">_2</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">offset</span><span class="p">:</span> <span class="n">translate3d</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d0</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d1</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d2</span><span class="p">));</span>
+            <span class="o">---</span><span class="n">offset</span><span class="p">:</span> <span class="n">translate3d</span><span class="p">(</span>
+                <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d0</span><span class="p">)),</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d1</span><span class="p">)),</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d2</span><span class="p">)));</span>
+            <span class="n">transform</span><span class="p">:</span> 
+                <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">offset</span><span class="p">)</span>
+                <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">origin</span><span class="p">)</span>
+                <span class="p">;</span>
+            <span class="o">&amp;</span><span class="p">:</span><span class="n">hover</span><span class="p">{</span>
+                <span class="n">border</span><span class="p">:</span> <span class="n">dashed</span><span class="p">;</span>
+                <span class="n">th</span><span class="p">::</span><span class="n">before</span><span class="p">,</span> <span class="n">th</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span>
+                    <span class="n">border</span><span class="p">:</span> <span class="n">solid</span> <span class="n">green</span> <span class="mi">2</span><span class="n">px</span><span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+            <span class="o">&amp;</span><span class="p">::</span><span class="n">before</span><span class="p">,</span> <span class="o">&amp;</span><span class="p">::</span><span class="n">after</span><span class="p">,</span> <span class="o">&amp;</span> <span class="n">th</span><span class="p">::</span><span class="n">before</span><span class="p">,</span> <span class="o">&amp;</span> <span class="n">th</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span>
+                <span class="n">box</span><span class="o">-</span><span class="n">sizing</span><span class="p">:</span> <span class="n">border</span><span class="o">-</span><span class="n">box</span><span class="p">;</span>
+                <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+                <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+                <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+                <span class="n">height</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+                <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">;</span>
+                <span class="n">counter</span><span class="o">-</span><span class="n">reset</span><span class="p">:</span> <span class="n">index</span> <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="mi">0</span><span class="p">);</span>
+                <span class="n">content</span><span class="p">:</span> <span class="n">counter</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+                <span class="n">text</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">left</span><span class="p">;</span>
+                <span class="n">vertical</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">inherit</span><span class="p">;</span>
+                <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">center</span><span class="p">);</span>
+                
+            <span class="p">}</span>
+            <span class="o">&amp;</span><span class="p">::</span><span class="n">before</span> <span class="p">{</span>
+                <span class="n">color</span><span class="p">:</span> <span class="n">purple</span><span class="p">;</span>
+                <span class="n">border</span><span class="o">-</span><span class="n">top</span><span class="p">:</span> <span class="n">solid</span> <span class="mi">2</span><span class="n">px</span><span class="p">;</span>
+                <span class="n">transform</span><span class="p">:</span>
+                    <span class="n">translateX</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d0</span><span class="p">))</span>
+                    <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="n">offset</span><span class="p">)</span>
+                    <span class="n">translateY</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="o">%</span><span class="p">)</span>
+                    <span class="p">;</span>
+            <span class="p">}</span>
+
+            <span class="o">&amp;</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span>
+                <span class="n">color</span><span class="p">:</span> <span class="n">blue</span><span class="p">;</span>
+                <span class="n">border</span><span class="o">-</span><span class="n">left</span><span class="p">:</span> <span class="n">solid</span> <span class="mi">2</span><span class="n">px</span><span class="p">;</span>
+                <span class="n">transform</span><span class="p">:</span>
+                    <span class="n">translateY</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="o">%</span><span class="p">)</span>
+                    <span class="n">translateZ</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d2</span><span class="p">))</span>
+                    <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="n">offset</span><span class="p">)</span>
+                    <span class="p">;</span>
+            <span class="p">}</span>
+            <span class="o">&amp;</span> <span class="n">th</span><span class="p">::</span><span class="n">before</span><span class="p">{</span>
+                <span class="n">transform</span><span class="p">:</span> 
+                    <span class="n">translateX</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d0</span><span class="p">))</span>
+                    <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="n">offset</span><span class="p">)</span>
+                    <span class="n">translateX</span><span class="p">(</span><span class="mi">0</span><span class="o">%</span><span class="p">)</span>
+                    <span class="p">;</span>
+                
+            <span class="p">}</span>
+            <span class="o">&amp;</span> <span class="n">th</span><span class="p">::</span><span class="n">after</span> <span class="p">{</span>
+                <span class="n">color</span><span class="p">:</span> <span class="n">green</span><span class="p">;</span>
+                <span class="n">transform</span><span class="p">:</span>
+                    <span class="n">translateY</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d1</span><span class="p">))</span>
+                    <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="n">offset</span><span class="p">)</span>
+                    <span class="n">translateY</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="o">%</span><span class="p">)</span>
+                <span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">RenderedHTMLCommon</span> <span class="n">td</span><span class="p">,</span>
+<span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">RenderedHTMLCommon</span> <span class="n">th</span><span class="p">,</span>
+<span class="o">.</span><span class="n">jp</span><span class="o">-</span><span class="n">RenderedHTMLCommon</span> <span class="n">tr</span> <span class="p">{</span>
+    <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="err">```</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'jupyter': {'source_hidden': True}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       124
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-3-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+         <style>
+          .xyz {
+    --cx: 0px;
+    --cy: 0px;
+    --cz: 0px;
+    --t: 2s;
+    --rx: 20deg;
+    --ry: 15deg;
+    --rz: 10deg;
+    --w: 600px;
+    --h: 400px;
+    --d: 400px;
+    --distance: 20in;
+    --r: 
+        rotateX(var(--rx))
+        rotateY(var(--ry))
+        rotateZ(var(--rz))
+        ;
+    ---r: 
+        rotateZ(calc(-1 * var(--rz)))
+        rotateY(calc(-1 * var(--ry)))
+        rotateX(calc(-1 * var(--rx)))
+        ;
+    --_0: calc(-1 * var(--w) * var(--0-min) / var(--0-diff));
+    --_1: calc(-1 * var(--h) * var(--1-min) / var(--1-diff));
+    --_2: calc(-1 * var(--d) * var(--2-min) / var(--2-diff));
+    --center: var(--_0) var(--_1) var(--_2) ;
+    --origin: translate3d(var(--_0), var(--_1), var(--_2));
+    height: var(--h); width: var(--w);
+    tbody {
+        font-family: monospace;
+        border: dotted;
+        display: block;
+        position: relative;
+        height: var(--h); width: var(--w);
+        transform-style: preserve-3d;
+        transform-origin: var(--center);
+        transform: var(--r);
+        tr {
+            transform-origin: var(--center);
+            display: inline-block;
+            box-sizing: border-box;
+            background: unset !important;
+            position: absolute;
+            transform-style: preserve-3d;
+            --0-: calc((var(--0) - var(--0-min)) / var(--0-diff));
+            --1-: calc((var(--1) - var(--1-min)) / var(--1-diff));
+            --2-: calc((var(--2) - var(--2-min)) / var(--2-diff));
+            --d0: calc(var(--0-) * var(--w) - var(--_0));
+            --d1: calc(var(--1-) * var(--h) - var(--_1));
+            --d2: calc(var(--2-) * var(--d) - var(--_2));
+            --offset: translate3d(var(--d0), var(--d1), var(--d2));
+            ---offset: translate3d(
+                calc(-1 * var(--d0)), calc(-1 * var(--d1)), calc(-1 * var(--d2)));
+            transform: 
+                var(--offset)
+                var(--origin)
+                ;
+            &:hover{
+                border: dashed;
+                th::before, th::after {
+                    border: solid green 2px;
+                }
+            }
+            &::before, &::after, & th::before, & th::after {
+                box-sizing: border-box;
+                position: absolute;
+                display: block;
+                width: 100%;
+                height: 100%;
+                color: red;
+                counter-reset: index var(---0);
+                content: counter(index);
+                text-align: left;
+                vertical-align: inherit;
+                transform-origin: var(--center);
+                
+            }
+            &::before {
+                color: purple;
+                border-top: solid 2px;
+                transform:
+                    translateX(var(--d0))
+                    var(---offset)
+                    translateY(-100%)
+                    ;
+            }
+
+            &::after {
+                color: blue;
+                border-left: solid 2px;
+                transform:
+                    translateY(-100%)
+                    translateZ(var(--d2))
+                    var(---offset)
+                    ;
+            }
+            & th::before{
+                transform: 
+                    translateX(var(--d0))
+                    var(---offset)
+                    translateX(0%)
+                    ;
+                
+            }
+            & th::after {
+                color: green;
+                transform:
+                    translateY(var(--d1))
+                    var(---offset)
+                    translateY(-100%)
+                ;
+            }
+        }
+    }
+}
+.jp-RenderedHTMLCommon td,
+.jp-RenderedHTMLCommon th,
+.jp-RenderedHTMLCommon tr {
+    padding: 0px;
+}
+         </style>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell markdown" data-index="4" data-loc="2" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-4-executed">
+         unexecuted
+        </span>
+        <span id="cell-4-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-4-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-exec-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="2">when making these it is important to start from the ground up. we want to make sure our index and markers and aligned before we start shifting them around.
+keeping a slight tilt helps with any abberations in the z direction.</textarea>
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>when making these it is important to start from the ground up. we want to make sure our index and markers and aligned before we start shifting them around.
+keeping a slight tilt helps with any abberations in the z direction.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>when making these it is important to start from the ground up. we want to make sure our index and markers and aligned before we start shifting them around.\nkeeping a slight tilt helps with any abberations in the z direction.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       2
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        when making these it is important to start from the ground up. we want to make sure our index and markers and aligned before we start shifting them around.
+keeping a slight tilt helps with any abberations in the z direction.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell markdown" data-index="5" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-5-executed">
+         unexecuted
+        </span>
+        <span id="cell-5-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-5-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-exec-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="1">during this drawing i started using more the dev tools ui to rotate and it is nice to know that when css is encapsulated well we get ui.</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>during this drawing i started using more the dev tools ui to rotate and it is nice to know that when css is encapsulated well we get ui.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>during this drawing i started using more the dev tools ui to rotate and it is nice to know that when css is encapsulated well we get ui.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        during this drawing i started using more the dev tools ui to rotate and it is nice to know that when css is encapsulated well we get ui.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="0" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-6-executed">
+         unexecuted
+        </span>
+        <span id="cell-6-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-6-exec-label">
+         None
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-exec-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="0"></textarea>
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       0
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          None
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2024-08-06-table-form.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;options for plotting
+   </a>
+   <br>
+   <a href="2024-08-04-cp1919.html" rel="next">
+    cp1919v1
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      accessibility settings
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        notebook layout
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        font settings
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="120%">
+            large
+           </option>
+           <option value="150%">
+            x-large
+           </option>
+           <option value="200%">
+            xx-large
+           </option>
+           <option value="300%">
+            xxx-large
+           </option>
+           <option value="400%">
+            xxxx-large
+           </option>
+           <option value="500%">
+            xxxxx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        sound settings
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     notebook help
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      definitions
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme(value = null) {
+    value = document.forms.settings.elements["color-scheme"].value;
+    let DARK = value == "dark";
+    let opposite = DARK ? "light" : "dark";
+    document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-highlight`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    BODY.classList.toggle("dark", DARK);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+function toggleActive() {
+    if (document.forms.notebook.elements.edit?.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+function fullScreen() {
+    if (!document.fullscreenElement) {
+        document.querySelector("main").requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        entry.target.style.width = "";
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        entry.target.style.width = `${Math.floor(width)}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
+    }
+
+}
+
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>
