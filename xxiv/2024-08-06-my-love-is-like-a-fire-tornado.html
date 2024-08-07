@@ -3186,6 +3186,7 @@
 
 
 <h1 id="my-love-is-like-a-fire-tornado">my love is like a fire tornado<a class="headerlink" href="#my-love-is-like-a-fire-tornado" title="Permanent link">¤</a></h1>
+<p><a href="#twisters">jump to demo</a></p>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="n">some</span> <span class="n">sound</span> <span class="n">to</span> <span class="n">play</span> <span class="k">for</span> <span class="n">some</span> <span class="n">extra</span> <span class="n">texture</span><span class="p">,</span> <span class="n">the</span> <span class="n">element</span> <span class="ow">is</span> <span class="n">resizable</span> <span class="n">so</span> <span class="n">you</span> <span class="n">can</span> <span class="n">stifle</span> <span class="n">extra</span> <span class="n">stimuli</span><span class="o">.</span>
 
@@ -3193,9 +3194,7 @@
 <span class="o">&lt;</span><span class="n">iframe</span> <span class="n">allow</span><span class="o">=</span><span class="s2">&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;</span> <span class="n">allowfullscreen</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="n">frameborder</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;315&quot;</span> <span class="n">referrerpolicy</span><span class="o">=</span><span class="s2">&quot;strict-origin-when-cross-origin&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://www.youtube.com/embed/qBAPsQkS8QI?si=CkA51qfeJeLb9Mfw&quot;</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;YouTube video player&quot;</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;560&quot;</span><span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
 <span class="o">&lt;/</span><span class="n">section</span><span class="o">&gt;</span>
 
-
-    <span class="kn">from</span> <span class="nn">nbconvert_a11y</span> <span class="kn">import</span> <span class="n">table</span>
-    <span class="kn">from</span> <span class="nn">nbconvert_a11y.repr</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">new</span>
+    <span class="kn">from</span> <span class="nn">nbconvert_a11y.table</span> <span class="kn">import</span> <span class="n">new</span>
     <span class="n">bs4</span><span class="o">.</span><span class="n">Tag</span><span class="o">.</span><span class="n">_repr_html_</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">Tag</span><span class="o">.</span><span class="n">prettify</span>    
     <span class="n">words</span> <span class="o">=</span> \
 <span class="n">last</span> <span class="err">🌃</span> <span class="n">my</span> <span class="n">wife</span> <span class="ow">and</span> <span class="n">i</span> <span class="n">had</span> <span class="n">a</span> <span class="n">sweet</span> <span class="n">date</span> <span class="n">drinking</span> <span class="n">boba</span><span class="p">,</span> <span class="n">playing</span> <span class="n">pinball</span><span class="p">,</span> <span class="n">seeing</span> <span class="err">🌪</span><span class="n">twisters</span><span class="err">🌪</span> <span class="k">with</span> <span class="n">the</span> <span class="n">likable</span> <span class="n">glen</span> <span class="n">powell</span><span class="p">,</span> <span class="ow">and</span> <span class="n">eating</span> <span class="err">🍔</span><span class="o">.</span> <span class="n">i</span> <span class="err">🫶</span> <span class="n">her</span> <span class="n">a</span> <span class="n">lot</span><span class="o">.</span> <span class="n">also</span><span class="p">,</span> <span class="err">🔥</span> <span class="n">tornado</span><span class="err">!</span>
@@ -3206,10 +3205,10 @@
     <span class="n">df</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">/</span> <span class="mi">10</span>
     <span class="n">df</span><span class="o">.</span><span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span> <span class="o">*</span> <span class="n">numpy</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">180</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">numpy</span><span class="o">.</span><span class="n">sin</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">letter</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;td&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">words</span><span class="p">)</span>
-    <span class="n">section</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">max_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">figcaption</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">caption</span><span class="o">=</span><span class="n">words</span><span class="p">)</span>
+    <span class="n">section</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">max_rows</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">figcaption</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">caption</span><span class="o">=</span><span class="n">words</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;twisters&quot;</span><span class="p">)</span>
 <span class="n">hide</span> <span class="n">the</span> <span class="n">table</span> <span class="n">because</span> <span class="n">its</span> <span class="n">content</span> <span class="ow">is</span> <span class="n">repeated</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">figure</span> <span class="n">caption</span>
 
-    <span class="n">section</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="s2">&quot;twisters&quot;</span><span class="p">},</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-hidden&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})</span>    
+    <span class="n">section</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;aria-hidden&quot;</span><span class="p">:</span> <span class="s2">&quot;true&quot;</span><span class="p">})</span>    
     <span class="n">display</span><span class="p">(</span><span class="n">section</span><span class="p">);</span> <span class="n">display</span>\
 <span class="err">```</span><span class="n">css</span>
 <span class="nd">@property</span> <span class="o">--</span><span class="n">r</span> <span class="p">{</span>
@@ -3217,7 +3216,7 @@
     <span class="n">initial</span><span class="o">-</span><span class="n">value</span><span class="p">:</span> <span class="mi">0</span><span class="n">deg</span><span class="p">;</span>
     <span class="n">inherits</span><span class="p">:</span> <span class="n">true</span><span class="p">;</span>
 <span class="p">}</span>
-<span class="o">.</span><span class="n">twisters</span> <span class="p">{</span>
+<span class="c1">#twisters {</span>
     <span class="o">--</span><span class="n">w</span><span class="p">:</span> <span class="mi">480</span><span class="n">px</span><span class="p">;</span>
     <span class="o">--</span><span class="n">h</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
     <span class="o">--</span><span class="n">d</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
@@ -3253,17 +3252,23 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-<span class="c1">#sound {</span>
-    <span class="n">resize</span><span class="p">:</span> <span class="n">both</span><span class="p">;</span> <span class="n">overflow</span><span class="p">:</span> <span class="n">auto</span><span class="p">;</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">grayscale</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="c1">#sound {resize: both; overflow: auto; filter: grayscale(100%);}</span>
+<span class="nd">@supports</span> <span class="p">(</span><span class="n">background</span><span class="p">:</span> <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">element</span><span class="p">(</span><span class="c1">#twisters)) {</span>
+    <span class="p">[</span><span class="n">href</span><span class="o">=</span><span class="s2">&quot;#twisters&quot;</span><span class="p">]</span> <span class="p">{</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span> <span class="n">height</span><span class="p">:</span> <span class="mi">400</span><span class="n">px</span><span class="p">;</span>
+        <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="mi">1000</span><span class="p">;</span>
+        <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">5</span><span class="n">rem</span><span class="p">;</span>
+        <span class="n">background</span><span class="p">:</span> <span class="o">-</span><span class="n">moz</span><span class="o">-</span><span class="n">element</span><span class="p">(</span><span class="c1">#twisters); </span>
+        <span class="n">background</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="n">contain</span><span class="p">;</span> 
+        <span class="nb">filter</span><span class="p">:</span> <span class="n">grayscale</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span><span class="p">);}}</span>
 <span class="o">/**</span> <span class="n">i</span> <span class="n">think</span> <span class="n">keyframes</span> <span class="n">need</span> <span class="n">to</span> <span class="n">go</span> <span class="n">last</span> <span class="o">**/</span>
 <span class="nd">@keyframes</span> <span class="n">spin</span> <span class="p">{</span> <span class="mi">0</span><span class="o">%</span> <span class="p">{</span> <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="mi">0</span><span class="n">deg</span><span class="p">;</span> <span class="p">}</span> <span class="mi">100</span><span class="o">%</span> <span class="p">{</span> <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="mi">360</span><span class="n">deg</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
 <span class="err">```</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea"><section aria-labelledby="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption">
+<div class="output_html rendered_html output_subarea"><section aria-labelledby="twisters-figcaption">
 <figure>
-<table aria-colcount="6" aria-hidden="true" aria-rowcount="167" class="twisters" id="a8695121b-18f0-4001-bedd-c8572d8f7df4" role="table" style="---0-min: 0; ---0-max: 162; ---0-diff: 162; ---0-magnitude: 3; --0-min: 0.0000; --0-max: 18.1764; --0-diff: 18.1764; --1-min: -0.9511; --1-max: 1.0000; --1-diff: 1.9511; --2-min: 0.0000; --2-max: 16.2000; --2-diff: 16.2000; --3-min: 0.0000; --3-max: 1.0000; --3-diff: 1.0000;">
-<caption id="a8695121b-18f0-4001-bedd-c8572d8f7df4-caption">
+<table aria-colcount="6" aria-hidden="true" aria-rowcount="167" id="twisters" role="table" style="---0-min: 0; ---0-max: 162; ---0-diff: 162; ---0-magnitude: 3; --0-min: 0.0000; --0-max: 18.1764; --0-diff: 18.1764; --1-min: -0.9511; --1-max: 1.0000; --1-diff: 1.9511; --2-min: 0.0000; --2-max: 16.2000; --2-diff: 16.2000; --3-min: 0.0000; --3-max: 1.0000; --3-diff: 1.0000;">
+<caption id="twisters-caption">
     pandas dataframe with 163 rows, 5 columns with 1 index levels and 1 columns levels.
    </caption>
 <thead role="rowgroup">
@@ -6582,15 +6587,15 @@
 </tr>
 </tfoot>
 </table>
-<figcaption id="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption">
+<figcaption id="twisters-figcaption">
    last 🌃 my wife and i had a sweet date drinking boba, playing pinball, seeing 🌪twisters🌪 with the likable glen powell, and eating 🍔. i 🫶 her a lot. also, 🔥 tornado!
   </figcaption>
 </figure>
-<form aria-labelledby="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption" name="a8695121b-18f0-4001-bedd-c8572d8f7df4">
+<form aria-labelledby="twisters-figcaption" name="twisters">
 </form>
-<style id="a8695121b-18f0-4001-bedd-c8572d8f7df4-style">
+<style id="twisters-style">
   <style>
-   #None tr { --θ: var(--0);
+   #twisters tr { --θ: var(--0);
 --x: var(--1);
 --y: var(--2);
 --z: var(--3);
@@ -6598,7 +6603,7 @@
  }
   </style>
 
-<script id="a8695121b-18f0-4001-bedd-c8572d8f7df4-script">
+<script id="twisters-script">
   function setScroll(table) {
     console.log(table);
     let y = (table.scrollTop) / (table.scrollHeight - table.clientHeight);
@@ -6608,7 +6613,7 @@
     table.dataset.scrollY = y;
     table.dataset.scrollX = x;
 }
-  document.querySelectorAll("#a8695121b-18f0-4001-bedd-c8572d8f7df4 [data-scroll]").forEach(
+  document.querySelectorAll("#twisters [data-scroll]").forEach(
     (element) => {
         element.onscroll = (element) => {setScroll(element.target)};
     }
@@ -6621,7 +6626,7 @@
     initial-value: 0deg;
     inherits: true;
 }
-.twisters {
+#twisters {
     --w: 480px;
     --h: 600px;
     --d: 600px;
@@ -6657,9 +6662,15 @@
         }
     }
 }
-#sound {
-    resize: both; overflow: auto; filter: grayscale(100%);
-}
+#sound {resize: both; overflow: auto; filter: grayscale(100%);}
+@supports (background: -moz-element(#twisters)) {
+    [href="#twisters"] {
+        display: block; width: 100%; height: 400px;
+        font-weight: 1000;
+        font-size: 5rem;
+        background: -moz-element(#twisters); 
+        background-size: contain; 
+        filter: grayscale(100%);}}
 /** i think keyframes need to go last **/
 @keyframes spin { 0% { --r: 0deg; } 100% { --r: 360deg; } }
 </style></div>
@@ -6667,8 +6678,7 @@
 <section id="sound">
 <iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/qBAPsQkS8QI?si=CkA51qfeJeLb9Mfw" title="YouTube video player" width="560"></iframe>
 </section>
-<pre><code>from nbconvert_a11y import table
-from nbconvert_a11y.repr import get_table, new
+<pre><code>from nbconvert_a11y.table import new
 bs4.Tag._repr_html_ = bs4.Tag.prettify    
 words = \
 </code></pre>
@@ -6679,10 +6689,10 @@ df.x = (df.index * numpy.pi / 180).map(numpy.cos)
 df.y = df.index / 10
 df.z = (df.index * numpy.pi / 180).map(numpy.sin)
 df.letter = list(new("td", x) for x in words)
-section = df.table(dict(max_rows=1000, figcaption=-1), caption=words)
+section = df.table(dict(max_rows=1000, figcaption=-1), caption=words, id="twisters")
 </code></pre>
 <p>hide the table because its content is repeated in the figure caption</p>
-<pre><code>section.html.table.attrs.update({"class": "twisters"}, **{"aria-hidden": "true"})    
+<pre><code>section.html.table.attrs.update({"aria-hidden": "true"})    
 display(section); display\
 </code></pre>
 <pre><code class="css">@property --r {
@@ -6690,7 +6700,7 @@ display(section); display\
     initial-value: 0deg;
     inherits: true;
 }
-.twisters {
+#twisters {
     --w: 480px;
     --h: 600px;
     --d: 600px;
@@ -6726,9 +6736,15 @@ display(section); display\
         }
     }
 }
-#sound {
-    resize: both; overflow: auto; filter: grayscale(100%);
-}
+#sound {resize: both; overflow: auto; filter: grayscale(100%);}
+@supports (background: -moz-element(#twisters)) {
+    [href="#twisters"] {
+        display: block; width: 100%; height: 400px;
+        font-weight: 1000;
+        font-size: 5rem;
+        background: -moz-element(#twisters); 
+        background-size: contain; 
+        filter: grayscale(100%);}}
 /** i think keyframes need to go last **/
 @keyframes spin { 0% { --r: 0deg; } 100% { --r: 360deg; } }
 </code></pre>
