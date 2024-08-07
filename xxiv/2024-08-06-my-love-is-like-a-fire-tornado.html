@@ -3187,6 +3187,13 @@
 
 <h1 id="my-love-is-like-a-fire-tornado">my love is like a fire tornado<a class="headerlink" href="#my-love-is-like-a-fire-tornado" title="Permanent link">¤</a></h1>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">some</span> <span class="n">sound</span> <span class="n">to</span> <span class="n">play</span> <span class="k">for</span> <span class="n">some</span> <span class="n">extra</span> <span class="n">texture</span><span class="p">,</span> <span class="n">the</span> <span class="n">element</span> <span class="ow">is</span> <span class="n">resizable</span> <span class="n">so</span> <span class="n">you</span> <span class="n">can</span> <span class="n">stifle</span> <span class="n">extra</span> <span class="n">stimuli</span><span class="o">.</span>
+
+<span class="o">&lt;</span><span class="n">section</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;sound&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="n">iframe</span> <span class="n">allow</span><span class="o">=</span><span class="s2">&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share&quot;</span> <span class="n">allowfullscreen</span><span class="o">=</span><span class="s2">&quot;&quot;</span> <span class="n">frameborder</span><span class="o">=</span><span class="s2">&quot;0&quot;</span> <span class="n">height</span><span class="o">=</span><span class="s2">&quot;315&quot;</span> <span class="n">referrerpolicy</span><span class="o">=</span><span class="s2">&quot;strict-origin-when-cross-origin&quot;</span> <span class="n">src</span><span class="o">=</span><span class="s2">&quot;https://www.youtube.com/embed/qBAPsQkS8QI?si=CkA51qfeJeLb9Mfw&quot;</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;YouTube video player&quot;</span> <span class="n">width</span><span class="o">=</span><span class="s2">&quot;560&quot;</span><span class="o">&gt;&lt;/</span><span class="n">iframe</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">section</span><span class="o">&gt;</span>
+
+
     <span class="kn">from</span> <span class="nn">nbconvert_a11y</span> <span class="kn">import</span> <span class="n">table</span>
     <span class="kn">from</span> <span class="nn">nbconvert_a11y.repr</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">new</span>
     <span class="n">bs4</span><span class="o">.</span><span class="n">Tag</span><span class="o">.</span><span class="n">_repr_html_</span> <span class="o">=</span> <span class="n">bs4</span><span class="o">.</span><span class="n">Tag</span><span class="o">.</span><span class="n">prettify</span>    
@@ -3215,14 +3222,13 @@
     <span class="o">--</span><span class="n">h</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
     <span class="o">--</span><span class="n">d</span><span class="p">:</span> <span class="mi">600</span><span class="n">px</span><span class="p">;</span>
     <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="mi">0</span><span class="n">deg</span><span class="p">;</span>
-    <span class="n">thead</span><span class="p">,</span> <span class="n">tfoot</span> <span class="p">{</span>
-        <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
-    <span class="p">}</span>
+    <span class="o">--</span><span class="n">t</span><span class="p">:</span> <span class="mi">15</span><span class="n">s</span><span class="p">;</span>
+    <span class="n">thead</span><span class="p">,</span> <span class="n">tfoot</span> <span class="p">{</span><span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;}</span>
     <span class="n">tbody</span> <span class="p">{</span>
         <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
         <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span>
         <span class="n">height</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span>
-        <span class="n">animation</span><span class="p">:</span> <span class="mi">10</span><span class="n">s</span> <span class="n">infinite</span> <span class="n">linear</span> <span class="n">spin</span><span class="p">;</span>
+        <span class="n">animation</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">t</span><span class="p">)</span> <span class="n">infinite</span> <span class="n">linear</span> <span class="n">spin</span><span class="p">;</span>
         <span class="n">transform</span><span class="p">:</span> <span class="n">rotateY</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">r</span><span class="p">));</span>
         <span class="n">transform</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">preserve</span><span class="o">-</span><span class="mi">3</span><span class="n">d</span><span class="p">;</span>
         <span class="n">tr</span> <span class="p">{</span>
@@ -3230,13 +3236,9 @@
             <span class="n">transform</span><span class="o">-</span><span class="n">style</span><span class="p">:</span> <span class="n">preserve</span><span class="o">-</span><span class="mi">3</span><span class="n">d</span><span class="p">;</span>
             <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
             <span class="o">--</span><span class="n">wiggle</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">sin</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="n">rad</span><span class="p">)</span> <span class="o">*</span> <span class="o">-</span><span class="mi">1</span><span class="n">px</span><span class="p">);</span>
-            <span class="n">th</span><span class="p">,</span> <span class="n">td</span> <span class="p">{</span>
-                <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
-            <span class="p">}</span>
+            <span class="n">th</span><span class="p">,</span> <span class="n">td</span> <span class="p">{</span><span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;}</span>
             <span class="n">td</span><span class="p">:</span><span class="n">last</span><span class="o">-</span><span class="n">child</span> <span class="p">{</span>
-                <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
-                <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="n">bold</span><span class="p">;</span>
-                <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">1.5</span><span class="n">rem</span><span class="p">;</span>
+                <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">font</span><span class="o">-</span><span class="n">weight</span><span class="p">:</span> <span class="n">bold</span><span class="p">;</span> <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">1.5</span><span class="n">rem</span><span class="p">;</span>
             <span class="p">}</span>
             <span class="n">transform</span><span class="p">:</span> 
                 <span class="n">translate3d</span><span class="p">(</span>
@@ -3251,14 +3253,17 @@
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
-
+<span class="c1">#sound {</span>
+    <span class="n">resize</span><span class="p">:</span> <span class="n">both</span><span class="p">;</span> <span class="n">overflow</span><span class="p">:</span> <span class="n">auto</span><span class="p">;</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">grayscale</span><span class="p">(</span><span class="mi">100</span><span class="o">%</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="o">/**</span> <span class="n">i</span> <span class="n">think</span> <span class="n">keyframes</span> <span class="n">need</span> <span class="n">to</span> <span class="n">go</span> <span class="n">last</span> <span class="o">**/</span>
 <span class="nd">@keyframes</span> <span class="n">spin</span> <span class="p">{</span> <span class="mi">0</span><span class="o">%</span> <span class="p">{</span> <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="mi">0</span><span class="n">deg</span><span class="p">;</span> <span class="p">}</span> <span class="mi">100</span><span class="o">%</span> <span class="p">{</span> <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="mi">360</span><span class="n">deg</span><span class="p">;</span> <span class="p">}</span> <span class="p">}</span>
 <span class="err">```</span>
 </code></pre></div>
-<div class="output_html rendered_html output_subarea"><section aria-labelledby="a16dee47d-560f-4b86-87cd-566140d27761-figcaption">
+<div class="output_html rendered_html output_subarea"><section aria-labelledby="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption">
 <figure>
-<table aria-colcount="6" aria-hidden="true" aria-rowcount="167" class="twisters" id="a16dee47d-560f-4b86-87cd-566140d27761" role="table" style="---0-min: 0; ---0-max: 162; ---0-diff: 162; ---0-magnitude: 3; --0-min: 0.0000; --0-max: 18.1764; --0-diff: 18.1764; --1-min: -0.9511; --1-max: 1.0000; --1-diff: 1.9511; --2-min: 0.0000; --2-max: 16.2000; --2-diff: 16.2000; --3-min: 0.0000; --3-max: 1.0000; --3-diff: 1.0000;">
-<caption id="a16dee47d-560f-4b86-87cd-566140d27761-caption">
+<table aria-colcount="6" aria-hidden="true" aria-rowcount="167" class="twisters" id="a8695121b-18f0-4001-bedd-c8572d8f7df4" role="table" style="---0-min: 0; ---0-max: 162; ---0-diff: 162; ---0-magnitude: 3; --0-min: 0.0000; --0-max: 18.1764; --0-diff: 18.1764; --1-min: -0.9511; --1-max: 1.0000; --1-diff: 1.9511; --2-min: 0.0000; --2-max: 16.2000; --2-diff: 16.2000; --3-min: 0.0000; --3-max: 1.0000; --3-diff: 1.0000;">
+<caption id="a8695121b-18f0-4001-bedd-c8572d8f7df4-caption">
     pandas dataframe with 163 rows, 5 columns with 1 index levels and 1 columns levels.
    </caption>
 <thead role="rowgroup">
@@ -6577,13 +6582,13 @@
 </tr>
 </tfoot>
 </table>
-<figcaption id="a16dee47d-560f-4b86-87cd-566140d27761-figcaption">
+<figcaption id="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption">
    last 🌃 my wife and i had a sweet date drinking boba, playing pinball, seeing 🌪twisters🌪 with the likable glen powell, and eating 🍔. i 🫶 her a lot. also, 🔥 tornado!
   </figcaption>
 </figure>
-<form aria-labelledby="a16dee47d-560f-4b86-87cd-566140d27761-figcaption" name="a16dee47d-560f-4b86-87cd-566140d27761">
+<form aria-labelledby="a8695121b-18f0-4001-bedd-c8572d8f7df4-figcaption" name="a8695121b-18f0-4001-bedd-c8572d8f7df4">
 </form>
-<style id="a16dee47d-560f-4b86-87cd-566140d27761-style">
+<style id="a8695121b-18f0-4001-bedd-c8572d8f7df4-style">
   <style>
    #None tr { --θ: var(--0);
 --x: var(--1);
@@ -6593,7 +6598,7 @@
  }
   </style>
 
-<script id="a16dee47d-560f-4b86-87cd-566140d27761-script">
+<script id="a8695121b-18f0-4001-bedd-c8572d8f7df4-script">
   function setScroll(table) {
     console.log(table);
     let y = (table.scrollTop) / (table.scrollHeight - table.clientHeight);
@@ -6603,7 +6608,7 @@
     table.dataset.scrollY = y;
     table.dataset.scrollX = x;
 }
-  document.querySelectorAll("#a16dee47d-560f-4b86-87cd-566140d27761 [data-scroll]").forEach(
+  document.querySelectorAll("#a8695121b-18f0-4001-bedd-c8572d8f7df4 [data-scroll]").forEach(
     (element) => {
         element.onscroll = (element) => {setScroll(element.target)};
     }
@@ -6621,14 +6626,13 @@
     --h: 600px;
     --d: 600px;
     --r: 0deg;
-    thead, tfoot {
-        display: none;
-    }
+    --t: 15s;
+    thead, tfoot {display: none;}
     tbody {
         display: block;
         width: var(--w);
         height: var(--h);
-        animation: 10s infinite linear spin;
+        animation: var(--t) infinite linear spin;
         transform: rotateY(var(--r));
         transform-style: preserve-3d;
         tr {
@@ -6636,13 +6640,9 @@
             transform-style: preserve-3d;
             position: absolute;
             --wiggle: calc(sin(var(--0) * 10rad) * -1px);
-            th, td {
-                display: none;
-            }
+            th, td {display: none;}
             td:last-child {
-                display: block;
-                font-weight: bold;
-                font-size: 1.5rem;
+                display: block; font-weight: bold; font-size: 1.5rem;
             }
             transform: 
                 translate3d(
@@ -6657,10 +6657,17 @@
         }
     }
 }
-
+#sound {
+    resize: both; overflow: auto; filter: grayscale(100%);
+}
+/** i think keyframes need to go last **/
 @keyframes spin { 0% { --r: 0deg; } 100% { --r: 360deg; } }
 </style></div>
-<div class="output_html rendered_html output_subarea"><pre><code>from nbconvert_a11y import table
+<div class="output_html rendered_html output_subarea"><p>some sound to play for some extra texture, the element is resizable so you can stifle extra stimuli.</p>
+<section id="sound">
+<iframe allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen="" frameborder="0" height="315" referrerpolicy="strict-origin-when-cross-origin" src="https://www.youtube.com/embed/qBAPsQkS8QI?si=CkA51qfeJeLb9Mfw" title="YouTube video player" width="560"></iframe>
+</section>
+<pre><code>from nbconvert_a11y import table
 from nbconvert_a11y.repr import get_table, new
 bs4.Tag._repr_html_ = bs4.Tag.prettify    
 words = \
@@ -6688,14 +6695,13 @@ display(section); display\
     --h: 600px;
     --d: 600px;
     --r: 0deg;
-    thead, tfoot {
-        display: none;
-    }
+    --t: 15s;
+    thead, tfoot {display: none;}
     tbody {
         display: block;
         width: var(--w);
         height: var(--h);
-        animation: 10s infinite linear spin;
+        animation: var(--t) infinite linear spin;
         transform: rotateY(var(--r));
         transform-style: preserve-3d;
         tr {
@@ -6703,13 +6709,9 @@ display(section); display\
             transform-style: preserve-3d;
             position: absolute;
             --wiggle: calc(sin(var(--0) * 10rad) * -1px);
-            th, td {
-                display: none;
-            }
+            th, td {display: none;}
             td:last-child {
-                display: block;
-                font-weight: bold;
-                font-size: 1.5rem;
+                display: block; font-weight: bold; font-size: 1.5rem;
             }
             transform: 
                 translate3d(
@@ -6724,13 +6726,13 @@ display(section); display\
         }
     }
 }
-
+#sound {
+    resize: both; overflow: auto; filter: grayscale(100%);
+}
+/** i think keyframes need to go last **/
 @keyframes spin { 0% { --r: 0deg; } 100% { --r: 360deg; } }
 </code></pre>
 </div>
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
