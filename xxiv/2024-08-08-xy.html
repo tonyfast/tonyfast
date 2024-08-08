@@ -3218,7 +3218,8 @@
     <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">1.5</span><span class="n">rem</span><span class="p">;</span>
 <span class="p">}</span>
 <span class="err">```</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">checkbox</span><span class="p">({</span><span class="s2">&quot;activate baseline plot styling&quot;</span><span class="p">:</span> 
+    <span class="p">)</span><span class="o">.</span><span class="n">checkbox</span><span class="p">({</span>
+        <span class="p">(</span><span class="s2">&quot;activate baseline plot styling&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
 <span class="err">```</span><span class="n">css</span>
 <span class="o">--</span><span class="n">h</span><span class="p">:</span> <span class="mi">300</span><span class="n">px</span><span class="p">;</span>
 <span class="o">--</span><span class="n">w</span><span class="p">:</span> <span class="mi">800</span><span class="n">px</span><span class="p">;</span>
@@ -3231,31 +3232,76 @@
     <span class="n">transition</span><span class="p">:</span> <span class="mi">5</span><span class="n">s</span> <span class="nb">all</span> <span class="n">linear</span><span class="p">;</span>
     <span class="n">height</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span> <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span>
     <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">cx</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">cy</span><span class="p">:</span> <span class="mi">0</span><span class="n">px</span><span class="p">;</span>
     <span class="n">tr</span> <span class="p">{</span>
+        <span class="n">padding</span><span class="p">:</span> <span class="mf">.5</span><span class="n">em</span><span class="p">;</span>
         <span class="n">background</span><span class="p">:</span> <span class="n">unset</span><span class="p">;</span>
         <span class="n">transition</span><span class="p">:</span> <span class="mi">5</span><span class="n">s</span> <span class="nb">all</span> <span class="n">linear</span><span class="p">;</span>
-        <span class="n">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span> <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span> <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
         <span class="n">transform</span><span class="p">:</span> 
             <span class="n">translateX</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">)))</span>
             <span class="n">translateY</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">)))</span>
             <span class="n">translate</span><span class="p">(</span><span class="o">-</span><span class="mi">50</span><span class="o">%</span><span class="p">,</span> <span class="o">-</span><span class="mi">50</span><span class="o">%</span><span class="p">)</span>
             <span class="p">;</span>
+        <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">before</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">after</span> <span class="p">{</span>
+            <span class="n">display</span><span class="p">:</span> <span class="n">table</span><span class="o">-</span><span class="n">cell</span><span class="p">;</span> <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+            <span class="n">counter</span><span class="o">-</span><span class="n">reset</span><span class="p">:</span> <span class="n">index</span> <span class="n">var</span><span class="p">(</span><span class="o">---</span><span class="mi">0</span><span class="p">);</span>
+            <span class="n">content</span><span class="p">:</span> <span class="n">counter</span><span class="p">(</span><span class="n">index</span><span class="p">);</span>
+            <span class="n">width</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
+            <span class="n">text</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">center</span><span class="p">;</span>
+            <span class="n">transition</span><span class="p">:</span> <span class="mi">5</span><span class="n">s</span> <span class="nb">all</span> <span class="n">linear</span><span class="p">;</span>
+            <span class="n">padding</span><span class="p">:</span> <span class="mf">.5</span><span class="n">em</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">before</span> <span class="p">{</span>
+            <span class="n">color</span><span class="p">:</span> <span class="n">blue</span><span class="p">;</span>
+            <span class="n">transform</span><span class="p">:</span>
+                <span class="n">translateX</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">cx</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">)));</span>
+
+        <span class="p">}</span>
+        <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">after</span> <span class="p">{</span>
+            <span class="n">color</span><span class="p">:</span> <span class="n">red</span><span class="p">;</span>
+            <span class="n">transform</span><span class="p">:</span> 
+                <span class="n">translateY</span><span class="p">(</span><span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">cy</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">)))</span>
+                <span class="n">translateY</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="o">%</span><span class="p">)</span>
+                <span class="p">;</span>
+        <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span>
 <span class="err">```</span>
-    <span class="p">,</span> <span class="s2">&quot;distribute markers in x&quot;</span><span class="p">:</span>
+    <span class="p">,</span> <span class="p">(</span><span class="s2">&quot;distribute markers in x&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
 <span class="err">```</span><span class="n">css</span>
 <span class="o">--</span><span class="n">X</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
 <span class="err">```</span>
-    <span class="p">,</span> <span class="s2">&quot;distribute markers in y&quot;</span><span class="p">:</span>
+    <span class="p">,</span> <span class="p">(</span><span class="s2">&quot;distribute markers in y&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">):</span>
 <span class="err">```</span><span class="n">css</span>
 <span class="o">--</span><span class="n">Y</span><span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
 <span class="err">```</span>
-    <span class="p">})</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">radiogroup</span><span class="p">({</span>
+    <span class="p">(</span><span class="s2">&quot;axis to the left&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span> <span class="p">:</span> 
+<span class="err">```</span><span class="n">css</span>
+<span class="err">```</span>
+
+    <span class="p">,</span> <span class="s2">&quot;center data&quot;</span><span class="p">:</span> 
+<span class="err">```</span><span class="n">css</span>
+<span class="n">tbody</span> <span class="p">{</span>
+    <span class="o">--</span><span class="n">cx</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">));</span>
+    <span class="o">--</span><span class="n">cy</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="nb">min</span><span class="p">)</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">1</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">));</span>
+<span class="p">}</span>
+<span class="err">```</span>
+    <span class="p">,</span> <span class="s2">&quot;axis to the right&quot;</span><span class="p">:</span>
+<span class="err">```</span><span class="n">css</span>
+<span class="n">tbody</span> <span class="p">{</span>
+    <span class="o">--</span><span class="n">cx</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span>
+    <span class="o">--</span><span class="n">cy</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="err">```</span>
+
+    <span class="p">},</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;origins&quot;</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><section aria-labelledby="xy-figcaption">
 <figure>
-<table aria-colcount="3" aria-rowcount="24" id="xy" role="table" style="---0-min: 0; ---0-max: 19; ---0-diff: 19; ---0-magnitude: 2; --0-min: -1.3456; --0-max: 1.8823; --0-diff: 3.2279; --1-min: -1.1152; --1-max: 1.7676; --1-diff: 2.8828;">
+<table aria-colcount="3" aria-rowcount="24" id="xy" role="table" style="---0-min: 0; ---0-max: 19; ---0-diff: 19; ---0-magnitude: 2; --0-min: -1.9623; --0-max: 1.5899; --0-diff: 3.5522; --1-min: -2.0426; --1-max: 1.5762; --1-diff: 3.6188;">
 <caption id="xy-caption">
     pandas dataframe with 20 rows, 2 columns with 1 index levels and 1 columns levels.
    </caption>
@@ -3273,259 +3319,259 @@
 </tr>
 </thead>
 <tbody role="rowgroup" style="--g: 0; ">
-<tr role="row" style="---0: 0;  --0: 0.9149;  --1: -0.8648; ">
+<tr role="row" style="---0: 0;  --0: 0.0170;  --1: -0.7975; ">
 <th aria-colindex="1" aria-rowindex="2" aria-sort="descending" role="cell" scope="row">
       0
      </th>
 <td aria-colindex="2" aria-rowindex="2" role="cell">
-      0.915
+      0.017
      </td>
 <td aria-colindex="3" aria-rowindex="2" role="cell">
-      -0.865
+      -0.797
      </td>
 </tr>
-<tr role="row" style="---0: 1;  --0: -1.0929;  --1: 0.2386; ">
+<tr role="row" style="---0: 1;  --0: -1.6050;  --1: 0.4522; ">
 <th aria-colindex="1" aria-rowindex="3" aria-sort="ascending" role="cell" scope="row">
       1
      </th>
 <td aria-colindex="2" aria-rowindex="3" role="cell">
-      -1.093
+      -1.605
      </td>
 <td aria-colindex="3" aria-rowindex="3" role="cell">
-      0.239
+      0.452
      </td>
 </tr>
-<tr role="row" style="---0: 2;  --0: 0.0195;  --1: -1.1152; ">
+<tr role="row" style="---0: 2;  --0: 0.8609;  --1: -0.1298; ">
 <th aria-colindex="1" aria-rowindex="4" aria-sort="descending" role="cell" scope="row">
       2
      </th>
 <td aria-colindex="2" aria-rowindex="4" role="cell">
-      0.020
+      0.861
      </td>
 <td aria-colindex="3" aria-rowindex="4" role="cell">
-      -1.115
+      -0.130
      </td>
 </tr>
-<tr role="row" style="---0: 3;  --0: -1.1773;  --1: 0.8309; ">
-<th aria-colindex="1" aria-rowindex="5" aria-sort="ascending" role="cell" scope="row">
+<tr role="row" style="---0: 3;  --0: 0.6284;  --1: 0.1325; ">
+<th aria-colindex="1" aria-rowindex="5" aria-sort="descending" role="cell" scope="row">
       3
      </th>
 <td aria-colindex="2" aria-rowindex="5" role="cell">
-      -1.177
+      0.628
      </td>
 <td aria-colindex="3" aria-rowindex="5" role="cell">
-      0.831
+      0.132
      </td>
 </tr>
-<tr role="row" style="---0: 4;  --0: 0.1297;  --1: -0.9314; ">
+<tr role="row" style="---0: 4;  --0: 1.5899;  --1: 0.5591; ">
 <th aria-colindex="1" aria-rowindex="6" aria-sort="descending" role="cell" scope="row">
       4
      </th>
 <td aria-colindex="2" aria-rowindex="6" role="cell">
-      0.130
+      1.590
      </td>
 <td aria-colindex="3" aria-rowindex="6" role="cell">
-      -0.931
+      0.559
      </td>
 </tr>
-<tr role="row" style="---0: 5;  --0: -0.8101;  --1: 0.6705; ">
-<th aria-colindex="1" aria-rowindex="7" aria-sort="ascending" role="cell" scope="row">
+<tr role="row" style="---0: 5;  --0: 0.0377;  --1: -0.1410; ">
+<th aria-colindex="1" aria-rowindex="7" aria-sort="descending" role="cell" scope="row">
       5
      </th>
 <td aria-colindex="2" aria-rowindex="7" role="cell">
-      -0.810
+      0.038
      </td>
 <td aria-colindex="3" aria-rowindex="7" role="cell">
-      0.671
+      -0.141
      </td>
 </tr>
-<tr role="row" style="---0: 6;  --0: 1.8823;  --1: 0.0001; ">
+<tr role="row" style="---0: 6;  --0: 0.2996;  --1: -0.3621; ">
 <th aria-colindex="1" aria-rowindex="8" aria-sort="descending" role="cell" scope="row">
       6
      </th>
 <td aria-colindex="2" aria-rowindex="8" role="cell">
-      1.882
+      0.300
      </td>
 <td aria-colindex="3" aria-rowindex="8" role="cell">
-      0.000
+      -0.362
      </td>
 </tr>
-<tr role="row" style="---0: 7;  --0: 0.6700;  --1: -0.2205; ">
-<th aria-colindex="1" aria-rowindex="9" aria-sort="descending" role="cell" scope="row">
+<tr role="row" style="---0: 7;  --0: 0.2622;  --1: 0.8436; ">
+<th aria-colindex="1" aria-rowindex="9" aria-sort="ascending" role="cell" scope="row">
       7
      </th>
 <td aria-colindex="2" aria-rowindex="9" role="cell">
-      0.670
+      0.262
      </td>
 <td aria-colindex="3" aria-rowindex="9" role="cell">
-      -0.220
+      0.844
      </td>
 </tr>
-<tr role="row" style="---0: 8;  --0: -1.3456;  --1: 0.8641; ">
+<tr role="row" style="---0: 8;  --0: -1.9623;  --1: 1.3213; ">
 <th aria-colindex="1" aria-rowindex="10" aria-sort="ascending" role="cell" scope="row">
       8
      </th>
 <td aria-colindex="2" aria-rowindex="10" role="cell">
-      -1.346
+      -1.962
      </td>
 <td aria-colindex="3" aria-rowindex="10" role="cell">
-      0.864
+      1.321
      </td>
 </tr>
-<tr role="row" style="---0: 9;  --0: -0.7459;  --1: -0.4826; ">
-<th aria-colindex="1" aria-rowindex="11" aria-sort="ascending" role="cell" scope="row">
+<tr role="row" style="---0: 9;  --0: 0.0590;  --1: -2.0426; ">
+<th aria-colindex="1" aria-rowindex="11" aria-sort="descending" role="cell" scope="row">
       9
      </th>
 <td aria-colindex="2" aria-rowindex="11" role="cell">
-      -0.746
+      0.059
      </td>
 <td aria-colindex="3" aria-rowindex="11" role="cell">
-      -0.483
+      -2.043
      </td>
 </tr>
-<tr role="row" style="---0: 10;  --0: -0.7701;  --1: 0.3620; ">
-<th aria-colindex="1" aria-rowindex="12" aria-sort="ascending" role="cell" scope="row">
+<tr role="row" style="---0: 10;  --0: -0.1698;  --1: -1.1631; ">
+<th aria-colindex="1" aria-rowindex="12" aria-sort="descending" role="cell" scope="row">
       10
      </th>
 <td aria-colindex="2" aria-rowindex="12" role="cell">
-      -0.770
+      -0.170
      </td>
 <td aria-colindex="3" aria-rowindex="12" role="cell">
-      0.362
+      -1.163
      </td>
 </tr>
-<tr role="row" style="---0: 11;  --0: 0.3465;  --1: 0.2227; ">
+<tr role="row" style="---0: 11;  --0: 1.5787;  --1: -1.1220; ">
 <th aria-colindex="1" aria-rowindex="13" aria-sort="descending" role="cell" scope="row">
       11
      </th>
 <td aria-colindex="2" aria-rowindex="13" role="cell">
-      0.346
+      1.579
      </td>
 <td aria-colindex="3" aria-rowindex="13" role="cell">
-      0.223
+      -1.122
      </td>
 </tr>
-<tr role="row" style="---0: 12;  --0: 0.5793;  --1: 0.1168; ">
+<tr role="row" style="---0: 12;  --0: 1.5518;  --1: -0.7154; ">
 <th aria-colindex="1" aria-rowindex="14" aria-sort="descending" role="cell" scope="row">
       12
      </th>
 <td aria-colindex="2" aria-rowindex="14" role="cell">
-      0.579
+      1.552
      </td>
 <td aria-colindex="3" aria-rowindex="14" role="cell">
-      0.117
+      -0.715
      </td>
 </tr>
-<tr role="row" style="---0: 13;  --0: 0.8573;  --1: 0.2437; ">
-<th aria-colindex="1" aria-rowindex="15" aria-sort="descending" role="cell" scope="row">
+<tr role="row" style="---0: 13;  --0: -0.5426;  --1: 1.5762; ">
+<th aria-colindex="1" aria-rowindex="15" aria-sort="ascending" role="cell" scope="row">
       13
      </th>
 <td aria-colindex="2" aria-rowindex="15" role="cell">
-      0.857
+      -0.543
      </td>
 <td aria-colindex="3" aria-rowindex="15" role="cell">
-      0.244
+      1.576
      </td>
 </tr>
-<tr role="row" style="---0: 14;  --0: -0.0374;  --1: 0.0998; ">
+<tr role="row" style="---0: 14;  --0: 0.4830;  --1: 1.0782; ">
 <th aria-colindex="1" aria-rowindex="16" aria-sort="ascending" role="cell" scope="row">
       14
      </th>
 <td aria-colindex="2" aria-rowindex="16" role="cell">
-      -0.037
+      0.483
      </td>
 <td aria-colindex="3" aria-rowindex="16" role="cell">
-      0.100
+      1.078
      </td>
 </tr>
-<tr role="row" style="---0: 15;  --0: 1.6167;  --1: 0.2759; ">
-<th aria-colindex="1" aria-rowindex="17" aria-sort="descending" role="cell" scope="row">
+<tr role="row" style="---0: 15;  --0: -1.7670;  --1: 1.5350; ">
+<th aria-colindex="1" aria-rowindex="17" aria-sort="ascending" role="cell" scope="row">
       15
      </th>
 <td aria-colindex="2" aria-rowindex="17" role="cell">
-      1.617
+      -1.767
      </td>
 <td aria-colindex="3" aria-rowindex="17" role="cell">
-      0.276
+      1.535
      </td>
 </tr>
-<tr role="row" style="---0: 16;  --0: -0.8154;  --1: 1.7676; ">
+<tr role="row" style="---0: 16;  --0: -0.8195;  --1: 1.5759; ">
 <th aria-colindex="1" aria-rowindex="18" aria-sort="ascending" role="cell" scope="row">
       16
      </th>
 <td aria-colindex="2" aria-rowindex="18" role="cell">
-      -0.815
+      -0.820
      </td>
 <td aria-colindex="3" aria-rowindex="18" role="cell">
-      1.768
+      1.576
      </td>
 </tr>
-<tr role="row" style="---0: 17;  --0: 1.0032;  --1: 0.3684; ">
-<th aria-colindex="1" aria-rowindex="19" aria-sort="descending" role="cell" scope="row">
+<tr role="row" style="---0: 17;  --0: -0.1054;  --1: 0.1952; ">
+<th aria-colindex="1" aria-rowindex="19" aria-sort="ascending" role="cell" scope="row">
       17
      </th>
 <td aria-colindex="2" aria-rowindex="19" role="cell">
-      1.003
+      -0.105
      </td>
 <td aria-colindex="3" aria-rowindex="19" role="cell">
-      0.368
+      0.195
      </td>
 </tr>
-<tr role="row" style="---0: 18;  --0: 0.5324;  --1: -0.1770; ">
+<tr role="row" style="---0: 18;  --0: 0.4508;  --1: -0.5788; ">
 <th aria-colindex="1" aria-rowindex="20" aria-sort="descending" role="cell" scope="row">
       18
      </th>
 <td aria-colindex="2" aria-rowindex="20" role="cell">
-      0.532
+      0.451
      </td>
 <td aria-colindex="3" aria-rowindex="20" role="cell">
-      -0.177
+      -0.579
      </td>
 </tr>
-<tr role="row" style="---0: 19;  --0: -0.3643;  --1: -0.5935; ">
+<tr role="row" style="---0: 19;  --0: 0.6144;  --1: -0.3983; ">
 <th aria-colindex="1" aria-rowindex="21" aria-sort="descending" role="cell" scope="row">
       19
      </th>
 <td aria-colindex="2" aria-rowindex="21" role="cell">
-      -0.364
+      0.614
      </td>
 <td aria-colindex="3" aria-rowindex="21" role="cell">
-      -0.593
+      -0.398
      </td>
 </tr>
 </tbody>
 <tfoot role="rowgroup">
-<tr role="row" style="--0: -1.3456;  --1: -1.1152; ">
+<tr role="row" style="--0: -1.9623;  --1: -2.0426; ">
 <th aria-colindex="1" aria-rowindex="22" colspan="1" role="cell">
       min
      </th>
 <td aria-colindex="2" aria-rowindex="22" role="cell">
-      -1.346
+      -1.962
      </td>
 <td aria-colindex="3" aria-rowindex="22" role="cell">
-      -1.115
+      -2.043
      </td>
 </tr>
-<tr role="row" style="--0: 1.8823;  --1: 1.7676; ">
+<tr role="row" style="--0: 1.5899;  --1: 1.5762; ">
 <th aria-colindex="1" aria-rowindex="23" colspan="1" role="cell">
       max
      </th>
 <td aria-colindex="2" aria-rowindex="23" role="cell">
-      1.882
+      1.590
      </td>
 <td aria-colindex="3" aria-rowindex="23" role="cell">
-      1.768
+      1.576
      </td>
 </tr>
-<tr role="row" style="--0: 3.2279;  --1: 2.8828; ">
+<tr role="row" style="--0: 3.5522;  --1: 3.6188; ">
 <th aria-colindex="1" aria-rowindex="24" colspan="1" role="cell">
       diff
      </th>
 <td aria-colindex="2" aria-rowindex="24" role="cell">
-      3.228
+      3.552
      </td>
 <td aria-colindex="3" aria-rowindex="24" role="cell">
-      2.883
+      3.619
      </td>
 </tr>
 </tfoot>
@@ -3538,13 +3584,13 @@
 <ul role="none">
 <li>
 <label>
-<input aria-controls="xy-options-style-0" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
+<input aria-controls="xy-options-style-0" checked="" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
     var target = document.getElementById(object.getAttribute(`aria-controls`));
     (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
 });' type="checkbox"/>
      activate baseline plot styling
     </label>
-<style id="xy-options-style-0" media="none">
+<style id="xy-options-style-0" media="all">
      #xy {
 --h: 300px;
 --w: 800px;
@@ -3557,15 +3603,40 @@ tbody {
     transition: 5s all linear;
     height: var(--h); width: var(--w);
     display: block; position: relative;
+    --cx: 0px;
+    --cy: 0px;
     tr {
+        padding: .5em;
         background: unset;
         transition: 5s all linear;
-        display: flex; position: absolute;
+        display: block; position: absolute;
         transform: 
             translateX(calc(var(--X) * (var(--0) - var(--0-min)) / var(--0-diff) * var(--w)))
             translateY(calc(var(--Y) * (var(--1) - var(--1-min)) / var(--1-diff) * var(--h)))
             translate(-50%, -50%)
             ;
+        &::before, &::after {
+            display: table-cell; position: absolute;
+            counter-reset: index var(---0);
+            content: counter(index);
+            width: 100%;
+            text-align: center;
+            transition: 5s all linear;
+            padding: .5em;
+        }
+        &::before {
+            color: blue;
+            transform:
+                translateX(calc(var(--cx) - var(--X) * (var(--0) - var(--0-min)) / var(--0-diff) * var(--w)));
+
+        }
+        &::after {
+            color: red;
+            transform: 
+                translateY(calc(var(--cy) - var(--Y) * (var(--1) - var(--1-min)) / var(--1-diff) * var(--h)))
+                translateY(-100%)
+                ;
+        }
     }
 }
 
@@ -3574,13 +3645,13 @@ tbody {
 </li>
 <li>
 <label>
-<input aria-controls="xy-options-style-1" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
+<input aria-controls="xy-options-style-1" checked="" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
     var target = document.getElementById(object.getAttribute(`aria-controls`));
     (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
 });' type="checkbox"/>
      distribute markers in x
     </label>
-<style id="xy-options-style-1" media="none">
+<style id="xy-options-style-1" media="all">
      #xy {
 --X: 1;
 
@@ -3589,15 +3660,67 @@ tbody {
 </li>
 <li>
 <label>
-<input aria-controls="xy-options-style-2" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
+<input aria-controls="xy-options-style-2" checked="" name="options" onchange='document.querySelectorAll(`[name=options][aria-controls]`).forEach((object)=&gt;{    
     var target = document.getElementById(object.getAttribute(`aria-controls`));
     (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
 });' type="checkbox"/>
      distribute markers in y
     </label>
-<style id="xy-options-style-2" media="none">
+<style id="xy-options-style-2" media="all">
      #xy {
 --Y: 1;
+
+}
+    </style>
+</li>
+</ul>
+<ul role="none">
+<li>
+<label>
+<input aria-controls="xy-origins-style-0" checked="" name="origins" onchange='document.querySelectorAll(`[name=origins][aria-controls]`).forEach((object)=&gt;{    
+    var target = document.getElementById(object.getAttribute(`aria-controls`));
+    (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
+});' type="radio"/>
+     axis to the left
+    </label>
+<style id="xy-origins-style-0" media="all">
+     #xy {
+
+}
+    </style>
+</li>
+<li>
+<label>
+<input aria-controls="xy-origins-style-1" name="origins" onchange='document.querySelectorAll(`[name=origins][aria-controls]`).forEach((object)=&gt;{    
+    var target = document.getElementById(object.getAttribute(`aria-controls`));
+    (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
+});' type="radio"/>
+     center data
+    </label>
+<style id="xy-origins-style-1" media="none">
+     #xy {
+tbody {
+    --cx: calc(-1 * var(--0-min) / var(--0-diff) * var(--w));
+    --cy: calc(-1 * var(--1-min) / var(--1-diff) * var(--h));
+}
+
+}
+    </style>
+</li>
+<li>
+<label>
+<input aria-controls="xy-origins-style-2" name="origins" onchange='document.querySelectorAll(`[name=origins][aria-controls]`).forEach((object)=&gt;{    
+    var target = document.getElementById(object.getAttribute(`aria-controls`));
+    (target.tagName == `STYLE`) &amp;&amp; target.setAttribute("media", object.checked ? "all" : "none");
+});' type="radio"/>
+     axis to the right
+    </label>
+<style id="xy-origins-style-2" media="none">
+     #xy {
+tbody {
+    --cx: var(--w);
+    --cy: var(--h);
+}
 
 }
     </style>
@@ -3650,6 +3773,9 @@ tr:hover {
     font-size: 10rem;
 }
 </style></div>
+
+<div class="highlight"><pre><span></span><code>
+</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
