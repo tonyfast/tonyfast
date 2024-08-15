@@ -1,0 +1,4231 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="tonyfast's stuff">
+      
+      
+      
+        <link rel="canonical" href="https://tonyfast.github.io/tonyfast/xxiv/2024-08-15-graph.html">
+      
+      
+        <link rel="prev" href="2024-08-15-schema.html">
+      
+      
+        <link rel="next" href="2024-08-14-absto.html">
+      
+      
+        <link rel="alternate" type="application/rss+xml" title="RSS feed" href="../feed_rss_created.xml">
+        <link rel="alternate" type="application/rss+xml" title="RSS feed of updated content" href="../feed_rss_updated.xml">
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>a graph from a table - tonyfast</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../style.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+      
+        <meta  property="og:type"  content="website" >
+      
+        <meta  property="og:title"  content="a graph from a table - tonyfast" >
+      
+        <meta  property="og:description"  content="tonyfast's stuff" >
+      
+        <meta  property="og:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-08-15-graph.png" >
+      
+        <meta  property="og:image:type"  content="image/png" >
+      
+        <meta  property="og:image:width"  content="1200" >
+      
+        <meta  property="og:image:height"  content="630" >
+      
+        <meta  property="og:url"  content="https://tonyfast.github.io/tonyfast/xxiv/2024-08-15-graph.html" >
+      
+        <meta  name="twitter:card"  content="summary_large_image" >
+      
+        <meta  name="twitter:title"  content="a graph from a table - tonyfast" >
+      
+        <meta  name="twitter:description"  content="tonyfast's stuff" >
+      
+        <meta  name="twitter:image"  content="https://tonyfast.github.io/tonyfast/assets/images/social/xxiv/2024-08-15-graph.png" >
+      
+    
+    
+  
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<script>
+(function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+</script></head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#a-graph-from-a-table" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../index.html" title="tonyfast" class="md-header__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            tonyfast
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              a graph from a table
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="black" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../index.html" title="tonyfast" class="md-nav__button md-logo" aria-label="tonyfast" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    tonyfast
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/tonyfast/tonyfast" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    tonyfast/tonyfast
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="/tonyfast/run/index.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    run in jupyterlite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    notes
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            notes
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-15-schema.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    my first table schema integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    a graph from a table
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="2024-08-15-graph.html" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    a graph from a table
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#marginalia" class="md-nav__link">
+    <span class="md-ellipsis">
+      marginalia
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-14-absto.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gleaming the cube with absto
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-08-toggle.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    toggle between a table, histogram, and scatter plot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-08-xy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    table to xy plot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-06-pseudo-axes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    axes from pseudo elements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-06-table-form.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    options for plotting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-06-my-love-is-like-a-fire-tornado.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    my love is like a fire tornado
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-04-cp1919.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cp1919v1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-02-3d-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    finally, a 3d plot with axes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-08-01-ddd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    direct transition from a table to a 3d plot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-31-table-form.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the table region
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-30-table-blocks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    table blocks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-22-clip-path.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    css polygons from matrices
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-14-dr-dilettante.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    dr dilettante
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-11-activity-log.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notifying changes in computational notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-09-testing-ux.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gluing to together interactive ux with automated testing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-07-venn-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a three component venn diagram in css
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-03-axes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making figure axes from grouped table headers
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-02-blobs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a table of blobs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-07-02-libsass.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using libsass in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-26-first-line-plot.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating a line plot from a table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-20-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    nonvisual data frames and heat maps
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-10-html-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an enhanced html magic with the ability to test for violations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-06-relative-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    activating relative imports in an interactive notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-04-axe-testing-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    python interface for handling axe accessibility tests
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-06-02-equal-access-checker.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking the ibm equal access checker from python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-11-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    stream drawing words with video elements
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-09-videos.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    an html webcam player
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-08-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    markdown as an accessible, literate programming language
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-05-06-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    listening to sounds of data visualizations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-29-enrich-refs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    enriching markdown links with access to current python distributions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-28-scroll-position.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 28 scroll position
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-23-Untitled42.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    untitled42
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-18-a-simple-clock.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the bones of a clock
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-windchime.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    wind chime table
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-17-visual-table-indicator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    non-numerical dataframes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-15-llm-workflow.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2024 04 15 llm workflow
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-12-word-cloud.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    word clouds are the wedding font of visualization
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-11-3d-html-table.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    3d plots from html tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-08-table-plots.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    html tables in figures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-06-dl-dict.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    definition lists as dictionaries
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-04-nbconvert-html-screen-reader.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader improvements to nbconvert html exporter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-04-03-markdown-lists-to-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turning markdown lists to python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-26-accessible-documentation-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    assistive documentation data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-23-updating-ipython-config.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ipython profile updates
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-itables-stream.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    screen reader experiences with static and interactive tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-22-documentation-as-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    documentation as software and data
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-20-exec-mast-nb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    executing the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-15-screen-tests.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisiting nbviewer/nbconvert screen reader experiences
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-13-notebooks-for-all-march-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks for all community summary
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-12-nbconvert-a11y-pres.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-11-NOA.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Astronomy Notebooks for All
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-06-mast-revisit.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    revisit building the mast notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-traceback-figure-tables.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using tables to structure tracebacks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-05-astropy-table-repr.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    astropy tables as semantic tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-04-semantic-outputs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    improved output semantic for python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-a11y-list-string.ipynb.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using microdata and semantic html to represent python objects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-03-01-notebook-accessibility-workshop.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    notebooks and accessibility workshop
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-28-histograms-sucks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    histograms suck
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-bash-midgy.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding shell and css fence directives to midgy
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-lunr-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    creating accessible search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-26-multiindex-aria.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding aria to long or wide tables
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-21-build-docs-pd.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    build the site docs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-20-multiindex-html.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    proper html tables with multiple indexes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-15-pandas-table-names.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a study of pandas dataframes with different levels
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-02-05-aiohttp-pandas-accessor.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding an http attribrute to pandas series
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-25-mast-a11y-notebooks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    transforming mast notebooks into nbconvert templates.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-20-colgroup-schema.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic representation of columns based on schema
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="2024-01-05-docx-to-data.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    convertin a docx into a structured dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-20-interactive-html-validation.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    interactive w3c validation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    slicing and dicing accessibility violations with exception groups
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-13-jupyter-community-call.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    It's the Community Call Y'all
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    generating higher resolution exceptions for the vnu validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-12-03-axe-rules-topology.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    axe testing codes as dataframes and exceptions
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-11-14-w3c-validator.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running the w3c validator
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful display outputs for notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-23-semantic-lits.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantically meaningful lists
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-10-semantic-code-blocks.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    accessibile semantics for python code
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-08-03-pandas-accessors.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pandas</code> accessors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-07-17-accessible-string-representations.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    the string is a samp
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a semantic dataframe
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-06-21-v7-aom.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    jupyter notebook v7 remediations
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-pycascades-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-18-ally-talk.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A Crash Course in Digital Accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-03-04-computational-notebooks-history.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a sprint through history toward computional notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-28-community-demo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>pidgy</code> literate computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-02-19-semantic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    semantic notebook structure
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../2023-02-05-pipings.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    pipes are common sugar
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-system-dependency-graphs.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting a dependency graph from <code>importlib_metadata</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-whoosh-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    use <code>whoosh</code> to search cells/articles on disk
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-24-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    including development builds in jupyter lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-18-voila-pidgy-integration.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    cleaner integration of <code>pidgy</code> &amp; <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-16-inspector-hack.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    customizing the <code>IPython</code> contextual help
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    where do all the good links go?
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-tree-sitter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    getting start with tree sitter
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-12-giscus-comments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    adding giscus comments to this blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-extensible-metadata.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extensible metadata in the notebook format
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-11-duckdb-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    full text search for notebooks and files using duckdb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-10-rara-gtfo.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    restart and run all or it didn't happen
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-09-notebooks-states.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    three states of python in a notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-07-pidgy-voila.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    running <code>pidgy</code> in <code>voila</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-tfoot-dataframe.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>tfoot</code> in dataframes for more information
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-04-using-diagrams.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    diagrams in jupyter and mkdocs
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering dataframes for screen readers with <code>pandas</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxiii/2023-01-01-strawberry-server.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    WIP: strawberry jupyter server
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-jupyter-config-files.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    configuration files
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-31-markdownish-notebook.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    a template for exporting markdownish notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-30-typer-magic.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using <code>typer</code> in ipython magics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-23-mkdocs-plugin.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>mkdocs</code> plugin for jupyter notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-22-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    analyzing <code>pyproject.toml</code> configurations of popular projects
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-21-lite-build.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>jupyterlite</code> blog integration
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-20-pyscript-nbconvert.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    rendering a notebook with <code>pyscript</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-19-integrating-typer.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    integrating <code>typer</code> into the blog
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-18-mkdocs-task.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    <code>doit</code> integration - a <code>mkdocs</code> example
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-17-find-dependencies-in-content.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    automating blog posts to work with jupyter-lite
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-16-issue-activity-graphql.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    retreiving my issue activity
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-15-html-tags-study.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    all the tags i could be using
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-13-github-api-stats.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    extracting info from the github statistics api
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-09-pyproject-analysis.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    exploring many <code>pyproject.toml configs</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-12-05-markdown-to-doctest.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    formatting markdown it tokens as python <code>doctests</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making <code>__main__</code> a <code>__package__</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-23-better-dask-shape.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    unravel directories of notebooks with <code>dask</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-17-assignment-expression-display.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    using assignment expressions to display and assign in <code>IPython</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-pluggy-experiments.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    fumbling around with <code>pluggy</code>
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/2022-11-12-async-import.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    asynchronous imports in python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-29-metadata-formatter.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    inferring linked data from <code>IPython</code> run times.
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-27-axe-core-playwright-python.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    invoking axe-core from python playwright
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-25-static-notebook-tags.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    post processing html accessibility
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-markdown-future.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    when markdown and python collide
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-21-pidgy-displays.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    literate computing - interactive literate programming
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-20-meeting-link-widgets.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    making meeting links
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-19-mobius-text.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    turn some text into a mobius surface
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/2022-10-05-dask-search.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    searching notebooks
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    what do we learn when we <em>make colormaps from dataframes</em><!-- TEASER_END -->
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+  
+  <a href="https://github.com/tonyfast/tonyfast/edit/master/docs/xxiv/2024-08-15-graph.ipynb" title="edit.link.title" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4v-2m10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1 2.1 2.1Z"/></svg>
+  </a>
+  <a href="https://raw.githubusercontent.com/tonyfast/tonyfast/master/docs/xxiv/2024-08-15-graph.ipynb" title="View source of this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.15 8.15 0 0 1-1.23-2Z"/></svg>
+  </a>
+  <a href="/tonyfast/run/lab/index.html?path=xxiv/2024-08-15-graph.ipynb" title="Run in jupyter lite" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16c0 1.11.89 2 2 2h12c1.11 0 2-.89 2-2V8l-6-6m4 18H6V4h7v5h5v11m-8.46-4.35 2.09 2.09L10.35 19 7 15.65l3.35-3.35 1.28 1.26-2.09 2.09m7.46 0L13.65 19l-1.27-1.26 2.09-2.09-2.09-2.09 1.27-1.26L17 15.65Z"/></svg>
+  </a>
+
+
+<h1 id="a-graph-from-a-table">a graph from a table<a class="headerlink" href="#a-graph-from-a-table" title="Permanent link">¤</a></h1>
+<p>we'll use the extended chartability principles to experiment with a small graph.s</p>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">networkx</span>
+<span class="kn">from</span> <span class="nn">nbconvert_a11y.repr</span> <span class="kn">import</span> <span class="n">get_table</span><span class="p">,</span> <span class="n">TableOptions</span>
+<span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">fence_methods</span><span class="p">[</span><span class="s2">&quot;graphviz&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;graphviz:Source&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">create</span> <span class="n">a</span> <span class="n">graph</span> <span class="ow">in</span> <span class="n">graphviz</span>
+
+    <span class="n">graph</span> <span class="o">=</span>\
+<span class="err">```</span><span class="n">graphviz</span>
+<span class="n">graph</span> <span class="n">LR</span> <span class="p">{</span>
+    <span class="n">Compromising</span> <span class="o">--</span> <span class="p">{</span><span class="n">Robust</span> <span class="n">Understandable</span><span class="p">}</span>
+    <span class="n">Assistive</span> <span class="o">--</span> <span class="p">{</span><span class="n">Perceivable</span> <span class="n">Understandable</span><span class="p">}</span>
+    <span class="n">Flexible</span> <span class="o">--</span> <span class="p">{</span><span class="n">Perceivable</span> <span class="n">Operable</span> <span class="n">Robust</span><span class="p">}</span>
+    <span class="n">Robust</span> <span class="o">--</span> <span class="n">Perceivable</span> <span class="o">--</span> <span class="n">Operable</span> <span class="o">--</span> <span class="n">Robust</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">]</span>
+    <span class="n">Perceivable</span> <span class="o">--</span> <span class="n">Understandable</span> <span class="o">--</span> <span class="n">Robust</span> <span class="o">--</span> <span class="n">Perceivable</span> <span class="p">[</span><span class="n">style</span><span class="o">=</span><span class="n">dashed</span><span class="p">]</span>
+<span class="p">}</span>
+<span class="err">```</span>
+
+    <span class="n">pour</span><span class="p">,</span> <span class="n">caf</span> <span class="o">=</span> <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">,</span> <span class="p">(</span>
+<span class="n">Percievable</span> <span class="n">Operable</span> <span class="n">Understandable</span> <span class="n">Robust</span>
+<span class="n">Compromising</span> <span class="n">Assistive</span> <span class="n">Flexible</span>
+
+    <span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">())</span>
+
+<span class="n">then</span> <span class="n">cast</span> <span class="n">it</span> <span class="n">to</span> <span class="n">a</span> <span class="n">networkx</span> <span class="n">graph</span> <span class="nb">object</span> 
+
+    <span class="n">G</span> <span class="o">=</span> <span class="n">networkx</span><span class="o">.</span><span class="n">nx_pydot</span><span class="o">.</span><span class="n">read_dot</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">source</span><span class="p">))</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><p>create a graph in graphviz</p>
+<pre><code>graph =\
+</code></pre>
+<pre><code class="graphviz">graph LR {
+    Compromising -- {Robust Understandable}
+    Assistive -- {Perceivable Understandable}
+    Flexible -- {Perceivable Operable Robust}
+    Robust -- Perceivable -- Operable -- Robust [style=dashed]
+    Perceivable -- Understandable -- Robust -- Perceivable [style=dashed]
+}
+</code></pre>
+<pre><code>pour, caf = map(str.split, (
+</code></pre>
+<p>Percievable Operable Understandable Robust
+Compromising Assistive Flexible</p>
+<pre><code>).splitlines())
+</code></pre>
+<p>then cast it to a networkx graph object</p>
+<pre><code>G = networkx.nx_pydot.read_dot(io.StringIO(graph.source))</code></pre>
+</div>
+
+<p>nodes are indexes that have meaning in space.
+there are multiple layouts</p>
+<p>the positions would be hidden visually and non visually</p>
+<div class="highlight"><pre><span></span><code><span class="n">chartability</span> <span class="o">=</span> <span class="k">await</span> <span class="n">Series</span><span class="p">([</span><span class="s2">&quot;https://raw.githubusercontent.com/Chartability/POUR-CAF/main/README.md&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">nbconvert_a11y.table</span> <span class="kn">import</span> <span class="n">new</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+
+    <span class="n">rules</span> <span class="o">=</span> <span class="n">chartability</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">&quot;lxml&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">hs</span> <span class="o">=</span> <span class="s2">&quot;h1,h2,h3,h4,h5,h6&quot;</span>
+    <span class="n">headings</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">rules</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="sa">F</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">hs</span><span class="si">}</span><span class="s2">, :is(</span><span class="si">{</span><span class="n">hs</span><span class="si">}</span><span class="s2">) ~ :not(</span><span class="si">{</span><span class="n">hs</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">node</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">hs</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="n">node</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">headings</span><span class="p">[</span><span class="n">key</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+
+    <span class="n">headings</span> <span class="o">=</span> <span class="n">Series</span><span class="p">(</span><span class="n">headings</span><span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;body&quot;</span><span class="p">)</span>
+    <span class="n">headings</span><span class="p">[</span><span class="s2">&quot;level&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headings</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">&quot;h&quot;</span><span class="p">)))</span><span class="o">.</span><span class="n">values</span>
+
+    <span class="n">headings</span> <span class="o">=</span> <span class="n">headings</span><span class="o">.</span><span class="n">reset_index</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">headings</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;Heading&quot;</span><span class="p">))</span>
+    <span class="n">headings</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headings</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;section&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;section&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">headings</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">headings</span><span class="p">[</span><span class="s2">&quot;body&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">compute</span> <span class="n">different</span> <span class="n">layouts</span> <span class="k">for</span> <span class="n">our</span> <span class="n">graph</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">Series</span><span class="p">({</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">arf_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="c1"># networkx.bipartite_layout: networkx.bipartite_layout(G, G.nodes),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">circular_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">kamada_kawai_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">kamada_kawai_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">planar_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">planar_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">shell_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">shell_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">spectral_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">spectral_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">spiral_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">spiral_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+        <span class="n">networkx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">:</span> <span class="n">networkx</span><span class="o">.</span><span class="n">spring_layout</span><span class="p">(</span><span class="n">G</span><span class="p">),</span>
+    <span class="p">})</span><span class="o">.</span><span class="n">series</span><span class="p">()</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="n">positions</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;__name__&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">stack</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="s2">&quot;xy&quot;</span><span class="p">)))</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">info</span><span class="o">=</span><span class="n">headings</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">positions</span><span class="o">.</span><span class="n">index</span><span class="p">]),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">positions</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;body&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;index&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;level&quot;</span><span class="p">)])</span>
+
+    <span class="n">positions</span><span class="p">[</span><span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;heuristic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">positions</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">pour</span><span class="p">)</span><span class="o">.</span><span class="fm">__contains__</span><span class="p">)</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="p">[</span><span class="s2">&quot;wcag&quot;</span><span class="p">,</span> <span class="s2">&quot;chartability&quot;</span><span class="p">]</span><span class="o">.</span><span class="fm">__getitem__</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">values</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea"><p>compute different layouts for our graph</p>
+<pre><code>positions = Series({
+    networkx.arf_layout: networkx.arf_layout(G),
+    # networkx.bipartite_layout: networkx.bipartite_layout(G, G.nodes),
+    networkx.circular_layout: networkx.circular_layout(G),
+    networkx.spring_layout: networkx.spring_layout(G),
+    networkx.kamada_kawai_layout: networkx.kamada_kawai_layout(G),
+    networkx.planar_layout: networkx.planar_layout(G),
+    networkx.shell_layout: networkx.shell_layout(G),
+    networkx.spectral_layout: networkx.spectral_layout(G),
+    networkx.spiral_layout: networkx.spiral_layout(G),
+    networkx.spring_layout: networkx.spring_layout(G),
+}).series().T
+
+positions.columns = positions.columns.attrgetter("__name__").str.split("_").itemgetter(0)
+positions = positions.stack().series().rename(columns=dict(zip(range(2), "xy"))).unstack()
+
+positions = pandas.concat(dict(info=headings.loc[positions.index]), axis=1).join(
+    positions
+).drop(columns=[("info", "body"), ("info", "index"), ("info", "level")])
+
+positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map(
+    ["wcag", "chartability"].__getitem__
+).values</code></pre>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">make</span> <span class="n">a</span> <span class="n">dataframe</span> <span class="n">of</span> <span class="n">the</span> <span class="n">information</span> <span class="n">required</span> <span class="n">to</span> <span class="n">present</span> <span class="n">the</span> <span class="n">graph</span> <span class="n">nodes</span> <span class="ow">and</span> <span class="n">edges</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">&quot;xy&quot;</span><span class="p">)))</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x0&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y0&quot;</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">&quot;info&quot;</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="s2">&quot;x1&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">:</span> <span class="s2">&quot;y1&quot;</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">&quot;info&quot;</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>4c13bd10-5b5e-11ef-9240-18cc18dc77e7.py:6: PerformanceWarning: indexing past lexsort depth may impact performance.
+4c13bd10-5b5e-11ef-9240-18cc18dc77e7.py:7: PerformanceWarning: indexing past lexsort depth may impact performance.
+</pre>
+</div>
+<div class="output_html rendered_html output_subarea"><p>make a dataframe of the information required to present the graph nodes and edges</p>
+<pre><code>df = DataFrame(index=DataFrame(G.edges).set_index([0, 1]).index.rename(list("xy")))
+
+df = pandas.concat([
+    positions.loc[df.index.get_level_values(0)].rename(columns={"x": "x0", "y": "y0"}, level=0).drop(("info",), axis=1).reset_index(drop=True),
+    positions.loc[df.index.get_level_values(1)].rename(columns={"x": "x1", "y": "y1"}, level=0).drop(("info",), axis=1).reset_index(drop=True)
+], axis=1).set_index(df.index)</code></pre>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">show</span> <span class="n">the</span> <span class="n">whole</span> <span class="n">thing</span>
+
+    <span class="n">section</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">get_table</span><span class="p">,</span> <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;edges&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">TableOptions</span><span class="p">(</span><span class="n">max_columns</span><span class="o">=</span><span class="mi">1000</span><span class="p">))</span>
+    <span class="n">section</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">caption</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="n">section</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;caption&quot;</span><span class="p">,</span> <span class="sa">F</span><span class="s2">&quot;a graph with </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_nodes</span><span class="p">()</span><span class="si">}</span><span class="s2"> nodes and </span><span class="si">{</span><span class="n">G</span><span class="o">.</span><span class="n">number_of_edges</span><span class="p">()</span><span class="si">}</span><span class="s2"> edges.&quot;</span><span class="p">))</span>
+    <span class="n">section</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;visual&quot;</span>
+    <span class="n">layouts</span> <span class="o">=</span> <span class="n">new</span><span class="p">(</span>
+        <span class="s2">&quot;fieldset&quot;</span><span class="p">,</span>
+        <span class="n">new</span><span class="p">(</span><span class="s2">&quot;legend&quot;</span><span class="p">,</span><span class="s2">&quot;layouts&quot;</span><span class="p">),</span>
+        <span class="n">new</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;checkbox&quot;</span><span class="p">,</span> <span class="n">checked</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;active&quot;</span><span class="p">,</span> <span class="n">onchange</span><span class="o">=</span>
+<span class="err">```</span><span class="n">javascript</span>
+<span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="err">`</span><span class="n">edges</span><span class="err">`</span><span class="p">)</span><span class="o">.</span><span class="n">classList</span><span class="o">.</span><span class="n">toggle</span><span class="p">(</span><span class="s2">&quot;visual&quot;</span><span class="p">,</span> <span class="n">this</span><span class="o">.</span><span class="n">checked</span><span class="p">);</span>
+                         <span class="n">console</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">this</span><span class="p">)</span>
+<span class="err">```</span>
+                        <span class="p">),</span> <span class="s2">&quot;active&quot;</span><span class="p">),</span>
+        <span class="o">*</span><span class="p">(</span>
+            <span class="n">new</span><span class="p">(</span><span class="s2">&quot;label&quot;</span><span class="p">,</span>
+                <span class="n">new</span><span class="p">(</span><span class="s2">&quot;input&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;radio&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;layout&quot;</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;aria-controls&quot;</span><span class="p">:</span> <span class="sa">F</span><span class="s2">&quot;nodes-layout-</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">},</span> <span class="n">onchange</span><span class="o">=</span>
+<span class="err">```</span><span class="n">javascript</span>
+<span class="n">document</span><span class="o">.</span><span class="n">querySelectorAll</span><span class="p">(</span><span class="err">`</span><span class="p">[</span><span class="n">name</span><span class="o">=</span><span class="n">layout</span><span class="p">]</span><span class="err">`</span><span class="p">)</span><span class="o">.</span><span class="n">forEach</span><span class="p">((</span><span class="n">element</span><span class="p">)</span> <span class="o">=&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="p">{</span>
+    <span class="n">var</span> <span class="n">target</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">getElementById</span><span class="p">(</span><span class="n">element</span><span class="o">.</span><span class="n">getAttribute</span><span class="p">(</span><span class="err">`</span><span class="n">aria</span><span class="o">-</span><span class="n">controls</span><span class="err">`</span><span class="p">));</span>
+    <span class="n">target</span><span class="o">.</span><span class="n">setAttribute</span><span class="p">(</span><span class="err">`</span><span class="n">media</span><span class="err">`</span><span class="p">,</span> <span class="n">element</span><span class="o">.</span><span class="n">checked</span> <span class="err">?</span> <span class="err">`</span><span class="nb">all</span><span class="err">`</span> <span class="p">:</span> <span class="err">`</span><span class="n">none</span><span class="err">`</span><span class="p">);</span>
+<span class="p">})</span>
+<span class="err">```</span>
+               <span class="p">),</span> <span class="n">layout</span><span class="p">)</span> <span class="k">for</span> <span class="n">layout</span> <span class="ow">in</span> <span class="n">positions</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span>
+        <span class="p">)</span>   
+    <span class="p">)</span>
+    <span class="n">layouts</span><span class="o">.</span><span class="n">select_one</span><span class="p">(</span><span class="s2">&quot;[name=layout]&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;checked&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="n">section</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layouts</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">layout</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span><span class="p">):</span>
+        <span class="n">section</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;style&quot;</span><span class="p">,</span>
+<span class="err">```</span><span class="n">css</span>
+<span class="c1">#edges.visual {</span>
+    <span class="n">tr</span><span class="p">{</span>
+        <span class="o">--</span><span class="n">x0</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="nb">min</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">min</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="nb">max</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">max</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="n">diff</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="n">diff</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x1</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x1</span><span class="o">-%</span><span class="n">s</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x1</span><span class="o">-</span><span class="nb">min</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">min</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x1</span><span class="o">-</span><span class="nb">max</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">max</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">x1</span><span class="o">-</span><span class="n">diff</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="n">diff</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y0</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="nb">min</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">min</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="nb">max</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">max</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="n">diff</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="n">diff</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y1</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y1</span><span class="o">-%</span><span class="n">s</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y1</span><span class="o">-</span><span class="nb">min</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">min</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y1</span><span class="o">-</span><span class="nb">max</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="nb">max</span><span class="p">);</span>
+        <span class="o">--</span><span class="n">y1</span><span class="o">-</span><span class="n">diff</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-%</span><span class="n">s</span><span class="o">-</span><span class="n">diff</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="err">```</span>
+        <span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">layout</span><span class="p">),</span> <span class="nb">id</span><span class="o">=</span><span class="sa">F</span><span class="s2">&quot;nodes-layout-</span><span class="si">{</span><span class="n">layout</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">media</span><span class="o">=</span><span class="n">i</span> <span class="ow">and</span> <span class="s2">&quot;none&quot;</span> <span class="ow">or</span> <span class="s2">&quot;all&quot;</span><span class="p">))</span>
+
+    <span class="n">section</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">layouts</span><span class="p">)</span>
+    <span class="n">HTML</span><span class="p">(</span><span class="n">section</span><span class="p">)</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><section aria-labelledby="edges-figcaption"><figure><figcaption id="edges-figcaption"></figcaption><table aria-colcount="34" aria-rowcount="18" class="visual" id="edges" role="table" style="--0-min: -1.3630; --0-max: 2.2323; --0-diff: 3.5953; --1-min: -0.9010; --1-max: 1.0000; --1-diff: 1.9010; --2-min: -0.3665; --2-max: 1.0000; --2-diff: 1.3665; --3-min: -1.0000; --3-max: 0.9068; --3-diff: 1.9068; --4-min: -1.0000; --4-max: 1.0000; --4-diff: 2.0000; --5-min: -1.0000; --5-max: 0.9010; --5-diff: 1.9010; --6-min: -0.7075; --6-max: 0.6468; --6-diff: 1.3544; --7-min: -0.3174; --7-max: 0.4555; --7-diff: 0.7729; --8-min: -1.1531; --8-max: 1.5064; --8-diff: 2.6594; --9-min: -0.9749; --9-max: 0.9749; --9-diff: 1.9499; --10-min: -0.9906; --10-max: 0.7868; --10-diff: 1.7774; --11-min: -0.9700; --11-max: 0.7587; --11-diff: 1.7286; --12-min: -0.4286; --12-max: 0.5714; --12-diff: 1.0000; --13-min: -0.9749; --13-max: 0.9749; --13-diff: 1.9499; --14-min: -1.0000; --14-max: 1.0000; --14-diff: 2.0000; --15-min: -0.8335; --15-max: 0.7373; --15-diff: 1.5708; --16-min: -1.3630; --16-max: 1.4495; --16-diff: 2.8125; --17-min: -0.9010; --17-max: 0.6235; --17-diff: 1.5245; --18-min: -0.7614; --18-max: 0.4061; --18-diff: 1.1675; --19-min: -1.0000; --19-max: 0.4405; --19-diff: 1.4405; --20-min: -0.8000; --20-max: 1.0000; --20-diff: 1.8000; --21-min: -0.6235; --21-max: 0.9010; --21-diff: 1.5245; --22-min: -0.7075; --22-max: 0.6468; --22-diff: 1.3544; --23-min: -1.0000; --23-max: 0.4555; --23-diff: 1.4555; --24-min: -1.1531; --24-max: 1.8151; --24-diff: 2.9681; --25-min: -0.9749; --25-max: 0.9749; --25-diff: 1.9499; --26-min: -0.9906; --26-max: 0.7868; --26-diff: 1.7774; --27-min: -0.9700; --27-max: 0.7536; --27-diff: 1.7236; --28-min: -0.4286; --28-max: 0.5714; --28-diff: 1.0000; --29-min: -0.9749; --29-max: 0.9749; --29-diff: 1.9499; --30-min: -0.1623; --30-max: 1.0000; --30-diff: 1.1623; --31-min: -0.7240; --31-max: 0.8201; --31-diff: 1.5441;"><caption>a graph with 7 nodes and 13 edges.</caption><caption id="edges-caption"></caption><thead role="rowgroup"><tr aria-selected="true" role="row"><th aria-colindex="1" aria-current="true" aria-rowindex="1" role="colheader" rowspan="2" tabindex="1">x</th><th aria-colindex="2" aria-rowindex="1" role="colheader" rowspan="2">y</th><th aria-colindex="3" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="4" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="5" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="6" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="7" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="8" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="9" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="10" aria-rowindex="1" role="colheader">x0</th><th aria-colindex="11" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="12" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="13" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="14" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="15" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="16" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="17" aria-rowindex="1" role="colheader">y0</th><th aria-colindex="18" aria-rowindex="1" aria-sort="ascending" role="colheader">y0</th><th aria-colindex="19" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="20" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="21" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="22" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="23" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="24" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="25" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="26" aria-rowindex="1" role="colheader">x1</th><th aria-colindex="27" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="28" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="29" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="30" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="31" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="32" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="33" aria-rowindex="1" role="colheader">y1</th><th aria-colindex="34" aria-rowindex="1" role="colheader">y1</th></tr><tr role="row"><th aria-colindex="3" aria-rowindex="2" role="colheader">arf</th><th aria-colindex="4" aria-rowindex="2" role="colheader">circular</th><th aria-colindex="5" aria-rowindex="2" role="colheader">spring</th><th aria-colindex="6" aria-rowindex="2" role="colheader">kamada</th><th aria-colindex="7" aria-rowindex="2" role="colheader">planar</th><th aria-colindex="8" aria-rowindex="2" role="colheader">shell</th><th aria-colindex="9" aria-rowindex="2" role="colheader">spectral</th><th aria-colindex="10" aria-rowindex="2" role="colheader">spiral</th><th aria-colindex="11" aria-rowindex="2" role="colheader">arf</th><th aria-colindex="12" aria-rowindex="2" role="colheader">circular</th><th aria-colindex="13" aria-rowindex="2" role="colheader">spring</th><th aria-colindex="14" aria-rowindex="2" role="colheader">kamada</th><th aria-colindex="15" aria-rowindex="2" role="colheader">planar</th><th aria-colindex="16" aria-rowindex="2" role="colheader">shell</th><th aria-colindex="17" aria-rowindex="2" role="colheader">spectral</th><th aria-colindex="18" aria-rowindex="2" aria-sort="ascending" role="colheader">spiral</th><th aria-colindex="19" aria-rowindex="2" role="colheader">arf</th><th aria-colindex="20" aria-rowindex="2" role="colheader">circular</th><th aria-colindex="21" aria-rowindex="2" role="colheader">spring</th><th aria-colindex="22" aria-rowindex="2" role="colheader">kamada</th><th aria-colindex="23" aria-rowindex="2" role="colheader">planar</th><th aria-colindex="24" aria-rowindex="2" role="colheader">shell</th><th aria-colindex="25" aria-rowindex="2" role="colheader">spectral</th><th aria-colindex="26" aria-rowindex="2" role="colheader">spiral</th><th aria-colindex="27" aria-rowindex="2" role="colheader">arf</th><th aria-colindex="28" aria-rowindex="2" role="colheader">circular</th><th aria-colindex="29" aria-rowindex="2" role="colheader">spring</th><th aria-colindex="30" aria-rowindex="2" role="colheader">kamada</th><th aria-colindex="31" aria-rowindex="2" role="colheader">planar</th><th aria-colindex="32" aria-rowindex="2" role="colheader">shell</th><th aria-colindex="33" aria-rowindex="2" role="colheader">spectral</th><th aria-colindex="34" aria-rowindex="2" role="colheader">spiral</th></tr></thead><tbody role="rowgroup" style="--g: 0; "><tr role="row" style="---0: Compromising;  ---1: Robust;  --0: 2.2323;  --1: 1.0000;  --2: 1.0000;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: 0.1734;  --9: 0.0000;  --10: 0.0612;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: 1.3466;  --17: 0.6235;  --18: 0.1249;  --19: 0.4405;  --20: -0.8000;  --21: -0.6235;  --22: -0.1465;  --23: 0.2670;  --24: -1.1531;  --25: 0.7818;  --26: 0.2684;  --27: -0.0977;  --28: -0.2286;  --29: -0.7818;  --30: -0.1623;  --31: -0.7240; "><th aria-colindex="1" aria-rowindex="3" role="rowheader" scope="row">Compromising</th><th aria-colindex="2" aria-rowindex="3" role="rowheader" scope="row">Robust</th><td aria-colindex="3" aria-rowindex="3" role="cell">2.232</td><td aria-colindex="4" aria-rowindex="3" role="cell">1.000</td><td aria-colindex="5" aria-rowindex="3" role="cell">1.000</td><td aria-colindex="6" aria-rowindex="3" role="cell">0.907</td><td aria-colindex="7" aria-rowindex="3" role="cell">-1.000</td><td aria-colindex="8" aria-rowindex="3" role="cell">-1.000</td><td aria-colindex="9" aria-rowindex="3" role="cell">0.647</td><td aria-colindex="10" aria-rowindex="3" role="cell">-0.033</td><td aria-colindex="11" aria-rowindex="3" role="cell">0.173</td><td aria-colindex="12" aria-rowindex="3" role="cell">0.000</td><td aria-colindex="13" aria-rowindex="3" role="cell">0.061</td><td aria-colindex="14" aria-rowindex="3" role="cell">0.759</td><td aria-colindex="15" aria-rowindex="3" role="cell">-0.429</td><td aria-colindex="16" aria-rowindex="3" role="cell">-0.000</td><td aria-colindex="17" aria-rowindex="3" role="cell">-1.000</td><td aria-colindex="18" aria-rowindex="3" role="cell">-0.834</td><td aria-colindex="19" aria-rowindex="3" role="cell">1.347</td><td aria-colindex="20" aria-rowindex="3" role="cell">0.623</td><td aria-colindex="21" aria-rowindex="3" role="cell">0.125</td><td aria-colindex="22" aria-rowindex="3" role="cell">0.440</td><td aria-colindex="23" aria-rowindex="3" role="cell">-0.800</td><td aria-colindex="24" aria-rowindex="3" role="cell">-0.623</td><td aria-colindex="25" aria-rowindex="3" role="cell">-0.147</td><td aria-colindex="26" aria-rowindex="3" role="cell">0.267</td><td aria-colindex="27" aria-rowindex="3" role="cell">-1.153</td><td aria-colindex="28" aria-rowindex="3" role="cell">0.782</td><td aria-colindex="29" aria-rowindex="3" role="cell">0.268</td><td aria-colindex="30" aria-rowindex="3" role="cell">-0.098</td><td aria-colindex="31" aria-rowindex="3" role="cell">-0.229</td><td aria-colindex="32" aria-rowindex="3" role="cell">-0.782</td><td aria-colindex="33" aria-rowindex="3" role="cell">-0.162</td><td aria-colindex="34" aria-rowindex="3" role="cell">-0.724</td></tr><tr role="row" style="---0: Compromising;  ---1: Understandable;  --0: 2.2323;  --1: 1.0000;  --2: 1.0000;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: 0.1734;  --9: 0.0000;  --10: 0.0612;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: -0.6292;  --17: -0.2225;  --18: 0.4061;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.0506;  --25: 0.9749;  --26: -0.4386;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; "><th aria-colindex="1" aria-rowindex="4" role="rowheader" scope="row">Compromising</th><th aria-colindex="2" aria-rowindex="4" role="rowheader" scope="row">Understandable</th><td aria-colindex="3" aria-rowindex="4" role="cell">2.232</td><td aria-colindex="4" aria-rowindex="4" role="cell">1.000</td><td aria-colindex="5" aria-rowindex="4" role="cell">1.000</td><td aria-colindex="6" aria-rowindex="4" role="cell">0.907</td><td aria-colindex="7" aria-rowindex="4" role="cell">-1.000</td><td aria-colindex="8" aria-rowindex="4" role="cell">-1.000</td><td aria-colindex="9" aria-rowindex="4" role="cell">0.647</td><td aria-colindex="10" aria-rowindex="4" role="cell">-0.033</td><td aria-colindex="11" aria-rowindex="4" role="cell">0.173</td><td aria-colindex="12" aria-rowindex="4" role="cell">0.000</td><td aria-colindex="13" aria-rowindex="4" role="cell">0.061</td><td aria-colindex="14" aria-rowindex="4" role="cell">0.759</td><td aria-colindex="15" aria-rowindex="4" role="cell">-0.429</td><td aria-colindex="16" aria-rowindex="4" role="cell">-0.000</td><td aria-colindex="17" aria-rowindex="4" role="cell">-1.000</td><td aria-colindex="18" aria-rowindex="4" role="cell">-0.834</td><td aria-colindex="19" aria-rowindex="4" role="cell">-0.629</td><td aria-colindex="20" aria-rowindex="4" role="cell">-0.223</td><td aria-colindex="21" aria-rowindex="4" role="cell">0.406</td><td aria-colindex="22" aria-rowindex="4" role="cell">-0.051</td><td aria-colindex="23" aria-rowindex="4" role="cell">1.000</td><td aria-colindex="24" aria-rowindex="4" role="cell">0.223</td><td aria-colindex="25" aria-rowindex="4" role="cell">0.414</td><td aria-colindex="26" aria-rowindex="4" role="cell">0.455</td><td aria-colindex="27" aria-rowindex="4" role="cell">1.051</td><td aria-colindex="28" aria-rowindex="4" role="cell">0.975</td><td aria-colindex="29" aria-rowindex="4" role="cell">-0.439</td><td aria-colindex="30" aria-rowindex="4" role="cell">0.754</td><td aria-colindex="31" aria-rowindex="4" role="cell">-0.429</td><td aria-colindex="32" aria-rowindex="4" role="cell">-0.975</td><td aria-colindex="33" aria-rowindex="4" role="cell">-0.000</td><td aria-colindex="34" aria-rowindex="4" role="cell">-0.422</td></tr><tr role="row" style="---0: Robust;  ---1: Flexible;  --0: 1.3466;  --1: 0.6235;  --2: 0.1249;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -1.1531;  --9: 0.7818;  --10: 0.2684;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 0.3872;  --17: -0.2225;  --18: -0.3665;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 1.5064;  --25: -0.9749;  --26: 0.7868;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; "><th aria-colindex="1" aria-rowindex="5" role="rowheader" scope="row">Robust</th><th aria-colindex="2" aria-rowindex="5" role="rowheader" scope="row">Flexible</th><td aria-colindex="3" aria-rowindex="5" role="cell">1.347</td><td aria-colindex="4" aria-rowindex="5" role="cell">0.623</td><td aria-colindex="5" aria-rowindex="5" role="cell">0.125</td><td aria-colindex="6" aria-rowindex="5" role="cell">0.440</td><td aria-colindex="7" aria-rowindex="5" role="cell">-0.800</td><td aria-colindex="8" aria-rowindex="5" role="cell">-0.623</td><td aria-colindex="9" aria-rowindex="5" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="5" role="cell">0.267</td><td aria-colindex="11" aria-rowindex="5" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="5" role="cell">0.782</td><td aria-colindex="13" aria-rowindex="5" role="cell">0.268</td><td aria-colindex="14" aria-rowindex="5" role="cell">-0.098</td><td aria-colindex="15" aria-rowindex="5" role="cell">-0.229</td><td aria-colindex="16" aria-rowindex="5" role="cell">-0.782</td><td aria-colindex="17" aria-rowindex="5" role="cell">-0.162</td><td aria-colindex="18" aria-rowindex="5" role="cell">-0.724</td><td aria-colindex="19" aria-rowindex="5" role="cell">0.387</td><td aria-colindex="20" aria-rowindex="5" role="cell">-0.223</td><td aria-colindex="21" aria-rowindex="5" role="cell">-0.367</td><td aria-colindex="22" aria-rowindex="5" role="cell">-0.311</td><td aria-colindex="23" aria-rowindex="5" role="cell">0.000</td><td aria-colindex="24" aria-rowindex="5" role="cell">0.223</td><td aria-colindex="25" aria-rowindex="5" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="5" role="cell">-0.317</td><td aria-colindex="27" aria-rowindex="5" role="cell">1.506</td><td aria-colindex="28" aria-rowindex="5" role="cell">-0.975</td><td aria-colindex="29" aria-rowindex="5" role="cell">0.787</td><td aria-colindex="30" aria-rowindex="5" role="cell">-0.970</td><td aria-colindex="31" aria-rowindex="5" role="cell">0.571</td><td aria-colindex="32" aria-rowindex="5" role="cell">0.975</td><td aria-colindex="33" aria-rowindex="5" role="cell">0.000</td><td aria-colindex="34" aria-rowindex="5" role="cell">0.737</td></tr><tr role="row" style="---0: Robust;  ---1: Perceivable;  --0: 1.3466;  --1: 0.6235;  --2: 0.1249;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -1.1531;  --9: 0.7818;  --10: 0.2684;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: -0.1079;  --17: -0.9010;  --18: -0.2772;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: -1.0053;  --25: -0.4339;  --26: -0.1034;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; "><th aria-colindex="1" aria-rowindex="6" role="rowheader" scope="row">Robust</th><th aria-colindex="2" aria-rowindex="6" role="rowheader" scope="row">Perceivable</th><td aria-colindex="3" aria-rowindex="6" role="cell">1.347</td><td aria-colindex="4" aria-rowindex="6" role="cell">0.623</td><td aria-colindex="5" aria-rowindex="6" role="cell">0.125</td><td aria-colindex="6" aria-rowindex="6" role="cell">0.440</td><td aria-colindex="7" aria-rowindex="6" role="cell">-0.800</td><td aria-colindex="8" aria-rowindex="6" role="cell">-0.623</td><td aria-colindex="9" aria-rowindex="6" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="6" role="cell">0.267</td><td aria-colindex="11" aria-rowindex="6" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="6" role="cell">0.782</td><td aria-colindex="13" aria-rowindex="6" role="cell">0.268</td><td aria-colindex="14" aria-rowindex="6" role="cell">-0.098</td><td aria-colindex="15" aria-rowindex="6" role="cell">-0.229</td><td aria-colindex="16" aria-rowindex="6" role="cell">-0.782</td><td aria-colindex="17" aria-rowindex="6" role="cell">-0.162</td><td aria-colindex="18" aria-rowindex="6" role="cell">-0.724</td><td aria-colindex="19" aria-rowindex="6" role="cell">-0.108</td><td aria-colindex="20" aria-rowindex="6" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="6" role="cell">-0.277</td><td aria-colindex="22" aria-rowindex="6" role="cell">-0.423</td><td aria-colindex="23" aria-rowindex="6" role="cell">0.400</td><td aria-colindex="24" aria-rowindex="6" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="6" role="cell">-0.147</td><td aria-colindex="26" aria-rowindex="6" role="cell">0.184</td><td aria-colindex="27" aria-rowindex="6" role="cell">-1.005</td><td aria-colindex="28" aria-rowindex="6" role="cell">-0.434</td><td aria-colindex="29" aria-rowindex="6" role="cell">-0.103</td><td aria-colindex="30" aria-rowindex="6" role="cell">-0.156</td><td aria-colindex="31" aria-rowindex="6" role="cell">0.171</td><td aria-colindex="32" aria-rowindex="6" role="cell">0.434</td><td aria-colindex="33" aria-rowindex="6" role="cell">0.162</td><td aria-colindex="34" aria-rowindex="6" role="cell">0.425</td></tr><tr role="row" style="---0: Robust;  ---1: Perceivable;  --0: 1.3466;  --1: 0.6235;  --2: 0.1249;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -1.1531;  --9: 0.7818;  --10: 0.2684;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: -0.1079;  --17: -0.9010;  --18: -0.2772;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: -1.0053;  --25: -0.4339;  --26: -0.1034;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; "><th aria-colindex="1" aria-rowindex="7" role="rowheader" scope="row">Robust</th><th aria-colindex="2" aria-rowindex="7" role="rowheader" scope="row">Perceivable</th><td aria-colindex="3" aria-rowindex="7" role="cell">1.347</td><td aria-colindex="4" aria-rowindex="7" role="cell">0.623</td><td aria-colindex="5" aria-rowindex="7" role="cell">0.125</td><td aria-colindex="6" aria-rowindex="7" role="cell">0.440</td><td aria-colindex="7" aria-rowindex="7" role="cell">-0.800</td><td aria-colindex="8" aria-rowindex="7" role="cell">-0.623</td><td aria-colindex="9" aria-rowindex="7" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="7" role="cell">0.267</td><td aria-colindex="11" aria-rowindex="7" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="7" role="cell">0.782</td><td aria-colindex="13" aria-rowindex="7" role="cell">0.268</td><td aria-colindex="14" aria-rowindex="7" role="cell">-0.098</td><td aria-colindex="15" aria-rowindex="7" role="cell">-0.229</td><td aria-colindex="16" aria-rowindex="7" role="cell">-0.782</td><td aria-colindex="17" aria-rowindex="7" role="cell">-0.162</td><td aria-colindex="18" aria-rowindex="7" role="cell">-0.724</td><td aria-colindex="19" aria-rowindex="7" role="cell">-0.108</td><td aria-colindex="20" aria-rowindex="7" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="7" role="cell">-0.277</td><td aria-colindex="22" aria-rowindex="7" role="cell">-0.423</td><td aria-colindex="23" aria-rowindex="7" role="cell">0.400</td><td aria-colindex="24" aria-rowindex="7" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="7" role="cell">-0.147</td><td aria-colindex="26" aria-rowindex="7" role="cell">0.184</td><td aria-colindex="27" aria-rowindex="7" role="cell">-1.005</td><td aria-colindex="28" aria-rowindex="7" role="cell">-0.434</td><td aria-colindex="29" aria-rowindex="7" role="cell">-0.103</td><td aria-colindex="30" aria-rowindex="7" role="cell">-0.156</td><td aria-colindex="31" aria-rowindex="7" role="cell">0.171</td><td aria-colindex="32" aria-rowindex="7" role="cell">0.434</td><td aria-colindex="33" aria-rowindex="7" role="cell">0.162</td><td aria-colindex="34" aria-rowindex="7" role="cell">0.425</td></tr><tr role="row" style="---0: Robust;  ---1: Operable;  --0: 1.3466;  --1: 0.6235;  --2: 0.1249;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -1.1531;  --9: 0.7818;  --10: 0.2684;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 1.4495;  --17: 0.6235;  --18: -0.7614;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 1.8151;  --25: -0.7818;  --26: 0.4162;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; "><th aria-colindex="1" aria-rowindex="8" role="rowheader" scope="row">Robust</th><th aria-colindex="2" aria-rowindex="8" role="rowheader" scope="row">Operable</th><td aria-colindex="3" aria-rowindex="8" role="cell">1.347</td><td aria-colindex="4" aria-rowindex="8" role="cell">0.623</td><td aria-colindex="5" aria-rowindex="8" role="cell">0.125</td><td aria-colindex="6" aria-rowindex="8" role="cell">0.440</td><td aria-colindex="7" aria-rowindex="8" role="cell">-0.800</td><td aria-colindex="8" aria-rowindex="8" role="cell">-0.623</td><td aria-colindex="9" aria-rowindex="8" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="8" role="cell">0.267</td><td aria-colindex="11" aria-rowindex="8" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="8" role="cell">0.782</td><td aria-colindex="13" aria-rowindex="8" role="cell">0.268</td><td aria-colindex="14" aria-rowindex="8" role="cell">-0.098</td><td aria-colindex="15" aria-rowindex="8" role="cell">-0.229</td><td aria-colindex="16" aria-rowindex="8" role="cell">-0.782</td><td aria-colindex="17" aria-rowindex="8" role="cell">-0.162</td><td aria-colindex="18" aria-rowindex="8" role="cell">-0.724</td><td aria-colindex="19" aria-rowindex="8" role="cell">1.450</td><td aria-colindex="20" aria-rowindex="8" role="cell">0.623</td><td aria-colindex="21" aria-rowindex="8" role="cell">-0.761</td><td aria-colindex="22" aria-rowindex="8" role="cell">0.438</td><td aria-colindex="23" aria-rowindex="8" role="cell">0.000</td><td aria-colindex="24" aria-rowindex="8" role="cell">-0.623</td><td aria-colindex="25" aria-rowindex="8" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="8" role="cell">-1.000</td><td aria-colindex="27" aria-rowindex="8" role="cell">1.815</td><td aria-colindex="28" aria-rowindex="8" role="cell">-0.782</td><td aria-colindex="29" aria-rowindex="8" role="cell">0.416</td><td aria-colindex="30" aria-rowindex="8" role="cell">-0.920</td><td aria-colindex="31" aria-rowindex="8" role="cell">0.371</td><td aria-colindex="32" aria-rowindex="8" role="cell">0.782</td><td aria-colindex="33" aria-rowindex="8" role="cell">0.000</td><td aria-colindex="34" aria-rowindex="8" role="cell">0.820</td></tr><tr role="row" style="---0: Robust;  ---1: Understandable;  --0: 1.3466;  --1: 0.6235;  --2: 0.1249;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -1.1531;  --9: 0.7818;  --10: 0.2684;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: -0.6292;  --17: -0.2225;  --18: 0.4061;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.0506;  --25: 0.9749;  --26: -0.4386;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; "><th aria-colindex="1" aria-rowindex="9" role="rowheader" scope="row">Robust</th><th aria-colindex="2" aria-rowindex="9" role="rowheader" scope="row">Understandable</th><td aria-colindex="3" aria-rowindex="9" role="cell">1.347</td><td aria-colindex="4" aria-rowindex="9" role="cell">0.623</td><td aria-colindex="5" aria-rowindex="9" role="cell">0.125</td><td aria-colindex="6" aria-rowindex="9" role="cell">0.440</td><td aria-colindex="7" aria-rowindex="9" role="cell">-0.800</td><td aria-colindex="8" aria-rowindex="9" role="cell">-0.623</td><td aria-colindex="9" aria-rowindex="9" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="9" role="cell">0.267</td><td aria-colindex="11" aria-rowindex="9" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="9" role="cell">0.782</td><td aria-colindex="13" aria-rowindex="9" role="cell">0.268</td><td aria-colindex="14" aria-rowindex="9" role="cell">-0.098</td><td aria-colindex="15" aria-rowindex="9" role="cell">-0.229</td><td aria-colindex="16" aria-rowindex="9" role="cell">-0.782</td><td aria-colindex="17" aria-rowindex="9" role="cell">-0.162</td><td aria-colindex="18" aria-rowindex="9" role="cell">-0.724</td><td aria-colindex="19" aria-rowindex="9" role="cell">-0.629</td><td aria-colindex="20" aria-rowindex="9" role="cell">-0.223</td><td aria-colindex="21" aria-rowindex="9" role="cell">0.406</td><td aria-colindex="22" aria-rowindex="9" role="cell">-0.051</td><td aria-colindex="23" aria-rowindex="9" role="cell">1.000</td><td aria-colindex="24" aria-rowindex="9" role="cell">0.223</td><td aria-colindex="25" aria-rowindex="9" role="cell">0.414</td><td aria-colindex="26" aria-rowindex="9" role="cell">0.455</td><td aria-colindex="27" aria-rowindex="9" role="cell">1.051</td><td aria-colindex="28" aria-rowindex="9" role="cell">0.975</td><td aria-colindex="29" aria-rowindex="9" role="cell">-0.439</td><td aria-colindex="30" aria-rowindex="9" role="cell">0.754</td><td aria-colindex="31" aria-rowindex="9" role="cell">-0.429</td><td aria-colindex="32" aria-rowindex="9" role="cell">-0.975</td><td aria-colindex="33" aria-rowindex="9" role="cell">-0.000</td><td aria-colindex="34" aria-rowindex="9" role="cell">-0.422</td></tr><tr role="row" style="---0: Understandable;  ---1: Assistive;  --0: -0.6292;  --1: -0.2225;  --2: 0.4061;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.0506;  --9: 0.9749;  --10: -0.4386;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: -1.3630;  --17: -0.9010;  --18: -0.1258;  --19: -1.0000;  --20: 0.4000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4437;  --24: -0.1418;  --25: 0.4339;  --26: -0.9906;  --27: 0.6308;  --28: -0.0286;  --29: -0.4339;  --30: 1.0000;  --31: -0.0027; "><th aria-colindex="1" aria-rowindex="10" role="rowheader" scope="row">Understandable</th><th aria-colindex="2" aria-rowindex="10" role="rowheader" scope="row">Assistive</th><td aria-colindex="3" aria-rowindex="10" role="cell">-0.629</td><td aria-colindex="4" aria-rowindex="10" role="cell">-0.223</td><td aria-colindex="5" aria-rowindex="10" role="cell">0.406</td><td aria-colindex="6" aria-rowindex="10" role="cell">-0.051</td><td aria-colindex="7" aria-rowindex="10" role="cell">1.000</td><td aria-colindex="8" aria-rowindex="10" role="cell">0.223</td><td aria-colindex="9" aria-rowindex="10" role="cell">0.414</td><td aria-colindex="10" aria-rowindex="10" role="cell">0.455</td><td aria-colindex="11" aria-rowindex="10" role="cell">1.051</td><td aria-colindex="12" aria-rowindex="10" role="cell">0.975</td><td aria-colindex="13" aria-rowindex="10" role="cell">-0.439</td><td aria-colindex="14" aria-rowindex="10" role="cell">0.754</td><td aria-colindex="15" aria-rowindex="10" role="cell">-0.429</td><td aria-colindex="16" aria-rowindex="10" role="cell">-0.975</td><td aria-colindex="17" aria-rowindex="10" role="cell">-0.000</td><td aria-colindex="18" aria-rowindex="10" role="cell">-0.422</td><td aria-colindex="19" aria-rowindex="10" role="cell">-1.363</td><td aria-colindex="20" aria-rowindex="10" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="10" role="cell">-0.126</td><td aria-colindex="22" aria-rowindex="10" role="cell">-1.000</td><td aria-colindex="23" aria-rowindex="10" role="cell">0.400</td><td aria-colindex="24" aria-rowindex="10" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="10" role="cell">0.647</td><td aria-colindex="26" aria-rowindex="10" role="cell">0.444</td><td aria-colindex="27" aria-rowindex="10" role="cell">-0.142</td><td aria-colindex="28" aria-rowindex="10" role="cell">0.434</td><td aria-colindex="29" aria-rowindex="10" role="cell">-0.991</td><td aria-colindex="30" aria-rowindex="10" role="cell">0.631</td><td aria-colindex="31" aria-rowindex="10" role="cell">-0.029</td><td aria-colindex="32" aria-rowindex="10" role="cell">-0.434</td><td aria-colindex="33" aria-rowindex="10" role="cell">1.000</td><td aria-colindex="34" aria-rowindex="10" role="cell">-0.003</td></tr><tr role="row" style="---0: Understandable;  ---1: Perceivable;  --0: -0.6292;  --1: -0.2225;  --2: 0.4061;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.0506;  --9: 0.9749;  --10: -0.4386;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: -0.1079;  --17: -0.9010;  --18: -0.2772;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: -1.0053;  --25: -0.4339;  --26: -0.1034;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; "><th aria-colindex="1" aria-rowindex="11" role="rowheader" scope="row">Understandable</th><th aria-colindex="2" aria-rowindex="11" role="rowheader" scope="row">Perceivable</th><td aria-colindex="3" aria-rowindex="11" role="cell">-0.629</td><td aria-colindex="4" aria-rowindex="11" role="cell">-0.223</td><td aria-colindex="5" aria-rowindex="11" role="cell">0.406</td><td aria-colindex="6" aria-rowindex="11" role="cell">-0.051</td><td aria-colindex="7" aria-rowindex="11" role="cell">1.000</td><td aria-colindex="8" aria-rowindex="11" role="cell">0.223</td><td aria-colindex="9" aria-rowindex="11" role="cell">0.414</td><td aria-colindex="10" aria-rowindex="11" role="cell">0.455</td><td aria-colindex="11" aria-rowindex="11" role="cell">1.051</td><td aria-colindex="12" aria-rowindex="11" role="cell">0.975</td><td aria-colindex="13" aria-rowindex="11" role="cell">-0.439</td><td aria-colindex="14" aria-rowindex="11" role="cell">0.754</td><td aria-colindex="15" aria-rowindex="11" role="cell">-0.429</td><td aria-colindex="16" aria-rowindex="11" role="cell">-0.975</td><td aria-colindex="17" aria-rowindex="11" role="cell">-0.000</td><td aria-colindex="18" aria-rowindex="11" role="cell">-0.422</td><td aria-colindex="19" aria-rowindex="11" role="cell">-0.108</td><td aria-colindex="20" aria-rowindex="11" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="11" role="cell">-0.277</td><td aria-colindex="22" aria-rowindex="11" role="cell">-0.423</td><td aria-colindex="23" aria-rowindex="11" role="cell">0.400</td><td aria-colindex="24" aria-rowindex="11" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="11" role="cell">-0.147</td><td aria-colindex="26" aria-rowindex="11" role="cell">0.184</td><td aria-colindex="27" aria-rowindex="11" role="cell">-1.005</td><td aria-colindex="28" aria-rowindex="11" role="cell">-0.434</td><td aria-colindex="29" aria-rowindex="11" role="cell">-0.103</td><td aria-colindex="30" aria-rowindex="11" role="cell">-0.156</td><td aria-colindex="31" aria-rowindex="11" role="cell">0.171</td><td aria-colindex="32" aria-rowindex="11" role="cell">0.434</td><td aria-colindex="33" aria-rowindex="11" role="cell">0.162</td><td aria-colindex="34" aria-rowindex="11" role="cell">0.425</td></tr><tr role="row" style="---0: Assistive;  ---1: Perceivable;  --0: -1.3630;  --1: -0.9010;  --2: -0.1258;  --3: -1.0000;  --4: 0.4000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4437;  --8: -0.1418;  --9: 0.4339;  --10: -0.9906;  --11: 0.6308;  --12: -0.0286;  --13: -0.4339;  --14: 1.0000;  --15: -0.0027;  --16: -0.1079;  --17: -0.9010;  --18: -0.2772;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: -1.0053;  --25: -0.4339;  --26: -0.1034;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; "><th aria-colindex="1" aria-rowindex="12" role="rowheader" scope="row">Assistive</th><th aria-colindex="2" aria-rowindex="12" role="rowheader" scope="row">Perceivable</th><td aria-colindex="3" aria-rowindex="12" role="cell">-1.363</td><td aria-colindex="4" aria-rowindex="12" role="cell">-0.901</td><td aria-colindex="5" aria-rowindex="12" role="cell">-0.126</td><td aria-colindex="6" aria-rowindex="12" role="cell">-1.000</td><td aria-colindex="7" aria-rowindex="12" role="cell">0.400</td><td aria-colindex="8" aria-rowindex="12" role="cell">0.901</td><td aria-colindex="9" aria-rowindex="12" role="cell">0.647</td><td aria-colindex="10" aria-rowindex="12" role="cell">0.444</td><td aria-colindex="11" aria-rowindex="12" role="cell">-0.142</td><td aria-colindex="12" aria-rowindex="12" role="cell">0.434</td><td aria-colindex="13" aria-rowindex="12" role="cell">-0.991</td><td aria-colindex="14" aria-rowindex="12" role="cell">0.631</td><td aria-colindex="15" aria-rowindex="12" role="cell">-0.029</td><td aria-colindex="16" aria-rowindex="12" role="cell">-0.434</td><td aria-colindex="17" aria-rowindex="12" role="cell">1.000</td><td aria-colindex="18" aria-rowindex="12" role="cell">-0.003</td><td aria-colindex="19" aria-rowindex="12" role="cell">-0.108</td><td aria-colindex="20" aria-rowindex="12" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="12" role="cell">-0.277</td><td aria-colindex="22" aria-rowindex="12" role="cell">-0.423</td><td aria-colindex="23" aria-rowindex="12" role="cell">0.400</td><td aria-colindex="24" aria-rowindex="12" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="12" role="cell">-0.147</td><td aria-colindex="26" aria-rowindex="12" role="cell">0.184</td><td aria-colindex="27" aria-rowindex="12" role="cell">-1.005</td><td aria-colindex="28" aria-rowindex="12" role="cell">-0.434</td><td aria-colindex="29" aria-rowindex="12" role="cell">-0.103</td><td aria-colindex="30" aria-rowindex="12" role="cell">-0.156</td><td aria-colindex="31" aria-rowindex="12" role="cell">0.171</td><td aria-colindex="32" aria-rowindex="12" role="cell">0.434</td><td aria-colindex="33" aria-rowindex="12" role="cell">0.162</td><td aria-colindex="34" aria-rowindex="12" role="cell">0.425</td></tr><tr role="row" style="---0: Perceivable;  ---1: Flexible;  --0: -0.1079;  --1: -0.9010;  --2: -0.2772;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: -1.0053;  --9: -0.4339;  --10: -0.1034;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: 0.3872;  --17: -0.2225;  --18: -0.3665;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 1.5064;  --25: -0.9749;  --26: 0.7868;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; "><th aria-colindex="1" aria-rowindex="13" role="rowheader" scope="row">Perceivable</th><th aria-colindex="2" aria-rowindex="13" role="rowheader" scope="row">Flexible</th><td aria-colindex="3" aria-rowindex="13" role="cell">-0.108</td><td aria-colindex="4" aria-rowindex="13" role="cell">-0.901</td><td aria-colindex="5" aria-rowindex="13" role="cell">-0.277</td><td aria-colindex="6" aria-rowindex="13" role="cell">-0.423</td><td aria-colindex="7" aria-rowindex="13" role="cell">0.400</td><td aria-colindex="8" aria-rowindex="13" role="cell">0.901</td><td aria-colindex="9" aria-rowindex="13" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="13" role="cell">0.184</td><td aria-colindex="11" aria-rowindex="13" role="cell">-1.005</td><td aria-colindex="12" aria-rowindex="13" role="cell">-0.434</td><td aria-colindex="13" aria-rowindex="13" role="cell">-0.103</td><td aria-colindex="14" aria-rowindex="13" role="cell">-0.156</td><td aria-colindex="15" aria-rowindex="13" role="cell">0.171</td><td aria-colindex="16" aria-rowindex="13" role="cell">0.434</td><td aria-colindex="17" aria-rowindex="13" role="cell">0.162</td><td aria-colindex="18" aria-rowindex="13" role="cell">0.425</td><td aria-colindex="19" aria-rowindex="13" role="cell">0.387</td><td aria-colindex="20" aria-rowindex="13" role="cell">-0.223</td><td aria-colindex="21" aria-rowindex="13" role="cell">-0.367</td><td aria-colindex="22" aria-rowindex="13" role="cell">-0.311</td><td aria-colindex="23" aria-rowindex="13" role="cell">0.000</td><td aria-colindex="24" aria-rowindex="13" role="cell">0.223</td><td aria-colindex="25" aria-rowindex="13" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="13" role="cell">-0.317</td><td aria-colindex="27" aria-rowindex="13" role="cell">1.506</td><td aria-colindex="28" aria-rowindex="13" role="cell">-0.975</td><td aria-colindex="29" aria-rowindex="13" role="cell">0.787</td><td aria-colindex="30" aria-rowindex="13" role="cell">-0.970</td><td aria-colindex="31" aria-rowindex="13" role="cell">0.571</td><td aria-colindex="32" aria-rowindex="13" role="cell">0.975</td><td aria-colindex="33" aria-rowindex="13" role="cell">0.000</td><td aria-colindex="34" aria-rowindex="13" role="cell">0.737</td></tr><tr role="row" style="---0: Perceivable;  ---1: Operable;  --0: -0.1079;  --1: -0.9010;  --2: -0.2772;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: -1.0053;  --9: -0.4339;  --10: -0.1034;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: 1.4495;  --17: 0.6235;  --18: -0.7614;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 1.8151;  --25: -0.7818;  --26: 0.4162;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; "><th aria-colindex="1" aria-rowindex="14" role="rowheader" scope="row">Perceivable</th><th aria-colindex="2" aria-rowindex="14" role="rowheader" scope="row">Operable</th><td aria-colindex="3" aria-rowindex="14" role="cell">-0.108</td><td aria-colindex="4" aria-rowindex="14" role="cell">-0.901</td><td aria-colindex="5" aria-rowindex="14" role="cell">-0.277</td><td aria-colindex="6" aria-rowindex="14" role="cell">-0.423</td><td aria-colindex="7" aria-rowindex="14" role="cell">0.400</td><td aria-colindex="8" aria-rowindex="14" role="cell">0.901</td><td aria-colindex="9" aria-rowindex="14" role="cell">-0.147</td><td aria-colindex="10" aria-rowindex="14" role="cell">0.184</td><td aria-colindex="11" aria-rowindex="14" role="cell">-1.005</td><td aria-colindex="12" aria-rowindex="14" role="cell">-0.434</td><td aria-colindex="13" aria-rowindex="14" role="cell">-0.103</td><td aria-colindex="14" aria-rowindex="14" role="cell">-0.156</td><td aria-colindex="15" aria-rowindex="14" role="cell">0.171</td><td aria-colindex="16" aria-rowindex="14" role="cell">0.434</td><td aria-colindex="17" aria-rowindex="14" role="cell">0.162</td><td aria-colindex="18" aria-rowindex="14" role="cell">0.425</td><td aria-colindex="19" aria-rowindex="14" role="cell">1.450</td><td aria-colindex="20" aria-rowindex="14" role="cell">0.623</td><td aria-colindex="21" aria-rowindex="14" role="cell">-0.761</td><td aria-colindex="22" aria-rowindex="14" role="cell">0.438</td><td aria-colindex="23" aria-rowindex="14" role="cell">0.000</td><td aria-colindex="24" aria-rowindex="14" role="cell">-0.623</td><td aria-colindex="25" aria-rowindex="14" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="14" role="cell">-1.000</td><td aria-colindex="27" aria-rowindex="14" role="cell">1.815</td><td aria-colindex="28" aria-rowindex="14" role="cell">-0.782</td><td aria-colindex="29" aria-rowindex="14" role="cell">0.416</td><td aria-colindex="30" aria-rowindex="14" role="cell">-0.920</td><td aria-colindex="31" aria-rowindex="14" role="cell">0.371</td><td aria-colindex="32" aria-rowindex="14" role="cell">0.782</td><td aria-colindex="33" aria-rowindex="14" role="cell">0.000</td><td aria-colindex="34" aria-rowindex="14" role="cell">0.820</td></tr><tr role="row" style="---0: Flexible;  ---1: Operable;  --0: 0.3872;  --1: -0.2225;  --2: -0.3665;  --3: -0.3109;  --4: 0.0000;  --5: 0.2225;  --6: -0.7075;  --7: -0.3174;  --8: 1.5064;  --9: -0.9749;  --10: 0.7868;  --11: -0.9700;  --12: 0.5714;  --13: 0.9749;  --14: 0.0000;  --15: 0.7373;  --16: 1.4495;  --17: 0.6235;  --18: -0.7614;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 1.8151;  --25: -0.7818;  --26: 0.4162;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; "><th aria-colindex="1" aria-rowindex="15" role="rowheader" scope="row">Flexible</th><th aria-colindex="2" aria-rowindex="15" role="rowheader" scope="row">Operable</th><td aria-colindex="3" aria-rowindex="15" role="cell">0.387</td><td aria-colindex="4" aria-rowindex="15" role="cell">-0.223</td><td aria-colindex="5" aria-rowindex="15" role="cell">-0.367</td><td aria-colindex="6" aria-rowindex="15" role="cell">-0.311</td><td aria-colindex="7" aria-rowindex="15" role="cell">0.000</td><td aria-colindex="8" aria-rowindex="15" role="cell">0.223</td><td aria-colindex="9" aria-rowindex="15" role="cell">-0.708</td><td aria-colindex="10" aria-rowindex="15" role="cell">-0.317</td><td aria-colindex="11" aria-rowindex="15" role="cell">1.506</td><td aria-colindex="12" aria-rowindex="15" role="cell">-0.975</td><td aria-colindex="13" aria-rowindex="15" role="cell">0.787</td><td aria-colindex="14" aria-rowindex="15" role="cell">-0.970</td><td aria-colindex="15" aria-rowindex="15" role="cell">0.571</td><td aria-colindex="16" aria-rowindex="15" role="cell">0.975</td><td aria-colindex="17" aria-rowindex="15" role="cell">0.000</td><td aria-colindex="18" aria-rowindex="15" role="cell">0.737</td><td aria-colindex="19" aria-rowindex="15" role="cell">1.450</td><td aria-colindex="20" aria-rowindex="15" role="cell">0.623</td><td aria-colindex="21" aria-rowindex="15" role="cell">-0.761</td><td aria-colindex="22" aria-rowindex="15" role="cell">0.438</td><td aria-colindex="23" aria-rowindex="15" role="cell">0.000</td><td aria-colindex="24" aria-rowindex="15" role="cell">-0.623</td><td aria-colindex="25" aria-rowindex="15" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="15" role="cell">-1.000</td><td aria-colindex="27" aria-rowindex="15" role="cell">1.815</td><td aria-colindex="28" aria-rowindex="15" role="cell">-0.782</td><td aria-colindex="29" aria-rowindex="15" role="cell">0.416</td><td aria-colindex="30" aria-rowindex="15" role="cell">-0.920</td><td aria-colindex="31" aria-rowindex="15" role="cell">0.371</td><td aria-colindex="32" aria-rowindex="15" role="cell">0.782</td><td aria-colindex="33" aria-rowindex="15" role="cell">0.000</td><td aria-colindex="34" aria-rowindex="15" role="cell">0.820</td></tr></tbody><tfoot role="rowgroup"><tr role="row" style="--0: -1.3630;  --1: -0.9010;  --2: -0.3665;  --3: -1.0000;  --4: -1.0000;  --5: -1.0000;  --6: -0.7075;  --7: -0.3174;  --8: -1.1531;  --9: -0.9749;  --10: -0.9906;  --11: -0.9700;  --12: -0.4286;  --13: -0.9749;  --14: -1.0000;  --15: -0.8335;  --16: -1.3630;  --17: -0.9010;  --18: -0.7614;  --19: -1.0000;  --20: -0.8000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -1.1531;  --25: -0.9749;  --26: -0.9906;  --27: -0.9700;  --28: -0.4286;  --29: -0.9749;  --30: -0.1623;  --31: -0.7240; "><th aria-colindex="1" aria-rowindex="16" colspan="2">min</th><td aria-colindex="3" aria-rowindex="16" role="cell">-1.363</td><td aria-colindex="4" aria-rowindex="16" role="cell">-0.901</td><td aria-colindex="5" aria-rowindex="16" role="cell">-0.367</td><td aria-colindex="6" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="7" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="8" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="9" aria-rowindex="16" role="cell">-0.708</td><td aria-colindex="10" aria-rowindex="16" role="cell">-0.317</td><td aria-colindex="11" aria-rowindex="16" role="cell">-1.153</td><td aria-colindex="12" aria-rowindex="16" role="cell">-0.975</td><td aria-colindex="13" aria-rowindex="16" role="cell">-0.991</td><td aria-colindex="14" aria-rowindex="16" role="cell">-0.970</td><td aria-colindex="15" aria-rowindex="16" role="cell">-0.429</td><td aria-colindex="16" aria-rowindex="16" role="cell">-0.975</td><td aria-colindex="17" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="18" aria-rowindex="16" role="cell">-0.834</td><td aria-colindex="19" aria-rowindex="16" role="cell">-1.363</td><td aria-colindex="20" aria-rowindex="16" role="cell">-0.901</td><td aria-colindex="21" aria-rowindex="16" role="cell">-0.761</td><td aria-colindex="22" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="23" aria-rowindex="16" role="cell">-0.800</td><td aria-colindex="24" aria-rowindex="16" role="cell">-0.623</td><td aria-colindex="25" aria-rowindex="16" role="cell">-0.708</td><td aria-colindex="26" aria-rowindex="16" role="cell">-1.000</td><td aria-colindex="27" aria-rowindex="16" role="cell">-1.153</td><td aria-colindex="28" aria-rowindex="16" role="cell">-0.975</td><td aria-colindex="29" aria-rowindex="16" role="cell">-0.991</td><td aria-colindex="30" aria-rowindex="16" role="cell">-0.970</td><td aria-colindex="31" aria-rowindex="16" role="cell">-0.429</td><td aria-colindex="32" aria-rowindex="16" role="cell">-0.975</td><td aria-colindex="33" aria-rowindex="16" role="cell">-0.162</td><td aria-colindex="34" aria-rowindex="16" role="cell">-0.724</td></tr><tr role="row" style="--0: 2.2323;  --1: 1.0000;  --2: 1.0000;  --3: 0.9068;  --4: 1.0000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4555;  --8: 1.5064;  --9: 0.9749;  --10: 0.7868;  --11: 0.7587;  --12: 0.5714;  --13: 0.9749;  --14: 1.0000;  --15: 0.7373;  --16: 1.4495;  --17: 0.6235;  --18: 0.4061;  --19: 0.4405;  --20: 1.0000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4555;  --24: 1.8151;  --25: 0.9749;  --26: 0.7868;  --27: 0.7536;  --28: 0.5714;  --29: 0.9749;  --30: 1.0000;  --31: 0.8201; "><th aria-colindex="1" aria-rowindex="17" colspan="2">max</th><td aria-colindex="3" aria-rowindex="17" role="cell">2.232</td><td aria-colindex="4" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="5" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="6" aria-rowindex="17" role="cell">0.907</td><td aria-colindex="7" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="8" aria-rowindex="17" role="cell">0.901</td><td aria-colindex="9" aria-rowindex="17" role="cell">0.647</td><td aria-colindex="10" aria-rowindex="17" role="cell">0.455</td><td aria-colindex="11" aria-rowindex="17" role="cell">1.506</td><td aria-colindex="12" aria-rowindex="17" role="cell">0.975</td><td aria-colindex="13" aria-rowindex="17" role="cell">0.787</td><td aria-colindex="14" aria-rowindex="17" role="cell">0.759</td><td aria-colindex="15" aria-rowindex="17" role="cell">0.571</td><td aria-colindex="16" aria-rowindex="17" role="cell">0.975</td><td aria-colindex="17" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="18" aria-rowindex="17" role="cell">0.737</td><td aria-colindex="19" aria-rowindex="17" role="cell">1.450</td><td aria-colindex="20" aria-rowindex="17" role="cell">0.623</td><td aria-colindex="21" aria-rowindex="17" role="cell">0.406</td><td aria-colindex="22" aria-rowindex="17" role="cell">0.440</td><td aria-colindex="23" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="24" aria-rowindex="17" role="cell">0.901</td><td aria-colindex="25" aria-rowindex="17" role="cell">0.647</td><td aria-colindex="26" aria-rowindex="17" role="cell">0.455</td><td aria-colindex="27" aria-rowindex="17" role="cell">1.815</td><td aria-colindex="28" aria-rowindex="17" role="cell">0.975</td><td aria-colindex="29" aria-rowindex="17" role="cell">0.787</td><td aria-colindex="30" aria-rowindex="17" role="cell">0.754</td><td aria-colindex="31" aria-rowindex="17" role="cell">0.571</td><td aria-colindex="32" aria-rowindex="17" role="cell">0.975</td><td aria-colindex="33" aria-rowindex="17" role="cell">1.000</td><td aria-colindex="34" aria-rowindex="17" role="cell">0.820</td></tr><tr role="row" style="--0: 3.5953;  --1: 1.9010;  --2: 1.3665;  --3: 1.9068;  --4: 2.0000;  --5: 1.9010;  --6: 1.3544;  --7: 0.7729;  --8: 2.6594;  --9: 1.9499;  --10: 1.7774;  --11: 1.7286;  --12: 1.0000;  --13: 1.9499;  --14: 2.0000;  --15: 1.5708;  --16: 2.8125;  --17: 1.5245;  --18: 1.1675;  --19: 1.4405;  --20: 1.8000;  --21: 1.5245;  --22: 1.3544;  --23: 1.4555;  --24: 2.9681;  --25: 1.9499;  --26: 1.7774;  --27: 1.7236;  --28: 1.0000;  --29: 1.9499;  --30: 1.1623;  --31: 1.5441; "><th aria-colindex="1" aria-rowindex="18" colspan="2">diff</th><td aria-colindex="3" aria-rowindex="18" role="cell">3.595</td><td aria-colindex="4" aria-rowindex="18" role="cell">1.901</td><td aria-colindex="5" aria-rowindex="18" role="cell">1.367</td><td aria-colindex="6" aria-rowindex="18" role="cell">1.907</td><td aria-colindex="7" aria-rowindex="18" role="cell">2.000</td><td aria-colindex="8" aria-rowindex="18" role="cell">1.901</td><td aria-colindex="9" aria-rowindex="18" role="cell">1.354</td><td aria-colindex="10" aria-rowindex="18" role="cell">0.773</td><td aria-colindex="11" aria-rowindex="18" role="cell">2.659</td><td aria-colindex="12" aria-rowindex="18" role="cell">1.950</td><td aria-colindex="13" aria-rowindex="18" role="cell">1.777</td><td aria-colindex="14" aria-rowindex="18" role="cell">1.729</td><td aria-colindex="15" aria-rowindex="18" role="cell">1.000</td><td aria-colindex="16" aria-rowindex="18" role="cell">1.950</td><td aria-colindex="17" aria-rowindex="18" role="cell">2.000</td><td aria-colindex="18" aria-rowindex="18" role="cell">1.571</td><td aria-colindex="19" aria-rowindex="18" role="cell">2.812</td><td aria-colindex="20" aria-rowindex="18" role="cell">1.524</td><td aria-colindex="21" aria-rowindex="18" role="cell">1.167</td><td aria-colindex="22" aria-rowindex="18" role="cell">1.440</td><td aria-colindex="23" aria-rowindex="18" role="cell">1.800</td><td aria-colindex="24" aria-rowindex="18" role="cell">1.524</td><td aria-colindex="25" aria-rowindex="18" role="cell">1.354</td><td aria-colindex="26" aria-rowindex="18" role="cell">1.455</td><td aria-colindex="27" aria-rowindex="18" role="cell">2.968</td><td aria-colindex="28" aria-rowindex="18" role="cell">1.950</td><td aria-colindex="29" aria-rowindex="18" role="cell">1.777</td><td aria-colindex="30" aria-rowindex="18" role="cell">1.724</td><td aria-colindex="31" aria-rowindex="18" role="cell">1.000</td><td aria-colindex="32" aria-rowindex="18" role="cell">1.950</td><td aria-colindex="33" aria-rowindex="18" role="cell">1.162</td><td aria-colindex="34" aria-rowindex="18" role="cell">1.544</td></tr></tfoot></table></figure><form aria-labelledby="edges-figcaption" name="edges"><fieldset><legend>layouts</legend><label><input checked="" name="active" onchange='document.getElementById(`edges`).classList.toggle("visual", this.checked);
+                         console.log(this)
+' type="checkbox"/>active</label><label><input aria-controls="nodes-layout-arf" checked="" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>arf</label><label><input aria-controls="nodes-layout-circular" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>circular</label><label><input aria-controls="nodes-layout-spring" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>spring</label><label><input aria-controls="nodes-layout-kamada" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>kamada</label><label><input aria-controls="nodes-layout-planar" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>planar</label><label><input aria-controls="nodes-layout-shell" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>shell</label><label><input aria-controls="nodes-layout-spectral" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>spectral</label><label><input aria-controls="nodes-layout-spiral" name="layout" onchange="document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+" type="radio"/>spiral</label></fieldset></form><style>#edges tr { --x: var(---0);
+--y: var(---1);
+--x0-arf: var(--0);
+--x0-arf-min: var(--0-min);
+--x0-arf-max: var(--0-max);
+--x0-arf-diff: var(--0-diff);
+--x0-circular: var(--1);
+--x0-circular-min: var(--1-min);
+--x0-circular-max: var(--1-max);
+--x0-circular-diff: var(--1-diff);
+--x0-spring: var(--2);
+--x0-spring-min: var(--2-min);
+--x0-spring-max: var(--2-max);
+--x0-spring-diff: var(--2-diff);
+--x0-kamada: var(--3);
+--x0-kamada-min: var(--3-min);
+--x0-kamada-max: var(--3-max);
+--x0-kamada-diff: var(--3-diff);
+--x0-planar: var(--4);
+--x0-planar-min: var(--4-min);
+--x0-planar-max: var(--4-max);
+--x0-planar-diff: var(--4-diff);
+--x0-shell: var(--5);
+--x0-shell-min: var(--5-min);
+--x0-shell-max: var(--5-max);
+--x0-shell-diff: var(--5-diff);
+--x0-spectral: var(--6);
+--x0-spectral-min: var(--6-min);
+--x0-spectral-max: var(--6-max);
+--x0-spectral-diff: var(--6-diff);
+--x0-spiral: var(--7);
+--x0-spiral-min: var(--7-min);
+--x0-spiral-max: var(--7-max);
+--x0-spiral-diff: var(--7-diff);
+--y0-arf: var(--8);
+--y0-arf-min: var(--8-min);
+--y0-arf-max: var(--8-max);
+--y0-arf-diff: var(--8-diff);
+--y0-circular: var(--9);
+--y0-circular-min: var(--9-min);
+--y0-circular-max: var(--9-max);
+--y0-circular-diff: var(--9-diff);
+--y0-spring: var(--10);
+--y0-spring-min: var(--10-min);
+--y0-spring-max: var(--10-max);
+--y0-spring-diff: var(--10-diff);
+--y0-kamada: var(--11);
+--y0-kamada-min: var(--11-min);
+--y0-kamada-max: var(--11-max);
+--y0-kamada-diff: var(--11-diff);
+--y0-planar: var(--12);
+--y0-planar-min: var(--12-min);
+--y0-planar-max: var(--12-max);
+--y0-planar-diff: var(--12-diff);
+--y0-shell: var(--13);
+--y0-shell-min: var(--13-min);
+--y0-shell-max: var(--13-max);
+--y0-shell-diff: var(--13-diff);
+--y0-spectral: var(--14);
+--y0-spectral-min: var(--14-min);
+--y0-spectral-max: var(--14-max);
+--y0-spectral-diff: var(--14-diff);
+--y0-spiral: var(--15);
+--y0-spiral-min: var(--15-min);
+--y0-spiral-max: var(--15-max);
+--y0-spiral-diff: var(--15-diff);
+--x1-arf: var(--16);
+--x1-arf-min: var(--16-min);
+--x1-arf-max: var(--16-max);
+--x1-arf-diff: var(--16-diff);
+--x1-circular: var(--17);
+--x1-circular-min: var(--17-min);
+--x1-circular-max: var(--17-max);
+--x1-circular-diff: var(--17-diff);
+--x1-spring: var(--18);
+--x1-spring-min: var(--18-min);
+--x1-spring-max: var(--18-max);
+--x1-spring-diff: var(--18-diff);
+--x1-kamada: var(--19);
+--x1-kamada-min: var(--19-min);
+--x1-kamada-max: var(--19-max);
+--x1-kamada-diff: var(--19-diff);
+--x1-planar: var(--20);
+--x1-planar-min: var(--20-min);
+--x1-planar-max: var(--20-max);
+--x1-planar-diff: var(--20-diff);
+--x1-shell: var(--21);
+--x1-shell-min: var(--21-min);
+--x1-shell-max: var(--21-max);
+--x1-shell-diff: var(--21-diff);
+--x1-spectral: var(--22);
+--x1-spectral-min: var(--22-min);
+--x1-spectral-max: var(--22-max);
+--x1-spectral-diff: var(--22-diff);
+--x1-spiral: var(--23);
+--x1-spiral-min: var(--23-min);
+--x1-spiral-max: var(--23-max);
+--x1-spiral-diff: var(--23-diff);
+--y1-arf: var(--24);
+--y1-arf-min: var(--24-min);
+--y1-arf-max: var(--24-max);
+--y1-arf-diff: var(--24-diff);
+--y1-circular: var(--25);
+--y1-circular-min: var(--25-min);
+--y1-circular-max: var(--25-max);
+--y1-circular-diff: var(--25-diff);
+--y1-spring: var(--26);
+--y1-spring-min: var(--26-min);
+--y1-spring-max: var(--26-max);
+--y1-spring-diff: var(--26-diff);
+--y1-kamada: var(--27);
+--y1-kamada-min: var(--27-min);
+--y1-kamada-max: var(--27-max);
+--y1-kamada-diff: var(--27-diff);
+--y1-planar: var(--28);
+--y1-planar-min: var(--28-min);
+--y1-planar-max: var(--28-max);
+--y1-planar-diff: var(--28-diff);
+--y1-shell: var(--29);
+--y1-shell-min: var(--29-min);
+--y1-shell-max: var(--29-max);
+--y1-shell-diff: var(--29-diff);
+--y1-spectral: var(--30);
+--y1-spectral-min: var(--30-min);
+--y1-spectral-max: var(--30-max);
+--y1-spectral-diff: var(--30-diff);
+--y1-spiral: var(--31);
+--y1-spiral-min: var(--31-min);
+--y1-spiral-max: var(--31-max);
+--y1-spiral-diff: var(--31-diff);
+ }</style><script>function setScroll(table) {
+    console.log(table);
+    let y = (table.scrollTop) / (table.scrollHeight - table.clientHeight);
+    let x = (table.scrollLeft) / (table.scrollWidth - table.clientWidth);
+    table.style.setProperty("--scroll-y", y);
+    table.style.setProperty("--scroll-x", x);
+    table.dataset.scrollY = y;
+    table.dataset.scrollX = x;
+}</script><script>document.querySelectorAll("#edges [data-scroll]").forEach(
+    (element) => {
+        element.onscroll = (element) => {setScroll(element.target)};
+    }
+)</script><style id="nodes-layout-arf" media="all">#edges.visual {
+    tr{
+        --x0: var(--x0-arf);
+        --x0-min: var(--x0-arf-min);
+        --x0-max: var(--x0-arf-max);
+        --x0-diff: var(--x0-arf-diff);
+        --x1: var(--x1-arf);
+        --x1-min: var(--x0-arf-min);
+        --x1-max: var(--x0-arf-max);
+        --x1-diff: var(--x0-arf-diff);
+        --y0: var(--y0-arf);
+        --y0-min: var(--y0-arf-min);
+        --y0-max: var(--y0-arf-max);
+        --y0-diff: var(--y0-arf-diff);
+        --y1: var(--y1-arf);
+        --y1-min: var(--y0-arf-min);
+        --y1-max: var(--y0-arf-max);
+        --y1-diff: var(--y0-arf-diff);
+    }
+}
+</style><style id="nodes-layout-circular" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-circular);
+        --x0-min: var(--x0-circular-min);
+        --x0-max: var(--x0-circular-max);
+        --x0-diff: var(--x0-circular-diff);
+        --x1: var(--x1-circular);
+        --x1-min: var(--x0-circular-min);
+        --x1-max: var(--x0-circular-max);
+        --x1-diff: var(--x0-circular-diff);
+        --y0: var(--y0-circular);
+        --y0-min: var(--y0-circular-min);
+        --y0-max: var(--y0-circular-max);
+        --y0-diff: var(--y0-circular-diff);
+        --y1: var(--y1-circular);
+        --y1-min: var(--y0-circular-min);
+        --y1-max: var(--y0-circular-max);
+        --y1-diff: var(--y0-circular-diff);
+    }
+}
+</style><style id="nodes-layout-spring" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-spring);
+        --x0-min: var(--x0-spring-min);
+        --x0-max: var(--x0-spring-max);
+        --x0-diff: var(--x0-spring-diff);
+        --x1: var(--x1-spring);
+        --x1-min: var(--x0-spring-min);
+        --x1-max: var(--x0-spring-max);
+        --x1-diff: var(--x0-spring-diff);
+        --y0: var(--y0-spring);
+        --y0-min: var(--y0-spring-min);
+        --y0-max: var(--y0-spring-max);
+        --y0-diff: var(--y0-spring-diff);
+        --y1: var(--y1-spring);
+        --y1-min: var(--y0-spring-min);
+        --y1-max: var(--y0-spring-max);
+        --y1-diff: var(--y0-spring-diff);
+    }
+}
+</style><style id="nodes-layout-kamada" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-kamada);
+        --x0-min: var(--x0-kamada-min);
+        --x0-max: var(--x0-kamada-max);
+        --x0-diff: var(--x0-kamada-diff);
+        --x1: var(--x1-kamada);
+        --x1-min: var(--x0-kamada-min);
+        --x1-max: var(--x0-kamada-max);
+        --x1-diff: var(--x0-kamada-diff);
+        --y0: var(--y0-kamada);
+        --y0-min: var(--y0-kamada-min);
+        --y0-max: var(--y0-kamada-max);
+        --y0-diff: var(--y0-kamada-diff);
+        --y1: var(--y1-kamada);
+        --y1-min: var(--y0-kamada-min);
+        --y1-max: var(--y0-kamada-max);
+        --y1-diff: var(--y0-kamada-diff);
+    }
+}
+</style><style id="nodes-layout-planar" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-planar);
+        --x0-min: var(--x0-planar-min);
+        --x0-max: var(--x0-planar-max);
+        --x0-diff: var(--x0-planar-diff);
+        --x1: var(--x1-planar);
+        --x1-min: var(--x0-planar-min);
+        --x1-max: var(--x0-planar-max);
+        --x1-diff: var(--x0-planar-diff);
+        --y0: var(--y0-planar);
+        --y0-min: var(--y0-planar-min);
+        --y0-max: var(--y0-planar-max);
+        --y0-diff: var(--y0-planar-diff);
+        --y1: var(--y1-planar);
+        --y1-min: var(--y0-planar-min);
+        --y1-max: var(--y0-planar-max);
+        --y1-diff: var(--y0-planar-diff);
+    }
+}
+</style><style id="nodes-layout-shell" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-shell);
+        --x0-min: var(--x0-shell-min);
+        --x0-max: var(--x0-shell-max);
+        --x0-diff: var(--x0-shell-diff);
+        --x1: var(--x1-shell);
+        --x1-min: var(--x0-shell-min);
+        --x1-max: var(--x0-shell-max);
+        --x1-diff: var(--x0-shell-diff);
+        --y0: var(--y0-shell);
+        --y0-min: var(--y0-shell-min);
+        --y0-max: var(--y0-shell-max);
+        --y0-diff: var(--y0-shell-diff);
+        --y1: var(--y1-shell);
+        --y1-min: var(--y0-shell-min);
+        --y1-max: var(--y0-shell-max);
+        --y1-diff: var(--y0-shell-diff);
+    }
+}
+</style><style id="nodes-layout-spectral" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-spectral);
+        --x0-min: var(--x0-spectral-min);
+        --x0-max: var(--x0-spectral-max);
+        --x0-diff: var(--x0-spectral-diff);
+        --x1: var(--x1-spectral);
+        --x1-min: var(--x0-spectral-min);
+        --x1-max: var(--x0-spectral-max);
+        --x1-diff: var(--x0-spectral-diff);
+        --y0: var(--y0-spectral);
+        --y0-min: var(--y0-spectral-min);
+        --y0-max: var(--y0-spectral-max);
+        --y0-diff: var(--y0-spectral-diff);
+        --y1: var(--y1-spectral);
+        --y1-min: var(--y0-spectral-min);
+        --y1-max: var(--y0-spectral-max);
+        --y1-diff: var(--y0-spectral-diff);
+    }
+}
+</style><style id="nodes-layout-spiral" media="none">#edges.visual {
+    tr{
+        --x0: var(--x0-spiral);
+        --x0-min: var(--x0-spiral-min);
+        --x0-max: var(--x0-spiral-max);
+        --x0-diff: var(--x0-spiral-diff);
+        --x1: var(--x1-spiral);
+        --x1-min: var(--x0-spiral-min);
+        --x1-max: var(--x0-spiral-max);
+        --x1-diff: var(--x0-spiral-diff);
+        --y0: var(--y0-spiral);
+        --y0-min: var(--y0-spiral-min);
+        --y0-max: var(--y0-spiral-max);
+        --y0-diff: var(--y0-spiral-diff);
+        --y1: var(--y1-spiral);
+        --y1-min: var(--y0-spiral-min);
+        --y1-max: var(--y0-spiral-max);
+        --y1-diff: var(--y0-spiral-diff);
+    }
+}
+</style></section></div>
+<div class="output_html rendered_html output_subarea"><p>show the whole thing</p>
+<pre><code>section = df.pipe(get_table, id="edges", options=TableOptions(max_columns=1000))
+section.table.caption.clear()
+section.table.insert(0, new("caption", F"a graph with {G.number_of_nodes()} nodes and {G.number_of_edges()} edges."))
+section.table.attrs["class"] = "visual"
+layouts = new(
+    "fieldset",
+    new("legend","layouts"),
+    new("label", new("input", type="checkbox", checked="", name="active", onchange=
+</code></pre>
+<pre><code class="javascript">document.getElementById(`edges`).classList.toggle("visual", this.checked);
+                         console.log(this)
+</code></pre>
+<pre><code>                    ), "active"),
+    *(
+        new("label",
+            new("input", type="radio", name="layout", **{"aria-controls": F"nodes-layout-{layout}"}, onchange=
+</code></pre>
+<pre><code class="javascript">document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
+    var target = document.getElementById(element.getAttribute(`aria-controls`));
+    target.setAttribute(`media`, element.checked ? `all` : `none`);
+})
+</code></pre>
+<pre><code>           ), layout) for layout in positions["x"].columns
+    )   
+)
+layouts.select_one("[name=layout]").attrs["checked"] = ""
+section.form.append(layouts)
+for i, layout in enumerate(positions["x"].columns):
+    section.append(new("style",
+</code></pre>
+<pre><code class="css">#edges.visual {
+    tr{
+        --x0: var(--x0-%s);
+        --x0-min: var(--x0-%s-min);
+        --x0-max: var(--x0-%s-max);
+        --x0-diff: var(--x0-%s-diff);
+        --x1: var(--x1-%s);
+        --x1-min: var(--x0-%s-min);
+        --x1-max: var(--x0-%s-max);
+        --x1-diff: var(--x0-%s-diff);
+        --y0: var(--y0-%s);
+        --y0-min: var(--y0-%s-min);
+        --y0-max: var(--y0-%s-max);
+        --y0-diff: var(--y0-%s-diff);
+        --y1: var(--y1-%s);
+        --y1-min: var(--y0-%s-min);
+        --y1-max: var(--y0-%s-max);
+        --y1-diff: var(--y0-%s-diff);
+    }
+}
+</code></pre>
+<pre><code>    .replace("%s", layout), id=F"nodes-layout-{layout}", media=i and "none" or "all"))
+
+section.form.append(layouts)
+HTML(section)</code></pre>
+</div>
+
+<div class="highlight"><pre><span></span><code><span class="o">%%</span>
+<span class="n">visual</span> <span class="n">styling</span> <span class="k">for</span> <span class="n">the</span> <span class="n">graph</span>
+
+<span class="err">```</span><span class="n">css</span>
+<span class="c1">#edges.visual {</span>
+    <span class="o">--</span><span class="n">w</span><span class="p">:</span> <span class="mi">400</span><span class="p">;</span>
+    <span class="o">--</span><span class="n">h</span><span class="p">:</span> <span class="mi">400</span><span class="p">;</span>
+    <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span> <span class="n">height</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="mi">200</span><span class="n">px</span> <span class="o">+</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">);</span>
+    <span class="n">display</span><span class="p">:</span> <span class="n">block</span><span class="p">;</span>
+    <span class="n">padding</span><span class="p">:</span> <span class="mi">100</span><span class="n">px</span><span class="p">;</span>
+    <span class="n">tbody</span> <span class="p">{</span>
+        <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
+        <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+        <span class="n">width</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">);</span> <span class="n">height</span><span class="p">:</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">);</span>
+        <span class="n">tr</span> <span class="p">{</span>
+            <span class="n">display</span><span class="p">:</span> <span class="n">grid</span><span class="p">;</span>
+            <span class="n">grid</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">columns</span><span class="p">:</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+            <span class="n">grid</span><span class="o">-</span><span class="n">template</span><span class="o">-</span><span class="n">rows</span><span class="p">:</span> <span class="mi">1</span><span class="n">fr</span><span class="p">;</span>
+            <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+            <span class="o">--</span><span class="n">X0</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">Y0</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">X1</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">x0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">Y1</span><span class="p">:</span> <span class="n">calc</span><span class="p">((</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="nb">min</span><span class="p">))</span> <span class="o">/</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">y0</span><span class="o">-</span><span class="n">diff</span><span class="p">)</span> <span class="o">*</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">h</span><span class="p">));</span>
+            <span class="o">--</span><span class="n">d</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span>
+                <span class="nb">pow</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X0</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="nb">pow</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y0</span><span class="p">),</span> <span class="mi">2</span><span class="p">),</span> <span class="mf">.5</span><span class="p">)</span>
+            <span class="p">);</span>
+            <span class="o">--</span><span class="n">r</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">atan2</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y0</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X1</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X0</span><span class="p">)));</span>
+            <span class="n">th</span> <span class="p">{</span>
+                <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+                <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+                <span class="n">transition</span><span class="p">:</span> <span class="mi">2</span><span class="n">s</span> <span class="nb">all</span><span class="p">;</span>
+                <span class="o">&amp;</span><span class="n">amp</span><span class="p">;:</span><span class="n">nth</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="nb">type</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">transform</span><span class="p">:</span>
+                        <span class="n">translate</span><span class="p">(</span>
+                            <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="p">;</span>
+                <span class="p">}</span>
+                <span class="o">&amp;</span><span class="n">amp</span><span class="p">;:</span><span class="n">nth</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="nb">type</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="n">transform</span><span class="p">:</span>
+                        <span class="n">translate</span><span class="p">(</span>
+                            <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">)</span>
+                        <span class="p">)</span>
+                        <span class="p">;</span>
+                <span class="p">}</span>
+            <span class="p">}</span>  
+            <span class="n">td</span> <span class="p">{</span>
+                <span class="n">display</span><span class="p">:</span> <span class="n">none</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">before</span> <span class="p">{</span>
+                        <span class="n">content</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+                        <span class="n">display</span><span class="p">:</span> <span class="n">content</span><span class="p">;</span>
+                        <span class="n">position</span><span class="p">:</span> <span class="n">absolute</span><span class="p">;</span>
+                        <span class="n">transform</span><span class="o">-</span><span class="n">origin</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="mi">1</span><span class="n">px</span> <span class="o">*</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X0</span><span class="p">))</span> <span class="n">calc</span><span class="p">(</span><span class="mi">1</span><span class="n">px</span> <span class="o">*</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y0</span><span class="p">));</span>
+                        <span class="n">height</span><span class="p">:</span> <span class="mi">1</span><span class="n">px</span><span class="p">;</span>
+                        <span class="n">border</span><span class="p">:</span> <span class="n">solid</span> <span class="mi">2</span><span class="n">px</span><span class="p">;</span>
+                        <span class="n">transition</span><span class="p">:</span> <span class="mi">2</span><span class="n">s</span> <span class="nb">all</span><span class="p">;</span>
+                        <span class="n">width</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">d</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">);</span>
+                        <span class="n">transform</span><span class="p">:</span> 
+                            <span class="n">rotate</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">r</span><span class="p">))</span>
+                            <span class="n">translate</span><span class="p">(</span>
+                                <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">X0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">),</span> <span class="n">calc</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">Y0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">1</span><span class="n">px</span><span class="p">)</span>
+                            <span class="p">)</span>
+                            <span class="p">;</span>
+                    <span class="p">}</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+<span class="err">```</span>
+</code></pre></div>
+<div class="output_html rendered_html output_subarea output_execute_result"><style>#edges.visual {
+    --w: 400;
+    --h: 400;
+    width: var(--w); height: calc(200px + var(--h) * 1px);
+    display: block;
+    padding: 100px;
+    tbody {
+        position: relative;
+        display: inline-block;
+        width: var(--w); height: var(--h);
+        tr {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            position: absolute;
+            --X0: calc((var(--x0) - var(--x0-min)) / var(--x0-diff) * var(--w));
+            --Y0: calc((var(--y0) - var(--y0-min)) / var(--y0-diff) * var(--h));
+            --X1: calc((var(--x1) - var(--x0-min)) / var(--x0-diff) * var(--w));
+            --Y1: calc((var(--y1) - var(--y0-min)) / var(--y0-diff) * var(--h));
+            --d: calc(
+                pow(pow(var(--X1) - var(--X0), 2) + pow(var(--Y1) - var(--Y0), 2), .5)
+            );
+            --r: calc(atan2(var(--Y1) - var(--Y0), var(--X1) - var(--X0)));
+            th {
+                position: absolute;
+                display: inline-block;
+                transition: 2s all;
+                &:nth-of-type(1) {
+                    transform:
+                        translate(
+                            calc(var(--X0) * 1px), calc(var(--Y0) * 1px)
+                        )
+                        ;
+                }
+                &:nth-of-type(2) {
+                    transform:
+                        translate(
+                            calc(var(--X1) * 1px), calc(var(--Y1) * 1px)
+                        )
+                        ;
+                }
+            }  
+            td {
+                display: none;
+            }
+            &::before {
+                        content: "";
+                        display: content;
+                        position: absolute;
+                        transform-origin: calc(1px *var(--X0)) calc(1px *var(--Y0));
+                        height: 1px;
+                        border: solid 2px;
+                        transition: 2s all;
+                        width: calc(var(--d) * 1px);
+                        transform: 
+                            rotate(var(--r))
+                            translate(
+                                calc(var(--X0) * 1px), calc(var(--Y0) * 1px)
+                            )
+                            ;
+                    }
+        }
+
+    }
+</style></div>
+<div class="output_html rendered_html output_subarea"><p>visual styling for the graph</p>
+<pre><code class="css">#edges.visual {
+    --w: 400;
+    --h: 400;
+    width: var(--w); height: calc(200px + var(--h) * 1px);
+    display: block;
+    padding: 100px;
+    tbody {
+        position: relative;
+        display: inline-block;
+        width: var(--w); height: var(--h);
+        tr {
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            position: absolute;
+            --X0: calc((var(--x0) - var(--x0-min)) / var(--x0-diff) * var(--w));
+            --Y0: calc((var(--y0) - var(--y0-min)) / var(--y0-diff) * var(--h));
+            --X1: calc((var(--x1) - var(--x0-min)) / var(--x0-diff) * var(--w));
+            --Y1: calc((var(--y1) - var(--y0-min)) / var(--y0-diff) * var(--h));
+            --d: calc(
+                pow(pow(var(--X1) - var(--X0), 2) + pow(var(--Y1) - var(--Y0), 2), .5)
+            );
+            --r: calc(atan2(var(--Y1) - var(--Y0), var(--X1) - var(--X0)));
+            th {
+                position: absolute;
+                display: inline-block;
+                transition: 2s all;
+                &amp;:nth-of-type(1) {
+                    transform:
+                        translate(
+                            calc(var(--X0) * 1px), calc(var(--Y0) * 1px)
+                        )
+                        ;
+                }
+                &amp;:nth-of-type(2) {
+                    transform:
+                        translate(
+                            calc(var(--X1) * 1px), calc(var(--Y1) * 1px)
+                        )
+                        ;
+                }
+            }  
+            td {
+                display: none;
+            }
+            &amp;::before {
+                        content: "";
+                        display: content;
+                        position: absolute;
+                        transform-origin: calc(1px *var(--X0)) calc(1px *var(--Y0));
+                        height: 1px;
+                        border: solid 2px;
+                        transition: 2s all;
+                        width: calc(var(--d) * 1px);
+                        transform: 
+                            rotate(var(--r))
+                            translate(
+                                calc(var(--X0) * 1px), calc(var(--Y0) * 1px)
+                            )
+                            ;
+                    }
+        }
+
+    }
+</code></pre>
+</div>
+
+<h2 id="marginalia">marginalia<a class="headerlink" href="#marginalia" title="Permanent link">¤</a></h2>
+<p>what describes the figure and form of a graph?</p>
+<p>the graph form has many typographical layouts that new to be considered</p>
+<p>there are two tables, two maps, a legend of nodes, and an index of relative positions.</p>
+<p>nodes and edges</p>
+<p>nodes are primary foreground forms
+edges are second mid ground forms
+all other attributes are background</p>
+<script type="application/vnd.jupyter.widget-state+json">
+{"state": {}, "version_major": 2, "version_minor": 0}
+</script>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+<script src="https://giscus.app/client.js"
+        data-repo="tonyfast/tonyfast"
+        data-repo-id="MDEwOlJlcG9zaXRvcnkyOTg2OTcxNjg="
+        data-category-id="DIC_kwDOEc3B0M4CTmKy"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="en"
+        crossorigin="anonymous"
+        async>
+</script>
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.top", "toc.integrate", "navigation.expand", "toc.follow"], "search": "../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+    
+  </body>
+</html>
