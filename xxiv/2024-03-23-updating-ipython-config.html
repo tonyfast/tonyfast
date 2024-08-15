@@ -3295,6 +3295,10 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
 <span class="s2">        load_ipython_extension(get_ipython())</span>
 <span class="s2">        del load_ipython_extension</span>
 <span class="s2">        [get_ipython().user_ns.setdefault(k, v) for k, v in __import__(&quot;sys&quot;).modules.items() if &quot;.&quot; not in k]</span>
+<span class="s2">        # allow relative imports</span>
+<span class="s2">        get_ipython().user_ns[&quot;__path__&quot;] = [&quot;&quot;]</span>
+<span class="s2">        get_ipython().user_ns[&quot;__package__&quot;] = __name__  = &quot;__main__&quot;</span>
+<span class="s2">        from midgy.language.python import HTML, Css, Script</span>
 <span class="s2">        print(&quot;my config loaded&quot;)</span>
 <span class="s2">        &quot;&quot;&quot;</span>
 

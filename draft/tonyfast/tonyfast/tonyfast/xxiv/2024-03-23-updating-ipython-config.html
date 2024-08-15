@@ -1541,7 +1541,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       38
+       42
       </dd>
       <dt>
        outputs
@@ -1934,7 +1934,7 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="15" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="19" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
         4
@@ -1981,7 +1981,7 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
       <td class="nb-end" hidden id="cell-4-end" role="none">
       </td>
       <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="15">    def config_source():        
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="19">    def config_source():        
         source = """from nobook.utils import Index, Series, DataFrame, doctest
         import midgy,  anyio, pyperclip, importnb
         from pathlib import Path
@@ -1992,6 +1992,10 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
         load_ipython_extension(get_ipython())
         del load_ipython_extension
         [get_ipython().user_ns.setdefault(k, v) for k, v in __import__("sys").modules.items() if "." not in k]
+        # allow relative imports
+        get_ipython().user_ns["__path__"] = [""]
+        get_ipython().user_ns["__package__"] = __name__  = "__main__"
+        from midgy.language.python import HTML, Css, Script
         print("my config loaded")
         """
                 
@@ -2009,6 +2013,10 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
 <span class="s2">        load_ipython_extension(get_ipython())</span>
 <span class="s2">        del load_ipython_extension</span>
 <span class="s2">        [get_ipython().user_ns.setdefault(k, v) for k, v in __import__("sys").modules.items() if "." not in k]</span>
+<span class="s2">        # allow relative imports</span>
+<span class="s2">        get_ipython().user_ns["__path__"] = [""]</span>
+<span class="s2">        get_ipython().user_ns["__package__"] = __name__  = "__main__"</span>
+<span class="s2">        from midgy.language.python import HTML, Css, Script</span>
 <span class="s2">        print("my config loaded")</span>
 <span class="s2">        """</span>
                 
@@ -2033,7 +2041,7 @@ config = pathlib.Path(*config, "ipython_config.py")</code></pre>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-4-loc" role="none">
-       15
+       19
       </td>
       <td class="nb-outputs" hidden role="none">
        <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
