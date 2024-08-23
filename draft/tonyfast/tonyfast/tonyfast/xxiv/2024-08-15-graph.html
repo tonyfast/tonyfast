@@ -1528,10 +1528,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        cells
       </dt>
       <dd id="nb-ct-total">
-       13 total
+       12 total
       </dd>
       <dd id="nb-ct-code">
-       10 code
+       9 code
       </dd>
       <dd>
       </dd>
@@ -1571,13 +1571,13 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       205
+       204
       </dd>
       <dt>
        outputs
       </dt>
       <dd id="nb-ct-outputs">
-       10
+       9
       </dd>
      </dl>
     </details>
@@ -2632,7 +2632,7 @@ positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell code" data-index="9" data-loc="9" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="9" aria-describedby="cell-9-executed nb-code-label nb-cell-label cell-9-loc nb-loc-label cell-9-outputs-len" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
         9
@@ -2678,11 +2678,27 @@ positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map
       </td>
       <td class="nb-end" hidden id="cell-9-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">DataFrame(G.edges).drop_duplicates()</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="9">%%
+make a dataframe of the information required to present the graph nodes and edges
+
+    df = DataFrame(index=DataFrame(G.edges).drop(columns=2).drop_duplicates().set_index([0, 1]).index.rename(list("xy")))
+    
+    df = pandas.concat([
+        positions.loc[df.index.get_level_values(0)].rename(columns={"x": "x0", "y": "y0"}, level=0).drop(("info",), axis=1).reset_index(drop=True),
+        positions.loc[df.index.get_level_values(1)].rename(columns={"x": "x1", "y": "y1"}, level=0).drop(("info",), axis=1).reset_index(drop=True)
+    ], axis=1).set_index(df.index)</textarea>
        <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="n">DataFrame</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+         <pre><span></span><code><span class="o">%%</span>
+<span class="n">make</span> <span class="n">a</span> <span class="n">dataframe</span> <span class="n">of</span> <span class="n">the</span> <span class="n">information</span> <span class="n">required</span> <span class="n">to</span> <span class="n">present</span> <span class="n">the</span> <span class="n">graph</span> <span class="n">nodes</span> <span class="ow">and</span> <span class="n">edges</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">"xy"</span><span class="p">)))</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
+        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="s2">"x0"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"y0"</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">"info"</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="s2">"x1"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"y1"</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">"info"</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -2697,19 +2713,19 @@ positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map
           Close
          </button>
          <pre><code>
-        {}
+        {'jupyter': {'source_hidden': True}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-9-loc" role="none">
-       1
+       9
       </td>
       <td class="nb-outputs" role="none">
        <span class="nb-outputs visually-hidden" id="cell-9-outputs-len">
-        1 outputs.
+        2 outputs.
        </span>
-       <fieldset class="nb-outputs" data-outputs="1">
+       <fieldset class="nb-outputs" data-outputs="2">
         <legend aria-describedby="nb-outputs-desc" hidden id="cell-9-outputs-label">
          <span>
           Out
@@ -2725,227 +2741,25 @@ positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map
          </span>
         </legend>
         <div>
-         <div>
-          <style scoped>
-           .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
+         <pre class="stdout">
+<code>ca885898-60e2-11ef-80ad-18cc18dc77e7.py:6: PerformanceWarning: indexing past lexsort depth may impact performance.
+ca885898-60e2-11ef-80ad-18cc18dc77e7.py:7: PerformanceWarning: indexing past lexsort depth may impact performance.
+</code>
+</pre>
+         <p>
+          make a dataframe of the information required to present the graph nodes and edges
+         </p>
+         <pre><code>df = DataFrame(index=DataFrame(G.edges).drop(columns=2).drop_duplicates().set_index([0, 1]).index.rename(list("xy")))
 
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-          </style>
-          <table border="1" class="dataframe">
-           <thead>
-            <tr style="text-align: right;">
-             <th>
-             </th>
-             <th>
-              0
-             </th>
-             <th>
-              1
-             </th>
-             <th>
-              2
-             </th>
-            </tr>
-           </thead>
-           <tbody>
-            <tr>
-             <th>
-              0
-             </th>
-             <td>
-              Compromising
-             </td>
-             <td>
-              Robust
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              1
-             </th>
-             <td>
-              Compromising
-             </td>
-             <td>
-              Understandable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              2
-             </th>
-             <td>
-              Robust
-             </td>
-             <td>
-              Flexible
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              3
-             </th>
-             <td>
-              Robust
-             </td>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              4
-             </th>
-             <td>
-              Robust
-             </td>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              1
-             </td>
-            </tr>
-            <tr>
-             <th>
-              5
-             </th>
-             <td>
-              Robust
-             </td>
-             <td>
-              Operable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              6
-             </th>
-             <td>
-              Robust
-             </td>
-             <td>
-              Understandable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              7
-             </th>
-             <td>
-              Understandable
-             </td>
-             <td>
-              Assistive
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              8
-             </th>
-             <td>
-              Understandable
-             </td>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              9
-             </th>
-             <td>
-              Assistive
-             </td>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              10
-             </th>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              Flexible
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              11
-             </th>
-             <td>
-              Perceivable
-             </td>
-             <td>
-              Operable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-            <tr>
-             <th>
-              12
-             </th>
-             <td>
-              Flexible
-             </td>
-             <td>
-              Operable
-             </td>
-             <td>
-              0
-             </td>
-            </tr>
-           </tbody>
-          </table>
-         </div>
+df = pandas.concat([
+    positions.loc[df.index.get_level_values(0)].rename(columns={"x": "x0", "y": "y0"}, level=0).drop(("info",), axis=1).reset_index(drop=True),
+    positions.loc[df.index.get_level_values(1)].rename(columns={"x": "x1", "y": "y1"}, level=0).drop(("info",), axis=1).reset_index(drop=True)
+], axis=1).set_index(df.index)</code></pre>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="9" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="58" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a aria-describedby="cell-10-executed nb-code-label nb-cell-label cell-10-loc nb-loc-label cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
         10
@@ -2992,134 +2806,7 @@ positions["info", "heuristic"] = positions.index.map(set(pour).__contains__).map
       <td class="nb-end" hidden id="cell-10-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="9">%%
-make a dataframe of the information required to present the graph nodes and edges
-
-    df = DataFrame(index=DataFrame(G.edges).drop(columns=2).drop_duplicates().set_index([0, 1]).index.rename(list("xy")))
-    
-    df = pandas.concat([
-        positions.loc[df.index.get_level_values(0)].rename(columns={"x": "x0", "y": "y0"}, level=0).drop(("info",), axis=1).reset_index(drop=True),
-        positions.loc[df.index.get_level_values(1)].rename(columns={"x": "x1", "y": "y1"}, level=0).drop(("info",), axis=1).reset_index(drop=True)
-    ], axis=1).set_index(df.index)</textarea>
-       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code><span class="o">%%</span>
-<span class="n">make</span> <span class="n">a</span> <span class="n">dataframe</span> <span class="n">of</span> <span class="n">the</span> <span class="n">information</span> <span class="n">required</span> <span class="n">to</span> <span class="n">present</span> <span class="n">the</span> <span class="n">graph</span> <span class="n">nodes</span> <span class="ow">and</span> <span class="n">edges</span>
-
-    <span class="n">df</span> <span class="o">=</span> <span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">G</span><span class="o">.</span><span class="n">edges</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="s2">"xy"</span><span class="p">)))</span>
-    
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span>
-        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">0</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="s2">"x0"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"y0"</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">"info"</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
-        <span class="n">positions</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">get_level_values</span><span class="p">(</span><span class="mi">1</span><span class="p">)]</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">"x"</span><span class="p">:</span> <span class="s2">"x1"</span><span class="p">,</span> <span class="s2">"y"</span><span class="p">:</span> <span class="s2">"y1"</span><span class="p">},</span> <span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">drop</span><span class="p">((</span><span class="s2">"info"</span><span class="p">,),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-10-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {'jupyter': {'source_hidden': True}}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-10-loc" role="none">
-       9
-      </td>
-      <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
-        2 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-10-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          8
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-         <pre class="stdout">
-<code>7861912e-60e2-11ef-8d6a-18cc18dc77e7.py:6: PerformanceWarning: indexing past lexsort depth may impact performance.
-7861912e-60e2-11ef-8d6a-18cc18dc77e7.py:7: PerformanceWarning: indexing past lexsort depth may impact performance.
-</code>
-</pre>
-         <p>
-          make a dataframe of the information required to present the graph nodes and edges
-         </p>
-         <pre><code>df = DataFrame(index=DataFrame(G.edges).drop(columns=2).drop_duplicates().set_index([0, 1]).index.rename(list("xy")))
-
-df = pandas.concat([
-    positions.loc[df.index.get_level_values(0)].rename(columns={"x": "x0", "y": "y0"}, level=0).drop(("info",), axis=1).reset_index(drop=True),
-    positions.loc[df.index.get_level_values(1)].rename(columns={"x": "x1", "y": "y1"}, level=0).drop(("info",), axis=1).reset_index(drop=True)
-], axis=1).set_index(df.index)</code></pre>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="58" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
-        11
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-11-executed">
-         executed
-        </span>
-        <span id="cell-11-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-11-exec-label">
-         9
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-11-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-11-exec-label" class="nb-toolbar" hidden id="cell-11" name="cell-11">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-11-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-11-end" role="none">
-      </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="58">%%
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="58">%%
 show the whole thing
 
     section = df.pipe(get_table, id="edges", options=TableOptions(max_columns=1000))
@@ -3177,7 +2864,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
 
     section.form.append(layouts)
     HTML(section)</textarea>
-       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">%%</span>
 <span class="n">show</span> <span class="n">the</span> <span class="n">whole</span> <span class="n">thing</span>
@@ -3242,10 +2929,10 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
        </div>
       </td>
       <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-11-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-11" name="metadata" onclick="openDialog()">
+       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
         metadata
        </button>
-       <dialog id="cell-11-metadata">
+       <dialog id="cell-10-metadata">
         <form>
          <button formmethod="dialog">
           Close
@@ -3256,15 +2943,15 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
         </form>
        </dialog>
       </td>
-      <td class="nb-loc" hidden id="cell-11-loc" role="none">
+      <td class="nb-loc" hidden id="cell-10-loc" role="none">
        58
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
+       <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
         2 outputs.
        </span>
        <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-10-outputs-label">
          <span>
           Out
          </span>
@@ -3272,7 +2959,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
           [
          </span>
          <span>
-          9
+          8
          </span>
          <span aria-hidden="true">
           ]
@@ -3283,7 +2970,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
           <figure>
            <figcaption id="edges-figcaption">
            </figcaption>
-           <table aria-colcount="34" aria-labelledby="edges-figcaption edges-caption" aria-rowcount="17" class="visual" id="edges" role="table" style="--0-min: -1.4808; --0-max: 1.6413; --0-diff: 3.1221; --1-min: -0.9010; --1-max: 1.0000; --1-diff: 1.9010; --2-min: -0.9912; --2-max: 0.4338; --2-diff: 1.4249; --3-min: -1.0000; --3-max: 0.9068; --3-diff: 1.9068; --4-min: -1.0000; --4-max: 1.0000; --4-diff: 2.0000; --5-min: -1.0000; --5-max: 0.9010; --5-diff: 1.9010; --6-min: -0.7075; --6-max: 0.6468; --6-diff: 1.3544; --7-min: -0.3174; --7-max: 0.4555; --7-diff: 0.7729; --8-min: -0.9691; --8-max: 2.2018; --8-diff: 3.1709; --9-min: -0.9749; --9-max: 0.9749; --9-diff: 1.9499; --10-min: -1.0000; --10-max: 0.7527; --10-diff: 1.7527; --11-min: -0.9700; --11-max: 0.7587; --11-diff: 1.7286; --12-min: -0.4286; --12-max: 0.5714; --12-diff: 1.0000; --13-min: -0.9749; --13-max: 0.9749; --13-diff: 1.9499; --14-min: -1.0000; --14-max: 1.0000; --14-diff: 2.0000; --15-min: -0.8335; --15-max: 0.7373; --15-diff: 1.5708; --16-min: -0.7517; --16-max: 1.6413; --16-diff: 2.3930; --17-min: -0.9010; --17-max: 0.6235; --17-diff: 1.5245; --18-min: -0.9912; --18-max: 0.7964; --18-diff: 1.7875; --19-min: -1.0000; --19-max: 0.4405; --19-diff: 1.4405; --20-min: -0.8000; --20-max: 1.0000; --20-diff: 1.8000; --21-min: -0.6235; --21-max: 0.9010; --21-diff: 1.5245; --22-min: -0.7075; --22-max: 0.6468; --22-diff: 1.3544; --23-min: -1.0000; --23-max: 0.4555; --23-diff: 1.4555; --24-min: -0.9691; --24-max: 2.2018; --24-diff: 3.1709; --25-min: -0.9749; --25-max: 0.9749; --25-diff: 1.9499; --26-min: -0.4001; --26-max: 0.7527; --26-diff: 1.1528; --27-min: -0.9700; --27-max: 0.7536; --27-diff: 1.7236; --28-min: -0.4286; --28-max: 0.5714; --28-diff: 1.0000; --29-min: -0.9749; --29-max: 0.9749; --29-diff: 1.9499; --30-min: -0.1623; --30-max: 1.0000; --30-diff: 1.1623; --31-min: -0.7240; --31-max: 0.8201; --31-diff: 1.5441;">
+           <table aria-colcount="34" aria-labelledby="edges-figcaption edges-caption" aria-rowcount="17" class="visual" id="edges" role="table" style="--0-min: -1.0882; --0-max: 2.1980; --0-diff: 3.2862; --1-min: -0.9010; --1-max: 1.0000; --1-diff: 1.9010; --2-min: -0.8919; --2-max: 0.7909; --2-diff: 1.6828; --3-min: -1.0000; --3-max: 0.9068; --3-diff: 1.9068; --4-min: -1.0000; --4-max: 1.0000; --4-diff: 2.0000; --5-min: -1.0000; --5-max: 0.9010; --5-diff: 1.9010; --6-min: -0.7075; --6-max: 0.6468; --6-diff: 1.3544; --7-min: -0.3174; --7-max: 0.4555; --7-diff: 0.7729; --8-min: -0.0794; --8-max: 2.2014; --8-diff: 2.2808; --9-min: -0.9749; --9-max: 0.9749; --9-diff: 1.9499; --10-min: -1.0000; --10-max: 0.6273; --10-diff: 1.6273; --11-min: -0.9700; --11-max: 0.7587; --11-diff: 1.7286; --12-min: -0.4286; --12-max: 0.5714; --12-diff: 1.0000; --13-min: -0.9749; --13-max: 0.9749; --13-diff: 1.9499; --14-min: -1.0000; --14-max: 1.0000; --14-diff: 2.0000; --15-min: -0.8335; --15-max: 0.7373; --15-diff: 1.5708; --16-min: -1.0882; --16-max: 2.1980; --16-diff: 3.2862; --17-min: -0.9010; --17-max: 0.6235; --17-diff: 1.5245; --18-min: -0.6339; --18-max: 0.9467; --18-diff: 1.5805; --19-min: -1.0000; --19-max: 0.4405; --19-diff: 1.4405; --20-min: -0.8000; --20-max: 1.0000; --20-diff: 1.8000; --21-min: -0.6235; --21-max: 0.9010; --21-diff: 1.5245; --22-min: -0.7075; --22-max: 0.6468; --22-diff: 1.3544; --23-min: -1.0000; --23-max: 0.4555; --23-diff: 1.4555; --24-min: -1.1069; --24-max: 2.2014; --24-diff: 3.3083; --25-min: -0.9749; --25-max: 0.9749; --25-diff: 1.9499; --26-min: -1.0000; --26-max: 0.5305; --26-diff: 1.5305; --27-min: -0.9700; --27-max: 0.7536; --27-diff: 1.7236; --28-min: -0.4286; --28-max: 0.5714; --28-diff: 1.0000; --29-min: -0.9749; --29-max: 0.9749; --29-diff: 1.9499; --30-min: -0.1623; --30-max: 1.0000; --30-diff: 1.1623; --31-min: -0.7240; --31-max: 0.8201; --31-diff: 1.5441;">
             <caption>
              a graph with 7 nodes and 13 edges.
             </caption>
@@ -3494,7 +3181,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
              </tr>
             </thead>
             <tbody role="rowgroup" style="--g: 0; ">
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="3" role="rowheader" scope="row" style=""&gt;Compromising&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="3" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  --0: -1.4808;  --1: 1.0000;  --2: 0.0406;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: 0.2309;  --9: 0.0000;  --10: -1.0000;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: -0.3048;  --17: 0.6235;  --18: 0.2671;  --19: 0.4405;  --20: -0.8000;  --21: -0.6235;  --22: -0.1465;  --23: 0.2670;  --24: -0.9691;  --25: 0.7818;  --26: -0.1276;  --27: -0.0977;  --28: -0.2286;  --29: -0.7818;  --30: -0.1623;  --31: -0.7240; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="3" role="rowheader" scope="row" style=""&gt;Compromising&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="3" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  --0: 0.4583;  --1: 1.0000;  --2: -0.8919;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: -0.0794;  --9: 0.0000;  --10: 0.6273;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: -0.4435;  --17: 0.6235;  --18: 0.0404;  --19: 0.4405;  --20: -0.8000;  --21: -0.6235;  --22: -0.1465;  --23: 0.2670;  --24: 2.2014;  --25: 0.7818;  --26: 0.3208;  --27: -0.0977;  --28: -0.2286;  --29: -0.7818;  --30: -0.1623;  --31: -0.7240; '>
               <th aria-colindex="1" aria-rowindex="3" role="rowheader" scope="row">
                Compromising
               </th>
@@ -3502,13 +3189,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Robust
               </th>
               <td aria-colindex="3" aria-rowindex="3" role="cell">
-               -1.481
+               0.458
               </td>
               <td aria-colindex="4" aria-rowindex="3" role="cell">
                1.000
               </td>
               <td aria-colindex="5" aria-rowindex="3" role="cell">
-               0.041
+               -0.892
               </td>
               <td aria-colindex="6" aria-rowindex="3" role="cell">
                0.907
@@ -3526,13 +3213,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.033
               </td>
               <td aria-colindex="11" aria-rowindex="3" role="cell">
-               0.231
+               -0.079
               </td>
               <td aria-colindex="12" aria-rowindex="3" role="cell">
                0.000
               </td>
               <td aria-colindex="13" aria-rowindex="3" role="cell">
-               -1.000
+               0.627
               </td>
               <td aria-colindex="14" aria-rowindex="3" role="cell">
                0.759
@@ -3550,13 +3237,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.834
               </td>
               <td aria-colindex="19" aria-rowindex="3" role="cell">
-               -0.305
+               -0.443
               </td>
               <td aria-colindex="20" aria-rowindex="3" role="cell">
                0.623
               </td>
               <td aria-colindex="21" aria-rowindex="3" role="cell">
-               0.267
+               0.040
               </td>
               <td aria-colindex="22" aria-rowindex="3" role="cell">
                0.440
@@ -3574,13 +3261,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.267
               </td>
               <td aria-colindex="27" aria-rowindex="3" role="cell">
-               -0.969
+               2.201
               </td>
               <td aria-colindex="28" aria-rowindex="3" role="cell">
                0.782
               </td>
               <td aria-colindex="29" aria-rowindex="3" role="cell">
-               -0.128
+               0.321
               </td>
               <td aria-colindex="30" aria-rowindex="3" role="cell">
                -0.098
@@ -3598,7 +3285,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="4" role="rowheader" scope="row" style=""&gt;Compromising&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="4" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  --0: -1.4808;  --1: 1.0000;  --2: 0.0406;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: 0.2309;  --9: 0.0000;  --10: -1.0000;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: 1.6413;  --17: -0.2225;  --18: -0.4467;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.7138;  --25: 0.9749;  --26: -0.4001;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="4" role="rowheader" scope="row" style=""&gt;Compromising&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="4" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  --0: 0.4583;  --1: 1.0000;  --2: -0.8919;  --3: 0.9068;  --4: -1.0000;  --5: -1.0000;  --6: 0.6468;  --7: -0.0329;  --8: -0.0794;  --9: 0.0000;  --10: 0.6273;  --11: 0.7587;  --12: -0.4286;  --13: -0.0000;  --14: -1.0000;  --15: -0.8335;  --16: 0.9240;  --17: -0.2225;  --18: -0.6339;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.4753;  --25: 0.9749;  --26: -0.1782;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; '>
               <th aria-colindex="1" aria-rowindex="4" role="rowheader" scope="row">
                Compromising
               </th>
@@ -3606,13 +3293,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Understandable
               </th>
               <td aria-colindex="3" aria-rowindex="4" role="cell">
-               -1.481
+               0.458
               </td>
               <td aria-colindex="4" aria-rowindex="4" role="cell">
                1.000
               </td>
               <td aria-colindex="5" aria-rowindex="4" role="cell">
-               0.041
+               -0.892
               </td>
               <td aria-colindex="6" aria-rowindex="4" role="cell">
                0.907
@@ -3630,13 +3317,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.033
               </td>
               <td aria-colindex="11" aria-rowindex="4" role="cell">
-               0.231
+               -0.079
               </td>
               <td aria-colindex="12" aria-rowindex="4" role="cell">
                0.000
               </td>
               <td aria-colindex="13" aria-rowindex="4" role="cell">
-               -1.000
+               0.627
               </td>
               <td aria-colindex="14" aria-rowindex="4" role="cell">
                0.759
@@ -3654,13 +3341,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.834
               </td>
               <td aria-colindex="19" aria-rowindex="4" role="cell">
-               1.641
+               0.924
               </td>
               <td aria-colindex="20" aria-rowindex="4" role="cell">
                -0.223
               </td>
               <td aria-colindex="21" aria-rowindex="4" role="cell">
-               -0.447
+               -0.634
               </td>
               <td aria-colindex="22" aria-rowindex="4" role="cell">
                -0.051
@@ -3678,13 +3365,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="27" aria-rowindex="4" role="cell">
-               1.714
+               1.475
               </td>
               <td aria-colindex="28" aria-rowindex="4" role="cell">
                0.975
               </td>
               <td aria-colindex="29" aria-rowindex="4" role="cell">
-               -0.400
+               -0.178
               </td>
               <td aria-colindex="30" aria-rowindex="4" role="cell">
                0.754
@@ -3702,7 +3389,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.422
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="5" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="5" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  --0: -0.3048;  --1: 0.6235;  --2: 0.2671;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -0.9691;  --9: 0.7818;  --10: -0.1276;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: -0.7517;  --17: -0.2225;  --18: 0.4338;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 1.3149;  --25: -0.9749;  --26: 0.7527;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="5" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="5" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  --0: -0.4435;  --1: 0.6235;  --2: 0.0404;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: 2.2014;  --9: 0.7818;  --10: 0.3208;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 2.1980;  --17: -0.2225;  --18: 0.7909;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 0.0220;  --25: -0.9749;  --26: 0.5305;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; '>
               <th aria-colindex="1" aria-rowindex="5" role="rowheader" scope="row">
                Robust
               </th>
@@ -3710,13 +3397,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Flexible
               </th>
               <td aria-colindex="3" aria-rowindex="5" role="cell">
-               -0.305
+               -0.443
               </td>
               <td aria-colindex="4" aria-rowindex="5" role="cell">
                0.623
               </td>
               <td aria-colindex="5" aria-rowindex="5" role="cell">
-               0.267
+               0.040
               </td>
               <td aria-colindex="6" aria-rowindex="5" role="cell">
                0.440
@@ -3734,13 +3421,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.267
               </td>
               <td aria-colindex="11" aria-rowindex="5" role="cell">
-               -0.969
+               2.201
               </td>
               <td aria-colindex="12" aria-rowindex="5" role="cell">
                0.782
               </td>
               <td aria-colindex="13" aria-rowindex="5" role="cell">
-               -0.128
+               0.321
               </td>
               <td aria-colindex="14" aria-rowindex="5" role="cell">
                -0.098
@@ -3758,13 +3445,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
               <td aria-colindex="19" aria-rowindex="5" role="cell">
-               -0.752
+               2.198
               </td>
               <td aria-colindex="20" aria-rowindex="5" role="cell">
                -0.223
               </td>
               <td aria-colindex="21" aria-rowindex="5" role="cell">
-               0.434
+               0.791
               </td>
               <td aria-colindex="22" aria-rowindex="5" role="cell">
                -0.311
@@ -3782,13 +3469,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.317
               </td>
               <td aria-colindex="27" aria-rowindex="5" role="cell">
-               1.315
+               0.022
               </td>
               <td aria-colindex="28" aria-rowindex="5" role="cell">
                -0.975
               </td>
               <td aria-colindex="29" aria-rowindex="5" role="cell">
-               0.753
+               0.530
               </td>
               <td aria-colindex="30" aria-rowindex="5" role="cell">
                -0.970
@@ -3806,7 +3493,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.737
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="6" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="6" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: -0.3048;  --1: 0.6235;  --2: 0.2671;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -0.9691;  --9: 0.7818;  --10: -0.1276;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 0.2080;  --17: -0.9010;  --18: -0.1001;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 2.2018;  --25: -0.4339;  --26: 0.2788;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="6" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="6" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: -0.4435;  --1: 0.6235;  --2: 0.0404;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: 2.2014;  --9: 0.7818;  --10: 0.3208;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: -1.0882;  --17: -0.9010;  --18: 0.1961;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 0.6258;  --25: -0.4339;  --26: -0.2565;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
               <th aria-colindex="1" aria-rowindex="6" role="rowheader" scope="row">
                Robust
               </th>
@@ -3814,13 +3501,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Perceivable
               </th>
               <td aria-colindex="3" aria-rowindex="6" role="cell">
-               -0.305
+               -0.443
               </td>
               <td aria-colindex="4" aria-rowindex="6" role="cell">
                0.623
               </td>
               <td aria-colindex="5" aria-rowindex="6" role="cell">
-               0.267
+               0.040
               </td>
               <td aria-colindex="6" aria-rowindex="6" role="cell">
                0.440
@@ -3838,13 +3525,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.267
               </td>
               <td aria-colindex="11" aria-rowindex="6" role="cell">
-               -0.969
+               2.201
               </td>
               <td aria-colindex="12" aria-rowindex="6" role="cell">
                0.782
               </td>
               <td aria-colindex="13" aria-rowindex="6" role="cell">
-               -0.128
+               0.321
               </td>
               <td aria-colindex="14" aria-rowindex="6" role="cell">
                -0.098
@@ -3862,13 +3549,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
               <td aria-colindex="19" aria-rowindex="6" role="cell">
-               0.208
+               -1.088
               </td>
               <td aria-colindex="20" aria-rowindex="6" role="cell">
                -0.901
               </td>
               <td aria-colindex="21" aria-rowindex="6" role="cell">
-               -0.100
+               0.196
               </td>
               <td aria-colindex="22" aria-rowindex="6" role="cell">
                -0.423
@@ -3886,13 +3573,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.184
               </td>
               <td aria-colindex="27" aria-rowindex="6" role="cell">
-               2.202
+               0.626
               </td>
               <td aria-colindex="28" aria-rowindex="6" role="cell">
                -0.434
               </td>
               <td aria-colindex="29" aria-rowindex="6" role="cell">
-               0.279
+               -0.256
               </td>
               <td aria-colindex="30" aria-rowindex="6" role="cell">
                -0.156
@@ -3910,7 +3597,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.425
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="7" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="7" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: -0.3048;  --1: 0.6235;  --2: 0.2671;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -0.9691;  --9: 0.7818;  --10: -0.1276;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 1.4643;  --17: 0.6235;  --18: 0.7964;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 0.4498;  --25: -0.7818;  --26: 0.3476;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="7" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="7" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: -0.4435;  --1: 0.6235;  --2: 0.0404;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: 2.2014;  --9: 0.7818;  --10: 0.3208;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 0.2747;  --17: 0.6235;  --18: 0.9467;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -1.1069;  --25: -0.7818;  --26: -0.0438;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
               <th aria-colindex="1" aria-rowindex="7" role="rowheader" scope="row">
                Robust
               </th>
@@ -3918,13 +3605,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Operable
               </th>
               <td aria-colindex="3" aria-rowindex="7" role="cell">
-               -0.305
+               -0.443
               </td>
               <td aria-colindex="4" aria-rowindex="7" role="cell">
                0.623
               </td>
               <td aria-colindex="5" aria-rowindex="7" role="cell">
-               0.267
+               0.040
               </td>
               <td aria-colindex="6" aria-rowindex="7" role="cell">
                0.440
@@ -3942,13 +3629,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.267
               </td>
               <td aria-colindex="11" aria-rowindex="7" role="cell">
-               -0.969
+               2.201
               </td>
               <td aria-colindex="12" aria-rowindex="7" role="cell">
                0.782
               </td>
               <td aria-colindex="13" aria-rowindex="7" role="cell">
-               -0.128
+               0.321
               </td>
               <td aria-colindex="14" aria-rowindex="7" role="cell">
                -0.098
@@ -3966,13 +3653,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
               <td aria-colindex="19" aria-rowindex="7" role="cell">
-               1.464
+               0.275
               </td>
               <td aria-colindex="20" aria-rowindex="7" role="cell">
                0.623
               </td>
               <td aria-colindex="21" aria-rowindex="7" role="cell">
-               0.796
+               0.947
               </td>
               <td aria-colindex="22" aria-rowindex="7" role="cell">
                0.438
@@ -3990,13 +3677,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -1.000
               </td>
               <td aria-colindex="27" aria-rowindex="7" role="cell">
-               0.450
+               -1.107
               </td>
               <td aria-colindex="28" aria-rowindex="7" role="cell">
                -0.782
               </td>
               <td aria-colindex="29" aria-rowindex="7" role="cell">
-               0.348
+               -0.044
               </td>
               <td aria-colindex="30" aria-rowindex="7" role="cell">
                -0.920
@@ -4014,7 +3701,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.820
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="8" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="8" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  --0: -0.3048;  --1: 0.6235;  --2: 0.2671;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: -0.9691;  --9: 0.7818;  --10: -0.1276;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 1.6413;  --17: -0.2225;  --18: -0.4467;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.7138;  --25: 0.9749;  --26: -0.4001;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="8" role="rowheader" scope="row" style=""&gt;Robust&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="8" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  --0: -0.4435;  --1: 0.6235;  --2: 0.0404;  --3: 0.4405;  --4: -0.8000;  --5: -0.6235;  --6: -0.1465;  --7: 0.2670;  --8: 2.2014;  --9: 0.7818;  --10: 0.3208;  --11: -0.0977;  --12: -0.2286;  --13: -0.7818;  --14: -0.1623;  --15: -0.7240;  --16: 0.9240;  --17: -0.2225;  --18: -0.6339;  --19: -0.0505;  --20: 1.0000;  --21: 0.2225;  --22: 0.4145;  --23: 0.4555;  --24: 1.4753;  --25: 0.9749;  --26: -0.1782;  --27: 0.7536;  --28: -0.4286;  --29: -0.9749;  --30: -0.0000;  --31: -0.4221; '>
               <th aria-colindex="1" aria-rowindex="8" role="rowheader" scope="row">
                Robust
               </th>
@@ -4022,13 +3709,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Understandable
               </th>
               <td aria-colindex="3" aria-rowindex="8" role="cell">
-               -0.305
+               -0.443
               </td>
               <td aria-colindex="4" aria-rowindex="8" role="cell">
                0.623
               </td>
               <td aria-colindex="5" aria-rowindex="8" role="cell">
-               0.267
+               0.040
               </td>
               <td aria-colindex="6" aria-rowindex="8" role="cell">
                0.440
@@ -4046,13 +3733,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.267
               </td>
               <td aria-colindex="11" aria-rowindex="8" role="cell">
-               -0.969
+               2.201
               </td>
               <td aria-colindex="12" aria-rowindex="8" role="cell">
                0.782
               </td>
               <td aria-colindex="13" aria-rowindex="8" role="cell">
-               -0.128
+               0.321
               </td>
               <td aria-colindex="14" aria-rowindex="8" role="cell">
                -0.098
@@ -4070,13 +3757,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
               <td aria-colindex="19" aria-rowindex="8" role="cell">
-               1.641
+               0.924
               </td>
               <td aria-colindex="20" aria-rowindex="8" role="cell">
                -0.223
               </td>
               <td aria-colindex="21" aria-rowindex="8" role="cell">
-               -0.447
+               -0.634
               </td>
               <td aria-colindex="22" aria-rowindex="8" role="cell">
                -0.051
@@ -4094,13 +3781,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="27" aria-rowindex="8" role="cell">
-               1.714
+               1.475
               </td>
               <td aria-colindex="28" aria-rowindex="8" role="cell">
                0.975
               </td>
               <td aria-colindex="29" aria-rowindex="8" role="cell">
-               -0.400
+               -0.178
               </td>
               <td aria-colindex="30" aria-rowindex="8" role="cell">
                0.754
@@ -4118,7 +3805,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.422
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="9" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="9" role="rowheader" scope="row" style=""&gt;Assistive&lt;/th&gt;;  --0: 1.6413;  --1: -0.2225;  --2: -0.4467;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.7138;  --9: 0.9749;  --10: -0.4001;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: 1.4163;  --17: -0.9010;  --18: -0.9912;  --19: -1.0000;  --20: 0.4000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4437;  --24: -0.8387;  --25: 0.4339;  --26: 0.1486;  --27: 0.6308;  --28: -0.0286;  --29: -0.4339;  --30: 1.0000;  --31: -0.0027; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="9" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="9" role="rowheader" scope="row" style=""&gt;Assistive&lt;/th&gt;;  --0: 0.9240;  --1: -0.2225;  --2: -0.6339;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.4753;  --9: 0.9749;  --10: -0.1782;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: 1.9565;  --17: -0.9010;  --18: -0.4483;  --19: -1.0000;  --20: 0.4000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4437;  --24: 2.1340;  --25: 0.4339;  --26: -1.0000;  --27: 0.6308;  --28: -0.0286;  --29: -0.4339;  --30: 1.0000;  --31: -0.0027; '>
               <th aria-colindex="1" aria-rowindex="9" role="rowheader" scope="row">
                Understandable
               </th>
@@ -4126,13 +3813,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Assistive
               </th>
               <td aria-colindex="3" aria-rowindex="9" role="cell">
-               1.641
+               0.924
               </td>
               <td aria-colindex="4" aria-rowindex="9" role="cell">
                -0.223
               </td>
               <td aria-colindex="5" aria-rowindex="9" role="cell">
-               -0.447
+               -0.634
               </td>
               <td aria-colindex="6" aria-rowindex="9" role="cell">
                -0.051
@@ -4150,13 +3837,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="11" aria-rowindex="9" role="cell">
-               1.714
+               1.475
               </td>
               <td aria-colindex="12" aria-rowindex="9" role="cell">
                0.975
               </td>
               <td aria-colindex="13" aria-rowindex="9" role="cell">
-               -0.400
+               -0.178
               </td>
               <td aria-colindex="14" aria-rowindex="9" role="cell">
                0.754
@@ -4174,13 +3861,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.422
               </td>
               <td aria-colindex="19" aria-rowindex="9" role="cell">
-               1.416
+               1.956
               </td>
               <td aria-colindex="20" aria-rowindex="9" role="cell">
                -0.901
               </td>
               <td aria-colindex="21" aria-rowindex="9" role="cell">
-               -0.991
+               -0.448
               </td>
               <td aria-colindex="22" aria-rowindex="9" role="cell">
                -1.000
@@ -4198,13 +3885,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.444
               </td>
               <td aria-colindex="27" aria-rowindex="9" role="cell">
-               -0.839
+               2.134
               </td>
               <td aria-colindex="28" aria-rowindex="9" role="cell">
                0.434
               </td>
               <td aria-colindex="29" aria-rowindex="9" role="cell">
-               0.149
+               -1.000
               </td>
               <td aria-colindex="30" aria-rowindex="9" role="cell">
                0.631
@@ -4222,7 +3909,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.003
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="10" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="10" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: 1.6413;  --1: -0.2225;  --2: -0.4467;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.7138;  --9: 0.9749;  --10: -0.4001;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: 0.2080;  --17: -0.9010;  --18: -0.1001;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 2.2018;  --25: -0.4339;  --26: 0.2788;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="10" role="rowheader" scope="row" style=""&gt;Understandable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="10" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: 0.9240;  --1: -0.2225;  --2: -0.6339;  --3: -0.0505;  --4: 1.0000;  --5: 0.2225;  --6: 0.4145;  --7: 0.4555;  --8: 1.4753;  --9: 0.9749;  --10: -0.1782;  --11: 0.7536;  --12: -0.4286;  --13: -0.9749;  --14: -0.0000;  --15: -0.4221;  --16: -1.0882;  --17: -0.9010;  --18: 0.1961;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 0.6258;  --25: -0.4339;  --26: -0.2565;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
               <th aria-colindex="1" aria-rowindex="10" role="rowheader" scope="row">
                Understandable
               </th>
@@ -4230,13 +3917,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Perceivable
               </th>
               <td aria-colindex="3" aria-rowindex="10" role="cell">
-               1.641
+               0.924
               </td>
               <td aria-colindex="4" aria-rowindex="10" role="cell">
                -0.223
               </td>
               <td aria-colindex="5" aria-rowindex="10" role="cell">
-               -0.447
+               -0.634
               </td>
               <td aria-colindex="6" aria-rowindex="10" role="cell">
                -0.051
@@ -4254,13 +3941,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="11" aria-rowindex="10" role="cell">
-               1.714
+               1.475
               </td>
               <td aria-colindex="12" aria-rowindex="10" role="cell">
                0.975
               </td>
               <td aria-colindex="13" aria-rowindex="10" role="cell">
-               -0.400
+               -0.178
               </td>
               <td aria-colindex="14" aria-rowindex="10" role="cell">
                0.754
@@ -4278,13 +3965,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.422
               </td>
               <td aria-colindex="19" aria-rowindex="10" role="cell">
-               0.208
+               -1.088
               </td>
               <td aria-colindex="20" aria-rowindex="10" role="cell">
                -0.901
               </td>
               <td aria-colindex="21" aria-rowindex="10" role="cell">
-               -0.100
+               0.196
               </td>
               <td aria-colindex="22" aria-rowindex="10" role="cell">
                -0.423
@@ -4302,13 +3989,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.184
               </td>
               <td aria-colindex="27" aria-rowindex="10" role="cell">
-               2.202
+               0.626
               </td>
               <td aria-colindex="28" aria-rowindex="10" role="cell">
                -0.434
               </td>
               <td aria-colindex="29" aria-rowindex="10" role="cell">
-               0.279
+               -0.256
               </td>
               <td aria-colindex="30" aria-rowindex="10" role="cell">
                -0.156
@@ -4326,7 +4013,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.425
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="11" role="rowheader" scope="row" style=""&gt;Assistive&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="11" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: 1.4163;  --1: -0.9010;  --2: -0.9912;  --3: -1.0000;  --4: 0.4000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4437;  --8: -0.8387;  --9: 0.4339;  --10: 0.1486;  --11: 0.6308;  --12: -0.0286;  --13: -0.4339;  --14: 1.0000;  --15: -0.0027;  --16: 0.2080;  --17: -0.9010;  --18: -0.1001;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 2.2018;  --25: -0.4339;  --26: 0.2788;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="11" role="rowheader" scope="row" style=""&gt;Assistive&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="11" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  --0: 1.9565;  --1: -0.9010;  --2: -0.4483;  --3: -1.0000;  --4: 0.4000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4437;  --8: 2.1340;  --9: 0.4339;  --10: -1.0000;  --11: 0.6308;  --12: -0.0286;  --13: -0.4339;  --14: 1.0000;  --15: -0.0027;  --16: -1.0882;  --17: -0.9010;  --18: 0.1961;  --19: -0.4235;  --20: 0.4000;  --21: 0.9010;  --22: -0.1465;  --23: 0.1842;  --24: 0.6258;  --25: -0.4339;  --26: -0.2565;  --27: -0.1556;  --28: 0.1714;  --29: 0.4339;  --30: 0.1623;  --31: 0.4250; '>
               <th aria-colindex="1" aria-rowindex="11" role="rowheader" scope="row">
                Assistive
               </th>
@@ -4334,13 +4021,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Perceivable
               </th>
               <td aria-colindex="3" aria-rowindex="11" role="cell">
-               1.416
+               1.956
               </td>
               <td aria-colindex="4" aria-rowindex="11" role="cell">
                -0.901
               </td>
               <td aria-colindex="5" aria-rowindex="11" role="cell">
-               -0.991
+               -0.448
               </td>
               <td aria-colindex="6" aria-rowindex="11" role="cell">
                -1.000
@@ -4358,13 +4045,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.444
               </td>
               <td aria-colindex="11" aria-rowindex="11" role="cell">
-               -0.839
+               2.134
               </td>
               <td aria-colindex="12" aria-rowindex="11" role="cell">
                0.434
               </td>
               <td aria-colindex="13" aria-rowindex="11" role="cell">
-               0.149
+               -1.000
               </td>
               <td aria-colindex="14" aria-rowindex="11" role="cell">
                0.631
@@ -4382,13 +4069,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.003
               </td>
               <td aria-colindex="19" aria-rowindex="11" role="cell">
-               0.208
+               -1.088
               </td>
               <td aria-colindex="20" aria-rowindex="11" role="cell">
                -0.901
               </td>
               <td aria-colindex="21" aria-rowindex="11" role="cell">
-               -0.100
+               0.196
               </td>
               <td aria-colindex="22" aria-rowindex="11" role="cell">
                -0.423
@@ -4406,13 +4093,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.184
               </td>
               <td aria-colindex="27" aria-rowindex="11" role="cell">
-               2.202
+               0.626
               </td>
               <td aria-colindex="28" aria-rowindex="11" role="cell">
                -0.434
               </td>
               <td aria-colindex="29" aria-rowindex="11" role="cell">
-               0.279
+               -0.256
               </td>
               <td aria-colindex="30" aria-rowindex="11" role="cell">
                -0.156
@@ -4430,7 +4117,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.425
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="12" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="12" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  --0: 0.2080;  --1: -0.9010;  --2: -0.1001;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: 2.2018;  --9: -0.4339;  --10: 0.2788;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: -0.7517;  --17: -0.2225;  --18: 0.4338;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 1.3149;  --25: -0.9749;  --26: 0.7527;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="12" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="12" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  --0: -1.0882;  --1: -0.9010;  --2: 0.1961;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: 0.6258;  --9: -0.4339;  --10: -0.2565;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: 2.1980;  --17: -0.2225;  --18: 0.7909;  --19: -0.3109;  --20: 0.0000;  --21: 0.2225;  --22: -0.7075;  --23: -0.3174;  --24: 0.0220;  --25: -0.9749;  --26: 0.5305;  --27: -0.9700;  --28: 0.5714;  --29: 0.9749;  --30: 0.0000;  --31: 0.7373; '>
               <th aria-colindex="1" aria-rowindex="12" role="rowheader" scope="row">
                Perceivable
               </th>
@@ -4438,13 +4125,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Flexible
               </th>
               <td aria-colindex="3" aria-rowindex="12" role="cell">
-               0.208
+               -1.088
               </td>
               <td aria-colindex="4" aria-rowindex="12" role="cell">
                -0.901
               </td>
               <td aria-colindex="5" aria-rowindex="12" role="cell">
-               -0.100
+               0.196
               </td>
               <td aria-colindex="6" aria-rowindex="12" role="cell">
                -0.423
@@ -4462,13 +4149,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.184
               </td>
               <td aria-colindex="11" aria-rowindex="12" role="cell">
-               2.202
+               0.626
               </td>
               <td aria-colindex="12" aria-rowindex="12" role="cell">
                -0.434
               </td>
               <td aria-colindex="13" aria-rowindex="12" role="cell">
-               0.279
+               -0.256
               </td>
               <td aria-colindex="14" aria-rowindex="12" role="cell">
                -0.156
@@ -4486,13 +4173,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.425
               </td>
               <td aria-colindex="19" aria-rowindex="12" role="cell">
-               -0.752
+               2.198
               </td>
               <td aria-colindex="20" aria-rowindex="12" role="cell">
                -0.223
               </td>
               <td aria-colindex="21" aria-rowindex="12" role="cell">
-               0.434
+               0.791
               </td>
               <td aria-colindex="22" aria-rowindex="12" role="cell">
                -0.311
@@ -4510,13 +4197,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.317
               </td>
               <td aria-colindex="27" aria-rowindex="12" role="cell">
-               1.315
+               0.022
               </td>
               <td aria-colindex="28" aria-rowindex="12" role="cell">
                -0.975
               </td>
               <td aria-colindex="29" aria-rowindex="12" role="cell">
-               0.753
+               0.530
               </td>
               <td aria-colindex="30" aria-rowindex="12" role="cell">
                -0.970
@@ -4534,7 +4221,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.737
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="13" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="13" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: 0.2080;  --1: -0.9010;  --2: -0.1001;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: 2.2018;  --9: -0.4339;  --10: 0.2788;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: 1.4643;  --17: 0.6235;  --18: 0.7964;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 0.4498;  --25: -0.7818;  --26: 0.3476;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="13" role="rowheader" scope="row" style=""&gt;Perceivable&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="13" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: -1.0882;  --1: -0.9010;  --2: 0.1961;  --3: -0.4235;  --4: 0.4000;  --5: 0.9010;  --6: -0.1465;  --7: 0.1842;  --8: 0.6258;  --9: -0.4339;  --10: -0.2565;  --11: -0.1556;  --12: 0.1714;  --13: 0.4339;  --14: 0.1623;  --15: 0.4250;  --16: 0.2747;  --17: 0.6235;  --18: 0.9467;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -1.1069;  --25: -0.7818;  --26: -0.0438;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
               <th aria-colindex="1" aria-rowindex="13" role="rowheader" scope="row">
                Perceivable
               </th>
@@ -4542,13 +4229,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Operable
               </th>
               <td aria-colindex="3" aria-rowindex="13" role="cell">
-               0.208
+               -1.088
               </td>
               <td aria-colindex="4" aria-rowindex="13" role="cell">
                -0.901
               </td>
               <td aria-colindex="5" aria-rowindex="13" role="cell">
-               -0.100
+               0.196
               </td>
               <td aria-colindex="6" aria-rowindex="13" role="cell">
                -0.423
@@ -4566,13 +4253,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.184
               </td>
               <td aria-colindex="11" aria-rowindex="13" role="cell">
-               2.202
+               0.626
               </td>
               <td aria-colindex="12" aria-rowindex="13" role="cell">
                -0.434
               </td>
               <td aria-colindex="13" aria-rowindex="13" role="cell">
-               0.279
+               -0.256
               </td>
               <td aria-colindex="14" aria-rowindex="13" role="cell">
                -0.156
@@ -4590,13 +4277,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.425
               </td>
               <td aria-colindex="19" aria-rowindex="13" role="cell">
-               1.464
+               0.275
               </td>
               <td aria-colindex="20" aria-rowindex="13" role="cell">
                0.623
               </td>
               <td aria-colindex="21" aria-rowindex="13" role="cell">
-               0.796
+               0.947
               </td>
               <td aria-colindex="22" aria-rowindex="13" role="cell">
                0.438
@@ -4614,13 +4301,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -1.000
               </td>
               <td aria-colindex="27" aria-rowindex="13" role="cell">
-               0.450
+               -1.107
               </td>
               <td aria-colindex="28" aria-rowindex="13" role="cell">
                -0.782
               </td>
               <td aria-colindex="29" aria-rowindex="13" role="cell">
-               0.348
+               -0.044
               </td>
               <td aria-colindex="30" aria-rowindex="13" role="cell">
                -0.920
@@ -4638,7 +4325,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.820
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="14" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="14" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: -0.7517;  --1: -0.2225;  --2: 0.4338;  --3: -0.3109;  --4: 0.0000;  --5: 0.2225;  --6: -0.7075;  --7: -0.3174;  --8: 1.3149;  --9: -0.9749;  --10: 0.7527;  --11: -0.9700;  --12: 0.5714;  --13: 0.9749;  --14: 0.0000;  --15: 0.7373;  --16: 1.4643;  --17: 0.6235;  --18: 0.7964;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: 0.4498;  --25: -0.7818;  --26: 0.3476;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="14" role="rowheader" scope="row" style=""&gt;Flexible&lt;/th&gt;;  ---1: &lt;th aria-colindex="2" aria-rowindex="14" role="rowheader" scope="row" style=""&gt;Operable&lt;/th&gt;;  --0: 2.1980;  --1: -0.2225;  --2: 0.7909;  --3: -0.3109;  --4: 0.0000;  --5: 0.2225;  --6: -0.7075;  --7: -0.3174;  --8: 0.0220;  --9: -0.9749;  --10: 0.5305;  --11: -0.9700;  --12: 0.5714;  --13: 0.9749;  --14: 0.0000;  --15: 0.7373;  --16: 0.2747;  --17: 0.6235;  --18: 0.9467;  --19: 0.4377;  --20: 0.0000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -1.1069;  --25: -0.7818;  --26: -0.0438;  --27: -0.9198;  --28: 0.3714;  --29: 0.7818;  --30: 0.0000;  --31: 0.8201; '>
               <th aria-colindex="1" aria-rowindex="14" role="rowheader" scope="row">
                Flexible
               </th>
@@ -4646,13 +4333,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                Operable
               </th>
               <td aria-colindex="3" aria-rowindex="14" role="cell">
-               -0.752
+               2.198
               </td>
               <td aria-colindex="4" aria-rowindex="14" role="cell">
                -0.223
               </td>
               <td aria-colindex="5" aria-rowindex="14" role="cell">
-               0.434
+               0.791
               </td>
               <td aria-colindex="6" aria-rowindex="14" role="cell">
                -0.311
@@ -4670,13 +4357,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.317
               </td>
               <td aria-colindex="11" aria-rowindex="14" role="cell">
-               1.315
+               0.022
               </td>
               <td aria-colindex="12" aria-rowindex="14" role="cell">
                -0.975
               </td>
               <td aria-colindex="13" aria-rowindex="14" role="cell">
-               0.753
+               0.530
               </td>
               <td aria-colindex="14" aria-rowindex="14" role="cell">
                -0.970
@@ -4694,13 +4381,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.737
               </td>
               <td aria-colindex="19" aria-rowindex="14" role="cell">
-               1.464
+               0.275
               </td>
               <td aria-colindex="20" aria-rowindex="14" role="cell">
                0.623
               </td>
               <td aria-colindex="21" aria-rowindex="14" role="cell">
-               0.796
+               0.947
               </td>
               <td aria-colindex="22" aria-rowindex="14" role="cell">
                0.438
@@ -4718,13 +4405,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -1.000
               </td>
               <td aria-colindex="27" aria-rowindex="14" role="cell">
-               0.450
+               -1.107
               </td>
               <td aria-colindex="28" aria-rowindex="14" role="cell">
                -0.782
               </td>
               <td aria-colindex="29" aria-rowindex="14" role="cell">
-               0.348
+               -0.044
               </td>
               <td aria-colindex="30" aria-rowindex="14" role="cell">
                -0.920
@@ -4744,18 +4431,18 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
              </tr>
             </tbody>
             <tfoot role="rowgroup">
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="15" colspan="2" style=""&gt;min&lt;/th&gt;;  --0: -1.4808;  --1: -0.9010;  --2: -0.9912;  --3: -1.0000;  --4: -1.0000;  --5: -1.0000;  --6: -0.7075;  --7: -0.3174;  --8: -0.9691;  --9: -0.9749;  --10: -1.0000;  --11: -0.9700;  --12: -0.4286;  --13: -0.9749;  --14: -1.0000;  --15: -0.8335;  --16: -0.7517;  --17: -0.9010;  --18: -0.9912;  --19: -1.0000;  --20: -0.8000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -0.9691;  --25: -0.9749;  --26: -0.4001;  --27: -0.9700;  --28: -0.4286;  --29: -0.9749;  --30: -0.1623;  --31: -0.7240; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="15" colspan="2" style=""&gt;min&lt;/th&gt;;  --0: -1.0882;  --1: -0.9010;  --2: -0.8919;  --3: -1.0000;  --4: -1.0000;  --5: -1.0000;  --6: -0.7075;  --7: -0.3174;  --8: -0.0794;  --9: -0.9749;  --10: -1.0000;  --11: -0.9700;  --12: -0.4286;  --13: -0.9749;  --14: -1.0000;  --15: -0.8335;  --16: -1.0882;  --17: -0.9010;  --18: -0.6339;  --19: -1.0000;  --20: -0.8000;  --21: -0.6235;  --22: -0.7075;  --23: -1.0000;  --24: -1.1069;  --25: -0.9749;  --26: -1.0000;  --27: -0.9700;  --28: -0.4286;  --29: -0.9749;  --30: -0.1623;  --31: -0.7240; '>
               <th aria-colindex="1" aria-rowindex="15" colspan="2">
                min
               </th>
               <td aria-colindex="3" aria-rowindex="15" role="cell">
-               -1.481
+               -1.088
               </td>
               <td aria-colindex="4" aria-rowindex="15" role="cell">
                -0.901
               </td>
               <td aria-colindex="5" aria-rowindex="15" role="cell">
-               -0.991
+               -0.892
               </td>
               <td aria-colindex="6" aria-rowindex="15" role="cell">
                -1.000
@@ -4773,7 +4460,7 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.317
               </td>
               <td aria-colindex="11" aria-rowindex="15" role="cell">
-               -0.969
+               -0.079
               </td>
               <td aria-colindex="12" aria-rowindex="15" role="cell">
                -0.975
@@ -4797,13 +4484,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.834
               </td>
               <td aria-colindex="19" aria-rowindex="15" role="cell">
-               -0.752
+               -1.088
               </td>
               <td aria-colindex="20" aria-rowindex="15" role="cell">
                -0.901
               </td>
               <td aria-colindex="21" aria-rowindex="15" role="cell">
-               -0.991
+               -0.634
               </td>
               <td aria-colindex="22" aria-rowindex="15" role="cell">
                -1.000
@@ -4821,13 +4508,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -1.000
               </td>
               <td aria-colindex="27" aria-rowindex="15" role="cell">
-               -0.969
+               -1.107
               </td>
               <td aria-colindex="28" aria-rowindex="15" role="cell">
                -0.975
               </td>
               <td aria-colindex="29" aria-rowindex="15" role="cell">
-               -0.400
+               -1.000
               </td>
               <td aria-colindex="30" aria-rowindex="15" role="cell">
                -0.970
@@ -4845,18 +4532,18 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                -0.724
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="16" colspan="2" style=""&gt;max&lt;/th&gt;;  --0: 1.6413;  --1: 1.0000;  --2: 0.4338;  --3: 0.9068;  --4: 1.0000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4555;  --8: 2.2018;  --9: 0.9749;  --10: 0.7527;  --11: 0.7587;  --12: 0.5714;  --13: 0.9749;  --14: 1.0000;  --15: 0.7373;  --16: 1.6413;  --17: 0.6235;  --18: 0.7964;  --19: 0.4405;  --20: 1.0000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4555;  --24: 2.2018;  --25: 0.9749;  --26: 0.7527;  --27: 0.7536;  --28: 0.5714;  --29: 0.9749;  --30: 1.0000;  --31: 0.8201; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="16" colspan="2" style=""&gt;max&lt;/th&gt;;  --0: 2.1980;  --1: 1.0000;  --2: 0.7909;  --3: 0.9068;  --4: 1.0000;  --5: 0.9010;  --6: 0.6468;  --7: 0.4555;  --8: 2.2014;  --9: 0.9749;  --10: 0.6273;  --11: 0.7587;  --12: 0.5714;  --13: 0.9749;  --14: 1.0000;  --15: 0.7373;  --16: 2.1980;  --17: 0.6235;  --18: 0.9467;  --19: 0.4405;  --20: 1.0000;  --21: 0.9010;  --22: 0.6468;  --23: 0.4555;  --24: 2.2014;  --25: 0.9749;  --26: 0.5305;  --27: 0.7536;  --28: 0.5714;  --29: 0.9749;  --30: 1.0000;  --31: 0.8201; '>
               <th aria-colindex="1" aria-rowindex="16" colspan="2">
                max
               </th>
               <td aria-colindex="3" aria-rowindex="16" role="cell">
-               1.641
+               2.198
               </td>
               <td aria-colindex="4" aria-rowindex="16" role="cell">
                1.000
               </td>
               <td aria-colindex="5" aria-rowindex="16" role="cell">
-               0.434
+               0.791
               </td>
               <td aria-colindex="6" aria-rowindex="16" role="cell">
                0.907
@@ -4874,13 +4561,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="11" aria-rowindex="16" role="cell">
-               2.202
+               2.201
               </td>
               <td aria-colindex="12" aria-rowindex="16" role="cell">
                0.975
               </td>
               <td aria-colindex="13" aria-rowindex="16" role="cell">
-               0.753
+               0.627
               </td>
               <td aria-colindex="14" aria-rowindex="16" role="cell">
                0.759
@@ -4898,13 +4585,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.737
               </td>
               <td aria-colindex="19" aria-rowindex="16" role="cell">
-               1.641
+               2.198
               </td>
               <td aria-colindex="20" aria-rowindex="16" role="cell">
                0.623
               </td>
               <td aria-colindex="21" aria-rowindex="16" role="cell">
-               0.796
+               0.947
               </td>
               <td aria-colindex="22" aria-rowindex="16" role="cell">
                0.440
@@ -4922,13 +4609,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.455
               </td>
               <td aria-colindex="27" aria-rowindex="16" role="cell">
-               2.202
+               2.201
               </td>
               <td aria-colindex="28" aria-rowindex="16" role="cell">
                0.975
               </td>
               <td aria-colindex="29" aria-rowindex="16" role="cell">
-               0.753
+               0.530
               </td>
               <td aria-colindex="30" aria-rowindex="16" role="cell">
                0.754
@@ -4946,18 +4633,18 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.820
               </td>
              </tr>
-             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="17" colspan="2" style=""&gt;diff&lt;/th&gt;;  --0: 3.1221;  --1: 1.9010;  --2: 1.4249;  --3: 1.9068;  --4: 2.0000;  --5: 1.9010;  --6: 1.3544;  --7: 0.7729;  --8: 3.1709;  --9: 1.9499;  --10: 1.7527;  --11: 1.7286;  --12: 1.0000;  --13: 1.9499;  --14: 2.0000;  --15: 1.5708;  --16: 2.3930;  --17: 1.5245;  --18: 1.7875;  --19: 1.4405;  --20: 1.8000;  --21: 1.5245;  --22: 1.3544;  --23: 1.4555;  --24: 3.1709;  --25: 1.9499;  --26: 1.1528;  --27: 1.7236;  --28: 1.0000;  --29: 1.9499;  --30: 1.1623;  --31: 1.5441; '>
+             <tr role="row" style='---2: &lt;th aria-colindex="1" aria-rowindex="17" colspan="2" style=""&gt;diff&lt;/th&gt;;  --0: 3.2862;  --1: 1.9010;  --2: 1.6828;  --3: 1.9068;  --4: 2.0000;  --5: 1.9010;  --6: 1.3544;  --7: 0.7729;  --8: 2.2808;  --9: 1.9499;  --10: 1.6273;  --11: 1.7286;  --12: 1.0000;  --13: 1.9499;  --14: 2.0000;  --15: 1.5708;  --16: 3.2862;  --17: 1.5245;  --18: 1.5805;  --19: 1.4405;  --20: 1.8000;  --21: 1.5245;  --22: 1.3544;  --23: 1.4555;  --24: 3.3083;  --25: 1.9499;  --26: 1.5305;  --27: 1.7236;  --28: 1.0000;  --29: 1.9499;  --30: 1.1623;  --31: 1.5441; '>
               <th aria-colindex="1" aria-rowindex="17" colspan="2">
                diff
               </th>
               <td aria-colindex="3" aria-rowindex="17" role="cell">
-               3.122
+               3.286
               </td>
               <td aria-colindex="4" aria-rowindex="17" role="cell">
                1.901
               </td>
               <td aria-colindex="5" aria-rowindex="17" role="cell">
-               1.425
+               1.683
               </td>
               <td aria-colindex="6" aria-rowindex="17" role="cell">
                1.907
@@ -4975,13 +4662,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                0.773
               </td>
               <td aria-colindex="11" aria-rowindex="17" role="cell">
-               3.171
+               2.281
               </td>
               <td aria-colindex="12" aria-rowindex="17" role="cell">
                1.950
               </td>
               <td aria-colindex="13" aria-rowindex="17" role="cell">
-               1.753
+               1.627
               </td>
               <td aria-colindex="14" aria-rowindex="17" role="cell">
                1.729
@@ -4999,13 +4686,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                1.571
               </td>
               <td aria-colindex="19" aria-rowindex="17" role="cell">
-               2.393
+               3.286
               </td>
               <td aria-colindex="20" aria-rowindex="17" role="cell">
                1.524
               </td>
               <td aria-colindex="21" aria-rowindex="17" role="cell">
-               1.788
+               1.581
               </td>
               <td aria-colindex="22" aria-rowindex="17" role="cell">
                1.440
@@ -5023,13 +4710,13 @@ document.querySelectorAll(`[name=layout]`).forEach((element) =&gt; {
                1.455
               </td>
               <td aria-colindex="27" aria-rowindex="17" role="cell">
-               3.171
+               3.308
               </td>
               <td aria-colindex="28" aria-rowindex="17" role="cell">
                1.950
               </td>
               <td aria-colindex="29" aria-rowindex="17" role="cell">
-               1.153
+               1.530
               </td>
               <td aria-colindex="30" aria-rowindex="17" role="cell">
                1.724
@@ -5522,25 +5209,25 @@ HTML(section)</code></pre>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell code" data-index="12" data-loc="72" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 11 cell-11-cell_type" aria-posinset="11" class="cell code" data-index="11" data-loc="72" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="cell-12-executed nb-code-label nb-cell-label cell-12-loc nb-loc-label cell-12-outputs-len" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
-        12
+       <a aria-describedby="cell-11-executed nb-code-label nb-cell-label cell-11-loc nb-loc-label cell-11-outputs-len" aria-labelledby="nb-cell-label 11" class="nb-anchor visually-hidden" href="#11" id="11">
+        11
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
-        <span hidden id="cell-12-executed">
+        <span hidden id="cell-11-executed">
          executed
         </span>
-        <span id="cell-12-in-label">
+        <span id="cell-11-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span id="cell-12-exec-label">
-         10
+        <span id="cell-11-exec-label">
+         9
         </span>
         <span aria-hidden="true">
          ]
@@ -5548,12 +5235,12 @@ HTML(section)</code></pre>
        </label>
       </td>
       <td class="nb-cell_type" hidden role="none">
-       <label id="cell-12-cell_type">
+       <label id="cell-11-cell_type">
         code
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-12-exec-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
+       <form aria-labelledby="cell-11-exec-label" class="nb-toolbar" hidden id="cell-11" name="cell-11">
         <fieldset>
          <legend>
           actions
@@ -5564,12 +5251,12 @@ HTML(section)</code></pre>
         </fieldset>
        </form>
       </td>
-      <td class="nb-start" hidden id="cell-12-start" role="none">
+      <td class="nb-start" hidden id="cell-11-start" role="none">
       </td>
-      <td class="nb-end" hidden id="cell-12-end" role="none">
+      <td class="nb-end" hidden id="cell-11-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="72">%%
+       <textarea aria-labelledby="cell-11-in-label cell-11-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-11" id="cell-11-source" name="source" readonly rows="72">%%
 visual styling for the graph
 
 ```css
@@ -5641,7 +5328,7 @@ visual styling for the graph
         
     }
 ```</textarea>
-       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-11-in-label cell-11-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">%%</span>
 <span class="n">visual</span> <span class="n">styling</span> <span class="k">for</span> <span class="n">the</span> <span class="n">graph</span>
@@ -5720,10 +5407,10 @@ visual styling for the graph
        </div>
       </td>
       <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
+       <button aria-controls="cell-11-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-11" name="metadata" onclick="openDialog()">
         metadata
        </button>
-       <dialog id="cell-12-metadata">
+       <dialog id="cell-11-metadata">
         <form>
          <button formmethod="dialog">
           Close
@@ -5734,15 +5421,15 @@ visual styling for the graph
         </form>
        </dialog>
       </td>
-      <td class="nb-loc" hidden id="cell-12-loc" role="none">
+      <td class="nb-loc" hidden id="cell-11-loc" role="none">
        72
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-12-outputs-len">
+       <span class="nb-outputs visually-hidden" id="cell-11-outputs-len">
         2 outputs.
        </span>
        <fieldset class="nb-outputs" data-outputs="2">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-12-outputs-label">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-11-outputs-label">
          <span>
           Out
          </span>
@@ -5750,7 +5437,7 @@ visual styling for the graph
           [
          </span>
          <span>
-          10
+          9
          </span>
          <span aria-hidden="true">
           ]
@@ -5902,24 +5589,24 @@ visual styling for the graph
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 13 cell-13-cell_type" aria-posinset="13" class="cell markdown" data-index="13" data-loc="13" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 12 cell-12-cell_type" aria-posinset="12" class="cell markdown" data-index="12" data-loc="13" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 13" class="nb-anchor visually-hidden" href="#13" id="13">
-        13
+       <a aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 12" class="nb-anchor visually-hidden" href="#12" id="12">
+        12
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
-        <span hidden id="cell-13-executed">
+        <span hidden id="cell-12-executed">
          unexecuted
         </span>
-        <span id="cell-13-in-label">
+        <span id="cell-12-in-label">
          In
         </span>
         <span aria-hidden="true">
          [
         </span>
-        <span id="cell-13-exec-label">
+        <span id="cell-12-exec-label">
         </span>
         <span aria-hidden="true">
          ]
@@ -5927,12 +5614,12 @@ visual styling for the graph
        </label>
       </td>
       <td class="nb-cell_type" hidden role="none">
-       <label id="cell-13-cell_type">
+       <label id="cell-12-cell_type">
         markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-13-exec-label" class="nb-toolbar" hidden id="cell-13" name="cell-13">
+       <form aria-labelledby="cell-12-exec-label" class="nb-toolbar" hidden id="cell-12" name="cell-12">
         <fieldset>
          <legend>
           actions
@@ -5943,12 +5630,12 @@ visual styling for the graph
         </fieldset>
        </form>
       </td>
-      <td class="nb-start" hidden id="cell-13-start" role="none">
+      <td class="nb-start" hidden id="cell-12-start" role="none">
       </td>
-      <td class="nb-end" hidden id="cell-13-end" role="none">
+      <td class="nb-end" hidden id="cell-12-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-13-in-label cell-13-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-13" id="cell-13-source" name="source" readonly rows="13">## marginalia
+       <textarea aria-labelledby="cell-12-in-label cell-12-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-12" id="cell-12-source" name="source" readonly rows="13">## marginalia
 
 what describes the figure and form of a graph?
 
@@ -5961,7 +5648,7 @@ nodes and edges
 nodes are primary foreground forms
 edges are second mid ground forms
 all other attributes are background</textarea>
-       <div aria-labelledby="cell-13-in-label cell-13-exec-label" aria-roledescription="highlighted" role="group">
+       <div aria-labelledby="cell-12-in-label cell-12-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="gu">## marginalia</span>
 
@@ -5981,10 +5668,10 @@ all other attributes are background
        </div>
       </td>
       <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-13-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-13" name="metadata" onclick="openDialog()">
+       <button aria-controls="cell-12-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-12" name="metadata" onclick="openDialog()">
         metadata
        </button>
-       <dialog id="cell-13-metadata">
+       <dialog id="cell-12-metadata">
         <form>
          <button formmethod="dialog">
           Close
@@ -5995,7 +5682,7 @@ all other attributes are background
         </form>
        </dialog>
       </td>
-      <td class="nb-loc" hidden id="cell-13-loc" role="none">
+      <td class="nb-loc" hidden id="cell-12-loc" role="none">
        13
       </td>
       <td class="nb-outputs" role="none">
