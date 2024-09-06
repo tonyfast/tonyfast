@@ -1558,10 +1558,10 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        cells
       </dt>
       <dd id="nb-ct-total">
-       7 total
+       3 total
       </dd>
       <dd id="nb-ct-code">
-       5 code
+       1 code
       </dd>
       <dd>
       </dd>
@@ -1569,7 +1569,7 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        state
       </dt>
       <dd id="nb-state">
-       executed out of order
+       executed in order
       </dd>
       <dt>
        kernel
@@ -1601,13 +1601,13 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
        lines of code
       </dt>
       <dd id="nb-ct-loc">
-       50
+       61
       </dd>
       <dt>
        outputs
       </dt>
       <dd id="nb-ct-outputs">
-       4
+       2
       </dd>
      </dl>
     </details>
@@ -1627,6 +1627,15 @@ nb-ct-outputs nb-outputs-label" id="nb-summary-label">
         <a href="#None">
          ratios in numerical columns
         </a>
+       </li>
+       <li>
+        <ol>
+         <li>
+          <a href="#None">
+           marginalia
+          </a>
+         </li>
+        </ol>
        </li>
       </ol>
      </nav>
@@ -1792,7 +1801,7 @@ there is an interesting outcome when table cells have access to their <span clas
        </p>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="53" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="58" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
        <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
         2
@@ -1810,7 +1819,7 @@ there is an interesting outcome when table cells have access to their <span clas
          [
         </span>
         <span id="cell-2-exec-label">
-         37
+         1
         </span>
         <span aria-hidden="true">
          ]
@@ -1839,12 +1848,13 @@ there is an interesting outcome when table cells have access to their <span clas
       <td class="nb-end" hidden id="cell-2-end" role="none">
       </td>
       <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="53">%%
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="58">%%
 {{table._repr_html_()}}
 
     gists = (await (
         "https://api.github.com/users/tonyfast/gists?page=" + pandas.RangeIndex(1, 3).astype(str)
     ).http.get()).explode().series().set_index("id")
+    gists.index.name = "gist_id"
 we're going to quickly make a table of my gist from github.
 
     files = gists.join(gists.files.apply(dict.values).apply(list).explode().series())
@@ -1857,26 +1867,16 @@ unravel all the gists in each gist payload.
 convert times to their proper types and substract them so out dataframe 
 contains integers, datetimes, and timedeltas, types with numerical representations.
     
+    files[cat] = files[cat := "language type".split()].astype("category")
     df = files[time + "timespan filename description language type size".split()]
-    import nbconvert_a11y.table
-
-    def aria_index(table):
-        i = 0
-        for row in table.table.select("tr"):
-            j = 0
-            for cell in row.select("th, td"):
-                cell.attrs.update({"aria-rowindex": i, "aria-colindex": j + 1})
-                j += int(cell.attrs.get("colspan", 1))
-            i += int(cell.attrs.get("rowspan", 1))
-        return table
-    table = aria_index(df.table(id="gist"))
-
+    
 now are going to add a few lines of `css` that uses the `--ratio` variables in each numerical cell
 to produce visual representation of the cell value in the larger distribution.
 it is really interesting how we start to create the cell border form when we do this.
 at a glance we can visually observe relative positions of values in a column.
 further, scrolling creates really interesting movement that provides user controlled animation.
     
+    display\
 ```css
 td {
     --marker-width: .2ch;
@@ -1891,7 +1891,21 @@ td {
                                 rgba(255, 0, 0, 0) calc(var(--ratio) * 100% + var(--marker-width)) 100%
                                ); 
 }
-```</textarea>
+```
+
+    notebooks = (
+        await files[files.language.eq("Jupyter Notebook")].raw_url.http.get()
+    ).apply(json.loads).series()
+read the `notebooks` and separate out the cells, outputs, and display objects.
+
+    cells = notebooks.cells.enumerate("cell").series()
+    outputs = cells.outputs[cells.outputs.fillna("").astype(bool)].enumerate("display").series()
+    display_data = outputs['data'].dropna().series()
+
+    df = (df.join(cells.groupby("gist_id").id.count().rename("cells"))
+          .join(outputs.groupby("gist_id")["data"].count().rename("outputs")))
+    import nbconvert_a11y.table
+    table = df.sort_values("created_at", ascending=False).table(id="gist")</textarea>
        <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
          <pre><span></span><code><span class="o">%%</span>
@@ -1900,6 +1914,7 @@ td {
     <span class="n">gists</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="p">(</span>
         <span class="s2">"https://api.github.com/users/tonyfast/gists?page="</span> <span class="o">+</span> <span class="n">pandas</span><span class="o">.</span><span class="n">RangeIndex</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">())</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">()</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+    <span class="n">gists</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="s2">"gist_id"</span>
 <span class="n">we</span><span class="s1">'re going to quickly make a table of my gist from github.</span>
 
     <span class="n">files</span> <span class="o">=</span> <span class="n">gists</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gists</span><span class="o">.</span><span class="n">files</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">dict</span><span class="o">.</span><span class="n">values</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">())</span>
@@ -1912,26 +1927,16 @@ td {
 <span class="n">convert</span> <span class="n">times</span> <span class="n">to</span> <span class="n">their</span> <span class="n">proper</span> <span class="n">types</span> <span class="ow">and</span> <span class="n">substract</span> <span class="n">them</span> <span class="n">so</span> <span class="n">out</span> <span class="n">dataframe</span> 
 <span class="n">contains</span> <span class="n">integers</span><span class="p">,</span> <span class="n">datetimes</span><span class="p">,</span> <span class="ow">and</span> <span class="n">timedeltas</span><span class="p">,</span> <span class="n">types</span> <span class="k">with</span> <span class="n">numerical</span> <span class="n">representations</span><span class="o">.</span>
     
+    <span class="n">files</span><span class="p">[</span><span class="n">cat</span><span class="p">]</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="n">cat</span> <span class="o">:=</span> <span class="s2">"language type"</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s2">"category"</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">files</span><span class="p">[</span><span class="n">time</span> <span class="o">+</span> <span class="s2">"timespan filename description language type size"</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-    <span class="kn">import</span> <span class="nn">nbconvert_a11y.table</span>
-
-    <span class="k">def</span> <span class="nf">aria_index</span><span class="p">(</span><span class="n">table</span><span class="p">):</span>
-        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">table</span><span class="o">.</span><span class="n">table</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"tr"</span><span class="p">):</span>
-            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
-            <span class="k">for</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">row</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="s2">"th, td"</span><span class="p">):</span>
-                <span class="n">cell</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">"aria-rowindex"</span><span class="p">:</span> <span class="n">i</span><span class="p">,</span> <span class="s2">"aria-colindex"</span><span class="p">:</span> <span class="n">j</span> <span class="o">+</span> <span class="mi">1</span><span class="p">})</span>
-                <span class="n">j</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"colspan"</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-            <span class="n">i</span> <span class="o">+=</span> <span class="nb">int</span><span class="p">(</span><span class="n">cell</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"rowspan"</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">table</span>
-    <span class="n">table</span> <span class="o">=</span> <span class="n">aria_index</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"gist"</span><span class="p">))</span>
-
+    
 <span class="n">now</span> <span class="n">are</span> <span class="n">going</span> <span class="n">to</span> <span class="n">add</span> <span class="n">a</span> <span class="n">few</span> <span class="n">lines</span> <span class="n">of</span> <span class="err">`</span><span class="n">css</span><span class="err">`</span> <span class="n">that</span> <span class="n">uses</span> <span class="n">the</span> <span class="err">`</span><span class="o">--</span><span class="n">ratio</span><span class="err">`</span> <span class="n">variables</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">numerical</span> <span class="n">cell</span>
 <span class="n">to</span> <span class="n">produce</span> <span class="n">visual</span> <span class="n">representation</span> <span class="n">of</span> <span class="n">the</span> <span class="n">cell</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">larger</span> <span class="n">distribution</span><span class="o">.</span>
 <span class="n">it</span> <span class="ow">is</span> <span class="n">really</span> <span class="n">interesting</span> <span class="n">how</span> <span class="n">we</span> <span class="n">start</span> <span class="n">to</span> <span class="n">create</span> <span class="n">the</span> <span class="n">cell</span> <span class="n">border</span> <span class="n">form</span> <span class="n">when</span> <span class="n">we</span> <span class="n">do</span> <span class="n">this</span><span class="o">.</span>
 <span class="n">at</span> <span class="n">a</span> <span class="n">glance</span> <span class="n">we</span> <span class="n">can</span> <span class="n">visually</span> <span class="n">observe</span> <span class="n">relative</span> <span class="n">positions</span> <span class="n">of</span> <span class="n">values</span> <span class="ow">in</span> <span class="n">a</span> <span class="n">column</span><span class="o">.</span>
 <span class="n">further</span><span class="p">,</span> <span class="n">scrolling</span> <span class="n">creates</span> <span class="n">really</span> <span class="n">interesting</span> <span class="n">movement</span> <span class="n">that</span> <span class="n">provides</span> <span class="n">user</span> <span class="n">controlled</span> <span class="n">animation</span><span class="o">.</span>
     
+    <span class="n">display</span>\
 <span class="err">```</span><span class="n">css</span>
 <span class="n">td</span> <span class="p">{</span>
     <span class="o">--</span><span class="n">marker</span><span class="o">-</span><span class="n">width</span><span class="p">:</span> <span class="mf">.2</span><span class="n">ch</span><span class="p">;</span>
@@ -1947,6 +1952,20 @@ td {
                                <span class="p">);</span> 
 <span class="p">}</span>
 <span class="err">```</span>
+
+    <span class="n">notebooks</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="k">await</span> <span class="n">files</span><span class="p">[</span><span class="n">files</span><span class="o">.</span><span class="n">language</span><span class="o">.</span><span class="n">eq</span><span class="p">(</span><span class="s2">"Jupyter Notebook"</span><span class="p">)]</span><span class="o">.</span><span class="n">raw_url</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+<span class="n">read</span> <span class="n">the</span> <span class="err">`</span><span class="n">notebooks</span><span class="err">`</span> <span class="ow">and</span> <span class="n">separate</span> <span class="n">out</span> <span class="n">the</span> <span class="n">cells</span><span class="p">,</span> <span class="n">outputs</span><span class="p">,</span> <span class="ow">and</span> <span class="n">display</span> <span class="n">objects</span><span class="o">.</span>
+
+    <span class="n">cells</span> <span class="o">=</span> <span class="n">notebooks</span><span class="o">.</span><span class="n">cells</span><span class="o">.</span><span class="n">enumerate</span><span class="p">(</span><span class="s2">"cell"</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+    <span class="n">outputs</span> <span class="o">=</span> <span class="n">cells</span><span class="o">.</span><span class="n">outputs</span><span class="p">[</span><span class="n">cells</span><span class="o">.</span><span class="n">outputs</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]</span><span class="o">.</span><span class="n">enumerate</span><span class="p">(</span><span class="s2">"display"</span><span class="p">)</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+    <span class="n">display_data</span> <span class="o">=</span> <span class="n">outputs</span><span class="p">[</span><span class="s1">'data'</span><span class="p">]</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">()</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cells</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"gist_id"</span><span class="p">)</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"cells"</span><span class="p">))</span>
+          <span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">outputs</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">"gist_id"</span><span class="p">)[</span><span class="s2">"data"</span><span class="p">]</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">"outputs"</span><span class="p">)))</span>
+    <span class="kn">import</span> <span class="nn">nbconvert_a11y.table</span>
+    <span class="n">table</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">"created_at"</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"gist"</span><span class="p">)</span>
 </code></pre>
         </div>
        </div>
@@ -1967,7 +1986,7 @@ td {
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-2-loc" role="none">
-       53
+       58
       </td>
       <td class="nb-outputs" role="none">
        <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
@@ -1982,7 +2001,7 @@ td {
           [
          </span>
          <span>
-          37
+          1
          </span>
          <span aria-hidden="true">
           ]
@@ -2009,232 +2028,309 @@ td {
            <figure>
             <figcaption id="gist-figcaption">
             </figcaption>
-            <table aria-labelledby="gist-figcaption gist-caption" id="gist" role="table" style="resize: both;--0-min: 1622218520;--0-max: 1704920646;--1-min: 1622234881;--1-max: 1704920679;--2-min: 0;--2-max: 75318965;--7-min: 15;--7-max: 17544796;--3-73: ;--3-74: ;--4-73: ;--4-74: ;--5-73: ;--5-74: ;--6-73: ;--6-74: ;">
+            <table aria-labelledby="gist-figcaption gist-caption" id="gist" role="table" style="resize: both;--0-min: 1622218520;--0-max: 1704920646;--1-min: 1622234881;--1-max: 1704920679;--2-min: 0;--2-max: 75318965;--7-min: 15;--7-max: 17544796;--8-min: 0.000;--8-max: 56.000;--9-min: 0.000;--9-max: 43.000;--3-73: ;--3-74: ;--4-73: ;--4-74: ;--5-73: ;--5-74: ;--6-73: ;--6-74: ;">
              <caption id="gist-caption">
              </caption>
              <thead>
               <tr>
-               <th aria-colindex="1" aria-rowindex="1" scope="col">
-                id
+               <th aria-colindex="1" aria-rowindex="0" scope="col">
+                gist_id
                </th>
-               <th aria-colindex="2" aria-rowindex="1" scope="col">
+               <th aria-colindex="2" aria-rowindex="0" scope="col">
                 created_at
                </th>
-               <th aria-colindex="3" aria-rowindex="1" scope="col">
+               <th aria-colindex="3" aria-rowindex="0" aria-sort="descending" scope="col">
                 updated_at
                </th>
-               <th aria-colindex="4" aria-rowindex="1" scope="col">
+               <th aria-colindex="4" aria-rowindex="0" scope="col">
                 timespan
                </th>
-               <th aria-colindex="5" aria-rowindex="1" scope="col">
+               <th aria-colindex="5" aria-rowindex="0" scope="col">
                 filename
                </th>
-               <th aria-colindex="6" aria-rowindex="1" scope="col">
+               <th aria-colindex="6" aria-rowindex="0" scope="col">
                 description
                </th>
-               <th aria-colindex="7" aria-rowindex="1" scope="col">
+               <th aria-colindex="7" aria-rowindex="0" scope="col">
                 language
                </th>
-               <th aria-colindex="8" aria-rowindex="1" scope="col">
+               <th aria-colindex="8" aria-rowindex="0" scope="col">
                 type
                </th>
-               <th aria-colindex="9" aria-rowindex="1" scope="col">
+               <th aria-colindex="9" aria-rowindex="0" scope="col">
                 size
+               </th>
+               <th aria-colindex="10" aria-rowindex="0" scope="col">
+                cells
+               </th>
+               <th aria-colindex="11" aria-rowindex="0" scope="col">
+                outputs
                </th>
               </tr>
              </thead>
              <tbody>
-              <tr style="--0: 1704920646;--1: 1704920679;--2: 33;--7: 20469;">
-               <th aria-colindex="1" aria-rowindex="2" scope="row">
+              <tr style="--0: 1704920646;--1: 1704920679;--2: 33;--7: 20469;--8: 16.000;--9: 7.000;">
+               <th aria-colindex="1" aria-rowindex="1" scope="row">
                 90c41d4994f75c594db804aeba56fc26
                </th>
-               <td aria-colindex="2" aria-rowindex="2">
+               <td aria-colindex="2" aria-rowindex="1">
                 <time>
                  2024-01-10T21:04:06+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="2">
+               <td aria-colindex="3" aria-rowindex="1">
                 <time>
                  2024-01-10T21:04:39+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="2">
+               <td aria-colindex="4" aria-rowindex="1">
                 <time datetime="P0DT0H0M33S">
                  33.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="2">
+               <td aria-colindex="5" aria-rowindex="1">
                 first_and_second_laws_of_thermodynamics.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="2">
+               <td aria-colindex="6" aria-rowindex="1">
                 a notebook with revised literate pidgy cells for the first part of thermodyamics course
                </td>
-               <td aria-colindex="7" aria-rowindex="2">
+               <td aria-colindex="7" aria-rowindex="1">
                 Jupyter Notebook
                </td>
-               <td aria-colindex="8" aria-rowindex="2">
+               <td aria-colindex="8" aria-rowindex="1">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="2">
+               <td aria-colindex="9" aria-rowindex="1">
                 20469
                </td>
+               <td aria-colindex="10" aria-rowindex="1">
+                16.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="1">
+                7.0
+               </td>
               </tr>
-              <tr style="--0: 1701639066;--1: 1701639066;--2: 0;--7: 8442;">
-               <th aria-colindex="1" aria-rowindex="3" scope="row">
+              <tr style="--0: 1701639066;--1: 1701639066;--2: 0;--7: 8442;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="2" scope="row">
                 aa3b16c5a284150e3d727a843b6cefec
                </th>
-               <td aria-colindex="2" aria-rowindex="3">
+               <td aria-colindex="2" aria-rowindex="2">
                 <time>
                  2023-12-03T21:31:06+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="3">
+               <td aria-colindex="3" aria-rowindex="2">
                 <time>
                  2023-12-03T21:31:06+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="3">
+               <td aria-colindex="4" aria-rowindex="2">
                 <time datetime="P0DT0H0M0S">
                  0.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="3">
+               <td aria-colindex="5" aria-rowindex="2">
                 axe_types.py
                </td>
-               <td aria-colindex="6" aria-rowindex="3">
+               <td aria-colindex="6" aria-rowindex="2">
                </td>
-               <td aria-colindex="7" aria-rowindex="3">
+               <td aria-colindex="7" aria-rowindex="2">
                 Python
                </td>
-               <td aria-colindex="8" aria-rowindex="3">
+               <td aria-colindex="8" aria-rowindex="2">
                 application/x-python
                </td>
-               <td aria-colindex="9" aria-rowindex="3">
+               <td aria-colindex="9" aria-rowindex="2">
                 8442
                </td>
+               <td aria-colindex="10" aria-rowindex="2">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="2">
+                nan
+               </td>
               </tr>
-              <tr style="--0: 1698958763;--1: 1698959132;--2: 369;--7: 352154;">
-               <th aria-colindex="1" aria-rowindex="4" scope="row">
+              <tr style="--0: 1698958763;--1: 1698959132;--2: 369;--7: 352154;--8: 0.000;--9: 6.000;">
+               <th aria-colindex="1" aria-rowindex="3" scope="row">
                 713ae6c57602c0f85d011421b20d5ea0
                </th>
-               <td aria-colindex="2" aria-rowindex="4">
+               <td aria-colindex="2" aria-rowindex="3">
                 <time>
                  2023-11-02T20:59:23+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="4">
+               <td aria-colindex="3" aria-rowindex="3">
                 <time>
                  2023-11-02T21:05:32+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="4">
+               <td aria-colindex="4" aria-rowindex="3">
                 <time datetime="P0DT0H6M9S">
                  369.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="4">
+               <td aria-colindex="5" aria-rowindex="3">
                 BinaryExamples.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="4">
+               <td aria-colindex="6" aria-rowindex="3">
                 a revision of a pycalphad documentation page as literate program.
                </td>
-               <td aria-colindex="7" aria-rowindex="4">
+               <td aria-colindex="7" aria-rowindex="3">
                 Jupyter Notebook
                </td>
-               <td aria-colindex="8" aria-rowindex="4">
+               <td aria-colindex="8" aria-rowindex="3">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="4">
+               <td aria-colindex="9" aria-rowindex="3">
                 352154
                </td>
+               <td aria-colindex="10" aria-rowindex="3">
+                0.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="3">
+                6.0
+               </td>
               </tr>
-              <tr style="--0: 1686074958;--1: 1686074959;--2: 1;--7: 52330;">
-               <th aria-colindex="1" aria-rowindex="5" scope="row">
+              <tr style="--0: 1686074958;--1: 1686074959;--2: 1;--7: 52330;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="4" scope="row">
                 c004044b4fe641735031ecf2069cf595
                </th>
-               <td aria-colindex="2" aria-rowindex="5">
+               <td aria-colindex="2" aria-rowindex="4">
                 <time>
                  2023-06-06T18:09:18+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="5">
+               <td aria-colindex="3" aria-rowindex="4">
                 <time>
                  2023-06-06T18:09:19+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="5">
+               <td aria-colindex="4" aria-rowindex="4">
                 <time datetime="P0DT0H0M1S">
                  1.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="5">
+               <td aria-colindex="5" aria-rowindex="4">
                 aom.json
                </td>
-               <td aria-colindex="6" aria-rowindex="5">
+               <td aria-colindex="6" aria-rowindex="4">
                 an exported accessibility tree from https://iota-school.github.io/notebooks-for-all/branch/extent/exports/html/lorenz-executed-smol.html#14
                </td>
-               <td aria-colindex="7" aria-rowindex="5">
+               <td aria-colindex="7" aria-rowindex="4">
                 JSON
                </td>
-               <td aria-colindex="8" aria-rowindex="5">
+               <td aria-colindex="8" aria-rowindex="4">
                 application/json
                </td>
-               <td aria-colindex="9" aria-rowindex="5">
+               <td aria-colindex="9" aria-rowindex="4">
                 52330
                </td>
+               <td aria-colindex="10" aria-rowindex="4">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="4">
+                nan
+               </td>
               </tr>
-              <tr style="--0: 1677018751;--1: 1677018944;--2: 193;--7: 3044;">
-               <th aria-colindex="1" aria-rowindex="6" scope="row">
+              <tr style="--0: 1677018751;--1: 1677018944;--2: 193;--7: 3044;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="5" scope="row">
                 e17946facd998a931527467d646cc822
                </th>
-               <td aria-colindex="2" aria-rowindex="6">
+               <td aria-colindex="2" aria-rowindex="5">
                 <time>
                  2023-02-21T22:32:31+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="6">
+               <td aria-colindex="3" aria-rowindex="5">
                 <time>
                  2023-02-21T22:35:44+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="6">
+               <td aria-colindex="4" aria-rowindex="5">
                 <time datetime="P0DT0H3M13S">
                  193.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="6">
+               <td aria-colindex="5" aria-rowindex="5">
                 README.md
                </td>
-               <td aria-colindex="6" aria-rowindex="6">
+               <td aria-colindex="6" aria-rowindex="5">
                 extensible notebook schemas
                </td>
-               <td aria-colindex="7" aria-rowindex="6">
+               <td aria-colindex="7" aria-rowindex="5">
                 Markdown
                </td>
-               <td aria-colindex="8" aria-rowindex="6">
+               <td aria-colindex="8" aria-rowindex="5">
                 text/markdown
                </td>
-               <td aria-colindex="9" aria-rowindex="6">
+               <td aria-colindex="9" aria-rowindex="5">
                 3044
                </td>
+               <td aria-colindex="10" aria-rowindex="5">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="5">
+                nan
+               </td>
               </tr>
-              <tr style="--0: 1671776190;--1: 1671776190;--2: 0;--7: 266;">
-               <th aria-colindex="1" aria-rowindex="7" scope="row">
+              <tr style="--0: 1671776190;--1: 1671776190;--2: 0;--7: 266;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="6" scope="row">
                 99303420edc6021bbeeaa96c522469a1
                </th>
-               <td aria-colindex="2" aria-rowindex="7">
+               <td aria-colindex="2" aria-rowindex="6">
                 <time>
                  2022-12-23T06:16:30+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="7">
+               <td aria-colindex="3" aria-rowindex="6">
                 <time>
                  2022-12-23T06:16:30+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="6">
+                <time datetime="P0DT0H0M0S">
+                 0.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="6">
+                ummm.py
+               </td>
+               <td aria-colindex="6" aria-rowindex="6">
+               </td>
+               <td aria-colindex="7" aria-rowindex="6">
+                Python
+               </td>
+               <td aria-colindex="8" aria-rowindex="6">
+                application/x-python
+               </td>
+               <td aria-colindex="9" aria-rowindex="6">
+                266
+               </td>
+               <td aria-colindex="10" aria-rowindex="6">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="6">
+                nan
+               </td>
+              </tr>
+              <tr style="--0: 1671505705;--1: 1671505705;--2: 0;--7: 469;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="7" scope="row">
+                c8e19ffb2b85f5bf6f5a4b6e76c327cd
+               </th>
+               <td aria-colindex="2" aria-rowindex="7">
+                <time>
+                 2022-12-20T03:08:25+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="7">
+                <time>
+                 2022-12-20T03:08:25+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="7">
@@ -2244,9 +2340,10 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="7">
-                ummm.py
+                abc.py
                </td>
                <td aria-colindex="6" aria-rowindex="7">
+                abc of python modules
                </td>
                <td aria-colindex="7" aria-rowindex="7">
                 Python
@@ -2255,21 +2352,27 @@ td {
                 application/x-python
                </td>
                <td aria-colindex="9" aria-rowindex="7">
-                266
+                469
+               </td>
+               <td aria-colindex="10" aria-rowindex="7">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="7">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1671505705;--1: 1671505705;--2: 0;--7: 469;">
+              <tr style="--0: 1671397649;--1: 1671397649;--2: 0;--7: 4213;--8: nan;--9: nan;">
                <th aria-colindex="1" aria-rowindex="8" scope="row">
-                c8e19ffb2b85f5bf6f5a4b6e76c327cd
+                4e33098a9f3a50805ad99d08e96825a6
                </th>
                <td aria-colindex="2" aria-rowindex="8">
                 <time>
-                 2022-12-20T03:08:25+00:00
+                 2022-12-18T21:07:29+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="8">
                 <time>
-                 2022-12-20T03:08:25+00:00
+                 2022-12-18T21:07:29+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="8">
@@ -2279,10 +2382,9 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="8">
-                abc.py
+                graph shit.py
                </td>
                <td aria-colindex="6" aria-rowindex="8">
-                abc of python modules
                </td>
                <td aria-colindex="7" aria-rowindex="8">
                 Python
@@ -2291,21 +2393,27 @@ td {
                 application/x-python
                </td>
                <td aria-colindex="9" aria-rowindex="8">
-                469
+                4213
+               </td>
+               <td aria-colindex="10" aria-rowindex="8">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="8">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1671397649;--1: 1671397649;--2: 0;--7: 4213;">
+              <tr style="--0: 1671318521;--1: 1671318521;--2: 0;--7: 90;--8: nan;--9: nan;">
                <th aria-colindex="1" aria-rowindex="9" scope="row">
-                4e33098a9f3a50805ad99d08e96825a6
+                243d7758d659c406f6e12cbd7b045384
                </th>
                <td aria-colindex="2" aria-rowindex="9">
                 <time>
-                 2022-12-18T21:07:29+00:00
+                 2022-12-17T23:08:41+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="9">
                 <time>
-                 2022-12-18T21:07:29+00:00
+                 2022-12-17T23:08:41+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="9">
@@ -2315,32 +2423,39 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="9">
-                graph shit.py
+                hide_empty_outputs.html
                </td>
                <td aria-colindex="6" aria-rowindex="9">
+                a selection to hide empty jupyterlab output cells
                </td>
                <td aria-colindex="7" aria-rowindex="9">
-                Python
+                HTML
                </td>
                <td aria-colindex="8" aria-rowindex="9">
-                application/x-python
+                text/html
                </td>
                <td aria-colindex="9" aria-rowindex="9">
-                4213
+                90
+               </td>
+               <td aria-colindex="10" aria-rowindex="9">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="9">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1671318521;--1: 1671318521;--2: 0;--7: 90;">
+              <tr style="--0: 1670006711;--1: 1670006711;--2: 0;--7: 4956;--8: 8.000;--9: 0.000;">
                <th aria-colindex="1" aria-rowindex="10" scope="row">
-                243d7758d659c406f6e12cbd7b045384
+                42612252e0ed0df02f811932becd8241
                </th>
                <td aria-colindex="2" aria-rowindex="10">
                 <time>
-                 2022-12-17T23:08:41+00:00
+                 2022-12-02T18:45:11+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="10">
                 <time>
-                 2022-12-17T23:08:41+00:00
+                 2022-12-02T18:45:11+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="10">
@@ -2350,103 +2465,120 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="10">
-                hide_empty_outputs.html
-               </td>
-               <td aria-colindex="6" aria-rowindex="10">
-                a selection to hide empty jupyterlab output cells
-               </td>
-               <td aria-colindex="7" aria-rowindex="10">
-                HTML
-               </td>
-               <td aria-colindex="8" aria-rowindex="10">
-                text/html
-               </td>
-               <td aria-colindex="9" aria-rowindex="10">
-                90
-               </td>
-              </tr>
-              <tr style="--0: 1670006711;--1: 1670006711;--2: 0;--7: 4956;">
-               <th aria-colindex="1" aria-rowindex="11" scope="row">
-                42612252e0ed0df02f811932becd8241
-               </th>
-               <td aria-colindex="2" aria-rowindex="11">
-                <time>
-                 2022-12-02T18:45:11+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="11">
-                <time>
-                 2022-12-02T18:45:11+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="11">
-                <time datetime="P0DT0H0M0S">
-                 0.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="11">
                 2022-12-01-1.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="11">
+               <td aria-colindex="6" aria-rowindex="10">
                </td>
-               <td aria-colindex="7" aria-rowindex="11">
+               <td aria-colindex="7" aria-rowindex="10">
                 Jupyter Notebook
                </td>
-               <td aria-colindex="8" aria-rowindex="11">
+               <td aria-colindex="8" aria-rowindex="10">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="11">
+               <td aria-colindex="9" aria-rowindex="10">
                 4956
                </td>
+               <td aria-colindex="10" aria-rowindex="10">
+                8.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="10">
+                0.0
+               </td>
               </tr>
-              <tr style="--0: 1664686294;--1: 1664686299;--2: 5;--7: 408;">
-               <th aria-colindex="1" aria-rowindex="12" scope="row">
+              <tr style="--0: 1664686294;--1: 1664686299;--2: 5;--7: 408;--8: nan;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="11" scope="row">
                 abc7748fcc84177b59156d156132aabb
                </th>
-               <td aria-colindex="2" aria-rowindex="12">
+               <td aria-colindex="2" aria-rowindex="11">
                 <time>
                  2022-10-02T04:51:34+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="12">
+               <td aria-colindex="3" aria-rowindex="11">
                 <time>
                  2022-10-02T04:51:39+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="12">
+               <td aria-colindex="4" aria-rowindex="11">
                 <time datetime="P0DT0H0M5S">
                  5.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="12">
+               <td aria-colindex="5" aria-rowindex="11">
                 lua.py
                </td>
-               <td aria-colindex="6" aria-rowindex="12">
+               <td aria-colindex="6" aria-rowindex="11">
                </td>
-               <td aria-colindex="7" aria-rowindex="12">
+               <td aria-colindex="7" aria-rowindex="11">
                 Python
                </td>
-               <td aria-colindex="8" aria-rowindex="12">
+               <td aria-colindex="8" aria-rowindex="11">
                 application/x-python
                </td>
-               <td aria-colindex="9" aria-rowindex="12">
+               <td aria-colindex="9" aria-rowindex="11">
                 408
                </td>
+               <td aria-colindex="10" aria-rowindex="11">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="11">
+                nan
+               </td>
               </tr>
-              <tr style="--0: 1663997374;--1: 1663997374;--2: 0;--7: 21687;">
-               <th aria-colindex="1" aria-rowindex="13" scope="row">
+              <tr style="--0: 1663997374;--1: 1663997374;--2: 0;--7: 21687;--8: 16.000;--9: 13.000;">
+               <th aria-colindex="1" aria-rowindex="12" scope="row">
                 d9842e69957895a883203101d32053c5
                </th>
-               <td aria-colindex="2" aria-rowindex="13">
+               <td aria-colindex="2" aria-rowindex="12">
                 <time>
                  2022-09-24T05:29:34+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="13">
+               <td aria-colindex="3" aria-rowindex="12">
                 <time>
                  2022-09-24T05:29:34+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="12">
+                <time datetime="P0DT0H0M0S">
+                 0.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="12">
+                2022-09-18-static-notebook-tags.ipynb
+               </td>
+               <td aria-colindex="6" aria-rowindex="12">
+               </td>
+               <td aria-colindex="7" aria-rowindex="12">
+                Jupyter Notebook
+               </td>
+               <td aria-colindex="8" aria-rowindex="12">
+                text/plain
+               </td>
+               <td aria-colindex="9" aria-rowindex="12">
+                21687
+               </td>
+               <td aria-colindex="10" aria-rowindex="12">
+                16.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="12">
+                13.0
+               </td>
+              </tr>
+              <tr style="--0: 1659990665;--1: 1659990665;--2: 0;--7: 5841;--8: 8.000;--9: 1.000;">
+               <th aria-colindex="1" aria-rowindex="13" scope="row">
+                d3aa6592100eb30d7ec9efcb3b3efb06
+               </th>
+               <td aria-colindex="2" aria-rowindex="13">
+                <time>
+                 2022-08-08T20:31:05+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="13">
+                <time>
+                 2022-08-08T20:31:05+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="13">
@@ -2456,9 +2588,10 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="13">
-                2022-09-18-static-notebook-tags.ipynb
+                details-summary.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="13">
+                using two html standards to hide notebook content
                </td>
                <td aria-colindex="7" aria-rowindex="13">
                 Jupyter Notebook
@@ -2467,21 +2600,27 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="13">
-                21687
+                5841
+               </td>
+               <td aria-colindex="10" aria-rowindex="13">
+                8.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="13">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1659990665;--1: 1659990665;--2: 0;--7: 5841;">
+              <tr style="--0: 1659714468;--1: 1659714468;--2: 0;--7: 103473;--8: 14.000;--9: 12.000;">
                <th aria-colindex="1" aria-rowindex="14" scope="row">
-                d3aa6592100eb30d7ec9efcb3b3efb06
+                146153f37825c9a0d078027c141823c5
                </th>
                <td aria-colindex="2" aria-rowindex="14">
                 <time>
-                 2022-08-08T20:31:05+00:00
+                 2022-08-05T15:47:48+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="14">
                 <time>
-                 2022-08-08T20:31:05+00:00
+                 2022-08-05T15:47:48+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="14">
@@ -2491,10 +2630,10 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="14">
-                details-summary.ipynb
+                2022-08-05-iris-demo.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="14">
-                using two html standards to hide notebook content
+                a notebook demo'ing pandas/sklearn
                </td>
                <td aria-colindex="7" aria-rowindex="14">
                 Jupyter Notebook
@@ -2503,21 +2642,27 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="14">
-                5841
+                103473
+               </td>
+               <td aria-colindex="10" aria-rowindex="14">
+                14.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="14">
+                12.0
                </td>
               </tr>
-              <tr style="--0: 1659714468;--1: 1659714468;--2: 0;--7: 103473;">
+              <tr style="--0: 1659590070;--1: 1659590070;--2: 0;--7: 84;--8: nan;--9: nan;">
                <th aria-colindex="1" aria-rowindex="15" scope="row">
-                146153f37825c9a0d078027c141823c5
+                ef00eeb40ce268ff68cc7d606437ac6c
                </th>
                <td aria-colindex="2" aria-rowindex="15">
                 <time>
-                 2022-08-05T15:47:48+00:00
+                 2022-08-04T05:14:30+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="15">
                 <time>
-                 2022-08-05T15:47:48+00:00
+                 2022-08-04T05:14:30+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="15">
@@ -2527,92 +2672,110 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="15">
-                2022-08-05-iris-demo.ipynb
+                nbval triggers
                </td>
                <td aria-colindex="6" aria-rowindex="15">
-                a notebook demo'ing pandas/sklearn
                </td>
                <td aria-colindex="7" aria-rowindex="15">
-                Jupyter Notebook
                </td>
                <td aria-colindex="8" aria-rowindex="15">
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="15">
-                103473
-               </td>
-              </tr>
-              <tr style="--0: 1659590070;--1: 1659590070;--2: 0;--7: 84;">
-               <th aria-colindex="1" aria-rowindex="16" scope="row">
-                ef00eeb40ce268ff68cc7d606437ac6c
-               </th>
-               <td aria-colindex="2" aria-rowindex="16">
-                <time>
-                 2022-08-04T05:14:30+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="16">
-                <time>
-                 2022-08-04T05:14:30+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="16">
-                <time datetime="P0DT0H0M0S">
-                 0.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="16">
-                nbval triggers
-               </td>
-               <td aria-colindex="6" aria-rowindex="16">
-               </td>
-               <td aria-colindex="7" aria-rowindex="16">
-               </td>
-               <td aria-colindex="8" aria-rowindex="16">
-                text/plain
-               </td>
-               <td aria-colindex="9" aria-rowindex="16">
                 84
                </td>
+               <td aria-colindex="10" aria-rowindex="15">
+                nan
+               </td>
+               <td aria-colindex="11" aria-rowindex="15">
+                nan
+               </td>
               </tr>
-              <tr style="--0: 1659409106;--1: 1659409107;--2: 1;--7: 9822;">
-               <th aria-colindex="1" aria-rowindex="17" scope="row">
+              <tr style="--0: 1659409106;--1: 1659409107;--2: 1;--7: 9822;--8: 14.000;--9: 11.000;">
+               <th aria-colindex="1" aria-rowindex="16" scope="row">
                 1172d78b9a9a9738c8be759d304220e4
                </th>
-               <td aria-colindex="2" aria-rowindex="17">
+               <td aria-colindex="2" aria-rowindex="16">
                 <time>
                  2022-08-02T02:58:26+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="17">
+               <td aria-colindex="3" aria-rowindex="16">
                 <time>
                  2022-08-02T02:58:27+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="17">
+               <td aria-colindex="4" aria-rowindex="16">
                 <time datetime="P0DT0H0M1S">
                  1.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="17">
+               <td aria-colindex="5" aria-rowindex="16">
                 2022-07-17-shebang-magic.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="17">
+               <td aria-colindex="6" aria-rowindex="16">
                 make shebangs a cell magic
                </td>
-               <td aria-colindex="7" aria-rowindex="17">
+               <td aria-colindex="7" aria-rowindex="16">
                 Jupyter Notebook
                </td>
-               <td aria-colindex="8" aria-rowindex="17">
+               <td aria-colindex="8" aria-rowindex="16">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="17">
+               <td aria-colindex="9" aria-rowindex="16">
                 9822
                </td>
+               <td aria-colindex="10" aria-rowindex="16">
+                14.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="16">
+                11.0
+               </td>
               </tr>
-              <tr style="--0: 1658531268;--1: 1658548355;--2: 17087;--7: 19876;">
+              <tr style="--0: 1658531268;--1: 1658548355;--2: 17087;--7: 1844;--8: 15.000;--9: 8.000;">
+               <th aria-colindex="1" aria-rowindex="17" scope="row">
+                3006d326442a9f4dd2ba61370cc2d37e
+               </th>
+               <td aria-colindex="2" aria-rowindex="17">
+                <time>
+                 2022-07-22T23:07:48+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="17">
+                <time>
+                 2022-07-23T03:52:35+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="17">
+                <time datetime="P0DT4H44M47S">
+                 17087.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="17">
+                _snippet.py
+               </td>
+               <td aria-colindex="6" aria-rowindex="17">
+                a json grammar to parse notebooks into source code
+               </td>
+               <td aria-colindex="7" aria-rowindex="17">
+                Python
+               </td>
+               <td aria-colindex="8" aria-rowindex="17">
+                application/x-python
+               </td>
+               <td aria-colindex="9" aria-rowindex="17">
+                1844
+               </td>
+               <td aria-colindex="10" aria-rowindex="17">
+                15.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="17">
+                8.0
+               </td>
+              </tr>
+              <tr style="--0: 1658531268;--1: 1658548355;--2: 17087;--7: 19876;--8: 15.000;--9: 8.000;">
                <th aria-colindex="1" aria-rowindex="18" scope="row">
                 3006d326442a9f4dd2ba61370cc2d37e
                </th>
@@ -2647,68 +2810,79 @@ td {
                <td aria-colindex="9" aria-rowindex="18">
                 19876
                </td>
+               <td aria-colindex="10" aria-rowindex="18">
+                15.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="18">
+                8.0
+               </td>
               </tr>
-              <tr style="--0: 1658531268;--1: 1658548355;--2: 17087;--7: 1844;">
+              <tr style="--0: 1657991569;--1: 1657991569;--2: 0;--7: 16111;--8: 9.000;--9: 8.000;">
                <th aria-colindex="1" aria-rowindex="19" scope="row">
-                3006d326442a9f4dd2ba61370cc2d37e
+                d8ed2e33c5f70ad3b8340d4cf6cace21
                </th>
                <td aria-colindex="2" aria-rowindex="19">
                 <time>
-                 2022-07-22T23:07:48+00:00
+                 2022-07-16T17:12:49+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="19">
                 <time>
-                 2022-07-23T03:52:35+00:00
+                 2022-07-16T17:12:49+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="19">
-                <time datetime="P0DT4H44M47S">
-                 17087.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="19">
-                _snippet.py
-               </td>
-               <td aria-colindex="6" aria-rowindex="19">
-                a json grammar to parse notebooks into source code
-               </td>
-               <td aria-colindex="7" aria-rowindex="19">
-                Python
-               </td>
-               <td aria-colindex="8" aria-rowindex="19">
-                application/x-python
-               </td>
-               <td aria-colindex="9" aria-rowindex="19">
-                1844
-               </td>
-              </tr>
-              <tr style="--0: 1657991569;--1: 1657991569;--2: 0;--7: 16111;">
-               <th aria-colindex="1" aria-rowindex="20" scope="row">
-                d8ed2e33c5f70ad3b8340d4cf6cace21
-               </th>
-               <td aria-colindex="2" aria-rowindex="20">
-                <time>
-                 2022-07-16T17:12:49+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="20">
-                <time>
-                 2022-07-16T17:12:49+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="20">
                 <time datetime="P0DT0H0M0S">
                  0.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="20">
+               <td aria-colindex="5" aria-rowindex="19">
                 2022-07-16-list-of-urls-py-md.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="20">
+               <td aria-colindex="6" aria-rowindex="19">
                 an essay on the interfaces between md &amp; py using a list of urls
+               </td>
+               <td aria-colindex="7" aria-rowindex="19">
+                Jupyter Notebook
+               </td>
+               <td aria-colindex="8" aria-rowindex="19">
+                text/plain
+               </td>
+               <td aria-colindex="9" aria-rowindex="19">
+                16111
+               </td>
+               <td aria-colindex="10" aria-rowindex="19">
+                9.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="19">
+                8.0
+               </td>
+              </tr>
+              <tr style="--0: 1656442016;--1: 1658792932;--2: 2350916;--7: 22890;--8: 11.000;--9: 9.000;">
+               <th aria-colindex="1" aria-rowindex="20" scope="row">
+                6c236af7dcaa87fc012f31b720575dd7
+               </th>
+               <td aria-colindex="2" aria-rowindex="20">
+                <time>
+                 2022-06-28T18:46:56+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="20">
+                <time>
+                 2022-07-25T23:48:52+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="20">
+                <time datetime="P27DT5H1M56S">
+                 2350916.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="20">
+                2022-06-28-.ipynb
+               </td>
+               <td aria-colindex="6" aria-rowindex="20">
                </td>
                <td aria-colindex="7" aria-rowindex="20">
                 Jupyter Notebook
@@ -2717,33 +2891,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="20">
-                16111
+                22890
+               </td>
+               <td aria-colindex="10" aria-rowindex="20">
+                11.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="20">
+                9.0
                </td>
               </tr>
-              <tr style="--0: 1656442016;--1: 1658792932;--2: 2350916;--7: 22890;">
+              <tr style="--0: 1639668619;--1: 1639668619;--2: 0;--7: 446103;--8: 34.000;--9: 17.000;">
                <th aria-colindex="1" aria-rowindex="21" scope="row">
-                6c236af7dcaa87fc012f31b720575dd7
+                1ddcdce4eab431a8227be352d4c5a57b
                </th>
                <td aria-colindex="2" aria-rowindex="21">
                 <time>
-                 2022-06-28T18:46:56+00:00
+                 2021-12-16T15:30:19+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="21">
                 <time>
-                 2022-07-25T23:48:52+00:00
+                 2021-12-16T15:30:19+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="21">
-                <time datetime="P27DT5H1M56S">
-                 2350916.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="21">
-                2022-06-28-.ipynb
+                2021-12-15-a11y-highlights.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="21">
+                2021 a11y highlights
                </td>
                <td aria-colindex="7" aria-rowindex="21">
                 Jupyter Notebook
@@ -2752,26 +2933,32 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="21">
-                22890
+                446103
+               </td>
+               <td aria-colindex="10" aria-rowindex="21">
+                34.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="21">
+                17.0
                </td>
               </tr>
-              <tr style="--0: 1639668619;--1: 1639668619;--2: 0;--7: 446103;">
+              <tr style="--0: 1639668381;--1: 1639668382;--2: 1;--7: 436488;--8: 34.000;--9: 3.000;">
                <th aria-colindex="1" aria-rowindex="22" scope="row">
-                1ddcdce4eab431a8227be352d4c5a57b
+                df99b18e240d43c8b966aeb0a6e5a0d8
                </th>
                <td aria-colindex="2" aria-rowindex="22">
                 <time>
-                 2021-12-16T15:30:19+00:00
+                 2021-12-16T15:26:21+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="22">
                 <time>
-                 2021-12-16T15:30:19+00:00
+                 2021-12-16T15:26:22+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="22">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H0M1S">
+                 1.0
         s
                 </time>
                </td>
@@ -2788,26 +2975,32 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="22">
-                446103
+                436488
+               </td>
+               <td aria-colindex="10" aria-rowindex="22">
+                34.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="22">
+                3.0
                </td>
               </tr>
-              <tr style="--0: 1639668381;--1: 1639668382;--2: 1;--7: 436488;">
+              <tr style="--0: 1639631220;--1: 1639668862;--2: 37642;--7: 446103;--8: 34.000;--9: 17.000;">
                <th aria-colindex="1" aria-rowindex="23" scope="row">
-                df99b18e240d43c8b966aeb0a6e5a0d8
+                4cec811eb02f0107dc77f7da564657a2
                </th>
                <td aria-colindex="2" aria-rowindex="23">
                 <time>
-                 2021-12-16T15:26:21+00:00
+                 2021-12-16T05:07:00+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="23">
                 <time>
-                 2021-12-16T15:26:22+00:00
+                 2021-12-16T15:34:22+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="23">
-                <time datetime="P0DT0H0M1S">
-                 1.0
+                <time datetime="P0DT10H27M22S">
+                 37642.0
         s
                 </time>
                </td>
@@ -2824,26 +3017,32 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="23">
-                436488
+                446103
+               </td>
+               <td aria-colindex="10" aria-rowindex="23">
+                34.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="23">
+                17.0
                </td>
               </tr>
-              <tr style="--0: 1639631220;--1: 1639668862;--2: 37642;--7: 446103;">
+              <tr style="--0: 1639631122;--1: 1639631122;--2: 0;--7: 444956;--8: 32.000;--9: 16.000;">
                <th aria-colindex="1" aria-rowindex="24" scope="row">
-                4cec811eb02f0107dc77f7da564657a2
+                bec93ba06cb420d58db3b1a4656e05b7
                </th>
                <td aria-colindex="2" aria-rowindex="24">
                 <time>
-                 2021-12-16T05:07:00+00:00
+                 2021-12-16T05:05:22+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="24">
                 <time>
-                 2021-12-16T15:34:22+00:00
+                 2021-12-16T05:05:22+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="24">
-                <time datetime="P0DT10H27M22S">
-                 37642.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
@@ -2860,34 +3059,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="24">
-                446103
+                444956
+               </td>
+               <td aria-colindex="10" aria-rowindex="24">
+                32.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="24">
+                16.0
                </td>
               </tr>
-              <tr style="--0: 1639631122;--1: 1639631122;--2: 0;--7: 444956;">
+              <tr style="--0: 1634151327;--1: 1634151328;--2: 1;--7: 111977;--8: 19.000;--9: 8.000;">
                <th aria-colindex="1" aria-rowindex="25" scope="row">
-                bec93ba06cb420d58db3b1a4656e05b7
+                121f22a609d142992bf081bda7a875f7
                </th>
                <td aria-colindex="2" aria-rowindex="25">
                 <time>
-                 2021-12-16T05:05:22+00:00
+                 2021-10-13T18:55:27+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="25">
                 <time>
-                 2021-12-16T05:05:22+00:00
+                 2021-10-13T18:55:28+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="25">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H0M1S">
+                 1.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="25">
-                2021-12-15-a11y-highlights.md.ipynb
+                2021-10-13-gannt.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="25">
-                2021 a11y highlights
+                making gannt charts with pandas
                </td>
                <td aria-colindex="7" aria-rowindex="25">
                 Jupyter Notebook
@@ -2896,34 +3101,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="25">
-                444956
+                111977
+               </td>
+               <td aria-colindex="10" aria-rowindex="25">
+                19.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="25">
+                8.0
                </td>
               </tr>
-              <tr style="--0: 1634151327;--1: 1634151328;--2: 1;--7: 111977;">
+              <tr style="--0: 1634066741;--1: 1634785783;--2: 719042;--7: 54416;--8: 25.000;--9: 7.000;">
                <th aria-colindex="1" aria-rowindex="26" scope="row">
-                121f22a609d142992bf081bda7a875f7
+                e2cae138e4bb043cd277709ff45ba8a3
                </th>
                <td aria-colindex="2" aria-rowindex="26">
                 <time>
-                 2021-10-13T18:55:27+00:00
+                 2021-10-12T19:25:41+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="26">
                 <time>
-                 2021-10-13T18:55:28+00:00
+                 2021-10-21T03:09:43+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="26">
-                <time datetime="P0DT0H0M1S">
-                 1.0
+                <time datetime="P8DT7H44M2S">
+                 719042.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="26">
-                2021-10-13-gannt.ipynb
+                2021-10-11-colorizing.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="26">
-                making gannt charts with pandas
+                learning about dataframes using color
                </td>
                <td aria-colindex="7" aria-rowindex="26">
                 Jupyter Notebook
@@ -2932,34 +3143,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="26">
-                111977
+                54416
+               </td>
+               <td aria-colindex="10" aria-rowindex="26">
+                25.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="26">
+                7.0
                </td>
               </tr>
-              <tr style="--0: 1634066741;--1: 1634785783;--2: 719042;--7: 54416;">
+              <tr style="--0: 1633706156;--1: 1634785793;--2: 1079637;--7: 22674;--8: 21.000;--9: 7.000;">
                <th aria-colindex="1" aria-rowindex="27" scope="row">
-                e2cae138e4bb043cd277709ff45ba8a3
+                f34f1fc4454de5e61b6ed55a6736071c
                </th>
                <td aria-colindex="2" aria-rowindex="27">
                 <time>
-                 2021-10-12T19:25:41+00:00
+                 2021-10-08T15:15:56+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="27">
                 <time>
-                 2021-10-21T03:09:43+00:00
+                 2021-10-21T03:09:53+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="27">
-                <time datetime="P8DT7H44M2S">
-                 719042.0
+                <time datetime="P12DT11H53M57S">
+                 1079637.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="27">
-                2021-10-11-colorizing.ipynb
+                2021-10-08-distributions-dataframe.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="27">
-                learning about dataframes using color
+                create a dataframe from your python distributions
                </td>
                <td aria-colindex="7" aria-rowindex="27">
                 Jupyter Notebook
@@ -2968,34 +3185,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="27">
-                54416
+                22674
+               </td>
+               <td aria-colindex="10" aria-rowindex="27">
+                21.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="27">
+                7.0
                </td>
               </tr>
-              <tr style="--0: 1633706156;--1: 1634785793;--2: 1079637;--7: 22674;">
+              <tr style="--0: 1633467317;--1: 1670418773;--2: 36951456;--7: 89667;--8: 43.000;--9: 11.000;">
                <th aria-colindex="1" aria-rowindex="28" scope="row">
-                f34f1fc4454de5e61b6ed55a6736071c
+                0d5cbee1f3b4aac205e9ddd407d0f4dc
                </th>
                <td aria-colindex="2" aria-rowindex="28">
                 <time>
-                 2021-10-08T15:15:56+00:00
+                 2021-10-05T20:55:17+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="28">
                 <time>
-                 2021-10-21T03:09:53+00:00
+                 2022-12-07T13:12:53+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="28">
-                <time datetime="P12DT11H53M57S">
-                 1079637.0
+                <time datetime="P427DT16H17M36S">
+                 36951456.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="28">
-                2021-10-08-distributions-dataframe.ipynb
+                2021-10-03-pd-calendar.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="28">
-                create a dataframe from your python distributions
+                making calendars in pandas
                </td>
                <td aria-colindex="7" aria-rowindex="28">
                 Jupyter Notebook
@@ -3004,10 +3227,16 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="28">
-                22674
+                89667
+               </td>
+               <td aria-colindex="10" aria-rowindex="28">
+                43.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="28">
+                11.0
                </td>
               </tr>
-              <tr style="--0: 1633467317;--1: 1670418773;--2: 36951456;--7: 89667;">
+              <tr style="--0: 1633467317;--1: 1670418773;--2: 36951456;--7: 15;--8: 43.000;--9: 11.000;">
                <th aria-colindex="1" aria-rowindex="29" scope="row">
                 0d5cbee1f3b4aac205e9ddd407d0f4dc
                </th>
@@ -3028,142 +3257,163 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="29">
-                2021-10-03-pd-calendar.ipynb
+                requirements.txt
                </td>
                <td aria-colindex="6" aria-rowindex="29">
                 making calendars in pandas
                </td>
                <td aria-colindex="7" aria-rowindex="29">
-                Jupyter Notebook
+                Text
                </td>
                <td aria-colindex="8" aria-rowindex="29">
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="29">
-                89667
+                15
+               </td>
+               <td aria-colindex="10" aria-rowindex="29">
+                43.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="29">
+                11.0
                </td>
               </tr>
-              <tr style="--0: 1633467317;--1: 1670418773;--2: 36951456;--7: 15;">
+              <tr style="--0: 1633125944;--1: 1633125944;--2: 0;--7: 3755;--8: 9.000;--9: 2.000;">
                <th aria-colindex="1" aria-rowindex="30" scope="row">
-                0d5cbee1f3b4aac205e9ddd407d0f4dc
+                cf3a246202f177500d47146303bdc235
                </th>
                <td aria-colindex="2" aria-rowindex="30">
                 <time>
-                 2021-10-05T20:55:17+00:00
+                 2021-10-01T22:05:44+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="30">
                 <time>
-                 2022-12-07T13:12:53+00:00
+                 2021-10-01T22:05:44+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="30">
-                <time datetime="P427DT16H17M36S">
-                 36951456.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="30">
-                requirements.txt
-               </td>
-               <td aria-colindex="6" aria-rowindex="30">
-                making calendars in pandas
-               </td>
-               <td aria-colindex="7" aria-rowindex="30">
-                Text
-               </td>
-               <td aria-colindex="8" aria-rowindex="30">
-                text/plain
-               </td>
-               <td aria-colindex="9" aria-rowindex="30">
-                15
-               </td>
-              </tr>
-              <tr style="--0: 1633125944;--1: 1633125944;--2: 0;--7: 3755;">
-               <th aria-colindex="1" aria-rowindex="31" scope="row">
-                cf3a246202f177500d47146303bdc235
-               </th>
-               <td aria-colindex="2" aria-rowindex="31">
-                <time>
-                 2021-10-01T22:05:44+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="31">
-                <time>
-                 2021-10-01T22:05:44+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="31">
                 <time datetime="P0DT0H0M0S">
                  0.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="31">
+               <td aria-colindex="5" aria-rowindex="30">
                 2021-10-01-drum-machine.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="31">
+               <td aria-colindex="6" aria-rowindex="30">
                 the faker - sample data generator - drum machine
                </td>
-               <td aria-colindex="7" aria-rowindex="31">
+               <td aria-colindex="7" aria-rowindex="30">
                 Jupyter Notebook
                </td>
-               <td aria-colindex="8" aria-rowindex="31">
+               <td aria-colindex="8" aria-rowindex="30">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="31">
+               <td aria-colindex="9" aria-rowindex="30">
                 3755
+               </td>
+               <td aria-colindex="10" aria-rowindex="30">
+                9.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="30">
+                2.0
                </td>
               </tr>
              </tbody>
              <tbody>
               <tr>
-               <td aria-colindex="1" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="1" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="2" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="2" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="3" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="3" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="4" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="4" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="5" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="5" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="6" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="6" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="7" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="7" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="8" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="8" aria-rowindex="31" rowspan="13">
                </td>
-               <td aria-colindex="9" aria-rowindex="44" rowspan="13">
+               <td aria-colindex="9" aria-rowindex="31" rowspan="13">
+               </td>
+               <td aria-colindex="10" aria-rowindex="31" rowspan="13">
+               </td>
+               <td aria-colindex="11" aria-rowindex="31" rowspan="13">
                </td>
               </tr>
              </tbody>
              <tbody>
-              <tr style="--0: 1626885008;--1: 1626885062;--2: 54;--7: 709746;">
-               <th aria-colindex="1" aria-rowindex="45" scope="row">
+              <tr style="--0: 1626885008;--1: 1626885062;--2: 54;--7: 709746;--8: 12.000;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="44" scope="row">
                 0035d132c0c9162de4b3e66e3d596334
                </th>
-               <td aria-colindex="2" aria-rowindex="45">
+               <td aria-colindex="2" aria-rowindex="44">
                 <time>
                  2021-07-21T16:30:08+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="45">
+               <td aria-colindex="3" aria-rowindex="44">
                 <time>
                  2021-07-21T16:31:02+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="45">
+               <td aria-colindex="4" aria-rowindex="44">
                 <time datetime="P0DT0H0M54S">
                  54.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="45">
+               <td aria-colindex="5" aria-rowindex="44">
                 suggest-changes-pr.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="45">
+               <td aria-colindex="6" aria-rowindex="44">
                 a visual document showing how to suggest changes to code in github pull requests
+               </td>
+               <td aria-colindex="7" aria-rowindex="44">
+                Jupyter Notebook
+               </td>
+               <td aria-colindex="8" aria-rowindex="44">
+                text/plain
+               </td>
+               <td aria-colindex="9" aria-rowindex="44">
+                709746
+               </td>
+               <td aria-colindex="10" aria-rowindex="44">
+                12.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="44">
+                nan
+               </td>
+              </tr>
+              <tr style="--0: 1626483824;--1: 1626483824;--2: 0;--7: 5494;--8: 12.000;--9: 2.000;">
+               <th aria-colindex="1" aria-rowindex="45" scope="row">
+                cbeb91729e94c785f6c50c6c434455f0
+               </th>
+               <td aria-colindex="2" aria-rowindex="45">
+                <time>
+                 2021-07-17T01:03:44+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="45">
+                <time>
+                 2021-07-17T01:03:44+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="45">
+                <time datetime="P0DT0H0M0S">
+                 0.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="45">
+                doit-requires.ipynb
+               </td>
+               <td aria-colindex="6" aria-rowindex="45">
                </td>
                <td aria-colindex="7" aria-rowindex="45">
                 Jupyter Notebook
@@ -3172,45 +3422,58 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="45">
-                709746
+                5494
+               </td>
+               <td aria-colindex="10" aria-rowindex="45">
+                12.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="45">
+                2.0
                </td>
               </tr>
-              <tr style="--0: 1626483824;--1: 1626483824;--2: 0;--7: 5494;">
+              <tr style="--0: 1626451478;--1: 1626451522;--2: 44;--7: 27;--8: 17.000;--9: 1.000;">
                <th aria-colindex="1" aria-rowindex="46" scope="row">
-                cbeb91729e94c785f6c50c6c434455f0
+                bd97099fb9f932a6402e5c6161f14748
                </th>
                <td aria-colindex="2" aria-rowindex="46">
                 <time>
-                 2021-07-17T01:03:44+00:00
+                 2021-07-16T16:04:38+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="46">
                 <time>
-                 2021-07-17T01:03:44+00:00
+                 2021-07-16T16:05:22+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="46">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H0M44S">
+                 44.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="46">
-                doit-requires.ipynb
+                readme.md
                </td>
                <td aria-colindex="6" aria-rowindex="46">
+                heres my description
                </td>
                <td aria-colindex="7" aria-rowindex="46">
-                Jupyter Notebook
+                Markdown
                </td>
                <td aria-colindex="8" aria-rowindex="46">
-                text/plain
+                text/markdown
                </td>
                <td aria-colindex="9" aria-rowindex="46">
-                5494
+                27
+               </td>
+               <td aria-colindex="10" aria-rowindex="46">
+                17.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="46">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1626451478;--1: 1626451522;--2: 44;--7: 4030;">
+              <tr style="--0: 1626451478;--1: 1626451522;--2: 44;--7: 4030;--8: 17.000;--9: 1.000;">
                <th aria-colindex="1" aria-rowindex="47" scope="row">
                 bd97099fb9f932a6402e5c6161f14748
                </th>
@@ -3245,65 +3508,76 @@ td {
                <td aria-colindex="9" aria-rowindex="47">
                 4030
                </td>
+               <td aria-colindex="10" aria-rowindex="47">
+                17.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="47">
+                1.0
+               </td>
               </tr>
-              <tr style="--0: 1626451478;--1: 1626451522;--2: 44;--7: 27;">
+              <tr style="--0: 1626449285;--1: 1626449285;--2: 0;--7: 4779;--8: 7.000;--9: 4.000;">
                <th aria-colindex="1" aria-rowindex="48" scope="row">
-                bd97099fb9f932a6402e5c6161f14748
+                c040b39d6149ef4fa57343f073dbde38
                </th>
                <td aria-colindex="2" aria-rowindex="48">
                 <time>
-                 2021-07-16T16:04:38+00:00
+                 2021-07-16T15:28:05+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="48">
                 <time>
-                 2021-07-16T16:05:22+00:00
+                 2021-07-16T15:28:05+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="48">
-                <time datetime="P0DT0H0M44S">
-                 44.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="48">
-                readme.md
-               </td>
-               <td aria-colindex="6" aria-rowindex="48">
-                heres my description
-               </td>
-               <td aria-colindex="7" aria-rowindex="48">
-                Markdown
-               </td>
-               <td aria-colindex="8" aria-rowindex="48">
-                text/markdown
-               </td>
-               <td aria-colindex="9" aria-rowindex="48">
-                27
-               </td>
-              </tr>
-              <tr style="--0: 1626449285;--1: 1626449285;--2: 0;--7: 4779;">
-               <th aria-colindex="1" aria-rowindex="49" scope="row">
-                c040b39d6149ef4fa57343f073dbde38
-               </th>
-               <td aria-colindex="2" aria-rowindex="49">
-                <time>
-                 2021-07-16T15:28:05+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="49">
-                <time>
-                 2021-07-16T15:28:05+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="49">
                 <time datetime="P0DT0H0M0S">
                  0.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="49">
+               <td aria-colindex="5" aria-rowindex="48">
                 publishing.ipynb
+               </td>
+               <td aria-colindex="6" aria-rowindex="48">
+               </td>
+               <td aria-colindex="7" aria-rowindex="48">
+                Jupyter Notebook
+               </td>
+               <td aria-colindex="8" aria-rowindex="48">
+                text/plain
+               </td>
+               <td aria-colindex="9" aria-rowindex="48">
+                4779
+               </td>
+               <td aria-colindex="10" aria-rowindex="48">
+                7.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="48">
+                4.0
+               </td>
+              </tr>
+              <tr style="--0: 1626103590;--1: 1626107189;--2: 3599;--7: 7770;--8: 5.000;--9: 5.000;">
+               <th aria-colindex="1" aria-rowindex="49" scope="row">
+                14e1115b6dd15e863326209c9492c327
+               </th>
+               <td aria-colindex="2" aria-rowindex="49">
+                <time>
+                 2021-07-12T15:26:30+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="49">
+                <time>
+                 2021-07-12T16:26:29+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="49">
+                <time datetime="P0DT0H59M59S">
+                 3599.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="49">
+                ww-roles.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="49">
                </td>
@@ -3314,33 +3588,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="49">
-                4779
+                7770
+               </td>
+               <td aria-colindex="10" aria-rowindex="49">
+                5.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="49">
+                5.0
                </td>
               </tr>
-              <tr style="--0: 1626103590;--1: 1626107189;--2: 3599;--7: 7770;">
+              <tr style="--0: 1625666542;--1: 1625843584;--2: 177042;--7: 1399459;--8: 31.000;--9: 16.000;">
                <th aria-colindex="1" aria-rowindex="50" scope="row">
-                14e1115b6dd15e863326209c9492c327
+                e7dd7ff3d808d57b77e9765626a73a91
                </th>
                <td aria-colindex="2" aria-rowindex="50">
                 <time>
-                 2021-07-12T15:26:30+00:00
+                 2021-07-07T14:02:22+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="50">
                 <time>
-                 2021-07-12T16:26:29+00:00
+                 2021-07-09T15:13:04+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="50">
-                <time datetime="P0DT0H59M59S">
-                 3599.0
+                <time datetime="P2DT1H10M42S">
+                 177042.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="50">
-                ww-roles.ipynb
+                testing-notebooks.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="50">
+                a lesson on testing notebooks for part 3 of the writers workshop
                </td>
                <td aria-colindex="7" aria-rowindex="50">
                 Jupyter Notebook
@@ -3349,34 +3630,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="50">
-                7770
+                1399459
+               </td>
+               <td aria-colindex="10" aria-rowindex="50">
+                31.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="50">
+                16.0
                </td>
               </tr>
-              <tr style="--0: 1625666542;--1: 1625843584;--2: 177042;--7: 1399459;">
+              <tr style="--0: 1625247718;--1: 1625666654;--2: 418936;--7: 654769;--8: 5.000;--9: nan;">
                <th aria-colindex="1" aria-rowindex="51" scope="row">
-                e7dd7ff3d808d57b77e9765626a73a91
+                a9bb09cb019e201ed95b76a6f558a106
                </th>
                <td aria-colindex="2" aria-rowindex="51">
                 <time>
-                 2021-07-07T14:02:22+00:00
+                 2021-07-02T17:41:58+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="51">
                 <time>
-                 2021-07-09T15:13:04+00:00
+                 2021-07-07T14:04:14+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="51">
-                <time datetime="P2DT1H10M42S">
-                 177042.0
+                <time datetime="P4DT20H22M16S">
+                 418936.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="51">
-                testing-notebooks.md.ipynb
+                copy-pasta-trick.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="51">
-                a lesson on testing notebooks for part 3 of the writers workshop
+                copy and paste images and attachments directly into markdown cells
                </td>
                <td aria-colindex="7" aria-rowindex="51">
                 Jupyter Notebook
@@ -3385,34 +3672,39 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="51">
-                1399459
+                654769
+               </td>
+               <td aria-colindex="10" aria-rowindex="51">
+                5.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="51">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1625247718;--1: 1625666654;--2: 418936;--7: 654769;">
+              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 186568;--8: 23.000;--9: 5.000;">
                <th aria-colindex="1" aria-rowindex="52" scope="row">
-                a9bb09cb019e201ed95b76a6f558a106
+                82e8b9744c139a63febb1a3280e91cec
                </th>
                <td aria-colindex="2" aria-rowindex="52">
                 <time>
-                 2021-07-02T17:41:58+00:00
+                 2021-07-02T17:01:42+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="52">
                 <time>
-                 2021-07-07T14:04:14+00:00
+                 2021-07-05T17:52:46+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="52">
-                <time datetime="P4DT20H22M16S">
-                 418936.0
+                <time datetime="P3DT0H51M4S">
+                 262264.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="52">
-                copy-pasta-trick.ipynb
+                collection-ouputs.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="52">
-                copy and paste images and attachments directly into markdown cells
                </td>
                <td aria-colindex="7" aria-rowindex="52">
                 Jupyter Notebook
@@ -3421,10 +3713,16 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="52">
-                654769
+                186568
+               </td>
+               <td aria-colindex="10" aria-rowindex="52">
+                23.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="52">
+                5.0
                </td>
               </tr>
-              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 186568;">
+              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 222588;--8: 23.000;--9: 5.000;">
                <th aria-colindex="1" aria-rowindex="53" scope="row">
                 82e8b9744c139a63febb1a3280e91cec
                </th>
@@ -3445,7 +3743,7 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="53">
-                collection-ouputs.ipynb
+                gcal-sux.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="53">
                </td>
@@ -3456,10 +3754,16 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="53">
-                186568
+                222588
+               </td>
+               <td aria-colindex="10" aria-rowindex="53">
+                23.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="53">
+                5.0
                </td>
               </tr>
-              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 222588;">
+              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 4843;--8: 23.000;--9: 5.000;">
                <th aria-colindex="1" aria-rowindex="54" scope="row">
                 82e8b9744c139a63febb1a3280e91cec
                </th>
@@ -3480,7 +3784,7 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="54">
-                gcal-sux.ipynb
+                pluck-attachments.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="54">
                </td>
@@ -3491,45 +3795,58 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="54">
-                222588
+                4843
+               </td>
+               <td aria-colindex="10" aria-rowindex="54">
+                23.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="54">
+                5.0
                </td>
               </tr>
-              <tr style="--0: 1625245302;--1: 1625507566;--2: 262264;--7: 4843;">
+              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 125;--8: 37.000;--9: 43.000;">
                <th aria-colindex="1" aria-rowindex="55" scope="row">
-                82e8b9744c139a63febb1a3280e91cec
+                203fee00e29fadaaa0604e915eb7a8f6
                </th>
                <td aria-colindex="2" aria-rowindex="55">
                 <time>
-                 2021-07-02T17:01:42+00:00
+                 2021-07-02T13:27:41+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="55">
                 <time>
-                 2021-07-05T17:52:46+00:00
+                 2021-07-02T14:28:32+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="55">
-                <time datetime="P3DT0H51M4S">
-                 262264.0
+                <time datetime="P0DT1H0M51S">
+                 3651.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="55">
-                pluck-attachments.ipynb
+                readme.md
                </td>
                <td aria-colindex="6" aria-rowindex="55">
+                notebooks about IPython mimetypes and mediatypes
                </td>
                <td aria-colindex="7" aria-rowindex="55">
-                Jupyter Notebook
+                Markdown
                </td>
                <td aria-colindex="8" aria-rowindex="55">
-                text/plain
+                text/markdown
                </td>
                <td aria-colindex="9" aria-rowindex="55">
-                4843
+                125
+               </td>
+               <td aria-colindex="10" aria-rowindex="55">
+                37.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="55">
+                43.0
                </td>
               </tr>
-              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 6664;">
+              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 297;--8: 37.000;--9: 43.000;">
                <th aria-colindex="1" aria-rowindex="56" scope="row">
                 203fee00e29fadaaa0604e915eb7a8f6
                </th>
@@ -3550,22 +3867,28 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="56">
-                all-the-displays.md.ipynb
+                requirements.txt
                </td>
                <td aria-colindex="6" aria-rowindex="56">
                 notebooks about IPython mimetypes and mediatypes
                </td>
                <td aria-colindex="7" aria-rowindex="56">
-                Jupyter Notebook
+                Text
                </td>
                <td aria-colindex="8" aria-rowindex="56">
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="56">
-                6664
+                297
+               </td>
+               <td aria-colindex="10" aria-rowindex="56">
+                37.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="56">
+                43.0
                </td>
               </tr>
-              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 653575;">
+              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 6664;--8: 37.000;--9: 43.000;">
                <th aria-colindex="1" aria-rowindex="57" scope="row">
                 203fee00e29fadaaa0604e915eb7a8f6
                </th>
@@ -3586,7 +3909,7 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="57">
-                mimemediatypes.md.ipynb
+                all-the-displays.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="57">
                 notebooks about IPython mimetypes and mediatypes
@@ -3598,10 +3921,16 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="57">
-                653575
+                6664
+               </td>
+               <td aria-colindex="10" aria-rowindex="57">
+                37.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="57">
+                43.0
                </td>
               </tr>
-              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 125;">
+              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 653575;--8: 37.000;--9: 43.000;">
                <th aria-colindex="1" aria-rowindex="58" scope="row">
                 203fee00e29fadaaa0604e915eb7a8f6
                </th>
@@ -3622,82 +3951,93 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="58">
-                readme.md
+                mimemediatypes.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="58">
                 notebooks about IPython mimetypes and mediatypes
                </td>
                <td aria-colindex="7" aria-rowindex="58">
-                Markdown
+                Jupyter Notebook
                </td>
                <td aria-colindex="8" aria-rowindex="58">
-                text/markdown
-               </td>
-               <td aria-colindex="9" aria-rowindex="58">
-                125
-               </td>
-              </tr>
-              <tr style="--0: 1625232461;--1: 1625236112;--2: 3651;--7: 297;">
-               <th aria-colindex="1" aria-rowindex="59" scope="row">
-                203fee00e29fadaaa0604e915eb7a8f6
-               </th>
-               <td aria-colindex="2" aria-rowindex="59">
-                <time>
-                 2021-07-02T13:27:41+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="59">
-                <time>
-                 2021-07-02T14:28:32+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="59">
-                <time datetime="P0DT1H0M51S">
-                 3651.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="59">
-                requirements.txt
-               </td>
-               <td aria-colindex="6" aria-rowindex="59">
-                notebooks about IPython mimetypes and mediatypes
-               </td>
-               <td aria-colindex="7" aria-rowindex="59">
-                Text
-               </td>
-               <td aria-colindex="8" aria-rowindex="59">
                 text/plain
                </td>
-               <td aria-colindex="9" aria-rowindex="59">
-                297
+               <td aria-colindex="9" aria-rowindex="58">
+                653575
+               </td>
+               <td aria-colindex="10" aria-rowindex="58">
+                37.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="58">
+                43.0
                </td>
               </tr>
-              <tr style="--0: 1625122256;--1: 1625122257;--2: 1;--7: 17544796;">
-               <th aria-colindex="1" aria-rowindex="60" scope="row">
+              <tr style="--0: 1625122256;--1: 1625122257;--2: 1;--7: 17544796;--8: 9.000;--9: nan;">
+               <th aria-colindex="1" aria-rowindex="59" scope="row">
                 f53d109fffe1e46b90cd2da8ce322f45
                </th>
-               <td aria-colindex="2" aria-rowindex="60">
+               <td aria-colindex="2" aria-rowindex="59">
                 <time>
                  2021-07-01T06:50:56+00:00
                 </time>
                </td>
-               <td aria-colindex="3" aria-rowindex="60">
+               <td aria-colindex="3" aria-rowindex="59">
                 <time>
                  2021-07-01T06:50:57+00:00
                 </time>
                </td>
-               <td aria-colindex="4" aria-rowindex="60">
+               <td aria-colindex="4" aria-rowindex="59">
                 <time datetime="P0DT0H0M1S">
                  1.0
         s
                 </time>
                </td>
-               <td aria-colindex="5" aria-rowindex="60">
+               <td aria-colindex="5" aria-rowindex="59">
                 hyper-collage.ipynb
                </td>
-               <td aria-colindex="6" aria-rowindex="60">
+               <td aria-colindex="6" aria-rowindex="59">
                 an essay on the inner and outside positions of computational notebooks with a practice exercise
+               </td>
+               <td aria-colindex="7" aria-rowindex="59">
+                Jupyter Notebook
+               </td>
+               <td aria-colindex="8" aria-rowindex="59">
+                text/plain
+               </td>
+               <td aria-colindex="9" aria-rowindex="59">
+                17544796
+               </td>
+               <td aria-colindex="10" aria-rowindex="59">
+                9.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="59">
+                nan
+               </td>
+              </tr>
+              <tr style="--0: 1624975667;--1: 1624975667;--2: 0;--7: 670642;--8: 4.000;--9: 1.000;">
+               <th aria-colindex="1" aria-rowindex="60" scope="row">
+                5f17546e574531159c3ad6ecc889c45f
+               </th>
+               <td aria-colindex="2" aria-rowindex="60">
+                <time>
+                 2021-06-29T14:07:47+00:00
+                </time>
+               </td>
+               <td aria-colindex="3" aria-rowindex="60">
+                <time>
+                 2021-06-29T14:07:47+00:00
+                </time>
+               </td>
+               <td aria-colindex="4" aria-rowindex="60">
+                <time datetime="P0DT0H0M0S">
+                 0.0
+        s
+                </time>
+               </td>
+               <td aria-colindex="5" aria-rowindex="60">
+                modes.md.ipynb
+               </td>
+               <td aria-colindex="6" aria-rowindex="60">
                </td>
                <td aria-colindex="7" aria-rowindex="60">
                 Jupyter Notebook
@@ -3706,31 +4046,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="60">
-                17544796
+                670642
+               </td>
+               <td aria-colindex="10" aria-rowindex="60">
+                4.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="60">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1624975667;--1: 1624975667;--2: 0;--7: 670642;">
+              <tr style="--0: 1624653905;--1: 1626452884;--2: 1798979;--7: 50379;--8: 15.000;--9: 16.000;">
                <th aria-colindex="1" aria-rowindex="61" scope="row">
-                5f17546e574531159c3ad6ecc889c45f
+                053564797743b7fbbaa6e421fd2b059d
                </th>
                <td aria-colindex="2" aria-rowindex="61">
                 <time>
-                 2021-06-29T14:07:47+00:00
+                 2021-06-25T20:45:05+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="61">
                 <time>
-                 2021-06-29T14:07:47+00:00
+                 2021-07-16T16:28:04+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="61">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P20DT19H42M59S">
+                 1798979.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="61">
-                modes.md.ipynb
+                emoji.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="61">
                </td>
@@ -3741,31 +4087,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="61">
-                670642
+                50379
+               </td>
+               <td aria-colindex="10" aria-rowindex="61">
+                15.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="61">
+                16.0
                </td>
               </tr>
-              <tr style="--0: 1624653905;--1: 1626452884;--2: 1798979;--7: 50379;">
+              <tr style="--0: 1624478736;--1: 1624478736;--2: 0;--7: 669895;--8: 3.000;--9: nan;">
                <th aria-colindex="1" aria-rowindex="62" scope="row">
-                053564797743b7fbbaa6e421fd2b059d
+                8f2e5f2afa1f85acdacef2a81a14e571
                </th>
                <td aria-colindex="2" aria-rowindex="62">
                 <time>
-                 2021-06-25T20:45:05+00:00
+                 2021-06-23T20:05:36+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="62">
                 <time>
-                 2021-07-16T16:28:04+00:00
+                 2021-06-23T20:05:36+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="62">
-                <time datetime="P20DT19H42M59S">
-                 1798979.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="62">
-                emoji.md.ipynb
+                modes.md.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="62">
                </td>
@@ -3776,31 +4128,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="62">
-                50379
+                669895
+               </td>
+               <td aria-colindex="10" aria-rowindex="62">
+                3.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="62">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1624478736;--1: 1624478736;--2: 0;--7: 669895;">
+              <tr style="--0: 1623096419;--1: 1623096420;--2: 1;--7: 31488;--8: 56.000;--9: 15.000;">
                <th aria-colindex="1" aria-rowindex="63" scope="row">
-                8f2e5f2afa1f85acdacef2a81a14e571
+                2d356ded4dfe1ba263e829cb11c5dfc7
                </th>
                <td aria-colindex="2" aria-rowindex="63">
                 <time>
-                 2021-06-23T20:05:36+00:00
+                 2021-06-07T20:06:59+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="63">
                 <time>
-                 2021-06-23T20:05:36+00:00
+                 2021-06-07T20:07:00+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="63">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H0M1S">
+                 1.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="63">
-                modes.md.ipynb
+                about-schema.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="63">
                </td>
@@ -3811,45 +4169,58 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="63">
-                669895
+                31488
+               </td>
+               <td aria-colindex="10" aria-rowindex="63">
+                56.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="63">
+                15.0
                </td>
               </tr>
-              <tr style="--0: 1623096419;--1: 1623096420;--2: 1;--7: 31488;">
+              <tr style="--0: 1622990705;--1: 1622990888;--2: 183;--7: 110;--8: 0.000;--9: 1.000;">
                <th aria-colindex="1" aria-rowindex="64" scope="row">
-                2d356ded4dfe1ba263e829cb11c5dfc7
+                405e3ec4f800fbc9d2b0a142ef4d4b10
                </th>
                <td aria-colindex="2" aria-rowindex="64">
                 <time>
-                 2021-06-07T20:06:59+00:00
+                 2021-06-06T14:45:05+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="64">
                 <time>
-                 2021-06-07T20:07:00+00:00
+                 2021-06-06T14:48:08+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="64">
-                <time datetime="P0DT0H0M1S">
-                 1.0
+                <time datetime="P0DT0H3M3S">
+                 183.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="64">
-                about-schema.ipynb
+                readme.md
                </td>
                <td aria-colindex="6" aria-rowindex="64">
+                the utterances commenting system inside of the browser only jupyterlite interactive computing interface
                </td>
                <td aria-colindex="7" aria-rowindex="64">
-                Jupyter Notebook
+                Markdown
                </td>
                <td aria-colindex="8" aria-rowindex="64">
-                text/plain
+                text/markdown
                </td>
                <td aria-colindex="9" aria-rowindex="64">
-                31488
+                110
+               </td>
+               <td aria-colindex="10" aria-rowindex="64">
+                0.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="64">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1622990705;--1: 1622990888;--2: 183;--7: 110;">
+              <tr style="--0: 1622990705;--1: 1622990888;--2: 183;--7: 5950;--8: 0.000;--9: 1.000;">
                <th aria-colindex="1" aria-rowindex="65" scope="row">
                 405e3ec4f800fbc9d2b0a142ef4d4b10
                </th>
@@ -3870,46 +4241,51 @@ td {
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="65">
-                readme.md
+                utterance.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="65">
                 the utterances commenting system inside of the browser only jupyterlite interactive computing interface
                </td>
                <td aria-colindex="7" aria-rowindex="65">
-                Markdown
+                Jupyter Notebook
                </td>
                <td aria-colindex="8" aria-rowindex="65">
-                text/markdown
+                text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="65">
-                110
+                5950
+               </td>
+               <td aria-colindex="10" aria-rowindex="65">
+                0.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="65">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1622990705;--1: 1622990888;--2: 183;--7: 5950;">
+              <tr style="--0: 1622822370;--1: 1622823482;--2: 1112;--7: 44908;--8: 33.000;--9: 9.000;">
                <th aria-colindex="1" aria-rowindex="66" scope="row">
-                405e3ec4f800fbc9d2b0a142ef4d4b10
+                04f2caed49085783037b6cf0ab24b84e
                </th>
                <td aria-colindex="2" aria-rowindex="66">
                 <time>
-                 2021-06-06T14:45:05+00:00
+                 2021-06-04T15:59:30+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="66">
                 <time>
-                 2021-06-06T14:48:08+00:00
+                 2021-06-04T16:18:02+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="66">
-                <time datetime="P0DT0H3M3S">
-                 183.0
+                <time datetime="P0DT0H18M32S">
+                 1112.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="66">
-                utterance.ipynb
+                rich-displays.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="66">
-                the utterances commenting system inside of the browser only jupyterlite interactive computing interface
                </td>
                <td aria-colindex="7" aria-rowindex="66">
                 Jupyter Notebook
@@ -3918,31 +4294,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="66">
-                5950
+                44908
+               </td>
+               <td aria-colindex="10" aria-rowindex="66">
+                33.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="66">
+                9.0
                </td>
               </tr>
-              <tr style="--0: 1622822370;--1: 1622823482;--2: 1112;--7: 44908;">
+              <tr style="--0: 1622646827;--1: 1622646827;--2: 0;--7: 7903;--8: 22.000;--9: 0.000;">
                <th aria-colindex="1" aria-rowindex="67" scope="row">
-                04f2caed49085783037b6cf0ab24b84e
+                37a13eee3d0936013e393f3ffd83c90f
                </th>
                <td aria-colindex="2" aria-rowindex="67">
                 <time>
-                 2021-06-04T15:59:30+00:00
+                 2021-06-02T15:13:47+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="67">
                 <time>
-                 2021-06-04T16:18:02+00:00
+                 2021-06-02T15:13:47+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="67">
-                <time datetime="P0DT0H18M32S">
-                 1112.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="67">
-                rich-displays.ipynb
+                outlining.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="67">
                </td>
@@ -3953,21 +4335,27 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="67">
-                44908
+                7903
+               </td>
+               <td aria-colindex="10" aria-rowindex="67">
+                22.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="67">
+                0.0
                </td>
               </tr>
-              <tr style="--0: 1622646827;--1: 1622646827;--2: 0;--7: 7903;">
+              <tr style="--0: 1622604234;--1: 1622604234;--2: 0;--7: 7296;--8: 20.000;--9: nan;">
                <th aria-colindex="1" aria-rowindex="68" scope="row">
-                37a13eee3d0936013e393f3ffd83c90f
+                e4e11f53b34c957436d7f64319c8e05c
                </th>
                <td aria-colindex="2" aria-rowindex="68">
                 <time>
-                 2021-06-02T15:13:47+00:00
+                 2021-06-02T03:23:54+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="68">
                 <time>
-                 2021-06-02T15:13:47+00:00
+                 2021-06-02T03:23:54+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="68">
@@ -3988,33 +4376,40 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="68">
-                7903
+                7296
+               </td>
+               <td aria-colindex="10" aria-rowindex="68">
+                20.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="68">
+                nan
                </td>
               </tr>
-              <tr style="--0: 1622604234;--1: 1622604234;--2: 0;--7: 7296;">
+              <tr style="--0: 1622590598;--1: 1622592141;--2: 1543;--7: 13345;--8: 33.000;--9: 10.000;">
                <th aria-colindex="1" aria-rowindex="69" scope="row">
-                e4e11f53b34c957436d7f64319c8e05c
+                16d3bc82d69890949212b46040bd86e1
                </th>
                <td aria-colindex="2" aria-rowindex="69">
                 <time>
-                 2021-06-02T03:23:54+00:00
+                 2021-06-01T23:36:38+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="69">
                 <time>
-                 2021-06-02T03:23:54+00:00
+                 2021-06-02T00:02:21+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="69">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H25M43S">
+                 1543.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="69">
-                outlining.ipynb
+                embed-rdf.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="69">
+                notebooks with rdf metadata
                </td>
                <td aria-colindex="7" aria-rowindex="69">
                 Jupyter Notebook
@@ -4023,34 +4418,39 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="69">
-                7296
+                13345
+               </td>
+               <td aria-colindex="10" aria-rowindex="69">
+                33.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="69">
+                10.0
                </td>
               </tr>
-              <tr style="--0: 1622590598;--1: 1622592141;--2: 1543;--7: 13345;">
+              <tr style="--0: 1622567377;--1: 1622567378;--2: 1;--7: 3006;--8: 13.000;--9: 1.000;">
                <th aria-colindex="1" aria-rowindex="70" scope="row">
-                16d3bc82d69890949212b46040bd86e1
+                00cf40ccbddccca6b5eddb94bfcc6389
                </th>
                <td aria-colindex="2" aria-rowindex="70">
                 <time>
-                 2021-06-01T23:36:38+00:00
+                 2021-06-01T17:09:37+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="70">
                 <time>
-                 2021-06-02T00:02:21+00:00
+                 2021-06-01T17:09:38+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="70">
-                <time datetime="P0DT0H25M43S">
-                 1543.0
+                <time datetime="P0DT0H0M1S">
+                 1.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="70">
-                embed-rdf.ipynb
+                expand-compact-trivial.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="70">
-                notebooks with rdf metadata
                </td>
                <td aria-colindex="7" aria-rowindex="70">
                 Jupyter Notebook
@@ -4059,31 +4459,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="70">
-                13345
+                3006
+               </td>
+               <td aria-colindex="10" aria-rowindex="70">
+                13.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="70">
+                1.0
                </td>
               </tr>
-              <tr style="--0: 1622567377;--1: 1622567378;--2: 1;--7: 3006;">
+              <tr style="--0: 1622554308;--1: 1622554308;--2: 0;--7: 73496;--8: 23.000;--9: 4.000;">
                <th aria-colindex="1" aria-rowindex="71" scope="row">
-                00cf40ccbddccca6b5eddb94bfcc6389
+                eb60d7d650a6b4a6e626678a34465e66
                </th>
                <td aria-colindex="2" aria-rowindex="71">
                 <time>
-                 2021-06-01T17:09:37+00:00
+                 2021-06-01T13:31:48+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="71">
                 <time>
-                 2021-06-01T17:09:38+00:00
+                 2021-06-01T13:31:48+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="71">
-                <time datetime="P0DT0H0M1S">
-                 1.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="71">
-                expand-compact-trivial.ipynb
+                gistsssss.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="71">
                </td>
@@ -4094,31 +4500,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="71">
-                3006
+                73496
+               </td>
+               <td aria-colindex="10" aria-rowindex="71">
+                23.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="71">
+                4.0
                </td>
               </tr>
-              <tr style="--0: 1622554308;--1: 1622554308;--2: 0;--7: 73496;">
+              <tr style="--0: 1622389687;--1: 1622389871;--2: 184;--7: 9326;--8: 18.000;--9: 2.000;">
                <th aria-colindex="1" aria-rowindex="72" scope="row">
-                eb60d7d650a6b4a6e626678a34465e66
+                7a640121acfdea3f0e31b0bd9e243104
                </th>
                <td aria-colindex="2" aria-rowindex="72">
                 <time>
-                 2021-06-01T13:31:48+00:00
+                 2021-05-30T15:48:07+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="72">
                 <time>
-                 2021-06-01T13:31:48+00:00
+                 2021-05-30T15:51:11+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="72">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P0DT0H3M4S">
+                 184.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="72">
-                gistsssss.ipynb
+                template-magic.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="72">
                </td>
@@ -4129,31 +4541,37 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="72">
-                73496
+                9326
+               </td>
+               <td aria-colindex="10" aria-rowindex="72">
+                18.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="72">
+                2.0
                </td>
               </tr>
-              <tr style="--0: 1622389687;--1: 1622389871;--2: 184;--7: 9326;">
+              <tr style="--0: 1622218520;--1: 1622234881;--2: 16361;--7: 12759;--8: 24.000;--9: 6.000;">
                <th aria-colindex="1" aria-rowindex="73" scope="row">
-                7a640121acfdea3f0e31b0bd9e243104
+                3440a5b4c19a257d6164fff93fbef154
                </th>
                <td aria-colindex="2" aria-rowindex="73">
                 <time>
-                 2021-05-30T15:48:07+00:00
+                 2021-05-28T16:15:20+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="73">
                 <time>
-                 2021-05-30T15:51:11+00:00
+                 2021-05-28T20:48:01+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="73">
-                <time datetime="P0DT0H3M4S">
-                 184.0
+                <time datetime="P0DT4H32M41S">
+                 16361.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="73">
-                template-magic.ipynb
+                magics.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="73">
                </td>
@@ -4164,12 +4582,20 @@ td {
                 text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="73">
-                9326
+                12759
+               </td>
+               <td aria-colindex="10" aria-rowindex="73">
+                24.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="73">
+                6.0
                </td>
               </tr>
-              <tr style="--0: 1622218520;--1: 1622234881;--2: 16361;--7: 12759;">
+             </tbody>
+             <tfoot>
+              <tr>
                <th aria-colindex="1" aria-rowindex="74" scope="row">
-                3440a5b4c19a257d6164fff93fbef154
+                min
                </th>
                <td aria-colindex="2" aria-rowindex="74">
                 <time>
@@ -4182,45 +4608,46 @@ td {
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="74">
-                <time datetime="P0DT4H32M41S">
-                 16361.0
+                <time datetime="P0DT0H0M0S">
+                 0.0
         s
                 </time>
                </td>
                <td aria-colindex="5" aria-rowindex="74">
-                magics.ipynb
                </td>
                <td aria-colindex="6" aria-rowindex="74">
                </td>
                <td aria-colindex="7" aria-rowindex="74">
-                Jupyter Notebook
                </td>
                <td aria-colindex="8" aria-rowindex="74">
-                text/plain
                </td>
                <td aria-colindex="9" aria-rowindex="74">
-                12759
+                15
+               </td>
+               <td aria-colindex="10" aria-rowindex="74">
+                0.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="74">
+                0.0
                </td>
               </tr>
-             </tbody>
-             <tfoot>
               <tr>
                <th aria-colindex="1" aria-rowindex="75" scope="row">
-                min
+                max
                </th>
                <td aria-colindex="2" aria-rowindex="75">
                 <time>
-                 2021-05-28T16:15:20+00:00
+                 2024-01-10T21:04:06+00:00
                 </time>
                </td>
                <td aria-colindex="3" aria-rowindex="75">
                 <time>
-                 2021-05-28T20:48:01+00:00
+                 2024-01-10T21:04:39+00:00
                 </time>
                </td>
                <td aria-colindex="4" aria-rowindex="75">
-                <time datetime="P0DT0H0M0S">
-                 0.0
+                <time datetime="P871DT17H56M5S">
+                 75318965.0
         s
                 </time>
                </td>
@@ -4233,39 +4660,13 @@ td {
                <td aria-colindex="8" aria-rowindex="75">
                </td>
                <td aria-colindex="9" aria-rowindex="75">
-                15
-               </td>
-              </tr>
-              <tr>
-               <th aria-colindex="1" aria-rowindex="76" scope="row">
-                max
-               </th>
-               <td aria-colindex="2" aria-rowindex="76">
-                <time>
-                 2024-01-10T21:04:06+00:00
-                </time>
-               </td>
-               <td aria-colindex="3" aria-rowindex="76">
-                <time>
-                 2024-01-10T21:04:39+00:00
-                </time>
-               </td>
-               <td aria-colindex="4" aria-rowindex="76">
-                <time datetime="P871DT17H56M5S">
-                 75318965.0
-        s
-                </time>
-               </td>
-               <td aria-colindex="5" aria-rowindex="76">
-               </td>
-               <td aria-colindex="6" aria-rowindex="76">
-               </td>
-               <td aria-colindex="7" aria-rowindex="76">
-               </td>
-               <td aria-colindex="8" aria-rowindex="76">
-               </td>
-               <td aria-colindex="9" aria-rowindex="76">
                 17544796
+               </td>
+               <td aria-colindex="10" aria-rowindex="75">
+                56.0
+               </td>
+               <td aria-colindex="11" aria-rowindex="75">
+                43.0
                </td>
               </tr>
              </tfoot>
@@ -4306,6 +4707,14 @@ td {
 --size-max: var(--7-max);
 --size-diff: var(--7-diff);
 --7-diff: calc(var(--7-max) - var(--7-min));
+--cells-min: var(--8-min);
+--cells-max: var(--8-max);
+--cells-diff: var(--8-diff);
+--8-diff: calc(var(--8-max) - var(--8-min));
+--outputs-min: var(--9-min);
+--outputs-max: var(--9-max);
+--outputs-diff: var(--9-diff);
+--9-diff: calc(var(--9-max) - var(--9-min));
  tbody tr {--created_at: var(--0);
 --created_at-ratio: var(--0-ratio);
 td:nth-of-type(1){--ratio: var(--0-ratio);}
@@ -4322,12 +4731,21 @@ td:nth-of-type(3){--ratio: var(--2-ratio);}
 --size-ratio: var(--7-ratio);
 td:nth-of-type(8){--ratio: var(--7-ratio);}
 --7-ratio: calc((var(--7) - var(--7-min)) / var(--7-diff));
+--cells: var(--8);
+--cells-ratio: var(--8-ratio);
+td:nth-of-type(9){--ratio: var(--8-ratio);}
+--8-ratio: calc((var(--8) - var(--8-min)) / var(--8-diff));
+--outputs: var(--9);
+--outputs-ratio: var(--9-ratio);
+td:nth-of-type(10){--ratio: var(--9-ratio);}
+--9-ratio: calc((var(--9) - var(--9-min)) / var(--9-diff));
 }}
           </style>
          </section>
          <pre><code>gists = (await (
     "https://api.github.com/users/tonyfast/gists?page=" + pandas.RangeIndex(1, 3).astype(str)
 ).http.get()).explode().series().set_index("id")
+gists.index.name = "gist_id"
 </code></pre>
          <p>
           we're going to quickly make a table of my gist from github.
@@ -4345,20 +4763,8 @@ files = files.assign(timespan=files.updated_at - files.created_at)
           convert times to their proper types and substract them so out dataframe
 contains integers, datetimes, and timedeltas, types with numerical representations.
          </p>
-         <pre><code>df = files[time + "timespan filename description language type size".split()]
-import nbconvert_a11y.table
-
-def aria_index(table):
-    i = 0
-    for row in table.table.select("tr"):
-        j = 0
-        for cell in row.select("th, td"):
-            if not j:
-                i += int(cell.attrs.get("rowspan", 1))
-            cell.attrs.update({"aria-rowindex": i, "aria-colindex": j + 1})
-            j += int(cell.attrs.get("colspan", 1))
-    return table
-table = aria_index(df.table(id="gist"))
+         <pre><code>files[cat] = files[cat := "language type".split()].astype("category")
+df = files[time + "timespan filename description language type size".split()]
 </code></pre>
          <p>
           now are going to add a few lines of
@@ -4375,6 +4781,8 @@ it is really interesting how we start to create the cell border form when we do 
 at a glance we can visually observe relative positions of values in a column.
 further, scrolling creates really interesting movement that provides user controlled animation.
          </p>
+         <pre><code>display\
+</code></pre>
          <pre><code class="css"><div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">td</span><span style="color: #bbbbbb"> </span>{
 <span style="color: #bbbbbb">    </span><span style="color: #19177C">--marker-width</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">.2</span><span style="color: #B00040">ch</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">background</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">linear-gradient</span>(<span style="color: #666666">90</span><span style="color: #B00040">deg</span>,<span style="color: #bbbbbb"> </span>
@@ -4390,20 +4798,39 @@ further, scrolling creates really interesting movement that provides user contro
 }
 </pre></div>
 </code></pre>
+         <pre><code>notebooks = (
+    await files[files.language.eq("Jupyter Notebook")].raw_url.http.get()
+).apply(json.loads).series()
+</code></pre>
+         <p>
+          read the
+          <code>
+           notebooks
+          </code>
+          and separate out the cells, outputs, and display objects.
+         </p>
+         <pre><code>cells = notebooks.cells.enumerate("cell").series()
+outputs = cells.outputs[cells.outputs.fillna("").astype(bool)].enumerate("display").series()
+display_data = outputs['data'].dropna().series()
+
+df = (df.join(cells.groupby("gist_id").id.count().rename("cells"))
+      .join(outputs.groupby("gist_id")["data"].count().rename("outputs")))
+import nbconvert_a11y.table
+table = df.sort_values("created_at", ascending=False).table(id="gist")</code></pre>
         </div>
        </fieldset>
       </td>
      </tr>
-     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell code" data-index="3" data-loc="1" data-slide_type role="listitem">
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell markdown" data-index="3" data-loc="16" data-slide_type role="listitem">
       <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="3" aria-describedby="cell-3-executed nb-code-label nb-cell-label cell-3-loc nb-loc-label cell-3-outputs-len" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+       <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
         3
        </a>
       </th>
       <td class="nb-execution_count" hidden role="none">
        <label class="nb-execution_count">
         <span hidden id="cell-3-executed">
-         executed
+         unexecuted
         </span>
         <span id="cell-3-in-label">
          In
@@ -4412,7 +4839,6 @@ further, scrolling creates really interesting movement that provides user contro
          [
         </span>
         <span id="cell-3-exec-label">
-         28
         </span>
         <span aria-hidden="true">
          ]
@@ -4421,7 +4847,7 @@ further, scrolling creates really interesting movement that provides user contro
       </td>
       <td class="nb-cell_type" hidden role="none">
        <label id="cell-3-cell_type">
-        code
+        markdown
        </label>
       </td>
       <td class="nb-toolbar" hidden role="none">
@@ -4440,11 +4866,41 @@ further, scrolling creates really interesting movement that provides user contro
       </td>
       <td class="nb-end" hidden id="cell-3-end" role="none">
       </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="1">df.shape</textarea>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="16">* the type row needs to get added
+* experiment with different cells markers and css gradients
+
+## marginalia
+
+
+i added `aria-sort` annotations to the table and thought some css would give visual representation of the sortedness.
+add much context and information will facilitate an accessible experience dyscalculia.
+
+```css
+th[aria-sort]::after {
+    content: attr(aria-sort);
+    font-weight: 100;
+}
+
+```</textarea>
        <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
         <div class="highlight">
-         <pre><span></span><code><span class="n">df</span><span class="o">.</span><span class="n">shape</span>
+         <pre><span></span><code><span class="k">*</span><span class="w"> </span>the type row needs to get added
+<span class="k">*</span><span class="w"> </span>experiment with different cells markers and css gradients
+
+<span class="gu">## marginalia</span>
+
+
+i added <span class="sb">`aria-sort`</span> annotations to the table and thought some css would give visual representation of the sortedness.
+add much context and information will facilitate an accessible experience dyscalculia.
+
+<span class="sb">```css</span>
+<span class="nt">th</span><span class="o">[</span><span class="nt">aria-sort</span><span class="o">]</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="nb">attr</span><span class="p">(</span><span class="n">aria</span><span class="nv">-sort</span><span class="p">);</span>
+<span class="w">    </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="sb">```</span>
 </code></pre>
         </div>
        </div>
@@ -4459,400 +4915,43 @@ further, scrolling creates really interesting movement that provides user contro
           Close
          </button>
          <pre><code>
-        {}
+        {'data': {'text/html': '<ul>\n<li>the type row needs to get added</li>\n<li>experiment with different cells markers and css gradients</li>\n</ul>\n<h2 id="marginalia"><a href="#marginalia">marginalia</a></h2>\n<p>i added <code>aria-sort</code> annotations to the table and thought some css would give visual representation of the sortedness.\nadd much context and information will facilitate an accessible experience dyscalculia.</p>\n<div class="highlight"><pre><span></span><span class="nt">th</span><span class="o">[</span><span class="nt">aria-sort</span><span class="o">]</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span>\n<span class="w">    </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="nb">attr</span><span class="p">(</span><span class="n">aria</span><span class="nv">-sort</span><span class="p">);</span>\n<span class="w">    </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>\n<span class="p">}</span>\n</pre></div>\n'}}
         </code></pre>
         </form>
        </dialog>
       </td>
       <td class="nb-loc" hidden id="cell-3-loc" role="none">
-       1
+       16
       </td>
       <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-3-outputs-len">
-        1 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-3-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          28
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-         <pre class="plain">(73, 8)</pre>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="0" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
-        4
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-4-executed">
-         unexecuted
-        </span>
-        <span id="cell-4-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-4-exec-label">
-         None
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-4-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-4-exec-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-4-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-4-end" role="none">
-      </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="0"></textarea>
-       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code>
-</code></pre>
-        </div>
+       <ul>
+        <li>
+         the type row needs to get added
+        </li>
+        <li>
+         experiment with different cells markers and css gradients
+        </li>
+       </ul>
+       <h2 id="marginalia">
+        <a href="#marginalia">
+         marginalia
+        </a>
+       </h2>
+       <p>
+        i added
+        <code>
+         aria-sort
+        </code>
+        annotations to the table and thought some css would give visual representation of the sortedness.
+add much context and information will facilitate an accessible experience dyscalculia.
+       </p>
+       <div class="highlight">
+        <pre><span></span><span class="nt">th</span><span class="o">[</span><span class="nt">aria-sort</span><span class="o">]</span><span class="p">::</span><span class="nd">after</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="k">content</span><span class="p">:</span><span class="w"> </span><span class="nb">attr</span><span class="p">(</span><span class="n">aria</span><span class="nv">-sort</span><span class="p">);</span>
+<span class="w">    </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span>
+<span class="p">}</span>
+</pre>
        </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-4-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-4-loc" role="none">
-       0
-      </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell code" data-index="5" data-loc="1" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="5" aria-describedby="cell-5-executed nb-code-label nb-cell-label cell-5-loc nb-loc-label cell-5-outputs-len" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
-        5
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-5-executed">
-         executed
-        </span>
-        <span id="cell-5-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-5-exec-label">
-         12
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-5-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-5-exec-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-5-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-5-end" role="none">
-      </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="1">len(df)</textarea>
-       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-5-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-5-loc" role="none">
-       1
-      </td>
-      <td class="nb-outputs" role="none">
-       <span class="nb-outputs visually-hidden" id="cell-5-outputs-len">
-        1 outputs.
-       </span>
-       <fieldset class="nb-outputs" data-outputs="1">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-5-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          12
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-         <pre class="plain">73</pre>
-        </div>
-       </fieldset>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell markdown" data-index="6" data-loc="1" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="6" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
-        6
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-6-executed">
-         unexecuted
-        </span>
-        <span id="cell-6-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-6-exec-label">
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-6-cell_type">
-        markdown
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-6-exec-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-6-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-6-end" role="none">
-      </td>
-      <td class="nb-source" hidden role="none">
-       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="1"># </textarea>
-       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code># 
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-6-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {'data': {'text/html': '<h1></h1>\n'}}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-6-loc" role="none">
-       1
-      </td>
-      <td class="nb-outputs" role="none">
-       <h1>
-       </h1>
-      </td>
-     </tr>
-     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell code" data-index="7" data-loc="0" data-slide_type role="listitem">
-      <th class="nb-anchor" role="none" scope="row">
-       <a accesskey="7" aria-describedby="cell-7-executed nb-code-label nb-cell-label cell-7-loc nb-loc-label cell-7-outputs-len" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
-        7
-       </a>
-      </th>
-      <td class="nb-execution_count" hidden role="none">
-       <label class="nb-execution_count">
-        <span hidden id="cell-7-executed">
-         unexecuted
-        </span>
-        <span id="cell-7-in-label">
-         In
-        </span>
-        <span aria-hidden="true">
-         [
-        </span>
-        <span id="cell-7-exec-label">
-         None
-        </span>
-        <span aria-hidden="true">
-         ]
-        </span>
-       </label>
-      </td>
-      <td class="nb-cell_type" hidden role="none">
-       <label id="cell-7-cell_type">
-        code
-       </label>
-      </td>
-      <td class="nb-toolbar" hidden role="none">
-       <form aria-labelledby="cell-7-exec-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
-        <fieldset>
-         <legend>
-          actions
-         </legend>
-         <button type="submit">
-          Run Cell
-         </button>
-        </fieldset>
-       </form>
-      </td>
-      <td class="nb-start" hidden id="cell-7-start" role="none">
-      </td>
-      <td class="nb-end" hidden id="cell-7-end" role="none">
-      </td>
-      <td class="nb-source" role="none">
-       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="0"></textarea>
-       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
-        <div class="highlight">
-         <pre><span></span><code>
-</code></pre>
-        </div>
-       </div>
-      </td>
-      <td class="nb-metadata" hidden role="none">
-       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
-        metadata
-       </button>
-       <dialog id="cell-7-metadata">
-        <form>
-         <button formmethod="dialog">
-          Close
-         </button>
-         <pre><code>
-        {}
-        </code></pre>
-        </form>
-       </dialog>
-      </td>
-      <td class="nb-loc" hidden id="cell-7-loc" role="none">
-       0
-      </td>
-      <td class="nb-outputs" hidden role="none">
-       <fieldset class="nb-outputs" data-outputs="0">
-        <legend aria-describedby="nb-outputs-desc" hidden id="cell-7-outputs-label">
-         <span>
-          Out
-         </span>
-         <span aria-hidden="true">
-          [
-         </span>
-         <span>
-          None
-         </span>
-         <span aria-hidden="true">
-          ]
-         </span>
-        </legend>
-        <div>
-        </div>
-       </fieldset>
       </td>
      </tr>
     </tbody>
