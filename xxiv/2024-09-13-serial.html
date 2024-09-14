@@ -3569,15 +3569,15 @@
 
         <span class="n">time</span> <span class="o">=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="s2">&quot;now&quot;</span><span class="p">)</span>
 <span class="n">attribute</span>
-<span class="p">:</span> <span class="p">{{</span><span class="n">t</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()}}</span>
+<span class="p">:</span> <span class="p">{{</span><span class="n">time</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()}}</span>
 
 <span class="n">css</span>
-<span class="p">:</span> <span class="p">{{</span><span class="n">t</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()}}</span>
+<span class="p">:</span> <span class="p">{{</span><span class="n">time</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()}}</span>
 
 <span class="k">with</span> <span class="n">the</span> <span class="n">attribute</span> <span class="n">being</span> <span class="n">reused</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">overall</span> <span class="n">html</span> <span class="n">representation</span><span class="o">.</span>
 
 <span class="n">tag</span><span class="o">/</span><span class="n">element</span>
-<span class="p">:</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">time</span> <span class="n">datetime</span><span class="o">=</span><span class="s2">&quot;{{t.isoformat()}}&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">t</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)}}</span><span class="o">&lt;/</span><span class="n">time</span><span class="o">&gt;</span><span class="err">`</span>
+<span class="p">:</span> <span class="err">`</span><span class="o">&lt;</span><span class="n">time</span> <span class="n">datetime</span><span class="o">=</span><span class="s2">&quot;{{time.isoformat()}}&quot;</span><span class="o">&gt;</span><span class="p">{{</span><span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)}}</span><span class="o">&lt;/</span><span class="n">time</span><span class="o">&gt;</span><span class="err">`</span>
 
         <span class="n">flowchart</span> <span class="o">+=</span>\
 <span class="err">```</span><span class="n">mermaid</span>
@@ -3588,71 +3588,73 @@
     <span class="n">s</span><span class="p">[</span><span class="n">style</span><span class="p">]</span> <span class="o">--&amp;</span><span class="n">gt</span><span class="p">;</span> <span class="n">attribute</span>
 <span class="err">```</span>
 </code></pre></div>
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
-<span class="ansi-red-fg">UndefinedError</span>                            Traceback (most recent call last)
-Cell <span class="ansi-green-fg">In[1], line 1</span>
-<span class="ansi-green-fg">----&gt; 1</span> <span class="ansi-yellow-bg">get_ipython</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">run_cell_magic</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">1. the series comprosing a dataframe contains type and object information,</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">colorless and colorful forms. this information needs to be transformed to many strings.</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">        flowchart =</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\\</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```mermaid</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">flowchart LR</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    dataframe --&gt; series</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    series --&gt; value</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    series --&gt; dtype</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">2. at the value level, we need to dispatch on the `dtype` or the `type`.</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">        flowchart +=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\\</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```mermaid</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    dtype --&gt; value</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    type --&gt; value</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">3. for each value may need to create 3 different representations for a single `value`.</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">for example, a `time` value will separate attribute and css representations</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">        time = pandas.to_datetime(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">now</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">)</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">attribute</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">: </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">{{</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">t.isoformat()}}</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">css</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">: </span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">{{</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">t.timestamp()}}</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">with the attribute being reused in the overall html representation.</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">tag/element</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">: `&lt;time datetime=</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">{{</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">t.isoformat()}}</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">&gt;</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">{{</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">t.strftime(</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">%</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">Y-</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">%</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">m-</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,135)">%d</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">"</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">)}}&lt;/time&gt;`</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">        flowchart +=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\\</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```mermaid</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    value --&gt; tag</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    attribute --&gt; tag</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    value --&gt; attribute</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    value --&gt; s[style]</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">    s[style] --&gt; attribute</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">```</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(175,95,0)">\n</span><span class="ansi-yellow-bg" style="color: rgb(175,0,0)">'</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">~/mambaforge/envs/p311/lib/python3.11/site-packages/IPython/core/interactiveshell.py:2515</span>, in <span class="ansi-cyan-fg">InteractiveShell.run_cell_magic</span><span class="ansi-blue-fg">(self, magic_name, line, cell)</span>
-<span class="ansi-green-intense-fg ansi-bold">   2513</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>builtin_trap:
-<span class="ansi-green-intense-fg ansi-bold">   2514</span>     args <span style="color: rgb(98,98,98)">=</span> (magic_arg_s, cell)
-<span class="ansi-green-fg">-&gt; 2515</span>     result <span style="color: rgb(98,98,98)">=</span> <span class="ansi-yellow-bg">fn</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">args</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">kwargs</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">   2517</span> <span style="color: rgb(95,135,135)"># The code below prevents the output from being displayed</span>
-<span class="ansi-green-intense-fg ansi-bold">   2518</span> <span style="color: rgb(95,135,135)"># when using magics with decorator @output_can_be_silenced</span>
-<span class="ansi-green-intense-fg ansi-bold">   2519</span> <span style="color: rgb(95,135,135)"># when the last Python token in the expression is a ';'.</span>
-<span class="ansi-green-intense-fg ansi-bold">   2520</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> <span style="color: rgb(0,135,0)">getattr</span>(fn, magic<span style="color: rgb(98,98,98)">.</span>MAGIC_OUTPUT_CAN_BE_SILENCED, <span class="ansi-bold" style="color: rgb(0,135,0)">False</span>):
-
-File <span class="ansi-green-fg">~/Documents/midgy/src/midgy/_magics.py:100</span>, in <span class="ansi-cyan-fg">TangleMagic.tangle</span><span class="ansi-blue-fg">(self, line, cell)</span>
-<span class="ansi-green-intense-fg ansi-bold">     98</span> <span class="ansi-bold" style="color: rgb(0,135,0)">with</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>shell<span style="color: rgb(98,98,98)">.</span>tangle:
-<span class="ansi-green-intense-fg ansi-bold">     99</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; 100</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">weave_argv</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">cmd</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">magic</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg ansi-bold" style="color: rgb(0,135,0)">True</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    101</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">SystemExit</span>:
-<span class="ansi-green-intense-fg ansi-bold">    102</span>         <span class="ansi-bold" style="color: rgb(0,135,0)">pass</span>
-
-File <span class="ansi-green-fg">~/Documents/midgy/src/midgy/weave.py:137</span>, in <span class="ansi-cyan-fg">weave_argv</span><span class="ansi-blue-fg">(argv, magic)</span>
-<span class="ansi-green-intense-fg ansi-bold">    135</span> ns <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">dict</span>(<span style="color: rgb(0,135,0)">vars</span>(ns))
-<span class="ansi-green-intense-fg ansi-bold">    136</span> ns<span style="color: rgb(98,98,98)">.</span>setdefault(<span style="color: rgb(175,0,0)">"</span><span style="color: rgb(175,0,0)">magic</span><span style="color: rgb(175,0,0)">"</span>, magic)
-<span class="ansi-green-fg">--&gt; 137</span> <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg">weave</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">*</span><span class="ansi-yellow-bg">ns</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">extra</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">=</span><span class="ansi-yellow-bg">extra</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">~/Documents/midgy/src/midgy/weave.py:99</span>, in <span class="ansi-cyan-fg">weave</span><span class="ansi-blue-fg">(cmd, file, module, run, show, language, extra, debug, tokens, weave, unittest, format, magic, name, html, lists, defs, unsafe, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">     95</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">IPython</span><span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">display</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> display, Markdown, HTML
-<span class="ansi-green-intense-fg ansi-bold">     97</span> <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> html:
-<span class="ansi-green-intense-fg ansi-bold">     98</span>     output <span style="color: rgb(98,98,98)">=</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>parser<span style="color: rgb(98,98,98)">.</span>parser<span style="color: rgb(98,98,98)">.</span>render(
-<span class="ansi-green-fg">---&gt; 99</span>         <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">environment</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">from_string</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">source</span><span class="ansi-yellow-bg">)</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">render</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>, env
-<span class="ansi-green-intense-fg ansi-bold">    100</span>     )
-<span class="ansi-green-intense-fg ansi-bold">    101</span>     display(HTML(output))
-<span class="ansi-green-intense-fg ansi-bold">    102</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">if</span> env:
-
-File <span class="ansi-green-fg">~/mambaforge/envs/p311/lib/python3.11/site-packages/jinja2/environment.py:1301</span>, in <span class="ansi-cyan-fg">Template.render</span><span class="ansi-blue-fg">(self, *args, **kwargs)</span>
-<span class="ansi-green-intense-fg ansi-bold">   1299</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>environment<span style="color: rgb(98,98,98)">.</span>concat(<span style="color: rgb(0,135,0)">self</span><span style="color: rgb(98,98,98)">.</span>root_render_func(ctx))  <span style="color: rgb(95,135,135)"># type: ignore</span>
-<span class="ansi-green-intense-fg ansi-bold">   1300</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">Exception</span>:
-<span class="ansi-green-fg">-&gt; 1301</span>     <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">self</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">environment</span><span class="ansi-yellow-bg" style="color: rgb(98,98,98)">.</span><span class="ansi-yellow-bg">handle_exception</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">)</span>
-
-File <span class="ansi-green-fg">~/mambaforge/envs/p311/lib/python3.11/site-packages/jinja2/environment.py:936</span>, in <span class="ansi-cyan-fg">Environment.handle_exception</span><span class="ansi-blue-fg">(self, source)</span>
-<span class="ansi-green-intense-fg ansi-bold">    931</span> <span style="color: rgb(175,0,0)">"""Exception handling helper.  This is used internally to either raise</span>
-<span class="ansi-green-intense-fg ansi-bold">    932</span> <span style="color: rgb(175,0,0)">rewritten exceptions or return a rendered traceback for the template.</span>
-<span class="ansi-green-intense-fg ansi-bold">    933</span> <span style="color: rgb(175,0,0)">"""</span>
-<span class="ansi-green-intense-fg ansi-bold">    934</span> <span class="ansi-bold" style="color: rgb(0,135,0)">from</span> <span class="ansi-bold" style="color: rgb(0,0,255)">.</span><span class="ansi-bold" style="color: rgb(0,0,255)">debug</span> <span class="ansi-bold" style="color: rgb(0,135,0)">import</span> rewrite_traceback_stack
-<span class="ansi-green-fg">--&gt; 936</span> <span class="ansi-bold" style="color: rgb(0,135,0)">raise</span> rewrite_traceback_stack(source<span style="color: rgb(98,98,98)">=</span>source)
-
-File <span class="ansi-green-fg">&lt;template&gt;:26</span>, in <span class="ansi-cyan-fg">top-level template code</span><span class="ansi-blue-fg">()</span>
-
-File <span class="ansi-green-fg">~/mambaforge/envs/p311/lib/python3.11/site-packages/jinja2/environment.py:485</span>, in <span class="ansi-cyan-fg">Environment.getattr</span><span class="ansi-blue-fg">(self, obj, attribute)</span>
-<span class="ansi-green-intense-fg ansi-bold">    481</span> <span style="color: rgb(175,0,0)">"""Get an item or attribute of an object but prefer the attribute.</span>
-<span class="ansi-green-intense-fg ansi-bold">    482</span> <span style="color: rgb(175,0,0)">Unlike :meth:`getitem` the attribute *must* be a string.</span>
-<span class="ansi-green-intense-fg ansi-bold">    483</span> <span style="color: rgb(175,0,0)">"""</span>
-<span class="ansi-green-intense-fg ansi-bold">    484</span> <span class="ansi-bold" style="color: rgb(0,135,0)">try</span>:
-<span class="ansi-green-fg">--&gt; 485</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">return</span> <span class="ansi-yellow-bg" style="color: rgb(0,135,0)">getattr</span><span class="ansi-yellow-bg">(</span><span class="ansi-yellow-bg">obj</span><span class="ansi-yellow-bg">,</span><span class="ansi-yellow-bg"> </span><span class="ansi-yellow-bg">attribute</span><span class="ansi-yellow-bg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">    486</span> <span class="ansi-bold" style="color: rgb(0,135,0)">except</span> <span class="ansi-bold" style="color: rgb(215,95,95)">AttributeError</span>:
-<span class="ansi-green-intense-fg ansi-bold">    487</span>     <span class="ansi-bold" style="color: rgb(0,135,0)">pass</span>
-
-<span class="ansi-red-fg">UndefinedError</span>: 't' is undefined</pre>
+<div class="output_html rendered_html output_subarea"><ol>
+<li>
+<p>the series comprosing a dataframe contains type and object information,
+colorless and colorful forms. this information needs to be transformed to many strings.</p>
+<pre><code> flowchart =\
+</code></pre>
+</li>
+</ol>
+<pre><code class="mermaid">flowchart LR
+    dataframe --&gt; series
+    series --&gt; value
+    series --&gt; dtype
+</code></pre>
+<ol start="2">
+<li>
+<p>at the value level, we need to dispatch on the <code>dtype</code> or the <code>type</code>.</p>
+<pre><code> flowchart +=\
+</code></pre>
+</li>
+</ol>
+<pre><code class="mermaid">    dtype --&gt; value
+    type --&gt; value
+</code></pre>
+<ol start="3">
+<li>
+<p>for each value may need to create 3 different representations for a single <code>value</code>.
+for example, a <code>time</code> value will separate attribute and css representations</p>
+<pre><code> time = pandas.to_datetime("now")
+</code></pre>
+</li>
+</ol>
+<dl>
+<dt>attribute</dt>
+<dd>2024-09-13T21:55:37.458285</dd>
+<dt>css</dt>
+<dd>1726264537.458285</dd>
+</dl>
+<p>with the attribute being reused in the overall html representation.</p>
+<dl>
+<dt>tag/element</dt>
+<dd>
+<p><code>&lt;time datetime="2024-09-13T21:55:37.458285"&gt;2024-09-13&lt;/time&gt;</code></p>
+<pre><code>  flowchart +=\
+</code></pre>
+</dd>
+</dl>
+<pre><code class="mermaid">    value --&gt; tag
+    attribute --&gt; tag
+    value --&gt; attribute
+    value --&gt; s[style]
+    s[style] --&gt; attribute
+</code></pre>
 </div>
 
 <div class="highlight"><pre><span></span><code>    <span class="n">Mermaid</span><span class="p">(</span><span class="n">flowchart</span><span class="p">)</span>
 </code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    dataframe --&amp;gt; series
+    series --&amp;gt; value
+    series --&amp;gt; dtype
+dtype --&amp;gt; value
+type --&amp;gt; value
+value --&amp;gt; tag
+attribute --&amp;gt; tag
+value --&amp;gt; attribute
+value --&amp;gt; s[style]
+s[style] --&amp;gt; attribute</code></pre>
 <div class="highlight"><pre><span></span><code>
 </code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
