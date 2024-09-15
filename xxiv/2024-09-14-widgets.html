@@ -3729,6 +3729,7 @@ table = df[
 <span class="p">}</span>
 <span class="err">```</span>
     <span class="p">)</span>
+    <span class="n">table</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">table</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">form</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
         <span class="n">table_filters</span> <span class="o">:=</span> <span class="n">new</span><span class="p">(</span>
             <span class="s2">&quot;details&quot;</span><span class="p">,</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;summary&quot;</span><span class="p">,</span> <span class="s2">&quot;filters&quot;</span><span class="p">),</span> <span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
@@ -3770,6 +3771,7 @@ table = df[
 </pre></div>
 </code></pre>
 <pre><code>)
+table.container.details.attrs.update(open="")
 table.container.form.append(
     table_filters := new(
         "details", new("summary", "filters"), open=""
@@ -3782,11 +3784,6 @@ table.container.form.append(
 )</code></pre>
 </div>
 
-<ul>
-<li>categorical and numerical filters</li>
-<li>time filters</li>
-</ul>
-<p>serialize css, attributes and html different. fuckkkk</p>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
 <span class="c1">## creating the column filters</span>
 
@@ -3818,10 +3815,27 @@ table.container.form.append(
         <span class="n">ranges</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">bs4</span><span class="o">.</span><span class="n">input</span><span class="p">(</span><span class="nb">type</span><span class="o">=</span><span class="s2">&quot;datetime-local&quot;</span><span class="p">)</span>
         <span class="n">ranges</span><span class="o">.</span><span class="n">bs4</span><span class="o">.</span><span class="n">attrs</span><span class="p">(</span><span class="n">stats</span><span class="p">)</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">)</span>
 
+<span class="mf">1.</span> <span class="n">make</span> <span class="n">the</span> <span class="n">classes</span> <span class="n">filterable</span>
+
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="nb">isinstance</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">dtypes</span><span class="o">.</span><span class="n">CategoricalDtype</span><span class="p">,)</span>
+        <span class="p">)</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">dtypes</span><span class="p">[</span><span class="n">classes</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="n">operator</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">&quot;categories&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;option&quot;</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">selected</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">new</span><span class="p">(</span><span class="s2">&quot;select&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">s</span><span class="p">,</span> <span class="n">multiple</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">&quot;classes&quot;</span><span class="p">)</span>
+        <span class="n">bounds</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">classes</span><span class="p">)</span>
+
 <span class="mf">1.</span> <span class="n">rejoin</span> <span class="n">them</span> <span class="n">back</span> <span class="k">with</span> <span class="n">the</span> <span class="n">original</span> <span class="n">container</span>
 
         <span class="n">table_filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-            <span class="p">(</span><span class="n">ranges</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;column&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">table</span><span class="p">())</span><span class="o">.</span><span class="n">table</span>
+            <span class="p">(</span><span class="n">ranges</span> <span class="o">:=</span> <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">bounds</span><span class="p">)</span><span class="o">.</span><span class="n">reindex</span><span class="p">(</span><span class="n">table</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="s2">&quot;column&quot;</span><span class="p">)</span>
+             <span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">how</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">table</span><span class="p">()</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">table</span>
         <span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea"><h2>creating the column filters</h2>
@@ -3856,9 +3870,27 @@ we build those for</p>
 </code></pre>
 </li>
 <li>
+<p>make the classes filterable</p>
+<pre><code> classes = table.object.dtypes.apply(
+     isinstance, args=(pandas.core.dtypes.dtypes.CategoricalDtype,)
+ )
+ classes = table.object.dtypes[classes].apply(
+     operator.attrgetter("categories")
+ ).explode().apply(
+     lambda s: new("option", s, value=s, selected="")
+ ).groupby(pandas.Grouper(level=0)).apply(
+     lambda s: new("select", *s, multiple="")
+ ).to_frame("classes")
+ bounds.append(classes)
+</code></pre>
+</li>
+<li>
 <p>rejoin them back with the original container</p>
 <pre><code> table_filters.append(
-     (ranges := pandas.concat(bounds).reindex(table.object.columns).rename_axis(index="column").dropna().table()).table
+     (ranges := pandas.concat(bounds).reindex(table.object.columns)
+      .rename_axis(index="column")
+      .dropna(how="all", axis=0).fillna("").table()
+     ).table
  )</code></pre>
 </li>
 </ol>
@@ -3951,8 +3983,7 @@ we build those for</p>
 </ol>
 </div>
 
-<div class="highlight"><pre><span></span><code>    <span class="n">table</span><span class="o">.</span><span class="n">container</span><span class="o">.</span><span class="n">dialog</span><span class="o">.</span><span class="n">details</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">open</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">table</span>
+<div class="highlight"><pre><span></span><code>    <span class="n">table</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea output_execute_result"><section aria-labelledby="gist-figcaption" id="gist-region">
 <dialog style="display: contents;">
@@ -6647,13 +6678,14 @@ td {
 <summary>
       filters
      </summary>
-<table aria-labelledby="a4f9fb9c0-figcaption a4f9fb9c0-caption" id="a4f9fb9c0" role="table" style="resize: both;">
-<caption id="a4f9fb9c0-caption">
+<table aria-labelledby="ab98844ae-figcaption ab98844ae-caption" id="ab98844ae" role="table" style="resize: both;">
+<caption id="ab98844ae-caption">
 </caption>
 <colgroup itemprop="index" itemscope="">
 <col/>
 </colgroup>
 <colgroup itemprop="columns" itemscope="">
+<col/>
 <col/>
 <col/>
 </colgroup>
@@ -6668,9 +6700,71 @@ td {
 <th>
          max
         </th>
+<th>
+         classes
+        </th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<th>
+         language
+        </th>
+<td>
+</td>
+<td>
+</td>
+<td>
+<select multiple="">
+<option selected="" value="HTML">
+           HTML
+          </option>
+<option selected="" value="JSON">
+           JSON
+          </option>
+<option selected="" value="Jupyter Notebook">
+           Jupyter Notebook
+          </option>
+<option selected="" value="Markdown">
+           Markdown
+          </option>
+<option selected="" value="Python">
+           Python
+          </option>
+<option selected="" value="Text">
+           Text
+          </option>
+</select>
+</td>
+</tr>
+<tr>
+<th>
+         type
+        </th>
+<td>
+</td>
+<td>
+</td>
+<td>
+<select multiple="">
+<option selected="" value="application/json">
+           application/json
+          </option>
+<option selected="" value="application/x-python">
+           application/x-python
+          </option>
+<option selected="" value="text/html">
+           text/html
+          </option>
+<option selected="" value="text/markdown">
+           text/markdown
+          </option>
+<option selected="" value="text/plain">
+           text/plain
+          </option>
+</select>
+</td>
+</tr>
 <tr>
 <th>
          created_at
@@ -6680,6 +6774,8 @@ td {
 </td>
 <td>
 <input max="2024-01-10T21:04:06" min="2020-09-23T20:11:37" type="datetime-local" value="2024-01-10T21:04:06"/>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -6692,6 +6788,8 @@ td {
 <td>
 <input max="2024-01-10T21:04:39" min="2020-09-23T20:11:37" type="datetime-local" value="2024-01-10T21:04:39"/>
 </td>
+<td>
+</td>
 </tr>
 <tr>
 <th>
@@ -6702,6 +6800,8 @@ td {
 </td>
 <td>
 <input max="75318965.0" min="0.0" type="number" value="75318965.0"/>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -6714,6 +6814,8 @@ td {
 <td>
 <input max="17544796" min="6" type="number" value="17544796"/>
 </td>
+<td>
+</td>
 </tr>
 <tr>
 <th>
@@ -6724,6 +6826,8 @@ td {
 </td>
 <td>
 <input max="56.0" min="0.0" type="number" value="56.0"/>
+</td>
+<td>
 </td>
 </tr>
 <tr>
@@ -6736,6 +6840,8 @@ td {
 <td>
 <input max="43.0" min="0.0" type="number" value="43.0"/>
 </td>
+<td>
+</td>
 </tr>
 </tbody>
 </table>
@@ -6744,8 +6850,8 @@ td {
 <summary>
       visibility
      </summary>
-<table aria-labelledby="a89c7be5d-figcaption a89c7be5d-caption" id="a89c7be5d" role="table" style="resize: both;">
-<caption id="a89c7be5d-caption">
+<table aria-labelledby="ae6c346ba-figcaption ae6c346ba-caption" id="ae6c346ba" role="table" style="resize: both;">
+<caption id="ae6c346ba-caption">
 </caption>
 <colgroup itemprop="index" itemscope="">
 <col/>
@@ -7339,9 +7445,6 @@ a[href="#demo"] {
 </pre></div>
 </code></pre>
 </div>
-
-<div class="highlight"><pre><span></span><code>
-</code></pre></div>
 <script type="application/vnd.jupyter.widget-state+json">
 {"state": {}, "version_major": 2, "version_minor": 0}
 </script>
