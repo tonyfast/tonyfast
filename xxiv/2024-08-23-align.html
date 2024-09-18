@@ -3567,14 +3567,17 @@
 <p>all of my recent plotting techniques rely on access to cell values in css.
 when we have the values in css, along with their extent (min/max), we can adjust
 the values using math to align decimal points.</p>
+<p>decimal point aligned is important in scanning documents and <a href="https://accessiblenumbers.com/">improving low numeracy experiences</a>.</p>
+<p>disclaimer: this technique use css <code>log</code> and <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/sign#browser_compatibility"><code>sign</code></a>. <a href="https://caniuse.com/?search=sign()">can i use <code>sign</code></a> indicates the function lacks broad support only works in firefox and safari which limits the application of this technique.</p>
 <div class="highlight"><pre><span></span><code><span class="o">%%</span>
-<span class="n">our</span> <span class="n">primary</span> <span class="n">directive</span> <span class="ow">is</span> <span class="n">calculate</span> <span class="n">the</span> <span class="n">order</span> <span class="n">of</span> <span class="n">magnitude</span> <span class="n">of</span> <span class="n">our</span> <span class="n">values</span> <span class="ow">and</span> <span class="n">their</span> <span class="n">sign</span><span class="o">.</span>
+<span class="n">our</span> <span class="n">approach</span> <span class="ow">is</span> <span class="n">to</span> <span class="n">calculate</span> <span class="n">the</span> <span class="n">order</span> <span class="n">of</span> <span class="n">magnitude</span> <span class="n">of</span> <span class="n">our</span> <span class="n">values</span> <span class="ow">and</span> <span class="n">their</span> <span class="n">sign</span> <span class="n">on</span> <span class="n">a</span> <span class="n">monospace</span> <span class="n">font</span><span class="o">.</span>
 <span class="n">we</span> <span class="n">only</span> <span class="n">need</span> <span class="n">the</span> <span class="n">maximum</span> <span class="n">number</span> <span class="n">of</span> <span class="n">digits</span> <span class="ow">and</span> <span class="n">signs</span> <span class="n">before</span> <span class="n">the</span> <span class="n">decimal</span><span class="p">;</span>
 <span class="n">we</span><span class="s1">&#39;ll refer to these values with the prefix `--tens`</span>
 
     <span class="n">display</span>\
 <span class="err">```</span><span class="n">css</span>
 <span class="c1">#aligned {</span>
+    <span class="n">font</span><span class="o">-</span><span class="n">family</span><span class="p">:</span> <span class="n">monospace</span><span class="p">;</span>
     <span class="o">--</span><span class="n">tens</span><span class="o">-</span><span class="nb">max</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span>
         <span class="nb">round</span><span class="p">(</span><span class="n">up</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">log</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">max</span><span class="p">)),</span> <span class="mi">10</span><span class="p">)))</span>
         <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sign</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">max</span><span class="p">))))</span>
@@ -3584,10 +3587,29 @@ the values using math to align decimal points.</p>
         <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sign</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="o">-</span><span class="nb">min</span><span class="p">))))</span>
     <span class="p">);</span>
     <span class="o">--</span><span class="n">tens</span><span class="o">-</span><span class="n">total</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">tens</span><span class="o">-</span><span class="nb">max</span><span class="p">),</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">tens</span><span class="o">-</span><span class="nb">min</span><span class="p">)));</span>
+<span class="err">```</span>
+<span class="n">insert</span> <span class="n">a</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">element</span> <span class="ow">in</span> <span class="n">each</span> <span class="n">table</span> <span class="n">cell</span> <span class="n">that</span> <span class="n">using</span> <span class="err">`</span><span class="mi">1</span><span class="n">ch</span><span class="err">`</span> <span class="n">spaces</span> <span class="o">-</span>
+<span class="p">[</span><span class="n">Relative</span> <span class="n">to</span> <span class="n">the</span> <span class="n">width</span> <span class="n">of</span> <span class="n">the</span> <span class="s2">&quot;0&quot;</span> <span class="p">(</span><span class="n">zero</span><span class="p">)](</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">w3schools</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">cssref</span><span class="o">/</span><span class="n">css_units</span><span class="o">.</span><span class="n">php</span><span class="p">)</span> <span class="o">-</span>
+
+    <span class="n">display</span>\
+<span class="err">```</span><span class="n">css</span>
+<span class="c1">#aligned td {</span>
+        <span class="n">text</span><span class="o">-</span><span class="n">align</span><span class="p">:</span> <span class="n">left</span><span class="p">;</span>    
+        <span class="o">&amp;</span><span class="n">amp</span><span class="p">;::</span><span class="n">before</span> <span class="p">{</span>
+            <span class="n">display</span><span class="p">:</span> <span class="n">inline</span><span class="o">-</span><span class="n">block</span><span class="p">;</span>
+            <span class="n">content</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+            <span class="o">--</span><span class="n">tens</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span>
+                <span class="nb">round</span><span class="p">(</span><span class="n">up</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">log</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">)),</span> <span class="mi">10</span><span class="p">)))</span>
+                <span class="o">+</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sign</span><span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="mi">0</span><span class="p">))))</span>
+            <span class="p">);</span>
+            <span class="n">width</span><span class="p">:</span> <span class="n">calc</span><span class="p">(</span><span class="mi">1</span><span class="n">ch</span> <span class="o">*</span> <span class="p">(</span><span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">tens</span><span class="o">-</span><span class="n">total</span><span class="p">)</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">tens</span><span class="p">)));</span>
+            <span class="n">padding</span><span class="p">:</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
 <span class="p">}</span>
 <span class="err">```</span>
 
-<span class="n">this</span> <span class="n">technique</span> <span class="n">should</span> <span class="n">work</span> <span class="k">for</span> <span class="nb">any</span> <span class="n">monospace</span> <span class="n">sized</span> <span class="n">font</span><span class="o">.</span> <span class="n">we</span> <span class="n">added</span> <span class="n">background</span> <span class="n">grids</span> <span class="n">to</span> <span class="n">verify</span> <span class="n">alignment</span><span class="o">.</span>
+<span class="n">add</span> <span class="n">a</span> <span class="n">background</span> <span class="n">grid</span> <span class="k">for</span> <span class="n">visual</span> <span class="n">verification</span> <span class="n">of</span> <span class="n">the</span> <span class="n">decimal</span> <span class="n">alignment</span><span class="o">.</span>
 
     <span class="n">display</span>\
 <span class="err">```</span><span class="n">css</span>
@@ -3595,7 +3617,6 @@ the values using math to align decimal points.</p>
     <span class="o">--</span><span class="n">w</span><span class="p">:</span> <span class="mi">2</span><span class="n">px</span><span class="p">;</span>
     <span class="n">position</span><span class="p">:</span> <span class="n">relative</span><span class="p">;</span>
     <span class="n">font</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mi">36</span><span class="n">px</span><span class="p">;</span>
-    <span class="n">font</span><span class="o">-</span><span class="n">family</span><span class="p">:</span> <span class="n">monospace</span><span class="p">;</span>
     <span class="n">background</span><span class="p">:</span> <span class="n">linear</span><span class="o">-</span><span class="n">gradient</span><span class="p">(</span><span class="mi">90</span><span class="n">deg</span><span class="p">,</span> <span class="n">transparent</span> <span class="n">calc</span><span class="p">(</span><span class="mf">0.25</span><span class="n">em</span> <span class="o">-</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">)),</span> <span class="n">blue</span> <span class="n">var</span><span class="p">(</span><span class="o">--</span><span class="n">w</span><span class="p">));</span>
     <span class="n">background</span><span class="o">-</span><span class="n">size</span><span class="p">:</span> <span class="mf">0.25</span><span class="n">em</span> <span class="mi">100</span><span class="o">%</span><span class="p">;</span>
     <span class="n">background</span><span class="o">-</span><span class="n">repeat</span><span class="p">:</span> <span class="n">repeat</span><span class="o">-</span><span class="n">x</span><span class="p">;</span>
@@ -3635,6 +3656,7 @@ the values using math to align decimal points.</p>
     <span class="n">df</span><span class="o">.</span><span class="n">table</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;aligned&quot;</span><span class="p">)</span>
 </code></pre></div>
 <div class="output_html rendered_html output_subarea"><style>#aligned {
+    font-family: monospace;
     --tens-max: calc(
         round(up, max(1, log(abs(var(--0-max)), 10)))
         + abs(min(0, sign(var(--0-max))))
@@ -3644,13 +3666,26 @@ the values using math to align decimal points.</p>
         + abs(min(0, sign(var(--0-min))))
     );
     --tens-total: calc(max(var(--tens-max), var(--tens-min)));
+</style></div>
+<div class="output_html rendered_html output_subarea"><style>#aligned td {
+        text-align: left;    
+        &::before {
+            display: inline-block;
+            content: "";
+            --tens: calc(
+                round(up, max(1, log(abs(var(--0)), 10)))
+                + abs(min(0, sign(var(--0))))
+            );
+            width: calc(1ch * (var(--tens-total) - var(--tens)));
+            padding: 0;
+        }
+    }
 }
 </style></div>
 <div class="output_html rendered_html output_subarea"><style>#aligned {
     --w: 2px;
     position: relative;
     font-size: 36px;
-    font-family: monospace;
     background: linear-gradient(90deg, transparent calc(0.25em - var(--w)), blue var(--w));
     background-size: 0.25em 100%;
     background-repeat: repeat-x;
@@ -3686,7 +3721,7 @@ the values using math to align decimal points.</p>
 <figure>
 <figcaption id="aligned-figcaption">
 </figcaption>
-<table aria-labelledby="aligned-figcaption aligned-caption" id="aligned" role="table" style="resize: both;--0-min: -3.089;--0-max: 356.071;">
+<table aria-labelledby="aligned-figcaption aligned-caption" id="aligned" role="table" style="resize: both;--0-min: -3769.932;--0-max: 679.516;">
 <caption id="aligned-caption">
 </caption>
 <colgroup itemprop="index" itemscope="">
@@ -3705,7 +3740,7 @@ the values using math to align decimal points.</p>
 </tr>
 </thead>
 <tbody>
-<tr style="---0: 0;--0: .0001; ">
+<tr style="---0: 0;--0: 0; ">
 <th>
        0
       </th>
@@ -3713,140 +3748,140 @@ the values using math to align decimal points.</p>
        0.000
       </td>
 </tr>
-<tr style="---0: 1;--0: -0.0725; ">
+<tr style="---0: 1;--0: 679.5158; ">
 <th>
        1
       </th>
 <td>
-       -0.073
+       679.516
       </td>
 </tr>
-<tr style="---0: 2;--0: -0.0422; ">
+<tr style="---0: 2;--0: 89.4131; ">
 <th>
        2
       </th>
 <td>
-       -0.042
+       89.413
       </td>
 </tr>
-<tr style="---0: 3;--0: -3.0891; ">
+<tr style="---0: 3;--0: -59.0872; ">
 <th>
        3
       </th>
 <td>
-       -3.089
+       -59.087
       </td>
 </tr>
-<tr style="---0: 4;--0: -1e-06; ">
+<tr style="---0: 4;--0: -0.0065; ">
 <th>
        4
       </th>
 <td>
-       -0.000
+       -0.006
       </td>
 </tr>
-<tr style="---0: 5;--0: 0; ">
+<tr style="---0: 5;--0: 6.5282; ">
 <th>
        5
       </th>
 <td>
-       0.000
+       6.528
       </td>
 </tr>
-<tr style="---0: 6;--0: 1.0435; ">
+<tr style="---0: 6;--0: -1e-06; ">
 <th>
        6
-      </th>
-<td>
-       1.043
-      </td>
-</tr>
-<tr style="---0: 7;--0: .0026; ">
-<th>
-       7
-      </th>
-<td>
-       0.003
-      </td>
-</tr>
-<tr style="---0: 8;--0: -0.0006; ">
-<th>
-       8
-      </th>
-<td>
-       -0.001
-      </td>
-</tr>
-<tr style="---0: 9;--0: .6458; ">
-<th>
-       9
-      </th>
-<td>
-       0.646
-      </td>
-</tr>
-<tr style="---0: 10;--0: -0.1774; ">
-<th>
-       10
-      </th>
-<td>
-       -0.177
-      </td>
-</tr>
-<tr style="---0: 11;--0: 113.2912; ">
-<th>
-       11
-      </th>
-<td>
-       113.291
-      </td>
-</tr>
-<tr style="---0: 12;--0: -0.0002; ">
-<th>
-       12
       </th>
 <td>
        -0.000
       </td>
 </tr>
-<tr style="---0: 13;--0: 0; ">
+<tr style="---0: 7;--0: 24.3796; ">
 <th>
-       13
+       7
+      </th>
+<td>
+       24.380
+      </td>
+</tr>
+<tr style="---0: 8;--0: -3769.9317; ">
+<th>
+       8
+      </th>
+<td>
+       -3769.932
+      </td>
+</tr>
+<tr style="---0: 9;--0: 0; ">
+<th>
+       9
       </th>
 <td>
        0.000
       </td>
 </tr>
-<tr style="---0: 14;--0: .003; ">
+<tr style="---0: 10;--0: -0.0701; ">
+<th>
+       10
+      </th>
+<td>
+       -0.070
+      </td>
+</tr>
+<tr style="---0: 11;--0: -1e-06; ">
+<th>
+       11
+      </th>
+<td>
+       -0.000
+      </td>
+</tr>
+<tr style="---0: 12;--0: .0203; ">
+<th>
+       12
+      </th>
+<td>
+       0.020
+      </td>
+</tr>
+<tr style="---0: 13;--0: -0.009; ">
+<th>
+       13
+      </th>
+<td>
+       -0.009
+      </td>
+</tr>
+<tr style="---0: 14;--0: .3207; ">
 <th>
        14
       </th>
 <td>
-       0.003
+       0.321
       </td>
 </tr>
-<tr style="---0: 15;--0: 356.0706; ">
+<tr style="---0: 15;--0: -1.9556; ">
 <th>
        15
       </th>
 <td>
-       356.071
+       -1.956
       </td>
 </tr>
-<tr style="---0: 16;--0: .0056; ">
+<tr style="---0: 16;--0: .0005; ">
 <th>
        16
       </th>
 <td>
-       0.006
+       0.001
       </td>
 </tr>
-<tr style="---0: 17;--0: -0.5749; ">
+<tr style="---0: 17;--0: .1518; ">
 <th>
        17
       </th>
 <td>
-       -0.575
+       0.152
       </td>
 </tr>
 <tr style="---0: 18;--0: 0; ">
@@ -3857,79 +3892,79 @@ the values using math to align decimal points.</p>
        0.000
       </td>
 </tr>
-<tr style="---0: 19;--0: -0.2666; ">
+<tr style="---0: 19;--0: -5.1231; ">
 <th>
        19
       </th>
 <td>
-       -0.267
+       -5.123
       </td>
 </tr>
-<tr style="---0: 20;--0: 0; ">
+<tr style="---0: 20;--0: .1002; ">
 <th>
        20
       </th>
 <td>
-       0.000
+       0.100
       </td>
 </tr>
-<tr style="---0: 21;--0: -1e-06; ">
+<tr style="---0: 21;--0: .0001; ">
 <th>
        21
       </th>
 <td>
-       -0.000
+       0.000
       </td>
 </tr>
-<tr style="---0: 22;--0: 37.6968; ">
+<tr style="---0: 22;--0: -0.034; ">
 <th>
        22
       </th>
 <td>
-       37.697
+       -0.034
       </td>
 </tr>
-<tr style="---0: 23;--0: .016; ">
+<tr style="---0: 23;--0: 0; ">
 <th>
        23
-      </th>
-<td>
-       0.016
-      </td>
-</tr>
-<tr style="---0: 24;--0: .1053; ">
-<th>
-       24
-      </th>
-<td>
-       0.105
-      </td>
-</tr>
-<tr style="---0: 25;--0: -0.0052; ">
-<th>
-       25
-      </th>
-<td>
-       -0.005
-      </td>
-</tr>
-<tr style="---0: 26;--0: .0004; ">
-<th>
-       26
       </th>
 <td>
        0.000
       </td>
 </tr>
-<tr style="---0: 27;--0: -1e-06; ">
+<tr style="---0: 24;--0: 0; ">
 <th>
-       27
+       24
+      </th>
+<td>
+       0.000
+      </td>
+</tr>
+<tr style="---0: 25;--0: -1e-06; ">
+<th>
+       25
       </th>
 <td>
        -0.000
       </td>
 </tr>
-<tr style="---0: 28;--0: .0002; ">
+<tr style="---0: 26;--0: -1e-06; ">
+<th>
+       26
+      </th>
+<td>
+       -0.000
+      </td>
+</tr>
+<tr style="---0: 27;--0: -0.0008; ">
+<th>
+       27
+      </th>
+<td>
+       -0.001
+      </td>
+</tr>
+<tr style="---0: 28;--0: 0; ">
 <th>
        28
       </th>
@@ -3947,20 +3982,20 @@ the values using math to align decimal points.</p>
 </tr>
 </tbody>
 <tfoot>
-<tr style="--0: -3.0891; ">
+<tr style="--0: -3769.9317; ">
 <th scope="row">
        min
       </th>
 <td>
-       -3.089
+       -3769.932
       </td>
 </tr>
-<tr style="--0: 356.0706; ">
+<tr style="--0: 679.5158; ">
 <th scope="row">
        max
       </th>
 <td>
-       356.071
+       679.516
       </td>
 </tr>
 </tfoot>
@@ -4009,12 +4044,13 @@ the values using math to align decimal points.</p>
  </style>
 </section>
 </div>
-<div class="output_html rendered_html output_subarea"><p>our primary directive is calculate the order of magnitude of our values and their sign.
+<div class="output_html rendered_html output_subarea"><p>our approach is to calculate the order of magnitude of our values and their sign on a monospace font.
 we only need the maximum number of digits and signs before the decimal;
 we'll refer to these values with the prefix <code>--tens</code></p>
 <pre><code>display\
 </code></pre>
 <pre><code class="css"><div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>#<span style="color: #0000FF; font-weight: bold">aligned</span><span style="color: #bbbbbb"> </span>{
+<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">font-family</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">monospace</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #19177C">--tens-max</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">calc</span>(
 <span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">round</span><span style="border: 1px solid #FF0000">(</span>up,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">max</span>(<span style="color: #666666">1</span>,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">log</span>(<span style="color: #0000FF">abs</span>(<span style="color: #0000FF">var</span>(<span style="color: #666666">--0</span><span style="color: #19177C">-max</span>)),<span style="color: #bbbbbb"> </span><span style="color: #666666">10</span>)))
 <span style="color: #bbbbbb">        </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">abs</span>(<span style="color: #0000FF">min</span>(<span style="color: #666666">0</span>,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">sign</span>(<span style="color: #0000FF">var</span>(<span style="color: #666666">--0</span><span style="color: #19177C">-max</span>))))
@@ -4024,17 +4060,35 @@ we'll refer to these values with the prefix <code>--tens</code></p>
 <span style="color: #bbbbbb">        </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">abs</span>(<span style="color: #0000FF">min</span>(<span style="color: #666666">0</span>,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">sign</span>(<span style="color: #0000FF">var</span>(<span style="color: #666666">--0</span><span style="color: #19177C">-min</span>))))
 <span style="color: #bbbbbb">    </span>);
 <span style="color: #bbbbbb">    </span><span style="color: #19177C">--tens-total</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">calc</span>(<span style="color: #0000FF">max</span>(<span style="color: #0000FF">var</span>(<span style="color: #19177C">--tens-max</span>),<span style="color: #bbbbbb"> </span><span style="color: #0000FF">var</span>(<span style="color: #19177C">--tens-min</span>)));
-}
 </pre></div>
 </code></pre>
-<p>this technique should work for any monospace sized font. we added background grids to verify alignment.</p>
+<p>insert a pseudo-element in each table cell that using <code>1ch</code> spaces -
+<a href="https://www.w3schools.com/cssref/css_units.php">Relative to the width of the "0" (zero)</a> -</p>
+<pre><code>display\
+</code></pre>
+<pre><code class="css"><div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>#<span style="color: #0000FF; font-weight: bold">aligned</span><span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">td</span><span style="color: #bbbbbb"> </span>{
+<span style="color: #bbbbbb">        </span><span style="color: #008000; font-weight: bold">text-align</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">left</span>;<span style="color: #bbbbbb">    </span>
+<span style="color: #bbbbbb">        </span><span style="border: 1px solid #FF0000">&amp;::before</span><span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">{</span>
+<span style="color: #bbbbbb">            </span><span style="color: #008000; font-weight: bold">display</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">inline-block</span>;
+<span style="color: #bbbbbb">            </span><span style="color: #008000; font-weight: bold">content</span>:<span style="color: #bbbbbb"> </span><span style="color: #BA2121">""</span>;
+<span style="color: #bbbbbb">            </span><span style="color: #19177C">--tens</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">calc</span>(
+<span style="color: #bbbbbb">                </span><span style="color: #008000; font-weight: bold">round</span><span style="border: 1px solid #FF0000">(</span>up,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">max</span>(<span style="color: #666666">1</span>,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">log</span>(<span style="color: #0000FF">abs</span>(<span style="color: #0000FF">var</span>(<span style="color: #666666">--0</span>)),<span style="color: #bbbbbb"> </span><span style="color: #666666">10</span>)))
+<span style="color: #bbbbbb">                </span><span style="color: #666666">+</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">abs</span>(<span style="color: #0000FF">min</span>(<span style="color: #666666">0</span>,<span style="color: #bbbbbb"> </span><span style="color: #0000FF">sign</span>(<span style="color: #0000FF">var</span>(<span style="color: #666666">--0</span>))))
+<span style="color: #bbbbbb">            </span>);
+<span style="color: #bbbbbb">            </span><span style="color: #008000; font-weight: bold">width</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">calc</span>(<span style="color: #666666">1</span><span style="color: #B00040">ch</span><span style="color: #bbbbbb"> </span><span style="color: #666666">*</span><span style="color: #bbbbbb"> </span><span style="border: 1px solid #FF0000">(</span><span style="color: #0000FF">var</span>(<span style="color: #19177C">--tens-total</span>)<span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">var</span>(<span style="color: #19177C">--tens</span>)));
+<span style="color: #bbbbbb">            </span><span style="color: #008000; font-weight: bold">padding</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">0</span>;
+<span style="color: #bbbbbb">        </span>}
+<span style="color: #bbbbbb">    </span><span style="border: 1px solid #FF0000">}</span>
+<span style="border: 1px solid #FF0000">}</span>
+</pre></div>
+</code></pre>
+<p>add a background grid for visual verification of the decimal alignment.</p>
 <pre><code>display\
 </code></pre>
 <pre><code class="css"><div class="highlight" style="background: #f8f8f8"><pre style="line-height: 125%;"><span></span>#<span style="color: #0000FF; font-weight: bold">aligned</span><span style="color: #bbbbbb"> </span>{
 <span style="color: #bbbbbb">    </span><span style="color: #19177C">--w</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">2</span><span style="color: #B00040">px</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">position</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">relative</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">font-size</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">36</span><span style="color: #B00040">px</span>;
-<span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">font-family</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">monospace</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">background</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000">linear-gradient</span>(<span style="color: #666666">90</span><span style="color: #B00040">deg</span>,<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">transparent</span><span style="color: #bbbbbb"> </span><span style="color: #008000">calc</span>(<span style="color: #666666">0.25</span><span style="color: #B00040">em</span><span style="color: #bbbbbb"> </span><span style="color: #666666">-</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">var</span>(<span style="color: #19177C">--w</span>)),<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">blue</span><span style="color: #bbbbbb"> </span><span style="color: #0000FF">var</span>(<span style="color: #19177C">--w</span>));
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">background-size</span>:<span style="color: #bbbbbb"> </span><span style="color: #666666">0.25</span><span style="color: #B00040">em</span><span style="color: #bbbbbb"> </span><span style="color: #666666">100</span><span style="color: #B00040">%</span>;
 <span style="color: #bbbbbb">    </span><span style="color: #008000; font-weight: bold">background-repeat</span>:<span style="color: #bbbbbb"> </span><span style="color: #008000; font-weight: bold">repeat-x</span>;
