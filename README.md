@@ -1,6 +1,6 @@
 # ℹ️ about tonyfast
 
-tonyfast is a designer, developer, and scientist with expertise in open source scientific software and accessibility. they are a [distinguished project jupyter contributor][distinguished] advocating for equity in computational literacy and digital accessibility in open science technologies.
+tonyfast is an accessibility and disability advocate with expertise in open-source design, development, and science. they are passionate about advocating for equitable computational literature and digital accessibility for disabled scientists.
 
 * [📓 notebooks][Notebooks]
 * [💀 deathbeds][deathbeds]
@@ -58,6 +58,7 @@ tonyfast is a designer, developer, and scientist with expertise in open source s
 ## 👨‍🏭 organizations
 
 * Materials Genome Foundation
+* [distinguished project jupyter contributor][distinguished]
 * Quansight, LLC
 * PyData Atlanta
 * Bastille Networks
