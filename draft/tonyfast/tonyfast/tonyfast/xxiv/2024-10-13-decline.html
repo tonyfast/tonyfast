@@ -1,0 +1,4204 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <title>
+   decline in oss participation
+  </title>
+  <meta content="the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations." name="description">
+  <meta content="light" name="color-scheme">
+  <link href="https://cdn.jsdelivr.net/gh/ryersondmp/sa11y@3.0.5/dist/css/sa11y.min.css" rel="stylesheet">
+  <script type="module">
+   import { Sa11y, Lang } from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/sa11y.esm.js';
+    import Sa11yLangEn from 'https://cdn.jsdelivr.net/npm/sa11y@3.1.3/dist/js/lang/enUS.js';
+    Lang.addI18n(Sa11yLangEn.strings);
+
+    // Instantiate
+    export const sa11y = new Sa11y({
+        checkRoot: "body",
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js">
+  </script>
+  <script>
+   (function() {
+  function addWidgetsRenderer() {
+    var mimeElement = document.querySelector('script[type="application/vnd.jupyter.widget-view+json"]');
+    var scriptElement = document.createElement('script');
+    
+    var widgetRendererSrc = 'https://unpkg.com/@jupyter-widgets/html-manager@*/dist/embed-amd.js';
+    
+    var widgetState;
+
+    // Fallback for older version:
+    try {
+      widgetState = mimeElement && JSON.parse(mimeElement.innerHTML);
+
+      if (widgetState && (widgetState.version_major < 2 || !widgetState.version_major)) {
+        
+        var widgetRendererSrc = 'https://unpkg.com/@jupyter-js-widgets@*/dist/embed.js';
+        
+      }
+    } catch(e) {}
+
+    scriptElement.src = widgetRendererSrc;
+    document.body.appendChild(scriptElement);
+  }
+
+  document.addEventListener('DOMContentLoaded', addWidgetsRenderer);
+}());
+  </script>
+  <style type="text/css">
+   @layer api, defaults, layout, cells, cell, sa11y;
+
+@layer api {
+    :root {
+        --nb-focus-width: 3px;
+        --nb-accent-color: auto;
+        --nb-margin: 5%;
+        --nb-font-size: 16px;
+        --nb-font-family: serif;
+        --nb-line-height: 1.5;
+        --nb-scrolled-height: 600px;
+        --color-light: #FFFFFF;
+        --color-dark: #2b2a33;
+        --nb-pilcrow: "🔗";
+        --fg-color: var(--color-dark);
+        --bg-color: var(--color-light);
+        --nb-invert: 0;
+        --nb-grayscale: 0;
+    }
+}
+
+@layer layout {
+    html {
+        /* when we put this at the html level we replace the color of the margins */
+        filter: invert(var(--nb-invert)) grayscale(var(--nb-grayscale));
+    }
+
+    body {
+        font-size: var(--nb-font-size);
+        font-family: var(--nb-font-family);
+        accent-color: var(--nb-accent-color);
+        line-height: var(--nb-line-height);
+        color: var(--fg-color);
+        background-color: var(--bg-color);
+    }
+
+    body.dark {
+        --fg-color: var(--color-light);
+        --bg-color: var(--color-dark);
+    }
+
+
+    /* there nothing to be said about this topic that [sara soueidan](https://www.sarasoueidan.com/blog/focus-indicators/) hasn't said.
+    we start with her [universal focus recommendation](https://www.sarasoueidan.com/blog/focus-indicators/#a-%E2%80%98universal%E2%80%99-focus-indicator).    */
+    .cell:focus-within,
+    :focus-visible {
+        outline: max(var(--nb-focus-width), 1px) solid;
+        box-shadow: 0 0 0 calc(2 * max(var(--nb-focus-width), 1px));
+    }
+
+    .cells {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+
+    .notebook-cells,
+    .cells>.cell,
+    .cells>.cell>:not([hidden]) {
+        display: block;
+        text-align: unset;
+        width: 100%;
+    }
+
+    .cells>.cell>:is(.nb-anchor, .nb-execution_count):not([hidden]) {
+        float: left;
+        width: unset;
+    }
+
+    header,
+    main,
+    footer {
+        margin-left: var(--nb-margin);
+        margin-right: var(--nb-margin);
+        background-color: var(--bg-color);
+    }
+
+    .cells>.cell {
+
+        /* line height cant change pre elements based on browser presets */
+        pre,
+        .highlight>pre,
+        textarea {
+            line-height: var(--nb-line-height);
+            white-space: pre-wrap;
+        }
+
+    }
+
+    @layer wide {
+        /* the wide mode provides support for low vision, large print and magnification */
+
+        .horiz-overflow header,
+        .horiz-overflow main,
+        .horiz-overflow footer {
+            width: max-content;
+            margin-left: unset;
+            margin-right: unset;
+        }
+
+        .horiz-overflow .nb-source {
+            overflow-x: visible;
+        }
+
+        .horiz-overflow .nb-outputs {
+            min-width: 100%;
+        }
+
+        .horiz-overflow img,
+        .horiz-overflow image {
+            height: unset;
+            width: unset;
+        }
+
+        .horiz-overflow .notebook-cells,
+        .horiz-overflow .cells,
+        .horiz-overflow .cells>.cell,
+        .horiz-overflow .cells>.cell>[role="none"] {
+            width: max-content;
+        }
+
+        .horiz-overflow pre,
+        .horiz-overflow textarea {
+            white-space: pre;
+        }
+    }
+
+    @layer fullscreen {
+        main:fullscreen {
+            overflow: auto;
+            background: var(--bg-color);
+        }
+    }
+
+    @layer settings {
+
+        #nb-settings li::marker,
+        summary[inert]::marker {
+            content: "";
+        }
+    }
+}
+
+@layer defaults {
+    table {
+        border-spacing: unset;
+    }
+
+    select,
+    button {
+        font-family: inherit;
+        font-size: inherit;
+    }
+
+    textarea {
+        font-family: monospace;
+        font-size: inherit;
+        overflow: auto;
+        color: unset;
+    }
+
+    /* align checkboxes with buttons */
+    input[type="checkbox"] {
+        vertical-align: middle;
+    }
+}
+
+@layer layout.dialog {
+    dialog form>* {
+        display: block;
+    }
+}
+
+@layer layout.wcag {
+
+    .wcag-a textarea[name=source],
+    .wcag-aa textarea[name=source],
+    .wcag-aaa .markdown textarea[name=source],
+    /* this group selector is very ambiguous */
+    .wcag-aaa textarea[name=source]+[role=group] {
+        display: none;
+    }
+
+    .wcag-aaa button,
+    .wcag-aaa input[type=checkbox] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+
+    .wcag-aaa a {
+        font-size: max(44px, var(--nb-font-size));
+    }
+
+    /* WCAG 2.2 clarified a AA button size that is used to style checkboxes and buttons. */
+    /* satisfy AA 2.5.8 minimum target requirement */
+    .wcag-aa button,
+    .wcag-aa input[type=checkbox] {
+        min-height: 24px;
+        min-width: 24px;
+    }
+
+    .wcag-aa a {
+        font-size: max(24px, var(--nb-font-size));
+    }
+
+    /* remove the color styling for AAA */
+    .wcag-aaa .highlight pre code span[class] {
+        color: unset;
+    }
+}
+
+
+@layer sally {
+
+    body:not([data-dev-sa11y]) sa11y-control-panel,
+    body:not([data-dev-sa11y]) sa11y-annotation {
+        display: none;
+    }
+
+    body[data-dev-sa11y] sa11y-control-panel,
+    body[data-dev-sa11y] sa11y-annotation {
+        display: unset;
+    }
+}
+
+@layer cells {
+    @layer reversed {
+
+        ol[reversed]#cells,
+        .notebook-cells[data-sort="descending"] .cells {
+            display: flex;
+            flex-direction: column-reverse;
+        }
+    }
+
+    @layer list {
+        li.cell {
+            list-style-type: none;
+        }
+
+        ol.cells {
+            margin: unset;
+            padding: unset;
+        }
+    }
+}
+
+@layer cell {
+
+    .cell>.nb-outputs,
+    .cell>.nb-source {
+        overflow-x: auto;
+    }
+
+    .cell[hidden],
+    .cell[role="none"][hidden] {
+        display: none;
+    }
+
+    @layer markdown {
+        .markdown textarea[name=source]+[role=group] {
+            display: none;
+        }
+    }
+
+    @layer code {
+        textarea[name=source] {
+            box-sizing: border-box;
+            width: 100%;
+            /* on firefox, the input and output become interactive when there is overflow. chrome fixed this recently find reference.*/
+            min-width: 0;
+            resize: none;
+        }
+
+        @layer output {
+
+            .nb-outputs img,
+            .nb-outputs image {
+                height: 100%;
+                width: 100%;
+            }
+
+            fieldset.nb-outputs[data-outputs="0"] {
+                display: none;
+            }
+
+            .nb-outputs.nb-scrolled {
+                max-height: var(--nb-scrolled-height);
+                overflow-y: auto;
+            }
+
+            .nb-outputs.nb-collapsed {
+                display: none;
+            }
+        }
+    }
+
+    @layer pilcrow {
+        a.pilcrow::after {
+            padding-right: 1rem;
+            content: "";
+        }
+
+        span.pilcrow::before {
+            content: var(--nb-pilcrow) attr(data-level);
+            font-size: smaller;
+        }
+    }
+}
+
+@layer sticky {
+
+    /* sticky position provides visitors with visual elements to remind them where they
+    are in a notebook using the cell number and out execution count in code cells. 
+    when scrolling it provides gestalt for cell changes. i added this cause i like, and i think 
+    there are cognitive benefits. */
+    body.sticky .cells>.cell {
+        position: relative;
+    }
+
+    body.sticky .cells>.cell>.nb-anchor,
+    body.sticky .cells>.cell>.nb-execution_count {
+        position: sticky;
+        top: 0;
+        background-color: var(--bg-color);
+    }
+}
+
+details.log:not([open])+table,
+.visually-hidden:not(:focus-within):not(:active),
+.visually-hide {
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    height: 1px;
+    overflow: hidden;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
+}
+  </style>
+  <style id="nb-light-highlight" media="screen" type="text/css">
+   /** accessible pygments github-light-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #0969da4a }
+.c { color: #66707b } /* Comment */
+.err { color: #a0111f } /* Error */
+.k { color: #a0111f } /* Keyword */
+.l { color: #702c00 } /* Literal */
+.n { color: #622cbc } /* Name */
+.o { color: #024c1a } /* Operator */
+.p { color: #24292f } /* Punctuation */
+.ch { color: #66707b } /* Comment.Hashbang */
+.cm { color: #66707b } /* Comment.Multiline */
+.cp { color: #66707b } /* Comment.Preproc */
+.cpf { color: #66707b } /* Comment.PreprocFile */
+.c1 { color: #66707b } /* Comment.Single */
+.cs { color: #66707b } /* Comment.Special */
+.gd { color: #023b95 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #a0111f } /* Generic.Error */
+.gh { color: #023b95 } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #023b95 } /* Generic.Subheading */
+.kc { color: #023b95 } /* Keyword.Constant */
+.kd { color: #a0111f } /* Keyword.Declaration */
+.kn { color: #a0111f } /* Keyword.Namespace */
+.kp { color: #a0111f } /* Keyword.Pseudo */
+.kr { color: #a0111f } /* Keyword.Reserved */
+.kt { color: #a0111f } /* Keyword.Type */
+.ld { color: #702c00 } /* Literal.Date */
+.m { color: #702c00 } /* Literal.Number */
+.s { color: #023b95 } /* Literal.String */
+.na { color: #702c00 } /* Name.Attribute */
+.nb { color: #702c00 } /* Name.Builtin */
+.nc { color: #023b95 } /* Name.Class */
+.no { color: #023b95 } /* Name.Constant */
+.nd { color: #702c00 } /* Name.Decorator */
+.ni { color: #024c1a } /* Name.Entity */
+.ne { color: #622cbc } /* Name.Exception */
+.nf { color: #023b95 } /* Name.Function */
+.nl { color: #702c00 } /* Name.Label */
+.nn { color: #24292f } /* Name.Namespace */
+.nx { color: #622cbc } /* Name.Other */
+.py { color: #023b95 } /* Name.Property */
+.nt { color: #024c1a } /* Name.Tag */
+.nv { color: #702c00 } /* Name.Variable */
+.ow { color: #622cbc } /* Operator.Word */
+.pm { color: #24292f } /* Punctuation.Marker */
+.w { color: #24292f } /* Text.Whitespace */
+.mb { color: #702c00 } /* Literal.Number.Bin */
+.mf { color: #702c00 } /* Literal.Number.Float */
+.mh { color: #702c00 } /* Literal.Number.Hex */
+.mi { color: #702c00 } /* Literal.Number.Integer */
+.mo { color: #702c00 } /* Literal.Number.Oct */
+.sa { color: #023b95 } /* Literal.String.Affix */
+.sb { color: #023b95 } /* Literal.String.Backtick */
+.sc { color: #023b95 } /* Literal.String.Char */
+.dl { color: #023b95 } /* Literal.String.Delimiter */
+.sd { color: #023b95 } /* Literal.String.Doc */
+.s2 { color: #023b95 } /* Literal.String.Double */
+.se { color: #023b95 } /* Literal.String.Escape */
+.sh { color: #023b95 } /* Literal.String.Heredoc */
+.si { color: #023b95 } /* Literal.String.Interpol */
+.sx { color: #023b95 } /* Literal.String.Other */
+.sr { color: #023b95 } /* Literal.String.Regex */
+.s1 { color: #023b95 } /* Literal.String.Single */
+.ss { color: #023b95 } /* Literal.String.Symbol */
+.bp { color: #702c00 } /* Name.Builtin.Pseudo */
+.fm { color: #023b95 } /* Name.Function.Magic */
+.vc { color: #702c00 } /* Name.Variable.Class */
+.vg { color: #702c00 } /* Name.Variable.Global */
+.vi { color: #702c00 } /* Name.Variable.Instance */
+.vm { color: #702c00 } /* Name.Variable.Magic */
+.il { color: #702c00 } /* Literal.Number.Integer.Long */
+  </style>
+  <style id="nb-dark-highlight" media="not  screen" type="text/css">
+   /** accessible pygments github-dark-high-contrast generated by __main__**/
+pre { line-height: 125%; }
+td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.hll { background-color: #58a6ff70 }
+.c { color: #d9dee3 } /* Comment */
+.err { color: #ff9492 } /* Error */
+.k { color: #ff9492 } /* Keyword */
+.l { color: #ffb757 } /* Literal */
+.n { color: #dbb7ff } /* Name */
+.o { color: #72f088 } /* Operator */
+.p { color: #C9D1D9 } /* Punctuation */
+.ch { color: #d9dee3 } /* Comment.Hashbang */
+.cm { color: #d9dee3 } /* Comment.Multiline */
+.cp { color: #d9dee3 } /* Comment.Preproc */
+.cpf { color: #d9dee3 } /* Comment.PreprocFile */
+.c1 { color: #d9dee3 } /* Comment.Single */
+.cs { color: #d9dee3 } /* Comment.Special */
+.gd { color: #91cbff } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #ff9492 } /* Generic.Error */
+.gh { color: #91cbff } /* Generic.Heading */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #91cbff } /* Generic.Subheading */
+.kc { color: #91cbff } /* Keyword.Constant */
+.kd { color: #ff9492 } /* Keyword.Declaration */
+.kn { color: #ff9492 } /* Keyword.Namespace */
+.kp { color: #ff9492 } /* Keyword.Pseudo */
+.kr { color: #ff9492 } /* Keyword.Reserved */
+.kt { color: #ff9492 } /* Keyword.Type */
+.ld { color: #ffb757 } /* Literal.Date */
+.m { color: #ffb757 } /* Literal.Number */
+.s { color: #91cbff } /* Literal.String */
+.na { color: #ffb757 } /* Name.Attribute */
+.nb { color: #ffb757 } /* Name.Builtin */
+.nc { color: #91cbff } /* Name.Class */
+.no { color: #91cbff } /* Name.Constant */
+.nd { color: #ffb757 } /* Name.Decorator */
+.ni { color: #72f088 } /* Name.Entity */
+.ne { color: #dbb7ff } /* Name.Exception */
+.nf { color: #91cbff } /* Name.Function */
+.nl { color: #ffb757 } /* Name.Label */
+.nn { color: #C9D1D9 } /* Name.Namespace */
+.nx { color: #dbb7ff } /* Name.Other */
+.py { color: #91cbff } /* Name.Property */
+.nt { color: #72f088 } /* Name.Tag */
+.nv { color: #ffb757 } /* Name.Variable */
+.ow { color: #dbb7ff } /* Operator.Word */
+.pm { color: #C9D1D9 } /* Punctuation.Marker */
+.w { color: #C9D1D9 } /* Text.Whitespace */
+.mb { color: #ffb757 } /* Literal.Number.Bin */
+.mf { color: #ffb757 } /* Literal.Number.Float */
+.mh { color: #ffb757 } /* Literal.Number.Hex */
+.mi { color: #ffb757 } /* Literal.Number.Integer */
+.mo { color: #ffb757 } /* Literal.Number.Oct */
+.sa { color: #91cbff } /* Literal.String.Affix */
+.sb { color: #91cbff } /* Literal.String.Backtick */
+.sc { color: #91cbff } /* Literal.String.Char */
+.dl { color: #91cbff } /* Literal.String.Delimiter */
+.sd { color: #91cbff } /* Literal.String.Doc */
+.s2 { color: #91cbff } /* Literal.String.Double */
+.se { color: #91cbff } /* Literal.String.Escape */
+.sh { color: #91cbff } /* Literal.String.Heredoc */
+.si { color: #91cbff } /* Literal.String.Interpol */
+.sx { color: #91cbff } /* Literal.String.Other */
+.sr { color: #91cbff } /* Literal.String.Regex */
+.s1 { color: #91cbff } /* Literal.String.Single */
+.ss { color: #91cbff } /* Literal.String.Symbol */
+.bp { color: #ffb757 } /* Name.Builtin.Pseudo */
+.fm { color: #91cbff } /* Name.Function.Magic */
+.vc { color: #ffb757 } /* Name.Variable.Class */
+.vg { color: #ffb757 } /* Name.Variable.Global */
+.vi { color: #ffb757 } /* Name.Variable.Instance */
+.vm { color: #ffb757 } /* Name.Variable.Magic */
+.il { color: #ffb757 } /* Literal.Number.Integer.Long */
+  </style>
+  <!-- Load mathjax -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS_CHTML-full,Safe">
+  </script>
+  <!-- MathJax configuration -->
+  <script type="text/x-mathjax-config">
+   init_mathjax = function() {
+        if (window.MathJax) {
+        // MathJax loaded
+            MathJax.Hub.Config({
+                TeX: {
+                    equationNumbers: {
+                    autoNumber: "AMS",
+                    useLabelIds: true
+                    }
+                },
+                tex2jax: {
+                    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                displayAlign: 'center',
+                CommonHTML: {
+                    linebreaks: {
+                    automatic: true
+                    }
+                }
+            });
+
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+        }
+    }
+    init_mathjax();
+  </script>
+  <!-- End of mathjax configuration -->
+  <script type="module">
+   document.addEventListener("DOMContentLoaded", async () => {
+    const diagrams = document.querySelectorAll(".jp-Mermaid > pre.mermaid");
+    // do not load mermaidjs if not needed
+    if (!diagrams.length) {
+      return;
+    }
+    const mermaid = (await import("https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.7.0/mermaid.esm.min.mjs")).default;
+    const parser = new DOMParser();
+
+    mermaid.initialize({
+      maxTextSize: 100000,
+      maxEdges: 100000,
+      startOnLoad: false,
+      fontFamily: window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--jp-ui-font-family"),
+      theme: document.querySelector("body[data-jp-theme-light='true']")
+        ? "default"
+        : "dark",
+    });
+
+    let _nextMermaidId = 0;
+
+    function makeMermaidImage(svg) {
+      const img = document.createElement("img");
+      const doc = parser.parseFromString(svg, "image/svg+xml");
+      const svgEl = doc.querySelector("svg");
+      const { maxWidth } = svgEl?.style || {};
+      const firstTitle = doc.querySelector("title");
+      const firstDesc = doc.querySelector("desc");
+
+      img.setAttribute("src", `data:image/svg+xml,${encodeURIComponent(svg)}`);
+      if (maxWidth) {
+        img.width = parseInt(maxWidth);
+      }
+      if (firstTitle) {
+        img.setAttribute("alt", firstTitle.textContent);
+      }
+      if (firstDesc) {
+        const caption = document.createElement("figcaption");
+        caption.className = "sr-only";
+        caption.textContent = firstDesc.textContent;
+        return [img, caption];
+      }
+      return [img];
+    }
+
+    async function makeMermaidError(text) {
+      let errorMessage = "";
+      try {
+        await mermaid.parse(text);
+      } catch (err) {
+        errorMessage = `${err}`;
+      }
+
+      const result = document.createElement("details");
+      result.className = 'jp-RenderedMermaid-Details';
+      const summary = document.createElement("summary");
+      summary.className = 'jp-RenderedMermaid-Summary';
+      const pre = document.createElement("pre");
+      const code = document.createElement("code");
+      code.innerText = text;
+      pre.appendChild(code);
+      summary.appendChild(pre);
+      result.appendChild(summary);
+
+      const warning = document.createElement("pre");
+      warning.innerText = errorMessage;
+      result.appendChild(warning);
+      return [result];
+    }
+
+    async function renderOneMarmaid(src) {
+      const id = `jp-mermaid-${_nextMermaidId++}`;
+      const parent = src.parentNode;
+      let raw = src.textContent.trim();
+      const el = document.createElement("div");
+      el.style.visibility = "hidden";
+      document.body.appendChild(el);
+      let results = null;
+      let output = null;
+      try {
+        let { svg } = await mermaid.render(id, raw, el);
+        svg = cleanMermaidSvg(svg);
+        results = makeMermaidImage(svg);
+        output = document.createElement("figure");
+        results.map(output.appendChild, output);
+      } catch (err) {
+        parent.classList.add("jp-mod-warning");
+        results = await makeMermaidError(raw);
+        output = results[0];
+      } finally {
+        el.remove();
+      }
+      parent.classList.add("jp-RenderedMermaid");
+      parent.appendChild(output);
+    }
+
+
+    /**
+     * Post-process to ensure mermaid diagrams contain only valid SVG and XHTML.
+     */
+    function cleanMermaidSvg(svg) {
+      return svg.replace(RE_VOID_ELEMENT, replaceVoidElement);
+    }
+
+
+    /**
+     * A regular expression for all void elements, which may include attributes and
+     * a slash.
+     *
+     * @see https://developer.mozilla.org/en-US/docs/Glossary/Void_element
+     *
+     * Of these, only `<br>` is generated by Mermaid in place of `\n`,
+     * but _any_ "malformed" tag will break the SVG rendering entirely.
+     */
+    const RE_VOID_ELEMENT =
+      /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)\s*([^>]*?)\s*>/gi;
+
+    /**
+     * Ensure a void element is closed with a slash, preserving any attributes.
+     */
+    function replaceVoidElement(match, tag, rest) {
+      rest = rest.trim();
+      if (!rest.endsWith('/')) {
+        rest = `${rest} /`;
+      }
+      return `<${tag} ${rest}>`;
+    }
+
+    void Promise.all([...diagrams].map(renderOneMarmaid));
+  });
+  </script>
+  <style>
+   .jp-Mermaid:not(.jp-RenderedMermaid) {
+    display: none;
+  }
+
+  .jp-RenderedMermaid {
+    overflow: auto;
+    display: flex;
+  }
+
+  .jp-RenderedMermaid.jp-mod-warning {
+    width: auto;
+    padding: 0.5em;
+    margin-top: 0.5em;
+    border: var(--jp-border-width) solid var(--jp-warn-color2);
+    border-radius: var(--jp-border-radius);
+    color: var(--jp-ui-font-color1);
+    font-size: var(--jp-ui-font-size1);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  .jp-RenderedMermaid figure {
+    margin: 0;
+    overflow: auto;
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid img {
+    max-width: 100%;
+  }
+
+  .jp-RenderedMermaid-Details > pre {
+    margin-top: 1em;
+  }
+
+  .jp-RenderedMermaid-Summary {
+    color: var(--jp-warn-color2);
+  }
+
+  .jp-RenderedMermaid:not(.jp-mod-warning) pre {
+    display: none;
+  }
+
+  .jp-RenderedMermaid-Summary > pre {
+    display: inline-block;
+    white-space: normal;
+  }
+  </style>
+  <!-- End of mermaid configuration -->
+ </head>
+ <body class="wcag-aa sticky">
+  <header>
+   <a href="#1" id="TOP">
+    skip to main content
+   </a>
+   <br>
+   <button accesskey="," aria-controls="nb-settings" onclick="openDialog()">
+    settings
+   </button>
+   <button id="nb-fullscreen" onclick="fullScreen()">
+    fullscreen
+   </button>
+   <p>
+    <a aria-description="opens new tab" href="https://github.com/tonyfast" rel="me" style="font-size: bigger;" target="_blank">
+     @tonyfast
+    </a>
+    s notebooks
+   </p>
+   <details>
+    <summary>
+     site navigation
+    </summary>
+    <nav>
+     <ol>
+      <li>
+       <a href="2024-10-14-tangle-weave.html">
+        tangle weave
+       </a>
+      </li>
+      <li>
+       <a href="2024-10-13-decline.html">
+        decline in oss participation
+       </a>
+      </li>
+      <li>
+       <a href="2024-10-01-i.md.html">
+        course overview and writing literate programs
+       </a>
+      </li>
+      <li>
+       <a href="2024-09-24-ww.html">
+        the writers workshop
+       </a>
+      </li>
+      <li>
+       <a href="2024-09-14-widgets.html">
+        generating filters and visibility widgets for tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-09-13-serial.html">
+        serializing dataframe values to contextual html
+       </a>
+      </li>
+      <li>
+       <a href="2024-09-05-ratios.html">
+        ratios in numerical columns
+       </a>
+      </li>
+      <li>
+       <a href="2024-09-01-df-table.html">
+        speed running a dataframe to table
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-30-css.html">
+        global styling and nonvisuals
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-30-dtype.html">
+        a custom css dtype
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-27-fullscreen.html">
+        full screen visualization
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-23-align.html">
+        css technique for aligning decimals.
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-21-progressive.html">
+        progressive table enhancement
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-20-schema.html">
+        differentiating strings in dataframes for nonvisual representations
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-18-delaunay.html">
+        sliding delaunay triangless
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-16-gantt.html">
+        the bones of a gantt chart
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-15-schema.html">
+        my first table schema integration
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-15-kbd.html">
+        sketch of configurable keyboard interaction patterns for tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-15-graph.html">
+        a graph from a table
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-14-absto.html">
+        gleaming the cube with absto
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-08-xy.html">
+        table to xy plot
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-08-toggle.html">
+        toggle between a table, histogram, and scatter plot
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-06-table-form.html">
+        options for plotting
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-06-my-love-is-like-a-fire-tornado.html">
+        my love is like a fire tornado
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-06-pseudo-axes.html">
+        axes from pseudo elements
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-04-cp1919.html">
+        cp1919v1
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-02-3d-table.html">
+        finally, a 3d plot with axes
+       </a>
+      </li>
+      <li>
+       <a href="2024-08-01-ddd.html">
+        direct transition from a table to a 3d plot
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-31-table-form.html">
+        the table region
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-30-table-blocks.html">
+        table blocks
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-22-clip-path.html">
+        css polygons from matrices
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-14-dr-dilettante.html">
+        dr dilettante
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-11-activity-log.html">
+        notifying changes in computational notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-09-testing-ux.html">
+        gluing to together interactive ux with automated testing
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-07-venn-diagrams.html">
+        a three component venn diagram in css
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-03-axes.html">
+        making figure axes from grouped table headers
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-02-libsass.html">
+        using libsass in python
+       </a>
+      </li>
+      <li>
+       <a href="2024-07-02-blobs.html">
+        a table of blobs
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-26-first-line-plot.html">
+        creating a line plot from a table
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-20-stream.html">
+        nonvisual data frames and heat maps
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-10-html-magic.html">
+        an enhanced html magic with the ability to test for violations
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-06-relative-imports.html">
+        activating relative imports in an interactive notebook
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-04-axe-testing-python.html">
+        python interface for handling axe accessibility tests
+       </a>
+      </li>
+      <li>
+       <a href="2024-06-02-equal-access-checker.html">
+        invoking the ibm equal access checker from python
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-11-stream.html">
+        stream drawing words with video elements
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-09-videos.html">
+        an html webcam player
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-08-stream.html">
+        markdown as an accessible, literate programming language
+       </a>
+      </li>
+      <li>
+       <a href="2024-05-06-stream.html">
+        listening to sounds of data visualizations
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-29-enrich-refs.html">
+        enriching markdown links with access to current python distributions
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-28-scroll-position.html">
+        listening for scroll position
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-23-Untitled42.html">
+        untitled42
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-18-a-simple-clock.html">
+        the bones of a clock
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-windchime.html">
+        wind chime table
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-17-visual-table-indicator.html">
+        non-numerical dataframes
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-15-llm-workflow.html">
+        integrating llms into my notebook worflows.
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-12-word-cloud.html">
+        word clouds are the wedding font of visualization
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-11-3d-html-table.html">
+        3d plots from html tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-08-table-plots.html">
+        html tables in figures
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-06-dl-dict.html">
+        definition lists as dictionaries
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-04-nbconvert-html-screen-reader.html">
+        screen reader improvements to nbconvert html exporter
+       </a>
+      </li>
+      <li>
+       <a href="2024-04-03-markdown-lists-to-python.html">
+        turning markdown lists to python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-26-accessible-documentation-data.html">
+        assistive documentation data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-23-updating-ipython-config.html">
+        ipython profile updates
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-itables-stream.html">
+        screen reader experiences with static and interactive tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-22-documentation-as-data.html">
+        documentation as software and data
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-20-exec-mast-nb.html">
+        executing the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-15-screen-tests.html">
+        revisiting nbviewer/nbconvert screen reader experiences
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-13-notebooks-for-all-march-call.html">
+        notebooks for all community summary
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-12-nbconvert-a11y-pres.html">
+        semantically meaningful notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-11-NOA.html">
+        Astronomy Notebooks for All
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-06-mast-revisit.html">
+        revisit building the mast notebooks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-astropy-table-repr.html">
+        astropy tables as semantic tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-05-traceback-figure-tables.ipynb.html">
+        using tables to structure tracebacks
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-04-semantic-outputs.html">
+        improved output semantic for python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-notebook-accessibility-workshop.html">
+        notebooks and accessibility workshop
+       </a>
+      </li>
+      <li>
+       <a href="2024-03-01-a11y-list-string.ipynb.html">
+        using microdata and semantic html to represent python objects
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-28-histograms-sucks.html">
+        histograms suck
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-lunr-search.html">
+        creating accessible search
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-multiindex-aria.html">
+        adding aria to long or wide tables
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-26-bash-midgy.html">
+        adding shell and css fence directives to midgy
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-21-build-docs-pd.html">
+        build the site docs
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-20-multiindex-html.html">
+        proper html tables with multiple indexes
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-15-pandas-table-names.html">
+        a study of pandas dataframes with different levels
+       </a>
+      </li>
+      <li>
+       <a href="2024-02-05-aiohttp-pandas-accessor.html">
+        adding an http attribrute to pandas series
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-25-mast-a11y-notebooks.html">
+        transforming mast notebooks into nbconvert templates.
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-20-colgroup-schema.html">
+        semantic representation of columns based on schema
+       </a>
+      </li>
+      <li>
+       <a href="2024-01-05-docx-to-data.html">
+        convertin a docx into a structured dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-20-interactive-html-validation.html">
+        interactive w3c validation
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-15-a11y-testing-dimensions.html">
+        slicing and dicing accessibility violations with exception groups
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-13-jupyter-community-call.html">
+        It's the Community Call Y'all
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-08-vnu-validator-exceptions.html">
+        generating higher resolution exceptions for the vnu validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-12-03-axe-rules-topology.html">
+        axe testing codes as dataframes and exceptions
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-11-14-w3c-validator.html">
+        running the w3c validator
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-24-semantically-meaningful-displays.html">
+        semantically meaningful display outputs for notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-23-semantic-lits.html">
+        semantically meaningful lists
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-10-semantic-code-blocks.html">
+        accessibile semantics for python code
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-08-03-pandas-accessors.html">
+        pandas accessors
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-07-17-accessible-string-representations.html">
+        the string is a samp
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-26-dataframe-diagrams-figure-semantics.html">
+        a semantic dataframe
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-06-21-v7-aom.html">
+        jupyter notebook v7 remediations
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-18-pycascades-ally-talk.html">
+        A Crash Course in Digital Accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-03-04-computational-notebooks-history.html">
+        a sprint through history toward computional notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-28-community-demo.html">
+        pidgy literate computing
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-02-19-semantic.html">
+        semantic notebook structure
+       </a>
+      </li>
+      <li>
+       <a href="2023-02-05-pipings.html">
+        pipes are common sugar
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-whoosh-search.html">
+        use whoosh to search cells/articles on disk
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-system-dependency-graphs.html">
+        extracting a dependency graph from importlib_metadata
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-24-lite-build.html">
+        including development builds in jupyter lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-18-voila-pidgy-integration.html">
+        cleaner integration of pidgy &amp; voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-16-inspector-hack.html">
+        customizing the IPython contextual help
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-14-links-in-markdown-tokens.html">
+        where do all the good links go?
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-giscus-comments.html">
+        adding giscus comments to this blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-12-tree-sitter.html">
+        getting start with tree sitter
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-extensible-metadata.html">
+        extensible metadata in the notebook format
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-11-duckdb-search.html">
+        full text search for notebooks and files using duckdb
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-10-rara-gtfo.html">
+        restart and run all or it didn't happen
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-09-notebooks-states.html">
+        three states of python in a notebook
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-07-pidgy-voila.html">
+        running pidgy in voila
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-tfoot-dataframe.html">
+        using tfoot in dataframes for more information
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-04-using-diagrams.html">
+        diagrams in jupyter and mkdocs
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-02-accessible-dataframes-basic-indexes.html">
+        rendering dataframes for screen readers with pandas
+       </a>
+      </li>
+      <li>
+       <a href="../xxiii/2023-01-01-strawberry-server.html">
+        WIP: strawberry jupyter server
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-markdownish-notebook.html">
+        a template for exporting markdownish notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-31-jupyter-config-files.html">
+        configuration files
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-30-typer-magic.html">
+        using typer in ipython magics
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-23-mkdocs-plugin.html">
+        mkdocs plugin for jupyter notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-22-pyproject-analysis.html">
+        analyzing pyproject.toml configurations of popular projects
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-21-lite-build.html">
+        jupyterlite blog integration
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-20-pyscript-nbconvert.html">
+        rendering a notebook with pyscript
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-19-integrating-typer.html">
+        integrating typer into the blog
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-18-mkdocs-task.html">
+        doit integration - a mkdocs example
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-17-find-dependencies-in-content.html">
+        automating blog posts to work with jupyter-lite
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-16-issue-activity-graphql.html">
+        retreiving my issue activity
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-15-html-tags-study.html">
+        all the tags i could be using
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-13-github-api-stats.html">
+        extracting info from the github statistics api
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-09-pyproject-analysis.html">
+        exploring many pyproject.toml configs
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-12-05-markdown-to-doctest.html">
+        formatting markdown it tokens as python doctests
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-26-package-mimic-and-rel-imports.html">
+        making __main__ a __package__
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-23-better-dask-shape.html">
+        unravel directories of notebooks with dask
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-11-17-assignment-expression-display.html">
+        using assignment expressions to display and assign in IPython
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-async-import.html">
+        asynchronous imports in python
+       </a>
+      </li>
+      <li>
+       <a href="../xxii/2022-11-12-pluggy-experiments.html">
+        fumbling around with pluggy
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-29-metadata-formatter.html">
+        inferring linked data from IPython run times.
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-27-axe-core-playwright-python.html">
+        invoking axe-core from python playwright
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-25-static-notebook-tags.html">
+        post processing html accessibility
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-pidgy-displays.html">
+        literate computing - interactive literate programming
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-21-markdown-future.html">
+        when markdown and python collide
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-20-meeting-link-widgets.html">
+        making meeting links
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-19-mobius-text.html">
+        turn some text into a mobius surface
+       </a>
+      </li>
+      <li>
+       <a href="../../xxii/oct/2022-10-05-dask-search.html">
+        searching notebooks
+       </a>
+      </li>
+      <li>
+       <a href="../../../xxii/oct/colormap-dataframes/2021-10-11-colorizing.html">
+        what do we learn when we make colormaps from dataframes
+       </a>
+      </li>
+     </ol>
+    </nav>
+   </details>
+   <section aria-labelledby="nb-summary-label">
+    <details>
+     <summary aria-describedby="nb-ct-total nb-cells-label nb-ct-code nb-lang nb-state nb-ct-loc nb-loc-label
+nb-ct-outputs nb-outputs-label" id="nb-summary-label">
+      notebook summary
+     </summary>
+     <button aria-controls="nb-metadata" onclick="openDialog()">
+      show metadata
+     </button>
+     <dl aria-labelledby="nb-summary-label">
+      <dt>
+       title
+      </dt>
+      <dd id="nb-title">
+       decline in oss participation
+      </dd>
+      <dt>
+       description
+      </dt>
+      <dd id>
+       the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations.
+      </dd>
+      <dt>
+       cells
+      </dt>
+      <dd id="nb-ct-total">
+       10 total
+      </dd>
+      <dd id="nb-ct-code">
+       5 code
+      </dd>
+      <dd>
+      </dd>
+      <dt>
+       state
+      </dt>
+      <dd id="nb-state">
+       executed in order
+      </dd>
+      <dt>
+       kernel
+      </dt>
+      <dd>
+       Python [conda env:p311] *
+      </dd>
+      <dd>
+       <dl>
+        <dt>
+         language
+        </dt>
+        <dd id="nb-lang">
+         python
+        </dd>
+        <dt>
+         name
+        </dt>
+        <dd>
+         <samp>
+          <kbd>
+           conda-env-p311-py
+          </kbd>
+         </samp>
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-loc-label">
+       lines of code
+      </dt>
+      <dd id="nb-ct-loc">
+       58
+      </dd>
+      <dt>
+       outputs
+      </dt>
+      <dd id="nb-ct-outputs">
+       4
+      </dd>
+     </dl>
+    </details>
+   </section>
+   <section aria-labelledby="nb-toc">
+    <details open>
+     <summary id="toc">
+      <span id="nb-toc">
+       table of contents
+      </span>
+     </summary>
+     <a id="nb-toc-start">
+     </a>
+     <nav>
+      <ol>
+       <li>
+        <a href="#None">
+         decline in oss participation
+        </a>
+       </li>
+       <li>
+        <ol>
+         <li>
+          <ol>
+           <li>
+            <a href="#None">
+             total quarterly attendees
+            </a>
+           </li>
+           <li>
+            <a href="#None">
+             top organization attendences
+            </a>
+           </li>
+          </ol>
+         </li>
+        </ol>
+       </li>
+      </ol>
+     </nav>
+    </details>
+   </section>
+   <dialog id="nb-metadata">
+    <form method="dialog">
+     <button formmethod="dialog">
+      Close
+     </button>
+     {"kernelspec": {"display_name": "Python [conda env:p311] *", "language": "python", "name": "conda-env-p311-py"}, "language_info": {"codemirror_mode": {"name": "ipython", "version": 3}, "file_extension": ".py", "mimetype": "text/x-python", "name": "python", "nbconvert_exporter": "python", "pygments_lexer": "ipython3", "version": "3.11.6"}, "widgets": {"application/vnd.jupyter.widget-state+json": {"state": {}, "version_major": 2, "version_minor": 0}}, "title": "decline in oss participation", "description": "the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations."}
+    </form>
+   </dialog>
+  </header>
+  <main>
+   <details>
+    <summary>
+     notebook toolbar
+    </summary>
+    <form name="notebook">
+     ]
+     <fieldset>
+      <legend>
+       cell ordering
+      </legend>
+      <input id="sort-asc" name="sorted" type="radio" value="ascending">
+      <label for="sort-asc">
+       ascending
+      </label>
+      <input id="sort-desc" name="sorted" type="radio" value="descending">
+      <label for="sort-desc">
+       descending
+      </label>
+     </fieldset>
+    </form>
+   </details>
+   <table class="notebook-cells" data-sort="ascending" id="cells" role="none">
+    <tbody aria-labelledby="nb-notebook-label nb-cells-label" class="cells" role="list">
+     <tr hidden role="listitem">
+      <th role="none" scope="col">
+       index
+      </th>
+      <th role="none" scope="col">
+       execution_count
+      </th>
+      <th role="none" scope="col">
+       cell_type
+      </th>
+      <th role="none" scope="col">
+       toolbar
+      </th>
+      <th role="none" scope="col">
+       started_at
+      </th>
+      <th role="none" scope="col">
+       completed_at
+      </th>
+      <th role="none" scope="col">
+       source
+      </th>
+      <th role="none" scope="col">
+       loc
+      </th>
+      <th role="none" scope="col">
+       metadata
+      </th>
+      <th role="none" scope="col">
+       outputs
+      </th>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 1 cell-1-cell_type" aria-posinset="1" class="cell markdown" data-index="1" data-loc="3" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="1" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 1" class="nb-anchor visually-hidden" href="#1" id="1">
+        1
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-1-executed">
+         unexecuted
+        </span>
+        <span id="cell-1-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-1-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-1-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-1-exec-label" class="nb-toolbar" hidden id="cell-1" name="cell-1">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-1-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-1-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-1-in-label cell-1-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-1" id="cell-1-source" name="source" readonly rows="3"># decline in oss participation
+
+the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations.</textarea>
+       <div aria-labelledby="cell-1-in-label cell-1-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gh"># decline in oss participation</span>
+
+the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations.
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-1-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-1" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-1-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h1 id="decline-in-oss-participation"><a href="#decline-in-oss-participation">decline in oss participation</a></h1>\n<p>the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations.</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-1-loc" role="none">
+       3
+      </td>
+      <td class="nb-outputs" role="none">
+       <h1 id="decline-in-oss-participation">
+        <a href="#decline-in-oss-participation">
+         decline in oss participation
+        </a>
+       </h1>
+       <p>
+        the decline of participation in the jupyterlab front ends community. there is data to demonstrate the attrition of people and organizations.
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 2 cell-2-cell_type" aria-posinset="2" class="cell code" data-index="2" data-loc="17" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="2" aria-describedby="cell-2-executed nb-code-label nb-cell-label cell-2-loc nb-loc-label cell-2-outputs-len" aria-labelledby="nb-cell-label 2" class="nb-anchor visually-hidden" href="#2" id="2">
+        2
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-2-executed">
+         executed
+        </span>
+        <span id="cell-2-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-2-exec-label">
+         1
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-2-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-2-exec-label" class="nb-toolbar" hidden id="cell-2" name="cell-2">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-2-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-2-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-2-in-label cell-2-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-2" id="cell-2-source" name="source" readonly rows="17">issues = pipe(
+    # mapping of year to github issue
+    """2024 229
+2023 205
+2023 170
+2022 152
+2022 135
+2021 128
+2021 117""", str.splitlines, 
+    map(str.split), map(reversed), dict, Series
+    ).to_frame("year").rename_axis("issue")
+issues = issues.set_index(
+    issues.index.map(
+        "https://api.github.com/repos/jupyterlab/frontends-team-compass/issues/{}/comments?per_page=100".format
+    )
+)
+issues = (await issues.index.http.get()).explode().series().join(issues).set_index("id")</textarea>
+       <div aria-labelledby="cell-2-in-label cell-2-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">issues</span> <span class="o">=</span> <span class="n">pipe</span><span class="p">(</span>
+    <span class="c1"># mapping of year to github issue</span>
+<span class="w">    </span><span class="sd">"""2024 229</span>
+<span class="sd">2023 205</span>
+<span class="sd">2023 170</span>
+<span class="sd">2022 152</span>
+<span class="sd">2022 135</span>
+<span class="sd">2021 128</span>
+<span class="sd">2021 117"""</span><span class="p">,</span> <span class="nb">str</span><span class="o">.</span><span class="n">splitlines</span><span class="p">,</span> 
+    <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">split</span><span class="p">),</span> <span class="nb">map</span><span class="p">(</span><span class="nb">reversed</span><span class="p">),</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Series</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">(</span><span class="s2">"issue"</span><span class="p">)</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span>
+    <span class="n">issues</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">map</span><span class="p">(</span>
+        <span class="s2">"https://api.github.com/repos/jupyterlab/frontends-team-compass/issues/</span><span class="si">{}</span><span class="s2">/comments?per_page=100"</span><span class="o">.</span><span class="n">format</span>
+    <span class="p">)</span>
+<span class="p">)</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="p">(</span><span class="k">await</span> <span class="n">issues</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">get</span><span class="p">())</span><span class="o">.</span><span class="n">explode</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">()</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">issues</span><span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"id"</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-2-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-2" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-2-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-2-loc" role="none">
+       17
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-2-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-2-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          1
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 3 cell-3-cell_type" aria-posinset="3" class="cell markdown" data-index="3" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="3" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 3" class="nb-anchor visually-hidden" href="#3" id="3">
+        3
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-3-executed">
+         unexecuted
+        </span>
+        <span id="cell-3-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-3-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-3-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-3-exec-label" class="nb-toolbar" hidden id="cell-3" name="cell-3">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-3-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-3-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-3-in-label cell-3-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-3" id="cell-3-source" name="source" readonly rows="1">transform issues bodies to html</textarea>
+       <div aria-labelledby="cell-3-in-label cell-3-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>transform issues bodies to html
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-3-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-3" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-3-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>transform issues bodies to html</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-3-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        transform issues bodies to html
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 4 cell-4-cell_type" aria-posinset="4" class="cell code" data-index="4" data-loc="5" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="4" aria-describedby="cell-4-executed nb-code-label nb-cell-label cell-4-loc nb-loc-label cell-4-outputs-len" aria-labelledby="nb-cell-label 4" class="nb-anchor visually-hidden" href="#4" id="4">
+        4
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-4-executed">
+         executed
+        </span>
+        <span id="cell-4-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-4-exec-label">
+         2
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-4-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-4-exec-label" class="nb-toolbar" hidden id="cell-4" name="cell-4">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-4-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-4-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-4-in-label cell-4-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-4" id="cell-4-source" name="source" readonly rows="5">issues = issues.assign(html=issues.body.apply(shell.tangle.parser.parser.render))
+issues = issues.assign(soup=issues.html.apply(bs4.BeautifulSoup, features="lxml"))
+issues = issues.assign(attendees=issues.html.apply(io.StringIO).apply(
+    excepts(BaseException, pandas.read_html)
+).apply(excepts(BaseException, get(0))))</textarea>
+       <div aria-labelledby="cell-4-in-label cell-4-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">issues</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">html</span><span class="o">=</span><span class="n">issues</span><span class="o">.</span><span class="n">body</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">shell</span><span class="o">.</span><span class="n">tangle</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">render</span><span class="p">))</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">soup</span><span class="o">=</span><span class="n">issues</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">bs4</span><span class="o">.</span><span class="n">BeautifulSoup</span><span class="p">,</span> <span class="n">features</span><span class="o">=</span><span class="s2">"lxml"</span><span class="p">))</span>
+<span class="n">issues</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span><span class="n">attendees</span><span class="o">=</span><span class="n">issues</span><span class="o">.</span><span class="n">html</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="n">excepts</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">pandas</span><span class="o">.</span><span class="n">read_html</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">excepts</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">,</span> <span class="n">get</span><span class="p">(</span><span class="mi">0</span><span class="p">))))</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-4-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-4" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-4-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-4-loc" role="none">
+       5
+      </td>
+      <td class="nb-outputs" hidden role="none">
+       <span class="nb-outputs visually-hidden" id="cell-4-outputs-len">
+        0 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="0">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-4-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          2
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 5 cell-5-cell_type" aria-posinset="5" class="cell markdown" data-index="5" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="5" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 5" class="nb-anchor visually-hidden" href="#5" id="5">
+        5
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-5-executed">
+         unexecuted
+        </span>
+        <span id="cell-5-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-5-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-5-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-5-exec-label" class="nb-toolbar" hidden id="cell-5" name="cell-5">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-5-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-5-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-5-in-label cell-5-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-5" id="cell-5-source" name="source" readonly rows="1">do work on the dates so we can get them as numerical values</textarea>
+       <div aria-labelledby="cell-5-in-label cell-5-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code>do work on the dates so we can get them as numerical values
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-5-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-5" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-5-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<p>do work on the dates so we can get them as numerical values</p>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-5-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <p>
+        do work on the dates so we can get them as numerical values
+       </p>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 6 cell-6-cell_type" aria-posinset="6" class="cell code" data-index="6" data-loc="23" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="6" aria-describedby="cell-6-executed nb-code-label nb-cell-label cell-6-loc nb-loc-label cell-6-outputs-len" aria-labelledby="nb-cell-label 6" class="nb-anchor visually-hidden" href="#6" id="6">
+        6
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-6-executed">
+         executed
+        </span>
+        <span id="cell-6-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-6-exec-label">
+         3
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-6-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-6-exec-label" class="nb-toolbar" hidden id="cell-6" name="cell-6">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-6-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-6-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-6-in-label cell-6-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-6" id="cell-6-source" name="source" readonly rows="23">issues = issues.assign(
+    date=issues.soup.methodcaller("select_one", "h1,h2,h3").dropna().attrgetter("contents").itemgetter(0).apply("".join)
+)
+issues.date = issues.date.str.split("(", expand=True)[0]
+issues.date = (
+    issues.date
+    .str.removeprefix("JupyterLab Weekly Call, ")
+    .str.removeprefix("JupyterLab Weekly Call - ")
+    .str.removeprefix("Weekly Meeting")
+    .str.removeprefix("Wednesday, ")
+)
+
+number_first =issues.date.str.lstrip().str.startswith(tuple(string.digits)).fillna(False)
+issues.loc[number_first, "date"] = issues[number_first].apply(
+    excepts(BaseException, lambda x: operator.itemgetter(1, 0, 2)(x.date.split())), axis=1
+).apply(" ".join)
+
+dates = issues.date.str.split().dropna().series(1)
+dates[1] = dates[1].str.rstrip(","+string.ascii_letters)
+noyear = dates[dates[2].isna()].index
+dates[2] = issues.created_at.pipe(pandas.to_datetime).attrgetter("year").astype(str)
+issues.loc[dates.index, "date"] = dates.fillna("").apply(" ".join, axis=1)
+issues.date = issues.date.pipe(pandas.to_datetime, format="mixed")</textarea>
+       <div aria-labelledby="cell-6-in-label cell-6-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">issues</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">assign</span><span class="p">(</span>
+    <span class="n">date</span><span class="o">=</span><span class="n">issues</span><span class="o">.</span><span class="n">soup</span><span class="o">.</span><span class="n">methodcaller</span><span class="p">(</span><span class="s2">"select_one"</span><span class="p">,</span> <span class="s2">"h1,h2,h3"</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">"contents"</span><span class="p">)</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">""</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">issues</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"("</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">issues</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">issues</span><span class="o">.</span><span class="n">date</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">"JupyterLab Weekly Call, "</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">"JupyterLab Weekly Call - "</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">"Weekly Meeting"</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">"Wednesday, "</span><span class="p">)</span>
+<span class="p">)</span>
+
+<span class="n">number_first</span> <span class="o">=</span><span class="n">issues</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">))</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">issues</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">number_first</span><span class="p">,</span> <span class="s2">"date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">issues</span><span class="p">[</span><span class="n">number_first</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+    <span class="n">excepts</span><span class="p">(</span><span class="ne">BaseException</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">operator</span><span class="o">.</span><span class="n">itemgetter</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)(</span><span class="n">x</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">split</span><span class="p">())),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span>
+<span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">)</span>
+
+<span class="n">dates</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">split</span><span class="p">()</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span><span class="o">.</span><span class="n">series</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">dates</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">","</span><span class="o">+</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_letters</span><span class="p">)</span>
+<span class="n">noyear</span> <span class="o">=</span> <span class="n">dates</span><span class="p">[</span><span class="n">dates</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">isna</span><span class="p">()]</span><span class="o">.</span><span class="n">index</span>
+<span class="n">dates</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">created_at</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">)</span><span class="o">.</span><span class="n">attrgetter</span><span class="p">(</span><span class="s2">"year"</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+<span class="n">issues</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">dates</span><span class="o">.</span><span class="n">index</span><span class="p">,</span> <span class="s2">"date"</span><span class="p">]</span> <span class="o">=</span> <span class="n">dates</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="s2">""</span><span class="p">)</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="s2">" "</span><span class="o">.</span><span class="n">join</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">issues</span><span class="o">.</span><span class="n">date</span> <span class="o">=</span> <span class="n">issues</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">pipe</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">"mixed"</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-6-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-6" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-6-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-6-loc" role="none">
+       23
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-6-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-6-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          3
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+         <pre class="stdout">
+<code>/tmp/ipykernel_97782/3917024939.py:13: FutureWarning: Downcasting object dtype arrays on .fillna, .ffill, .bfill is deprecated and will change in a future version. Call result.infer_objects(copy=False) instead. To opt-in to the future behavior, set `pd.set_option('future.no_silent_downcasting', True)`
+  number_first =issues.date.str.lstrip().str.startswith(tuple(string.digits)).fillna(False)
+/home/tbone/Documents/nobook/src/nobook/utils.py:259: FutureWarning: the convert_dtype parameter is deprecated and will be removed in a future version.  Do ``ser.astype(object).apply()`` instead if you want ``convert_dtype=False``.
+  return self.object.apply(pandas.Series, *args, **kwargs)
+</code>
+</pre>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 7 cell-7-cell_type" aria-posinset="7" class="cell markdown" data-index="7" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="7" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 7" class="nb-anchor visually-hidden" href="#7" id="7">
+        7
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-7-executed">
+         unexecuted
+        </span>
+        <span id="cell-7-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-7-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-7-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-7-exec-label" class="nb-toolbar" hidden id="cell-7" name="cell-7">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-7-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-7-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-7-in-label cell-7-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-7" id="cell-7-source" name="source" readonly rows="1">### total quarterly attendees</textarea>
+       <div aria-labelledby="cell-7-in-label cell-7-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">### total quarterly attendees</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-7-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-7" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-7-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h3 id="total-quarterly-attendees"><a href="#total-quarterly-attendees">total quarterly attendees</a></h3>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-7-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <h3 id="total-quarterly-attendees">
+        <a href="#total-quarterly-attendees">
+         total quarterly attendees
+        </a>
+       </h3>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 8 cell-8-cell_type" aria-posinset="8" class="cell code" data-index="8" data-loc="6" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="8" aria-describedby="cell-8-executed nb-code-label nb-cell-label cell-8-loc nb-loc-label cell-8-outputs-len" aria-labelledby="nb-cell-label 8" class="nb-anchor visually-hidden" href="#8" id="8">
+        8
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-8-executed">
+         executed
+        </span>
+        <span id="cell-8-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-8-exec-label">
+         4
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-8-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-8-exec-label" class="nb-toolbar" hidden id="cell-8" name="cell-8">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-8-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-8-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-8-in-label cell-8-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-8" id="cell-8-source" name="source" readonly rows="6">affiliation = issues[["date"]].join(
+    pandas.concat(issues.attendees.to_dict()).rename_axis(("id", None), axis=0)
+).set_index("date").dropna(subset="Name").Affiliation.str.lower().str.lstrip("@")
+
+quarterly = affiliation.groupby(pandas.Grouper(freq="3ME")).count().iloc[1:]
+quarterly.plot(xlabel="quarterly attendees", grid=True)</textarea>
+       <div aria-labelledby="cell-8-in-label cell-8-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">affiliation</span> <span class="o">=</span> <span class="n">issues</span><span class="p">[[</span><span class="s2">"date"</span><span class="p">]]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+    <span class="n">pandas</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">issues</span><span class="o">.</span><span class="n">attendees</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span><span class="o">.</span><span class="n">rename_axis</span><span class="p">((</span><span class="s2">"id"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="p">)</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">"date"</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">subset</span><span class="o">=</span><span class="s2">"Name"</span><span class="p">)</span><span class="o">.</span><span class="n">Affiliation</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lstrip</span><span class="p">(</span><span class="s2">"@"</span><span class="p">)</span>
+
+<span class="n">quarterly</span> <span class="o">=</span> <span class="n">affiliation</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"3ME"</span><span class="p">))</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">quarterly</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span><span class="o">=</span><span class="s2">"quarterly attendees"</span><span class="p">,</span> <span class="n">grid</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-8-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-8" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-8-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-8-loc" role="none">
+       6
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-8-outputs-len">
+        2 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="2">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-8-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          4
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+         <pre class="plain">&lt;Axes: xlabel='quarterly attendees'&gt;</pre>
+         <img alt="No description has been provided for this image" src="data:image/png;base64,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">
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 9 cell-9-cell_type" aria-posinset="9" class="cell markdown" data-index="9" data-loc="1" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a accesskey="9" aria-describedby="nb-markdown-label nb-cell-label" aria-labelledby="nb-cell-label 9" class="nb-anchor visually-hidden" href="#9" id="9">
+        9
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-9-executed">
+         unexecuted
+        </span>
+        <span id="cell-9-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-9-exec-label">
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-9-cell_type">
+        markdown
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-9-exec-label" class="nb-toolbar" hidden id="cell-9" name="cell-9">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-9-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-9-end" role="none">
+      </td>
+      <td class="nb-source" hidden role="none">
+       <textarea aria-labelledby="cell-9-in-label cell-9-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-9" id="cell-9-source" name="source" readonly rows="1">### top organization attendences</textarea>
+       <div aria-labelledby="cell-9-in-label cell-9-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="gu">### top organization attendences</span>
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-9-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-9" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-9-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {'data': {'text/html': '<h3 id="top-organization-attendences"><a href="#top-organization-attendences">top organization attendences</a></h3>\n'}}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-9-loc" role="none">
+       1
+      </td>
+      <td class="nb-outputs" role="none">
+       <h3 id="top-organization-attendences">
+        <a href="#top-organization-attendences">
+         top organization attendences
+        </a>
+       </h3>
+      </td>
+     </tr>
+     <tr aria-labelledby="nb-cell-label 10 cell-10-cell_type" aria-posinset="10" class="cell code" data-index="10" data-loc="4" data-slide_type role="listitem">
+      <th class="nb-anchor" role="none" scope="row">
+       <a aria-describedby="cell-10-executed nb-code-label nb-cell-label cell-10-loc nb-loc-label cell-10-outputs-len" aria-labelledby="nb-cell-label 10" class="nb-anchor visually-hidden" href="#10" id="10">
+        10
+       </a>
+      </th>
+      <td class="nb-execution_count" hidden role="none">
+       <label class="nb-execution_count">
+        <span hidden id="cell-10-executed">
+         executed
+        </span>
+        <span id="cell-10-in-label">
+         In
+        </span>
+        <span aria-hidden="true">
+         [
+        </span>
+        <span id="cell-10-exec-label">
+         5
+        </span>
+        <span aria-hidden="true">
+         ]
+        </span>
+       </label>
+      </td>
+      <td class="nb-cell_type" hidden role="none">
+       <label id="cell-10-cell_type">
+        code
+       </label>
+      </td>
+      <td class="nb-toolbar" hidden role="none">
+       <form aria-labelledby="cell-10-exec-label" class="nb-toolbar" hidden id="cell-10" name="cell-10">
+        <fieldset>
+         <legend>
+          actions
+         </legend>
+         <button type="submit">
+          Run Cell
+         </button>
+        </fieldset>
+       </form>
+      </td>
+      <td class="nb-start" hidden id="cell-10-start" role="none">
+      </td>
+      <td class="nb-end" hidden id="cell-10-end" role="none">
+      </td>
+      <td class="nb-source" role="none">
+       <textarea aria-labelledby="cell-10-in-label cell-10-exec-label nb-source-label" class="nb-source" data-executable="true" data-language="python" form="cell-10" id="cell-10-source" name="source" readonly rows="4">orgs = affiliation.groupby(pandas.Grouper(freq="6ME")).apply(Series.value_counts).unstack()
+top = orgs.sum().sort_values().iloc[::-1].iloc[:15]
+orgs = orgs.loc[:, top.index].fillna(0).iloc[1:]
+orgs </textarea>
+       <div aria-labelledby="cell-10-in-label cell-10-exec-label" aria-roledescription="highlighted" role="group">
+        <div class="highlight">
+         <pre><span></span><code><span class="n">orgs</span> <span class="o">=</span> <span class="n">affiliation</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="n">pandas</span><span class="o">.</span><span class="n">Grouper</span><span class="p">(</span><span class="n">freq</span><span class="o">=</span><span class="s2">"6ME"</span><span class="p">))</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">Series</span><span class="o">.</span><span class="n">value_counts</span><span class="p">)</span><span class="o">.</span><span class="n">unstack</span><span class="p">()</span>
+<span class="n">top</span> <span class="o">=</span> <span class="n">orgs</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">()</span><span class="o">.</span><span class="n">iloc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">15</span><span class="p">]</span>
+<span class="n">orgs</span> <span class="o">=</span> <span class="n">orgs</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="n">top</span><span class="o">.</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">orgs</span> 
+</code></pre>
+        </div>
+       </div>
+      </td>
+      <td class="nb-metadata" hidden role="none">
+       <button aria-controls="cell-10-metadata" aria-describedby="nb-metadata-desc" class="nb-metadata" form="cell-10" name="metadata" onclick="openDialog()">
+        metadata
+       </button>
+       <dialog id="cell-10-metadata">
+        <form>
+         <button formmethod="dialog">
+          Close
+         </button>
+         <pre><code>
+        {}
+        </code></pre>
+        </form>
+       </dialog>
+      </td>
+      <td class="nb-loc" hidden id="cell-10-loc" role="none">
+       4
+      </td>
+      <td class="nb-outputs" role="none">
+       <span class="nb-outputs visually-hidden" id="cell-10-outputs-len">
+        1 outputs.
+       </span>
+       <fieldset class="nb-outputs" data-outputs="1">
+        <legend aria-describedby="nb-outputs-desc" hidden id="cell-10-outputs-label">
+         <span>
+          Out
+         </span>
+         <span aria-hidden="true">
+          [
+         </span>
+         <span>
+          5
+         </span>
+         <span aria-hidden="true">
+          ]
+         </span>
+        </legend>
+        <div>
+         <div>
+          <style scoped>
+           .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+          </style>
+          <table border="1" class="dataframe">
+           <thead>
+            <tr style="text-align: right;">
+             <th>
+             </th>
+             <th>
+              quantstack
+             </th>
+             <th>
+              aws
+             </th>
+             <th>
+              ibm
+             </th>
+             <th>
+              quansight labs
+             </th>
+             <th>
+              quansight
+             </th>
+             <th>
+              bloomberg
+             </th>
+             <th>
+              anaconda
+             </th>
+             <th>
+              google
+             </th>
+             <th>
+              databricks
+             </th>
+             <th>
+              jp morgan chase
+             </th>
+             <th>
+              netflix
+             </th>
+             <th>
+              cocalc
+             </th>
+             <th>
+              engagelively
+             </th>
+             <th>
+              apple
+             </th>
+             <th>
+              oxford
+             </th>
+            </tr>
+            <tr>
+             <th>
+              date
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+             <th>
+             </th>
+            </tr>
+           </thead>
+           <tbody>
+            <tr>
+             <th>
+              2022-07-31
+             </th>
+             <td>
+              77.0
+             </td>
+             <td>
+              45.0
+             </td>
+             <td>
+              66.0
+             </td>
+             <td>
+              30.0
+             </td>
+             <td>
+              13.0
+             </td>
+             <td>
+              16.0
+             </td>
+             <td>
+              10.0
+             </td>
+             <td>
+              24.0
+             </td>
+             <td>
+              19.0
+             </td>
+             <td>
+              15.0
+             </td>
+             <td>
+              14.0
+             </td>
+             <td>
+              12.0
+             </td>
+             <td>
+              6.0
+             </td>
+             <td>
+              4.0
+             </td>
+             <td>
+              9.0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2023-01-31
+             </th>
+             <td>
+              89.0
+             </td>
+             <td>
+              60.0
+             </td>
+             <td>
+              37.0
+             </td>
+             <td>
+              32.0
+             </td>
+             <td>
+              16.0
+             </td>
+             <td>
+              22.0
+             </td>
+             <td>
+              7.0
+             </td>
+             <td>
+              9.0
+             </td>
+             <td>
+              13.0
+             </td>
+             <td>
+              15.0
+             </td>
+             <td>
+              13.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              6.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              0.0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2023-07-31
+             </th>
+             <td>
+              86.0
+             </td>
+             <td>
+              58.0
+             </td>
+             <td>
+              12.0
+             </td>
+             <td>
+              29.0
+             </td>
+             <td>
+              27.0
+             </td>
+             <td>
+              20.0
+             </td>
+             <td>
+              14.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              10.0
+             </td>
+             <td>
+              8.0
+             </td>
+             <td>
+              7.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              0.0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2024-01-31
+             </th>
+             <td>
+              58.0
+             </td>
+             <td>
+              44.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              31.0
+             </td>
+             <td>
+              30.0
+             </td>
+             <td>
+              16.0
+             </td>
+             <td>
+              18.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              4.0
+             </td>
+             <td>
+              3.0
+             </td>
+             <td>
+              7.0
+             </td>
+             <td>
+              12.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              0.0
+             </td>
+            </tr>
+            <tr>
+             <th>
+              2024-07-31
+             </th>
+             <td>
+              43.0
+             </td>
+             <td>
+              36.0
+             </td>
+             <td>
+              1.0
+             </td>
+             <td>
+              19.0
+             </td>
+             <td>
+              16.0
+             </td>
+             <td>
+              15.0
+             </td>
+             <td>
+              26.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              6.0
+             </td>
+             <td>
+              0.0
+             </td>
+             <td>
+              2.0
+             </td>
+             <td>
+              0.0
+             </td>
+            </tr>
+           </tbody>
+          </table>
+         </div>
+        </div>
+       </fieldset>
+      </td>
+     </tr>
+    </tbody>
+   </table>
+  </main>
+  <footer>
+   <a href="2024-10-14-tangle-weave.html" rel="prev&gt;&lt;span aria-hidden=" true">
+    &lt;tangle weave
+   </a>
+   <br>
+   <a href="2024-10-01-i.md.html" rel="next">
+    course overview and writing literate programs
+    <span aria-hidden="true">
+     &gt;
+    </span>
+   </a>
+   <br>
+   <form aria-labelledby="nb-notebook-label" hidden id="notebook" name="notebook">
+    <label>
+     <input id="nb-edit-mode" name="edit" type="checkbox">
+     edit mode
+    </label>
+    <button type="submit">
+     Run
+    </button>
+   </form>
+   <button accesskey="-" aria-controls="nb-visibility-dialog" onclick="openDialog()">
+    show/hide
+   </button>
+   <button accesskey="?" aria-controls="nb-help" onclick="openDialog()">
+    help
+   </button>
+   <dialog id="nb-settings">
+    <form name="settings">
+     <h1 id="nb-accessibility-settings-label">
+      accessibility settings
+     </h1>
+     <button formmethod="dialog">
+      Close
+     </button>
+     <ul aria-labelledby="nb-accessibility-settings-label">
+      <li>
+       <h2 id="nb-notebook-layout-label">
+        notebook layout
+       </h2>
+       <ul aria-labelledby="nb-notebook-layout-label">
+        <li>
+         <label id="nb-color-scheme-select">
+          color scheme
+          <select name="color-scheme">
+           <option selected value="light">
+            light mode
+           </option>
+           <option value="dark">
+            dark mode
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="horizontal-scrolling" type="checkbox">
+          horizontal scrolling
+         </label>
+        </li>
+        <li>
+         <label>
+          line height
+          <input max="3" min="0.5" name="line-height" step="0.1" type="number" value="1.5">
+         </label>
+        </li>
+        <li>
+         <label id="nb-cell-navigation-select">
+          cell navigation
+          <select name="cell-navigation">
+           <option selected value="list">
+            list
+           </option>
+           <option value="table">
+            table
+           </option>
+           <option value="region">
+            region
+           </option>
+           <option value="presentation">
+            presentation
+           </option>
+           <option disabled value="grid">
+            grid
+           </option>
+           <option disabled value="treegrid">
+            treegrid
+           </option>
+           <option disabled value="tree">
+            tree
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-accessibility-priority-select">
+          accessibility priority
+          <select name="accessibility-priority">
+           <option value="AAA">
+            Triple A
+           </option>
+           <option value="AA">
+            Double A
+           </option>
+           <option value="A">
+            Single A
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label>
+          margin
+          <input max="40" min="0" name="margin" step="5" type="number" value="5">
+          %
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="sticky" type="checkbox">
+          sticky
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="invert" type="checkbox">
+          invert
+         </label>
+        </li>
+        <li>
+         <label>
+          <input name="grayscale" type="checkbox">
+          grayscale
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="accesskey-navigation" type="checkbox">
+          accesskey navigation
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-font-settings-label">
+        font settings
+       </h2>
+       <ul aria-labelledby="nb-font-settings-label">
+        <li>
+         <label id="nb-font-size-select">
+          font size
+          <select name="font-size">
+           <option value="xx-small">
+            xx-small
+           </option>
+           <option value="x-small">
+            x-small
+           </option>
+           <option value="small">
+            small
+           </option>
+           <option selected value="medium">
+            medium
+           </option>
+           <option value="120%">
+            large
+           </option>
+           <option value="150%">
+            x-large
+           </option>
+           <option value="200%">
+            xx-large
+           </option>
+           <option value="300%">
+            xxx-large
+           </option>
+           <option value="400%">
+            xxxx-large
+           </option>
+           <option value="500%">
+            xxxxx-large
+           </option>
+          </select>
+         </label>
+        </li>
+        <li>
+         <label id="nb-font-family-select">
+          font family
+          <select name="font-family">
+           <option selected value="serif">
+            serif
+           </option>
+           <option value="sans-serif">
+            sans-serif
+           </option>
+          </select>
+         </label>
+        </li>
+       </ul>
+      </li>
+      <li>
+       <h2 id="nb-sound-settings-label">
+        sound settings
+       </h2>
+       <ul aria-labelledby="nb-sound-settings-label">
+        <li>
+         <label>
+          <input name="synthetic-speech" type="checkbox">
+          synthetic speech
+         </label>
+        </li>
+        <li>
+         <label>
+          <input checked name="aria-live" type="checkbox">
+          aria live
+         </label>
+        </li>
+       </ul>
+      </li>
+     </ul>
+     <details class="log">
+      <summary>
+       <span>
+        activity log
+       </span>
+      </summary>
+     </details>
+     <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+      <tbody>
+       <tr>
+        <th hidden>
+         time
+        </th>
+        <td>
+         message
+        </td>
+       </tr>
+      </tbody>
+     </table>
+    </form>
+   </dialog>
+   <dialog id="nb-visibility-dialog">
+    <form name="visibility">
+     <button formmethod="dialog">
+      Close
+     </button>
+     <label>
+      <input name="visually-hide" type="checkbox">
+      visually hide
+     </label>
+     <label>
+      <input name="accessibility-audit" type="checkbox">
+      accessibility audit
+     </label>
+     <fieldset disabled>
+      <legend>
+       visibility
+      </legend>
+      <table aria-label="notebook cell visibility" role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          index
+         </th>
+         <th>
+          execution_count
+         </th>
+         <th>
+          cell_type
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+         <th>
+          metadata
+         </th>
+         <th>
+          toolbar
+         </th>
+         <th>
+          loc
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-index-label" checked name="index" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-execution_count-label" checked name="execution_count" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell_type-label" name="cell_type" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-metadata-label" name="metadata" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-toolbar-label" name="toolbar" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-loc-label" name="loc" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <form name="expanded">
+     <fieldset disabled>
+      <legend>
+       expand/collapse
+      </legend>
+      <table role="grid">
+       <tbody>
+        <tr>
+         <th>
+         </th>
+         <th>
+          cell
+         </th>
+         <th>
+          source
+         </th>
+         <th>
+          outputs
+         </th>
+        </tr>
+        <tr class="code">
+         <td>
+          code
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-code-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="markdown">
+         <td>
+          markdown
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-markdown-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+        <tr class="raw">
+         <td>
+          raw
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-cell-label" checked name="cell" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-source-label" checked name="source" type="checkbox">
+         </td>
+         <td>
+          <input aria-labelledby="nb-raw-label nb-outputs-label" checked name="outputs" type="checkbox">
+         </td>
+        </tr>
+       </tbody>
+      </table>
+     </fieldset>
+    </form>
+    <details class="log">
+     <summary>
+      <span>
+       activity log
+      </span>
+     </summary>
+    </details>
+    <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+     <tbody>
+      <tr>
+       <th hidden>
+        time
+       </th>
+       <td>
+        message
+       </td>
+      </tr>
+     </tbody>
+    </table>
+   </dialog>
+   <dialog id="nb-help">
+    <h1>
+     notebook help
+    </h1>
+    <form>
+     <button formmethod="dialog">
+      close
+     </button>
+     <h2 id="nb-defs-label">
+      definitions
+     </h2>
+     <dl aria-labelledby="nb-defs-label">
+      <dt id="nb-notebook-label">
+       notebook
+      </dt>
+      <dd>
+       a collections of
+       <a href="#nb-cells-label">
+        cells
+       </a>
+      </dd>
+      <dd>
+       <dl aria-labelledby="nb-notebook-label nb-defs-label">
+        <dt id="nb-root-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-root-metadata-desc">
+         Notebook root-level metadata.
+        </dd>
+        <dd>
+         <dl>
+          <dt id="nb-kernelspec-label">
+           kernelspec
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-kernelspec-label">
+            <dt>
+             kernel name
+            </dt>
+            <dd>
+             Name of the kernel specification.
+            </dd>
+            <dt>
+             display name
+            </dt>
+            <dd>
+             Name to display in UI.
+            </dd>
+           </dl>
+          </dd>
+          <dt id="nb-language_info-label">
+           language info
+          </dt>
+          <dd>
+           Kernel information.
+          </dd>
+          <dd>
+           <dl aria-labelledby="nb-language_info-label">
+            <dt>
+             programming language
+            </dt>
+            <dd>
+             The programming language which this kernel runs.
+            </dd>
+            <dt>
+             <a>
+              codemirror mode
+             </a>
+            </dt>
+            <dd>
+             The codemirror mode to use for code in this language.
+            </dd>
+            <dt>
+             file extension
+            </dt>
+            <dd>
+             The file extension for files in this language.
+            </dd>
+            <dt>
+             mimetype
+            </dt>
+            <dd>
+             The mimetype corresponding to files in this language.
+            </dd>
+            <dt>
+             pygments lexer
+            </dt>
+            <dd>
+             The pygments lexer to use for code in this language.
+            </dd>
+           </dl>
+          </dd>
+          <dt>
+           title
+          </dt>
+          <dd>
+           The title of the notebook document
+          </dd>
+          <dt>
+           authors
+          </dt>
+          <dd>
+           The author(s) of the notebook document
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cells-label">
+         cells
+        </dt>
+        <dd id="nb-cells-desc">
+         Array of cells of the current notebook.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-cell-label">
+       cell
+      </dt>
+      <dd>
+       <dl aria-labelledby="nb-cell-label nb-defs-label">
+        <dt id="nb-index-label">
+         index
+        </dt>
+        <dd id="nb-index-desc">
+         the ordinal location of the cell in the notebook, counting begins from 1.
+        </dd>
+        <dt id="nb-source-label">
+         source
+        </dt>
+        <dd id="nb-source-desc">
+         Contents of the cell, represented as an array of lines.
+        </dd>
+        <dt id="nb-metadata-label">
+         metadata
+        </dt>
+        <dd id="nb-metadata-desc">
+         Cell-level metadata.
+        </dd>
+        <dd>
+         <dl aria-labelledby="nb-metadata-label">
+          <dt>
+           name
+          </dt>
+          <dd>
+          </dd>
+          <dt>
+           tags
+          </dt>
+          <dd>
+          </dd>
+          <dt id="nb-jupyter-label">
+           jupyter
+          </dt>
+          <dd id="nb-jupyter-desc">
+           Official Jupyter Metadata for Raw Cells
+          </dd>
+          <dd>
+           <dl>
+            <dt>
+             source hidden
+            </dt>
+            <dd>
+             Whether the source is hidden.
+            </dd>
+            <dt>
+             outputs hidden
+            </dt>
+            <dd>
+             Whether the outputs are hidden.
+            </dd>
+            <dt id="nb-execution-label">
+             execution
+            </dt>
+            <dd id="nb-execution-desc">
+             Execution time for the code in the cell. This tracks time at which messages are received from iopub or shell channels
+            </dd>
+            <dd>
+             <dl aria-labelledby="nb-execution-label">
+              <dt>
+               execute input
+              </dt>
+              <dd>
+               {'description': "header.date (in ISO 8601 format) of iopub channel's execute_input message. It indicates the time at which the kernel broadcasts an execute_input message to connected frontends", 'type': 'string'}
+              </dd>
+              <dt>
+               execute reply
+              </dt>
+              <dd>
+              </dd>
+             </dl>
+            </dd>
+            <dt>
+             collapsed
+            </dt>
+            <dd>
+             Whether the cell's output is collapsed/expanded.
+            </dd>
+            <dt>
+             scrolled
+            </dt>
+            <dd>
+             Whether the cell's output is scrolled, unscrolled, or autoscrolled.
+            </dd>
+           </dl>
+          </dd>
+         </dl>
+        </dd>
+        <dt id="nb-cell_type-label">
+         cell type
+        </dt>
+        <dd>
+         the are three kinds of cells
+         <dl aria-labelledby="nb-cell_type-label">
+          <dt id="nb-code-label">
+           code
+          </dt>
+          <dd id="nb-code-desc">
+           Notebook code cell.
+          </dd>
+          <dt id="nb-markdown-label">
+           markdown
+          </dt>
+          <dd id="nb-markdown-desc">
+           Notebook markdown cell.
+          </dd>
+          <dt id="nb-raw-label">
+           raw
+          </dt>
+          <dd id="nb-raw-desc">
+           Notebook raw nbconvert cell.
+          </dd>
+         </dl>
+        </dd>
+        <dd id="nb-cell_type-desc">
+         String identifying the type of cell.
+        </dd>
+        <dt id="nb-execution_count-label">
+         execution count
+        </dt>
+        <dd id="nb-execution_count-desc">
+         The code cell's prompt number. Will be null if the cell has not been run.
+        </dd>
+        <dt id="nb-outputs-label">
+         outputs
+        </dt>
+        <dd id="nb-outputs-desc">
+         Execution, display, or stream outputs.
+        </dd>
+        <dt id="nb-attachments-label">
+         attachments
+        </dt>
+        <dd id="nb-attachments-desc">
+         Media attachments (e.g. inline images), stored as mimebundle keyed by filename.
+        </dd>
+        <dt>
+         lines of code
+        </dt>
+        <dd>
+         lines of code in the cell, including whitespace.
+        </dd>
+       </dl>
+      </dd>
+      <dt id="nb-toolbar-label">
+       toolbar
+      </dt>
+      <dd>
+       composite widgets that allow for arrow key navigation
+      </dd>
+     </dl>
+    </form>
+   </dialog>
+   <details class="log">
+    <summary>
+     <span id="nb-activity-log-label">
+      activity log
+     </span>
+    </summary>
+   </details>
+   <table aria-labelledby="nb-activity-log-label" aria-live="polite">
+    <tbody>
+     <tr>
+      <th hidden>
+       time
+      </th>
+      <td>
+       message
+      </td>
+     </tr>
+    </tbody>
+   </table>
+   <a accesskey="0" href="#TOP">
+    skip to top
+   </a>
+  </footer>
+  <script>
+   const BODY = document.querySelector("body"), HTML = document.querySelector("html"), SELECTORS = {
+    "table": "table#cells",
+    "body": "table#cells>tbody",
+    "row": "table#cells>tbody>tr",
+    "header": "table#cells>tbody>tr>th",
+    "cell": "table#cells>tbody>tr>td",
+}, ROLES = {
+    "list": {
+        "table": "presentation",
+        "body": "list",
+        "row": "listitem",
+        "header": "none",
+        "cell": "none",
+    }, "table": {
+        "table": "table",
+        "body": "rowgroup",
+        "row": "row",
+        "header": "rowheader",
+        "cell": "cell",
+    }, "region": {
+        "table": "presentation",
+        "body": "presentation",
+        "row": "region",
+        "header": "none",
+        "cell": "none",
+    }, "presentation": {
+        "table": "presentation",
+        "body": "none",
+        "row": "none",
+        "header": "none",
+        "cell": "none",
+    }
+};
+
+function toggleColorScheme(value = null) {
+    value = document.forms.settings.elements["color-scheme"].value;
+    let DARK = value == "dark";
+    let opposite = DARK ? "light" : "dark";
+    document.getElementById(`nb-${value}-highlight`).removeAttribute("media", "screen");
+    document.getElementById(`nb-${opposite}-highlight`).setAttribute("media", "not screen");
+    document.querySelector(`head > meta[name="color-scheme"]`).setAttribute("content", value);
+    BODY.classList.toggle("dark", DARK);
+    activityLog(`${value} mode activated`)
+}
+function toggleRole() {
+    let value = document.forms.settings["cell-navigation"].value;
+    for (const [k, selector] of Object.entries(SELECTORS)) {
+        document.querySelectorAll(selector).forEach(
+            (x) => {
+                if (ROLES[value][k] == null) {
+                    x.removeAttribute("role")
+                } else {
+                    x.setAttribute("role", ROLES[value][k])
+                }
+            }
+        );
+    }
+    activityLog(`notebook cell navigation set to ${event.target.value}.`);
+}
+function flattenCss(x) {
+    return Object.entries(x).map(x => x.join(": ")).join("; ");
+}
+function getStyle() {
+    return {
+        "--nb-font-size": document.forms.settings["font-size"].value,
+        "--nb-font-family": document.forms.settings["font-family"].value,
+        "--nb-margin": `${document.forms.settings.elements.margin.value}%`,
+        "--nb-line-height": `${document.forms.settings.elements["line-height"].value}`,
+    }
+}
+function setStyle(msg) {
+    BODY.setAttribute("style", flattenCss(getStyle()));
+    setWCAG(); toggleColorScheme(); toggleColorScheme();
+    activityLog(msg);
+}
+function changeFont() {
+    document.forms.settings["font-size"].value;
+    setStyle(`font size change`);
+}
+function changeFontFamily() {
+    let value = document.forms.settings["font-family"].value;
+    setStyle(value == "serif" ? `serifs included` : `serifs removed`)
+}
+function activityLog(msg, silent = false, first = false) {
+    document.querySelectorAll("details.log+table").forEach(
+        (body, i) => {
+            let tr = document.createElement("tr"),
+                th = document.createElement("th"),
+                time = document.createElement("time"),
+                td = document.createElement("td"),
+                out = document.createElement("output"),
+                now = Date.now();
+            time.setAttribute("datetime", now), th.setAttribute("aria-live", "off"), th.setAttribute("hidden", null);
+            time.textContent = now;
+            body.append(tr), th.append(time), tr.append(th), tr.append(td), td.append(out);
+            silent ? out.setAttribute("aria-live", "off") : null;
+            out.textContent = msg;
+            if (!i && document.forms.settings.elements["synthetic-speech"].checked) {
+                // a non-screen reader solution for audible activity.
+                speechSynthesis.speak(new SpeechSynthesisUtterance(msg));
+            }
+        }
+    );
+};
+function openDialog() {
+    event.preventDefault();
+    document.getElementById(event.target.getAttribute("aria-controls")).showModal();
+};
+const L = 37, U = 38, R = 39, D = 40;
+document.querySelectorAll("table[role=grid]").forEach(
+    (x) => {
+        x.addEventListener("keydown", (e) => {
+            let target = document.activeElement;
+            let i = Array.prototype.indexOf.call(target.parentElement.parentElement.childNodes, target.parentElement);
+            switch (e.code) {
+                case L:
+                    break
+                case U:
+                    break
+                case R:
+                    break
+                case D:
+                    break
+            };
+        })
+    }
+);
+
+function setWCAG() {
+    var priority = document.forms.settings["accessibility-priority"].value.toLowerCase();
+    ["a", "aa", "aaa"].forEach(
+        (x) => {
+            if (x == priority) {
+                BODY.classList.add(`wcag-${x}`)
+            } else {
+                BODY.classList.remove(`wcag-${x}`)
+            }
+        }
+    );
+}
+function toggleActive() {
+    if (document.forms.notebook.elements.edit?.checked) {
+        document.querySelectorAll("tr.cell>td>details>summary[inert]").forEach(
+            x => x.removeAttribute("inert")
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea[readonly]").forEach(
+            x => x.removeAttribute("readonly")
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.removeAttribute("hidden")
+        );
+        activityLog("entering edit mode");
+    } else {
+        document.querySelectorAll("tr.cell>td>details>summary").forEach(
+            x => x.setAttribute("inert", null)
+        );
+        document.querySelectorAll("tr.cell>td>details>textarea").forEach(
+            x => x.setAttribute("readonly", null)
+        );
+        document.querySelectorAll("tr.cell>td>form").forEach(
+            x => x.setAttribute("hidden", null)
+        );
+        activityLog("entering reading mode");
+    }
+}
+function openDialogs() {
+    let trigger = document.querySelector("#nb-dialogs > details");
+    Array.from(
+        document.querySelectorAll("#nb-dialogs dialog:not(.log)")
+    ).reverse().forEach(
+        x => {
+            trigger.getAttribute("open") === null ? x.show() : x.close();
+        }
+    );
+    event.target.focus();
+}
+function fullScreen() {
+    if (!document.fullscreenElement) {
+        document.querySelector("main").requestFullscreen();
+    } else {
+        document.exitFullscreen();
+    }
+}
+
+// resizing hits the width before the height.
+// width resizes trigger height resizes and height resizes need to be computed from scratch.
+// we handle that logic with boolean flags when sets the width/height.
+function setTextareaWidth(entry, set = null) {
+    if (set === null) { return }
+    if (set) {
+        entry.target.style.width = "";
+        let props = getComputedStyle(entry.target);
+        let width = entry.target.scrollWidth,
+            left = Number(props.borderLeftWidth.slice(0, -2)),
+            right = Number(props.borderRightWidth.slice(0, -2));
+        entry.target.style.width = `${Math.floor(width)}px`
+        setTextareaHeight(entry, true);
+    }
+}
+
+function setTextareaHeight(entry, reset = null) {
+    if (reset === null) { return }
+    let props = getComputedStyle(entry.target);
+    if (reset) {
+        entry.target.style.height = ""
+        return setTextareaHeight(entry, false)
+    } else {
+        let height = entry.target.scrollHeight;
+        let top = Number(props.borderTopWidth.slice(0, -2));
+        let bottom = Number(props.borderBottomWidth.slice(0, -2));
+        entry.target.style.height = `${Math.ceil(height) + Math.ceil(top) + Math.ceil(bottom) + 1}px`;
+    }
+
+}
+
+
+setStyle("initialize saved settings.")
+// async function runSource(target) {
+//     {
+//         let pyodide = await loadPyodide();
+//         pyodide.runPython(target.elements.source.value).then(
+//             (x) => {
+//                 console.log(x)
+//             }, (x) => {
+//                 console.log(x)
+//             }
+//         )
+//         return false;
+//     }
+// }
+// document.querySelectorAll("form.nb-toolbar").forEach((x) => {
+//     x.addEventListener("submit", (event) => {
+//         event.preventDefault();
+//     })
+// });
+// document.querySelectorAll("textarea[name=source]").forEach(
+//     (x) => {
+//         x.addEventListener("keydown", (event) => {
+//             if (event.ctrlKey && event.key === 'Enter') {
+//                 runSource(event.target.form);
+//             }
+//         })
+//     }
+// );
+
+document.addEventListener('DOMContentLoaded', function () {
+    document.forms.settings.elements["cell-navigation"].addEventListener("change", toggleRole)
+
+    document.forms.settings.elements["color-scheme"].addEventListener("change", toggleColorScheme);
+    document.forms.settings.elements["font-size"].addEventListener("change", (x) => {
+        setStyle("change font size");
+    });
+    document.forms.settings.elements["font-family"].addEventListener("change", changeFontFamily);
+    document.forms.settings.elements["synthetic-speech"].addEventListener("change", (x) => {
+        activityLog("speech on")
+    });
+    document.forms.settings.elements.margin.addEventListener("change", (x) => {
+        setStyle("margin changed");
+    });
+    document.forms.settings.elements["line-height"].addEventListener("change", (x) => {
+        setStyle("line height changed");
+    });
+    document.forms.settings.elements["accessibility-priority"].addEventListener("change", setWCAG);
+
+    // document.forms.notebook.elements.edit.addEventListener("change", () => toggleActive())
+
+
+    document.forms.visibility['visually-hide'].addEventListener("change",
+        (x) => {
+            document.querySelector("main").classList.toggle("visually-hide");
+            activityLog(`${event.target.checked ? "hiding" : "showing"} main content`);
+        });
+
+    document.forms.settings['horizontal-scrolling'].addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("horiz-overflow", event.target.checked);
+            if (!event.target.checked) {
+                document.querySelectorAll("textarea").forEach(
+                    (x) => {
+                        x.style.width = "";
+                        x.style.height = "";
+                    }
+                )
+            };
+            // activityLog(`${event.target.checked ? "overflow scrol" : "showing"} main content`);
+        });
+
+    document.forms.settings.sticky.addEventListener("change",
+        (event) => {
+            BODY.classList.toggle("sticky", event.target.checked);
+            // activityLog(`${event.target.checked ? "overflow scroll" : "showing"} main content`);
+        });
+
+    document.forms.visibility["accessibility-audit"].addEventListener("change", (event) => {
+        document.getElementsByTagName("body")[0].toggleAttribute("data-dev-sa11y", event.target.checked);
+    });
+
+    document.forms.settings.invert.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-invert", event.target.checked ? 1 : 0);
+    })
+    document.forms.settings.grayscale.addEventListener("change", (event) => {
+        HTML.style.setProperty("--nb-grayscale", event.target.checked ? 1 : 0);
+    })
+
+
+    let observer = new ResizeObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)(entry, true);
+            });
+        }
+    );
+
+    document.querySelectorAll("textarea[name=source]").forEach(
+        (x) => {
+            observer.observe(x);
+            (BODY.matches(".horiz-overflow") ? setTextareaWidth : setTextareaHeight)({ target: x }, true);
+        }
+    );
+
+    if (!document.fullscreenEnabled) {
+        document.getElementById("nb-fullscreen").setAttribute("hidden", "");
+    };
+
+    console.log(document.forms.notebook.sorted);
+    document.forms.notebook.sorted.forEach(
+        (x) => {
+            x.addEventListener("change", (event) => {
+                console.log(11);
+                event.target.checked ? document.querySelector(".notebook-cells").setAttribute("data-sort", event.target.value) : null;
+            })
+        });
+
+}, false);
+  </script>
+  <script type="application/vnd.jupyter.widget-state+json">
+   {"state": {}, "version_major": 2, "version_minor": 0}
+  </script>
+ </body>
+</html>
